@@ -13,12 +13,6 @@ export default defineNuxtConfig({
     pinia: {
         autoImports: ['defineStore'],
     },
-    nitro: {
-        runtimeConfig: {
-            // baseURL: 'https://chattest.agischool.com.cn',
-            baseURL: 'http://127.0.0.1:5001',
-        }
-    },
     vite: {
         css: {
             preprocessorOptions: {
