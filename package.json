@@ -2,10 +2,8 @@
   "name": "chat-agischool",
   "private": true,
   "scripts": {
-    "flask-dev": "pip3 install -r backend/requirements.txt && python3 backend/index.py",
     "build": "nuxt build",
-    "nuxt-dev": "nuxt dev",
-    "dev": "concurrently \"yarn flask-dev\" \"yarn nuxt-dev\"",
+    "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
