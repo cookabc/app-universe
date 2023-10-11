@@ -10,19 +10,36 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
+    "@teachablemachine/image": "0.8.5",
+    "@tensorflow/tfjs": "^1.3.1",
+    "@vueuse/core": "^10.4.1",
     "ant-design-vue": "4.x",
+    "browser-md5-file": "^1.1.1",
+    "dayjs": "^1.11.9",
+    "lodash-es": "^4.17.21",
+    "nanoid": "^5.0.1",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.6",
     "pinia-plugin-persistedstate": "^3.2.0",
+    "seedrandom": "^3.0.5",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
+    "@iconify/vue": "^4.1.1",
     "@unocss/postcss": "^0.56.0",
     "@vitejs/plugin-vue": "^4.3.4",
+    "dotenv": "^16.3.1",
     "less": "^4.2.0",
     "less-loader": "^11.1.3",
     "unocss": "^0.56.0",
-    "vite": "^4.4.9"
+    "unplugin-auto-import": "^0.16.6",
+    "unplugin-icons": "^0.17.0",
+    "unplugin-vue-components": "^0.25.1",
+    "vite": "^4.4.9",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-html": "^3.2.0",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vite-plugin-vue-devtools": "1.0.0-alpha.2"
   }
 }
