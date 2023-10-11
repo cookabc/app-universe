@@ -1,39 +1,37 @@
-import {defineConfig} from 'vite'
-import vue from '@vitejs/plugin-vue'
-import Unocss from 'unocss/vite'
-import path from 'path'
+import {defineConfig, loadEnv} from 'vite'
+import {convertEnv, getRootPath, getSrcPath} from './build/utils'
+import {createViteProxy, viteDefine} from './build/config'
+import {createVitePlugins} from './build/plugin'
 
-/**
- * * 项目根路径
- * @descrition 结尾不带/
- */
-const getRootPath = () => {
-    return path.resolve(process.cwd())
-}
 
-/**
- * * 项目src路径
- * @param srcName src目录名称(默认: "src")
- * @descrition 结尾不带斜杠
- */
-const getSrcPath = (srcName = 'src') => {
-    return path.resolve(getRootPath(), srcName)
-}
-
-// https://vitejs.dev/config/
-export default defineConfig(() => {
+export default defineConfig((configs) => {
     const rootPath = getRootPath()
     const srcPath = getSrcPath()
+
+    const {command, mode} = configs
+    const isBuild = command === 'build'
+    const env = loadEnv(mode, process.cwd())
+    const viteEnv = convertEnv(env)
+    const {VITE_PORT, VITE_PUBLIC_PATH, VITE_USE_PROXY, VITE_PROXY_TYPE} = viteEnv
+
+    const plugins = createVitePlugins(viteEnv, isBuild)
+    const proxy = createViteProxy(VITE_USE_PROXY, VITE_PROXY_TYPE)
+
     return {
-        plugins: [
-            vue(),
-            Unocss({})
-        ],
+        base: VITE_PUBLIC_PATH || '/',
         resolve: {
             alias: {
                 '~': rootPath,
                 '@': srcPath
             }
+        },
+        define: viteDefine,
+        plugins,
+        server: {
+            host: '0.0.0.0',
+            port: VITE_PORT,
+            open: false,
+            proxy
         },
         build: {
             target: 'es2015',
