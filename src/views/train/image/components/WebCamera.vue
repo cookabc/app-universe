@@ -2,13 +2,6 @@
   <div v-bind="$attrs" class="webcamera-box" mx-a>
     <div w-full rounded-10 overflow-hidden relative>
       <div ref="webcamRef"></div>
-      <!-- <button id="crop-button" top-5px left-5px class="webcam-button group" @click="onCropCamera">
-        <svg id="crop-icon" mr-5px xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <path d="M0 0h24v24H0z" fill="none"></path>
-          <path fill="white" d="M17 15h2V7c0-1.1-.9-2-2-2H9v2h8v8zM7 17V1H5v4H1v2h4v10c0 1.1.9 2 2 2h10v4h2v-4h4v-2H7z"></path>
-        </svg>
-        <span class="button-text" group-hover="visible block">Crop</span>
-      </button> -->
       <button id="flip-button" class="webcam-button group" top-5px right-5px flex-row-reverse @click="onFlipCamera">
         <svg id="flip-icon" ml-5px xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 20 24"
              fill="none">
@@ -32,10 +25,6 @@
     <!--                       tracking-widest @long-press="handleLongPress"/>-->
     <a-button v-show="isCroping" type="primary" @click="onCroppableWebcam" block h-40 mt-10 tracking-widest>确定裁剪
     </a-button>
-
-    <!-- <a-select block mt-10 @change="setCamera" v-show="state.cameras.length > 1" v-model:value="state.deviceId" placeholder="请选择摄像头">
-      <a-select-option v-for="camera in state.cameras" :value="camera.deviceId">{{ camera.label }}</a-select-option>
-    </a-select> -->
   </div>
 </template>
 <script setup>
