@@ -21,15 +21,15 @@
         </div>
       </div>
     </div>
-    <!--    <long-press-button v-if="props.showLongPressBtn && !isCroping" type="primary" btn-text="长按连拍" block h-40 mt-10-->
-    <!--                       tracking-widest @long-press="handleLongPress"/>-->
+    <long-press-button v-if="props.showLongPressBtn && !isCroping" type="primary" btn-text="长按连拍" block h-40 mt-10
+                       tracking-widest @long-press="handleLongPress"/>
     <a-button v-show="isCroping" type="primary" @click="onCroppableWebcam" block h-40 mt-10 tracking-widest>确定裁剪
     </a-button>
   </div>
 </template>
 <script setup>
 import {Webcam} from '@teachablemachine/image/dist'
-// import LongPressButton from '@/components/LongPressButton.vue'
+import LongPressButton from '@/components/LongPressButton.vue'
 
 const props = defineProps({
   autoStart: {
