@@ -149,7 +149,7 @@
            width="100%"
            :footer="null"
            wrap-class-name="makesModal full-modal">
-    <makes @classify-image="onClassifyImage"/>
+<!--    <makes @classify-image="onClassifyImage"/>-->
   </a-modal>
 </template>
 <script setup>
@@ -158,7 +158,7 @@ import seedrandom from "seedrandom"
 import WebCamera from './WebCamera.vue'
 import * as tf from "@tensorflow/tfjs"
 import {createTeachable} from '@teachablemachine/image/dist'
-import Makes from '@/views/project/makes/index.vue'
+// import Makes from '@/views/project/makes/index.vue'
 import {useProjectStore, useTrainImageStore} from '@/store'
 import {_nanoid, compressImage} from "@/utils";
 
