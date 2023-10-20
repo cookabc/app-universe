@@ -157,9 +157,9 @@
 <script setup>
 import {CloseOutlined, DeleteFilled, EditOutlined, InboxOutlined, PlusSquareOutlined} from '@ant-design/icons-vue'
 import {computed, reactive, ref} from "vue";
-import {useTrainImageStore} from '@/store'
+import {useTrainImageStore} from '@/store/index.js'
 import WebCamera from './WebCamera.vue'
-import {_nanoid, compressImage} from "@/utils";
+import {_nanoid, compressImage} from "@/utils/index.js";
 
 const trainImageStore = useTrainImageStore()
 const actionOptions = ref([

@@ -159,8 +159,8 @@ import WebCamera from './WebCamera.vue'
 import * as tf from "@tensorflow/tfjs"
 import {createTeachable} from '@teachablemachine/image/dist'
 // import Makes from '@/views/project/makes/index.vue'
-import {useProjectStore, useTrainImageStore} from '@/store'
-import {_nanoid, compressImage} from "@/utils";
+import {useProjectStore, useTrainImageStore} from '@/store/index.js'
+import {_nanoid, compressImage} from "@/utils/index.js";
 
 const trainImageStore = useTrainImageStore()
 const projectStore = useProjectStore()

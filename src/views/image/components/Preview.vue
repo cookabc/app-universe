@@ -57,7 +57,7 @@
 <script setup>
 import {InboxOutlined} from '@ant-design/icons-vue'
 import WebCamera from './WebCamera.vue'
-import {useTrainImageStore} from '@/store'
+import {useTrainImageStore} from '@/store/index.js'
 import {compressImage} from "@/utils/index.js";
 
 const trainImageStore = useTrainImageStore()

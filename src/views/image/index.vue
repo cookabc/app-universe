@@ -5,7 +5,7 @@
   </div>
 </template>
 <script setup>
-import {useTrainStore} from '@/store'
+import {useTrainStore} from '@/store/index.js'
 import {onMounted, onUnmounted} from "vue";
 import Classes from './components/Classes.vue'
 import Training from './components/Training.vue'
