@@ -14,6 +14,10 @@ const nextConfig = {
                 source: '/pose',
                 destination: '/pose/index.html',
             },
+            {
+                source: '/snake',
+                destination: '/snake/index.html',
+            },
         ];
     },
 };
