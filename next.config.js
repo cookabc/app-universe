@@ -7,6 +7,10 @@ const nextConfig = {
                 destination: '/cuckoo/index.html',
             },
             {
+                source: '/face',
+                destination: '/face/index.html',
+            },
+            {
                 source: '/pacman',
                 destination: '/pacman/index.html',
             },
