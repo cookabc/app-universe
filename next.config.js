@@ -22,6 +22,18 @@ const nextConfig = {
                 source: '/snake',
                 destination: '/snake/index.html',
             },
+            {
+                source: '/train/image',
+                destination: '/train/index.html',
+            },
+            {
+                source: '/train/audio',
+                destination: '/train/index.html',
+            },
+            {
+                source: '/train/pose',
+                destination: '/train/index.html',
+            },
         ];
     },
 };
