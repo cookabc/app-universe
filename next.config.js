@@ -11,6 +11,10 @@ const nextConfig = {
                 destination: '/face/index.html',
             },
             {
+                source: '/nlp',
+                destination: '/nlp/index.html',
+            },
+            {
                 source: '/pacman',
                 destination: '/pacman/index.html',
             },
