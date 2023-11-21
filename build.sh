@@ -3,8 +3,10 @@
 # List of folders to iterate through
 folders=("cuckoo" "face" "nlp" "pacman" "pose" "snake")
 
-# Iterate through each folder
-for folder in "${folders[@]}"; do
+# Function to execute npm run build in a folder
+build_folder() {
+    local folder="$1"
+
     # Move into the folder
     cd "$folder" || exit
 
@@ -13,4 +15,12 @@ for folder in "${folders[@]}"; do
 
     # Move back to the original directory
     cd ".." || exit
+}
+
+# Iterate through each folder concurrently
+for folder in "${folders[@]}"; do
+    build_folder "$folder" &
 done
+
+# Wait for all background jobs to finish
+wait
