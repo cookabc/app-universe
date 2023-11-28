@@ -27,6 +27,10 @@ const nextConfig = {
                 destination: '/snake/index.html',
             },
             {
+                source: '/tic-tac-toe',
+                destination: '/tic-tac-toe/index.html',
+            },
+            {
                 source: '/train/image',
                 destination: '/train/index.html',
             },
@@ -37,6 +41,10 @@ const nextConfig = {
             {
                 source: '/train/pose',
                 destination: '/train/index.html',
+            },
+            {
+                source: '/wave',
+                destination: '/wave/index.html',
             },
         ];
     },
