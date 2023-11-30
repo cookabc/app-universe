@@ -38,10 +38,6 @@ const nextConfig = {
                 source: '/train/pose',
                 destination: '/train/index.html',
             },
-            {
-                source: '/wave',
-                destination: '/wave/index.html',
-            },
         ];
     },
 };
