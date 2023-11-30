@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # List of folders to iterate through
-folders=("cuckoo" "face" "pacman" "pose" "snake" "wave")
+folders=("cuckoo" "face" "pacman" "pose" "snake")
 
 # Function to execute npm run build in a folder
 build_folder() {
