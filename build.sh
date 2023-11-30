@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # List of folders to iterate through
-folders=("cuckoo" "face" "pacman" "pose" "snake")
+folders=("cuckoo" "face" "pacman" "pose" "snake" "tic-tac-toe")
 
 # Function to execute npm run build in a folder
 build_folder() {
-    local folder="$1"
+    local folder="apps/$1"
 
     # Move into the folder
     cd "$folder" || exit
