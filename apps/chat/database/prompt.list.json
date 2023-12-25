@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "category": "LIFE",
+    "category_order": 3,
+    "title": "情感教练",
+    "summary": "尊重人与人的差异，寻找共同点，让人际关系轻松一点",
+    "prompt": "我希望你成为一名情感教练。我会提供一些关于两个[吵架]的人的细节，你的工作是提出建议，以帮助他们解决两人之间的问题。这可能包括在沟通技巧方面提供建议或不同的策略，以改善他们对彼此观点的理解。我的第一个要求是：[我和女朋友因为晚饭吃什么吵架了，我怎么向她承认错误。]",
+    "prompt_order": 1,
+    "hot": 1
+  },
+  {
+    "id": 2,
+    "category": "STUDY",
+    "category_order": 8,
+    "title": "实习邮件",
+    "summary": "帮助你建立专业形象，增加自己在招聘者的眼中的吸引力",
+    "prompt": "你是一位[大学生]，现在需要写一封求职信，信的内容包括[你的专业、求职岗位是产品经理实习生、自我评价、一周实习天数]",
+    "prompt_order": 1,
+    "hot": 1
+  },
+  {
+    "id": 3,
+    "category": "WORK",
+    "category_order": 2,
+    "title": "面试模拟",
+    "summary": "让你体验真实的面试环境，提高你的应对能力",
+    "prompt": "我希望你扮演面试官的角色。我会扮演应聘者的角色，你会为[产品经理实习生]这个职位向我提问。我希望你像面试官一样针对问我一个问题我回答后进行点评并且继续问下个问题，并等待我的答案。不要提供解释。我的第一个句子是 “您好，我是来自清华大学的小张。”",
+    "prompt_order": 1,
+    "hot": 1
+  },
+  {
+    "id": 4,
+    "category": "CODING",
+    "category_order": 6,
+    "title": "代码学习",
+    "summary": "代码辅导工具，帮助快速掌握各种语言的基础知识和编程技巧",
+    "prompt": "请简短地解释一下什么是[SELECT命令]，并举例说明如何使用它。",
+    "prompt_order": 2,
+    "hot": 1
+  },
+  {
+    "id": 5,
+    "category": "SOCIAL",
+    "category_order": 7,
+    "title": "种草文案",
+    "summary": "热爱分享的你的最佳拍档，轻松地制作出专业级别的内容",
+    "prompt": "我需要写一段种草文案，主题是[一款可以玩一辈子的游戏]，内容是[塞尔达王国之泪]",
+    "prompt_order": 1,
+    "hot": 1
+  },
+  {
+    "id": 6,
+    "category": "STUDY",
+    "category_order": 8,
+    "title": "高考作文",
+    "summary": "帮助你快速掌握各种考试所需的写作技巧和格式要求，让你在考场上游刃有余",
+    "prompt": "高考作文写作：[阅读下面的材料，根据要求写作。(60分)\n人们因技术发展得以更好地掌控时间，但也有人因此成了时间的仆人。\n这句话引发了你怎样的联想与思考?请写一篇文章。\n要求：选准角度，确定立意，明确文体，自拟标题;不要套作，不得抄袭;不得泄露个人信息;不少于800字。]",
+    "prompt_order": 1,
+    "hot": 1
+  },
+  {
+    "id": 7,
+    "category": "CODING",
+    "category_order": 6,
+    "title": "写代码",
+    "summary": "编程生成工具，让你的编程效率提升到一个新的高度",
+    "prompt": "请用python帮我生成一个[冒泡排序算法]",
+    "prompt_order": 1,
+    "hot": 1
+  },
+  {
+    "id": 8,
+    "category": "LEARN",
+    "category_order": 4,
+    "title": "英语对话练习",
+    "summary": "帮助您流利地运用英语谈论不同话题，提高您的口语技巧",
+    "prompt": "I want you to act as a spoken English teacher and improver. I will speak to you in English and you will reply to me in English to practice my spoken English. I want you to keep your reply neat, limiting the reply to 100 words. I want you to strictly correct my grammar mistakes, typos, and factual errors. I want you to ask me a question in your reply. Now let's start practicing, you could ask me a question first. Remember, I want you to strictly correct my grammar mistakes, typos, and factual errors.",
+    "prompt_order": 1,
+    "hot": null
+  },
+  {
+    "id": 9,
+    "category": "LIFE",
+    "category_order": 3,
+    "title": "占星师",
+    "summary": "帮助您更好地了解自己的性格特点、优点和不足，了解自己在不同时间的表现和未来的趋势",
+    "prompt": "我希望你扮演一名占星师的角色。您将了解12星座的含义，了解行星位置以及它们如何影响人类生活，能够准确解读星座运势，并为寻求指导或建议的人分享您的洞见。我的第一个请求是，[我出生于2002年6月1日，请帮我解读下我的30岁时候的运势。]",
+    "prompt_order": 2,
+    "hot": null
+  },
+  {
+    "id": 10,
+    "category": "LIFE",
+    "category_order": 3,
+    "title": "解梦师",
+    "summary": "翻译和解释各种梦境符号，帮助您更好地了解自己的内心世界和生活",
+    "prompt": "你是一位解梦大师，我梦见了[一望无际的海平面]，请你做出解释",
+    "prompt_order": 3,
+    "hot": null
+  },
+  {
+    "id": 11,
+    "category": "STUDY",
+    "category_order": 8,
+    "title": "学习计划",
+    "summary": "帮助您制定清晰、明确的学习计划，轻松提升学习效率",
+    "prompt": "请帮我制定一份[考前1个月]的[英语四级]学习计划，包含重点学习部分和每天的todo",
+    "prompt_order": 1,
+    "hot": null
+  },
+  {
+    "id": 12,
+    "category": "WRITE",
+    "category_order": 1,
+    "title": "阅读理解",
+    "summary": "帮助您更加高效地阅读和理解文章，也可以用来训练自己的理解能力",
+    "prompt": "请帮我总结[GPT-3论文]的主要内容，要求[300字]之内",
+    "prompt_order": 1,
+    "hot": null
+  },
+  {
+    "id": 13,
+    "category": "STUDY",
+    "category_order": 8,
+    "title": "写作文",
+    "summary": "根据你的需求完善你的文章，让你写作文更顺畅和高效。也可以帮助你深入了解你自己和你想表达的东西",
+    "prompt": "以[论生逢其时]为主题写一篇[议论文]，要求文中表达[每个人都生活在特定的时代，每个人在特定时代中的人生道路各不相同。在同一个时代，有人慨叹生不逢时，有人只愿安分随时，有人深感生逢其时、时不我待]",
+    "prompt_order": 1,
+    "hot": null
+  },
+  {
+    "id": 14,
+    "category": "WORK",
+    "category_order": 2,
+    "title": "岗位需求",
+    "summary": "提供相关的岗位信息和职位描述样本，有效帮助你编写专业的文档和岗位描述，避免遗漏任何重要的细节",
+    "prompt": "你是一位HR，需要发布招聘需求，请你根据对候选人的几个关键要求，设计一份完整的[广告产品经理]职位描述。要求为：[大学及以上学历，计算机专业优先。过往有过广告行业和互联网工作经验，对短视频行业熟悉。会使用Axure、PPT，有良好的沟通能力和团队协作能力]",
+    "prompt_order": 1,
+    "hot": null
+  },
+  {
+    "id": 15,
+    "category": "WORK",
+    "category_order": 2,
+    "title": "广告文案",
+    "summary": "你与你的创意和想象力之间的桥梁，帮助你创建具有创意、有趣和吸引人的广告文案",
+    "prompt": "公司新推出的[口红]，具有[不挑皮、奶茶调、适合秋冬]等特点，为产品写出一段广告词",
+    "prompt_order": 1,
+    "hot": null
+  },
+  {
+    "id": 16,
+    "category": "LEARN",
+    "category_order": 4,
+    "title": "语言翻译",
+    "summary": "快速、高效和准确的翻译服务，让你跨越语言障碍，获得更大的信息量",
+    "prompt": "我希望你扮演[英语]翻译、拼写校正和改进的角色。我会用任何语言与你交流，你将检测语言，将其翻译并以修正和改进过的版本回答我的文本，用[英语]表达。我希望你用更高雅、优美的单词和句子替换并简化我的单词和句子。意思保持不变，但让它们更有文学价值。我只希望你回答纠正和改进的内容，不要提供解释。我的第一个句子是 \"[心有猛虎，细嗅蔷薇]\"。",
+    "prompt_order": 1,
+    "hot": null
+  },
+  {
+    "id": 17,
+    "category": "WORK",
+    "category_order": 2,
+    "title": "写周报",
+    "summary": "轻松创建和发送周报，高效地传达和共享你的工作成果",
+    "prompt": "我现在需要一份周报，内容包括我本周的工作：[完成了3个产品竞品调研、完成了产品PRD的撰写和排期、策划了一个产品推广方案]",
+    "prompt_order": 1,
+    "hot": null
+  },
+  {
+    "id": 18,
+    "category": "WORK",
+    "category_order": 2,
+    "title": "客户邀请",
+    "summary": "轻松撰写个性化邮件，不用绞尽脑汁想措辞",
+    "prompt": "我现在是一个[商务]，写一封邮件邀请[客户参加由我们公司主办的AI研讨会]，邮件中要告诉客户具体时间及当天的详细安排",
+    "prompt_order": 1,
+    "hot": null
+  },
+  {
+    "id": 19,
+    "category": "LIFE",
+    "category_order": 3,
+    "title": "旅行计划",
+    "summary": "不再浪费时间来计划枯燥的旅行细节，自动化整个规划过程，确保您的旅行顺利高效地进行",
+    "prompt": "请你生成一份[厦门]的[5天]旅游计划，要求包含[厦门大学、鼓浪屿]等景点",
+    "prompt_order": 1,
+    "hot": null
+  },
+  {
+    "id": 20,
+    "category": "STUDY",
+    "category_order": 8,
+    "title": "专业推荐",
+    "summary": "根据你的兴趣爱好推荐专业，为你指引人生航向",
+    "prompt": "我喜欢[写作]，未来希望从事[写作]相关的职业，我应该报考什么专业？",
+    "prompt_order": 1,
+    "hot": null
+  },
+  {
+    "id": 21,
+    "category": "WRITE",
+    "category_order": 1,
+    "title": "同义词",
+    "summary": "在写作中轻松找到合适的替换词汇，避免文本内容单调乏味",
+    "prompt": "我希望你能充当同义词提供者。我将告诉你一个词，你将根据我的提示，给我提供一份同义词备选清单。每个提示最多可提供 10 个同义词。如果我想获得更多的同义词，我会用一句话来回答。'更多的 x'，其中 x 是你寻找的同义词的单词。你将只回复单词列表，而不是其他。词语应该存在。不要写解释。回复 'OK '以确认。",
+    "prompt_order": 1,
+    "hot": null
+  },
+  {
+    "id": 22,
+    "category": "WRITE",
+    "category_order": 1,
+    "title": "文章改写",
+    "summary": "快速地重构原有的文章，节省大量时间和精力",
+    "prompt": "在不改变段落含义的前提下，改写以下文字：[人生的道路不是平坦的,有时走错一步就会影响整个的人生。外面的世界很精彩,但竟争非常欲烈要告诉自己千万别误入岐途,要明白自己所追求的理想是不断向前追逐的,是时刻前进。]请给我[5]种不同的改写方案。",
+    "prompt_order": 1,
+    "hot": null
+  }
+]
