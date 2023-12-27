@@ -104,50 +104,48 @@ const sections: Section[] = [
 ];
 
 export default function Home() {
-    return (
-        <div className="mt-[64px]">
-            {sections.map((section, index) => (
-                <div key={index} className="py-4">
-                    <div className="bg-white sticky top-[64px] py-2 z-10 px-[10%] text-2xl">
-                        <h2 className="text-[var(--ant-primary-color)] relative flex items-center before:content-empty before:block before:w-1 before:h-6 before:bg-[#7260af] before:mr-2">
-                            {section.name}
-                        </h2>
-                    </div>
-                    <div className="px-[10%] py-4">
-                        <div className="flex flex-wrap mx-[-1rem] gap-y-8">
-                            {section.children.map((item, itemIdx) => (
-                                <div key={itemIdx}
-                                     className="2xl:w-1/4 xl:w-1/4 lg:w-1/3 md:w-1/2 sm:w-full w-full px-4">
-                                    <Link href={item.url} target="_blank"
-                                          className="block h-full border-[1px] rounded-xl hover:shadow-xl">
-                                        <div className="rounded-xl">
-                                            <div className="w-full h-[200px] relative">
-                                                <Image
-                                                    fill
-                                                    src={item.imgUrl}
-                                                    alt={item.title}
-                                                    className="object-cover rounded-ss-xl rounded-se-xl"
-                                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                                />
+    return (<>
+        {sections.map((section, index) => (
+            <div key={index} className="py-4">
+                <div className="bg-white sticky top-[64px] py-2 z-10 px-[10%] text-2xl">
+                    <h2 className="text-[var(--ant-primary-color)] relative flex items-center before:content-empty before:block before:w-1 before:h-6 before:bg-[#7260af] before:mr-2">
+                        {section.name}
+                    </h2>
+                </div>
+                <div className="px-[10%] py-4">
+                    <div className="flex flex-wrap mx-[-1rem] gap-y-8">
+                        {section.children.map((item, itemIdx) => (
+                            <div key={itemIdx}
+                                 className="2xl:w-1/4 xl:w-1/4 lg:w-1/3 md:w-1/2 sm:w-full w-full px-4">
+                                <Link href={item.url} target="_blank"
+                                      className="block h-full border-[1px] rounded-xl hover:shadow-xl">
+                                    <div className="rounded-xl">
+                                        <div className="w-full h-[200px] relative">
+                                            <Image
+                                                fill
+                                                src={item.imgUrl}
+                                                alt={item.title}
+                                                className="object-cover rounded-ss-xl rounded-se-xl"
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                            />
+                                        </div>
+                                        <div className="p-[24px] rounded-xl">
+                                            <div title={item.title}
+                                                 className="mb-2 text-ellipsis text-[var(--ant-primary-color)] font-bold">
+                                                {item.title}
                                             </div>
-                                            <div className="p-[24px] rounded-xl">
-                                                <div title={item.title}
-                                                     className="mb-2 text-ellipsis text-[var(--ant-primary-color)] font-bold">
-                                                    {item.title}
-                                                </div>
-                                                <div title={item.description}
-                                                     className="line-clamp-4 text-sm text-slate-500">
-                                                    {item.description}
-                                                </div>
+                                            <div title={item.description}
+                                                 className="line-clamp-4 text-sm text-slate-500">
+                                                {item.description}
                                             </div>
                                         </div>
-                                    </Link>
-                                </div>
-                            ))}
-                        </div>
+                                    </div>
+                                </Link>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            ))}
-        </div>
-    )
+            </div>
+        ))}
+    </>)
 }
