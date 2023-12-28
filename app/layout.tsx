@@ -30,14 +30,9 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
                     <Image src="logo.svg" height={60} width={250} alt="Logo" priority/>
                 </Link>
             </header>
-            <div className="mt-[64px]">
+            <div className="h-full mt-[64px]">
                 {children}
             </div>
-            <footer className="flex items-center justify-center text-[14px] py-5">
-                <p className="my-0">
-                    Copyright © <span>{currentYear}</span> AGI School
-                </p>
-            </footer>
         </div>
         </body>
         </html>
