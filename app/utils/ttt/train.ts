@@ -1,24 +1,25 @@
 import * as tf from "@tensorflow/tfjs";
 
-let currentModel;
-const flipX = (arr) => {
+let currentModel: tf.Sequential;
+
+const flipX = (arr: number[]) => {
     return [arr.slice(6), arr.slice(3, 6), arr.slice(0, 3)].flat();
 };
 
-const flipY = (arr) => flipX(arr.slice().reverse());
+const flipY = (arr: number[]) => flipX(arr.slice().reverse());
 
 // Creates a 1 hot of the diff
-const showMove = (first, second) => {
-    let result = [];
+const showMove = (first: number[], second: number[]) => {
+    let result: number[] = [];
     first.forEach((move, i) => {
         result.push(Math.abs(move - second[i]));
     });
     return result;
 };
 
-export const getMoves = (block) => {
-    let x = [];
-    let y = [];
+export const getMoves = (block: number[][]) => {
+    let x: number[][] = [];
+    let y: number[][] = [];
     // Make all the moves
     for (let i = 0; i < block.length - 1; i++) {
         const theMove = showMove(block[i], block[i + 1]);
@@ -43,26 +44,23 @@ export const constructModel = () => {
     tf.disposeVariables();
 
     const model = tf.sequential();
-
     model.add(
         tf.layers.dense({
-            inputShape: 9,
+            inputShape: [9],
             units: 64,
-            activation: "relu"
+            activation: "relu",
         })
     );
-
     model.add(
         tf.layers.dense({
             units: 64,
-            activation: "relu"
+            activation: "relu",
         })
     );
-
     model.add(
         tf.layers.dense({
             units: 9,
-            activation: "softmax"
+            activation: "softmax",
         })
     );
 
@@ -70,7 +68,7 @@ export const constructModel = () => {
     model.compile({
         optimizer: tf.train.adam(learningRate),
         loss: "categoricalCrossentropy",
-        metrics: ["accuracy"]
+        metrics: ["accuracy"],
     });
 
     currentModel = model;
@@ -85,13 +83,15 @@ export const getModel = () => {
     }
 };
 
-export const trainOnGames = async (games, setState) => {
-    const model = constructModel();
-    // model.dispose();
-    let AllX = [];
-    let AllY = [];
-
-    // console.log("Games in", JSON.stringify(games));
+export const trainOnGames = async (
+    games: {
+        x: number[][];
+        y: number[][]
+    }[],
+    setState: (model: tf.Sequential) => void
+) => {
+    let AllX: number[][] = [];
+    let AllY: number[][] = [];
     games.forEach((game) => {
         AllX = AllX.concat(game.x);
         AllY = AllY.concat(game.y);
@@ -100,6 +100,7 @@ export const trainOnGames = async (games, setState) => {
     // Tensorfy!
     const stackedX = tf.stack(AllX);
     const stackedY = tf.stack(AllY);
+    const model = constructModel();
     await trainModel(model, stackedX, stackedY);
 
     // clean up!
@@ -107,26 +108,17 @@ export const trainOnGames = async (games, setState) => {
     stackedY.dispose();
 
     setState(model);
-    // return updatedModel;
 };
 
-const trainModel = async (model, stackedX, stackedY) => {
-    const allCallbacks = {
-        // onTrainBegin: log => console.log(log),
-        // onTrainEnd: log => console.log(log),
-        // onEpochBegin: (epoch, log) => console.log(epoch, log),
-        onEpochEnd: (epoch, log) => console.log(epoch, log)
-        // onBatchBegin: (batch, log) => console.log(batch, log),
-        // onBatchEnd: (batch, log) => console.log(batch, log)
-    };
-
+const trainModel = async (model: tf.LayersModel, stackedX: tf.Tensor, stackedY: tf.Tensor) => {
     await model.fit(stackedX, stackedY, {
         epochs: 100,
         shuffle: true,
         batchSize: 32,
-        callbacks: allCallbacks
+        callbacks: {
+            onEpochEnd: (epoch, log) => console.log(epoch, log),
+        },
     });
-
     console.log("Model Trained");
 
     return model;
