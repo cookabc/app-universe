@@ -30,7 +30,7 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
                     <Image src="logo.svg" height={60} width={250} alt="Logo" priority/>
                 </Link>
             </header>
-            <div className="h-full mt-[64px]">
+            <div className="relative h-full w-full">
                 {children}
             </div>
         </div>
