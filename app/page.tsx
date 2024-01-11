@@ -60,7 +60,7 @@ const sections: Section[] = [
             },
             {
                 title: '聊天助手',
-                url: 'https://chat-agischool.vercel.app',
+                url: '/chat',
                 imgUrl: '/images/tool_chat.png',
                 description: 'GPT模型是如何帮助大家提高效率的？这里有好多场景等你来探索，快来试试吧！'
             },
