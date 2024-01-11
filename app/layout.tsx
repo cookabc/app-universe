@@ -3,7 +3,7 @@ import {Metadata} from "next";
 import {Inter} from 'next/font/google';
 import Image from "next/image";
 import Link from "next/link";
-import "@/app/style/globals.css";
+import "@/app/styles/globals.css";
 
 export const metadata: Metadata = {
     title: 'AGISchool - AGI学园 - AI教学平台',

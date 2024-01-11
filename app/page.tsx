@@ -66,7 +66,7 @@ const sections: Section[] = [
             },
             {
                 title: "OpenAI工具",
-                url: "/openai",
+                url: "/sql-translator",
                 imgUrl: "/images/tool_openai.png",
                 description: "AI是如何理解意图、识别情绪、回答问题的？这里可以找到答案。"
             }
