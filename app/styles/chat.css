@@ -165,3 +165,22 @@ body.private {
         transform: scale(1.3);
     }
 }
+
+
+.common-table table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.common-table th,
+.common-table td {
+    padding: 6px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.common-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
