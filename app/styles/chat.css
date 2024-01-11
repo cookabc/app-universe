@@ -184,3 +184,33 @@ body.private {
     background-color: #f2f2f2;
     font-weight: bold;
 }
+
+.textarea {
+    background-color: transparent;
+}
+
+.textarea:focus {
+    outline: 0;
+    box-shadow: none;
+}
+
+.textarea textarea {
+    font-size: 16px;
+}
+
+.ant-input-textarea-show-count::after {
+    position: absolute;
+    right: -90px;
+    bottom: -8px;
+    font-size: 14px;
+}
+
+.rounded-lg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-component textarea {
+    font-size: 16px;
+}
