@@ -34,12 +34,6 @@ const sections: Section[] = [
                 url: '/train/pose',
                 imgUrl: '/images/train_pose_fv.png',
                 description: '上传图片文件或摄像头拍摄照片，进行姿势模型训练。'
-            },
-            {
-                title: 'AI训练场',
-                url: 'https://train-agischool.vercel.app',
-                imgUrl: '/images/train_audio.png',
-                description: '上传图片文件或摄像头拍摄照片，进行图像分类模型训练。'
             }
         ]
     },
