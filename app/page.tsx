@@ -15,22 +15,22 @@ interface Section {
 
 const sections: Section[] = [
     {
-        name: '实验',
+        name: '模型训练',
         children: [
             {
-                title: '图像分类模型训练',
+                title: '图像分类',
                 url: '/train/image',
                 imgUrl: '/images/train_image_fv.png',
                 description: '上传图片文件或摄像头拍摄照片，进行图像分类模型训练。'
             },
             {
-                title: '声音分类模型训练',
+                title: '声音分类',
                 url: '/train/image',
                 imgUrl: '/images/train_audio_fv.png',
                 description: '上传音频文件或麦克风录制音频，进行音频分类模型训练。'
             },
             {
-                title: '姿势分类模型训练',
+                title: '姿势分类',
                 url: '/train/pose',
                 imgUrl: '/images/train_pose_fv.png',
                 description: '上传图片文件或摄像头拍摄照片，进行姿势模型训练。'
@@ -38,7 +38,7 @@ const sections: Section[] = [
         ]
     },
     {
-        name: '工具',
+        name: '模型应用-工具',
         children: [
             {
                 title: '人体检测',
@@ -59,7 +59,7 @@ const sections: Section[] = [
                 description: 'GPT模型是如何帮助大家提高效率的？这里有好多场景等你来探索，快来试试吧！'
             },
             {
-                title: "OpenAI工具",
+                title: "SQL翻译器",
                 url: "/sql-translator",
                 imgUrl: "/images/tool_openai.png",
                 description: "AI是如何理解意图、识别情绪、回答问题的？这里可以找到答案。"
@@ -67,7 +67,7 @@ const sections: Section[] = [
         ]
     },
     {
-        name: '游戏',
+        name: '模型应用-游戏',
         children: [
             {
                 title: '图像分类-吃豆人',
