@@ -1,5 +1,5 @@
 import {Box, HStack, Text, VStack,} from '@chakra-ui/react'
-import {useSpeech} from "../hooks/useSpeech";
+import {useSpeech} from "@/app/hooks/face/useSpeech";
 
 export type MoteCamAdviceMessage = {
     message: string

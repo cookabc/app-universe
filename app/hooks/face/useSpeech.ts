@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {MoteCamAdviceMessage} from "../components/MoteCamMessage";
+import {MoteCamAdviceMessage} from "@/app/components/face/MoteCamMessage";
 import {useLocale} from "./useLocale";
 
 
@@ -19,9 +19,9 @@ const useSpeech = (messages: MoteCamAdviceMessage[]) => {
         }
     }, [messages])
 
-    const selectMessage = (msgs: MoteCamAdviceMessage[]): string => {
-        const idx = Math.floor(Math.random() * msgs.length)
-        return msgs[idx].message
+    const selectMessage = (msg: MoteCamAdviceMessage[]): string => {
+        const idx = Math.floor(Math.random() * msg.length)
+        return msg[idx].message
     }
 
     const speakAdvice = (message: string) => {

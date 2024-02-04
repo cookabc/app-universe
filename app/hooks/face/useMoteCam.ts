@@ -40,15 +40,13 @@ const useMOTECam = (): MoteCamType => {
 
     const startMoteCam = async () => {
         if (isStarted) {
-            stopMoteCam()
+            await stopMoteCam()
             speakMessage(`${localizedStrings.END_SHOOTING}`, languageCode)
             return
         }
         speakMessage(`${localizedStrings.START_SHOOTING}`, languageCode)
 
         setIsStarted(true)
-        // TensorFlow
-        // await setupTensorFlow()
         // FaceAPI
         await setupModel()
         // Camera
@@ -56,20 +54,20 @@ const useMOTECam = (): MoteCamType => {
         setIsReady(true)
     }
 
-    const stopMoteCam = () => {
-        toggleStartStop()
+    const stopMoteCam = async () => {
+        await toggleStartStop()
         setIsStarted(false)
         setIsReady(false)
     }
 
-    const dismissTakenPhoto = () => {
+    const dismissTakenPhoto = async () => {
         setIsTakenPhoto(false)
-        toggleStartStop()
+        await toggleStartStop()
     }
 
     // Setup Model
     const setupModel = async () => {
-        await faceapi.nets.tinyFaceDetector.load(MODEL_PATH); // using ssdMobilenetv1
+        await faceapi.nets.tinyFaceDetector.load(MODEL_PATH); // using ssdMobileNetV1
         await faceapi.nets.ageGenderNet.load(MODEL_PATH);
         await faceapi.nets.faceLandmark68Net.load(MODEL_PATH);
         await faceapi.nets.faceRecognitionNet.load(MODEL_PATH);
@@ -112,7 +110,7 @@ const useMOTECam = (): MoteCamType => {
                 throw new Error("Camera Error: MediaStream Empty");
             }
             const track = stream.getVideoTracks()[0];
-            track.applyConstraints(
+            await track.applyConstraints(
                 {
                     audio: false,
                     video: {
@@ -127,7 +125,7 @@ const useMOTECam = (): MoteCamType => {
                     // @ts-ignore
                     advanced: [{brightness: 50, contrast: 50}]
                 });
-            const constraint = track.getConstraints()
+            // const constraint = track.getConstraints()
             const settings = track.getSettings();
             if (settings.deviceId) {
                 // Delete property / Release memory indirectly
@@ -146,7 +144,7 @@ const useMOTECam = (): MoteCamType => {
             canvas.style.height = "100%"
 
             video.onloadeddata = async () => {
-                video.play();
+                await video.play();
                 const ctx = canvas.getContext('2d');
                 // Invert Canvas
                 ctx?.scale(-1, 1);
@@ -161,21 +159,17 @@ const useMOTECam = (): MoteCamType => {
         if (videoRef.current) {
             const video = videoRef.current as HTMLVideoElement
             if (!video.paused) {
-                const t0 = performance.now();
+                // const t0 = performance.now();
                 const detectedFace = await faceapi
                     .detectSingleFace(video, detectorOptions)
                     .withFaceLandmarks()
                     .withFaceExpressions()
                     .withAgeAndGender()
-                const fps = 1000 / (performance.now() - t0);
-                // Debugging Draw Area
-                // showDebuggingRect(detectedFace, fps.toLocaleString(), canvasRef.current)
+                // const fps = 1000 / (performance.now() - t0);
                 // Check Detected Face
                 checkFace(detectedFace)
                 // For Performance
-                requestAnimationFrame(
-                    () => detectHandler()
-                );
+                requestAnimationFrame(() => detectHandler());
             }
         }
     }
@@ -214,7 +208,6 @@ const useMOTECam = (): MoteCamType => {
                 takePhoto()
                 setIsTakenPhoto(true)
                 speakMessage(`${localizedStrings.PICTURE_DID_TAKE}`, languageCode)
-
             }
         }
     }
@@ -226,7 +219,6 @@ const useMOTECam = (): MoteCamType => {
         width: number,
         height: number
     }): MoteCamAdviceMessage => {
-
         // Center of frame
         const frameCenter: { x: number, y: number } = {x: frame.w / 2, y: frame.h / 2}
         // margin
@@ -256,15 +248,13 @@ const useMOTECam = (): MoteCamType => {
         let horizontal = false
         if (toleranceRange.left < faceCenter.x
             && faceCenter.x < toleranceRange.right) {
-
             horizontal = true
         }
         // vertical
         let vertical = false
         if (toleranceRange.top < faceCenter.y
             && faceCenter.y < toleranceRange.bottom) {
-
-            vertical = true
+            vertical = true;
         }
 
         const isJust = (horizontal && vertical)
@@ -295,7 +285,6 @@ const useMOTECam = (): MoteCamType => {
             fulfilled: (horizontal && vertical),
             message: msg
         }
-
     }
 
     // Face Sizing
@@ -317,7 +306,7 @@ const useMOTECam = (): MoteCamType => {
         let isSufficient = (lowRatio <= ratio && ratio <= highRatio)
         let tooSmall = (lowRatio > ratio)
         let tooBig = (ratio > highRatio)
-        let msg = ""
+        let msg: string
         if (isSufficient) {
             msg = `${localizedStrings.GUIDE_MSG_SIZE_GOOD}: ${Math.floor(ratio * 100)}%`
         } else if (tooSmall) {
@@ -336,7 +325,6 @@ const useMOTECam = (): MoteCamType => {
 
     // Expression
     const checkGoodExpression = (expression: FaceExpression): MoteCamAdviceMessage => {
-
         const faceExps: FaceExp[] = []
         for (const [key, value] of Object.entries(expression)) {
             const faceExp: FaceExp = {
@@ -345,13 +333,11 @@ const useMOTECam = (): MoteCamType => {
             }
             faceExps.push(faceExp)
         }
-        // console.log(faceExps);
         const sorted = faceExps.sort((prev, current) => {
             return (prev.predict > current.predict) ? -1 : 1
         })
-        // console.log(sorted);
         let isGood = false
-        let expMsg = ""
+        let expMsg: string
         switch (sorted[0].expression) {
             case "happy":
                 expMsg = localizedStrings.GUIDE_MSG_EXP_GOOD
@@ -364,7 +350,6 @@ const useMOTECam = (): MoteCamType => {
                 expMsg = localizedStrings.GUIDE_MSG_EXP_OTHERS
                 break;
         }
-        // console.log(expMsg);
 
         return {
             fulfilled: isGood,
@@ -381,16 +366,13 @@ const useMOTECam = (): MoteCamType => {
         }
     }
 
-
     // Execute taking photo
     const takePhoto = () => {
-
         if (videoRef.current && photoRef.current) {
             const video = videoRef.current as HTMLVideoElement
             const photo = photoRef.current as HTMLImageElement
             const canvasForDraw = document.createElement('canvas') as HTMLCanvasElement
 
-            //
             const stream: MediaStream = video.srcObject as MediaStream
             if (stream === null) return
 
@@ -429,20 +411,16 @@ const useMOTECam = (): MoteCamType => {
     }
 
     // Restart
-    const toggleStartStop = () => {
-
+    const toggleStartStop = async () => {
         if (videoRef.current) {
             const video = videoRef.current as HTMLVideoElement
             if (video && video.readyState >= 2) {
-                // @ts-ignore
                 if (video.paused) {
-                    // @ts-ignore
-                    video.play();
-                    setTimeout(() => {
-                        detectHandler()
+                    await video.play();
+                    setTimeout(async () => {
+                        await detectHandler();
                     }, 1000)
                 } else {
-                    // @ts-ignore
                     video.pause();
                 }
             }
