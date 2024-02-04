@@ -3,8 +3,6 @@ import * as faceapi from 'face-api.js';
 import {CustomDetectedFace} from "@/app/types/face/CustomDetectedFace";
 import {FaceExp, FaceExpression} from "@/app/types/face/FaceExpression";
 import {MoteCamAdviceMessage, MoteCamAdviceType} from "@/app/components/face/MoteCamMessage";
-import {speakMessage} from "./useSpeech";
-import {useLocale} from "./useLocale";
 
 const MODEL_PATH = '/models/face'
 const detectorOptions = new faceapi.TinyFaceDetectorOptions();
@@ -36,15 +34,31 @@ const useMOTECam = (): MoteCamType => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const photoRef = useRef<HTMLImageElement>(null)
 
-    const {localizedStrings, languageCode} = useLocale()
+    const localizedStrings = {
+        APP_TITLE: "Mote Camera",
+        START_SHOOTING: "Start photo shooting.",
+        END_SHOOTING: "End photo shooting.",
+        PICTURE_DID_TAKE: "Pretty Good photo was taken!",
+        GUIDE_MSG_POSITION_GOOD: "It is just good face position",
+        GUIDE_MSG_POSITION_TOO_UPPER: "Be a little lower",
+        GUIDE_MSG_POSITION_TOO_LOWER: "Be a little upper",
+        GUIDE_MSG_POSITION_TOO_RIGHT: "Be a little to the right",
+        GUIDE_MSG_POSITION_TOO_LEFT: "Be a little to the left",
+        GUIDE_MSG_SIZE_GOOD: "Just the right face size",
+        GUIDE_MSG_SIZE_TOO_SMALL: "The face is too small. Bring the face closer to the camera.",
+        GUIDE_MSG_SIZE_TOO_BIG: "The face is too big. Move away from the camera a little more.",
+        GUIDE_MSG_EXP_GOOD: "Good facial expression!",
+        GUIDE_MSG_EXP_NEUTRAL: "Face expression is a little serious.",
+        GUIDE_MSG_EXP_OTHERS: "Relax a little",
+        GUIDE_MSG_AGE_LOOKALIKE: "Look like %age years old",
+        PHOTO_COMPLETION_TITLE: "Completed",
+    }
 
     const startMoteCam = async () => {
         if (isStarted) {
-            await stopMoteCam()
-            speakMessage(`${localizedStrings.END_SHOOTING}`, languageCode)
+            stopMoteCam()
             return
         }
-        speakMessage(`${localizedStrings.START_SHOOTING}`, languageCode)
 
         setIsStarted(true)
         // FaceAPI
@@ -54,15 +68,15 @@ const useMOTECam = (): MoteCamType => {
         setIsReady(true)
     }
 
-    const stopMoteCam = async () => {
-        await toggleStartStop()
+    const stopMoteCam = () => {
+        toggleStartStop()
         setIsStarted(false)
         setIsReady(false)
     }
 
-    const dismissTakenPhoto = async () => {
+    const dismissTakenPhoto = () => {
         setIsTakenPhoto(false)
-        await toggleStartStop()
+        toggleStartStop()
     }
 
     // Setup Model
@@ -110,22 +124,6 @@ const useMOTECam = (): MoteCamType => {
                 throw new Error("Camera Error: MediaStream Empty");
             }
             const track = stream.getVideoTracks()[0];
-            await track.applyConstraints(
-                {
-                    audio: false,
-                    video: {
-                        facingMode: 'user',
-                        width: {
-                            ideal: 2778,
-                        },
-                        height: {
-                            ideal: 2778,
-                        },
-                    },
-                    // @ts-ignore
-                    advanced: [{brightness: 50, contrast: 50}]
-                });
-            // const constraint = track.getConstraints()
             const settings = track.getSettings();
             if (settings.deviceId) {
                 // Delete property / Release memory indirectly
@@ -149,7 +147,7 @@ const useMOTECam = (): MoteCamType => {
                 // Invert Canvas
                 ctx?.scale(-1, 1);
                 ctx?.translate(-canvas.width, 0);
-                await detectHandler()
+                await detectHandler();
             };
         }
     }
@@ -159,13 +157,11 @@ const useMOTECam = (): MoteCamType => {
         if (videoRef.current) {
             const video = videoRef.current as HTMLVideoElement
             if (!video.paused) {
-                // const t0 = performance.now();
                 const detectedFace = await faceapi
                     .detectSingleFace(video, detectorOptions)
                     .withFaceLandmarks()
                     .withFaceExpressions()
                     .withAgeAndGender()
-                // const fps = 1000 / (performance.now() - t0);
                 // Check Detected Face
                 checkFace(detectedFace)
                 // For Performance
@@ -207,7 +203,6 @@ const useMOTECam = (): MoteCamType => {
                 // Enough to shooting
                 takePhoto()
                 setIsTakenPhoto(true)
-                speakMessage(`${localizedStrings.PICTURE_DID_TAKE}`, languageCode)
             }
         }
     }
@@ -411,14 +406,14 @@ const useMOTECam = (): MoteCamType => {
     }
 
     // Restart
-    const toggleStartStop = async () => {
+    const toggleStartStop = () => {
         if (videoRef.current) {
             const video = videoRef.current as HTMLVideoElement
             if (video && video.readyState >= 2) {
                 if (video.paused) {
-                    await video.play();
+                    video.play();
                     setTimeout(async () => {
-                        await detectHandler();
+                        detectHandler();
                     }, 1000)
                 } else {
                     video.pause();
