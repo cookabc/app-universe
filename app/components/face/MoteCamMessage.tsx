@@ -19,4 +19,4 @@ const MoteCamMessage = ({expression, age, faceSize, facePosition,}: MoteCamAdvic
     </div>)
 }
 
-export {MoteCamMessage}
+export default MoteCamMessage;

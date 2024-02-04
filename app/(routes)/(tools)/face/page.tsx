@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import {MoteCamMessage} from "@/app/components/face/MoteCamMessage";
-import {useMOTECam} from "@/app/hooks/face/useMoteCam";
+import MoteCamMessage from "@/app/components/face/MoteCamMessage";
 import LoadingBox from "@/app/components/face/LoadingBox";
 import ToastBox from "@/app/components/face/ToastBox";
+import useMOTECam from "@/app/hooks/face/useMoteCam";
 
 
 export default function Page() {

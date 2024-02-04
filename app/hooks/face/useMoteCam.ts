@@ -56,7 +56,7 @@ const useMOTECam = (): MoteCamType => {
 
     const startMoteCam = async () => {
         if (isStarted) {
-            stopMoteCam()
+            await stopMoteCam()
             return
         }
 
@@ -68,15 +68,15 @@ const useMOTECam = (): MoteCamType => {
         setIsReady(true)
     }
 
-    const stopMoteCam = () => {
-        toggleStartStop()
+    const stopMoteCam = async () => {
+        await toggleStartStop()
         setIsStarted(false)
         setIsReady(false)
     }
 
-    const dismissTakenPhoto = () => {
+    const dismissTakenPhoto = async () => {
         setIsTakenPhoto(false)
-        toggleStartStop()
+        await toggleStartStop()
     }
 
     // Setup Model
@@ -406,14 +406,14 @@ const useMOTECam = (): MoteCamType => {
     }
 
     // Restart
-    const toggleStartStop = () => {
+    const toggleStartStop = async () => {
         if (videoRef.current) {
             const video = videoRef.current as HTMLVideoElement
             if (video && video.readyState >= 2) {
                 if (video.paused) {
-                    video.play();
+                    await video.play();
                     setTimeout(async () => {
-                        detectHandler();
+                        await detectHandler();
                     }, 1000)
                 } else {
                     video.pause();
@@ -436,4 +436,4 @@ const useMOTECam = (): MoteCamType => {
     }
 }
 
-export {useMOTECam}
+export default useMOTECam;
