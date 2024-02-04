@@ -1,9 +1,8 @@
 import {RefObject, useRef, useState} from "react";
-// import * as faceapi from '@vladmandic/face-api';
 import * as faceapi from 'face-api.js';
-import {CustomDetectedFace} from "../types/CustomDetectedFace";
-import {FaceExp, FaceExpression} from "../types/FaceExpression";
-import {MoteCamAdviceMessage, MoteCamAdviceType} from "../components/MoteCamMessage";
+import {CustomDetectedFace} from "@/app/types/face/CustomDetectedFace";
+import {FaceExp, FaceExpression} from "@/app/types/face/FaceExpression";
+import {MoteCamAdviceMessage, MoteCamAdviceType} from "@/app/components/face/MoteCamMessage";
 import {speakMessage} from "./useSpeech";
 import {useLocale} from "./useLocale";
 
@@ -67,19 +66,6 @@ const useMOTECam = (): MoteCamType => {
         setIsTakenPhoto(false)
         toggleStartStop()
     }
-
-    // // SetUp Tensorflow
-    // const setupTensorFlow = async () => {
-    //     // // TODO: Types
-    //     // // @ts-ignore
-    //     // await faceapi.tf.setBackend('webgl');
-    //     // // @ts-ignore
-    //     // await faceapi.tf.enableProdMode();
-    //     // // @ts-ignore
-    //     // await faceapi.tf.ENV.set('DEBUG', false);
-    //     // @ts-ignore
-    //     await faceapi.tf.ready();
-    // }
 
     // Setup Model
     const setupModel = async () => {
@@ -211,11 +197,6 @@ const useMOTECam = (): MoteCamType => {
                 face.detection.box
             )
 
-            // Expression
-            // console.log('face.expressions');
-            // console.log(`${typeof(face.expressions)}`);
-            // console.log(face.expressions);
-            // console.log(JSON.stringify(face.expressions, null, 4));
             const faceExp = checkGoodExpression(face.expressions)
 
             // Age
