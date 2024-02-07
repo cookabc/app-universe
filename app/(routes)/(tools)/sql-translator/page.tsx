@@ -269,7 +269,7 @@ export default function Page() {
                                     }`}
                                     disabled={translating}
                                 >
-                                    <img src="/images/translator/stars.svg"></img>&nbsp;
+                                    <img src="/images/translator/stars.svg" alt="stars"/>&nbsp;
                                     <div
                                         className="relative text-sm font-semibold font-inter text-white text-center inline-block mx-auto">
                                         {translating ? (
