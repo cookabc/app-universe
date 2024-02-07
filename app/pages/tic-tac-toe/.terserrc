@@ -1,6 +1,0 @@
-{
-  "ecma": 2015,
-  "compress": {
-    "drop_console": true
-  }
-}
