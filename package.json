@@ -1,53 +1,17 @@
 {
-  "name": "play-agischool",
-  "version": "0.1.0",
-  "private": true,
+  "name": "cyan-mars",
+  "type": "module",
+  "version": "0.0.1",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "dependencies": {
-    "@ant-design/icons": "5.3.6",
-    "@clerk/nextjs": "5.0.3",
-    "@clerk/themes": "1.7.14",
-    "@emotion/react": "11.11.4",
-    "@emotion/styled": "11.11.5",
-    "@headlessui/tailwindcss": "0.2.0",
-    "@mui/material": "5.15.15",
-    "@tailwindcss/forms": "0.5.7",
-    "@teachablemachine/image": "0.8.5",
-    "@tensorflow/tfjs": "4.19.0",
-    "@tensorflow/tfjs-node": "4.19.0",
-    "@traptitech/markdown-it-katex": "3.6.0",
-    "@types/markdown-it-link-attributes": "3.0.5",
-    "face-api.js": "0.22.2",
-    "highlight.js": "11.9.0",
-    "markdown-it": "14.1.0",
-    "markdown-it-link-attributes": "4.0.1",
-    "next": "14.2.3",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-hot-toast": "2.4.1",
-    "react-router-dom": "6.23.0",
-    "react-syntax-highlighter": "15.5.0"
-  },
-  "devDependencies": {
-    "@types/node": "20.12.7",
-    "@types/react": "18.3.1",
-    "@types/react-dom": "18.3.0",
-    "@types/react-syntax-highlighter": "15.5.11",
-    "autoprefixer": "10.4.19",
-    "eslint": "9.1.1",
-    "eslint-config-next": "14.2.3",
-    "eslint-config-prettier": "9.1.0",
-    "postcss": "8.4.38",
-    "prettier-plugin-tailwindcss": "0.5.14",
-    "tailwindcss": "3.4.3",
-    "typescript": "5.4.5"
-  },
-  "engines": {
-    "node": ">=18.17.0"
+    "astro": "^4.7.1",
+    "@astrojs/check": "^0.5.10",
+    "typescript": "^5.4.5"
   }
 }
