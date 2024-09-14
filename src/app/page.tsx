@@ -145,23 +145,23 @@ export default function HomePage() {
 						<div className="flex">
 							<div className="flex-shrink-0 flex items-center">
 								<span className="font-bold text-xl text-blue-600">
-									Prompt工程师训练营
+									Prompt训练营
 								</span>
 							</div>
 							<div className="hidden sm:ml-6 sm:flex sm:space-x-8">
 								{[
-									"/",
-									"/modules",
-									"/challenges",
-									"/achievements",
-									"/leaderboard",
-								].map((href) => (
+									{ name: "", href: "/" },
+									{ name: "学习模块", href: "/modules" },
+									{ name: "挑战任务", href: "/challenges" },
+									{ name: "达成成就", href: "/achievements" },
+									{ name: "排行榜", href: "/leaderboard" },
+								].map(({ name, href }) => (
 									<Link
 										key={href}
 										href={href}
 										className={`border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${href === "/" ? "border-blue-500 text-gray-900" : ""}`}
 									>
-										{href === "/" ? "主页" : href.replace("/", "")}
+										{href === "/" ? "主页" : name}
 									</Link>
 								))}
 							</div>
@@ -196,7 +196,7 @@ export default function HomePage() {
 					className="text-center mb-12"
 				>
 					<h1 className="text-4xl font-bold text-gray-900 mb-4">
-						欢迎来到Prompt工程师训练营
+						欢迎来到Prompt训练营
 					</h1>
 					<p className="text-xl text-gray-600 mb-8">
 						帮助中小学生成为Prompt工程师，通过学习和游戏提升他们的知识和技能
@@ -267,7 +267,7 @@ export default function HomePage() {
 			<footer className="bg-white mt-12 relative z-10">
 				<div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 					<p className="text-center text-gray-500 text-sm">
-						© 2023 Prompt工程师训练营. 保留所有权利.
+						© 2024 Prompt训练营. 保留所有权利.
 					</p>
 				</div>
 			</footer>
