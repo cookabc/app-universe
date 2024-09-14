@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -8,17 +9,27 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { motion } from "framer-motion";
-import { BookOpen, Brain, Code, Zap } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { AnimatePresence, motion } from "framer-motion";
+import { BookOpen, Brain, Code, Volume2, VolumeX, Zap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function HomePage() {
 	const [showStory, setShowStory] = useState(false);
+	const [isMuted, setIsMuted] = useState(true);
+	const [progress, setProgress] = useState(0);
 
 	useEffect(() => {
 		const timer = setTimeout(() => setShowStory(true), 1000);
 		return () => clearTimeout(timer);
+	}, []);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setProgress((prev) => (prev < 100 ? prev + 1 : 0));
+		}, 100);
+		return () => clearInterval(interval);
 	}, []);
 
 	const modules = [
@@ -53,6 +64,11 @@ export default function HomePage() {
 			icon: <Zap className="h-6 w-6" />,
 		},
 	];
+
+	const toggleMute = () => {
+		setIsMuted(!isMuted);
+		// 这里应该有控制背景音乐的逻辑
+	};
 
 	return (
 		<div className="min-h-screen bg-gradient-to-b from-blue-100 to-purple-100">
@@ -98,6 +114,24 @@ export default function HomePage() {
 								</Link>
 							</div>
 						</div>
+						<div className="flex items-center">
+							<Button
+								variant="ghost"
+								size="icon"
+								onClick={toggleMute}
+								aria-label={isMuted ? "取消静音" : "静音"}
+							>
+								{isMuted ? (
+									<VolumeX className="h-6 w-6" />
+								) : (
+									<Volume2 className="h-6 w-6" />
+								)}
+							</Button>
+							<Avatar className="ml-4">
+								<AvatarImage src="/placeholder.svg" alt="用户头像" />
+								<AvatarFallback>AI</AvatarFallback>
+							</Avatar>
+						</div>
 					</div>
 				</div>
 			</nav>
@@ -112,7 +146,7 @@ export default function HomePage() {
 					<h1 className="text-4xl font-bold text-gray-900 mb-4">
 						欢迎来到Prompt工程师训练营
 					</h1>
-					<p className="text-xl text-gray-600">
+					<p className="text-xl text-gray-600 mb-8">
 						帮助中小学生成为Prompt工程师，通过学习和游戏提升他们的知识和技能
 					</p>
 					<motion.div
@@ -120,7 +154,7 @@ export default function HomePage() {
 						transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2 }}
 					>
 						<Button
-							className="mt-8 px-8 py-3 text-lg"
+							className="px-8 py-3 text-lg"
 							onClick={() => console.log("开始训练")}
 						>
 							开始训练
@@ -128,21 +162,30 @@ export default function HomePage() {
 					</motion.div>
 				</motion.div>
 
-				{showStory && (
-					<motion.div
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						transition={{ duration: 1 }}
-						className="bg-white p-6 rounded-lg shadow-lg mb-12"
-					>
-						<h2 className="text-2xl font-bold mb-4">你的AI冒险即将开始！</h2>
-						<p className="text-gray-700">
-							在不久的未来，人工智能已经成为日常生活中不可或缺的一部分。然而，只有掌握了Prompt工程技能的人才能真正驾驭AI的力量。
-							你被选中加入了一个精英训练营，目标是成为顶尖的Prompt工程师。在这里，你将学习如何引导AI，解决复杂问题，创造令人惊叹的内容。
-							准备好接受挑战，开启你的AI冒险之旅了吗？
-						</p>
-					</motion.div>
-				)}
+				<AnimatePresence>
+					{showStory && (
+						<motion.div
+							initial={{ opacity: 0, height: 0 }}
+							animate={{ opacity: 1, height: "auto" }}
+							exit={{ opacity: 0, height: 0 }}
+							transition={{ duration: 0.5 }}
+							className="bg-white p-6 rounded-lg shadow-lg mb-12"
+						>
+							<h2 className="text-2xl font-bold mb-4">你的AI冒险即将开始！</h2>
+							<p className="text-gray-700">
+								在不久的未来，人工智能已经成为日常生活中不可或缺的一部分。然而，只有掌握了Prompt工程技能的人才能真正驾驭AI的力量。
+								你被选中加入了一个精英训练营，目标是成为顶尖的Prompt工程师。在这里，你将学习如何引导AI，解决复杂问题，创造令人惊叹的内容。
+								准备好接受挑战，开启你的AI冒险之旅了吗？
+							</p>
+							<div className="mt-4">
+								<Progress value={progress} className="w-full" />
+								<p className="text-sm text-gray-500 mt-2">
+									加载训练模块中...{progress}%
+								</p>
+							</div>
+						</motion.div>
+					)}
+				</AnimatePresence>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{modules.map((module, index) => (
