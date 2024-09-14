@@ -8,10 +8,19 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { BookOpen, Brain, Code, Zap } from "lucide-react";
 import Link from "next/link";
-import { BookOpen, Code, Brain, Zap } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function HomePage() {
+	const [showStory, setShowStory] = useState(false);
+
+	useEffect(() => {
+		const timer = setTimeout(() => setShowStory(true), 1000);
+		return () => clearTimeout(timer);
+	}, []);
+
 	const modules = [
 		{
 			title: "指导准则",
@@ -94,40 +103,70 @@ export default function HomePage() {
 			</nav>
 
 			<main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-				<div className="text-center mb-12">
+				<motion.div
+					initial={{ opacity: 0, y: -50 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5 }}
+					className="text-center mb-12"
+				>
 					<h1 className="text-4xl font-bold text-gray-900 mb-4">
 						欢迎来到Prompt工程师训练营
 					</h1>
 					<p className="text-xl text-gray-600">
 						帮助中小学生成为Prompt工程师，通过学习和游戏提升他们的知识和技能
 					</p>
-					<Button
-						className="mt-8 px-8 py-3 text-lg"
-						onClick={() => console.log("开始训练")}
+					<motion.div
+						animate={{ scale: [1, 1.1, 1] }}
+						transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2 }}
 					>
-						开始训练
-					</Button>
-				</div>
+						<Button
+							className="mt-8 px-8 py-3 text-lg"
+							onClick={() => console.log("开始训练")}
+						>
+							开始训练
+						</Button>
+					</motion.div>
+				</motion.div>
+
+				{showStory && (
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						transition={{ duration: 1 }}
+						className="bg-white p-6 rounded-lg shadow-lg mb-12"
+					>
+						<h2 className="text-2xl font-bold mb-4">你的AI冒险即将开始！</h2>
+						<p className="text-gray-700">
+							在不久的未来，人工智能已经成为日常生活中不可或缺的一部分。然而，只有掌握了Prompt工程技能的人才能真正驾驭AI的力量。
+							你被选中加入了一个精英训练营，目标是成为顶尖的Prompt工程师。在这里，你将学习如何引导AI，解决复杂问题，创造令人惊叹的内容。
+							准备好接受挑战，开启你的AI冒险之旅了吗？
+						</p>
+					</motion.div>
+				)}
 
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{modules.map((module, index) => (
-						<Card
+						<motion.div
 							key={index}
-							className="hover:shadow-lg transition-shadow duration-300"
+							initial={{ opacity: 0, y: 50 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.5, delay: index * 0.1 }}
 						>
-							<CardHeader>
-								<CardTitle className="flex items-center gap-2">
-									{module.icon}
-									{module.title}
-								</CardTitle>
-							</CardHeader>
-							<CardContent>
-								<CardDescription>{module.description}</CardDescription>
-								<Button variant="outline" className="w-full mt-4">
-									进入学习
-								</Button>
-							</CardContent>
-						</Card>
+							<Card className="hover:shadow-lg transition-shadow duration-300">
+								<CardHeader>
+									<CardTitle className="flex items-center gap-2">
+										{module.icon}
+										{module.title}
+									</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<CardDescription>{module.description}</CardDescription>
+									<Button variant="outline" className="w-full mt-4">
+										进入学习
+									</Button>
+								</CardContent>
+							</Card>
+						</motion.div>
 					))}
 				</div>
 			</main>
