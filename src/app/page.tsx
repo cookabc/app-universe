@@ -49,13 +49,27 @@ const FloatingIcon: React.FC<FloatingIconProps> = ({ icon: Icon, x, y }) => (
 
 const FloatingIcons = () => {
 	const icons = [Cpu, Database, Cloud, Bot];
+	const [iconPositions, setIconPositions] = useState<
+		{ x: number; y: number }[]
+	>([]);
+
+	useEffect(() => {
+		if (typeof window !== "undefined") {
+			const positions = Array.from({ length: 20 }).map(() => ({
+				x: Math.random() * (window.innerWidth - 24),
+				y: Math.random() * (window.innerHeight - 24),
+			}));
+			setIconPositions(positions);
+		}
+	}, []);
+
 	return (
 		<div className="fixed inset-0 pointer-events-none">
-			{Array.from({ length: 20 }).map(() => {
+			{iconPositions.map((pos) => {
 				const icon = icons[Math.floor(Math.random() * icons.length)];
-				const x = Math.random() * (window.innerWidth - 24);
-				const y = Math.random() * (window.innerHeight - 24);
-				return <FloatingIcon key={icon.displayName} icon={icon} x={x} y={y} />;
+				return (
+					<FloatingIcon key={pos.x + pos.y} icon={icon} x={pos.x} y={pos.y} />
+				);
 			})}
 		</div>
 	);
@@ -118,7 +132,7 @@ export default function HomePage() {
 	];
 
 	const toggleMute = () => {
-		setIsMuted(!isMuted);
+		setIsMuted((prev) => !prev);
 		// TODO: 这里应该有控制背景音乐的逻辑
 	};
 
