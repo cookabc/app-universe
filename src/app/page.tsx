@@ -11,9 +11,55 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, Brain, Code, Volume2, VolumeX, Zap } from "lucide-react";
+import {
+	BookOpen,
+	Bot,
+	Brain,
+	Cloud,
+	Code,
+	Cpu,
+	Database,
+	Volume2,
+	VolumeX,
+	Zap,
+} from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
+interface FloatingIconProps {
+	icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+	x: number;
+	y: number;
+}
+
+const FloatingIcon: React.FC<FloatingIconProps> = ({ icon: Icon, x, y }) => (
+	<motion.div
+		className="absolute text-blue-500 opacity-50"
+		style={{ x, y }}
+		animate={{ y: [y, y - 50, y], opacity: [0.5, 1, 0.5] }}
+		transition={{
+			repeat: Number.POSITIVE_INFINITY,
+			duration: 5 + Math.random() * 5,
+			ease: "easeInOut",
+		}}
+	>
+		<Icon width={24 + Math.random() * 24} height={24 + Math.random() * 24} />
+	</motion.div>
+);
+
+const FloatingIcons = () => {
+	const icons = [Cpu, Database, Cloud, Bot];
+	return (
+		<div className="fixed inset-0 pointer-events-none">
+			{Array.from({ length: 20 }).map(() => {
+				const icon = icons[Math.floor(Math.random() * icons.length)];
+				const x = Math.random() * (window.innerWidth - 24);
+				const y = Math.random() * (window.innerHeight - 24);
+				return <FloatingIcon key={icon.displayName} icon={icon} x={x} y={y} />;
+			})}
+		</div>
+	);
+};
 
 export default function HomePage() {
 	const [showStory, setShowStory] = useState(false);
@@ -34,31 +80,37 @@ export default function HomePage() {
 
 	const modules = [
 		{
+			id: 1,
 			title: "指导准则",
 			description: "学习Prompt工程的基本原则",
 			icon: <BookOpen className="h-6 w-6" />,
 		},
 		{
+			id: 2,
 			title: "提示开发",
 			description: "掌握创建有效提示的技巧",
 			icon: <Code className="h-6 w-6" />,
 		},
 		{
+			id: 3,
 			title: "总结能力",
 			description: "学习如何简明扼要地总结信息",
 			icon: <Brain className="h-6 w-6" />,
 		},
 		{
+			id: 4,
 			title: "推理能力",
 			description: "培养逻辑推理和分析能力",
 			icon: <Zap className="h-6 w-6" />,
 		},
 		{
+			id: 5,
 			title: "转换能力",
 			description: "学习如何转换信息的形式和格式",
 			icon: <Zap className="h-6 w-6" />,
 		},
 		{
+			id: 6,
 			title: "扩展能力",
 			description: "掌握扩展和丰富内容的技巧",
 			icon: <Zap className="h-6 w-6" />,
@@ -67,12 +119,13 @@ export default function HomePage() {
 
 	const toggleMute = () => {
 		setIsMuted(!isMuted);
-		// 这里应该有控制背景音乐的逻辑
+		// TODO: 这里应该有控制背景音乐的逻辑
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-b from-blue-100 to-purple-100">
-			<nav className="bg-white shadow-md">
+		<div className="min-h-screen bg-gradient-to-b from-blue-100 to-purple-100 relative overflow-hidden">
+			<FloatingIcons />
+			<nav className="bg-white shadow-md relative z-10">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex justify-between h-16">
 						<div className="flex">
@@ -82,36 +135,21 @@ export default function HomePage() {
 								</span>
 							</div>
 							<div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-								<Link
-									href="/"
-									className="border-blue-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-								>
-									主页
-								</Link>
-								<Link
-									href="/modules"
-									className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-								>
-									学习模块
-								</Link>
-								<Link
-									href="/challenges"
-									className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-								>
-									挑战任务
-								</Link>
-								<Link
-									href="/achievements"
-									className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-								>
-									成就
-								</Link>
-								<Link
-									href="/leaderboard"
-									className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-								>
-									排行榜
-								</Link>
+								{[
+									"/",
+									"/modules",
+									"/challenges",
+									"/achievements",
+									"/leaderboard",
+								].map((href) => (
+									<Link
+										key={href}
+										href={href}
+										className={`border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${href === "/" ? "border-blue-500 text-gray-900" : ""}`}
+									>
+										{href === "/" ? "主页" : href.replace("/", "")}
+									</Link>
+								))}
 							</div>
 						</div>
 						<div className="flex items-center">
@@ -136,7 +174,7 @@ export default function HomePage() {
 				</div>
 			</nav>
 
-			<main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+			<main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
 				<motion.div
 					initial={{ opacity: 0, y: -50 }}
 					animate={{ opacity: 1, y: 0 }}
@@ -173,9 +211,7 @@ export default function HomePage() {
 						>
 							<h2 className="text-2xl font-bold mb-4">你的AI冒险即将开始！</h2>
 							<p className="text-gray-700">
-								在不久的未来，人工智能已经成为日常生活中不可或缺的一部分。然而，只有掌握了Prompt工程技能的人才能真正驾驭AI的力量。
-								你被选中加入了一个精英训练营，目标是成为顶尖的Prompt工程师。在这里，你将学习如何引导AI，解决复杂问题，创造令人惊叹的内容。
-								准备好接受挑战，开启你的AI冒险之旅了吗？
+								在不久的未来，人工智能已经成为日常生活中不可或缺的一部分。然而，只有掌握了Prompt工程技能的人才能真正驾驭AI的力量。你被选加入了一个精英训练营，目标是成为顶尖的Prompt工程师。在这里，你将学习如何引导AI，解决复杂问题，创造令人惊叹的内容。准备好接受挑战，开启你的AI冒险之旅了吗？
 							</p>
 							<div className="mt-4">
 								<Progress value={progress} className="w-full" />
@@ -188,12 +224,12 @@ export default function HomePage() {
 				</AnimatePresence>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-					{modules.map((module, index) => (
+					{modules.map((module) => (
 						<motion.div
-							key={index}
+							key={module.id}
 							initial={{ opacity: 0, y: 50 }}
 							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.5, delay: index * 0.1 }}
+							transition={{ duration: 0.5 }}
 						>
 							<Card className="hover:shadow-lg transition-shadow duration-300">
 								<CardHeader>
@@ -214,7 +250,7 @@ export default function HomePage() {
 				</div>
 			</main>
 
-			<footer className="bg-white mt-12">
+			<footer className="bg-white mt-12 relative z-10">
 				<div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 					<p className="text-center text-gray-500 text-sm">
 						© 2023 Prompt工程师训练营. 保留所有权利.
