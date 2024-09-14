@@ -166,7 +166,7 @@ export default function HomePage() {
 								)}
 							</Button>
 							<Avatar className="ml-4">
-								<AvatarImage src="/placeholder.svg" alt="用户头像" />
+								<AvatarImage src="/logo.jpeg" alt="用户头像" />
 								<AvatarFallback>AI</AvatarFallback>
 							</Avatar>
 						</div>
