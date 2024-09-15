@@ -151,7 +151,7 @@ export default function HomePage() {
 							<div className="hidden sm:ml-6 sm:flex sm:space-x-8">
 								{[
 									{ name: "", href: "/" },
-									{ name: "学习模块", href: "/modules" },
+									{ name: "学习模块", href: "/learning" },
 									{ name: "挑战任务", href: "/challenges" },
 									{ name: "达成成就", href: "/achievements" },
 									{ name: "排行榜", href: "/leaderboard" },
