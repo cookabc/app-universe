@@ -2,18 +2,45 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
 } from "@/components/ui/card";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 import { AnimatePresence, motion } from "framer-motion";
-import { Award, BarChart2, ChevronRight, Clock, Star } from "lucide-react";
+import {
+	Award,
+	ChevronRight,
+	Clock,
+	HelpCircle,
+	Save,
+	Share2,
+	Star,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import {
+	CartesianGrid,
+	Legend,
+	Line,
+	LineChart,
+	ResponsiveContainer,
+	Tooltip,
+	XAxis,
+	YAxis,
+} from "recharts";
 
 const challenges = [
 	{
@@ -23,6 +50,7 @@ const challenges = [
 		initialPrompt: "请简要总结Prompt Engineering的概念。",
 		timeLimit: 180, // 3 minutes
 		difficulty: "简单",
+		hint: "考虑包含Prompt Engineering的定义、应用场景和主要技巧。",
 	},
 	{
 		id: 2,
@@ -32,6 +60,7 @@ const challenges = [
 		initialPrompt: "为Prompt Engineering初学者创建一个为期一周的学习计划。",
 		timeLimit: 240, // 4 minutes
 		difficulty: "中等",
+		hint: "考虑学习者的起点、每天的学习时间、理论与实践的平衡。",
 	},
 	{
 		id: 3,
@@ -42,6 +71,7 @@ const challenges = [
 			"设计一个Prompt，使AI在翻译时能准确处理英语俚语到中文的转换。",
 		timeLimit: 300, // 5 minutes
 		difficulty: "中等",
+		hint: "考虑提供一些常见俚语例子，并要求AI解释翻译过程。",
 	},
 	{
 		id: 4,
@@ -50,6 +80,7 @@ const challenges = [
 		initialPrompt: "创建一个Prompt，使AI生成一个科幻故事的引人入胜的开头段落。",
 		timeLimit: 360, // 6 minutes
 		difficulty: "困难",
+		hint: "考虑指定一些关键元素，如设定、主角特征、冲突等。",
 	},
 	{
 		id: 5,
@@ -59,8 +90,16 @@ const challenges = [
 			"创建一个Prompt，使AI能够解释一段Python递归函数并提供优化建议。",
 		timeLimit: 420, // 7 minutes
 		difficulty: "困难",
+		hint: "考虑要求AI分步骤解释代码，并从时间复杂度和空间复杂度两个角度提供优化建议。",
 	},
 ];
+
+type PerformanceData = {
+	challenge: number;
+	score: number;
+	timeLimit: number;
+	attempts: number;
+};
 
 export default function ChallengePage() {
 	const [currentChallenge, setCurrentChallenge] = useState(0);
@@ -75,14 +114,35 @@ export default function ChallengePage() {
 	const [feedback, setFeedback] = useState("");
 	const [isSubmitted, setIsSubmitted] = useState(false);
 	const [showSummary, setShowSummary] = useState(false);
+	const [showHint, setShowHint] = useState(false);
+	const [performanceData, setPerformanceData] = useState<PerformanceData[]>([]);
+
+	const router = useRouter();
 
 	useEffect(() => {
+		const savedProgress = localStorage.getItem("challengeProgress");
+		if (savedProgress) {
+			const { currentChallenge, score, attempts } = JSON.parse(savedProgress);
+			setCurrentChallenge(currentChallenge);
+			setScore(score);
+			setAttempts(attempts);
+			setUserPrompt(challenges[currentChallenge].initialPrompt);
+			setTimeLeft(challenges[currentChallenge].timeLimit);
+		}
+
 		const timer = setInterval(() => {
 			setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
 		}, 1000);
 
 		return () => clearInterval(timer);
 	}, []);
+
+	useEffect(() => {
+		localStorage.setItem(
+			"challengeProgress",
+			JSON.stringify({ currentChallenge, score, attempts }),
+		);
+	}, [currentChallenge, score, attempts]);
 
 	const handleSubmit = () => {
 		// 这里应该有一个API调用来评估Prompt的质量
@@ -96,6 +156,16 @@ export default function ChallengePage() {
 		setScore((prevScore) => prevScore + totalScore);
 		setAttempts((prevAttempts) => prevAttempts + 1);
 		setIsSubmitted(true);
+
+		setPerformanceData((prevData) => [
+			...prevData,
+			{
+				challenge: currentChallenge + 1,
+				score: totalScore,
+				timeLimit: challenges[currentChallenge].timeLimit,
+				attempts: attempts + 1,
+			},
+		]);
 
 		if (promptScore < 50) {
 			setFeedback(
@@ -125,9 +195,33 @@ export default function ChallengePage() {
 			setAttempts(0);
 			setFeedback("");
 			setIsSubmitted(false);
+			setShowHint(false);
 		} else {
 			setShowSummary(true);
 		}
+	};
+
+	const handleShare = () => {
+		const shareText = `我在Prompt工程师训练营中获得了${score}分！来挑战我吧！`;
+		if (navigator.share) {
+			navigator.share({
+				title: "Prompt工程师训练营挑战",
+				text: shareText,
+				url: window.location.href,
+			});
+		} else {
+			// 如果浏览器不支持原生分享，可以复制到剪贴板
+			navigator.clipboard.writeText(shareText).then(() => {
+				toast({
+					title: "分享文本已复制",
+					description: "你可以将它粘贴到社交媒体上分享。",
+				});
+			});
+		}
+	};
+
+	const handleHome = () => {
+		router.push("/");
 	};
 
 	return (
@@ -192,13 +286,33 @@ export default function ChallengePage() {
 										className="mb-4"
 										rows={5}
 									/>
-									<Button
-										onClick={handleSubmit}
-										className="w-full mb-4"
-										disabled={isSubmitted || timeLeft === 0}
-									>
-										提交Prompt
-									</Button>
+									<div className="flex justify-between mb-4">
+										<Button
+											onClick={handleSubmit}
+											disabled={isSubmitted || timeLeft === 0}
+										>
+											提交Prompt
+										</Button>
+										<Dialog>
+											<DialogTrigger asChild>
+												<Button
+													variant="outline"
+													onClick={() => setShowHint(true)}
+												>
+													<HelpCircle className="mr-2 h-4 w-4" />
+													提示
+												</Button>
+											</DialogTrigger>
+											<DialogContent>
+												<DialogHeader>
+													<DialogTitle>提示</DialogTitle>
+													<DialogDescription>
+														{challenges[currentChallenge].hint}
+													</DialogDescription>
+												</DialogHeader>
+											</DialogContent>
+										</Dialog>
+									</div>
 									{feedback && (
 										<div
 											className={`p-4 rounded-md mb-4 ${isSubmitted ? "bg-green-100" : "bg-yellow-100"}`}
@@ -241,13 +355,52 @@ export default function ChallengePage() {
 									<p className="mb-4">
 										恭喜你完成了所有的挑战！你的最终得分是 {score} 分。
 									</p>
-									<div className="flex items-center justify-center mb-4">
-										<BarChart2 className="h-24 w-24 text-blue-500" />
+									<div className="h-64 mb-4">
+										<ResponsiveContainer width="100%" height="100%">
+											<LineChart
+												data={performanceData}
+												margin={{
+													top: 5,
+													right: 30,
+													left: 20,
+													bottom: 5,
+												}}
+											>
+												<CartesianGrid strokeDasharray="3 3" />
+												<XAxis dataKey="challenge" />
+												<YAxis />
+												<Tooltip />
+												<Legend />
+												<Line
+													type="monotone"
+													dataKey="score"
+													stroke="#8884d8"
+													activeDot={{ r: 8 }}
+												/>
+											</LineChart>
+										</ResponsiveContainer>
 									</div>
 									<p className="mb-4">
 										你在Prompt工程方面展现出了卓越的技能。继续练习和实验，你会成为一名出色的Prompt工程师！
 									</p>
-									<Button className="w-full">返回主页</Button>
+									<div className="flex justify-between mb-4">
+										<Button variant="outline" onClick={handleShare}>
+											<Share2 className="mr-2 h-4 w-4" />
+											分享成绩
+										</Button>
+										<Button
+											variant="outline"
+											onClick={() =>
+												localStorage.removeItem("challengeProgress")
+											}
+										>
+											<Save className="mr-2 h-4 w-4" />
+											重置进度
+										</Button>
+									</div>
+									<Button className="w-full" onClick={handleHome}>
+										返回主页
+									</Button>
 								</CardContent>
 							</Card>
 						</motion.div>
