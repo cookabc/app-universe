@@ -154,7 +154,7 @@ export default function HomePage() {
 									{ name: "学习模块", href: "/learning" },
 									{ name: "挑战任务", href: "/challenges" },
 									{ name: "达成成就", href: "/achievements" },
-									{ name: "排行榜", href: "/leaderboard" },
+									{ name: "学习总结", href: "/summary" },
 								].map(({ name, href }) => (
 									<Link
 										key={href}
