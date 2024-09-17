@@ -1,11 +1,7 @@
 "use client";
 
 import { api } from "@/app/api/game/route";
-import type {
-	Achievement,
-	LeaderboardData,
-	PlayerData,
-} from "@/app/interfaces";
+import type { LeaderboardData, PlayerData } from "@/app/interfaces";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -32,11 +28,13 @@ import {
 	Moon,
 	Play,
 	Settings,
+	Sparkles,
 	Star,
 	Sun,
 	Trophy,
 	Users,
 	Volume2,
+	Zap,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import CharacterCustomization from "./CharacterCustomization";
@@ -179,13 +177,57 @@ const levels = [
 	},
 ];
 
+const achievements = [
+	{
+		id: 1,
+		name: "初出茅庐",
+		description: "完成你的第一个挑战",
+		icon: Star,
+		unlocked: true,
+	},
+	{
+		id: 2,
+		name: "学习大师",
+		description: "完成所有基础课程",
+		icon: Book,
+		unlocked: false,
+	},
+	{
+		id: 3,
+		name: "总结专家",
+		description: "在总结挑战中获得满分",
+		icon: BarChart2,
+		unlocked: false,
+	},
+	{
+		id: 4,
+		name: "推理天才",
+		description: "成功完成所有推理任务",
+		icon: Zap,
+		unlocked: false,
+	},
+	{
+		id: 5,
+		name: "语言大师",
+		description: "完成所有转换挑战",
+		icon: Trophy,
+		unlocked: false,
+	},
+	{
+		id: 6,
+		name: "创新先锋",
+		description: "在扩展任务中展现卓越创意",
+		icon: Sparkles,
+		unlocked: false,
+	},
+];
+
 export default function PromptEngineeringGame() {
 	const [gameState, setGameState] = useState("mainMenu");
 	const [playerData, setPlayerData] = useState<PlayerData>();
 	const [currentLevel, setCurrentLevel] = useState(0);
 	const [currentChallenge, setCurrentChallenge] = useState(0);
 	const [leaderboard, setLeaderboard] = useState<LeaderboardData[]>([]);
-	const [achievements, setAchievements] = useState<Achievement[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [settings, setSettings] = useState({
 		darkMode: false,
@@ -197,7 +239,6 @@ export default function PromptEngineeringGame() {
 			setIsLoading(true);
 			await loadPlayerData();
 			await loadLeaderboard();
-			await loadAchievements();
 			setIsLoading(false);
 		};
 		initializeGame();
@@ -226,20 +267,6 @@ export default function PromptEngineeringGame() {
 			toast({
 				title: "错误",
 				description: "加载排行榜失败，请稍后再试。",
-				variant: "destructive",
-			});
-		}
-	};
-
-	const loadAchievements = async () => {
-		try {
-			const data: Achievement[] = await api.getAchievements();
-			setAchievements(data);
-		} catch (error) {
-			console.error("Failed to load achievements:", error);
-			toast({
-				title: "错误",
-				description: "加载成就失败，请稍后再试。",
 				variant: "destructive",
 			});
 		}
@@ -593,40 +620,40 @@ export default function PromptEngineeringGame() {
 			{renderSidebar()}
 			<main className="flex-1 p-8 overflow-auto">
 				<div className="max-w-4xl mx-auto">
-					<h1 className="text-3xl font-bold text-purple-600 mb-6">成就</h1>
-					<Card className="bg-white shadow-lg">
-						<CardContent className="p-6">
-							<ScrollArea className="h-[600px]">
-								{achievements.map((achievement) => (
-									<div
-										key={achievement.id}
-										className="flex items-center justify-between py-4 border-b last:border-b-0"
-									>
-										<div className="flex items-center">
-											<div
-												className={`w-12 h-12 rounded-full flex items-center justify-center mr-4 ${achievement.unlocked ? "bg-green-500" : "bg-gray-300"}`}
-											>
-												{React.createElement(achievement.icon, {
-													className: "h-6 w-6 text-white",
-												})}
-											</div>
-											<div>
-												<p className="font-semibold text-lg">
-													{achievement.name}
-												</p>
-											</div>
-										</div>
+					<h1 className="text-3xl font-bold text-purple-600 mb-6">成就殿堂</h1>
+					<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+						{achievements.map((achievement) => (
+							<motion.div
+								key={achievement.id}
+								whileHover={{ scale: 1.05 }}
+								whileTap={{ scale: 0.95 }}
+							>
+								<Card
+									className={`${achievement.unlocked ? "bg-gradient-to-br from-yellow-400 to-yellow-600" : "bg-gray-300"} text-white shadow-lg overflow-hidden`}
+								>
+									<CardHeader className="pb-2">
+										<CardTitle className="flex items-center justify-between text-xl">
+											<span>{achievement.name}</span>
+											{React.createElement(achievement.icon, {
+												className: "h-8 w-8",
+											})}
+										</CardTitle>
+									</CardHeader>
+									<CardContent>
+										<p className="text-sm mb-4">{achievement.description}</p>
+									</CardContent>
+									<CardFooter>
 										<Badge
 											variant={achievement.unlocked ? "default" : "secondary"}
-											className={`text-lg py-2 px-4 ${achievement.unlocked ? "bg-green-500" : "bg-gray-500"} text-white`}
+											className={`w-full text-center py-2 ${achievement.unlocked ? "bg-green-500" : "bg-gray-500"} text-white`}
 										>
 											{achievement.unlocked ? "已解锁" : "未解锁"}
 										</Badge>
-									</div>
-								))}
-							</ScrollArea>
-						</CardContent>
-					</Card>
+									</CardFooter>
+								</Card>
+							</motion.div>
+						))}
+					</div>
 				</div>
 			</main>
 		</div>
@@ -637,9 +664,15 @@ export default function PromptEngineeringGame() {
 			{renderSidebar()}
 			<main className="flex-1 p-8 overflow-auto">
 				<div className="max-w-4xl mx-auto">
-					<h1 className="text-3xl font-bold text-purple-600 mb-6">设置</h1>
-					<Card className="bg-white shadow-lg">
-						<CardContent className="p-6 space-y-6">
+					<h1 className="text-3xl font-bold text-purple-600 mb-6">魔法设置</h1>
+					<Card className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg">
+						<CardHeader>
+							<CardTitle className="text-2xl">调整你的魔法参数</CardTitle>
+							<CardDescription className="text-indigo-200">
+								自定义你的 Prompt Engineering 冒险体验
+							</CardDescription>
+						</CardHeader>
+						<CardContent className="space-y-6">
 							<div className="flex items-center justify-between">
 								<div className="flex items-center space-x-2">
 									{settings.darkMode ? (
@@ -647,7 +680,7 @@ export default function PromptEngineeringGame() {
 									) : (
 										<Sun className="h-5 w-5" />
 									)}
-									<span>深色模式</span>
+									<span>暗黑魔法模式</span>
 								</div>
 								<Switch
 									checked={settings.darkMode}
@@ -659,7 +692,7 @@ export default function PromptEngineeringGame() {
 							<div className="space-y-2">
 								<div className="flex items-center space-x-2">
 									<Volume2 className="h-5 w-5" />
-									<span>音量</span>
+									<span>魔法音量</span>
 								</div>
 								<Slider
 									value={[settings.volume]}
@@ -668,21 +701,24 @@ export default function PromptEngineeringGame() {
 									}
 									max={100}
 									step={1}
+									className="bg-white"
 								/>
 							</div>
+						</CardContent>
+						<CardFooter>
 							<Button
 								onClick={() => {
 									// Save settings logic here
 									toast({
-										title: "设置已保存",
-										description: "你的设置已经成功保存。",
+										title: "魔法设置已保存",
+										description: "你的魔法参数已经成功调整。",
 									});
 								}}
-								className="w-full"
+								className="w-full bg-white text-purple-600 hover:bg-purple-100"
 							>
-								保存设置
+								保存魔法设置
 							</Button>
-						</CardContent>
+						</CardFooter>
 					</Card>
 				</div>
 			</main>

@@ -27,6 +27,7 @@ export interface LeaderboardData {
 	name: string;
 	score: number;
 	avatar?: string;
+	level: number;
 }
 
 export interface Challenge {

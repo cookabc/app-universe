@@ -98,7 +98,7 @@ export default function LevelChallenge({
 					</div>
 					<Progress
 						value={
-							((currentChallengeId + 1) / challenges[levelId].length) * 100
+							((currentChallengeId + 1) / challenges[levelId]?.length) * 100
 						}
 						className="w-1/2"
 					/>
@@ -117,7 +117,7 @@ export default function LevelChallenge({
 						/>
 					</motion.div>
 				)}
-				{currentChallengeId < challenges[levelId].length - 1 && (
+				{currentChallengeId < challenges[levelId]?.length - 1 && (
 					<Button
 						onClick={() => setCurrentChallengeId((prevId) => prevId + 1)}
 						className="w-full"
