@@ -44,16 +44,23 @@ const levels = [
 		icon: Book,
 		color: "bg-green-500",
 		challenges: [
-			{ id: 1, name: "基础提示创建", description: "创建你的第一个AI提示" },
+			{
+				id: 1,
+				name: "基础提示创建",
+				description: "创建你的第一个AI提示",
+				task: "创建一个简单的提示，让AI生成一个短篇故事。",
+			},
 			{
 				id: 2,
 				name: "提示结构化",
 				description: "学习如何结构化你的提示以获得更好的结果",
+				task: "创建一个结构化的提示，包含背景、要求和输出格式。",
 			},
 			{
 				id: 3,
 				name: "上下文添加",
 				description: "了解如何为你的提示添加有效的上下文",
+				task: "为一个现有的提示添加相关的上下文信息，以改善AI的输出。",
 			},
 		],
 	},
@@ -64,12 +71,23 @@ const levels = [
 		icon: BarChart2,
 		color: "bg-blue-500",
 		challenges: [
-			{ id: 1, name: "关键点提取", description: "从长文本中提取关键信息" },
-			{ id: 2, name: "长文本压缩", description: "将长文本压缩成简洁的摘要" },
+			{
+				id: 1,
+				name: "关键点提取",
+				description: "从长文本中提取关键信息",
+				task: "创建一个提示，从给定的长文本中提取3-5个关键点。",
+			},
+			{
+				id: 2,
+				name: "长文本压缩",
+				description: "将长文本压缩成简洁的摘要",
+				task: "设计一个提示，将一篇长文章压缩成不超过100字的摘要。",
+			},
 			{
 				id: 3,
 				name: "多源信息整合",
 				description: "整合多个来源的信息生成综合摘要",
+				task: "创建一个提示，整合三个不同来源的信息，生成一个综合性摘要。",
 			},
 		],
 	},
@@ -80,9 +98,24 @@ const levels = [
 		icon: Star,
 		color: "bg-yellow-500",
 		challenges: [
-			{ id: 1, name: "逻辑推理", description: "基于给定信息进行逻辑推理" },
-			{ id: 2, name: "隐含信息提取", description: "从文本中提取隐含的信息" },
-			{ id: 3, name: "假设检验", description: "生成并验证基于给定信息的假设" },
+			{
+				id: 1,
+				name: "逻辑推理",
+				description: "基于给定信息进行逻辑推理",
+				task: "设计一个提示，让AI基于给定的前提进行逻辑推理并得出结论。",
+			},
+			{
+				id: 2,
+				name: "隐含信息提取",
+				description: "从文本中提取隐含的信息",
+				task: "创建一个提示，从一段文本中提取未明确陈述但可以推断出的信息。",
+			},
+			{
+				id: 3,
+				name: "假设检验",
+				description: "生成并验证基于给定信息的假设",
+				task: "设计一个提示，让AI根据给定信息生成假设，并提供验证这些假设的方法。",
+			},
 		],
 	},
 	{
@@ -92,13 +125,24 @@ const levels = [
 		icon: Trophy,
 		color: "bg-purple-500",
 		challenges: [
-			{ id: 1, name: "语言翻译", description: "使用AI进行准确的语言翻译" },
+			{
+				id: 1,
+				name: "语言翻译",
+				description: "使用AI进行准确的语言翻译",
+				task: "创建一个提示，将一段英文文本准确翻译成中文，保持原文的语气和风格。",
+			},
 			{
 				id: 2,
 				name: "格式转换",
 				description: "将数据从一种格式转换为另一种格式",
+				task: "设计一个提示，将一个JSON格式的数据转换为人类可读的报告格式。",
 			},
-			{ id: 3, name: "风格转换", description: "改变文本的写作风格" },
+			{
+				id: 3,
+				name: "风格转换",
+				description: "改变文本的写作风格",
+				task: "创建一个提示，将一段正式的商业文本转换为更加轻松友好的口吻。",
+			},
 		],
 	},
 	{
@@ -108,12 +152,23 @@ const levels = [
 		icon: Users,
 		color: "bg-red-500",
 		challenges: [
-			{ id: 1, name: "创意写作", description: "使用AI生成创意故事或诗歌" },
-			{ id: 2, name: "代码生成", description: "通过提示生成简单的代码片段" },
+			{
+				id: 1,
+				name: "创意写作",
+				description: "使用AI生成创意故事或诗歌",
+				task: "设计一个提示，让AI创作一个科幻短篇故事，包含特定的主题和角色。",
+			},
+			{
+				id: 2,
+				name: "代码生成",
+				description: "通过提示生成简单的代码片段",
+				task: "创建一个提示，让AI生成一个简单的Python函数，实现特定的功能。",
+			},
 			{
 				id: 3,
 				name: "多步骤任务",
 				description: "设计处理复杂、多步骤任务的提示",
+				task: "设计一个多步骤的提示，指导AI完成一个复杂任务，如创建一个详细的项目计划。",
 			},
 		],
 	},
@@ -299,7 +354,7 @@ export default function PromptEngineeringGame() {
 			<ul className="space-y-2 p-4">
 				<li>
 					<Button
-						variant="ghost"
+						variant={gameState === "worldMap" ? "secondary" : "ghost"}
 						className="w-full justify-start"
 						onClick={() => setGameState("worldMap")}
 					>
@@ -308,7 +363,7 @@ export default function PromptEngineeringGame() {
 				</li>
 				<li>
 					<Button
-						variant="ghost"
+						variant={gameState === "leaderboard" ? "secondary" : "ghost"}
 						className="w-full justify-start"
 						onClick={() => setGameState("leaderboard")}
 					>
@@ -317,7 +372,7 @@ export default function PromptEngineeringGame() {
 				</li>
 				<li>
 					<Button
-						variant="ghost"
+						variant={gameState === "achievements" ? "secondary" : "ghost"}
 						className="w-full justify-start"
 						onClick={() => setGameState("achievements")}
 					>
@@ -452,10 +507,7 @@ export default function PromptEngineeringGame() {
 							<CardContent>
 								<div className="bg-white bg-opacity-20 rounded-lg p-6">
 									<h3 className="text-xl font-semibold mb-4">你的任务：</h3>
-									<p className="text-lg mb-6">
-										根据挑战描述，创建一个有效的
-										Prompt。记住要考虑上下文、结构和具体目标。
-									</p>
+									<p className="text-lg mb-6">{challenge?.task}</p>
 									<textarea
 										className="w-full h-32 p-2 text-black rounded-md"
 										placeholder="在这里输入你的 Prompt..."
