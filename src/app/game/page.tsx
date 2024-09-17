@@ -1,7 +1,11 @@
 "use client";
 
 import { api } from "@/app/api/game/route";
-import type { LeaderboardData, PlayerData } from "@/app/interfaces";
+import type {
+	Achievement,
+	LeaderboardData,
+	PlayerData,
+} from "@/app/interfaces";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -121,6 +125,7 @@ export default function PromptEngineeringGame() {
 	const [currentLevel, setCurrentLevel] = useState(0);
 	const [currentChallenge, setCurrentChallenge] = useState(0);
 	const [leaderboard, setLeaderboard] = useState<LeaderboardData[]>([]);
+	const [achievements, setAchievements] = useState<Achievement[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
@@ -128,6 +133,7 @@ export default function PromptEngineeringGame() {
 			setIsLoading(true);
 			await loadPlayerData();
 			await loadLeaderboard();
+			await loadAchievements();
 			setIsLoading(false);
 		};
 		initializeGame();
@@ -156,6 +162,20 @@ export default function PromptEngineeringGame() {
 			toast({
 				title: "错误",
 				description: "加载排行榜失败，请稍后再试。",
+				variant: "destructive",
+			});
+		}
+	};
+
+	const loadAchievements = async () => {
+		try {
+			const data: Achievement[] = await api.getAchievements();
+			setAchievements(data);
+		} catch (error) {
+			console.error("Failed to load achievements:", error);
+			toast({
+				title: "错误",
+				description: "加载成就失败，请稍后再试。",
 				variant: "destructive",
 			});
 		}
@@ -510,6 +530,41 @@ export default function PromptEngineeringGame() {
 		</div>
 	);
 
+	const renderAchievements = () => (
+		<div className="flex h-screen bg-gray-100">
+			{renderSidebar()}
+			<main className="flex-1 p-8 overflow-auto">
+				<div className="max-w-4xl mx-auto">
+					<h1 className="text-3xl font-bold text-purple-600 mb-6">成就</h1>
+					<Card className="bg-white shadow-lg">
+						<CardContent className="p-6">
+							<ScrollArea className="h-[600px]">
+								{achievements.map((achievement) => (
+									<div
+										key={achievement.id}
+										className="flex items-center justify-between py-4 border-b last:border-b-0"
+									>
+										<div>
+											<p className="font-semibold text-lg">
+												{achievement.name}
+											</p>
+										</div>
+										<Badge
+											variant={achievement.unlocked ? "default" : "secondary"}
+											className={`text-lg py-2 px-4 ${achievement.unlocked ? "bg-green-500" : "bg-gray-500"} text-white`}
+										>
+											{achievement.unlocked ? "已解锁" : "未解锁"}
+										</Badge>
+									</div>
+								))}
+							</ScrollArea>
+						</CardContent>
+					</Card>
+				</div>
+			</main>
+		</div>
+	);
+
 	if (isLoading) {
 		return (
 			<div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-pink-500">
@@ -535,6 +590,7 @@ export default function PromptEngineeringGame() {
 					{gameState === "worldMap" && renderWorldMap()}
 					{gameState === "levelChallenge" && renderLevelChallenge()}
 					{gameState === "leaderboard" && renderLeaderboard()}
+					{gameState === "achievements" && renderAchievements()}
 				</motion.div>
 			</AnimatePresence>
 		</div>
