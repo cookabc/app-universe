@@ -15,16 +15,15 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+	Award,
 	BarChart2,
 	Book,
-	CheckCircle,
+	Home,
 	Play,
 	Settings,
-	Sparkles,
 	Star,
 	Trophy,
 	Users,
@@ -39,6 +38,7 @@ const levels = [
 		name: "Prompt 入门",
 		description: "学习基础的 Prompt 编写技巧",
 		icon: Book,
+		color: "bg-green-500",
 		challenges: [
 			{ id: 1, name: "基础提示创建", description: "创建你的第一个AI提示" },
 			{
@@ -58,6 +58,7 @@ const levels = [
 		name: "总结技能",
 		description: "学习如何准确地总结长篇文章或数据",
 		icon: BarChart2,
+		color: "bg-blue-500",
 		challenges: [
 			{ id: 1, name: "关键点提取", description: "从长文本中提取关键信息" },
 			{ id: 2, name: "长文本压缩", description: "将长文本压缩成简洁的摘要" },
@@ -73,6 +74,7 @@ const levels = [
 		name: "推理任务",
 		description: "学习如何从信息中推理出隐藏的内容",
 		icon: Star,
+		color: "bg-yellow-500",
 		challenges: [
 			{ id: 1, name: "逻辑推理", description: "基于给定信息进行逻辑推理" },
 			{ id: 2, name: "隐含信息提取", description: "从文本中提取隐含的信息" },
@@ -84,6 +86,7 @@ const levels = [
 		name: "转换技巧",
 		description: "学习如何将原始数据转换成不同的语言或格式",
 		icon: Trophy,
+		color: "bg-purple-500",
 		challenges: [
 			{ id: 1, name: "语言翻译", description: "使用AI进行准确的语言翻译" },
 			{
@@ -99,6 +102,7 @@ const levels = [
 		name: "扩展任务",
 		description: "学习如何通过 Prompt 生成更复杂的内容或任务",
 		icon: Users,
+		color: "bg-red-500",
 		challenges: [
 			{ id: 1, name: "创意写作", description: "使用AI生成创意故事或诗歌" },
 			{ id: 2, name: "代码生成", description: "通过提示生成简单的代码片段" },
@@ -222,24 +226,25 @@ export default function PromptEngineeringGame() {
 			initial={{ scale: 0.8, opacity: 0 }}
 			animate={{ scale: 1, opacity: 1 }}
 			transition={{ duration: 0.5 }}
+			className="flex flex-col items-center justify-center h-screen"
 		>
-			<Card className="w-full max-w-md mx-auto bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-xl">
-				<CardHeader>
+			<Card className="w-full max-w-md mx-auto bg-white shadow-xl rounded-xl overflow-hidden">
+				<CardHeader className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6">
 					<CardTitle className="text-4xl font-bold text-center">
 						Prompt Engineering 冒险
 					</CardTitle>
-					<CardDescription className="text-center text-lg text-indigo-200">
+					<CardDescription className="text-center text-lg text-purple-100">
 						成为最强大的提示工程师，拯救虚拟世界！
 					</CardDescription>
 				</CardHeader>
-				<CardContent className="flex flex-col items-center space-y-6">
+				<CardContent className="flex flex-col items-center space-y-6 p-6">
 					{playerData && (
 						<motion.div
 							initial={{ y: 20, opacity: 0 }}
 							animate={{ y: 0, opacity: 1 }}
 							transition={{ delay: 0.2 }}
 						>
-							<Avatar className="w-32 h-32 border-4 border-white">
+							<Avatar className="w-32 h-32 border-4 border-purple-500">
 								<AvatarImage src={playerData.avatar} alt={playerData.name} />
 								<AvatarFallback>
 									{playerData.name ? playerData.name[0] : "P"}
@@ -249,7 +254,7 @@ export default function PromptEngineeringGame() {
 					)}
 					<Button
 						onClick={startGame}
-						className="w-full text-xl py-6 bg-amber-500 hover:bg-amber-600 text-black"
+						className="w-full text-xl py-6 bg-green-500 hover:bg-green-600 text-white transition-colors duration-200"
 					>
 						<Play className="mr-2 h-6 w-6" />{" "}
 						{playerData ? "继续冒险" : "开始冒险"}
@@ -257,7 +262,7 @@ export default function PromptEngineeringGame() {
 					<Button
 						onClick={openSettings}
 						variant="outline"
-						className="w-full text-xl py-6 border-white text-white hover:bg-white hover:text-indigo-600"
+						className="w-full text-xl py-6 border-purple-500 text-purple-500 hover:bg-purple-50 transition-colors duration-200"
 					>
 						<Settings className="mr-2 h-6 w-6" /> 设置
 					</Button>
@@ -267,73 +272,113 @@ export default function PromptEngineeringGame() {
 	);
 
 	const renderWorldMap = () => (
-		<div className="space-y-6">
-			<Card className="bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-xl">
-				<CardHeader>
-					<CardTitle className="flex items-center justify-between text-2xl">
-						<span>魔法世界地图</span>
+		<div className="flex h-screen bg-gray-100">
+			<nav className="w-64 bg-white shadow-lg">
+				<div className="p-4">
+					<h2 className="text-2xl font-bold text-purple-600">Prompt 冒险</h2>
+				</div>
+				<ul className="space-y-2 p-4">
+					<li>
+						<Button
+							variant="ghost"
+							className="w-full justify-start"
+							onClick={() => setGameState("worldMap")}
+						>
+							<Home className="mr-2 h-5 w-5" /> 主页
+						</Button>
+					</li>
+					<li>
+						<Button
+							variant="ghost"
+							className="w-full justify-start"
+							onClick={() => setGameState("leaderboard")}
+						>
+							<Trophy className="mr-2 h-5 w-5" /> 排行榜
+						</Button>
+					</li>
+					<li>
+						<Button
+							variant="ghost"
+							className="w-full justify-start"
+							onClick={() => setGameState("achievements")}
+						>
+							<Award className="mr-2 h-5 w-5" /> 成就
+						</Button>
+					</li>
+					<li>
+						<Button
+							variant="ghost"
+							className="w-full justify-start"
+							onClick={openSettings}
+						>
+							<Settings className="mr-2 h-5 w-5" /> 设置
+						</Button>
+					</li>
+				</ul>
+			</nav>
+			<main className="flex-1 p-8 overflow-auto">
+				<div className="max-w-4xl mx-auto space-y-8">
+					<div className="flex items-center justify-between">
+						<h1 className="text-3xl font-bold text-purple-600">
+							欢迎回来，{playerData?.name || "魔法师"}！
+						</h1>
 						<Badge
 							variant="secondary"
-							className="text-lg py-2 px-4 bg-amber-500 text-black"
+							className="text-lg py-2 px-4 bg-purple-500 text-white"
 						>
-							{playerData?.name || "魔法师"} - 等级 {playerData?.level || 1}
+							等级 {playerData?.level || 1}
 						</Badge>
-					</CardTitle>
-					<CardDescription className="text-indigo-200 text-lg">
-						选择一个魔法关卡开始你的冒险
-					</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<div className="mb-4">
-						<p className="text-lg mb-2">魔法能量</p>
-						<Progress
-							value={((playerData?.exp || 0) / 1000) * 100}
-							className="h-4"
-						/>
-						<p className="text-sm text-indigo-200 mt-2">
-							经验值: {playerData?.exp || 0} / 1000
-						</p>
 					</div>
-					<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+					<Card className="bg-white shadow-lg">
+						<CardHeader>
+							<CardTitle className="text-2xl text-purple-600">
+								总体进度
+							</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<Progress
+								value={((playerData?.exp || 0) / 1000) * 100}
+								className="h-4"
+							/>
+							<p className="text-sm text-gray-600 mt-2">
+								经验值: {playerData?.exp || 0} / 1000
+							</p>
+						</CardContent>
+					</Card>
+					<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 						{levels.map((level) => (
 							<motion.div
 								key={level.id}
 								whileHover={{ scale: 1.05 }}
 								whileTap={{ scale: 0.95 }}
 							>
-								<Card className="bg-gradient-to-br from-indigo-700 to-purple-700 border-2 border-indigo-300">
-									<CardHeader>
+								<Card
+									className={`${level.color} text-white shadow-lg overflow-hidden`}
+								>
+									<CardHeader className="pb-2">
 										<CardTitle className="flex items-center justify-between text-xl">
 											<span>{level.name}</span>
 											{React.createElement(level.icon, {
-												className: "h-8 w-8 text-amber-500",
+												className: "h-8 w-8",
 											})}
 										</CardTitle>
-										<CardDescription className="text-indigo-200">
-											{level.description}
-										</CardDescription>
 									</CardHeader>
 									<CardContent>
-										<ul className="space-y-2">
-											{level.challenges.map((challenge) => (
-												<li
-													key={challenge.id}
-													className="flex items-center text-sm"
-												>
-													<Sparkles className="h-4 w-4 mr-2 text-amber-500" />
-													{challenge.name}
-													{playerData?.completedChallenges?.includes(
-														`${level.id}-${challenge.id}`,
-													) && (
-														<CheckCircle className="ml-2 h-4 w-4 text-green-400" />
-													)}
-												</li>
-											))}
-										</ul>
+										<p className="text-sm mb-4">{level.description}</p>
+										<Progress
+											value={
+												((playerData?.completedChallenges?.filter((c) =>
+													c.startsWith(`${level.id}-`),
+												).length || 0) /
+													level.challenges.length) *
+												100
+											}
+											className="h-2 bg-white bg-opacity-30"
+										/>
 									</CardContent>
 									<CardFooter>
 										<Button
-											className="w-full bg-amber-500 hover:bg-amber-600 text-black"
+											className="w-full bg-white text-black hover:bg-opacity-90 transition-colors duration-200"
 											onClick={() => startLevel(level.id)}
 										>
 											<Play className="mr-2 h-4 w-4" /> 开始挑战
@@ -343,142 +388,8 @@ export default function PromptEngineeringGame() {
 							</motion.div>
 						))}
 					</div>
-				</CardContent>
-			</Card>
-
-			<Tabs
-				defaultValue="skills"
-				className="bg-gradient-to-br from-indigo-600 to-purple-600 text-white p-4 rounded-lg shadow-xl"
-			>
-				<TabsList className="grid w-full grid-cols-3 bg-indigo-700">
-					<TabsTrigger
-						value="skills"
-						className="text-white data-[state=active]:bg-amber-500 data-[state=active]:text-black"
-					>
-						技能树
-					</TabsTrigger>
-					<TabsTrigger
-						value="achievements"
-						className="text-white data-[state=active]:bg-amber-500 data-[state=active]:text-black"
-					>
-						成就
-					</TabsTrigger>
-					<TabsTrigger
-						value="leaderboard"
-						className="text-white data-[state=active]:bg-amber-500 data-[state=active]:text-black"
-					>
-						排行榜
-					</TabsTrigger>
-				</TabsList>
-				<TabsContent value="skills">
-					<Card className="bg-indigo-700 border-none">
-						<CardHeader>
-							<CardTitle className="text-2xl">魔法技能树</CardTitle>
-							<CardDescription className="text-indigo-200">
-								提升你的 Prompt Engineering 魔法技能
-							</CardDescription>
-						</CardHeader>
-						<CardContent>
-							<ScrollArea className="h-[200px]">
-								{playerData?.skills?.map((skill) => (
-									<div
-										key={skill.id}
-										className="flex items-center justify-between mb-4"
-									>
-										<div>
-											<p className="font-medium">{skill.name}</p>
-										</div>
-										<Badge
-											variant="secondary"
-											className="bg-amber-500 text-black"
-										>
-											等级 {skill.level}
-										</Badge>
-									</div>
-								)) || <p className="text-indigo-200">暂无技能数据</p>}
-							</ScrollArea>
-						</CardContent>
-					</Card>
-				</TabsContent>
-				<TabsContent value="achievements">
-					<Card className="bg-indigo-700 border-none">
-						<CardHeader>
-							<CardTitle className="text-2xl">魔法成就</CardTitle>
-							<CardDescription className="text-indigo-200">
-								展示你的 Prompt Engineering 魔法成就
-							</CardDescription>
-						</CardHeader>
-						<CardContent>
-							<ScrollArea className="h-[200px]">
-								{playerData?.achievements?.map((achievement) => (
-									<div
-										key={achievement.id}
-										className="flex items-center justify-between mb-4"
-									>
-										<div>
-											<p className="font-medium">{achievement.name}</p>
-										</div>
-										{achievement.unlocked ? (
-											<Badge
-												variant="default"
-												className="bg-green-500 text-white"
-											>
-												已解锁
-											</Badge>
-										) : (
-											<Badge
-												variant="secondary"
-												className="bg-gray-500 text-white"
-											>
-												未解锁
-											</Badge>
-										)}
-									</div>
-								)) || <p className="text-indigo-200">暂无成就数据</p>}
-							</ScrollArea>
-						</CardContent>
-					</Card>
-				</TabsContent>
-				<TabsContent value="leaderboard">
-					<Card className="bg-indigo-700 border-none">
-						<CardHeader>
-							<CardTitle className="text-2xl">魔法师排行榜</CardTitle>
-							<CardDescription className="text-indigo-200">
-								查看全球最强 Prompt 魔法师
-							</CardDescription>
-						</CardHeader>
-						<CardContent>
-							<ScrollArea className="h-[200px]">
-								{leaderboard.map((player) => (
-									<div
-										key={player.rank}
-										className="flex items-center justify-between mb-4"
-									>
-										<div className="flex items-center">
-											<span className="font-bold mr-2 text-amber-500">
-												#{player.rank}
-											</span>
-											<Avatar className="w-8 h-8 mr-2">
-												<AvatarImage src={player.avatar} alt={player.name} />
-												<AvatarFallback>
-													{player.name ? player.name[0] : "P"}
-												</AvatarFallback>
-											</Avatar>
-											<span>{player.name}</span>
-										</div>
-										<Badge
-											variant="secondary"
-											className="bg-amber-500 text-black"
-										>
-											{player.score} 分
-										</Badge>
-									</div>
-								))}
-							</ScrollArea>
-						</CardContent>
-					</Card>
-				</TabsContent>
-			</Tabs>
+				</div>
+			</main>
 		</div>
 	);
 
@@ -491,34 +402,82 @@ export default function PromptEngineeringGame() {
 		/>
 	);
 
+	const renderLeaderboard = () => (
+		<div className="flex h-screen bg-gray-100">
+			<nav className="w-64 bg-white shadow-lg">
+				{/* Same navigation as in renderWorldMap */}
+			</nav>
+			<main className="flex-1 p-8 overflow-auto">
+				<div className="max-w-4xl mx-auto">
+					<h1 className="text-3xl font-bold text-purple-600 mb-6">排行榜</h1>
+					<Card className="bg-white shadow-lg">
+						<CardContent className="p-6">
+							<ScrollArea className="h-[600px]">
+								{leaderboard.map((player, index) => (
+									<div
+										key={player.rank}
+										className="flex items-center justify-between py-4 border-b last:border-b-0"
+									>
+										<div className="flex items-center">
+											<span className="font-bold mr-4 text-2xl text-purple-500">
+												#{index + 1}
+											</span>
+											<Avatar className="w-12 h-12 mr-4">
+												<AvatarImage src={player.avatar} alt={player.name} />
+												<AvatarFallback>
+													{player.name ? player.name[0] : "P"}
+												</AvatarFallback>
+											</Avatar>
+											<div>
+												<p className="font-semibold text-lg">{player.name}</p>
+												<p className="text-sm text-gray-500">
+													等级 {player.level}
+												</p>
+											</div>
+										</div>
+										<Badge
+											variant="secondary"
+											className="text-lg py-2 px-4 bg-purple-500 text-white"
+										>
+											{player.score} 分
+										</Badge>
+									</div>
+								))}
+							</ScrollArea>
+						</CardContent>
+					</Card>
+				</div>
+			</main>
+		</div>
+	);
+
 	if (isLoading) {
 		return (
-			<div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-600 to-purple-600">
-				<div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-amber-500" />
+			<div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-pink-500">
+				<div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-white" />
 			</div>
 		);
 	}
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-indigo-800 to-purple-800 py-12 px-4 sm:px-6 lg:px-8">
-			<div className="max-w-4xl mx-auto">
-				<AnimatePresence mode="wait">
-					<motion.div
-						key={gameState}
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						exit={{ opacity: 0, y: -20 }}
-						transition={{ duration: 0.3 }}
-					>
-						{gameState === "mainMenu" && renderMainMenu()}
-						{gameState === "characterCreation" && (
-							<CharacterCustomization onComplete={handleCharacterCreation} />
-						)}
-						{gameState === "worldMap" && renderWorldMap()}
-						{gameState === "levelChallenge" && renderLevelChallenge()}
-					</motion.div>
-				</AnimatePresence>
-			</div>
+		<div className="min-h-screen bg-gray-100">
+			<AnimatePresence mode="wait">
+				<motion.div
+					key={gameState}
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					exit={{ opacity: 0, y: -20 }}
+					transition={{ duration: 0.3 }}
+				>
+					{gameState === "mainMenu" && renderMainMenu()}
+					{gameState === "characterCreation" && (
+						<CharacterCustomization onComplete={handleCharacterCreation} />
+					)}
+					{gameState === "worldMap" && renderWorldMap()}
+					{gameState === "levelChallenge" && renderLevelChallenge()}
+					{gameState === "leaderboard" && renderLeaderboard()}
+				</motion.div>
+			</AnimatePresence>
 		</div>
 	);
 }
