@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "@/hooks/use-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -27,11 +29,14 @@ import {
 	BarChart2,
 	Book,
 	Home,
+	Moon,
 	Play,
 	Settings,
 	Star,
+	Sun,
 	Trophy,
 	Users,
+	Volume2,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import CharacterCustomization from "./CharacterCustomization";
@@ -278,9 +283,13 @@ export default function PromptEngineeringGame() {
 			await api.submitScore(score);
 			await loadPlayerData();
 			await loadLeaderboard();
-			setGameState("worldMap");
+			if (currentChallenge < levels[currentLevel - 1].challenges.length) {
+				setCurrentChallenge(currentChallenge + 1);
+			} else {
+				setGameState("worldMap");
+			}
 			toast({
-				title: "关卡完成！",
+				title: "挑战完成！",
 				description: `你获得了 ${score} 经验值！`,
 			});
 		} catch (error) {
@@ -593,10 +602,19 @@ export default function PromptEngineeringGame() {
 										key={achievement.id}
 										className="flex items-center justify-between py-4 border-b last:border-b-0"
 									>
-										<div>
-											<p className="font-semibold text-lg">
-												{achievement.name}
-											</p>
+										<div className="flex items-center">
+											<div
+												className={`w-12 h-12 rounded-full flex items-center justify-center mr-4 ${achievement.unlocked ? "bg-green-500" : "bg-gray-300"}`}
+											>
+												{React.createElement(achievement.icon, {
+													className: "h-6 w-6 text-white",
+												})}
+											</div>
+											<div>
+												<p className="font-semibold text-lg">
+													{achievement.name}
+												</p>
+											</div>
 										</div>
 										<Badge
 											variant={achievement.unlocked ? "default" : "secondary"}
