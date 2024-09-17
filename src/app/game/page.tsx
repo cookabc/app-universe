@@ -210,12 +210,12 @@ export default function PromptEngineeringGame() {
 	};
 
 	const renderMainMenu = () => (
-		<Card className="w-full max-w-md mx-auto bg-gradient-to-br from-purple-600 to-blue-600 text-white">
+		<Card className="w-full max-w-md mx-auto bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-xl">
 			<CardHeader>
 				<CardTitle className="text-4xl font-bold text-center">
 					Prompt Engineering 冒险
 				</CardTitle>
-				<CardDescription className="text-center text-lg text-purple-200">
+				<CardDescription className="text-center text-lg text-indigo-200">
 					成为最强大的提示工程师，拯救虚拟世界！
 				</CardDescription>
 			</CardHeader>
@@ -223,19 +223,21 @@ export default function PromptEngineeringGame() {
 				{playerData && (
 					<Avatar className="w-32 h-32 border-4 border-white">
 						<AvatarImage src={playerData.avatar} alt={playerData.name} />
-						<AvatarFallback>{playerData.name[0]}</AvatarFallback>
+						<AvatarFallback>
+							{playerData.name ? playerData.name[0] : "P"}
+						</AvatarFallback>
 					</Avatar>
 				)}
 				<Button
 					onClick={startGame}
-					className="w-full text-xl py-6 bg-yellow-500 hover:bg-yellow-600 text-black"
+					className="w-full text-xl py-6 bg-amber-500 hover:bg-amber-600 text-black"
 				>
 					<Play className="mr-2 h-6 w-6" />{" "}
 					{playerData ? "继续冒险" : "开始冒险"}
 				</Button>
 				<Button
 					variant="outline"
-					className="w-full text-xl py-6 border-white text-white hover:bg-white hover:text-purple-600"
+					className="w-full text-xl py-6 border-white text-white hover:bg-white hover:text-indigo-600"
 				>
 					设置
 				</Button>
@@ -245,18 +247,18 @@ export default function PromptEngineeringGame() {
 
 	const renderWorldMap = () => (
 		<div className="space-y-6">
-			<Card className="bg-gradient-to-br from-purple-600 to-blue-600 text-white">
+			<Card className="bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-xl">
 				<CardHeader>
 					<CardTitle className="flex items-center justify-between text-2xl">
 						<span>魔法世界地图</span>
 						<Badge
 							variant="secondary"
-							className="text-lg py-2 px-4 bg-yellow-500 text-black"
+							className="text-lg py-2 px-4 bg-amber-500 text-black"
 						>
 							{playerData?.name || "魔法师"} - 等级 {playerData?.level || 1}
 						</Badge>
 					</CardTitle>
-					<CardDescription className="text-purple-200 text-lg">
+					<CardDescription className="text-indigo-200 text-lg">
 						选择一个魔法关卡开始你的冒险
 					</CardDescription>
 				</CardHeader>
@@ -267,7 +269,7 @@ export default function PromptEngineeringGame() {
 							value={((playerData?.exp || 0) / 1000) * 100}
 							className="h-4"
 						/>
-						<p className="text-sm text-purple-200 mt-2">
+						<p className="text-sm text-indigo-200 mt-2">
 							经验值: {playerData?.exp || 0} / 1000
 						</p>
 					</div>
@@ -275,16 +277,16 @@ export default function PromptEngineeringGame() {
 						{levels.map((level) => (
 							<Card
 								key={level.id}
-								className="bg-gradient-to-br from-purple-700 to-blue-700 border-2 border-purple-300"
+								className="bg-gradient-to-br from-indigo-700 to-purple-700 border-2 border-indigo-300"
 							>
 								<CardHeader>
 									<CardTitle className="flex items-center justify-between text-xl">
 										<span>{level.name}</span>
 										{React.createElement(level.icon, {
-											className: "h-8 w-8 text-yellow-500",
+											className: "h-8 w-8 text-amber-500",
 										})}
 									</CardTitle>
-									<CardDescription className="text-purple-200">
+									<CardDescription className="text-indigo-200">
 										{level.description}
 									</CardDescription>
 								</CardHeader>
@@ -295,7 +297,7 @@ export default function PromptEngineeringGame() {
 												key={challenge.id}
 												className="flex items-center text-sm"
 											>
-												<Sparkles className="h-4 w-4 mr-2 text-yellow-500" />
+												<Sparkles className="h-4 w-4 mr-2 text-amber-500" />
 												{challenge.name}
 												{playerData?.completedChallenges?.includes(
 													`${level.id}-${challenge.id}`,
@@ -308,7 +310,7 @@ export default function PromptEngineeringGame() {
 								</CardContent>
 								<CardFooter>
 									<Button
-										className="w-full bg-yellow-500 hover:bg-yellow-600 text-black"
+										className="w-full bg-amber-500 hover:bg-amber-600 text-black"
 										onClick={() => startLevel(level.id)}
 									>
 										<Play className="mr-2 h-4 w-4" /> 开始挑战
@@ -322,33 +324,33 @@ export default function PromptEngineeringGame() {
 
 			<Tabs
 				defaultValue="skills"
-				className="bg-gradient-to-br from-purple-600 to-blue-600 text-white p-4 rounded-lg"
+				className="bg-gradient-to-br from-indigo-600 to-purple-600 text-white p-4 rounded-lg shadow-xl"
 			>
-				<TabsList className="grid w-full grid-cols-3 bg-purple-700">
+				<TabsList className="grid w-full grid-cols-3 bg-indigo-700">
 					<TabsTrigger
 						value="skills"
-						className="text-white data-[state=active]:bg-yellow-500 data-[state=active]:text-black"
+						className="text-white data-[state=active]:bg-amber-500 data-[state=active]:text-black"
 					>
 						技能树
 					</TabsTrigger>
 					<TabsTrigger
 						value="achievements"
-						className="text-white data-[state=active]:bg-yellow-500 data-[state=active]:text-black"
+						className="text-white data-[state=active]:bg-amber-500 data-[state=active]:text-black"
 					>
 						成就
 					</TabsTrigger>
 					<TabsTrigger
 						value="leaderboard"
-						className="text-white data-[state=active]:bg-yellow-500 data-[state=active]:text-black"
+						className="text-white data-[state=active]:bg-amber-500 data-[state=active]:text-black"
 					>
 						排行榜
 					</TabsTrigger>
 				</TabsList>
 				<TabsContent value="skills">
-					<Card className="bg-purple-700 border-none">
+					<Card className="bg-indigo-700 border-none">
 						<CardHeader>
 							<CardTitle className="text-2xl">魔法技能树</CardTitle>
-							<CardDescription className="text-purple-200">
+							<CardDescription className="text-indigo-200">
 								提升你的 Prompt Engineering 魔法技能
 							</CardDescription>
 						</CardHeader>
@@ -364,21 +366,21 @@ export default function PromptEngineeringGame() {
 										</div>
 										<Badge
 											variant="secondary"
-											className="bg-yellow-500 text-black"
+											className="bg-amber-500 text-black"
 										>
 											等级 {skill.level}
 										</Badge>
 									</div>
-								)) || <p className="text-purple-200">暂无技能数据</p>}
+								)) || <p className="text-indigo-200">暂无技能数据</p>}
 							</ScrollArea>
 						</CardContent>
 					</Card>
 				</TabsContent>
 				<TabsContent value="achievements">
-					<Card className="bg-purple-700 border-none">
+					<Card className="bg-indigo-700 border-none">
 						<CardHeader>
 							<CardTitle className="text-2xl">魔法成就</CardTitle>
-							<CardDescription className="text-purple-200">
+							<CardDescription className="text-indigo-200">
 								展示你的 Prompt Engineering 魔法成就
 							</CardDescription>
 						</CardHeader>
@@ -408,16 +410,16 @@ export default function PromptEngineeringGame() {
 											</Badge>
 										)}
 									</div>
-								)) || <p className="text-purple-200">暂无成就数据</p>}
+								)) || <p className="text-indigo-200">暂无成就数据</p>}
 							</ScrollArea>
 						</CardContent>
 					</Card>
 				</TabsContent>
 				<TabsContent value="leaderboard">
-					<Card className="bg-purple-700 border-none">
+					<Card className="bg-indigo-700 border-none">
 						<CardHeader>
 							<CardTitle className="text-2xl">魔法师排行榜</CardTitle>
-							<CardDescription className="text-purple-200">
+							<CardDescription className="text-indigo-200">
 								查看全球最强 Prompt 魔法师
 							</CardDescription>
 						</CardHeader>
@@ -429,18 +431,20 @@ export default function PromptEngineeringGame() {
 										className="flex items-center justify-between mb-4"
 									>
 										<div className="flex items-center">
-											<span className="font-bold mr-2 text-yellow-500">
+											<span className="font-bold mr-2 text-amber-500">
 												#{player.rank}
 											</span>
 											<Avatar className="w-8 h-8 mr-2">
 												<AvatarImage src={player.avatar} alt={player.name} />
-												<AvatarFallback>{player.name[0]}</AvatarFallback>
+												<AvatarFallback>
+													{player.name ? player.name[0] : "P"}
+												</AvatarFallback>
 											</Avatar>
 											<span>{player.name}</span>
 										</div>
 										<Badge
 											variant="secondary"
-											className="bg-yellow-500 text-black"
+											className="bg-amber-500 text-black"
 										>
 											{player.score} 分
 										</Badge>
@@ -465,14 +469,14 @@ export default function PromptEngineeringGame() {
 
 	if (isLoading) {
 		return (
-			<div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-600 to-blue-600">
-				<div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-yellow-500" />
+			<div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-600 to-purple-600">
+				<div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-amber-500" />
 			</div>
 		);
 	}
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-purple-800 to-blue-800 py-12 px-4 sm:px-6 lg:px-8">
+		<div className="min-h-screen bg-gradient-to-br from-indigo-800 to-purple-800 py-12 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-4xl mx-auto">
 				<AnimatePresence mode="wait">
 					<motion.div
