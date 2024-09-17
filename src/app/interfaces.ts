@@ -17,6 +17,7 @@ export interface PlayerData {
 	avatar?: string;
 	unlockedLevels?: number[];
 	completedLevels?: number[];
+	completedChallenges?: string[];
 	skills?: Skill[];
 	achievements?: Achievement[];
 }

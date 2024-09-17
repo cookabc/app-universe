@@ -2,11 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { motion } from "framer-motion";
@@ -17,6 +17,7 @@ import PromptChallenge from "./PromptChallenge";
 
 interface LevelChallengeProps {
 	levelId: number;
+	challengeId: number;
 	onComplete: (score: number) => void;
 	onExit: () => void;
 }
@@ -56,24 +57,25 @@ const challenges: { [key: number]: Challenge[] } = {
 
 export default function LevelChallenge({
 	levelId,
+	challengeId,
 	onComplete,
 	onExit,
 }: LevelChallengeProps) {
-	const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
+	const [currentChallengeId, setCurrentChallengeId] = useState(challengeId);
 	const [totalScore, setTotalScore] = useState(0);
 	const [timeLeft, setTimeLeft] = useState<number>(600); // 10 minutes for the whole level
 
 	const currentChallenge = challenges[levelId]
-		? challenges[levelId][currentChallengeIndex]
+		? challenges[levelId][currentChallengeId]
 		: null;
 
 	const handleChallengeComplete = (score: number) => {
 		setTotalScore((prevScore) => prevScore + score);
 		if (
 			currentChallenge &&
-			currentChallengeIndex < challenges[levelId].length - 1
+			currentChallengeId < challenges[levelId].length - 1
 		) {
-			setCurrentChallengeIndex((prevIndex) => prevIndex + 1);
+			setCurrentChallengeId((prevIndex) => prevIndex + 1);
 		} else {
 			onComplete(totalScore);
 		}
@@ -96,14 +98,14 @@ export default function LevelChallenge({
 					</div>
 					<Progress
 						value={
-							((currentChallengeIndex + 1) / challenges[levelId].length) * 100
+							((currentChallengeId + 1) / challenges[levelId].length) * 100
 						}
 						className="w-1/2"
 					/>
 				</div>
 				{currentChallenge && (
 					<motion.div
-						key={currentChallengeIndex}
+						key={currentChallengeId}
 						initial={{ opacity: 0, x: 50 }}
 						animate={{ opacity: 1, x: 0 }}
 						exit={{ opacity: 0, x: -50 }}
@@ -115,11 +117,9 @@ export default function LevelChallenge({
 						/>
 					</motion.div>
 				)}
-				{currentChallengeIndex < challenges[levelId].length - 1 && (
+				{currentChallengeId < challenges[levelId].length - 1 && (
 					<Button
-						onClick={() =>
-							setCurrentChallengeIndex((prevIndex) => prevIndex + 1)
-						}
+						onClick={() => setCurrentChallengeId((prevId) => prevId + 1)}
 						className="w-full"
 					>
 						下一个挑战 <ChevronRight className="ml-2 h-4 w-4" />
