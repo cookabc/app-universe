@@ -23,6 +23,7 @@ import {
 	Book,
 	CheckCircle,
 	Play,
+	Settings,
 	Sparkles,
 	Star,
 	Trophy,
@@ -209,6 +210,13 @@ export default function PromptEngineeringGame() {
 		}
 	};
 
+	const openSettings = () => {
+		toast({
+			title: "设置",
+			description: "设置功能正在开发中，敬请期待！",
+		});
+	};
+
 	const renderMainMenu = () => (
 		<motion.div
 			initial={{ scale: 0.8, opacity: 0 }}
@@ -251,7 +259,7 @@ export default function PromptEngineeringGame() {
 						variant="outline"
 						className="w-full text-xl py-6 border-white text-white hover:bg-white hover:text-indigo-600"
 					>
-						设置
+						<Settings className="mr-2 h-6 w-6" /> 设置
 					</Button>
 				</CardContent>
 			</Card>
