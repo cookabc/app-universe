@@ -210,39 +210,52 @@ export default function PromptEngineeringGame() {
 	};
 
 	const renderMainMenu = () => (
-		<Card className="w-full max-w-md mx-auto bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-xl">
-			<CardHeader>
-				<CardTitle className="text-4xl font-bold text-center">
-					Prompt Engineering 冒险
-				</CardTitle>
-				<CardDescription className="text-center text-lg text-indigo-200">
-					成为最强大的提示工程师，拯救虚拟世界！
-				</CardDescription>
-			</CardHeader>
-			<CardContent className="flex flex-col items-center space-y-6">
-				{playerData && (
-					<Avatar className="w-32 h-32 border-4 border-white">
-						<AvatarImage src={playerData.avatar} alt={playerData.name} />
-						<AvatarFallback>
-							{playerData.name ? playerData.name[0] : "P"}
-						</AvatarFallback>
-					</Avatar>
-				)}
-				<Button
-					onClick={startGame}
-					className="w-full text-xl py-6 bg-amber-500 hover:bg-amber-600 text-black"
-				>
-					<Play className="mr-2 h-6 w-6" />{" "}
-					{playerData ? "继续冒险" : "开始冒险"}
-				</Button>
-				<Button
-					variant="outline"
-					className="w-full text-xl py-6 border-white text-white hover:bg-white hover:text-indigo-600"
-				>
-					设置
-				</Button>
-			</CardContent>
-		</Card>
+		<motion.div
+			initial={{ scale: 0.8, opacity: 0 }}
+			animate={{ scale: 1, opacity: 1 }}
+			transition={{ duration: 0.5 }}
+		>
+			<Card className="w-full max-w-md mx-auto bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-xl">
+				<CardHeader>
+					<CardTitle className="text-4xl font-bold text-center">
+						Prompt Engineering 冒险
+					</CardTitle>
+					<CardDescription className="text-center text-lg text-indigo-200">
+						成为最强大的提示工程师，拯救虚拟世界！
+					</CardDescription>
+				</CardHeader>
+				<CardContent className="flex flex-col items-center space-y-6">
+					{playerData && (
+						<motion.div
+							initial={{ y: 20, opacity: 0 }}
+							animate={{ y: 0, opacity: 1 }}
+							transition={{ delay: 0.2 }}
+						>
+							<Avatar className="w-32 h-32 border-4 border-white">
+								<AvatarImage src={playerData.avatar} alt={playerData.name} />
+								<AvatarFallback>
+									{playerData.name ? playerData.name[0] : "P"}
+								</AvatarFallback>
+							</Avatar>
+						</motion.div>
+					)}
+					<Button
+						onClick={startGame}
+						className="w-full text-xl py-6 bg-amber-500 hover:bg-amber-600 text-black"
+					>
+						<Play className="mr-2 h-6 w-6" />{" "}
+						{playerData ? "继续冒险" : "开始冒险"}
+					</Button>
+					<Button
+						onClick={openSettings}
+						variant="outline"
+						className="w-full text-xl py-6 border-white text-white hover:bg-white hover:text-indigo-600"
+					>
+						设置
+					</Button>
+				</CardContent>
+			</Card>
+		</motion.div>
 	);
 
 	const renderWorldMap = () => (
@@ -275,48 +288,51 @@ export default function PromptEngineeringGame() {
 					</div>
 					<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 						{levels.map((level) => (
-							<Card
+							<motion.div
 								key={level.id}
-								className="bg-gradient-to-br from-indigo-700 to-purple-700 border-2 border-indigo-300"
+								whileHover={{ scale: 1.05 }}
+								whileTap={{ scale: 0.95 }}
 							>
-								<CardHeader>
-									<CardTitle className="flex items-center justify-between text-xl">
-										<span>{level.name}</span>
-										{React.createElement(level.icon, {
-											className: "h-8 w-8 text-amber-500",
-										})}
-									</CardTitle>
-									<CardDescription className="text-indigo-200">
-										{level.description}
-									</CardDescription>
-								</CardHeader>
-								<CardContent>
-									<ul className="space-y-2">
-										{level.challenges.map((challenge) => (
-											<li
-												key={challenge.id}
-												className="flex items-center text-sm"
-											>
-												<Sparkles className="h-4 w-4 mr-2 text-amber-500" />
-												{challenge.name}
-												{playerData?.completedChallenges?.includes(
-													`${level.id}-${challenge.id}`,
-												) && (
-													<CheckCircle className="ml-2 h-4 w-4 text-green-400" />
-												)}
-											</li>
-										))}
-									</ul>
-								</CardContent>
-								<CardFooter>
-									<Button
-										className="w-full bg-amber-500 hover:bg-amber-600 text-black"
-										onClick={() => startLevel(level.id)}
-									>
-										<Play className="mr-2 h-4 w-4" /> 开始挑战
-									</Button>
-								</CardFooter>
-							</Card>
+								<Card className="bg-gradient-to-br from-indigo-700 to-purple-700 border-2 border-indigo-300">
+									<CardHeader>
+										<CardTitle className="flex items-center justify-between text-xl">
+											<span>{level.name}</span>
+											{React.createElement(level.icon, {
+												className: "h-8 w-8 text-amber-500",
+											})}
+										</CardTitle>
+										<CardDescription className="text-indigo-200">
+											{level.description}
+										</CardDescription>
+									</CardHeader>
+									<CardContent>
+										<ul className="space-y-2">
+											{level.challenges.map((challenge) => (
+												<li
+													key={challenge.id}
+													className="flex items-center text-sm"
+												>
+													<Sparkles className="h-4 w-4 mr-2 text-amber-500" />
+													{challenge.name}
+													{playerData?.completedChallenges?.includes(
+														`${level.id}-${challenge.id}`,
+													) && (
+														<CheckCircle className="ml-2 h-4 w-4 text-green-400" />
+													)}
+												</li>
+											))}
+										</ul>
+									</CardContent>
+									<CardFooter>
+										<Button
+											className="w-full bg-amber-500 hover:bg-amber-600 text-black"
+											onClick={() => startLevel(level.id)}
+										>
+											<Play className="mr-2 h-4 w-4" /> 开始挑战
+										</Button>
+									</CardFooter>
+								</Card>
+							</motion.div>
 						))}
 					</div>
 				</CardContent>
