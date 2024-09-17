@@ -182,6 +182,10 @@ export default function PromptEngineeringGame() {
 	const [leaderboard, setLeaderboard] = useState<LeaderboardData[]>([]);
 	const [achievements, setAchievements] = useState<Achievement[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
+	const [settings, setSettings] = useState({
+		darkMode: false,
+		volume: 50,
+	});
 
 	useEffect(() => {
 		const initializeGame = async () => {
@@ -289,13 +293,6 @@ export default function PromptEngineeringGame() {
 		}
 	};
 
-	const openSettings = () => {
-		toast({
-			title: "设置",
-			description: "设置功能正在开发中，敬请期待！",
-		});
-	};
-
 	const renderMainMenu = () => (
 		<motion.div
 			initial={{ scale: 0.8, opacity: 0 }}
@@ -335,7 +332,7 @@ export default function PromptEngineeringGame() {
 						{playerData ? "继续冒险" : "开始冒险"}
 					</Button>
 					<Button
-						onClick={openSettings}
+						onClick={() => setGameState("settings")}
 						variant="outline"
 						className="w-full text-xl py-6 border-purple-500 text-purple-500 hover:bg-purple-50 transition-colors duration-200"
 					>
@@ -381,9 +378,9 @@ export default function PromptEngineeringGame() {
 				</li>
 				<li>
 					<Button
-						variant="ghost"
+						variant={gameState === "settings" ? "secondary" : "ghost"}
 						className="w-full justify-start"
-						onClick={openSettings}
+						onClick={() => setGameState("settings")}
 					>
 						<Settings className="mr-2 h-5 w-5" /> 设置
 					</Button>
@@ -617,6 +614,63 @@ export default function PromptEngineeringGame() {
 		</div>
 	);
 
+	const renderSettings = () => (
+		<div className="flex h-screen bg-gray-100">
+			{renderSidebar()}
+			<main className="flex-1 p-8 overflow-auto">
+				<div className="max-w-4xl mx-auto">
+					<h1 className="text-3xl font-bold text-purple-600 mb-6">设置</h1>
+					<Card className="bg-white shadow-lg">
+						<CardContent className="p-6 space-y-6">
+							<div className="flex items-center justify-between">
+								<div className="flex items-center space-x-2">
+									{settings.darkMode ? (
+										<Moon className="h-5 w-5" />
+									) : (
+										<Sun className="h-5 w-5" />
+									)}
+									<span>深色模式</span>
+								</div>
+								<Switch
+									checked={settings.darkMode}
+									onCheckedChange={(checked) =>
+										setSettings({ ...settings, darkMode: checked })
+									}
+								/>
+							</div>
+							<div className="space-y-2">
+								<div className="flex items-center space-x-2">
+									<Volume2 className="h-5 w-5" />
+									<span>音量</span>
+								</div>
+								<Slider
+									value={[settings.volume]}
+									onValueChange={(value) =>
+										setSettings({ ...settings, volume: value[0] })
+									}
+									max={100}
+									step={1}
+								/>
+							</div>
+							<Button
+								onClick={() => {
+									// Save settings logic here
+									toast({
+										title: "设置已保存",
+										description: "你的设置已经成功保存。",
+									});
+								}}
+								className="w-full"
+							>
+								保存设置
+							</Button>
+						</CardContent>
+					</Card>
+				</div>
+			</main>
+		</div>
+	);
+
 	if (isLoading) {
 		return (
 			<div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-pink-500">
@@ -643,6 +697,7 @@ export default function PromptEngineeringGame() {
 					{gameState === "levelChallenge" && renderLevelChallenge()}
 					{gameState === "leaderboard" && renderLeaderboard()}
 					{gameState === "achievements" && renderAchievements()}
+					{gameState === "settings" && renderSettings()}
 				</motion.div>
 			</AnimatePresence>
 		</div>
