@@ -1,14 +1,15 @@
 "use client";
 
+import { api } from "@/app/api/game/route";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -17,7 +18,9 @@ import { toast } from "@/hooks/use-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import { Book, Play } from "lucide-react";
 import { useEffect, useState } from "react";
-import { api, type LeaderboardData, type PlayerData } from "../api/game/route";
+import type { LeaderboardData, PlayerData } from "../interfaces";
+import CharacterCustomization from "./CharacterCustomization";
+import LevelChallenge from "./LevelChallenge";
 
 const levels = [
 	{ id: 1, name: "Prompt 入门", description: "学习基础的 Prompt 编写技巧" },
@@ -57,6 +60,16 @@ export default function PromptEngineeringGame() {
 	};
 
 	const startGame = () => {
+		if (playerData) {
+			setGameState("worldMap");
+		} else {
+			setGameState("characterCreation");
+		}
+	};
+
+	const handleCharacterCreation = async (character: PlayerData) => {
+		await api.updatePlayerData(character);
+		await loadPlayerData();
 		setGameState("worldMap");
 		toast({
 			title: "欢迎来到 Prompt Engineering 冒险！",
@@ -91,12 +104,15 @@ export default function PromptEngineeringGame() {
 				</CardDescription>
 			</CardHeader>
 			<CardContent className="flex flex-col items-center space-y-4">
-				<Avatar className="w-24 h-24">
-					<AvatarImage src={playerData?.avatar} alt={playerData?.name} />
-					<AvatarFallback>{playerData?.name[0]}</AvatarFallback>
-				</Avatar>
+				{playerData && (
+					<Avatar className="w-24 h-24">
+						<AvatarImage src={playerData.avatar} alt={playerData.name} />
+						<AvatarFallback>{playerData.name[0]}</AvatarFallback>
+					</Avatar>
+				)}
 				<Button onClick={startGame} className="w-full">
-					<Play className="mr-2 h-4 w-4" /> 开始冒险
+					<Play className="mr-2 h-4 w-4" />{" "}
+					{playerData ? "继续冒险" : "开始冒险"}
 				</Button>
 				<Button variant="outline" className="w-full">
 					设置
@@ -130,12 +146,12 @@ export default function PromptEngineeringGame() {
 							<Button
 								key={level.id}
 								variant={
-									playerData?.unlockedLevels.includes(level.id)
+									playerData?.unlockedLevels?.includes(level.id)
 										? "default"
 										: "secondary"
 								}
 								className="w-full justify-start"
-								disabled={!playerData?.unlockedLevels.includes(level.id)}
+								disabled={!playerData?.unlockedLevels?.includes(level.id)}
 								onClick={() => startLevel(level.id)}
 							>
 								<Book className="mr-2 h-4 w-4" />
@@ -162,7 +178,7 @@ export default function PromptEngineeringGame() {
 						</CardHeader>
 						<CardContent>
 							<ScrollArea className="h-[200px]">
-								{playerData?.skills.map((skill) => (
+								{playerData?.skills?.map((skill) => (
 									<div
 										key={skill.id}
 										className="flex items-center justify-between mb-4"
@@ -187,7 +203,7 @@ export default function PromptEngineeringGame() {
 						</CardHeader>
 						<CardContent>
 							<ScrollArea className="h-[200px]">
-								{playerData?.achievements.map((achievement) => (
+								{playerData?.achievements?.map((achievement) => (
 									<div
 										key={achievement.id}
 										className="flex items-center justify-between mb-4"
@@ -238,6 +254,14 @@ export default function PromptEngineeringGame() {
 		</div>
 	);
 
+	const renderLevelChallenge = () => (
+		<LevelChallenge
+			levelId={currentLevel}
+			onComplete={handleLevelComplete}
+			onExit={() => setGameState("worldMap")}
+		/>
+	);
+
 	return (
 		<div className="min-h-screen bg-gradient-to-b from-blue-100 to-purple-100 py-12 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-4xl mx-auto">
@@ -250,7 +274,11 @@ export default function PromptEngineeringGame() {
 						transition={{ duration: 0.3 }}
 					>
 						{gameState === "mainMenu" && renderMainMenu()}
+						{gameState === "characterCreation" && (
+							<CharacterCustomization onComplete={handleCharacterCreation} />
+						)}
 						{gameState === "worldMap" && renderWorldMap()}
+						{gameState === "levelChallenge" && renderLevelChallenge()}
 					</motion.div>
 				</AnimatePresence>
 			</div>
