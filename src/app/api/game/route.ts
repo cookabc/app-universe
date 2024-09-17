@@ -1,7 +1,7 @@
-"use server";
+import type { LeaderboardData, PlayerData } from "@/app/interfaces";
 
 // 模拟玩家数据
-let playerData = {
+let playerData: PlayerData = {
 	name: "Player",
 	level: 1,
 	exp: 0,
@@ -19,15 +19,6 @@ let playerData = {
 		{ id: 3, name: "推理专家", unlocked: false },
 	],
 };
-
-export type PlayerData = typeof playerData;
-
-export interface LeaderboardData {
-	rank: number;
-	name: string;
-	score: number;
-	avatar: string;
-}
 
 // 模拟排行榜数据
 const leaderboardData: LeaderboardData[] = [
@@ -70,7 +61,7 @@ export const api = {
 		});
 	},
 
-	updatePlayerData: (newData: Partial<typeof playerData>) => {
+	updatePlayerData: (newData: Partial<PlayerData>) => {
 		return new Promise((resolve) => {
 			playerData = { ...playerData, ...newData };
 			setTimeout(() => resolve(playerData), 300);
