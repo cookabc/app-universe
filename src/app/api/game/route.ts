@@ -1,4 +1,8 @@
-import type { LeaderboardData, PlayerData } from "@/app/interfaces";
+import type {
+	Achievement,
+	LeaderboardData,
+	PlayerData,
+} from "@/app/interfaces";
 
 // 模拟玩家数据
 let playerData: PlayerData = {
@@ -20,6 +24,12 @@ let playerData: PlayerData = {
 	],
 };
 
+const defaultAchievements: Achievement[] = [
+	{ id: 1, name: "新手提示工程师", unlocked: true },
+	{ id: 2, name: "总结大师", unlocked: false },
+	{ id: 3, name: "推理专家", unlocked: false },
+];
+
 // 模拟排行榜数据
 const leaderboardData: LeaderboardData[] = [
 	{
@@ -27,30 +37,35 @@ const leaderboardData: LeaderboardData[] = [
 		name: "Alice",
 		score: 1500,
 		avatar: "/logo.jpeg?height=32&width=32",
+		level: 4,
 	},
 	{
 		rank: 2,
 		name: "Bob",
 		score: 1400,
 		avatar: "/logo.jpeg?height=32&width=32",
+		level: 4,
 	},
 	{
 		rank: 3,
 		name: "Charlie",
 		score: 1300,
 		avatar: "/logo.jpeg?height=32&width=32",
+		level: 3,
 	},
 	{
 		rank: 4,
 		name: "David",
 		score: 1200,
 		avatar: "/logo.jpeg?height=32&width=32",
+		level: 2,
 	},
 	{
 		rank: 5,
 		name: "Eve",
 		score: 1100,
 		avatar: "/logo.jpeg?height=32&width=32",
+		level: 1,
 	},
 ];
 
@@ -74,6 +89,15 @@ export const api = {
 		});
 	},
 
+	getAchievements: () => {
+		return new Promise<Achievement[]>((resolve) => {
+			setTimeout(
+				() => resolve(playerData.achievements || defaultAchievements),
+				300,
+			);
+		});
+	},
+
 	submitScore: (score: number) => {
 		return new Promise((resolve) => {
 			playerData.exp += score;
@@ -91,6 +115,7 @@ export const api = {
 					name: playerData.name,
 					score: score,
 					avatar: playerData.avatar,
+					level: playerData.level,
 				});
 			} else {
 				leaderboardData[playerIndex].score += score;
