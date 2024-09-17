@@ -18,6 +18,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/hooks/use-toast";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+	ArrowLeft,
 	Award,
 	BarChart2,
 	Book,
@@ -30,7 +31,6 @@ import {
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import CharacterCustomization from "./CharacterCustomization";
-import LevelChallenge from "./LevelChallenge";
 
 const levels = [
 	{
@@ -271,51 +271,55 @@ export default function PromptEngineeringGame() {
 		</motion.div>
 	);
 
+	const renderSidebar = () => (
+		<nav className="w-64 bg-white shadow-lg">
+			<div className="p-4">
+				<h2 className="text-2xl font-bold text-purple-600">Prompt 冒险</h2>
+			</div>
+			<ul className="space-y-2 p-4">
+				<li>
+					<Button
+						variant="ghost"
+						className="w-full justify-start"
+						onClick={() => setGameState("worldMap")}
+					>
+						<Home className="mr-2 h-5 w-5" /> 主页
+					</Button>
+				</li>
+				<li>
+					<Button
+						variant="ghost"
+						className="w-full justify-start"
+						onClick={() => setGameState("leaderboard")}
+					>
+						<Trophy className="mr-2 h-5 w-5" /> 排行榜
+					</Button>
+				</li>
+				<li>
+					<Button
+						variant="ghost"
+						className="w-full justify-start"
+						onClick={() => setGameState("achievements")}
+					>
+						<Award className="mr-2 h-5 w-5" /> 成就
+					</Button>
+				</li>
+				<li>
+					<Button
+						variant="ghost"
+						className="w-full justify-start"
+						onClick={openSettings}
+					>
+						<Settings className="mr-2 h-5 w-5" /> 设置
+					</Button>
+				</li>
+			</ul>
+		</nav>
+	);
+
 	const renderWorldMap = () => (
 		<div className="flex h-screen bg-gray-100">
-			<nav className="w-64 bg-white shadow-lg">
-				<div className="p-4">
-					<h2 className="text-2xl font-bold text-purple-600">Prompt 冒险</h2>
-				</div>
-				<ul className="space-y-2 p-4">
-					<li>
-						<Button
-							variant="ghost"
-							className="w-full justify-start"
-							onClick={() => setGameState("worldMap")}
-						>
-							<Home className="mr-2 h-5 w-5" /> 主页
-						</Button>
-					</li>
-					<li>
-						<Button
-							variant="ghost"
-							className="w-full justify-start"
-							onClick={() => setGameState("leaderboard")}
-						>
-							<Trophy className="mr-2 h-5 w-5" /> 排行榜
-						</Button>
-					</li>
-					<li>
-						<Button
-							variant="ghost"
-							className="w-full justify-start"
-							onClick={() => setGameState("achievements")}
-						>
-							<Award className="mr-2 h-5 w-5" /> 成就
-						</Button>
-					</li>
-					<li>
-						<Button
-							variant="ghost"
-							className="w-full justify-start"
-							onClick={openSettings}
-						>
-							<Settings className="mr-2 h-5 w-5" /> 设置
-						</Button>
-					</li>
-				</ul>
-			</nav>
+			{renderSidebar()}
 			<main className="flex-1 p-8 overflow-auto">
 				<div className="max-w-4xl mx-auto space-y-8">
 					<div className="flex items-center justify-between">
@@ -393,20 +397,75 @@ export default function PromptEngineeringGame() {
 		</div>
 	);
 
-	const renderLevelChallenge = () => (
-		<LevelChallenge
-			levelId={currentLevel}
-			challengeId={currentChallenge}
-			onComplete={handleLevelComplete}
-			onExit={() => setGameState("worldMap")}
-		/>
-	);
+	const renderLevelChallenge = () => {
+		const level = levels.find((l) => l.id === currentLevel);
+		const challenge = level?.challenges.find((c) => c.id === currentChallenge);
+
+		return (
+			<div className="flex h-screen bg-gray-100">
+				{renderSidebar()}
+				<main className="flex-1 p-8 overflow-auto">
+					<div className="max-w-4xl mx-auto space-y-8">
+						<div className="flex items-center justify-between">
+							<Button
+								variant="ghost"
+								onClick={() => setGameState("worldMap")}
+								className="text-purple-600"
+							>
+								<ArrowLeft className="mr-2 h-5 w-5" /> 返回世界地图
+							</Button>
+							<Badge
+								variant="secondary"
+								className="text-lg py-2 px-4 bg-purple-500 text-white"
+							>
+								{level?.name} - 挑战 {currentChallenge}/
+								{level?.challenges.length}
+							</Badge>
+						</div>
+						<Card className={`${level?.color} text-white shadow-lg`}>
+							<CardHeader>
+								<CardTitle className="text-2xl">{challenge?.name}</CardTitle>
+								<CardDescription className="text-lg text-white opacity-80">
+									{challenge?.description}
+								</CardDescription>
+							</CardHeader>
+							<CardContent>
+								<div className="bg-white bg-opacity-20 rounded-lg p-6">
+									<h3 className="text-xl font-semibold mb-4">你的任务：</h3>
+									<p className="text-lg mb-6">
+										根据挑战描述，创建一个有效的
+										Prompt。记住要考虑上下文、结构和具体目标。
+									</p>
+									<textarea
+										className="w-full h-32 p-2 text-black rounded-md"
+										placeholder="在这里输入你的 Prompt..."
+									/>
+								</div>
+							</CardContent>
+							<CardFooter className="flex justify-between">
+								<Button
+									variant="secondary"
+									onClick={() => setGameState("worldMap")}
+								>
+									退出挑战
+								</Button>
+								<Button
+									className="bg-white text-black hover:bg-opacity-90"
+									onClick={() => handleLevelComplete(100)}
+								>
+									提交 Prompt
+								</Button>
+							</CardFooter>
+						</Card>
+					</div>
+				</main>
+			</div>
+		);
+	};
 
 	const renderLeaderboard = () => (
 		<div className="flex h-screen bg-gray-100">
-			<nav className="w-64 bg-white shadow-lg">
-				{/* Same navigation as in renderWorldMap */}
-			</nav>
+			{renderSidebar()}
 			<main className="flex-1 p-8 overflow-auto">
 				<div className="max-w-4xl mx-auto">
 					<h1 className="text-3xl font-bold text-purple-600 mb-6">排行榜</h1>
