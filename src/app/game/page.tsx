@@ -1,6 +1,6 @@
 "use client";
 
-import { api } from "@/app/apis/game/route";
+import { api } from "@/app/apis/game";
 import type { LeaderboardData, PlayerData } from "@/app/interfaces";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
