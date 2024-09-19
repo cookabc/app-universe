@@ -1,28 +1,28 @@
-"use client";
+"use client"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@/components/ui/select";
-import { toast } from "@/hooks/use-toast";
-import { motion } from "framer-motion";
-import { useState } from "react";
-import type { PlayerData } from "../interfaces";
+} from "@/components/ui/select"
+import { toast } from "@/hooks/use-toast"
+import { motion } from "framer-motion"
+import { useState } from "react"
+import type { PlayerData } from "../interfaces"
 
 const avatars = [
 	{
@@ -37,26 +37,26 @@ const avatars = [
 	},
 	{ id: 3, src: "/placeholder.svg?height=100&width=100&text=🤖", alt: "Robot" },
 	{ id: 4, src: "/placeholder.svg?height=100&width=100&text=👽", alt: "Alien" },
-];
+]
 
 const backgrounds = [
 	{ id: 1, name: "计算机科学学生" },
 	{ id: 2, name: "软件工程师" },
 	{ id: 3, name: "数据科学家" },
 	{ id: 4, name: "AI研究员" },
-];
+]
 
 interface CharacterCustomizationProps {
-	onComplete: (character: PlayerData) => void;
+	onComplete: (character: PlayerData) => void
 }
 
 export default function CharacterCustomization({
 	onComplete,
 }: CharacterCustomizationProps) {
-	const [name, setName] = useState("");
-	const [avatar, setAvatar] = useState(avatars[0]);
-	const [background, setBackground] = useState(backgrounds[0].name);
-	const [specialization, setSpecialization] = useState("自然语言处理");
+	const [name, setName] = useState("")
+	const [avatar, setAvatar] = useState(avatars[0])
+	const [background, setBackground] = useState(backgrounds[0].name)
+	const [specialization, setSpecialization] = useState("自然语言处理")
 
 	const handleSubmit = () => {
 		if (!name) {
@@ -64,8 +64,8 @@ export default function CharacterCustomization({
 				title: "请输入名字",
 				description: "名字不能为空",
 				variant: "destructive",
-			});
-			return;
+			})
+			return
 		}
 
 		onComplete({
@@ -73,13 +73,13 @@ export default function CharacterCustomization({
 			level: 1,
 			exp: 0,
 			avatar: avatar.src,
-		});
+		})
 
 		toast({
 			title: "角色创建成功！",
 			description: "你的Prompt工程师之旅即将开始！",
-		});
-	};
+		})
+	}
 
 	return (
 		<Card className="w-full max-w-2xl mx-auto">
@@ -154,5 +154,5 @@ export default function CharacterCustomization({
 				</Button>
 			</CardContent>
 		</Card>
-	);
+	)
 }
