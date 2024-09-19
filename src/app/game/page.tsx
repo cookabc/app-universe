@@ -119,6 +119,7 @@ export default function PromptEngineeringGame() {
     darkMode: false,
     volume: 50,
   })
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
   useEffect(() => {
     const initializeGame = async () => {
@@ -129,6 +130,10 @@ export default function PromptEngineeringGame() {
     }
     initializeGame()
   }, [])
+
+  useEffect(() => {
+    document.body.classList.toggle("dark", settings.darkMode)
+  }, [settings.darkMode])
 
   const loadPlayerData = async () => {
     try {
@@ -215,6 +220,10 @@ export default function PromptEngineeringGame() {
     }
   }
 
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed)
+  }
+
   const renderMainMenu = () => (
     <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
@@ -252,7 +261,60 @@ export default function PromptEngineeringGame() {
   )
 
   const renderSidebar = () => (
-    <></>
+    <motion.nav
+      initial={false}
+      animate={{ width: isSidebarCollapsed ? "64px" : "256px" }}
+      className={`bg-card shadow-lg flex flex-col h-screen ${isSidebarCollapsed ? "items-center" : ""}`}
+    >
+      <div className={`p-4 flex ${isSidebarCollapsed ? "justify-center" : "justify-between"} items-center`}>
+        {!isSidebarCollapsed && <h2 className="text-2xl font-bold text-primary">Prompt 冒险</h2>}
+        <Button variant="ghost" size="icon" onClick={toggleSidebar}>
+          {isSidebarCollapsed ? <ChevronRight /> : <ChevronLeft />}
+        </Button>
+      </div>
+      <ul className={`space-y-2 p-4 ${isSidebarCollapsed ? "items-center" : ""}`}>
+        <li>
+          <Button
+            variant={gameState === "worldMap" ? "secondary" : "ghost"}
+            className={`w-full justify-${isSidebarCollapsed ? "center" : "start"}`}
+            onClick={() => setGameState("worldMap")}
+          >
+            <Home className={`h-5 w-5 ${isSidebarCollapsed ? "" : "mr-2"}`} />
+            {!isSidebarCollapsed && "主页"}
+          </Button>
+        </li>
+        <li>
+          <Button
+            variant={gameState === "leaderboard" ? "secondary" : "ghost"}
+            className={`w-full justify-${isSidebarCollapsed ? "center" : "start"}`}
+            onClick={() => setGameState("leaderboard")}
+          >
+            <Trophy className={`h-5 w-5 ${isSidebarCollapsed ? "" : "mr-2"}`} />
+            {!isSidebarCollapsed && "排行榜"}
+          </Button>
+        </li>
+        <li>
+          <Button
+            variant={gameState === "achievements" ? "secondary" : "ghost"}
+            className={`w-full justify-${isSidebarCollapsed ? "center" : "start"}`}
+            onClick={() => setGameState("achievements")}
+          >
+            <Award className={`h-5 w-5 ${isSidebarCollapsed ? "" : "mr-2"}`} />
+            {!isSidebarCollapsed && "成就"}
+          </Button>
+        </li>
+        <li>
+          <Button
+            variant={gameState === "settings" ? "secondary" : "ghost"}
+            className={`w-full justify-${isSidebarCollapsed ? "center" : "start"}`}
+            onClick={() => setGameState("settings")}
+          >
+            <Settings className={`h-5 w-5 ${isSidebarCollapsed ? "" : "mr-2"}`} />
+            {!isSidebarCollapsed && "设置"}
+          </Button>
+        </li>
+      </ul>
+    </motion.nav>
   )
 
   const renderWorldMap = () => (
