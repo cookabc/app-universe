@@ -1,7 +1,8 @@
 "use server";
 
 import { openai } from "@ai-sdk/openai";
-import { generateObject } from "ai";
+import { generateObject, streamText } from "ai";
+import { createStreamableValue } from "ai/rsc";
 import { z } from "zod";
 
 const questionSchema = z.object({
@@ -23,4 +24,33 @@ export async function getQuestions(prompt: string) {
 	});
 
 	return questions;
+}
+
+export interface Message {
+	role: "user" | "assistant";
+	content: string;
+}
+
+export async function continueConversation(history: Message[]) {
+	const stream = createStreamableValue();
+
+	(async () => {
+		const { textStream } = await streamText({
+			model: openai("gpt-4o-mini"),
+			// You are an AI assistant capable of generating artifacts. When asked to generate code, respond with "CODE_SNIPPET:" followed by the code, then "END_CODE_SNIPPET".
+			system: "You are a helpful assistant capable of doing anything.",
+			messages: history,
+		});
+
+		for await (const text of textStream) {
+			stream.update(text);
+		}
+
+		stream.done();
+	})();
+
+	return {
+		messages: history,
+		newMessage: stream.value,
+	};
 }
