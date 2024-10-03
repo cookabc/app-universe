@@ -34,10 +34,36 @@ export default function LandingPage() {
 	);
 
 	const apps = [
-		{ name: "App 1", description: "Description for App 1", color: "#FF6B6B" },
-		{ name: "App 2", description: "Description for App 2", color: "#4ECDC4" },
-		{ name: "App 3", description: "Description for App 3", color: "#45B7D1" },
-		{ name: "App 4", description: "Description for App 4", color: "#F7B731" },
+		{
+			name: "MBTI Test",
+			description: "Take the MBTI personality test",
+			color: "#FF6B6B",
+			path: "/mbti-test",
+		},
+		{
+			name: "Social Media",
+			description: "Connect with friends and share updates",
+			color: "#4ECDC4",
+			path: "/social-media",
+		},
+		{
+			name: "Salary Calculator",
+			description: "Calculate your expected salary",
+			color: "#45B7D1",
+			path: "/salary-calculator",
+		},
+		{
+			name: "Contribution Graph",
+			description: "Visualize your contributions over time",
+			color: "#F7B731",
+			path: "/contribution-graph",
+		},
+		{
+			name: "AI Artifacts",
+			description: "Discover AI-generated artifacts",
+			color: "#4B7BEC",
+			path: "/ai-artifacts",
+		},
 	];
 
 	return (
@@ -172,7 +198,7 @@ export default function LandingPage() {
 									<p className="text-gray-300">{app.description}</p>
 								</div>
 								<motion.a
-									href="/"
+									href={app.path}
 									className="inline-flex items-center text-white font-semibold mt-4"
 									whileHover={{ x: 10 }}
 								>
