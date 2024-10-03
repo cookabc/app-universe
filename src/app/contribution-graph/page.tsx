@@ -130,11 +130,13 @@ const WeekdayLabels = () => (
 const ContributionGrid = ({ gridData }: { gridData: number[][] }) => (
 	<div className={styles.grid}>
 		{Array.from({ length: GRID_COLUMNS }).map((_, weekIndex) => (
+			// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 			<div key={`week-${weekIndex}`} className={styles.gridColumn}>
 				{Array.from({ length: GRID_ROWS }).map((_, dayIndex) => {
 					const cellValue = gridData[dayIndex]?.[weekIndex] || 0;
 					return (
 						<div
+							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							key={`cell-${weekIndex}-${dayIndex}`}
 							className={styles.gridCell}
 							style={{
