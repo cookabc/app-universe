@@ -37,7 +37,7 @@ const months = [
 ];
 
 export default function ContributionGraph() {
-	const [inputText, setInputText] = useState<string>("BE SAVVY");
+	const [inputText, setInputText] = useState<string>("BE SMART");
 	const [gridData, setGridData] = useState<number[][]>([]);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -56,7 +56,7 @@ export default function ContributionGraph() {
 				const index = (y * imageData.width + x) * 4;
 				const alpha = data[index + 3];
 				row.push(
-					alpha > ALPHA_THRESHOLD ? Math.floor(Math.random() * 3) + 3 : 0,
+					alpha > ALPHA_THRESHOLD ? Math.floor(Math.random() * 4) + 1 : 0,
 				);
 			}
 			grid.push(row);
@@ -74,7 +74,7 @@ export default function ContributionGraph() {
 		const canvas = canvasRef.current;
 		if (!canvas) return;
 
-		const ctx = canvas.getContext("2d");
+		const ctx = canvas.getContext("2d", { willReadFrequently: true });
 		if (!ctx) return;
 
 		canvas.width = CANVAS_WIDTH;
