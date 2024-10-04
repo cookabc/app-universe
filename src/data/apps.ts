@@ -7,6 +7,12 @@ export type AppData = {
 
 const apps: AppData[] = [
 	{
+		name: "Language Converter",
+		description: "Convert text between different languages",
+		color: "#F7B731",
+		path: "/lang-converter",
+	},
+	{
 		name: "MBTI Test",
 		description: "Take the MBTI personality test",
 		color: "#FF6B6B",
@@ -23,6 +29,12 @@ const apps: AppData[] = [
 		description: "Calculate your expected salary",
 		color: "#45B7D1",
 		path: "/salary-calculator",
+	},
+	{
+		name: "Tool Navigation",
+		description: "Navigate to your favorite tools",
+		color: "#F7B731",
+		path: "/tool-navigation",
 	},
 	{
 		name: "Contribution Graph",
