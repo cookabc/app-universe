@@ -48,6 +48,12 @@ const apps: AppData[] = [
 		color: "#4B7BEC",
 		path: "/ai-artifacts",
 	},
+	{
+		name: "Word Search",
+		description: "Find words in a grid",
+		color: "#4B7BEC",
+		path: "/word-search",
+	},
 ];
 
 export default apps;
