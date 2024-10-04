@@ -10,6 +10,7 @@
 	},
 	"dependencies": {
 		"@ai-sdk/openai": "0.0.64",
+		"@google-cloud/translate": "8.5.0",
 		"@radix-ui/react-avatar": "1.1.1",
 		"@radix-ui/react-dialog": "1.1.2",
 		"@radix-ui/react-icons": "1.3.0",
@@ -26,6 +27,8 @@
 		"class-variance-authority": "0.7.0",
 		"clsx": "2.1.1",
 		"framer-motion": "11.11.0",
+		"kuroshiro": "1.2.0",
+		"kuroshiro-analyzer-kuromoji": "1.1.0",
 		"lucide-react": "0.447.0",
 		"next": "14.2.14",
 		"next-themes": "0.3.0",
