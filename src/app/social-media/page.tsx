@@ -16,6 +16,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Loader, Search } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+// API documentation for x.com: https://developer.x.com/en/docs/x-api
+// API documentation for Weibo: https://open.weibo.com/wiki/API
+
 export default function HomePage() {
 	const [activeTab, setActiveTab] = useState<"x" | "weibo">("x");
 	const [isXAuthenticated, setIsXAuthenticated] = useState(false);
