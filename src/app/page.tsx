@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
 import apps from "@/data/apps";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function LandingPage() {
@@ -22,13 +22,6 @@ export default function LandingPage() {
 			duration: number;
 		}>
 	>([]);
-
-	const { scrollY } = useScroll();
-	const headerBackground = useTransform(
-		scrollY,
-		[0, 100],
-		["rgba(17, 24, 39, 0)", "rgba(17, 24, 39, 0.8)"],
-	);
 
 	// Generate particles only on the client side
 	useEffect(() => {
@@ -49,10 +42,7 @@ export default function LandingPage() {
 
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white overflow-hidden">
-			<Header
-				setIsMenuOpen={setIsMenuOpen}
-				headerBackground={headerBackground.toString()}
-			/>
+			<Header setIsMenuOpen={setIsMenuOpen} />
 
 			{isMenuOpen && <AppMenu setIsMenuOpen={setIsMenuOpen} apps={apps} />}
 
