@@ -3,17 +3,12 @@ import { motion } from "framer-motion";
 import { Menu } from "lucide-react";
 
 export const Header = ({
-	headerBackground,
 	setIsMenuOpen,
 }: {
-	headerBackground: string;
 	setIsMenuOpen: (isMenuOpen: boolean) => void;
 }) => {
 	return (
-		<motion.header
-			className="fixed w-full p-6 flex justify-between items-center z-50"
-			style={{ background: headerBackground }}
-		>
+		<motion.header className="fixed w-full p-6 flex justify-between items-center z-50 border-b border-white/10 backdrop-blur-md transition-colors duration-300">
 			<div className="flex items-center space-x-2">
 				<AppIcon />
 				<h1 className="text-2xl font-bold tracking-tighter">App Universe</h1>
