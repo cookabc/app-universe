@@ -3,49 +3,51 @@ import { motion } from "framer-motion";
 
 export const AppGrid = ({ apps }: { apps: AppData[] }) => {
 	return (
-		<section className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-20">
+		<section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-20">
 			{apps.map((app, index) => (
 				<motion.div
 					key={app.name}
-					className="relative overflow-hidden rounded-lg shadow-lg backdrop-blur-md bg-white bg-opacity-10"
-					whileHover={{ scale: 1.05, rotate: 1 }}
+					className="relative overflow-hidden rounded-xl border border-gray-700 shadow-xl bg-gray-900/50 backdrop-blur-sm"
+					whileHover={{ scale: 1.02, y: -5 }}
 					initial={{ opacity: 0, y: 50 }}
 					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5, delay: index * 0.1 }}
+					transition={{ duration: 0.3, delay: index * 0.1 }}
 				>
-					<div className="p-6 h-full flex flex-col justify-between">
+					<div className="p-8 h-full flex flex-col justify-between relative z-10">
 						<div>
 							<h3
-								className="text-2xl font-bold mb-2"
+								className="text-2xl font-bold mb-3"
 								style={{ color: app.color }}
 							>
 								{app.name}
 							</h3>
-							<p className="text-gray-300">{app.description}</p>
+							<p className="text-gray-300/90">{app.description}</p>
 						</div>
 						<motion.a
 							href={app.path}
-							className="inline-flex items-center text-white font-semibold mt-4"
-							whileHover={{ x: 10 }}
+							className="group inline-flex items-center justify-center px-4 py-2 mt-6 bg-white/10 hover:bg-white/20 rounded-lg text-white/90 font-medium transition-all duration-200 ease-in-out"
+							whileHover={{ scale: 1.02 }}
+							title={`Open ${app.name}`}
 						>
-							Launch App
+							<span className="mr-2">Open</span>
 							<svg
-								className="ml-2 h-4 w-4"
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-5 w-5 transform transition-transform duration-200 group-hover:translate-x-1"
 								fill="none"
 								viewBox="0 0 24 24"
 								stroke="currentColor"
+								strokeWidth={2}
 							>
-								<title>Launch App</title>
+								<title>Open</title>
 								<path
 									strokeLinecap="round"
 									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M9 5l7 7-7 7"
+									d="M14 5l7 7m0 0l-7 7m7-7H3"
 								/>
 							</svg>
 						</motion.a>
 					</div>
-					<div className="absolute top-0 right-0 -mt-4 -mr-4 h-16 w-16 rounded-full bg-gradient-to-br from-purple-600 to-blue-500 opacity-50 blur-xl" />
+					<div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-blue-500/20" />
 				</motion.div>
 			))}
 		</section>
