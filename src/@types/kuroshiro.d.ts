@@ -1,1 +1,1 @@
-declare module 'kuroshiro';
+declare module 'kuroshiro'
