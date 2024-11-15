@@ -1,7 +1,7 @@
 import { PostCard } from '@/components/sm/PostCard'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import type { Post } from '@/types'
+import type { Post } from '@/lib/mockData'
 
 export const PostDetailDialog = ({
     post,
