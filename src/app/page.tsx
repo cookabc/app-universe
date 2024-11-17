@@ -9,7 +9,7 @@ import apps from '@/data/apps'
 
 export default function HomePage() {
     return (
-        <main className="relative">
+        <main className="dark-mode">
             <Header />
             <Particles />
             <HeroSection />
