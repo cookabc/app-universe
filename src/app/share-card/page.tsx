@@ -1,779 +1,465 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Slider } from '@/components/ui/slider'
-import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
-import { AnimatePresence, motion } from 'framer-motion'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { cn } from '@/lib/utils'
 import html2canvas from 'html2canvas'
-import { AlignCenter, AlignLeft, AlignRight, Download, Linkedin, Moon, Redo, Sun, Twitter, Undo } from 'lucide-react'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { useDropzone } from 'react-dropzone'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { tomorrow, twilight } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { AlignCenter, AlignLeft, AlignRight, Bold, Download, Italic, Pencil, Underline } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
-const fontOptions = [
-    { value: 'font-sans', label: 'Sans-serif' },
-    { value: 'font-serif', label: 'Serif' },
-    { value: 'font-mono', label: 'Monospace' },
-    { value: 'font-pacifico', label: 'Pacifico' },
-    { value: 'font-bangers', label: 'Bangers' },
-    { value: 'font-lobster', label: 'Lobster' },
+const gradients = [
+    'bg-gradient-to-br from-blue-600 to-purple-600',
+    'bg-gradient-to-br from-green-400 to-green-600',
+    'bg-gradient-to-br from-orange-300 to-rose-300',
+    'bg-gradient-to-br from-purple-600 to-blue-800',
+    'bg-gradient-to-br from-cyan-400 to-blue-500',
+    'bg-gradient-to-br from-yellow-400 to-orange-500',
+    'bg-gradient-to-br from-pink-500 to-purple-500',
+    'bg-gradient-to-br from-teal-400 to-emerald-500',
 ]
 
-const borderStyles = [
-    { value: 'border-solid', label: 'Solid' },
-    { value: 'border-dashed', label: 'Dashed' },
-    { value: 'border-dotted', label: 'Dotted' },
-    { value: 'border-double', label: 'Double' },
+const templates = [
+    { id: 'minimal', name: '简约' },
+    { id: 'bordered', name: '边框' },
+    { id: 'modern', name: '现代' },
 ]
 
-const alignmentOptions = [
-    { value: 'text-left', label: 'Left', icon: AlignLeft },
-    { value: 'text-center', label: 'Center', icon: AlignCenter },
-    { value: 'text-right', label: 'Right', icon: AlignRight },
-]
+const languages: Record<string, any> = {
+    zh: {
+        title: '艺术中的设计',
+        content:
+            '艺术中的设计是对创造性流动中各种事物、各种元素之间关系的认识。\n\n你不能发明一个设计。\n你在第四维度中认识它。\n\n也就是说，用你的血液和骨骼，以及你的眼睛来认识它。',
+        author: 'D. H. 劳伦斯',
+        madeBy: '由{name}制作',
+        words: '字数',
+        edit: '编辑',
+        download: '下载',
+        editAndSettings: '编辑与设置',
+        date: '日期',
+        maker: '制作者',
+        titlePlaceholder: '标题',
+        contentPlaceholder: '内容',
+        authorPlaceholder: '作者',
+        fontColor: '字体颜色',
+        fontSize: '字体大小',
+        fontStyle: '字体样式',
+        alignment: '对齐',
+        lineHeight: '行高',
+        cardContent: '卡片内容',
+        styleSettings: '样式设置',
+        generalSettings: '常规设置',
+    },
+    en: {
+        title: 'Design in art',
+        content:
+            "Design in art, is a recognition of the relation between various things, various elements in the creative flux. \n\nYou can't invent a design. \nYou recognize it, in the fourth dimension. \n\nThat is, with your blood and your bones, as well as with your eyes.",
+        author: 'D. H. Lawrence',
+        madeBy: 'Made by {name}',
+        words: 'Words',
+        edit: 'Edit',
+        download: 'Download',
+        editAndSettings: 'Edit & Settings',
+        date: 'Date',
+        maker: 'Maker',
+        titlePlaceholder: 'Title',
+        contentPlaceholder: 'Content',
+        authorPlaceholder: 'Author',
+        fontColor: 'Font Color',
+        fontSize: 'Font Size',
+        fontStyle: 'Font Style',
+        alignment: 'Alignment',
+        lineHeight: 'Line Height',
+        cardContent: 'Card Content',
+        styleSettings: 'Style Settings',
+        generalSettings: 'General Settings',
+    },
+}
 
-const themeOptions = [
-    {
-        value: 'bg-gradient-to-r from-blue-500 to-purple-600',
-        label: 'Blue to Purple',
-    },
-    {
-        value: 'bg-gradient-to-r from-green-400 to-blue-500',
-        label: 'Green to Blue',
-    },
-    { value: 'bg-gradient-to-r from-yellow-400 to-red-500', label: 'Sunset' },
-    {
-        value: 'bg-gradient-to-r from-pink-500 to-purple-500',
-        label: 'Pink to Purple',
-    },
-    {
-        value: 'bg-gradient-to-r from-indigo-500 to-purple-600',
-        label: 'Indigo to Purple',
-    },
-    {
-        value: 'bg-gradient-to-r from-gray-700 to-gray-900',
-        label: 'Dark Gradient',
-    },
-    { value: 'bg-gradient-to-r from-red-900 to-black', label: 'Dracula' },
-]
+export default function Component() {
+    const [lang, setLang] = useState('en')
+    const t = languages[lang]
 
-const textureOptions = [
-    { value: 'bg-[url(/textures/noise.png)] bg-repeat', label: 'Noise' },
-    { value: 'bg-[url(/textures/dots.png)] bg-repeat', label: 'Dots' },
-    { value: 'bg-[url(/textures/lines.png)] bg-repeat', label: 'Lines' },
-    { value: 'bg-[url(/textures/waves.png)] bg-repeat', label: 'Waves' },
-    { value: 'bg-[url(/textures/blood.png)] bg-repeat', label: 'Blood Splatter' },
-]
+    const [title, setTitle] = useState(t.title)
+    const [content, setContent] = useState(t.content)
+    const [author, setAuthor] = useState(t.author)
+    const [selectedGradient, setSelectedGradient] = useState(gradients[0])
+    const [selectedTemplate, setSelectedTemplate] = useState(templates[0])
+    const [wordCount, setWordCount] = useState(0)
+    const [date, setDate] = useState(getCurrentDate())
+    const [madeBy, setMadeBy] = useState('Ian')
 
-export default function EnhancedShareCardGenerator() {
-    const [title, setTitle] = useState('')
-    const [content, setContent] = useState('')
-    const [signature, setSignature] = useState('')
-    const [language, setLanguage] = useState('javascript')
-    const [theme, setTheme] = useState('bg-gradient-to-r from-blue-500 to-purple-600')
-    const [texture, setTexture] = useState('')
-    const [mode, setMode] = useState('text')
-    const [fontSize, setFontSize] = useState(16)
-    const [darkMode, setDarkMode] = useState(false)
-    const [showLogo, setShowLogo] = useState(false)
-    const [font, setFont] = useState('font-sans')
-    const [borderStyle, setBorderStyle] = useState('border-solid')
-    const [borderWidth, setBorderWidth] = useState(2)
-    const [logo, setLogo] = useState<string | null>(null)
-    const [textAlignment, setTextAlignment] = useState('text-left')
-    const [padding, setPadding] = useState(16)
-    const [history, setHistory] = useState<
-        Array<{
-            title: string
-            content: string
-            signature: string
-            theme: string
-            texture: string
-            fontSize: number
-            font: string
-            borderStyle: string
-            borderWidth: number
-            textAlignment: string
-            padding: number
-        }>
-    >([])
-    const [historyIndex, setHistoryIndex] = useState(-1)
+    const [titleStyle, setTitleStyle] = useState({
+        color: '#FFFFFF',
+        fontSize: '32px',
+        fontWeight: 'bold',
+        fontStyle: 'normal',
+        marginBottom: '24px',
+        textDecoration: 'none',
+        textAlign: 'left',
+    })
+
+    const [contentStyle, setContentStyle] = useState({
+        color: '#FFFFFF',
+        fontSize: '16px',
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        textDecoration: 'none',
+        textAlign: 'left',
+        lineHeight: '1.5',
+    })
+
     const cardRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        const savedState = localStorage.getItem('cardState')
-        if (savedState) {
-            try {
-                const parsedState = JSON.parse(savedState)
-                setTitle(parsedState.title || '')
-                setContent(parsedState.content || '')
-                setSignature(parsedState.signature || '')
-                setTheme(parsedState.theme || 'bg-gradient-to-r from-blue-500 to-purple-600')
-                setTexture(parsedState.texture || '')
-                setFontSize(parsedState.fontSize || 16)
-                setFont(parsedState.font || 'font-sans')
-                setBorderStyle(parsedState.borderStyle || 'border-solid')
-                setBorderWidth(parsedState.borderWidth || 2)
-                setTextAlignment(parsedState.textAlignment || 'text-left')
-                setPadding(parsedState.padding || 16)
-                setLogo(parsedState.logo || null)
-
-                // Initialize history with the loaded state
-                setHistory([
-                    {
-                        title: parsedState.title || '',
-                        content: parsedState.content || '',
-                        signature: parsedState.signature || '',
-                        theme: parsedState.theme || 'bg-gradient-to-r from-blue-500 to-purple-600',
-                        texture: parsedState.texture || '',
-                        fontSize: parsedState.fontSize || 16,
-                        font: parsedState.font || 'font-sans',
-                        borderStyle: parsedState.borderStyle || 'border-solid',
-                        borderWidth: parsedState.borderWidth || 2,
-                        textAlignment: parsedState.textAlignment || 'text-left',
-                        padding: parsedState.padding || 16,
-                    },
-                ])
-                setHistoryIndex(0)
-            } catch (error) {
-                console.error('Error parsing saved state:', error)
-            }
-        }
-    }, [])
+        updateWordCount()
+    }, [content, lang])
 
     useEffect(() => {
-        const state = {
-            title,
-            content,
-            signature,
-            theme,
-            texture,
-            fontSize,
-            font,
-            borderStyle,
-            borderWidth,
-            textAlignment,
-            padding,
-            logo,
-        }
-        localStorage.setItem('cardState', JSON.stringify(state))
-    }, [
-        title,
-        content,
-        signature,
-        theme,
-        texture,
-        fontSize,
-        font,
-        borderStyle,
-        borderWidth,
-        textAlignment,
-        padding,
-        logo,
-    ])
+        setTitle(t.title)
+        setContent(t.content)
+        setAuthor(t.author)
+        updateWordCount()
+    }, [lang])
 
-    const updateHistory = useCallback(
-        (newState: {
-            title: string
-            content: string
-            signature: string
-            theme: string
-            texture: string
-            fontSize: number
-            font: string
-            borderStyle: string
-            borderWidth: number
-            textAlignment: string
-            padding: number
-        }) => {
-            setHistory((prev) => {
-                const newHistory = prev.slice(0, historyIndex + 1)
-                return [...newHistory, newState]
+    const updateWordCount = () => {
+        const isChinese = lang === 'zh'
+        const words = isChinese ? content.trim().length : content.trim().split(/\s+/)
+        setWordCount(isChinese ? words : words.length)
+    }
+
+    const handleContentChange = (text: string) => {
+        setContent(text)
+        updateWordCount()
+    }
+
+    function getCurrentDate() {
+        const now = new Date()
+        return now.toISOString().split('T')[0]
+    }
+
+    const renderCard = () => {
+        const baseCard = (
+            <div className="relative w-full aspect-[3/4] p-6 text-white flex flex-col">
+                <div className="flex items-center gap-2 mb-4">
+                    <div className="w-5 h-5">
+                        <svg viewBox="0 0 24 24" fill="none" className="w-full h-full">
+                            <path
+                                d="M7 4V20M17 4V20M3 8H7M17 8H21M3 12H21M3 16H7M17 16H21"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                            />
+                        </svg>
+                    </div>
+                    <div className="text-sm opacity-80">{date}</div>
+                </div>
+                <div className="flex-grow space-y-4">
+                    <h2 style={{ ...titleStyle, textAlign: 'left' }}>{title}</h2>
+                    <div style={{ ...contentStyle, textAlign: 'left', whiteSpace: 'pre-wrap' }}>{content}</div>
+                </div>
+                <div className="mt-4 space-y-2">
+                    <div className="text-sm">{author}</div>
+                    <div className="flex justify-between text-xs opacity-60">
+                        <span>
+                            {t.words}: {wordCount}
+                        </span>
+                        <span>{t.madeBy.replace('{name}', madeBy)}</span>
+                    </div>
+                </div>
+            </div>
+        )
+
+        switch (selectedTemplate.id) {
+            case 'bordered':
+                return (
+                    <div className={cn('w-full aspect-[3/4] p-12', selectedGradient)}>
+                        <Card className="w-full h-full bg-white/10 backdrop-blur-sm border-white/20 overflow-hidden">
+                            {baseCard}
+                        </Card>
+                    </div>
+                )
+            case 'modern':
+                return (
+                    <div className="w-full aspect-[3/4] p-12 bg-black/90">
+                        <div className={cn('w-full h-full rounded-2xl overflow-hidden', selectedGradient)}>
+                            {baseCard}
+                        </div>
+                    </div>
+                )
+            default:
+                return <div className={cn('w-full aspect-[3/4] p-8 overflow-hidden', selectedGradient)}>{baseCard}</div>
+        }
+    }
+
+    const downloadImage = () => {
+        if (cardRef.current) {
+            html2canvas(cardRef.current).then((canvas) => {
+                const link = document.createElement('a')
+                link.download = 'card.png'
+                link.href = canvas.toDataURL()
+                link.click()
             })
-            setHistoryIndex((prev) => prev + 1)
-        },
-        [historyIndex],
-    )
-
-    const undo = useCallback(() => {
-        if (historyIndex > 0) {
-            setHistoryIndex((prev) => prev - 1)
-            const prevState = history[historyIndex - 1]
-            if (prevState) {
-                setTitle(prevState.title)
-                setContent(prevState.content)
-                setSignature(prevState.signature)
-                setTheme(prevState.theme)
-                setTexture(prevState.texture)
-                setFontSize(prevState.fontSize)
-                setFont(prevState.font)
-                setBorderStyle(prevState.borderStyle)
-                setBorderWidth(prevState.borderWidth)
-                setTextAlignment(prevState.textAlignment)
-                setPadding(prevState.padding)
-            }
         }
-    }, [historyIndex, history])
-
-    const redo = useCallback(() => {
-        if (historyIndex < history.length - 1) {
-            setHistoryIndex((prev) => prev + 1)
-            const nextState = history[historyIndex + 1]
-            if (nextState) {
-                setTitle(nextState.title)
-                setContent(nextState.content)
-                setSignature(nextState.signature)
-                setTheme(nextState.theme)
-                setTexture(nextState.texture)
-                setFontSize(nextState.fontSize)
-                setFont(nextState.font)
-                setBorderStyle(nextState.borderStyle)
-                setBorderWidth(nextState.borderWidth)
-                setTextAlignment(nextState.textAlignment)
-                setPadding(nextState.padding)
-            }
-        }
-    }, [historyIndex, history])
-
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.ctrlKey || e.metaKey) {
-                if (e.key === 'z') {
-                    e.preventDefault()
-                    undo()
-                } else if (e.key === 'y') {
-                    e.preventDefault()
-                    redo()
-                }
-            }
-        }
-        window.addEventListener('keydown', handleKeyDown)
-        return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [undo, redo])
-
-    const onDrop = useCallback((acceptedFiles: File[]) => {
-        const file = acceptedFiles[0]
-        const reader = new FileReader()
-        reader.onload = (event: ProgressEvent<FileReader>) => {
-            if (event.target && typeof event.target.result === 'string') {
-                setLogo(event.target.result)
-            }
-        }
-        reader.readAsDataURL(file)
-    }, [])
-
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        onDrop,
-        accept: { 'image/*': [] },
-    })
-
-    const handleDownload = async () => {
-        if (cardRef.current) {
-            const canvas = await html2canvas(cardRef.current)
-            const image = canvas.toDataURL('image/png')
-            const link = document.createElement('a')
-            link.href = image
-            link.download = 'share-card.png'
-            link.click()
-            toast.success('Card downloaded successfully!')
-        }
-    }
-
-    const handleShare = async (platform: string) => {
-        if (cardRef.current) {
-            const canvas = await html2canvas(cardRef.current)
-            const image = canvas.toDataURL('image/png')
-            let shareUrl = ''
-
-            switch (platform) {
-                case 'Twitter':
-                    shareUrl = `https://twitter.com/intent/tweet?text=Check%20out%20my%20share%20card!&url=${encodeURIComponent(image)}`
-                    break
-                case 'LinkedIn':
-                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(image)}`
-                    break
-                default:
-                    toast.error('Unsupported platform')
-                    return
-            }
-
-            window.open(shareUrl, '_blank')
-            toast.success(`Shared to ${platform}!`)
-        }
-    }
-
-    const handleTitleChange = (newTitle: string) => {
-        setTitle(newTitle)
-        updateHistory({
-            title: newTitle,
-            content,
-            signature,
-            theme,
-            texture,
-            fontSize,
-            font,
-            borderStyle,
-            borderWidth,
-            textAlignment,
-            padding,
-        })
-    }
-
-    const handleContentChange = (newContent: string) => {
-        setContent(newContent)
-        updateHistory({
-            title,
-            content: newContent,
-            signature,
-            theme,
-            texture,
-            fontSize,
-            font,
-            borderStyle,
-            borderWidth,
-            textAlignment,
-            padding,
-        })
-    }
-
-    const handleSignatureChange = (newSignature: string) => {
-        setSignature(newSignature)
-        updateHistory({
-            title,
-            content,
-            signature: newSignature,
-            theme,
-            texture,
-            fontSize,
-            font,
-            borderStyle,
-            borderWidth,
-            textAlignment,
-            padding,
-        })
-    }
-
-    const handleThemeChange = (newTheme: string) => {
-        setTheme(newTheme)
-        updateHistory({
-            title,
-            content,
-            signature,
-            theme: newTheme,
-            texture,
-            fontSize,
-            font,
-            borderStyle,
-            borderWidth,
-            textAlignment,
-            padding,
-        })
-    }
-
-    const handleTextureChange = (newTexture: string) => {
-        setTexture(newTexture)
-        updateHistory({
-            title,
-            content,
-            signature,
-            theme,
-            texture: newTexture,
-            fontSize,
-            font,
-            borderStyle,
-            borderWidth,
-            textAlignment,
-            padding,
-        })
-    }
-
-    const handleFontSizeChange = (newFontSize: number) => {
-        setFontSize(newFontSize)
-
-        updateHistory({
-            title,
-            content,
-            signature,
-            theme,
-            texture,
-            fontSize: newFontSize,
-            font,
-            borderStyle,
-            borderWidth,
-            textAlignment,
-            padding,
-        })
-    }
-
-    const handleFontChange = (newFont: string) => {
-        setFont(newFont)
-        updateHistory({
-            title,
-            content,
-            signature,
-            theme,
-            texture,
-            fontSize,
-            font: newFont,
-            borderStyle,
-            borderWidth,
-            textAlignment,
-            padding,
-        })
-    }
-
-    const handleBorderStyleChange = (newBorderStyle: string) => {
-        setBorderStyle(newBorderStyle)
-        updateHistory({
-            title,
-            content,
-            signature,
-            theme,
-            texture,
-            fontSize,
-            font,
-            borderStyle: newBorderStyle,
-            borderWidth,
-            textAlignment,
-            padding,
-        })
-    }
-
-    const handleBorderWidthChange = (newBorderWidth: number) => {
-        setBorderWidth(newBorderWidth)
-        updateHistory({
-            title,
-            content,
-            signature,
-            theme,
-            texture,
-            fontSize,
-            font,
-            borderStyle,
-            borderWidth: newBorderWidth,
-            textAlignment,
-            padding,
-        })
-    }
-
-    const handleTextAlignmentChange = (newAlignment: string) => {
-        setTextAlignment(newAlignment)
-        updateHistory({
-            title,
-            content,
-            signature,
-            theme,
-            texture,
-            fontSize,
-            font,
-            borderStyle,
-            borderWidth,
-            textAlignment: newAlignment,
-            padding,
-        })
-    }
-
-    const handlePaddingChange = (newPadding: number) => {
-        setPadding(newPadding)
-        updateHistory({
-            title,
-            content,
-            signature,
-            theme,
-            texture,
-            fontSize,
-            font,
-            borderStyle,
-            borderWidth,
-            textAlignment,
-            padding: newPadding,
-        })
     }
 
     return (
-        <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100'}`}>
-            <div className="container mx-auto p-4">
-                <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-3xl font-bold">Enhanced Share Card Generator</h1>
-                    <div className="flex items-center space-x-4">
-                        <Button onClick={undo} disabled={historyIndex <= 0} aria-label="Undo">
-                            <Undo className="h-5 w-5" />
-                        </Button>
-                        <Button onClick={redo} disabled={historyIndex >= history.length - 1} aria-label="Redo">
-                            <Redo className="h-5 w-5" />
-                        </Button>
-                        <Switch checked={darkMode} onCheckedChange={setDarkMode} className="ml-4" />
-                        {darkMode ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-                    </div>
-                </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <Card className={darkMode ? 'bg-gray-800' : ''}>
-                        <CardContent className="p-6">
-                            <div className="mb-4">
-                                <Label htmlFor="title">Title</Label>
-                                <Input
-                                    id="title"
-                                    value={title}
-                                    onChange={(e) => handleTitleChange(e.target.value)}
-                                    placeholder="Enter card title"
-                                    className={darkMode ? 'bg-gray-700 text-white' : ''}
-                                />
-                            </div>
-                            <Tabs defaultValue="text" onValueChange={(value: string) => setMode(value)}>
-                                <TabsList className="grid w-full grid-cols-2 mb-4">
-                                    <TabsTrigger value="text">Text</TabsTrigger>
-                                    <TabsTrigger value="code">Code</TabsTrigger>
+        <div className="min-h-screen bg-white text-black p-4">
+            <div className="max-w-md mx-auto space-y-4">
+                <div className="flex justify-between items-center">
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="outline" size="icon">
+                                <Pencil className="w-5 h-5" />
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="bg-white border-gray-200 text-black max-w-3xl max-h-[80vh] overflow-y-auto">
+                            <DialogHeader>
+                                <DialogTitle>{t.editAndSettings}</DialogTitle>
+                            </DialogHeader>
+                            <Tabs defaultValue="content" className="w-full">
+                                <TabsList className="grid w-full grid-cols-3">
+                                    <TabsTrigger value="content">{t.cardContent}</TabsTrigger>
+                                    <TabsTrigger value="style">{t.styleSettings}</TabsTrigger>
+                                    <TabsTrigger value="general">{t.generalSettings}</TabsTrigger>
                                 </TabsList>
-                                <TabsContent value="text">
-                                    <Textarea
-                                        placeholder="Enter your text here"
-                                        value={content}
-                                        onChange={(e) => handleContentChange(e.target.value)}
-                                        className={`w-full h-40 ${darkMode ? 'bg-gray-700 text-white' : ''}`}
-                                    />
+                                <TabsContent value="content" className="space-y-4">
+                                    <div>
+                                        <Input
+                                            value={title}
+                                            onChange={(e) => setTitle(e.target.value)}
+                                            placeholder={t.titlePlaceholder}
+                                            className="border-gray-300"
+                                        />
+                                    </div>
+                                    <div>
+                                        <Textarea
+                                            value={content}
+                                            onChange={(e) => handleContentChange(e.target.value)}
+                                            placeholder={t.contentPlaceholder}
+                                            className="border-gray-300"
+                                            rows={4}
+                                        />
+                                    </div>
+                                    <div>
+                                        <Input
+                                            value={author}
+                                            onChange={(e) => setAuthor(e.target.value)}
+                                            placeholder={t.authorPlaceholder}
+                                            className="border-gray-300"
+                                        />
+                                    </div>
                                 </TabsContent>
-                                <TabsContent value="code">
-                                    <SyntaxHighlighter
-                                        language={language}
-                                        style={darkMode ? twilight : tomorrow}
-                                        customStyle={{ height: '200px' }}
-                                    >
-                                        {content}
-                                    </SyntaxHighlighter>
-                                    <Select value={language} onValueChange={setLanguage}>
-                                        <SelectTrigger
-                                            className={`w-full mt-2 ${darkMode ? 'bg-gray-700 text-white' : ''}`}
+                                <TabsContent value="style" className="space-y-4">
+                                    <div>
+                                        <label className="text-sm text-gray-600">{t.fontColor}</label>
+                                        <div className="flex gap-2 mt-1">
+                                            <Input
+                                                type="color"
+                                                value={titleStyle.color}
+                                                onChange={(e) =>
+                                                    setTitleStyle({ ...titleStyle, color: e.target.value })
+                                                }
+                                                className="w-1/2 h-8 border-gray-300"
+                                            />
+                                            <Input
+                                                type="color"
+                                                value={contentStyle.color}
+                                                onChange={(e) =>
+                                                    setContentStyle({ ...contentStyle, color: e.target.value })
+                                                }
+                                                className="w-1/2 h-8 border-gray-300"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="text-sm text-gray-600">{t.fontSize}</label>
+                                        <div className="flex gap-2 mt-1">
+                                            <Slider
+                                                min={12}
+                                                max={48}
+                                                step={1}
+                                                value={[parseInt(titleStyle.fontSize)]}
+                                                onValueChange={(value) =>
+                                                    setTitleStyle({ ...titleStyle, fontSize: `${value[0]}px` })
+                                                }
+                                                className="w-1/2"
+                                            />
+                                            <Slider
+                                                min={12}
+                                                max={48}
+                                                step={1}
+                                                value={[parseInt(contentStyle.fontSize)]}
+                                                onValueChange={(value) =>
+                                                    setContentStyle({ ...contentStyle, fontSize: `${value[0]}px` })
+                                                }
+                                                className="w-1/2"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="text-sm text-gray-600">{t.fontStyle}</label>
+                                        <ToggleGroup type="multiple" className="justify-start mt-1">
+                                            <ToggleGroupItem
+                                                value="bold"
+                                                aria-label="Toggle bold"
+                                                onClick={() =>
+                                                    setContentStyle({
+                                                        ...contentStyle,
+                                                        fontWeight:
+                                                            contentStyle.fontWeight === 'bold' ? 'normal' : 'bold',
+                                                    })
+                                                }
+                                            >
+                                                <Bold className="h-4 w-4" />
+                                            </ToggleGroupItem>
+                                            <ToggleGroupItem
+                                                value="italic"
+                                                aria-label="Toggle italic"
+                                                onClick={() =>
+                                                    setContentStyle({
+                                                        ...contentStyle,
+                                                        fontStyle:
+                                                            contentStyle.fontStyle === 'italic' ? 'normal' : 'italic',
+                                                    })
+                                                }
+                                            >
+                                                <Italic className="h-4 w-4" />
+                                            </ToggleGroupItem>
+                                            <ToggleGroupItem
+                                                value="underline"
+                                                aria-label="Toggle underline"
+                                                onClick={() =>
+                                                    setContentStyle({
+                                                        ...contentStyle,
+                                                        textDecoration:
+                                                            contentStyle.textDecoration === 'underline'
+                                                                ? 'none'
+                                                                : 'underline',
+                                                    })
+                                                }
+                                            >
+                                                <Underline className="h-4 w-4" />
+                                            </ToggleGroupItem>
+                                        </ToggleGroup>
+                                    </div>
+                                    <div>
+                                        <label className="text-sm text-gray-600">{t.alignment}</label>
+                                        <ToggleGroup
+                                            type="single"
+                                            value={contentStyle.textAlign}
+                                            onValueChange={(value) => {
+                                                setTitleStyle({ ...titleStyle, textAlign: value })
+                                                setContentStyle({ ...contentStyle, textAlign: value })
+                                            }}
+                                            className="justify-start mt-1"
                                         >
-                                            <SelectValue placeholder="Select language" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="javascript">JavaScript</SelectItem>
-                                            <SelectItem value="python">Python</SelectItem>
-                                            <SelectItem value="cpp">C++</SelectItem>
-                                            <SelectItem value="java">Java</SelectItem>
-                                            <SelectItem value="rust">Rust</SelectItem>
-                                            <SelectItem value="typescript">TypeScript</SelectItem>
-                                            <SelectItem value="html">HTML</SelectItem>
-                                            <SelectItem value="css">CSS</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                                            <ToggleGroupItem value="left" aria-label="Align left">
+                                                <AlignLeft className="h-4 w-4" />
+                                            </ToggleGroupItem>
+                                            <ToggleGroupItem value="center" aria-label="Align center">
+                                                <AlignCenter className="h-4 w-4" />
+                                            </ToggleGroupItem>
+                                            <ToggleGroupItem value="right" aria-label="Align right">
+                                                <AlignRight className="h-4 w-4" />
+                                            </ToggleGroupItem>
+                                        </ToggleGroup>
+                                    </div>
+                                    <div>
+                                        <label className="text-sm text-gray-600">{t.lineHeight}</label>
+                                        <Slider
+                                            min={1}
+                                            max={2}
+                                            step={0.1}
+                                            value={[parseFloat(contentStyle.lineHeight)]}
+                                            onValueChange={(value) =>
+                                                setContentStyle({ ...contentStyle, lineHeight: value[0].toString() })
+                                            }
+                                            className="mt-1"
+                                        />
+                                    </div>
+                                </TabsContent>
+                                <TabsContent value="general" className="space-y-4">
+                                    <div>
+                                        <label className="text-sm text-gray-600">{t.date}</label>
+                                        <Input
+                                            type="date"
+                                            value={date}
+                                            onChange={(e) => setDate(e.target.value)}
+                                            className="border-gray-300 mt-1"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="text-sm text-gray-600">{t.maker}</label>
+                                        <Input
+                                            value={madeBy}
+                                            onChange={(e) => setMadeBy(e.target.value)}
+                                            className="border-gray-300 mt-1"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="text-sm text-gray-600">Language</label>
+                                        <Select value={lang} onValueChange={setLang}>
+                                            <SelectTrigger className="border-gray-300 mt-1">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="en">English</SelectItem>
+                                                <SelectItem value="zh">中文</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
                                 </TabsContent>
                             </Tabs>
-                            <div className="mt-4">
-                                <Label htmlFor="signature">Signature</Label>
-                                <Input
-                                    id="signature"
-                                    value={signature}
-                                    onChange={(e) => handleSignatureChange(e.target.value)}
-                                    placeholder="Enter your signature"
-                                    className={darkMode ? 'bg-gray-700 text-white' : ''}
-                                />
-                            </div>
-                            <div className="mt-4 space-y-4">
-                                <div>
-                                    <Label htmlFor="theme">Theme</Label>
-                                    <Select value={theme} onValueChange={handleThemeChange}>
-                                        <SelectTrigger className={`w-full ${darkMode ? 'bg-gray-700 text-white' : ''}`}>
-                                            <SelectValue placeholder="Select theme" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {themeOptions.map((option) => (
-                                                <SelectItem key={option.value} value={option.value}>
-                                                    {option.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                <div>
-                                    <Label htmlFor="texture">Background Texture</Label>
-                                    <Select value={texture} onValueChange={handleTextureChange}>
-                                        <SelectTrigger className={`w-full ${darkMode ? 'bg-gray-700 text-white' : ''}`}>
-                                            <SelectValue placeholder="Select texture" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {textureOptions.map((option) => (
-                                                <SelectItem key={option.value} value={option.value}>
-                                                    {option.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                <div>
-                                    <Label htmlFor="fontSize">Font Size: {fontSize}px</Label>
-                                    <Slider
-                                        id="fontSize"
-                                        min={12}
-                                        max={24}
-                                        step={1}
-                                        value={[fontSize]}
-                                        onValueChange={(value) => handleFontSizeChange(value[0])}
-                                        className="w-full"
-                                    />
-                                </div>
-                                <div>
-                                    <Label htmlFor="font">Font</Label>
-                                    <Select value={font} onValueChange={handleFontChange}>
-                                        <SelectTrigger className={`w-full ${darkMode ? 'bg-gray-700 text-white' : ''}`}>
-                                            <SelectValue placeholder="Select font" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {fontOptions.map((option) => (
-                                                <SelectItem key={option.value} value={option.value}>
-                                                    {option.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                <div>
-                                    <Label htmlFor="borderStyle">Border Style</Label>
-                                    <Select value={borderStyle} onValueChange={handleBorderStyleChange}>
-                                        <SelectTrigger className={`w-full ${darkMode ? 'bg-gray-700 text-white' : ''}`}>
-                                            <SelectValue placeholder="Select border style" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {borderStyles.map((option) => (
-                                                <SelectItem key={option.value} value={option.value}>
-                                                    {option.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                <div>
-                                    <Label htmlFor="borderWidth">Border Width: {borderWidth}px</Label>
-                                    <Slider
-                                        id="borderWidth"
-                                        min={0}
-                                        max={10}
-                                        step={1}
-                                        value={[borderWidth]}
-                                        onValueChange={(value) => handleBorderWidthChange(value[0])}
-                                        className="w-full"
-                                    />
-                                </div>
-                                <div>
-                                    <Label htmlFor="textAlignment">Text Alignment</Label>
-                                    <div className="flex space-x-2 mt-2">
-                                        {alignmentOptions.map((option) => (
-                                            <Button
-                                                key={option.value}
-                                                onClick={() => handleTextAlignmentChange(option.value)}
-                                                variant={textAlignment === option.value ? 'default' : 'outline'}
-                                                className="flex-1"
-                                            >
-                                                <option.icon className="h-5 w-5" />
-                                            </Button>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div>
-                                    <Label htmlFor="padding">Padding: {padding}px</Label>
-                                    <Slider
-                                        id="padding"
-                                        min={0}
-                                        max={48}
-                                        step={4}
-                                        value={[padding]}
-                                        onValueChange={(value) => handlePaddingChange(value[0])}
-                                        className="w-full"
-                                    />
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <Switch id="show-logo" checked={showLogo} onCheckedChange={setShowLogo} />
-                                    <Label htmlFor="show-logo">Show Logo</Label>
-                                </div>
-                                {showLogo && (
-                                    <div
-                                        {...getRootProps()}
-                                        className={`border-2 border-dashed rounded-md p-4 ${isDragActive ? 'border-blue-500' : 'border-gray-300'}`}
+                        </DialogContent>
+                    </Dialog>
+                    <Button variant="outline" size="icon" onClick={downloadImage}>
+                        <Download className="w-5 h-5" />
+                    </Button>
+                </div>
+
+                <div ref={cardRef}>{renderCard()}</div>
+
+                <div className="fixed bottom-4 left-4 right-4 max-w-md mx-auto">
+                    <Card className="bg-white/80 backdrop-blur border-gray-200">
+                        <div className="p-4 space-y-4">
+                            <div className="flex gap-4 text-sm text-gray-600">
+                                {templates.map((template) => (
+                                    <button
+                                        key={template.id}
+                                        onClick={() => setSelectedTemplate(template)}
+                                        className={cn(
+                                            'hover:text-black transition-colors',
+                                            selectedTemplate.id === template.id && 'text-black',
+                                        )}
                                     >
-                                        <input {...getInputProps()} />
-                                        {logo ? (
-                                            <div className="flex items-center justify-center">
-                                                <img src={logo} alt="Uploaded logo" className="max-h-20" />
-                                            </div>
-                                        ) : (
-                                            <p>Drag 'n' drop a logo here, or click to select a file</p>
-                                        )}
-                                    </div>
-                                )}
+                                        {template.name}
+                                    </button>
+                                ))}
                             </div>
-                        </CardContent>
-                    </Card>
-                    <Card className={darkMode ? 'bg-gray-800' : ''}>
-                        <CardContent className="p-6">
-                            <h2 className="text-xl font-semibold mb-4">Preview</h2>
-                            <AnimatePresence>
-                                <motion.div
-                                    key={`${theme}-${texture}-${borderStyle}-${textAlignment}`}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <div
-                                        ref={cardRef}
-                                        className={`${theme} ${texture} rounded-lg relative overflow-hidden transition-all duration-300 ease-in-out ${borderStyle} ${font} ${textAlignment} ${theme.includes('from-red-900') ? 'text-red-200' : 'text-white'}`}
-                                        style={{
-                                            minHeight: '200px',
-                                            borderWidth: `${borderWidth}px`,
-                                            borderColor: theme.includes('from-red-900') ? '#ff6e6e' : 'white',
-                                            padding: `${padding}px`,
-                                        }}
-                                    >
-                                        {showLogo && logo && (
-                                            <div className="absolute top-2 right-2">
-                                                <img src={logo} alt="Logo" className="h-8 w-8" />
-                                            </div>
+                            <div className="flex flex-wrap gap-2">
+                                {gradients.map((gradient, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setSelectedGradient(gradient)}
+                                        className={cn(
+                                            'w-8 h-8 rounded-full',
+                                            gradient,
+                                            selectedGradient === gradient &&
+                                                'ring-2 ring-black ring-offset-2 ring-offset-white',
                                         )}
-                                        {title && <h3 className="text-xl font-bold mb-2">{title}</h3>}
-                                        {mode === 'text' ? (
-                                            <p className="whitespace-pre-wrap" style={{ fontSize: `${fontSize}px` }}>
-                                                {content}
-                                            </p>
-                                        ) : (
-                                            <SyntaxHighlighter
-                                                language={language}
-                                                style={darkMode ? twilight : tomorrow}
-                                                customStyle={{ fontSize: `${fontSize}px` }}
-                                            >
-                                                {content}
-                                            </SyntaxHighlighter>
-                                        )}
-                                        {signature && <p className="mt-4 text-right italic">{signature}</p>}
-                                    </div>
-                                </motion.div>
-                            </AnimatePresence>
-                            <div className="mt-4 space-y-2">
-                                <div className="flex space-x-2">
-                                    <Button onClick={handleDownload} className="flex-1">
-                                        <Download className="mr-2 h-4 w-4" /> Download Card
-                                    </Button>
-                                    <Button onClick={() => handleShare('Twitter')} className="flex-1">
-                                        <Twitter className="mr-2 h-4 w-4" /> Share on Twitter
-                                    </Button>
-                                    <Button onClick={() => handleShare('LinkedIn')} className="flex-1">
-                                        <Linkedin className="mr-2 h-4 w-4" /> Share on LinkedIn
-                                    </Button>
-                                </div>
+                                    />
+                                ))}
                             </div>
-                        </CardContent>
+                        </div>
                     </Card>
                 </div>
             </div>
-            <ToastContainer position="bottom-right" />
         </div>
     )
 }
