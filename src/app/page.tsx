@@ -9,7 +9,7 @@ import apps from '@/data/apps'
 
 export default function HomePage() {
     return (
-        <main className="dark-mode">
+        <main className="bg-gradient-to-br from-gray-900 to-gray-700 text-white">
             <Header />
             <Particles />
             <HeroSection />
