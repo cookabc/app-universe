@@ -26,9 +26,9 @@ const gradients = [
 ]
 
 const templates = [
-    { id: 'minimal', name: '简约' },
-    { id: 'bordered', name: '边框' },
     { id: 'modern', name: '现代' },
+    { id: 'bordered', name: '边框' },
+    { id: 'minimal', name: '简约' },
 ]
 
 const languages: Record<string, any> = {
@@ -83,7 +83,7 @@ const languages: Record<string, any> = {
 }
 
 export default function Component() {
-    const [lang, setLang] = useState('en')
+    const [lang, setLang] = useState('zh')
     const t = languages[lang]
 
     const [title, setTitle] = useState(t.title)
@@ -93,7 +93,7 @@ export default function Component() {
     const [selectedTemplate, setSelectedTemplate] = useState(templates[0])
     const [wordCount, setWordCount] = useState(0)
     const [date, setDate] = useState(getCurrentDate())
-    const [madeBy, setMadeBy] = useState('Ian')
+    const [madeBy, setMadeBy] = useState('Anata')
 
     const [titleStyle, setTitleStyle] = useState({
         color: '#FFFFFF',
