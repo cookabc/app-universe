@@ -19,7 +19,7 @@ export const Header = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <div className="container-base py-4 flex justify-between items-center">
+                <div className="px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
                     <Link href="/" className="flex items-center space-x-3 group">
                         <motion.div whileHover={{ rotate: 180 }} transition={{ duration: 0.3 }}>
                             <AppIcon />
