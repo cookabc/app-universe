@@ -24,7 +24,7 @@ import {
 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
-const gradients = [
+const GRADIENTS = [
     'bg-gradient-to-br from-blue-600 to-purple-600',
     'bg-gradient-to-br from-green-400 to-green-600',
     'bg-gradient-to-br from-orange-300 to-rose-300',
@@ -35,13 +35,13 @@ const gradients = [
     'bg-gradient-to-br from-teal-400 to-emerald-500',
 ]
 
-const templates = [
+const TEMPLATES = [
     { id: 'modern', name: '现代', bg: 'bg-[#293845]', textColor: 'text-white' },
     { id: 'minimal', name: '简约', bg: 'bg-white/90', textColor: 'text-[#293845]' },
     { id: 'ticket', name: '登机牌', bg: 'bg-white/90', textColor: 'text-[#293845]' },
 ]
 
-const languages: Record<string, any> = {
+const LANGUAGES: Record<string, any> = {
     zh: {
         title: '艺术中的设计',
         content:
@@ -92,35 +92,38 @@ const languages: Record<string, any> = {
     },
 }
 
+const DEFAULT_TITLE_STYLE = {
+    fontSize: '32px',
+    fontWeight: 'bold',
+    fontStyle: 'normal',
+    textDecoration: 'none',
+    textAlign: 'left',
+}
+
+const DEFAULT_CONTENT_STYLE = {
+    fontSize: '16px',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    textDecoration: 'none',
+    textAlign: 'left',
+    lineHeight: '1.5',
+}
+
 export default function Component() {
     const [lang, setLang] = useState('zh')
-    const t = languages[lang]
+    const t = LANGUAGES[lang]
 
     const [title, setTitle] = useState(t.title)
     const [content, setContent] = useState(t.content)
     const [author, setAuthor] = useState(t.author)
-    const [selectedGradient, setSelectedGradient] = useState(gradients[0])
-    const [selectedTemplate, setSelectedTemplate] = useState(templates[0])
+    const [selectedGradient, setSelectedGradient] = useState(GRADIENTS[0])
+    const [selectedTemplate, setSelectedTemplate] = useState(TEMPLATES[0])
     const [wordCount, setWordCount] = useState(0)
     const [date, setDate] = useState(getCurrentDate())
     const [madeBy, setMadeBy] = useState('Anata')
 
-    const [titleStyle, setTitleStyle] = useState({
-        fontSize: '32px',
-        fontWeight: 'bold',
-        fontStyle: 'normal',
-        textDecoration: 'none',
-        textAlign: 'left',
-    })
-
-    const [contentStyle, setContentStyle] = useState({
-        fontSize: '16px',
-        fontWeight: 'normal',
-        fontStyle: 'normal',
-        textDecoration: 'none',
-        textAlign: 'left',
-        lineHeight: '1.5',
-    })
+    const [titleStyle, setTitleStyle] = useState(DEFAULT_TITLE_STYLE)
+    const [contentStyle, setContentStyle] = useState(DEFAULT_CONTENT_STYLE)
 
     const cardRef = useRef<HTMLDivElement>(null)
 
@@ -133,7 +136,7 @@ export default function Component() {
         setContent(t.content)
         setAuthor(t.author)
         updateWordCount()
-    }, [lang])
+    }, [lang, t])
 
     const updateWordCount = () => {
         const isChinese = lang === 'zh'
@@ -151,107 +154,119 @@ export default function Component() {
         return now.toISOString().split('T')[0]
     }
 
+    const renderContentSection = () => (
+        <div className="h-full flex flex-col relative p-6">
+            <div className="flex-1">
+                <div className="flex items-center gap-2 mb-4">
+                    <CalendarDays className="w-4 h-4" />
+                    <div className="text-sm opacity-80">{date}</div>
+                </div>
+                <h2 style={{ ...titleStyle, textAlign: 'left' }} className="mb-8">
+                    {title}
+                </h2>
+                <div style={{ ...contentStyle, textAlign: 'left', whiteSpace: 'pre-wrap' }}>{content}</div>
+            </div>
+
+            <div className="py-4">
+                <div className="text-sm font-medium">{author}</div>
+            </div>
+
+            <div className="flex justify-between items-center text-xs">
+                <span>
+                    {t.words}: {wordCount}
+                </span>
+                <span>{t.madeBy.replace('{name}', madeBy)}</span>
+            </div>
+        </div>
+    )
+
+    const renderBaseCard = () => (
+        <div
+            className={cn(
+                'w-full h-full backdrop-blur-sm rounded-xl border-white/20 overflow-hidden relative',
+                selectedTemplate.bg,
+                selectedTemplate.textColor,
+            )}
+        >
+            {renderContentSection()}
+        </div>
+    )
+
+    const renderTicketCard = () => (
+        <div
+            className={cn(
+                'w-full h-full backdrop-blur-sm rounded-xl overflow-hidden relative',
+                selectedTemplate.bg,
+                selectedTemplate.textColor,
+            )}
+        >
+            {renderContentSection()}
+            <div className="absolute top-[25%] left-0 right-0 border-t border-dashed border-gray-400" />
+            <div
+                className={cn(
+                    'absolute left-0 top-[25%] w-4 h-8 bg-white rounded-r-full -translate-y-1/2',
+                    selectedGradient,
+                )}
+            />
+            <div
+                className={cn(
+                    'absolute right-0 top-[25%] w-4 h-8 bg-white rounded-l-full -translate-y-1/2',
+                    selectedGradient,
+                )}
+            />
+            <div className="absolute bottom-[20%] left-0 right-0 border-t border-dashed border-gray-400" />
+            <div
+                className={cn(
+                    'absolute right-0 bottom-[20%] w-4 h-8 bg-white rounded-l-full translate-y-1/2',
+                    selectedGradient,
+                )}
+            />
+            <div
+                className={cn(
+                    'absolute left-0 bottom-[20%] w-4 h-8 bg-white rounded-r-full translate-y-1/2',
+                    selectedGradient,
+                )}
+            />
+        </div>
+    )
+
     const renderCard = () => {
-        const contentSection = (
-            <div className="h-full flex flex-col relative p-6">
-                {/* Top section */}
-                <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-4">
-                        <CalendarDays className="w-4 h-4" />
-                        <div className="text-sm opacity-80">{date}</div>
-                    </div>
-                    <h2 style={{ ...titleStyle, textAlign: 'left' }} className="mb-8">
-                        {title}
-                    </h2>
-                    <div style={{ ...contentStyle, textAlign: 'left', whiteSpace: 'pre-wrap' }}>{content}</div>
-                </div>
-
-                {/* Middle section */}
-                <div className="py-4">
-                    <div className="text-sm font-medium">{author}</div>
-                </div>
-
-                {/* Bottom section */}
-                <div className="flex justify-between items-center text-xs">
-                    <span>
-                        {t.words}: {wordCount}
-                    </span>
-                    <span>{t.madeBy.replace('{name}', madeBy)}</span>
-                </div>
-            </div>
-        )
-        const baseCard = (
-            <div
-                className={cn(
-                    'w-full h-full backdrop-blur-sm rounded-xl border-white/20 overflow-hidden relative',
-                    selectedTemplate.bg,
-                    selectedTemplate.textColor,
-                )}
-            >
-                {contentSection}
-            </div>
-        )
-
-        const ticketCard = (
-            <div
-                className={cn(
-                    'w-full h-full backdrop-blur-sm rounded-xl overflow-hidden relative',
-                    selectedTemplate.bg,
-                    selectedTemplate.textColor,
-                )}
-            >
-                {contentSection}
-                {/* Top dotted border */}
-                <div className="absolute top-[25%] left-0 right-0 border-t border-dashed border-gray-400" />
-                {/* Top punch */}
-                <div
-                    className={cn(
-                        'absolute left-0 top-[25%] w-4 h-8 bg-white rounded-r-full -translate-y-1/2',
-                        selectedGradient,
-                    )}
-                />
-                <div
-                    className={cn(
-                        'absolute right-0 top-[25%] w-4 h-8 bg-white rounded-l-full -translate-y-1/2',
-                        selectedGradient,
-                    )}
-                />
-                {/* Bottom dotted border */}
-                <div className="absolute bottom-[20%] left-0 right-0 border-t border-dashed border-gray-400" />
-
-                {/* Bottom punch */}
-                <div
-                    className={cn(
-                        'absolute right-0 bottom-[20%] w-4 h-8 bg-white rounded-l-full translate-y-1/2',
-                        selectedGradient,
-                    )}
-                />
-                <div
-                    className={cn(
-                        'absolute left-0 bottom-[20%] w-4 h-8 bg-white rounded-r-full translate-y-1/2',
-                        selectedGradient,
-                    )}
-                />
-            </div>
-        )
-
-        switch (selectedTemplate.id) {
-            case 'ticket':
-                return <div className={cn('w-full aspect-[3/4] p-12', selectedGradient)}>{ticketCard}</div>
-            default:
-                return <div className={cn('w-full aspect-[3/4] p-12', selectedGradient)}>{baseCard}</div>
-        }
+        const cardContent = selectedTemplate.id === 'ticket' ? renderTicketCard() : renderBaseCard()
+        return <div className={cn('w-full aspect-[3/4] p-12', selectedGradient)}>{cardContent}</div>
     }
 
     const downloadImage = () => {
-        if (cardRef.current) {
-            html2canvas(cardRef.current).then((canvas) => {
-                const link = document.createElement('a')
-                link.download = 'card.png'
-                link.href = canvas.toDataURL()
-                link.click()
-            })
-        }
+        if (!cardRef.current) return
+        html2canvas(cardRef.current).then((canvas) => {
+            const link = document.createElement('a')
+            link.download = 'card.png'
+            link.href = canvas.toDataURL()
+            link.click()
+        })
+    }
+
+    const toggleMap: Record<string, () => typeof contentStyle> = {
+        bold: () => ({
+            ...contentStyle,
+            fontWeight: contentStyle.fontWeight === 'bold' ? 'normal' : 'bold',
+        }),
+        italic: () => ({
+            ...contentStyle,
+            fontStyle: contentStyle.fontStyle === 'italic' ? 'normal' : 'italic',
+        }),
+        underline: () => ({
+            ...contentStyle,
+            textDecoration: contentStyle.textDecoration === 'underline' ? 'none' : 'underline',
+        }),
+    }
+
+    const handleFontStyleToggle = (style: string) => {
+        setContentStyle(toggleMap[style]())
+    }
+
+    const handleAlignmentChange = (value: string) => {
+        setTitleStyle({ ...titleStyle, textAlign: value })
+        setContentStyle({ ...contentStyle, textAlign: value })
     }
 
     return (
@@ -333,41 +348,21 @@ export default function Component() {
                                             <ToggleGroupItem
                                                 value="bold"
                                                 aria-label="Toggle bold"
-                                                onClick={() =>
-                                                    setContentStyle({
-                                                        ...contentStyle,
-                                                        fontWeight:
-                                                            contentStyle.fontWeight === 'bold' ? 'normal' : 'bold',
-                                                    })
-                                                }
+                                                onClick={() => handleFontStyleToggle('bold')}
                                             >
                                                 <Bold className="h-4 w-4" />
                                             </ToggleGroupItem>
                                             <ToggleGroupItem
                                                 value="italic"
                                                 aria-label="Toggle italic"
-                                                onClick={() =>
-                                                    setContentStyle({
-                                                        ...contentStyle,
-                                                        fontStyle:
-                                                            contentStyle.fontStyle === 'italic' ? 'normal' : 'italic',
-                                                    })
-                                                }
+                                                onClick={() => handleFontStyleToggle('italic')}
                                             >
                                                 <Italic className="h-4 w-4" />
                                             </ToggleGroupItem>
                                             <ToggleGroupItem
                                                 value="underline"
                                                 aria-label="Toggle underline"
-                                                onClick={() =>
-                                                    setContentStyle({
-                                                        ...contentStyle,
-                                                        textDecoration:
-                                                            contentStyle.textDecoration === 'underline'
-                                                                ? 'none'
-                                                                : 'underline',
-                                                    })
-                                                }
+                                                onClick={() => handleFontStyleToggle('underline')}
                                             >
                                                 <Underline className="h-4 w-4" />
                                             </ToggleGroupItem>
@@ -378,10 +373,7 @@ export default function Component() {
                                         <ToggleGroup
                                             type="single"
                                             value={contentStyle.textAlign}
-                                            onValueChange={(value) => {
-                                                setTitleStyle({ ...titleStyle, textAlign: value })
-                                                setContentStyle({ ...contentStyle, textAlign: value })
-                                            }}
+                                            onValueChange={handleAlignmentChange}
                                             className="justify-start mt-1"
                                         >
                                             <ToggleGroupItem value="left" aria-label="Align left">
@@ -454,7 +446,7 @@ export default function Component() {
                     <Card className="bg-white/80 backdrop-blur border-gray-200">
                         <div className="p-4 space-y-4">
                             <div className="flex gap-4 text-sm text-gray-600">
-                                {templates.map((template) => (
+                                {TEMPLATES.map((template) => (
                                     <button
                                         key={template.id}
                                         onClick={() => setSelectedTemplate(template)}
@@ -468,7 +460,7 @@ export default function Component() {
                                 ))}
                             </div>
                             <div className="flex flex-wrap gap-2">
-                                {gradients.map((gradient, index) => (
+                                {GRADIENTS.map((gradient, index) => (
                                     <button
                                         key={index}
                                         onClick={() => setSelectedGradient(gradient)}
