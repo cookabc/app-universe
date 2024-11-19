@@ -11,7 +11,17 @@ import { Textarea } from '@/components/ui/textarea'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { cn } from '@/lib/utils'
 import html2canvas from 'html2canvas'
-import { AlignCenter, AlignLeft, AlignRight, Bold, Download, Italic, Pencil, Underline } from 'lucide-react'
+import {
+    AlignCenter,
+    AlignLeft,
+    AlignRight,
+    Bold,
+    CalendarDays,
+    Download,
+    Italic,
+    Pencil,
+    Underline,
+} from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 const gradients = [
@@ -37,7 +47,7 @@ const languages: Record<string, any> = {
         content:
             '艺术中的设计是对创造性流动中各种事物、各种元素之间关系的认识。\n\n你不能发明一个设计。\n你在第四维度中认识它。\n\n也就是说，用你的血液和骨骼，以及你的眼睛来认识它。',
         author: 'D. H. 劳伦斯',
-        madeBy: '由{name}制作',
+        madeBy: '{name} 制作',
         words: '字数',
         edit: '编辑',
         download: '下载',
@@ -96,17 +106,14 @@ export default function Component() {
     const [madeBy, setMadeBy] = useState('Anata')
 
     const [titleStyle, setTitleStyle] = useState({
-        color: '#FFFFFF',
         fontSize: '32px',
         fontWeight: 'bold',
         fontStyle: 'normal',
-        marginBottom: '24px',
         textDecoration: 'none',
         textAlign: 'left',
     })
 
     const [contentStyle, setContentStyle] = useState({
-        color: '#FFFFFF',
         fontSize: '16px',
         fontWeight: 'normal',
         fontStyle: 'normal',
@@ -256,27 +263,6 @@ export default function Component() {
                                     </div>
                                 </TabsContent>
                                 <TabsContent value="style" className="space-y-4">
-                                    <div>
-                                        <label className="text-sm text-gray-600">{t.fontColor}</label>
-                                        <div className="flex gap-2 mt-1">
-                                            <Input
-                                                type="color"
-                                                value={titleStyle.color}
-                                                onChange={(e) =>
-                                                    setTitleStyle({ ...titleStyle, color: e.target.value })
-                                                }
-                                                className="w-1/2 h-8 border-gray-300"
-                                            />
-                                            <Input
-                                                type="color"
-                                                value={contentStyle.color}
-                                                onChange={(e) =>
-                                                    setContentStyle({ ...contentStyle, color: e.target.value })
-                                                }
-                                                className="w-1/2 h-8 border-gray-300"
-                                            />
-                                        </div>
-                                    </div>
                                     <div>
                                         <label className="text-sm text-gray-600">{t.fontSize}</label>
                                         <div className="flex gap-2 mt-1">
