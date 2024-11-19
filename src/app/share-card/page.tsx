@@ -36,9 +36,9 @@ const gradients = [
 ]
 
 const templates = [
-    { id: 'modern', name: '现代' },
-    { id: 'bordered', name: '边框' },
-    { id: 'minimal', name: '简约' },
+    { id: 'modern', name: '现代', bg: 'bg-[#293845]', textColor: 'text-white' },
+    { id: 'minimal', name: '简约', bg: 'bg-white/90', textColor: 'text-[#293845]' },
+    { id: 'ticket', name: '登机牌', bg: 'bg-white/90', textColor: 'text-[#293845]' },
 ]
 
 const languages: Record<string, any> = {
@@ -152,55 +152,94 @@ export default function Component() {
     }
 
     const renderCard = () => {
-        const baseCard = (
-            <div className="relative w-full aspect-[3/4] p-6 text-white flex flex-col">
-                <div className="flex items-center gap-2 mb-4">
-                    <div className="w-5 h-5">
-                        <svg viewBox="0 0 24 24" fill="none" className="w-full h-full">
-                            <path
-                                d="M7 4V20M17 4V20M3 8H7M17 8H21M3 12H21M3 16H7M17 16H21"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                            />
-                        </svg>
+        const contentSection = (
+            <div className="h-full flex flex-col relative p-6">
+                {/* Top section */}
+                <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-4">
+                        <CalendarDays className="w-4 h-4" />
+                        <div className="text-sm opacity-80">{date}</div>
                     </div>
-                    <div className="text-sm opacity-80">{date}</div>
-                </div>
-                <div className="flex-grow space-y-4">
-                    <h2 style={{ ...titleStyle, textAlign: 'left' }}>{title}</h2>
+                    <h2 style={{ ...titleStyle, textAlign: 'left' }} className="mb-8">
+                        {title}
+                    </h2>
                     <div style={{ ...contentStyle, textAlign: 'left', whiteSpace: 'pre-wrap' }}>{content}</div>
                 </div>
-                <div className="mt-4 space-y-2">
-                    <div className="text-sm">{author}</div>
-                    <div className="flex justify-between text-xs opacity-60">
-                        <span>
-                            {t.words}: {wordCount}
-                        </span>
-                        <span>{t.madeBy.replace('{name}', madeBy)}</span>
-                    </div>
+
+                {/* Middle section */}
+                <div className="py-4">
+                    <div className="text-sm font-medium">{author}</div>
                 </div>
+
+                {/* Bottom section */}
+                <div className="flex justify-between items-center text-xs">
+                    <span>
+                        {t.words}: {wordCount}
+                    </span>
+                    <span>{t.madeBy.replace('{name}', madeBy)}</span>
+                </div>
+            </div>
+        )
+        const baseCard = (
+            <div
+                className={cn(
+                    'w-full h-full backdrop-blur-sm rounded-xl border-white/20 overflow-hidden relative',
+                    selectedTemplate.bg,
+                    selectedTemplate.textColor,
+                )}
+            >
+                {contentSection}
+            </div>
+        )
+
+        const ticketCard = (
+            <div
+                className={cn(
+                    'w-full h-full backdrop-blur-sm rounded-xl overflow-hidden relative',
+                    selectedTemplate.bg,
+                    selectedTemplate.textColor,
+                )}
+            >
+                {contentSection}
+                {/* Top dotted border */}
+                <div className="absolute top-[25%] left-0 right-0 border-t border-dashed border-gray-400" />
+                {/* Top punch */}
+                <div
+                    className={cn(
+                        'absolute left-0 top-[25%] w-4 h-8 bg-white rounded-r-full -translate-y-1/2',
+                        selectedGradient,
+                    )}
+                />
+                <div
+                    className={cn(
+                        'absolute right-0 top-[25%] w-4 h-8 bg-white rounded-l-full -translate-y-1/2',
+                        selectedGradient,
+                    )}
+                />
+                {/* Bottom dotted border */}
+                <div className="absolute bottom-[20%] left-0 right-0 border-t border-dashed border-gray-400" />
+
+                {/* Bottom punch */}
+                <div
+                    className={cn(
+                        'absolute right-0 bottom-[20%] w-4 h-8 bg-white rounded-l-full translate-y-1/2',
+                        selectedGradient,
+                    )}
+                />
+                <div
+                    className={cn(
+                        'absolute left-0 bottom-[20%] w-4 h-8 bg-white rounded-r-full translate-y-1/2',
+                        selectedGradient,
+                    )}
+                />
             </div>
         )
 
         switch (selectedTemplate.id) {
-            case 'bordered':
-                return (
-                    <div className={cn('w-full aspect-[3/4] p-12', selectedGradient)}>
-                        <Card className="w-full h-full bg-white/10 backdrop-blur-sm border-white/20 overflow-hidden">
-                            {baseCard}
-                        </Card>
-                    </div>
-                )
-            case 'modern':
-                return (
-                    <div className="w-full aspect-[3/4] p-12 bg-black/90">
-                        <div className={cn('w-full h-full rounded-2xl overflow-hidden', selectedGradient)}>
-                            {baseCard}
-                        </div>
-                    </div>
-                )
+            case 'ticket':
+                return <div className={cn('w-full aspect-[3/4] p-12', selectedGradient)}>{ticketCard}</div>
             default:
-                return <div className={cn('w-full aspect-[3/4] p-8 overflow-hidden', selectedGradient)}>{baseCard}</div>
+                return <div className={cn('w-full aspect-[3/4] p-12', selectedGradient)}>{baseCard}</div>
         }
     }
 
