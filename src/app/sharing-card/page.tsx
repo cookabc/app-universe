@@ -57,7 +57,7 @@ export default function SharingCard() {
 
 interface SharingCardPreviewProps extends SharingCardState {}
 
-export function SharingCardPreview({ date, mainText, author, creator, backgroundImage }: SharingCardPreviewProps) {
+const SharingCardPreview = ({ date, mainText, author, creator, backgroundImage }: SharingCardPreviewProps) => {
     const [isDark, setIsDark] = useState(false)
     const switchHeight = 24
     const switchWidth = 36
@@ -109,7 +109,7 @@ interface SharingCardFormProps {
     onImageUpload: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-export function SharingCardForm({ cardData, onInputChange, onImageUpload }: SharingCardFormProps) {
+const SharingCardForm = ({ cardData, onInputChange, onImageUpload }: SharingCardFormProps) => {
     const formFields = [
         { id: 'date', label: '日期', type: 'date' },
         { id: 'mainText', label: '主文本' },
