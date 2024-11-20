@@ -1,11 +1,11 @@
 'use client'
 
+import { ThemeSwitch } from '@/components/theme-switch'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { CalendarDaysIcon, MoonIcon, SunIcon } from 'lucide-react'
 import { ChangeEvent, useState } from 'react'
-import { Switch } from '@/components/ui/switch'
 
 interface SharingCardState {
     date: string
@@ -58,11 +58,13 @@ export default function SharingCard() {
 interface SharingCardPreviewProps extends SharingCardState {}
 
 export function SharingCardPreview({ date, mainText, author, creator, backgroundImage }: SharingCardPreviewProps) {
-    const [isDark, setIsDark] = useState(true)
+    const [isDark, setIsDark] = useState(false)
+    const switchHeight = 24
+    const switchWidth = 36
 
     return (
         <Card
-            className={`w-[500px] p-12 flex justify-center bg-gradient-to-br from-purple-600 to-blue-600 relative`}
+            className="w-[500px] p-12 bg-gradient-to-br from-purple-600 to-blue-600 relative"
             style={{
                 ...(backgroundImage && {
                     backgroundImage: `url(${backgroundImage})`,
@@ -71,14 +73,19 @@ export function SharingCardPreview({ date, mainText, author, creator, background
                 }),
             }}
         >
-            <div className="absolute top-4 right-4 flex items-center gap-2 z-20">
-                <SunIcon className="w-4 h-4 text-white" />
-                <Switch checked={isDark} onCheckedChange={setIsDark} />
-                <MoonIcon className="w-4 h-4 text-white" />
+            <div className="absolute top-2 right-2 z-10">
+                <ThemeSwitch
+                    height={switchHeight}
+                    width={switchWidth}
+                    isDarkMode={isDark}
+                    onCheckedChange={() => setIsDark(!isDark)}
+                />
             </div>
 
             <Card
-                className={`overflow-hidden w-full p-6 bg-transparent backdrop-blur-sm ${isDark ? 'text-white' : 'text-gray-800'}`}
+                className={`overflow-hidden w-full p-6 bg-transparent backdrop-blur-sm ${
+                    isDark ? 'text-gray-800' : 'text-white'
+                }`}
             >
                 <div className="relative flex items-center justify-start gap-2 z-10">
                     <CalendarDaysIcon className="w-6 h-6" />
