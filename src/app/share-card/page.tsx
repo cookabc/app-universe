@@ -199,34 +199,22 @@ export default function Component() {
                 selectedTemplate.bg,
                 selectedTemplate.textColor,
             )}
+            style={{
+                maskImage: `radial-gradient(circle at left 25%, transparent 16px, black 16px),
+                            radial-gradient(circle at left 75%, transparent 16px, black 16px),
+                            radial-gradient(circle at right 25%, transparent 16px, black 16px),
+                            radial-gradient(circle at right 75%, transparent 16px, black 16px)`,
+                maskComposite: 'source-in',
+                WebkitMaskImage: `radial-gradient(circle at left 25%, transparent 16px, black 16px),
+                                radial-gradient(circle at left 75%, transparent 16px, black 16px),
+                                radial-gradient(circle at right 25%, transparent 16px, black 16px),
+                                radial-gradient(circle at right 75%, transparent 16px, black 16px)`,
+                WebkitMaskComposite: 'source-in',
+            }}
         >
             {renderContentSection()}
             <div className="absolute top-[25%] left-0 right-0 border-t border-dashed border-gray-400" />
-            <div
-                className={cn(
-                    'absolute left-0 top-[25%] w-4 h-8 bg-white rounded-r-full -translate-y-1/2',
-                    selectedGradient,
-                )}
-            />
-            <div
-                className={cn(
-                    'absolute right-0 top-[25%] w-4 h-8 bg-white rounded-l-full -translate-y-1/2',
-                    selectedGradient,
-                )}
-            />
-            <div className="absolute bottom-[20%] left-0 right-0 border-t border-dashed border-gray-400" />
-            <div
-                className={cn(
-                    'absolute right-0 bottom-[20%] w-4 h-8 bg-white rounded-l-full translate-y-1/2',
-                    selectedGradient,
-                )}
-            />
-            <div
-                className={cn(
-                    'absolute left-0 bottom-[20%] w-4 h-8 bg-white rounded-r-full translate-y-1/2',
-                    selectedGradient,
-                )}
-            />
+            <div className="absolute top-[75%] left-0 right-0 border-t border-dashed border-gray-400" />
         </div>
     )
 
