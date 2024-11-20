@@ -3,7 +3,7 @@
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { CalendarDaysIcon, SunIcon, MoonIcon } from 'lucide-react'
+import { CalendarDaysIcon, MoonIcon, SunIcon } from 'lucide-react'
 import { ChangeEvent, useState } from 'react'
 import { Switch } from '@/components/ui/switch'
 
@@ -15,27 +15,29 @@ interface SharingCardState {
     backgroundImage: string
 }
 
+const DEFAULT_CARD_DATA: SharingCardState = {
+    date: new Date().toISOString().split('T')[0],
+    mainText: '伟大的事物从来没有伟大的开端',
+    author: '约瑟夫·德·迈斯特',
+    creator: '@Anata',
+    backgroundImage: '',
+}
+
 export default function SharingCard() {
-    const [cardData, setCardData] = useState<SharingCardState>({
-        date: new Date().toISOString().split('T')[0],
-        mainText: '伟大的事物从来没有伟大的开端',
-        author: '约瑟夫·德·迈斯特',
-        creator: '@Anata',
-        backgroundImage: '',
-    })
+    const [cardData, setCardData] = useState<SharingCardState>(DEFAULT_CARD_DATA)
 
     const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
-        if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setCardData((prev) => ({
-                    ...prev,
-                    backgroundImage: reader.result as string,
-                }))
-            }
-            reader.readAsDataURL(file)
+        if (!file) return
+
+        const reader = new FileReader()
+        reader.onloadend = () => {
+            setCardData((prev) => ({
+                ...prev,
+                backgroundImage: reader.result as string,
+            }))
         }
+        reader.readAsDataURL(file)
     }
 
     const handleInputChange = (field: keyof SharingCardState) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,13 +55,7 @@ export default function SharingCard() {
     )
 }
 
-interface SharingCardPreviewProps {
-    date: string
-    mainText: string
-    author: string
-    creator: string
-    backgroundImage: string
-}
+interface SharingCardPreviewProps extends SharingCardState {}
 
 export function SharingCardPreview({ date, mainText, author, creator, backgroundImage }: SharingCardPreviewProps) {
     const [isDark, setIsDark] = useState(true)
@@ -107,35 +103,37 @@ interface SharingCardFormProps {
 }
 
 export function SharingCardForm({ cardData, onInputChange, onImageUpload }: SharingCardFormProps) {
+    const formFields = [
+        { id: 'date', label: '日期', type: 'date' },
+        { id: 'mainText', label: '主文本' },
+        { id: 'author', label: '作者' },
+        { id: 'creator', label: '创作者' },
+        {
+            id: 'backgroundImage',
+            label: '背景图片',
+            type: 'file',
+            accept: 'image/*',
+            placeholder: '选择背景图片',
+            onChange: onImageUpload,
+        },
+    ]
+
     return (
         <Card className="w-[500px] p-8">
             <div className="space-y-2">
-                <div className="space-y-2">
-                    <Label htmlFor="date">日期</Label>
-                    <Input id="date" type="date" value={cardData.date} onChange={onInputChange('date')} />
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="mainText">主文本</Label>
-                    <Input id="mainText" value={cardData.mainText} onChange={onInputChange('mainText')} />
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="author">作者</Label>
-                    <Input id="author" value={cardData.author} onChange={onInputChange('author')} />
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="creator">创作者</Label>
-                    <Input id="creator" value={cardData.creator} onChange={onInputChange('creator')} />
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="backgroundImage">背景图片</Label>
-                    <Input
-                        id="backgroundImage"
-                        type="file"
-                        accept="image/*"
-                        placeholder="选择背景图片"
-                        onChange={onImageUpload}
-                    />
-                </div>
+                {formFields.map((field) => (
+                    <div key={field.id} className="space-y-2">
+                        <Label htmlFor={field.id}>{field.label}</Label>
+                        <Input
+                            id={field.id}
+                            type={field.type}
+                            value={field.type !== 'file' ? cardData[field.id as keyof SharingCardState] : undefined}
+                            onChange={field.onChange || onInputChange(field.id as keyof SharingCardState)}
+                            accept={field.accept}
+                            placeholder={field.placeholder}
+                        />
+                    </div>
+                ))}
             </div>
         </Card>
     )
