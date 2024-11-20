@@ -3,8 +3,9 @@
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { CalendarDaysIcon } from 'lucide-react'
+import { CalendarDaysIcon, SunIcon, MoonIcon } from 'lucide-react'
 import { ChangeEvent, useState } from 'react'
+import { Switch } from '@/components/ui/switch'
 
 interface SharingCardState {
     date: string
@@ -61,9 +62,11 @@ interface SharingCardPreviewProps {
 }
 
 export function SharingCardPreview({ date, mainText, author, creator, backgroundImage }: SharingCardPreviewProps) {
+    const [isDark, setIsDark] = useState(true)
+
     return (
         <Card
-            className={`w-[500px] p-12 flex justify-center bg-gradient-to-br from-purple-600 to-blue-600`}
+            className={`w-[500px] p-12 flex justify-center bg-gradient-to-br from-purple-600 to-blue-600 relative`}
             style={{
                 ...(backgroundImage && {
                     backgroundImage: `url(${backgroundImage})`,
@@ -72,7 +75,15 @@ export function SharingCardPreview({ date, mainText, author, creator, background
                 }),
             }}
         >
-            <Card className="overflow-hidden w-full p-6 bg-transparent backdrop-blur-sm text-white">
+            <div className="absolute top-4 right-4 flex items-center gap-2 z-20">
+                <SunIcon className="w-4 h-4 text-white" />
+                <Switch checked={isDark} onCheckedChange={setIsDark} />
+                <MoonIcon className="w-4 h-4 text-white" />
+            </div>
+
+            <Card
+                className={`overflow-hidden w-full p-6 bg-transparent backdrop-blur-sm ${isDark ? 'text-white' : 'text-gray-800'}`}
+            >
                 <div className="relative flex items-center justify-start gap-2 z-10">
                     <CalendarDaysIcon className="w-6 h-6" />
                     <span className="text-lg font-semibold">{date}</span>
