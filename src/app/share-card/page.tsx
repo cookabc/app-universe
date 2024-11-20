@@ -109,7 +109,7 @@ const DEFAULT_CONTENT_STYLE = {
     lineHeight: '1.5',
 }
 
-export default function Component() {
+export default function ShareCard() {
     const [lang, setLang] = useState('zh')
     const t = LANGUAGES[lang]
 
