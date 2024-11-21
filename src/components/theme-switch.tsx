@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import * as SwitchPrimitives from '@radix-ui/react-switch'
-import { MoonIcon, SunIcon, type LucideIcon } from 'lucide-react'
+import { type LucideIcon, MoonIcon, SunIcon } from 'lucide-react'
 import * as React from 'react'
 
 export interface ThemeSwitchProps extends React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root> {
