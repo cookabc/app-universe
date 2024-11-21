@@ -9,7 +9,7 @@ export const HeroSection = () => {
                     className="space-y-8"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
+                    transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
                 >
                     <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white">
                         Build Your Digital World
