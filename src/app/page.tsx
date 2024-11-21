@@ -12,8 +12,10 @@ export default function HomePage() {
         <main className="bg-gradient-to-br from-gray-900 to-gray-700 text-white">
             <Header />
             <Particles />
-            <HeroSection />
-            <AppGrid apps={apps} />
+            <div className="px-6 sm:px-12 md:px-16 lg:px-24 xl:px-32">
+                <HeroSection />
+                <AppGrid apps={apps} />
+            </div>
             <Footer />
         </main>
     )
