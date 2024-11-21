@@ -9,7 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@ai-sdk/openai": "1.0.0",
+        "@ai-sdk/openai": "1.0.2",
         "@google-cloud/translate": "8.5.0",
         "@radix-ui/react-avatar": "1.1.1",
         "@radix-ui/react-dialog": "1.1.2",
@@ -27,7 +27,7 @@
         "@radix-ui/react-toggle-group": "1.1.0",
         "@radix-ui/react-tooltip": "1.1.4",
         "@types/react-syntax-highlighter": "15.5.13",
-        "ai": "4.0.0",
+        "ai": "4.0.2",
         "class-variance-authority": "0.7.0",
         "clsx": "2.1.1",
         "framer-motion": "12.0.0-alpha.1",
@@ -47,7 +47,7 @@
         "tailwindcss-animate": "1.0.7"
     },
     "devDependencies": {
-        "@types/node": "22.9.0",
+        "@types/node": "22.9.1",
         "@types/react": "18.3.12",
         "@types/react-dom": "18.3.1",
         "postcss": "8.4.49",
