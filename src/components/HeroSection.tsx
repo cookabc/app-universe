@@ -1,54 +1,76 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
+// Constants
+const ANIMATION_CONFIG = {
+    TYPING_SPEED: 120,
+    DELETING_SPEED: 100,
+    PAUSE_TIME: 1500,
+    WORDS: ['World', 'Dream', 'Life'] as const,
+} as const
+
+// Animation variants
 const buttonVariants = {
     hover: { scale: 1.05 },
     tap: { scale: 0.95 },
-}
-
-const words = ['World', 'Dream', 'Life']
-const TYPING_SPEED = 120
-const DELETING_SPEED = 100
-const PAUSE_TIME = 1500
+} as const
 
 export const HeroSection = () => {
     const [currentWordIndex, setCurrentWordIndex] = useState(0)
     const [currentText, setCurrentText] = useState('')
     const [isDeleting, setIsDeleting] = useState(false)
 
-    useEffect(() => {
-        let timeout: NodeJS.Timeout
+    const animateText = useCallback(() => {
+        const currentWord = ANIMATION_CONFIG.WORDS[currentWordIndex]
 
-        const animateText = () => {
-            const currentWord = words[currentWordIndex]
-
-            if (!isDeleting) {
-                if (currentText !== currentWord) {
-                    timeout = setTimeout(() => {
-                        setCurrentText(currentWord.slice(0, currentText.length + 1))
-                    }, TYPING_SPEED)
-                } else {
-                    timeout = setTimeout(() => {
-                        setIsDeleting(true)
-                    }, PAUSE_TIME)
+        if (!isDeleting) {
+            if (currentText !== currentWord) {
+                return {
+                    newText: currentWord.slice(0, currentText.length + 1),
+                    delay: ANIMATION_CONFIG.TYPING_SPEED,
                 }
-            } else {
-                if (currentText !== '') {
-                    timeout = setTimeout(() => {
-                        setCurrentText(currentText.slice(0, currentText.length - 1))
-                    }, DELETING_SPEED)
-                } else {
-                    setIsDeleting(false)
-                    setCurrentWordIndex((prev) => (prev + 1) % words.length)
-                }
+            }
+            return {
+                newText: currentText,
+                delay: ANIMATION_CONFIG.PAUSE_TIME,
+                shouldDelete: true,
             }
         }
 
-        animateText()
+        if (currentText !== '') {
+            return {
+                newText: currentText.slice(0, currentText.length - 1),
+                delay: ANIMATION_CONFIG.DELETING_SPEED,
+            }
+        }
+
+        return {
+            newText: currentText,
+            nextWord: true,
+        }
+    }, [currentText, currentWordIndex, isDeleting])
+
+    useEffect(() => {
+        let timeout: NodeJS.Timeout
+
+        const updateText = () => {
+            const result = animateText()
+
+            if (result.shouldDelete) {
+                timeout = setTimeout(() => setIsDeleting(true), result.delay)
+            } else if (result.nextWord) {
+                setIsDeleting(false)
+                setCurrentWordIndex((prev) => (prev + 1) % ANIMATION_CONFIG.WORDS.length)
+            } else {
+                timeout = setTimeout(() => setCurrentText(result.newText), result.delay)
+            }
+        }
+
+        updateText()
 
         return () => clearTimeout(timeout)
-    }, [currentText, currentWordIndex, isDeleting])
+    }, [animateText])
 
     return (
         <section className="min-h-[50vh] w-full my-20 p-10 md:p-16 flex items-center justify-center text-center z-10">
@@ -60,7 +82,10 @@ export const HeroSection = () => {
             >
                 <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white">
                     Build Your Digital{' '}
-                    <span className="relative inline-block text-blue-500 after:content-[''] after:absolute after:right-[-12px] after:top-[-4px] after:w-[8px] after:h-[120%] after:bg-blue-500 after:animate-blink">
+                    <span
+                        className="relative inline-block text-blue-500 
+                        after:content-[''] after:absolute after:right-[-12px] after:top-[-4px] after:w-[8px] after:h-[120%] after:bg-blue-500 after:animate-blink"
+                    >
                         <span>{currentText}</span>
                     </span>{' '}
                     <span className="block mt-4 text-2xl sm:text-3xl md:text-4xl font-normal">One App at a Time</span>
