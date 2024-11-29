@@ -1,3 +1,4 @@
+import { TypewriterText } from '@/components/typewriter-text'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
@@ -81,13 +82,7 @@ export const HeroSection = () => {
                 transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
             >
                 <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-white">
-                    Build Your Digital{' '}
-                    <span
-                        className="relative inline-block text-blue-500 
-                        after:content-[''] after:absolute after:right-[-12px] after:top-[-4px] after:w-[8px] after:h-[120%] after:bg-blue-500 after:animate-blink"
-                    >
-                        <span>{currentText}</span>
-                    </span>{' '}
+                    Build Your Digital <TypewriterText text={currentText} />{' '}
                     <span className="block mt-4 text-2xl sm:text-3xl md:text-4xl font-normal">One App at a Time</span>
                 </h2>
                 <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
