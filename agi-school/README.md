@@ -1,89 +1,36 @@
-# Japanese Romaji Helper Chrome Extension
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Japanese Romaji Helper is a Chrome extension that displays romaji (Latin script) for selected Japanese text, providing an easy way for users to read and understand Japanese characters.
+## Getting Started
 
-## Table of Contents
+First, run the development server:
 
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Development](#development)
-- [Backend Server](#backend-server)
-- [Contributing](#contributing)
-- [License](#license)
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## Features
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- Converts selected Japanese text to romaji
-- Displays romaji in a user-friendly overlay
-- Highlights selected text
-- Toggle extension on/off from the popup
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## Installation
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-1. Clone this repository:
+## Learn More
 
-   ```shell
-   git clone https://github.com/cookabc/jp-romaji-helper.git
-   ```
+To learn more about Next.js, take a look at the following resources:
 
-2. Install dependencies:
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-   ```shell
-   pnpm install
-   ```
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-3. Build the extension:
+## Deploy on Vercel
 
-   ```shell
-   pnpm run build
-   ```
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-4. Load the extension in Chrome:
-   - Open Chrome and navigate to `chrome://extensions`
-   - Enable "Developer mode"
-   - Click "Load unpacked" and select the `dist` folder in the project directory
-
-## Usage
-
-1. Enable the extension by clicking on the extension icon and toggling it on.
-2. Select any Japanese text on a webpage.
-3. An overlay will appear with the original text and its romaji translation.
-4. Click the close button or anywhere outside the overlay to dismiss it.
-
-## Development
-
-The project uses Webpack for bundling and Babel for transpiling. The main files are:
-
-- `src/content.js`: Content script that handles text selection and overlay display
-- `src/background.js`: Background script for extension state management
-- `src/popup.js`: Script for the extension popup
-- `public/popup.html`: HTML for the extension popup
-- `public/manifest.json`: Extension manifest file
-
-To make changes:
-
-1. Modify the source files in the `src` directory.
-2. Run `pnpm run build` to rebuild the extension.
-3. Reload the extension in Chrome to see your changes.
-
-## Backend Server
-
-The extension relies on a backend server for Japanese to romaji conversion. The server code is in `express.js`. To run the server:
-
-1. Ensure you have the necessary dependencies installed.
-2. Run the server:
-
-   ```shell
-   node express.js
-   ```
-
-The server will start on `http://localhost:3000`.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
