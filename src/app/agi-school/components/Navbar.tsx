@@ -8,7 +8,7 @@ export default function Navbar() {
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
                         <Link href="/agi-school" className="text-2xl font-bold">
-                            <div className="flex-shrink-0">
+                            <div className="shrink-0">
                                 <BrainIcon className="h-8 w-8 text-blue-500" />
                             </div>
                         </Link>

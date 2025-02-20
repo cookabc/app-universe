@@ -2,9 +2,9 @@
 
 import { Button } from '@/components/ui/button'
 import { ChevronRight } from 'lucide-react'
-import { Header } from './header'
 import { FeaturesSection } from './features-section'
 import { FreedomSection } from './freedom-section'
+import { Header } from './header'
 
 export default function Home() {
     return (

@@ -24,7 +24,7 @@ export default function Home() {
         },
     ]
     return (
-        <main className="flex-grow">
+        <main className="grow">
             <section className="relative text-white py-20">
                 <div className="container mx-auto text-center">
                     <h1 className="text-5xl font-bold mb-4">Welcome to AGI School</h1>

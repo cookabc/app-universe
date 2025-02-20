@@ -96,7 +96,7 @@ export default function TypingPractice() {
     })
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-900 via-slate-900 to-blue-900 p-4 sm:p-8">
+        <div className="min-h-screen bg-linear-to-br from-purple-900 via-slate-900 to-blue-900 p-4 sm:p-8">
             {showEffect && <TypingEffect x={effectPosition.x} y={effectPosition.y} />}
             {showCelebration && <CelebrationEffect key={celebrationKey} />}
             <Card className="max-w-4xl mx-auto p-4 sm:p-8 bg-black/40 backdrop-blur-xl border-0">
@@ -104,7 +104,7 @@ export default function TypingPractice() {
                 <div className="space-y-4 sm:space-y-8">
                     <div
                         ref={textDisplayRef}
-                        className="font-mono text-lg sm:text-2xl leading-relaxed text-gray-400 min-h-[100px] relative outline-none"
+                        className="font-mono text-lg sm:text-2xl leading-relaxed text-gray-400 min-h-[100px] relative outline-hidden"
                         style={{
                             maxWidth: '100%',
                             overflowWrap: 'break-word',

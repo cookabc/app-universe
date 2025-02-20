@@ -58,7 +58,7 @@ const ThemeSwitch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Ro
                 className={cn(
                     'rounded-full relative inline-flex shrink-0 cursor-pointer border-2 border-transparent',
                     'transition-colors duration-200 ease-in-out',
-                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
+                    'focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
                     className,
                 )}
                 checked={isDarkMode}
