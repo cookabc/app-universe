@@ -9,7 +9,7 @@ import apps from '@/data/apps'
 
 export default function HomePage() {
     return (
-        <main className="bg-gradient-to-br from-gray-900 to-gray-700 text-white">
+        <main className="bg-linear-to-br from-gray-900 to-gray-700 text-white">
             <Header />
             <CanvasDotGrid />
             <div className="px-6 sm:px-12 md:px-16 lg:px-24 xl:px-32">

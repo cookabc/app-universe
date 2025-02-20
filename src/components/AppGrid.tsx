@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 const AppCard = ({ app }: { app: AppData }) => (
     <motion.div
         key={app.name}
-        className="relative overflow-hidden rounded-xl border border-gray-700 shadow-xl bg-black/10 backdrop-blur-sm"
+        className="relative overflow-hidden rounded-xl border border-gray-700 shadow-xl bg-black/10 backdrop-blur-xs"
         whileHover={{
             scale: 1.05,
             y: -5,

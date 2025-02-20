@@ -204,8 +204,8 @@ export default function WordSearchGame() {
     }
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gradient-to-r from-blue-500 to-purple-600">
-            <Card className="w-full max-w-4xl mx-auto bg-gradient-to-br from-purple-500 to-pink-500 text-white">
+        <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-linear-to-r from-blue-500 to-purple-600">
+            <Card className="w-full max-w-4xl mx-auto bg-linear-to-br from-purple-500 to-pink-500 text-white">
                 <CardHeader className="text-center">
                     <CardTitle className="text-3xl font-bold">文字搜索挑战</CardTitle>
                     <p className="text-xl">主题：{LEVELS[currentLevel].theme}</p>

@@ -64,7 +64,7 @@ const SharingCardPreview = ({ date, mainText, author, creator, backgroundImage }
 
     return (
         <Card
-            className="w-[500px] p-12 bg-gradient-to-br from-purple-600 to-blue-600 relative"
+            className="w-[500px] p-12 bg-linear-to-br from-purple-600 to-blue-600 relative"
             style={{
                 ...(backgroundImage && {
                     backgroundImage: `url(${backgroundImage})`,
@@ -83,7 +83,7 @@ const SharingCardPreview = ({ date, mainText, author, creator, backgroundImage }
             </div>
 
             <Card
-                className={`overflow-hidden w-full p-6 bg-transparent backdrop-blur-sm ${
+                className={`overflow-hidden w-full p-6 bg-transparent backdrop-blur-xs ${
                     isDark ? 'text-gray-800' : 'text-white'
                 }`}
             >

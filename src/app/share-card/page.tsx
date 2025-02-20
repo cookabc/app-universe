@@ -25,14 +25,14 @@ import {
 import { useEffect, useRef, useState } from 'react'
 
 const GRADIENTS = [
-    'bg-gradient-to-br from-blue-600 to-purple-600',
-    'bg-gradient-to-br from-green-400 to-green-600',
-    'bg-gradient-to-br from-orange-300 to-rose-300',
-    'bg-gradient-to-br from-purple-600 to-blue-800',
-    'bg-gradient-to-br from-cyan-400 to-blue-500',
-    'bg-gradient-to-br from-yellow-400 to-orange-500',
-    'bg-gradient-to-br from-pink-500 to-purple-500',
-    'bg-gradient-to-br from-teal-400 to-emerald-500',
+    'bg-linear-to-br from-blue-600 to-purple-600',
+    'bg-linear-to-br from-green-400 to-green-600',
+    'bg-linear-to-br from-orange-300 to-rose-300',
+    'bg-linear-to-br from-purple-600 to-blue-800',
+    'bg-linear-to-br from-cyan-400 to-blue-500',
+    'bg-linear-to-br from-yellow-400 to-orange-500',
+    'bg-linear-to-br from-pink-500 to-purple-500',
+    'bg-linear-to-br from-teal-400 to-emerald-500',
 ]
 
 const TEMPLATES = [
@@ -183,7 +183,7 @@ export default function ShareCard() {
     const renderBaseCard = () => (
         <div
             className={cn(
-                'w-full h-full backdrop-blur-sm rounded-xl border-white/20 overflow-hidden relative',
+                'w-full h-full backdrop-blur-xs rounded-xl border-white/20 overflow-hidden relative',
                 selectedTemplate.bg,
                 selectedTemplate.textColor,
             )}
@@ -195,7 +195,7 @@ export default function ShareCard() {
     const renderTicketCard = () => (
         <div
             className={cn(
-                'w-full h-full backdrop-blur-sm rounded-xl overflow-hidden relative',
+                'w-full h-full backdrop-blur-xs rounded-xl overflow-hidden relative',
                 selectedTemplate.bg,
                 selectedTemplate.textColor,
             )}
@@ -220,7 +220,7 @@ export default function ShareCard() {
 
     const renderCard = () => {
         const cardContent = selectedTemplate.id === 'ticket' ? renderTicketCard() : renderBaseCard()
-        return <div className={cn('w-full aspect-[3/4] p-12', selectedGradient)}>{cardContent}</div>
+        return <div className={cn('w-full aspect-3/4 p-12', selectedGradient)}>{cardContent}</div>
     }
 
     const downloadImage = () => {
@@ -431,7 +431,7 @@ export default function ShareCard() {
                 <div ref={cardRef}>{renderCard()}</div>
 
                 <div className="fixed bottom-4 left-4 right-4 max-w-md mx-auto">
-                    <Card className="bg-white/80 backdrop-blur border-gray-200">
+                    <Card className="bg-white/80 backdrop-blur-sm border-gray-200">
                         <div className="p-4 space-y-4">
                             <div className="flex gap-4 text-sm text-gray-600">
                                 {TEMPLATES.map((template) => (
