@@ -66,6 +66,47 @@ const apps: AppData[] = [
         color: '#4B7BEC',
         path: '/word-search',
     },
+    {
+        name: 'Bento',
+        description: 'Unified Inference Platform',
+        color: '#064e3b',
+        path: '/bento',
+    },
+    {
+        name: 'Pace Calculator',
+        description: 'Calculate running pace and splits',
+        color: '#3B82F6',
+        path: '/pace-calculator',
+    },
+    {
+        name: 'Typing Practice',
+        description: 'Typing Practice',
+        color: '#3B82F6',
+        path: '/typing-practice',
+    },
+    {
+        name: 'Share Card',
+        description: 'Share Card',
+        color: '#3B82F6',
+        path: '/share-card',
+    },
+    {
+        name: 'Sharing Card',
+        description: 'Sharing Card',
+        color: '#3B82F6',
+        path: '/sharing-card',
+    },
+    {
+        name: 'Icon Grid',
+        description: 'Icon Grid',
+        color: '#3B82F6',
+        path: '/buttons',
+    },
+    {
+        name: 'AGI School',
+        description: 'Learn about Artificial General Intelligence',
+        color: '#8b5cf6',
+        path: '/agi-school',
+    },
 ]
-
 export default apps
