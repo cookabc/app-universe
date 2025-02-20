@@ -67,7 +67,7 @@ export function FreedomSection() {
     return (
         <section className={`bg-[${THEME.colors.background}] py-12 sm:py-16 md:py-24`}>
             <div className="mx-auto max-w-[1200px] px-4 sm:px-8 lg:px-12">
-                <div className="grid gap-8 lg:grid-cols-[1fr,2fr] lg:gap-12">
+                <div className="grid gap-8 lg:grid-cols-[1fr_2fr] lg:gap-12">
                     <div>
                         <h2
                             className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[${THEME.colors.primary}]`}
