@@ -108,5 +108,11 @@ const apps: AppData[] = [
         color: '#8b5cf6',
         path: '/agi-school',
     },
+    {
+        name: 'Prompt Engineering',
+        description: 'Learn about Prompt Engineering',
+        color: '#fb7bec',
+        path: '/prompt-eng',
+    },
 ]
 export default apps
