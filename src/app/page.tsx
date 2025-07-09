@@ -1,10 +1,10 @@
 'use client'
 
 import { AppGrid } from '@/components/AppGrid'
+import { CanvasDotGrid } from '@/components/canvas-dot-grid'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { HeroSection } from '@/components/HeroSection'
-import { CanvasDotGrid } from '@/components/canvas-dot-grid'
 import apps from '@/data/apps'
 
 export default function HomePage() {

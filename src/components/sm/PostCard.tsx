@@ -3,15 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import type { Post } from '@/lib/mockData'
 
-export const PostCard = ({
-    post,
-    platform,
-    onClick,
-}: {
-    post: Post
-    platform: 'x' | 'weibo'
-    onClick: () => void
-}) => {
+export const PostCard = ({ post, platform, onClick }: { post: Post; platform: 'x' | 'weibo'; onClick: () => void }) => {
     return (
         <Card key={post.id} className="mb-4" onClick={onClick}>
             <CardHeader className="flex items-center space-x-4">

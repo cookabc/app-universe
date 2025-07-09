@@ -7,7 +7,11 @@ export const PostDetailDialog = ({
     post,
     platform,
     onClose,
-}: { post: Post; platform: 'x' | 'weibo'; onClose: () => void }) => {
+}: {
+    post: Post
+    platform: 'x' | 'weibo'
+    onClose: () => void
+}) => {
     return (
         <Dialog open={true} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[600px]">

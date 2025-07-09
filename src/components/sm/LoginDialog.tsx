@@ -1,3 +1,4 @@
+import { useCallback, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
     Dialog,
@@ -11,7 +12,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/hooks/use-toast'
-import { useCallback, useState } from 'react'
 
 export const LoginDialog = ({
     platform,
