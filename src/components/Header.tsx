@@ -1,11 +1,11 @@
 'use client'
 
-import { AppIcon } from '@/components/AppIcon'
-import apps from '@/data/apps'
 import { motion } from 'framer-motion'
 import { Menu } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
+import { AppIcon } from '@/components/AppIcon'
+import apps from '@/data/apps'
 import { AppMenu } from './AppMenu'
 
 export const Header = () => {

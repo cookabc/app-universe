@@ -1,15 +1,15 @@
 'use client'
 
+import { AnimatePresence, motion } from 'framer-motion'
+import { AlertCircle, ArrowLeftRight, Check, Copy, Moon, RotateCcw, Sun, Volume2 } from 'lucide-react'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import { japaneseConvert, translateText } from '@/app/actions'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
-import { AnimatePresence, motion } from 'framer-motion'
-import { AlertCircle, ArrowLeftRight, Check, Copy, Moon, RotateCcw, Sun, Volume2 } from 'lucide-react'
-import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
 
 const languages = {
     en: {

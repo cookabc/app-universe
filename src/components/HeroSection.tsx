@@ -1,7 +1,7 @@
-import { TypewriterText } from '@/components/typewriter-text'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
+import { TypewriterText } from '@/components/typewriter-text'
 
 // Constants
 const ANIMATION_CONFIG = {

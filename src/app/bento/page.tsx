@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { ChevronRight } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { FeaturesSection } from './features-section'
 import { FreedomSection } from './freedom-section'
 import { Header } from './header'

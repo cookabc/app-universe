@@ -10,11 +10,7 @@ export const metadata = {
     description: 'Shaping the Future of Artificial General Intelligence',
 }
 
-export default function RootLayout({
-    children,
-}: {
-    children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <div>
             <Head>

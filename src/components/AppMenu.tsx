@@ -1,14 +1,8 @@
-import type { AppData } from '@/data/apps'
 import { motion } from 'framer-motion'
 import { X } from 'lucide-react'
+import type { AppData } from '@/data/apps'
 
-export const AppMenu = ({
-    setIsMenuOpen,
-    apps,
-}: {
-    setIsMenuOpen: (isMenuOpen: boolean) => void
-    apps: AppData[]
-}) => {
+export const AppMenu = ({ setIsMenuOpen, apps }: { setIsMenuOpen: (isMenuOpen: boolean) => void; apps: AppData[] }) => {
     return (
         <motion.div
             initial={{ opacity: 0, x: '100%' }}

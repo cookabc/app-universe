@@ -1,5 +1,5 @@
-import type { AppData } from '@/data/apps'
 import { motion } from 'framer-motion'
+import type { AppData } from '@/data/apps'
 
 const AppCard = ({ app }: { app: AppData }) => (
     <motion.div
