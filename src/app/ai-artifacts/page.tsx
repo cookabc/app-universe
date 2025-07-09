@@ -1,10 +1,10 @@
 'use client'
 
-import { type Message, continueConversation } from '@/app/actions'
 import { readStreamableValue } from 'ai/rsc'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Download, Loader2, Send } from 'lucide-react'
 import { useEffect, useState, useTransition } from 'react'
+import { continueConversation, type Message } from '@/app/actions'
 
 export default function AIArtifacts() {
     const [input, setInput] = useState<string>('')

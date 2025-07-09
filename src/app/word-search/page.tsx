@@ -1,10 +1,10 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, Star, Trophy } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const LEVELS = [
     { theme: '动物', words: ['猫', '狗', '鸟', '鱼'], size: 5 },

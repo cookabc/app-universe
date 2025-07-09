@@ -1,5 +1,8 @@
 'use client'
 
+import { AnimatePresence, motion } from 'framer-motion'
+import { Loader, Search } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { LoginDialog } from '@/components/sm/LoginDialog'
 import { PostCard } from '@/components/sm/PostCard'
 import { PostDetailDialog } from '@/components/sm/PostDetailDialog'
@@ -12,9 +15,6 @@ import { Switch } from '@/components/ui/switch'
 import { useToast } from '@/hooks/use-toast'
 import type { Post } from '@/lib/mockData'
 import { generateMockPosts } from '@/lib/mockData'
-import { AnimatePresence, motion } from 'framer-motion'
-import { Loader, Search } from 'lucide-react'
-import { useCallback, useEffect, useRef, useState } from 'react'
 
 // API documentation for x.com: https://developer.x.com/en/docs/x-api
 // API documentation for Weibo: https://open.weibo.com/wiki/API

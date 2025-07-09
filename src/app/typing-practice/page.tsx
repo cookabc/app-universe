@@ -1,9 +1,9 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { RotateCcw } from 'lucide-react'
 import { useCallback, useRef, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import { CelebrationEffect } from './celebration-effect'
 import { SAMPLE_TEXT } from './constants'
 import { useTypingGame } from './hooks/useTypingGame'
