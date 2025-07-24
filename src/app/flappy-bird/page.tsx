@@ -190,7 +190,8 @@ const updatePipes = (prevPipes: Pipe[], _bird: Bird, setScore: (cb: (prev: numbe
             return true
         })
 
-    if (prevPipes.length === 0 || prevPipes[prevPipes.length - 1].x < CANVAS_WIDTH - PIPE_SPACING) {
+    const lastPipe = prevPipes[prevPipes.length - 1]
+    if (prevPipes.length === 0 || (lastPipe && lastPipe.x < CANVAS_WIDTH - PIPE_SPACING)) {
         return [...updatedPipes, new PipeClass()]
     }
     return updatedPipes

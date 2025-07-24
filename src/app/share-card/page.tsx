@@ -12,7 +12,8 @@ import {
     Pencil,
     Underline,
 } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
+import { AppErrorBoundary } from '@/components/optimized/error-boundary'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -148,11 +149,17 @@ export default function ShareCard() {
             authorLength: author.length,
             totalCharacters: title.length + content.length + author.length,
             estimatedReadTime: Math.ceil(wordCount / (lang === 'zh' ? 300 : 200)), // chars/words per minute
-            templateName: selectedTemplate.name,
-            gradientIndex: GRADIENTS.indexOf(selectedGradient) + 1,
+            templateName: selectedTemplate?.name ?? '',
+            gradientIndex: GRADIENTS.indexOf(selectedGradient ?? '') + 1,
         }),
         [title, content, author, wordCount, lang, selectedTemplate, selectedGradient],
     )
+
+    const updateWordCount = () => {
+        const isChinese = lang === 'zh'
+        const words = isChinese ? content.trim().length : content.trim().split(/\s+/)
+        setWordCount(isChinese ? words : words.length)
+    }
 
     useEffect(() => {
         updateWordCount()
@@ -164,12 +171,6 @@ export default function ShareCard() {
         setAuthor(t.author)
         updateWordCount()
     }, [t, updateWordCount])
-
-    const updateWordCount = () => {
-        const isChinese = lang === 'zh'
-        const words = isChinese ? content.trim().length : content.trim().split(/\s+/)
-        setWordCount(isChinese ? words : words.length)
-    }
 
     const handleContentChange = (text: string) => {
         setContent(text)
@@ -211,8 +212,8 @@ export default function ShareCard() {
         <div
             className={cn(
                 'w-full h-full backdrop-blur-xs rounded-xl border-white/20 overflow-hidden relative',
-                selectedTemplate.bg,
-                selectedTemplate.textColor,
+                selectedTemplate?.bg,
+                selectedTemplate?.textColor,
             )}
         >
             {renderContentSection()}
@@ -223,8 +224,8 @@ export default function ShareCard() {
         <div
             className={cn(
                 'w-full h-full backdrop-blur-xs rounded-xl overflow-hidden relative',
-                selectedTemplate.bg,
-                selectedTemplate.textColor,
+                selectedTemplate?.bg,
+                selectedTemplate?.textColor,
             )}
             style={{
                 maskImage: `radial-gradient(circle at left 25%, transparent 16px, black 16px),
@@ -246,7 +247,7 @@ export default function ShareCard() {
     )
 
     const renderCard = () => {
-        const cardContent = selectedTemplate.id === 'ticket' ? renderTicketCard() : renderBaseCard()
+        const cardContent = selectedTemplate?.id === 'ticket' ? renderTicketCard() : renderBaseCard()
         return <div className={cn('w-full aspect-3/4 p-12', selectedGradient)}>{cardContent}</div>
     }
 
@@ -284,7 +285,9 @@ export default function ShareCard() {
     }
 
     const handleFontStyleToggle = (style: string) => {
-        setContentStyle(toggleMap[style]())
+        if (toggleMap[style]) {
+            setContentStyle(toggleMap[style]())
+        }
     }
 
     const handleAlignmentChange = (value: string) => {
@@ -427,7 +430,7 @@ export default function ShareCard() {
                                                 onValueChange={(value) =>
                                                     setContentStyle({
                                                         ...contentStyle,
-                                                        lineHeight: value[0].toString(),
+                                                        lineHeight: (value?.[0] ?? contentStyle.lineHeight).toString(),
                                                     })
                                                 }
                                                 className="mt-1"
@@ -490,7 +493,7 @@ export default function ShareCard() {
                                             onClick={() => setSelectedTemplate(template)}
                                             className={cn(
                                                 'hover:text-black transition-colors',
-                                                selectedTemplate.id === template.id && 'text-black',
+                                                selectedTemplate?.id === template.id && 'text-black',
                                             )}
                                         >
                                             {template.name}
