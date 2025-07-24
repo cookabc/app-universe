@@ -22,20 +22,6 @@ export default function TypingPractice() {
     // React 19: useTransition for non-blocking updates
     const [_isPending, startTransition] = useTransition()
 
-    // React 19: useMemo for expensive calculations
-    const gameStats = useMemo(
-        () => ({
-            wpm,
-            accuracy,
-            correctWords: Math.max(0, Math.floor((currentIndex + 1 - mistakes) / 5)),
-            timeElapsed: startTime ? (((endTime || Date.now()) - startTime) / 1000).toFixed(1) : '0.0',
-            progress: Math.min((currentIndex / text.length) * 100, 100),
-        }),
-        [wpm, accuracy, currentIndex, mistakes, startTime, endTime, text.length],
-    )
-    const textDisplayRef = useRef<HTMLDivElement>(null)
-    const charsRef = useRef<(HTMLSpanElement | null)[]>([])
-
     const handleFinish = useCallback(() => {
         setShowCelebration(true)
         setTimeout(() => {
@@ -43,6 +29,7 @@ export default function TypingPractice() {
         }, 3000)
     }, [])
 
+    // React 19: useMemo for expensive calculations
     const {
         userInput,
         currentIndex,
@@ -58,6 +45,18 @@ export default function TypingPractice() {
         text,
         onFinish: handleFinish,
     })
+    const gameStats = useMemo(
+        () => ({
+            wpm,
+            accuracy,
+            correctWords: Math.max(0, Math.floor((currentIndex + 1 - mistakes) / 5)),
+            timeElapsed: startTime ? (((endTime || Date.now()) - startTime) / 1000).toFixed(1) : '0.0',
+            progress: Math.min((currentIndex / text.length) * 100, 100),
+        }),
+        [wpm, accuracy, currentIndex, mistakes, startTime, endTime, text.length],
+    )
+    const textDisplayRef = useRef<HTMLDivElement>(null)
+    const charsRef = useRef<(HTMLSpanElement | null)[]>([])
 
     const updateCursorPosition = useCallback(() => {
         if (!textDisplayRef.current) return

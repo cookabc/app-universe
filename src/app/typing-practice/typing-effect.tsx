@@ -52,6 +52,7 @@ export function TypingEffect({ x, y }: { x: number; y: number }) {
             // Update and draw particles
             for (let i = particles.current.length - 1; i >= 0; i--) {
                 const p = particles.current[i]
+                if (!p) continue
                 p.x += p.vx
                 p.y += p.vy
                 p.vy += 0.1 // gravity
