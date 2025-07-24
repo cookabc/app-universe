@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 // Server Component - no 'use client' needed
 export const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear()

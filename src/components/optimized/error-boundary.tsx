@@ -31,7 +31,9 @@ export class OptimizedErrorBoundary extends Component<Props, State> {
 
     render() {
         if (this.state.hasError) {
-            return this.props.fallback || <DefaultErrorFallback error={this.state.error} />
+            return (
+                this.props.fallback || <DefaultErrorFallback error={this.state.error ?? new Error('Unknown error')} />
+            )
         }
 
         return this.props.children
