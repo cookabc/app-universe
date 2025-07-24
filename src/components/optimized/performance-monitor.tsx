@@ -36,7 +36,7 @@ export function PerformanceMonitor({
                         newMetrics.lcp = entry.startTime
                         break
                     case 'first-input':
-                        newMetrics.fid = entry.processingStart - entry.startTime
+                        newMetrics.fid = (entry as PerformanceEventTiming).processingStart - entry.startTime
                         break
                     case 'layout-shift':
                         if (!(entry as any).hadRecentInput) {
@@ -114,7 +114,7 @@ export function usePerformanceMetrics() {
                         newMetrics.lcp = entry.startTime
                         break
                     case 'first-input':
-                        newMetrics.fid = entry.processingStart - entry.startTime
+                        newMetrics.fid = (entry as PerformanceEventTiming).processingStart - entry.startTime
                         break
                     case 'layout-shift':
                         if (!(entry as any).hadRecentInput) {

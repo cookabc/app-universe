@@ -27,6 +27,8 @@ export const HeroSection = () => {
     const animateText = useCallback(() => {
         const currentWord = ANIMATION_CONFIG.WORDS[currentWordIndex]
 
+        if (!currentWord) return { newText: '', delay: ANIMATION_CONFIG.TYPING_SPEED }
+
         if (!isDeleting) {
             if (currentText !== currentWord) {
                 return {
@@ -52,7 +54,7 @@ export const HeroSection = () => {
             newText: currentText,
             nextWord: true,
         }
-    }, [currentText, currentWordIndex, isDeleting])
+    }, [currentWordIndex, currentText, isDeleting])
 
     useEffect(() => {
         let timeout: NodeJS.Timeout
