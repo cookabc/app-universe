@@ -21,8 +21,6 @@ import {
     Zap,
 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import { api } from '@/app/apis/game'
-import type { LeaderboardData, PlayerData } from '@/app/interfaces'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -32,6 +30,8 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'
 import { toast } from '@/hooks/use-toast'
+import { api } from '../apis/game'
+import type { LeaderboardData, PlayerData } from '../interfaces'
 import CharacterCustomization from './character'
 
 const levels = [
@@ -225,20 +225,6 @@ export default function PromptEngineeringGame() {
     })
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
-    useEffect(() => {
-        const initializeGame = async () => {
-            setIsLoading(true)
-            await loadPlayerData()
-            await loadLeaderboard()
-            setIsLoading(false)
-        }
-        initializeGame()
-    }, [loadLeaderboard, loadPlayerData])
-
-    useEffect(() => {
-        document.body.classList.toggle('dark', settings.darkMode)
-    }, [settings.darkMode])
-
     const loadPlayerData = async () => {
         try {
             const data: PlayerData = await api.getPlayerData()
@@ -266,6 +252,20 @@ export default function PromptEngineeringGame() {
             })
         }
     }
+
+    useEffect(() => {
+        const initializeGame = async () => {
+            setIsLoading(true)
+            await loadPlayerData()
+            await loadLeaderboard()
+            setIsLoading(false)
+        }
+        initializeGame()
+    }, [loadLeaderboard, loadPlayerData])
+
+    useEffect(() => {
+        document.body.classList.toggle('dark', settings.darkMode)
+    }, [settings.darkMode])
 
     const startGame = () => {
         if (playerData) {
@@ -305,7 +305,8 @@ export default function PromptEngineeringGame() {
             await api.submitScore(score)
             await loadPlayerData()
             await loadLeaderboard()
-            if (currentChallenge < levels[currentLevel - 1].challenges.length) {
+            const challengesLength = levels[currentLevel - 1]?.challenges.length ?? 0
+            if (currentChallenge < challengesLength) {
                 setCurrentChallenge(currentChallenge + 1)
             } else {
                 setGameState('worldMap')
@@ -632,7 +633,7 @@ export default function PromptEngineeringGame() {
                                 </div>
                                 <Slider
                                     value={[settings.volume]}
-                                    onValueChange={(value) => setSettings({ ...settings, volume: value[0] })}
+                                    onValueChange={(value) => setSettings({ ...settings, volume: value[0] ?? 100 })}
                                     max={100}
                                     step={1}
                                 />

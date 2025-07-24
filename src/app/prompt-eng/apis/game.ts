@@ -1,4 +1,4 @@
-import type { Achievement, LeaderboardData, PlayerData } from '@/app/interfaces'
+import type { Achievement, LeaderboardData, PlayerData } from '../interfaces'
 
 // 模拟玩家数据
 let playerData: PlayerData = {
@@ -105,11 +105,13 @@ export const api = {
                     rank: 0,
                     name: playerData.name,
                     score: score,
-                    avatar: playerData.avatar,
+                    avatar: playerData.avatar ?? '',
                     level: playerData.level,
                 })
             } else {
-                leaderboardData[playerIndex].score += score
+                if (playerIndex !== -1 && leaderboardData[playerIndex]) {
+                    leaderboardData[playerIndex].score += score
+                }
             }
             leaderboardData.sort((a, b) => b.score - a.score)
             leaderboardData.forEach((player, index) => {

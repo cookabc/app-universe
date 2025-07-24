@@ -76,9 +76,9 @@ type PerformanceData = {
 
 export default function ChallengePage() {
     const [currentChallenge, setCurrentChallenge] = useState(0)
-    const [userPrompt, setUserPrompt] = useState(challenges[currentChallenge].initialPrompt)
+    const [userPrompt, setUserPrompt] = useState(challenges[currentChallenge]?.initialPrompt ?? '')
     const [score, setScore] = useState(0)
-    const [timeLeft, setTimeLeft] = useState(challenges[currentChallenge].timeLimit)
+    const [timeLeft, setTimeLeft] = useState(challenges[currentChallenge]?.timeLimit ?? 0)
     const [attempts, setAttempts] = useState(0)
     const [feedback, setFeedback] = useState('')
     const [isSubmitted, setIsSubmitted] = useState(false)
@@ -95,8 +95,8 @@ export default function ChallengePage() {
             setCurrentChallenge(currentChallenge)
             setScore(score)
             setAttempts(attempts)
-            setUserPrompt(challenges[currentChallenge].initialPrompt)
-            setTimeLeft(challenges[currentChallenge].timeLimit)
+            setUserPrompt(challenges[currentChallenge]?.initialPrompt ?? '')
+            setTimeLeft(challenges[currentChallenge]?.timeLimit ?? 0)
         }
 
         const timer = setInterval(() => {
@@ -114,7 +114,8 @@ export default function ChallengePage() {
         // 这里应该有一个API调用来评估Prompt的质量
         // 现在我们用一个模拟的评分系统
         const promptScore = Math.floor(Math.random() * 100)
-        const timeBonus = Math.floor((timeLeft / challenges[currentChallenge].timeLimit) * 50)
+        const timeLimit = challenges[currentChallenge]?.timeLimit ?? 1
+        const timeBonus = Math.floor((timeLeft / timeLimit) * 50)
         const totalScore = promptScore + timeBonus
 
         setScore((prevScore) => prevScore + totalScore)
@@ -126,7 +127,7 @@ export default function ChallengePage() {
             {
                 challenge: currentChallenge + 1,
                 score: totalScore,
-                timeLimit: challenges[currentChallenge].timeLimit,
+                timeLimit: challenges[currentChallenge]?.timeLimit ?? 0,
                 attempts: attempts + 1,
             },
         ])
@@ -152,8 +153,8 @@ export default function ChallengePage() {
     const handleNextChallenge = () => {
         if (currentChallenge < challenges.length - 1) {
             setCurrentChallenge((prev) => prev + 1)
-            setUserPrompt(challenges[currentChallenge + 1].initialPrompt)
-            setTimeLeft(challenges[currentChallenge + 1].timeLimit)
+            setUserPrompt(challenges[currentChallenge + 1]?.initialPrompt ?? '')
+            setTimeLeft(challenges[currentChallenge + 1]?.timeLimit ?? 0)
             setAttempts(0)
             setFeedback('')
             setIsSubmitted(false)
@@ -208,8 +209,8 @@ export default function ChallengePage() {
                         >
                             <Card className="mb-8">
                                 <CardHeader>
-                                    <CardTitle>{challenges[currentChallenge].title}</CardTitle>
-                                    <CardDescription>{challenges[currentChallenge].description}</CardDescription>
+                                    <CardTitle>{challenges[currentChallenge]?.title ?? ''}</CardTitle>
+                                    <CardDescription>{challenges[currentChallenge]?.description ?? ''}</CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="flex justify-between items-center mb-4">
@@ -231,7 +232,7 @@ export default function ChallengePage() {
                                     />
                                     <div className="flex justify-between items-center mb-2">
                                         <span className="text-sm font-medium">
-                                            难度：{challenges[currentChallenge].difficulty}
+                                            难度：{challenges[currentChallenge]?.difficulty ?? ''}
                                         </span>
                                         <span className="text-sm font-medium">
                                             挑战 {currentChallenge + 1}/{challenges.length}
@@ -259,7 +260,7 @@ export default function ChallengePage() {
                                                 <DialogHeader>
                                                     <DialogTitle>提示</DialogTitle>
                                                     <DialogDescription>
-                                                        {challenges[currentChallenge].hint}
+                                                        {challenges[currentChallenge]?.hint ?? ''}
                                                     </DialogDescription>
                                                 </DialogHeader>
                                             </DialogContent>

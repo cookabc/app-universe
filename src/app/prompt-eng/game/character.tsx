@@ -41,7 +41,7 @@ interface CharacterCustomizationProps {
 export default function CharacterCustomization({ onComplete }: CharacterCustomizationProps) {
     const [name, setName] = useState('')
     const [avatar, setAvatar] = useState(avatars[0])
-    const [background, setBackground] = useState(backgrounds[0].name)
+    const [background, setBackground] = useState(backgrounds[0] ? backgrounds[0].name : '')
     const [specialization, setSpecialization] = useState('自然语言处理')
 
     const handleSubmit = () => {
@@ -58,7 +58,7 @@ export default function CharacterCustomization({ onComplete }: CharacterCustomiz
             name,
             level: 1,
             exp: 0,
-            avatar: avatar.src,
+            avatar: avatar ? avatar.src : '',
         })
 
         toast({
@@ -94,7 +94,7 @@ export default function CharacterCustomization({ onComplete }: CharacterCustomiz
                                 onClick={() => setAvatar(av)}
                             >
                                 <Avatar
-                                    className={`w-16 h-16 cursor-pointer ${avatar.id === av.id ? 'ring-2 ring-primary' : ''}`}
+                                    className={`w-16 h-16 cursor-pointer ${avatar && avatar.id === av.id ? 'ring-2 ring-primary' : ''}`}
                                 >
                                     <AvatarImage src={av.src} alt={av.alt} />
                                     <AvatarFallback>{av.alt[0]}</AvatarFallback>
