@@ -61,7 +61,7 @@ export default function ContributionGraph() {
             for (let x = 0; x < imageData.width; x++) {
                 const index = (y * imageData.width + x) * 4
                 const alpha = data[index + 3]
-                row.push(alpha > ALPHA_THRESHOLD ? Math.floor(Math.random() * 4) + 1 : 0)
+                row.push(typeof alpha === 'number' && alpha > ALPHA_THRESHOLD ? Math.floor(Math.random() * 4) + 1 : 0)
             }
             grid.push(row)
         }

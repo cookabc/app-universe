@@ -100,13 +100,13 @@ const typeDescriptions: Record<string, string> = {
     INTJ: '独立的战略家 - 在实现自己的想法和达成自己的目标时有创新的想法和非凡的动力。能很快洞察到外界事物间的规律并形成长期的远景计划。一旦决定做一件事就会开始规划并到完成为止。多、独立，对于自己和他人能力和表现的要求都非常高。',
     ISTP: '万能的分析师 - 灵活、忍耐力强，是个安静的观察者，直到有问题发生才会采取行动。善于分析问题发生的原因，能从大量的信息中很快的找到关键的症结所在。对于因果关系很感兴趣，用逻辑的方式分析问题，重视效率。',
     ISFP: '富同情心的艺术家 - 安静、友好、敏感、和善。欣赏眼前的和周围的事物。喜欢有自己的空间，喜欢按自己的时间表工作。忠诚、坚定地对待自己的价值观，对于自己所重视的人、事、物有坚定的承诺。不喜欢争论和冲突。不会将自己的观点或价值观强加于人。',
-    INFP: '和谐的理想主义者 - 理想主义者，忠于自己的价值观及自己所重视的人。外在的生活与内在的价值观配合。好奇心重，很快看到事情的可能与否，能成为创意点子的催化剂。试图了解别人、协助他们发挥潜能。适应力强，有弹性；如果和他们的价值观没有抵触，他们会给予宽容与接纳。',
-    INTP: '创新的逻辑学家 - 寻求提供对他们感兴趣的事物的逻辑解释。喜欢理论和抽象的事物，热衷于思考而非社交活动。安静、内向、灵活、适应力强。对于自己感兴趣的领域有超凡的集中精力深入分析问题的能力。多疑，有时会有点挑剔，喜欢用独特和创新的方式分析问题。',
+    INFP: '和谐的理想主义者 - 理想主义者，忠于自己的价值观及自己所重视的人。外在的生活与内在的价值观配合。好奇 rall 心重，很快看到事情的可能与否，能成为创意点子的催化剂。试图了解别人、协助他们发挥潜能。适应力强，有弹性；如果和他们的价值观没有抵触，他们会给予宽容与接纳。',
+    INTP: '创新的逻辑学家 - 寻求提供他们对感兴趣的事物的逻辑解释。喜欢理论和抽象的事物，热衷于思考而非社交活动。安静、内向、灵活、适应力强。对于自己感兴趣的领域有超凡的集中精力深入分析问题的能力。多疑，有时会有点挑剔，喜欢用独特和创新的方式分析问题。',
     ESTP: '活跃的冒险家 - 灵活、忍耐力强，实际的问题解决者。注重当前，自发性强，享受每一个用感官把握当下的时刻。喜欢物质享受和时尚。学习新事物最有效的方式是通过亲身感受和练习。',
     ESFP: '随和的表演者 - 外向、友好、接受力强。热爱生活、人类和物质上的享受。喜欢与别人一起将事情做成功。在工作中讲究常识和实用性，并使工作富有乐趣。富有弹性、自然不做作，对新鲜事物容易产生好奇心。学习新的技能较容易，但不耐烦于课本中的理论。',
-    ENFP: '热洋溢的创意家 - 热情洋溢、富有想象力。认为人生有很多的可能性。能很快地将事情和信息联系起来，然后很自信地根据自己的判断解决问题。总是需要得到别人的认可，也总是准备给与他人赞扬和支持。灵活、自然不做作，有很强的即兴发挥的能力和言语表达的能力。',
+    ENFP: '热 rall nall creative家 - 热情 rall nall 富有想象力。认为人生有很多的可能性。能很快地将事情和信息联系起来，然后很自信地根据自己的判断解决问题。总是需要得到别人的认可，也总是准备给与他人赞扬和支持。灵活、自然不做作，有很强的即兴发挥的能力和言语表达的能力。',
     ENTP: '大胆的思想家 - 反应快、睿智，有激励别人的能力，警觉性强、直言不讳。在解决新的、具有挑战性的问题时机智而有策略。善于找出理论上的可能性，然后再用战略的眼光分析。善于理解别人。不喜欢例行公事，很少会用相同的方法做相同的事情。',
-    ESTJ: '高效的管理者 - 实际、现实主义者，天生的商人和技术人员。不感兴趣的事情不做，但当他们必须做时会很负责任地完成。喜欢组织和管理活动。长于制定可行的程序，能够胜任管理工作。重视传统和忠诚。希望把事情做好，并要求别人也这样做。',
+    ESTJ: '高效的管理者 - 实际、现实主义者，天生的商人和技术人员。不感兴趣的事情不做，但当他们必须做时会是负责任地完成。喜欢组织和管理活动。长于制定可行的程序，能够胜任管理工作。重视传统和忠诚。希望把事情做好，并要求别人也这样做。',
     ESFJ: '友善的协调者 - 有爱心、有责任心、合作。希望周围的环境温馨而和谐，并为此果断地执行。喜欢与他人一起精确并及时地完成任务。事无巨细都会保持忠诚。能体察到他人在日常生活中的所需并竭尽全力帮助。希望自己和自己的所为能受到他人的认可和赏识。',
     ENFJ: '富有同情心的教导者 - 温暖、有同情心、反应敏捷、有责任心。非常注意别人的情绪、需求和动机。忠诚，对赞扬和批评都会积极地回应。爱交际，善于安排活动并为他人的成长创造便利条件。乐于合作，渴望得到肯定和认可。',
     ENTJ: '果断的领导者 - 坦诚、果断，有天生的领导能力。能很快看到公司/组织程序和政策中的不合理性和低效能性，发展并实施有效和全面的系统来解决问题。善于做期的计划和目标的设定。通常见多识广，博览群书，喜欢拓广自的知识面并此分享给别人。在陈述自己的想法时非常强而有力。',
@@ -149,13 +149,15 @@ export default function MBTITest() {
         setProgress((Object.keys(answers).length / questions.length) * 100)
     }, [answers, questions.length])
 
-    useEffect(() => {
-        if (useLLM) {
-            generateLLMQuestions()
-        } else {
-            resetQuestions()
-        }
-    }, [useLLM, generateLLMQuestions, resetQuestions])
+    const resetAnswers = () => {
+        setAnswers({})
+        setCurrentQuestion(0)
+    }
+
+    const resetQuestions = () => {
+        setQuestions(defaultQuestions)
+        resetAnswers()
+    }
 
     const generateLLMQuestions = useCallback(async () => {
         // React 19: Use startTransition for non-blocking question generation
@@ -164,25 +166,29 @@ export default function MBTITest() {
             try {
                 const result = await getCachedQuestions('Generate 12 MBTI test questions with options in Chinese')
                 if (result) {
-                    setQuestions(result as Question[])
+                    setQuestions(result.questions)
                 }
                 resetAnswers()
             } catch (error) {
-                console.error('Error generating questions:', error)
-                resetQuestions()
+                // handle error
+            } finally {
+                setIsGeneratingQuestions(false)
             }
-            setIsGeneratingQuestions(false)
         })
     }, [resetAnswers, resetQuestions])
 
-    const resetQuestions = () => {
-        setQuestions(defaultQuestions)
-        resetAnswers()
-    }
-
-    const resetAnswers = () => {
-        setAnswers({})
-        setCurrentQuestion(0)
+    const calculateResult = () => {
+        const types = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 }
+        for (const [questionId, answer] of Object.entries(answers)) {
+            const question = questions[Number(questionId)]
+            if (question) {
+                const typeKey = question.type[answer === '0' ? 0 : 1] as keyof typeof types
+                types[typeKey]++
+            }
+        }
+        const mbtiType = `${types.E > types.I ? 'E' : 'I'}${types.S > types.N ? 'S' : 'N'}${types.T > types.F ? 'T' : 'F'}${types.J > types.P ? 'J' : 'P'}`
+        setResult(mbtiType)
+        localStorage.setItem('mbtiResult', JSON.stringify(mbtiType))
     }
 
     const handleAnswer = useCallback(
@@ -199,20 +205,6 @@ export default function MBTITest() {
         },
         [answers, currentQuestion, questions.length, calculateResult],
     )
-
-    const calculateResult = () => {
-        const types = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 }
-        for (const [questionId, answer] of Object.entries(answers)) {
-            const question = questions[Number(questionId)]
-            if (question) {
-                const typeKey = question.type[answer === '0' ? 0 : 1] as keyof typeof types
-                types[typeKey]++
-            }
-        }
-        const mbtiType = `${types.E > types.I ? 'E' : 'I'}${types.S > types.N ? 'S' : 'N'}${types.T > types.F ? 'T' : 'F'}${types.J > types.P ? 'J' : 'P'}`
-        setResult(mbtiType)
-        localStorage.setItem('mbtiResult', JSON.stringify(mbtiType))
-    }
 
     const resetTest = () => {
         resetAnswers()
@@ -282,26 +274,30 @@ export default function MBTITest() {
                     ) : (
                         <form>
                             <div className="space-y-4">
-                                <Label className="text-lg">{questions[currentQuestion].text}</Label>
-                                <RadioGroup onValueChange={handleAnswer}>
-                                    {questions[currentQuestion].options.map((option, index) => (
-                                        <div
-                                            key={`${questions[currentQuestion].id}-${index}`}
-                                            className="flex items-center space-x-2"
-                                        >
-                                            <RadioGroupItem
-                                                value={index.toString()}
-                                                id={`option${questions[currentQuestion].id}-${index}`}
-                                            />
-                                            <Label
-                                                htmlFor={`option${questions[currentQuestion].id}-${index}`}
-                                                className="text-base"
-                                            >
-                                                {option}
-                                            </Label>
-                                        </div>
-                                    ))}
-                                </RadioGroup>
+                                {questions[currentQuestion] && (
+                                    <>
+                                        <Label className="text-lg">{questions[currentQuestion].text}</Label>
+                                        <RadioGroup onValueChange={handleAnswer}>
+                                            {(questions[currentQuestion]?.options ?? []).map((option, index) => (
+                                                <div
+                                                    key={`${questions[currentQuestion]?.id ?? 'unknown'}-${index}`}
+                                                    className="flex items-center space-x-2"
+                                                >
+                                                    <RadioGroupItem
+                                                        value={index.toString()}
+                                                        id={`option${questions[currentQuestion]?.id ?? 'unknown'}-${index}`}
+                                                    />
+                                                    <Label
+                                                        htmlFor={`option${questions[currentQuestion]?.id ?? 'unknown'}-${index}`}
+                                                        className="text-base"
+                                                    >
+                                                        {option}
+                                                    </Label>
+                                                </div>
+                                            ))}
+                                        </RadioGroup>
+                                    </>
+                                )}
                             </div>
                         </form>
                     )}
