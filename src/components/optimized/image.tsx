@@ -42,21 +42,24 @@ export function OptimizedImage({
         )
     }
 
+    const conditionalProps: Record<string, unknown> = {}
+    if (!fill && width !== undefined) conditionalProps.width = width
+    if (!fill && height !== undefined) conditionalProps.height = height
+    if (blurDataURL !== undefined) conditionalProps.blurDataURL = blurDataURL
+
     return (
         <div className={`relative ${className}`}>
             <Image
                 src={src}
                 alt={alt}
-                width={fill ? undefined : width}
-                height={fill ? undefined : height}
                 fill={fill}
                 priority={priority}
                 placeholder={placeholder}
-                blurDataURL={blurDataURL}
                 sizes={sizes || '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'}
                 className={`transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
                 onLoad={() => setIsLoading(false)}
                 onError={() => setHasError(true)}
+                {...conditionalProps}
                 {...props}
             />
             {isLoading && (
