@@ -14,7 +14,7 @@ export interface Post {
 
 export const generateMockPosts = (platform: 'x' | 'weibo', count: number): Post[] => {
     return Array.from({ length: count }, (_, i) => ({
-        id: new Date().getTime() + i,
+        id: Date.now() + i,
         user: {
             name: `User ${i + 1}`,
             username: `user${i + 1}`,
