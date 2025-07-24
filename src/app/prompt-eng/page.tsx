@@ -47,7 +47,7 @@ const FloatingIcons = () => {
     return (
         <div className="fixed inset-0 pointer-events-none">
             {iconPositions.map((pos) => {
-                const icon = icons[Math.floor(Math.random() * icons.length)]
+                const icon = icons[Math.floor(Math.random() * icons.length)]!
                 return <FloatingIcon key={pos.x + pos.y} icon={icon} x={pos.x} y={pos.y} />
             })}
         </div>
