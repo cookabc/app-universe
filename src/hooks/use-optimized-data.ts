@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState, useTransition } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 
 // Enhanced data fetching hook with React 19 features
 export function useOptimizedData<T>(
@@ -203,13 +203,14 @@ export function useRealTimeData<T>(
     const [reconnectAttempts, setReconnectAttempts] = useState(0)
     const [isPending, startTransition] = useTransition()
 
+    const wsRef = useRef<WebSocket | null>(null)
     useEffect(() => {
-        let ws: WebSocket
         let reconnectTimeout: NodeJS.Timeout
 
         const connect = () => {
             try {
-                ws = new WebSocket(url)
+                wsRef.current = new WebSocket(url)
+                const ws = wsRef.current
 
                 ws.onopen = () => {
                     startTransition(() => {
@@ -262,15 +263,15 @@ export function useRealTimeData<T>(
             if (reconnectTimeout) {
                 clearTimeout(reconnectTimeout)
             }
-            if (ws) {
-                ws.close()
+            if (wsRef.current) {
+                wsRef.current.close()
             }
         }
     }, [url, reconnectInterval, maxReconnectAttempts, reconnectAttempts])
 
     const sendMessage = useCallback((message: any) => {
-        if (ws && ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify(message))
+        if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+            wsRef.current.send(JSON.stringify(message))
         }
     }, [])
 
