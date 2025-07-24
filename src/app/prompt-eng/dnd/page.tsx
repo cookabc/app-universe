@@ -126,12 +126,12 @@ export default function PromptEngineeringGame() {
     const [timerMode, setTimerMode] = useState(false)
     const [timeLeft, setTimeLeft] = useState(60)
     const [isGameOver, setIsGameOver] = useState(false)
-    const [showTutorial, setShowTutorial] = useState(true)
+    const [_showTutorial, setShowTutorial] = useState(true)
     const [unlockedAchievements, setUnlockedAchievements] = useState<string[]>([])
 
     useEffect(() => {
         loadLevel(currentLevel)
-    }, [currentLevel])
+    }, [currentLevel, loadLevel])
 
     useEffect(() => {
         let timer: NodeJS.Timeout | undefined

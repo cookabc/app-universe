@@ -132,7 +132,7 @@ export default function SummaryPage() {
                         </CardHeader>
                         <CardContent>
                             <div className="flex justify-center space-x-2">
-                                {badges.slice(0, 3).map((badge, index) => (
+                                {badges.slice(0, 3).map((badge, _index) => (
                                     <Badge key={badge.name} variant="secondary" className="text-xs">
                                         {badge.icon}
                                         <span className="ml-1">{badge.name}</span>
@@ -178,7 +178,7 @@ export default function SummaryPage() {
                                     </ResponsiveContainer>
                                 </div>
                                 <div className="mt-4 space-y-4">
-                                    {modules.map((module, index) => (
+                                    {modules.map((module, _index) => (
                                         <div key={module.name}>
                                             <div className="flex justify-between items-center mb-1">
                                                 <span className="text-sm font-medium">{module.name}</span>
@@ -199,7 +199,7 @@ export default function SummaryPage() {
                             </CardHeader>
                             <CardContent>
                                 <ScrollArea className="h-[400px] w-full">
-                                    {challenges.map((challenge, index) => (
+                                    {challenges.map((challenge, _index) => (
                                         <div
                                             key={challenge.name}
                                             className="flex items-center justify-between p-4 hover:bg-gray-100 rounded-lg transition-colors duration-200"

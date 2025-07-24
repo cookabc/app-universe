@@ -1,7 +1,7 @@
 'use client'
 
-import { CalendarDaysIcon, MoonIcon, SunIcon } from 'lucide-react'
-import { ChangeEvent, useState } from 'react'
+import { CalendarDaysIcon } from 'lucide-react'
+import { type ChangeEvent, useState } from 'react'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'

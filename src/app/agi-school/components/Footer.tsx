@@ -1,4 +1,6 @@
 export default function Footer() {
+    const currentYear = new Date().getFullYear()
+
     return (
         <footer className="relative z-10 bg-gray-800 bg-opacity-50">
             <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -32,8 +34,11 @@ export default function Footer() {
                         </a>
                     </div>
                     <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
-                        &copy; 2023 AGI School. All rights reserved.
+                        &copy; {currentYear} AGI School. All rights reserved.
                     </p>
+                    <div className="mt-2 text-sm text-gray-500 md:mt-0 md:order-3">
+                        <p>Built with Next.js 15 & React 19</p>
+                    </div>
                 </div>
             </div>
         </footer>

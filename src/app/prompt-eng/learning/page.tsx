@@ -69,7 +69,7 @@ export default function LearningModule() {
         if (timeLeft === 0) {
             handleTimeUp()
         }
-    }, [timeLeft, isTimerRunning])
+    }, [timeLeft, isTimerRunning, handleTimeUp])
 
     const handleStartLearning = () => {
         setIsTimerRunning(true)
@@ -160,7 +160,7 @@ export default function LearningModule() {
 
     const handleShare = () => {
         // 这里应该有分享到社交媒体的逻辑
-        const shareText = `我在Prompt工程师训练营中获得了${score}分！来挑战我吧！`
+        const _shareText = `我在Prompt工程师训练营中获得了${score}分！来挑战我吧！`
         toast({
             title: '分享成功',
             description: '你的成绩已经分享到社交媒体。',
@@ -306,7 +306,7 @@ export default function LearningModule() {
                                                         以下是本模块的所有知识点及其解析：
                                                     </DialogDescription>
                                                 </DialogHeader>
-                                                {knowledgePoints.map((point, index) => (
+                                                {knowledgePoints.map((point, _index) => (
                                                     <div key={point.title} className="mb-4">
                                                         <h3 className="font-semibold">{point.title}</h3>
                                                         <p>{point.explanation}</p>

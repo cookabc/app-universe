@@ -1,6 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
+import { AppErrorBoundary } from '@/components/optimized/error-boundary'
 import styles from './ContributionGraph.module.css'
 
 const MAX_INPUT_LENGTH = 10
@@ -28,9 +29,27 @@ export default function ContributionGraph() {
     const [gridData, setGridData] = useState<number[][]>([])
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
+    // React 19: useTransition for non-blocking updates
+    const [_isPending, startTransition] = useTransition()
+
+    // React 19: useMemo for expensive calculations
+    const _graphStats = useMemo(
+        () => ({
+            totalCells: GRID_ROWS * GRID_COLUMNS,
+            activeCells: gridData.flat().filter((cell) => cell > 0).length,
+            maxLevel: Math.max(...gridData.flat(), 0),
+            textLength: inputText.length,
+            remainingChars: MAX_INPUT_LENGTH - inputText.length,
+        }),
+        [gridData, inputText.length],
+    )
+
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const text = e.target.value.slice(0, MAX_INPUT_LENGTH)
-        setInputText(text)
+        // React 19: Use startTransition for non-blocking updates
+        startTransition(() => {
+            setInputText(text)
+        })
     }, [])
 
     const generateGridData = useCallback((imageData: ImageData) => {
@@ -78,27 +97,29 @@ export default function ContributionGraph() {
     }, [inputText, generateGridData])
 
     return (
-        <div className={styles.container}>
-            <h1>GitHub Contribution Graph Generator</h1>
-            <input
-                type="text"
-                placeholder={`Enter up to ${MAX_INPUT_LENGTH} characters`}
-                value={inputText}
-                onChange={handleChange}
-                className={styles.input}
-            />
-            <canvas ref={canvasRef} style={{ display: 'none' }} />
-            <div className={styles.graphContainer}>
-                <div className={styles.graph}>
-                    <WeekdayLabels />
-                    <div className={styles.gridAndMonths}>
-                        <ContributionGrid gridData={gridData} />
-                        <MonthLabels />
+        <AppErrorBoundary>
+            <div className={styles.container}>
+                <h1>GitHub Contribution Graph Generator</h1>
+                <input
+                    type="text"
+                    placeholder={`Enter up to ${MAX_INPUT_LENGTH} characters`}
+                    value={inputText}
+                    onChange={handleChange}
+                    className={styles.input}
+                />
+                <canvas ref={canvasRef} style={{ display: 'none' }} />
+                <div className={styles.graphContainer}>
+                    <div className={styles.graph}>
+                        <WeekdayLabels />
+                        <div className={styles.gridAndMonths}>
+                            <ContributionGrid gridData={gridData} />
+                            <MonthLabels />
+                        </div>
                     </div>
+                    <Legend />
                 </div>
-                <Legend />
             </div>
-        </div>
+        </AppErrorBoundary>
     )
 }
 
