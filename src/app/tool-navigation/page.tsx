@@ -2,8 +2,9 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronUp, ExternalLink, Menu, Moon, Search, Star, Sun, ThumbsDown, ThumbsUp } from 'lucide-react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { useInView } from 'react-intersection-observer'
+import { AppErrorBoundary } from '@/components/optimized/error-boundary'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
@@ -115,6 +116,29 @@ export default function EnhancedUIUXToolNavigation() {
     const categories = Array.from(new Set(tools.map((tool) => tool.category)))
     const searchInputRef = useRef<HTMLInputElement>(null)
 
+    // React 19: useTransition for non-blocking operations
+    const [_isPending, startTransition] = useTransition()
+
+    // React 19: useMemo for navigation statistics
+    const navigationStats = useMemo(
+        () => ({
+            totalTools: tools.length,
+            totalCategories: categories.length,
+            favoriteCount: favorites.length,
+            recentCount: recentlyUsed.length,
+            averageRating:
+                tools.length > 0
+                    ? (tools.reduce((acc, tool) => acc + tool.rating, 0) / tools.length).toFixed(1)
+                    : '0.0',
+            topCategory: categories.reduce(
+                (a, b) =>
+                    tools.filter((t) => t.category === a).length > tools.filter((t) => t.category === b).length ? a : b,
+                categories[0] || '',
+            ),
+        }),
+        [tools, categories, favorites.length, recentlyUsed.length],
+    )
+
     useEffect(() => {
         const storedFavorites = localStorage.getItem('favorites')
         if (storedFavorites) {
@@ -190,17 +214,20 @@ export default function EnhancedUIUXToolNavigation() {
     )
 
     const handleVote = useCallback((toolId: number, isUpvote: boolean) => {
-        setTools((prevTools) =>
-            prevTools.map((tool) =>
-                tool.id === toolId
-                    ? {
-                          ...tool,
-                          rating: (tool.rating * tool.votes + (isUpvote ? 1 : -1)) / (tool.votes + 1),
-                          votes: tool.votes + 1,
-                      }
-                    : tool,
-            ),
-        )
+        // React 19: Use startTransition for non-blocking vote updates
+        startTransition(() => {
+            setTools((prevTools) =>
+                prevTools.map((tool) =>
+                    tool.id === toolId
+                        ? {
+                              ...tool,
+                              rating: (tool.rating * tool.votes + (isUpvote ? 1 : -1)) / (tool.votes + 1),
+                              votes: tool.votes + 1,
+                          }
+                        : tool,
+                ),
+            )
+        })
     }, [])
 
     const ToolCard = ({ tool }: { tool: Tool }) => {
@@ -316,154 +343,160 @@ export default function EnhancedUIUXToolNavigation() {
     }
 
     return (
-        <div
-            className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-white' : 'bg-linear-to-br from-purple-100 to-indigo-200'}`}
-        >
-            <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
-                <motion.header
-                    initial={{ opacity: 0, y: -50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mb-12"
-                >
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-purple-600 to-indigo-600">
-                        工具导航
-                    </h1>
-                    <p className="text-lg sm:text-xl mb-8 opacity-75">发现并访问最佳在线工具</p>
-                    <motion.div
-                        className="relative max-w-2xl mx-auto"
-                        initial={{ scale: 0.8 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        <Input
-                            type="text"
-                            placeholder="搜索工具... (按 '/' 快速搜索)"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className={`w-full pl-12 pr-4 py-3 sm:py-4 rounded-full text-base sm:text-lg shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}
-                            ref={searchInputRef}
-                        />
-                        <Search
-                            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-                            size={24}
-                        />
-                    </motion.div>
-                </motion.header>
-
-                <div className="mb-8">
-                    <Sheet>
-                        <SheetTrigger asChild>
-                            <Button variant="outline" className="lg:hidden mb-4">
-                                <Menu className="mr-2 h-4 w-4" /> 分类
-                            </Button>
-                        </SheetTrigger>
-                        <SheetContent side="left">
-                            <nav className="flex flex-col space-y-4">
-                                {categories.map((category) => (
-                                    <Button
-                                        key={category}
-                                        variant="ghost"
-                                        onClick={() => {
-                                            const element = document.getElementById(category)
-                                            if (element) {
-                                                element.scrollIntoView({ behavior: 'smooth' })
-                                            }
-                                        }}
-                                    >
-                                        {category}
-                                    </Button>
-                                ))}
-                            </nav>
-                        </SheetContent>
-                    </Sheet>
-                    <Tabs defaultValue="all" className="space-y-4">
-                        <TabsList>
-                            <TabsTrigger value="all">全部</TabsTrigger>
-                            <TabsTrigger value="favorites">收藏夹</TabsTrigger>
-                            <TabsTrigger value="recent">最近使用</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="all">
-                            <AnimatePresence>
-                                {categories.map((category) => (
-                                    <motion.div
-                                        key={category}
-                                        id={category}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -20 }}
-                                        transition={{ duration: 0.3 }}
-                                        className="mb-12"
-                                    >
-                                        <h2 className="text-2xl sm:text-3xl font-semibold mb-6 pl-2 border-l-4 border-purple-500">
-                                            {category}
-                                        </h2>
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                            {filteredTools
-                                                .filter((tool) => tool.category === category)
-                                                .map((tool) => (
-                                                    <ToolCard key={tool.id} tool={tool} />
-                                                ))}
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </AnimatePresence>
-                        </TabsContent>
-                        <TabsContent value="favorites">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {tools
-                                    .filter((tool) => favorites.includes(tool.id))
-                                    .map((tool) => (
-                                        <ToolCard key={tool.id} tool={tool} />
-                                    ))}
-                            </div>
-                        </TabsContent>
-                        <TabsContent value="recent">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {tools
-                                    .filter((tool) => recentlyUsed.includes(tool.id))
-                                    .map((tool) => (
-                                        <ToolCard key={tool.id} tool={tool} />
-                                    ))}
-                            </div>
-                        </TabsContent>
-                    </Tabs>
-                </div>
-            </div>
-
-            <motion.div
-                className="fixed bottom-8 right-8 flex flex-col gap-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
+        <AppErrorBoundary>
+            <div
+                className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-white' : 'bg-linear-to-br from-purple-100 to-indigo-200'}`}
             >
-                <AnimatePresence>
-                    {showScrollTop && (
+                <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
+                    <motion.header
+                        initial={{ opacity: 0, y: -50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="text-center mb-12"
+                    >
+                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-purple-600 to-indigo-600">
+                            工具导航
+                        </h1>
+                        <p className="text-lg sm:text-xl mb-4 opacity-75">发现并访问最佳在线工具</p>
+                        <div className="text-sm text-gray-600 dark:text-gray-400 mb-8">
+                            {navigationStats.totalTools} 个工具 | {navigationStats.totalCategories} 个分类 | 平均评分:{' '}
+                            {navigationStats.averageRating} | 热门分类: {navigationStats.topCategory}
+                        </div>
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 20 }}
+                            className="relative max-w-2xl mx-auto"
+                            initial={{ scale: 0.8 }}
+                            animate={{ scale: 1 }}
+                            transition={{ duration: 0.3 }}
                         >
-                            <Button
-                                variant="outline"
-                                size="icon"
-                                className="rounded-full p-2 bg-purple-500 text-white hover:bg-purple-600 transition-transform duration-300 hover:scale-110"
-                                onClick={scrollToTop}
-                            >
-                                <ChevronUp className="h-6 w-6" />
-                            </Button>
+                            <Input
+                                type="text"
+                                placeholder="搜索工具... (按 '/' 快速搜索)"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className={`w-full pl-12 pr-4 py-3 sm:py-4 rounded-full text-base sm:text-lg shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}
+                                ref={searchInputRef}
+                            />
+                            <Search
+                                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                size={24}
+                            />
                         </motion.div>
-                    )}
-                </AnimatePresence>
-                <Button
-                    variant="outline"
-                    size="icon"
-                    className={`rounded-full p-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-gray-800 text-white'} transition-transform duration-300 hover:scale-110`}
-                    onClick={() => setDarkMode(!darkMode)}
+                    </motion.header>
+
+                    <div className="mb-8">
+                        <Sheet>
+                            <SheetTrigger asChild>
+                                <Button variant="outline" className="lg:hidden mb-4">
+                                    <Menu className="mr-2 h-4 w-4" /> 分类
+                                </Button>
+                            </SheetTrigger>
+                            <SheetContent side="left">
+                                <nav className="flex flex-col space-y-4">
+                                    {categories.map((category) => (
+                                        <Button
+                                            key={category}
+                                            variant="ghost"
+                                            onClick={() => {
+                                                const element = document.getElementById(category)
+                                                if (element) {
+                                                    element.scrollIntoView({ behavior: 'smooth' })
+                                                }
+                                            }}
+                                        >
+                                            {category}
+                                        </Button>
+                                    ))}
+                                </nav>
+                            </SheetContent>
+                        </Sheet>
+                        <Tabs defaultValue="all" className="space-y-4">
+                            <TabsList>
+                                <TabsTrigger value="all">全部</TabsTrigger>
+                                <TabsTrigger value="favorites">收藏夹</TabsTrigger>
+                                <TabsTrigger value="recent">最近使用</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="all">
+                                <AnimatePresence>
+                                    {categories.map((category) => (
+                                        <motion.div
+                                            key={category}
+                                            id={category}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -20 }}
+                                            transition={{ duration: 0.3 }}
+                                            className="mb-12"
+                                        >
+                                            <h2 className="text-2xl sm:text-3xl font-semibold mb-6 pl-2 border-l-4 border-purple-500">
+                                                {category}
+                                            </h2>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                                {filteredTools
+                                                    .filter((tool) => tool.category === category)
+                                                    .map((tool) => (
+                                                        <ToolCard key={tool.id} tool={tool} />
+                                                    ))}
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            </TabsContent>
+                            <TabsContent value="favorites">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {tools
+                                        .filter((tool) => favorites.includes(tool.id))
+                                        .map((tool) => (
+                                            <ToolCard key={tool.id} tool={tool} />
+                                        ))}
+                                </div>
+                            </TabsContent>
+                            <TabsContent value="recent">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {tools
+                                        .filter((tool) => recentlyUsed.includes(tool.id))
+                                        .map((tool) => (
+                                            <ToolCard key={tool.id} tool={tool} />
+                                        ))}
+                                </div>
+                            </TabsContent>
+                        </Tabs>
+                    </div>
+                </div>
+
+                <motion.div
+                    className="fixed bottom-8 right-8 flex flex-col gap-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
                 >
-                    {darkMode ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
-                </Button>
-            </motion.div>
-        </div>
+                    <AnimatePresence>
+                        {showScrollTop && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 20 }}
+                            >
+                                <Button
+                                    variant="outline"
+                                    size="icon"
+                                    className="rounded-full p-2 bg-purple-500 text-white hover:bg-purple-600 transition-transform duration-300 hover:scale-110"
+                                    onClick={scrollToTop}
+                                >
+                                    <ChevronUp className="h-6 w-6" />
+                                </Button>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        className={`rounded-full p-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-gray-800 text-white'} transition-transform duration-300 hover:scale-110`}
+                        onClick={() => setDarkMode(!darkMode)}
+                    >
+                        {darkMode ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
+                    </Button>
+                </motion.div>
+            </div>
+        </AppErrorBoundary>
     )
 }

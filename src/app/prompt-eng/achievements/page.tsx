@@ -81,10 +81,10 @@ const avatarItems = [
 
 export default function AchievementPage() {
     const [unlockedAchievements, setUnlockedAchievements] = useState(achievements.filter((a) => a.unlocked))
-    const [progress, setProgress] = useState(40)
+    const [progress, _setProgress] = useState(40)
     const [selectedAvatar, setSelectedAvatar] = useState(avatarItems[0])
     const [showUnlockAnimation, setShowUnlockAnimation] = useState(false)
-    const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0)
+    const [_currentAvatarIndex, setCurrentAvatarIndex] = useState(0)
 
     const handleUnlockAchievement = (achievement: Achievement) => {
         if (!achievement.unlocked) {

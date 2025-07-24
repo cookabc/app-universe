@@ -31,7 +31,7 @@ export function TypingEffect({ x, y }: { x: number; y: number }) {
         window.addEventListener('resize', updateCanvasSize)
 
         // Create particles
-        const createParticle = () => {
+        const _createParticle = () => {
             const angle = Math.random() * Math.PI * 2
             const speed = Math.random() * 2 + 1
             return {

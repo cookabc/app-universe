@@ -83,7 +83,7 @@ export default function ChallengePage() {
     const [feedback, setFeedback] = useState('')
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [showSummary, setShowSummary] = useState(false)
-    const [showHint, setShowHint] = useState(false)
+    const [_showHint, setShowHint] = useState(false)
     const [performanceData, setPerformanceData] = useState<PerformanceData[]>([])
 
     const router = useRouter()

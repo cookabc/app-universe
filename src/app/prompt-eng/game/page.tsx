@@ -233,7 +233,7 @@ export default function PromptEngineeringGame() {
             setIsLoading(false)
         }
         initializeGame()
-    }, [])
+    }, [loadLeaderboard, loadPlayerData])
 
     useEffect(() => {
         document.body.classList.toggle('dark', settings.darkMode)

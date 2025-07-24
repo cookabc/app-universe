@@ -2,7 +2,8 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { Loader, Search } from 'lucide-react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useOptimistic, useRef, useState, useTransition } from 'react'
+import { AppErrorBoundary } from '@/components/optimized/error-boundary'
 import { LoginDialog } from '@/components/sm/LoginDialog'
 import { PostCard } from '@/components/sm/PostCard'
 import { PostDetailDialog } from '@/components/sm/PostDetailDialog'
@@ -32,17 +33,48 @@ export default function HomePage() {
     const loadMoreRef = useRef<HTMLDivElement>(null)
     const { toast } = useToast()
 
+    // React 19: useTransition for non-blocking operations
+    const [_isPending, startTransition] = useTransition()
+
+    // React 19: useOptimistic for instant post updates
+    const [optimisticXPosts, _addOptimisticXPost] = useOptimistic(xPosts, (current, newPost: Post) => [
+        newPost,
+        ...current,
+    ])
+    const [optimisticWeiboPosts, _addOptimisticWeiboPost] = useOptimistic(weiboPosts, (current, newPost: Post) => [
+        newPost,
+        ...current,
+    ])
+
+    // React 19: useMemo for social media statistics
+    const socialStats = useMemo(() => {
+        const currentPosts = activeTab === 'x' ? xPosts : weiboPosts
+        return {
+            totalPosts: currentPosts.length,
+            averageLikes:
+                currentPosts.length > 0
+                    ? Math.round(currentPosts.reduce((acc, post) => acc + post.likes, 0) / currentPosts.length)
+                    : 0,
+            totalEngagement: currentPosts.reduce((acc, post) => acc + post.likes + post.retweets + post.comments, 0),
+            platform: activeTab === 'x' ? 'X' : 'Weibo',
+            isAuthenticated: activeTab === 'x' ? isXAuthenticated : isWeiboAuthenticated,
+        }
+    }, [activeTab, xPosts, weiboPosts, isXAuthenticated, isWeiboAuthenticated])
+
     const loadMorePosts = useCallback(() => {
-        setIsLoading(true)
-        setTimeout(() => {
-            const newPosts = generateMockPosts(activeTab, 10)
-            if (activeTab === 'x') {
-                setXPosts((prev) => [...prev, ...newPosts])
-            } else {
-                setWeiboPosts((prev) => [...prev, ...newPosts])
-            }
-            setIsLoading(false)
-        }, 1000)
+        // React 19: Use startTransition for non-blocking post loading
+        startTransition(() => {
+            setIsLoading(true)
+            setTimeout(() => {
+                const newPosts = generateMockPosts(activeTab, 10)
+                if (activeTab === 'x') {
+                    setXPosts((prev) => [...prev, ...newPosts])
+                } else {
+                    setWeiboPosts((prev) => [...prev, ...newPosts])
+                }
+                setIsLoading(false)
+            }, 1000)
+        })
     }, [activeTab])
 
     useEffect(() => {
@@ -123,137 +155,149 @@ export default function HomePage() {
     )
 
     return (
-        <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-            {/* Main content */}
-            <main className="flex-1 p-6 overflow-auto lg:ml-16 pb-24">
-                <div className="max-w-4xl mx-auto space-y-6">
-                    {/* Search bar */}
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                        <Input
-                            type="text"
-                            placeholder="Search"
-                            className="pl-10 w-full"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+        <AppErrorBoundary>
+            <div className="flex flex-col h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+                {/* Main content */}
+                <main className="flex-1 p-6 overflow-auto lg:ml-16 pb-24">
+                    <div className="max-w-4xl mx-auto space-y-6">
+                        {/* Platform statistics */}
+                        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 mb-4">
+                            <div className="flex justify-between items-center text-sm">
+                                <span>Platform: {socialStats.platform}</span>
+                                <span>Posts: {socialStats.totalPosts}</span>
+                                <span>Avg Likes: {socialStats.averageLikes}</span>
+                                <span>Total Engagement: {socialStats.totalEngagement}</span>
+                            </div>
+                        </div>
+
+                        {/* Search bar */}
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <Input
+                                type="text"
+                                placeholder="Search"
+                                className="pl-10 w-full"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+
+                        {/* Content for X and Weibo */}
+                        <div className="space-y-4">
+                            <AnimatePresence mode="wait">
+                                {activeTab === 'x' && (
+                                    <motion.div
+                                        key="x-content"
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -20 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        {!isXAuthenticated ? (
+                                            <LoginDialog platform="x" onSubmit={handleLogin} />
+                                        ) : (
+                                            <>
+                                                {filteredPosts(optimisticXPosts).map((post) => (
+                                                    <PostCard
+                                                        key={post.id}
+                                                        post={post}
+                                                        platform="x"
+                                                        onClick={() => setSelectedPost(post)}
+                                                    />
+                                                ))}
+                                                {isLoading && (
+                                                    <div className="flex justify-center items-center py-4">
+                                                        <Loader className="animate-spin" />
+                                                    </div>
+                                                )}
+                                                <div ref={loadMoreRef} />
+                                            </>
+                                        )}
+                                    </motion.div>
+                                )}
+                                {activeTab === 'weibo' && (
+                                    <motion.div
+                                        key="weibo-content"
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -20 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        {!isWeiboAuthenticated ? (
+                                            <LoginDialog platform="weibo" onSubmit={handleLogin} />
+                                        ) : (
+                                            <>
+                                                {filteredPosts(optimisticWeiboPosts).map((post) => (
+                                                    <PostCard
+                                                        key={post.id}
+                                                        post={post}
+                                                        platform="weibo"
+                                                        onClick={() => setSelectedPost(post)}
+                                                    />
+                                                ))}
+                                                {isLoading && (
+                                                    <div className="flex justify-center items-center py-4">
+                                                        <Loader className="animate-spin" />
+                                                    </div>
+                                                )}
+                                                <div ref={loadMoreRef} />
+                                            </>
+                                        )}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </div>
+                </main>
+
+                {/* Bottom navigation for mobile */}
+                <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-md">
+                    <div className="flex justify-around items-center h-16">
+                        <Button
+                            variant={activeTab === 'x' ? 'default' : 'ghost'}
+                            onClick={() => setActiveTab('x')}
+                            className="flex-1"
+                            aria-label="Switch to X"
+                        >
+                            <XIcon />
+                        </Button>
+                        <Button
+                            variant={activeTab === 'weibo' ? 'default' : 'ghost'}
+                            onClick={() => setActiveTab('weibo')}
+                            className="flex-1"
+                            aria-label="Switch to Weibo"
+                        >
+                            <WeiboIcon />
+                        </Button>
+                    </div>
+                </nav>
+
+                {/* Floating login status toggle */}
+                <div className="fixed bottom-20 right-4 bg-white dark:bg-gray-800 p-2 rounded-lg shadow-md">
+                    <div className="flex items-center space-x-2">
+                        <Label htmlFor="auth-toggle" className="text-sm font-medium">
+                            Simulate Login Status
+                        </Label>
+                        <Switch
+                            id="auth-toggle"
+                            checked={activeTab === 'x' ? isXAuthenticated : isWeiboAuthenticated}
+                            onCheckedChange={(checked) => {
+                                if (activeTab === 'x') {
+                                    setIsXAuthenticated(checked)
+                                } else {
+                                    setIsWeiboAuthenticated(checked)
+                                }
+                            }}
+                            aria-label="Toggle Login Status"
                         />
                     </div>
-
-                    {/* Content for X and Weibo */}
-                    <div className="space-y-4">
-                        <AnimatePresence mode="wait">
-                            {activeTab === 'x' && (
-                                <motion.div
-                                    key="x-content"
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -20 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    {!isXAuthenticated ? (
-                                        <LoginDialog platform="x" onSubmit={handleLogin} />
-                                    ) : (
-                                        <>
-                                            {filteredPosts(xPosts).map((post) => (
-                                                <PostCard
-                                                    key={post.id}
-                                                    post={post}
-                                                    platform="x"
-                                                    onClick={() => setSelectedPost(post)}
-                                                />
-                                            ))}
-                                            {isLoading && (
-                                                <div className="flex justify-center items-center py-4">
-                                                    <Loader className="animate-spin" />
-                                                </div>
-                                            )}
-                                            <div ref={loadMoreRef} />
-                                        </>
-                                    )}
-                                </motion.div>
-                            )}
-                            {activeTab === 'weibo' && (
-                                <motion.div
-                                    key="weibo-content"
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -20 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    {!isWeiboAuthenticated ? (
-                                        <LoginDialog platform="weibo" onSubmit={handleLogin} />
-                                    ) : (
-                                        <>
-                                            {filteredPosts(weiboPosts).map((post) => (
-                                                <PostCard
-                                                    key={post.id}
-                                                    post={post}
-                                                    platform="weibo"
-                                                    onClick={() => setSelectedPost(post)}
-                                                />
-                                            ))}
-                                            {isLoading && (
-                                                <div className="flex justify-center items-center py-4">
-                                                    <Loader className="animate-spin" />
-                                                </div>
-                                            )}
-                                            <div ref={loadMoreRef} />
-                                        </>
-                                    )}
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
                 </div>
-            </main>
 
-            {/* Bottom navigation for mobile */}
-            <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-md">
-                <div className="flex justify-around items-center h-16">
-                    <Button
-                        variant={activeTab === 'x' ? 'default' : 'ghost'}
-                        onClick={() => setActiveTab('x')}
-                        className="flex-1"
-                        aria-label="Switch to X"
-                    >
-                        <XIcon />
-                    </Button>
-                    <Button
-                        variant={activeTab === 'weibo' ? 'default' : 'ghost'}
-                        onClick={() => setActiveTab('weibo')}
-                        className="flex-1"
-                        aria-label="Switch to Weibo"
-                    >
-                        <WeiboIcon />
-                    </Button>
-                </div>
-            </nav>
-
-            {/* Floating login status toggle */}
-            <div className="fixed bottom-20 right-4 bg-white dark:bg-gray-800 p-2 rounded-lg shadow-md">
-                <div className="flex items-center space-x-2">
-                    <Label htmlFor="auth-toggle" className="text-sm font-medium">
-                        Simulate Login Status
-                    </Label>
-                    <Switch
-                        id="auth-toggle"
-                        checked={activeTab === 'x' ? isXAuthenticated : isWeiboAuthenticated}
-                        onCheckedChange={(checked) => {
-                            if (activeTab === 'x') {
-                                setIsXAuthenticated(checked)
-                            } else {
-                                setIsWeiboAuthenticated(checked)
-                            }
-                        }}
-                        aria-label="Toggle Login Status"
-                    />
-                </div>
+                {/* Post detail dialog */}
+                {selectedPost && (
+                    <PostDetailDialog post={selectedPost} platform={activeTab} onClose={() => setSelectedPost(null)} />
+                )}
             </div>
-
-            {/* Post detail dialog */}
-            {selectedPost && (
-                <PostDetailDialog post={selectedPost} platform={activeTab} onClose={() => setSelectedPost(null)} />
-            )}
-        </div>
+        </AppErrorBoundary>
     )
 }

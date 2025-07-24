@@ -30,7 +30,7 @@ export function useVirtualKeyboard({ onKeyPress }: VirtualKeyboardProps) {
 
         return (
             <div className={`grid grid-cols-10 gap-1 mt-4`}>
-                {VIRTUAL_KEYBOARD_KEYS.map((key, index) => (
+                {VIRTUAL_KEYBOARD_KEYS.map((key, _index) => (
                     <button
                         key={key}
                         onClick={() => handleVirtualKeyPress(key)}

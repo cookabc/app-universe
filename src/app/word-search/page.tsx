@@ -2,7 +2,8 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, Star, Trophy } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
+import { GameErrorBoundary } from '@/components/optimized/error-boundary'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
@@ -28,6 +29,72 @@ export default function WordSearchGame() {
     const [gameState, setGameState] = useState<'ready' | 'playing' | 'won' | 'completed'>('ready')
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
+    // React 19: useTransition for non-blocking updates
+    const [_isPending, startTransition] = useTransition()
+
+    // React 19: useMemo for expensive calculations
+    const _gameStats = useMemo(
+        () => ({
+            progress:
+                remainingWords.length > 0
+                    ? ((LEVELS[currentLevel].words.length - remainingWords.length) /
+                          LEVELS[currentLevel].words.length) *
+                      100
+                    : 100,
+            wordsFound: LEVELS[currentLevel].words.length - remainingWords.length,
+            totalWords: LEVELS[currentLevel].words.length,
+            levelProgress: `${currentLevel + 1} / ${LEVELS.length}`,
+            difficulty: currentLevel + 1,
+        }),
+        [currentLevel, remainingWords.length],
+    )
+
+    // React 19: useCallback for optimized event handlers
+    const handleCellMouseDown = useCallback(
+        (row: number, col: number) => {
+            if (gameState !== 'playing') return
+            startTransition(() => {
+                setIsSelecting(true)
+                setSelectedCells([[row, col]])
+            })
+        },
+        [gameState],
+    )
+
+    const handleCellMouseEnter = useCallback(
+        (row: number, col: number) => {
+            if (isSelecting && gameState === 'playing') {
+                startTransition(() => {
+                    setSelectedCells((prev) => [...prev, [row, col]])
+                })
+            }
+        },
+        [isSelecting, gameState],
+    )
+
+    const handleCellMouseUp = useCallback(() => {
+        if (gameState !== 'playing') return
+        startTransition(() => {
+            setIsSelecting(false)
+            const selectedWord = selectedCells.map(([row, col]) => matrix[row][col]).join('')
+            if (remainingWords.includes(selectedWord)) {
+                setRemainingWords((prev) => prev.filter((word) => word !== selectedWord))
+                setFoundWords((prev) => [
+                    ...prev,
+                    {
+                        word: selectedWord,
+                        cells: selectedCells,
+                        color: COLORS[foundWords.length % COLORS.length],
+                    },
+                ])
+                const newScore = score + selectedWord.length * 10
+                setScore(newScore)
+                setTotalScore(totalScore + selectedWord.length * 10)
+            }
+            setSelectedCells([])
+        })
+    }, [gameState, selectedCells, matrix, remainingWords, foundWords.length, score, totalScore])
+
     useEffect(() => {
         if (remainingWords.length === 0 && gameState === 'playing') {
             if (currentLevel < LEVELS.length - 1) {
@@ -40,7 +107,7 @@ export default function WordSearchGame() {
 
     useEffect(() => {
         drawLines()
-    }, [])
+    }, [drawLines])
 
     const startLevel = (level: number) => {
         const { words, size } = LEVELS[level]
@@ -110,39 +177,6 @@ export default function WordSearchGame() {
         }
     }
 
-    const handleCellMouseDown = (row: number, col: number) => {
-        if (gameState !== 'playing') return
-        setIsSelecting(true)
-        setSelectedCells([[row, col]])
-    }
-
-    const handleCellMouseEnter = (row: number, col: number) => {
-        if (isSelecting && gameState === 'playing') {
-            setSelectedCells((prev) => [...prev, [row, col]])
-        }
-    }
-
-    const handleCellMouseUp = () => {
-        if (gameState !== 'playing') return
-        setIsSelecting(false)
-        const selectedWord = selectedCells.map(([row, col]) => matrix[row][col]).join('')
-        if (remainingWords.includes(selectedWord)) {
-            setRemainingWords((prev) => prev.filter((word) => word !== selectedWord))
-            setFoundWords((prev) => [
-                ...prev,
-                {
-                    word: selectedWord,
-                    cells: selectedCells,
-                    color: COLORS[foundWords.length % COLORS.length],
-                },
-            ])
-            const newScore = score + selectedWord.length * 10
-            setScore(newScore)
-            setTotalScore(totalScore + selectedWord.length * 10)
-        }
-        setSelectedCells([])
-    }
-
     const isCellSelected = (row: number, col: number) => {
         return selectedCells.some(([r, c]) => r === row && c === col)
     }
@@ -204,53 +238,54 @@ export default function WordSearchGame() {
     }
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-linear-to-r from-blue-500 to-purple-600">
-            <Card className="w-full max-w-4xl mx-auto bg-linear-to-br from-purple-500 to-pink-500 text-white">
-                <CardHeader className="text-center">
-                    <CardTitle className="text-3xl font-bold">文字搜索挑战</CardTitle>
-                    <p className="text-xl">主题：{LEVELS[currentLevel].theme}</p>
-                    <p className="text-lg">
-                        关卡：{currentLevel + 1} / {LEVELS.length}
-                    </p>
-                </CardHeader>
-                <CardContent>
-                    <div className="grid gap-6">
-                        <div className="flex justify-between items-center">
-                            <div className="flex items-center gap-2">
-                                <Star className="text-yellow-300" />
-                                <span className="text-2xl font-bold">本关得分：{score}</span>
+        <GameErrorBoundary>
+            <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-linear-to-r from-blue-500 to-purple-600">
+                <Card className="w-full max-w-4xl mx-auto bg-linear-to-br from-purple-500 to-pink-500 text-white">
+                    <CardHeader className="text-center">
+                        <CardTitle className="text-3xl font-bold">文字搜索挑战</CardTitle>
+                        <p className="text-xl">主题：{LEVELS[currentLevel].theme}</p>
+                        <p className="text-lg">
+                            关卡：{currentLevel + 1} / {LEVELS.length}
+                        </p>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid gap-6">
+                            <div className="flex justify-between items-center">
+                                <div className="flex items-center gap-2">
+                                    <Star className="text-yellow-300" />
+                                    <span className="text-2xl font-bold">本关得分：{score}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Trophy className="text-yellow-300" />
+                                    <span className="text-2xl font-bold">总得分：{totalScore}</span>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <Trophy className="text-yellow-300" />
-                                <span className="text-2xl font-bold">总得分：{totalScore}</span>
-                            </div>
-                        </div>
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={currentLevel}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.8 }}
-                                transition={{ duration: 0.5 }}
-                                className="relative"
-                            >
-                                <canvas
-                                    ref={canvasRef}
-                                    width={LEVELS[currentLevel].size * 52}
-                                    height={LEVELS[currentLevel].size * 52}
-                                    className="absolute top-0 left-0 pointer-events-none"
-                                />
-                                <div
-                                    className="grid gap-1"
-                                    style={{
-                                        gridTemplateColumns: `repeat(${LEVELS[currentLevel].size}, minmax(0, 1fr))`,
-                                    }}
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={currentLevel}
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.8 }}
+                                    transition={{ duration: 0.5 }}
+                                    className="relative"
                                 >
-                                    {matrix.map((row, rowIndex) =>
-                                        row.map((cell, colIndex) => (
-                                            <motion.div
-                                                key={`${rowIndex}-${cell}`}
-                                                className={`w-12 h-12 flex items-center justify-center border-2 rounded-md font-bold text-2xl cursor-pointer transition-all duration-300
+                                    <canvas
+                                        ref={canvasRef}
+                                        width={LEVELS[currentLevel].size * 52}
+                                        height={LEVELS[currentLevel].size * 52}
+                                        className="absolute top-0 left-0 pointer-events-none"
+                                    />
+                                    <div
+                                        className="grid gap-1"
+                                        style={{
+                                            gridTemplateColumns: `repeat(${LEVELS[currentLevel].size}, minmax(0, 1fr))`,
+                                        }}
+                                    >
+                                        {matrix.map((row, rowIndex) =>
+                                            row.map((cell, colIndex) => (
+                                                <motion.div
+                                                    key={`${rowIndex}-${cell}`}
+                                                    className={`w-12 h-12 flex items-center justify-center border-2 rounded-md font-bold text-2xl cursor-pointer transition-all duration-300
                         ${
                             isCellSelected(rowIndex, colIndex)
                                 ? 'bg-yellow-300 text-purple-800'
@@ -258,105 +293,106 @@ export default function WordSearchGame() {
                                   ? 'bg-white text-purple-900 shadow-lg scale-105'
                                   : 'bg-white/20'
                         }`}
-                                                whileHover={{ scale: 1.1 }}
-                                                whileTap={{ scale: 0.9 }}
-                                                onMouseDown={() => handleCellMouseDown(rowIndex, colIndex)}
-                                                onMouseEnter={() => handleCellMouseEnter(rowIndex, colIndex)}
-                                                onMouseUp={handleCellMouseUp}
-                                                style={{
-                                                    color: isCellFound(rowIndex, colIndex)
-                                                        ? getCellColor(rowIndex, colIndex)
-                                                        : undefined,
-                                                    textShadow: isCellFound(rowIndex, colIndex)
-                                                        ? '0 0 10px rgba(255,255,255,0.5)'
-                                                        : 'none',
-                                                }}
-                                            >
-                                                {cell}
-                                            </motion.div>
-                                        )),
-                                    )}
+                                                    whileHover={{ scale: 1.1 }}
+                                                    whileTap={{ scale: 0.9 }}
+                                                    onMouseDown={() => handleCellMouseDown(rowIndex, colIndex)}
+                                                    onMouseEnter={() => handleCellMouseEnter(rowIndex, colIndex)}
+                                                    onMouseUp={handleCellMouseUp}
+                                                    style={{
+                                                        color: isCellFound(rowIndex, colIndex)
+                                                            ? getCellColor(rowIndex, colIndex)
+                                                            : undefined,
+                                                        textShadow: isCellFound(rowIndex, colIndex)
+                                                            ? '0 0 10px rgba(255,255,255,0.5)'
+                                                            : 'none',
+                                                    }}
+                                                >
+                                                    {cell}
+                                                </motion.div>
+                                            )),
+                                        )}
+                                    </div>
+                                </motion.div>
+                            </AnimatePresence>
+                            <div>
+                                <h3 className="text-xl font-semibold mb-2">剩余单词：</h3>
+                                <div className="flex flex-wrap gap-2">
+                                    {remainingWords.map((word) => (
+                                        <motion.span
+                                            key={word}
+                                            className="px-3 py-1 bg-white/30 rounded-full text-lg"
+                                            whileHover={{ scale: 1.05 }}
+                                        >
+                                            {word}
+                                        </motion.span>
+                                    ))}
                                 </div>
-                            </motion.div>
-                        </AnimatePresence>
-                        <div>
-                            <h3 className="text-xl font-semibold mb-2">剩余单词：</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {remainingWords.map((word) => (
-                                    <motion.span
-                                        key={word}
-                                        className="px-3 py-1 bg-white/30 rounded-full text-lg"
-                                        whileHover={{ scale: 1.05 }}
+                            </div>
+                            {gameState === 'ready' && (
+                                <Button
+                                    onClick={() => startLevel(currentLevel)}
+                                    size="lg"
+                                    className="bg-green-500 hover:bg-green-600"
+                                >
+                                    开始游戏
+                                </Button>
+                            )}
+                            {gameState === 'playing' && (
+                                <Button
+                                    onClick={() => startLevel(currentLevel)}
+                                    size="lg"
+                                    className="bg-yellow-500 hover:bg-yellow-600"
+                                >
+                                    重新开始本关
+                                </Button>
+                            )}
+                            {gameState === 'won' && (
+                                <div className="text-center">
+                                    <h2 className="text-3xl font-bold mb-4">
+                                        <span className="flex items-center justify-center gap-2">
+                                            <Trophy className="text-yellow-300" />
+                                            恭喜你通过本关！
+                                        </span>
+                                    </h2>
+                                    <p className="text-xl mb-4">你的得分：{score}</p>
+                                    <Button
+                                        onClick={() => {
+                                            setCurrentLevel((prev) => prev + 1)
+                                            startLevel(currentLevel + 1)
+                                        }}
+                                        size="lg"
+                                        className="bg-green-500 hover:bg-green-600"
                                     >
-                                        {word}
-                                    </motion.span>
-                                ))}
-                            </div>
+                                        <ArrowRight className="mr-2 h-4 w-4" /> 进入下一关
+                                    </Button>
+                                </div>
+                            )}
+                            {gameState === 'completed' && (
+                                <div className="text-center">
+                                    <h2 className="text-3xl font-bold mb-4">
+                                        <span className="flex items-center justify-center gap-2">
+                                            <Trophy className="text-yellow-300" />
+                                            恭喜你完成所有关卡！
+                                        </span>
+                                    </h2>
+                                    <p className="text-xl mb-4">你的总得分：{totalScore}</p>
+                                    <Button
+                                        onClick={() => {
+                                            setCurrentLevel(0)
+                                            setTotalScore(0)
+                                            startLevel(0)
+                                        }}
+                                        size="lg"
+                                        className="bg-green-500 hover:bg-green-600"
+                                    >
+                                        重新开始游戏
+                                    </Button>
+                                </div>
+                            )}
                         </div>
-                        {gameState === 'ready' && (
-                            <Button
-                                onClick={() => startLevel(currentLevel)}
-                                size="lg"
-                                className="bg-green-500 hover:bg-green-600"
-                            >
-                                开始游戏
-                            </Button>
-                        )}
-                        {gameState === 'playing' && (
-                            <Button
-                                onClick={() => startLevel(currentLevel)}
-                                size="lg"
-                                className="bg-yellow-500 hover:bg-yellow-600"
-                            >
-                                重新开始本关
-                            </Button>
-                        )}
-                        {gameState === 'won' && (
-                            <div className="text-center">
-                                <h2 className="text-3xl font-bold mb-4">
-                                    <span className="flex items-center justify-center gap-2">
-                                        <Trophy className="text-yellow-300" />
-                                        恭喜你通过本关！
-                                    </span>
-                                </h2>
-                                <p className="text-xl mb-4">你的得分：{score}</p>
-                                <Button
-                                    onClick={() => {
-                                        setCurrentLevel((prev) => prev + 1)
-                                        startLevel(currentLevel + 1)
-                                    }}
-                                    size="lg"
-                                    className="bg-green-500 hover:bg-green-600"
-                                >
-                                    <ArrowRight className="mr-2 h-4 w-4" /> 进入下一关
-                                </Button>
-                            </div>
-                        )}
-                        {gameState === 'completed' && (
-                            <div className="text-center">
-                                <h2 className="text-3xl font-bold mb-4">
-                                    <span className="flex items-center justify-center gap-2">
-                                        <Trophy className="text-yellow-300" />
-                                        恭喜你完成所有关卡！
-                                    </span>
-                                </h2>
-                                <p className="text-xl mb-4">你的总得分：{totalScore}</p>
-                                <Button
-                                    onClick={() => {
-                                        setCurrentLevel(0)
-                                        setTotalScore(0)
-                                        startLevel(0)
-                                    }}
-                                    size="lg"
-                                    className="bg-green-500 hover:bg-green-600"
-                                >
-                                    重新开始游戏
-                                </Button>
-                            </div>
-                        )}
-                    </div>
-                </CardContent>
-            </Card>
-        </main>
+                    </CardContent>
+                </Card>
+            </main>
+        </GameErrorBoundary>
     )
 }

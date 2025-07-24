@@ -1,7 +1,8 @@
 'use client'
 
 import { RotateCcw } from 'lucide-react'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState, useTransition } from 'react'
+import { GameErrorBoundary } from '@/components/optimized/error-boundary'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { CelebrationEffect } from './celebration-effect'
@@ -17,6 +18,21 @@ export default function TypingPractice() {
     const [showCelebration, setShowCelebration] = useState(false)
     const [celebrationKey, setCelebrationKey] = useState(0)
     const [cursorPosition, setCursorPosition] = useState({ left: 0, top: 0 })
+
+    // React 19: useTransition for non-blocking updates
+    const [_isPending, startTransition] = useTransition()
+
+    // React 19: useMemo for expensive calculations
+    const gameStats = useMemo(
+        () => ({
+            wpm,
+            accuracy,
+            correctWords: Math.max(0, Math.floor((currentIndex + 1 - mistakes) / 5)),
+            timeElapsed: startTime ? (((endTime || Date.now()) - startTime) / 1000).toFixed(1) : '0.0',
+            progress: Math.min((currentIndex / text.length) * 100, 100),
+        }),
+        [wpm, accuracy, currentIndex, mistakes, startTime, endTime, text.length],
+    )
     const textDisplayRef = useRef<HTMLDivElement>(null)
     const charsRef = useRef<(HTMLSpanElement | null)[]>([])
 
@@ -70,8 +86,11 @@ export default function TypingPractice() {
 
     const handleKeyPress = useCallback(
         (e: React.KeyboardEvent<HTMLDivElement>) => {
-            handleInput(e.key)
-            updateCursorPosition()
+            // React 19: Use startTransition for non-blocking updates
+            startTransition(() => {
+                handleInput(e.key)
+                updateCursorPosition()
+            })
         },
         [handleInput, updateCursorPosition],
     )
@@ -96,96 +115,97 @@ export default function TypingPractice() {
     })
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-purple-900 via-slate-900 to-blue-900 p-4 sm:p-8">
-            {showEffect && <TypingEffect x={effectPosition.x} y={effectPosition.y} />}
-            {showCelebration && <CelebrationEffect key={celebrationKey} />}
-            <Card className="max-w-4xl mx-auto p-4 sm:p-8 bg-black/40 backdrop-blur-xl border-0">
-                <h1 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">ProTypist</h1>
-                <div className="space-y-4 sm:space-y-8">
-                    <div
-                        ref={textDisplayRef}
-                        className="font-mono text-lg sm:text-2xl leading-relaxed text-gray-400 min-h-[100px] relative outline-hidden"
-                        style={{
-                            maxWidth: '100%',
-                            overflowWrap: 'break-word',
-                            wordBreak: 'break-word',
-                        }}
-                        tabIndex={0}
-                        onKeyDown={handleKeyPress}
-                    >
-                        {text.split('').map((char, index) => (
-                            <span
-                                key={index}
-                                ref={(el) => {
-                                    if (el) charsRef.current[index] = el
-                                }}
-                                className={`${
-                                    index < userInput.length
-                                        ? userInput[index] === char
-                                            ? 'text-green-500'
-                                            : 'text-red-500'
-                                        : 'text-gray-500'
-                                }`}
-                            >
-                                {char === ' ' ? '\u00A0' : char}
-                            </span>
-                        ))}
-                        {!isFinished && (
-                            <span
-                                className="absolute inline-block h-0.5 bg-orange-500"
-                                style={{
-                                    left: `${cursorPosition.left}px`,
-                                    top: `${cursorPosition.top + 24}px`,
-                                    width: '0.61em',
-                                    animation: 'blink 1s infinite',
-                                }}
-                            />
-                        )}
-                    </div>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
-                        <Card className="p-2 sm:p-4 bg-black/40">
-                            <div className="text-xs sm:text-sm text-gray-400">WPM</div>
-                            <div className="text-2xl sm:text-4xl font-bold text-white">{wpm}</div>
-                        </Card>
-                        <Card className="p-2 sm:p-4 bg-black/40">
-                            <div className="text-xs sm:text-sm text-gray-400">Accuracy</div>
-                            <div className="text-2xl sm:text-4xl font-bold text-white">{accuracy}%</div>
-                        </Card>
-                        <Card className="p-2 sm:p-4 bg-black/40">
-                            <div className="text-xs sm:text-sm text-gray-400">Correct Words</div>
-                            <div className="text-2xl sm:text-4xl font-bold text-white">
-                                {Math.max(0, Math.floor((currentIndex + 1 - mistakes) / 5))}
-                            </div>
-                        </Card>
-                        <Card className="p-2 sm:p-4 bg-black/40">
-                            <div className="text-xs sm:text-sm text-gray-400">Time</div>
-                            <div className="text-2xl sm:text-4xl font-bold text-white">
-                                {startTime ? (((endTime || Date.now()) - startTime) / 1000).toFixed(1) : '0.0'}s
-                            </div>
-                        </Card>
-                    </div>
-
-                    <div className="flex justify-center gap-4">
-                        <Button
-                            onClick={handleReset}
-                            variant="outline"
-                            className="gap-2 bg-white/10 hover:bg-white/20 text-white"
+        <GameErrorBoundary>
+            <div className="min-h-screen bg-linear-to-br from-purple-900 via-slate-900 to-blue-900 p-4 sm:p-8">
+                {showEffect && <TypingEffect x={effectPosition.x} y={effectPosition.y} />}
+                {showCelebration && <CelebrationEffect key={celebrationKey} />}
+                <Card className="max-w-4xl mx-auto p-4 sm:p-8 bg-black/40 backdrop-blur-xl border-0">
+                    <h1 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">ProTypist</h1>
+                    <div className="space-y-4 sm:space-y-8">
+                        <div
+                            ref={textDisplayRef}
+                            className="font-mono text-lg sm:text-2xl leading-relaxed text-gray-400 min-h-[100px] relative outline-hidden"
+                            style={{
+                                maxWidth: '100%',
+                                overflowWrap: 'break-word',
+                                wordBreak: 'break-word',
+                            }}
+                            onKeyDown={handleKeyPress}
                         >
-                            <RotateCcw className="w-4 h-4" />
-                            Reset
-                        </Button>
-                    </div>
+                            {text.split('').map((char, index) => (
+                                <span
+                                    key={index}
+                                    ref={(el) => {
+                                        if (el) charsRef.current[index] = el
+                                    }}
+                                    className={`${
+                                        index < userInput.length
+                                            ? userInput[index] === char
+                                                ? 'text-green-500'
+                                                : 'text-red-500'
+                                            : 'text-gray-500'
+                                    }`}
+                                >
+                                    {char === ' ' ? '\u00A0' : char}
+                                </span>
+                            ))}
+                            {!isFinished && (
+                                <span
+                                    className="absolute inline-block h-0.5 bg-orange-500"
+                                    style={{
+                                        left: `${cursorPosition.left}px`,
+                                        top: `${cursorPosition.top + 24}px`,
+                                        width: '0.61em',
+                                        animation: 'blink 1s infinite',
+                                    }}
+                                />
+                            )}
+                        </div>
 
-                    {isMobile && renderVirtualKeyboard()}
-                </div>
-            </Card>
-            <style jsx>{`
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+                            <Card className="p-2 sm:p-4 bg-black/40">
+                                <div className="text-xs sm:text-sm text-gray-400">WPM</div>
+                                <div className="text-2xl sm:text-4xl font-bold text-white">{gameStats.wpm}</div>
+                            </Card>
+                            <Card className="p-2 sm:p-4 bg-black/40">
+                                <div className="text-xs sm:text-sm text-gray-400">Accuracy</div>
+                                <div className="text-2xl sm:text-4xl font-bold text-white">{gameStats.accuracy}%</div>
+                            </Card>
+                            <Card className="p-2 sm:p-4 bg-black/40">
+                                <div className="text-xs sm:text-sm text-gray-400">Correct Words</div>
+                                <div className="text-2xl sm:text-4xl font-bold text-white">
+                                    {gameStats.correctWords}
+                                </div>
+                            </Card>
+                            <Card className="p-2 sm:p-4 bg-black/40">
+                                <div className="text-xs sm:text-sm text-gray-400">Time</div>
+                                <div className="text-2xl sm:text-4xl font-bold text-white">
+                                    {gameStats.timeElapsed}s
+                                </div>
+                            </Card>
+                        </div>
+
+                        <div className="flex justify-center gap-4">
+                            <Button
+                                onClick={handleReset}
+                                variant="outline"
+                                className="gap-2 bg-white/10 hover:bg-white/20 text-white"
+                            >
+                                <RotateCcw className="w-4 h-4" />
+                                Reset
+                            </Button>
+                        </div>
+
+                        {isMobile && renderVirtualKeyboard()}
+                    </div>
+                </Card>
+                <style jsx>{`
                 @keyframes blink {
                     0%, 100% { opacity: 0; }
                     50% { opacity: 1; }
                 }
             `}</style>
-        </div>
+            </div>
+        </GameErrorBoundary>
     )
 }

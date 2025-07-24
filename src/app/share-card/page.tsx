@@ -37,8 +37,18 @@ const GRADIENTS = [
 
 const TEMPLATES = [
     { id: 'modern', name: '现代', bg: 'bg-[#293845]', textColor: 'text-white' },
-    { id: 'minimal', name: '简约', bg: 'bg-white/90', textColor: 'text-[#293845]' },
-    { id: 'ticket', name: '登机牌', bg: 'bg-white/90', textColor: 'text-[#293845]' },
+    {
+        id: 'minimal',
+        name: '简约',
+        bg: 'bg-white/90',
+        textColor: 'text-[#293845]',
+    },
+    {
+        id: 'ticket',
+        name: '登机牌',
+        bg: 'bg-white/90',
+        textColor: 'text-[#293845]',
+    },
 ]
 
 const LANGUAGES: Record<string, any> = {
@@ -127,16 +137,33 @@ export default function ShareCard() {
 
     const cardRef = useRef<HTMLDivElement>(null)
 
+    // React 19: useTransition for non-blocking operations
+    const [isPending, startTransition] = useTransition()
+
+    // React 19: useMemo for card statistics
+    const cardStats = useMemo(
+        () => ({
+            titleLength: title.length,
+            contentLength: content.length,
+            authorLength: author.length,
+            totalCharacters: title.length + content.length + author.length,
+            estimatedReadTime: Math.ceil(wordCount / (lang === 'zh' ? 300 : 200)), // chars/words per minute
+            templateName: selectedTemplate.name,
+            gradientIndex: GRADIENTS.indexOf(selectedGradient) + 1,
+        }),
+        [title, content, author, wordCount, lang, selectedTemplate, selectedGradient],
+    )
+
     useEffect(() => {
         updateWordCount()
-    }, [content, lang])
+    }, [updateWordCount])
 
     useEffect(() => {
         setTitle(t.title)
         setContent(t.content)
         setAuthor(t.author)
         updateWordCount()
-    }, [lang, t])
+    }, [t, updateWordCount])
 
     const updateWordCount = () => {
         const isChinese = lang === 'zh'
@@ -223,15 +250,23 @@ export default function ShareCard() {
         return <div className={cn('w-full aspect-3/4 p-12', selectedGradient)}>{cardContent}</div>
     }
 
-    const downloadImage = () => {
+    const downloadImage = useCallback(() => {
         if (!cardRef.current) return
-        html2canvas(cardRef.current).then((canvas) => {
-            const link = document.createElement('a')
-            link.download = 'card.png'
-            link.href = canvas.toDataURL()
-            link.click()
+
+        // React 19: Use startTransition for non-blocking download
+        startTransition(() => {
+            html2canvas(cardRef.current!)
+                .then((canvas) => {
+                    const link = document.createElement('a')
+                    link.download = `card-${Date.now()}.png`
+                    link.href = canvas.toDataURL('image/png', 1.0)
+                    link.click()
+                })
+                .catch((error) => {
+                    console.error('Failed to generate image:', error)
+                })
         })
-    }
+    }, [startTransition])
 
     const toggleMap: Record<string, () => typeof contentStyle> = {
         bold: () => ({
@@ -258,213 +293,229 @@ export default function ShareCard() {
     }
 
     return (
-        <div className="min-h-screen bg-white text-black p-4">
-            <div className="max-w-md mx-auto space-y-4">
-                <div className="flex justify-between items-center">
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button variant="outline" size="icon">
-                                <Pencil className="w-5 h-5" />
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent className="bg-white border-gray-200 text-black max-w-3xl max-h-[80vh] overflow-y-auto">
-                            <DialogHeader>
-                                <DialogTitle>{t.editAndSettings}</DialogTitle>
-                            </DialogHeader>
-                            <Tabs defaultValue="content" className="w-full">
-                                <TabsList className="grid w-full grid-cols-3">
-                                    <TabsTrigger value="content">{t.cardContent}</TabsTrigger>
-                                    <TabsTrigger value="style">{t.styleSettings}</TabsTrigger>
-                                    <TabsTrigger value="general">{t.generalSettings}</TabsTrigger>
-                                </TabsList>
-                                <TabsContent value="content" className="space-y-4">
-                                    <div>
-                                        <Input
-                                            value={title}
-                                            onChange={(e) => setTitle(e.target.value)}
-                                            placeholder={t.titlePlaceholder}
-                                            className="border-gray-300"
-                                        />
-                                    </div>
-                                    <div>
-                                        <Textarea
-                                            value={content}
-                                            onChange={(e) => handleContentChange(e.target.value)}
-                                            placeholder={t.contentPlaceholder}
-                                            className="border-gray-300"
-                                            rows={4}
-                                        />
-                                    </div>
-                                    <div>
-                                        <Input
-                                            value={author}
-                                            onChange={(e) => setAuthor(e.target.value)}
-                                            placeholder={t.authorPlaceholder}
-                                            className="border-gray-300"
-                                        />
-                                    </div>
-                                </TabsContent>
-                                <TabsContent value="style" className="space-y-4">
-                                    <div>
-                                        <label className="text-sm text-gray-600">{t.fontSize}</label>
-                                        <div className="flex gap-2 mt-1">
-                                            <Slider
-                                                min={12}
-                                                max={48}
-                                                step={1}
-                                                value={[parseInt(titleStyle.fontSize)]}
-                                                onValueChange={(value) =>
-                                                    setTitleStyle({ ...titleStyle, fontSize: `${value[0]}px` })
-                                                }
-                                                className="w-1/2"
-                                            />
-                                            <Slider
-                                                min={12}
-                                                max={48}
-                                                step={1}
-                                                value={[parseInt(contentStyle.fontSize)]}
-                                                onValueChange={(value) =>
-                                                    setContentStyle({ ...contentStyle, fontSize: `${value[0]}px` })
-                                                }
-                                                className="w-1/2"
+        <AppErrorBoundary>
+            <div className="min-h-screen bg-white text-black p-4">
+                <div className="max-w-md mx-auto space-y-4">
+                    <div className="flex justify-between items-center">
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="outline" size="icon">
+                                    <Pencil className="w-5 h-5" />
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="bg-white border-gray-200 text-black max-w-3xl max-h-[80vh] overflow-y-auto">
+                                <DialogHeader>
+                                    <DialogTitle>{t.editAndSettings}</DialogTitle>
+                                </DialogHeader>
+                                <Tabs defaultValue="content" className="w-full">
+                                    <TabsList className="grid w-full grid-cols-3">
+                                        <TabsTrigger value="content">{t.cardContent}</TabsTrigger>
+                                        <TabsTrigger value="style">{t.styleSettings}</TabsTrigger>
+                                        <TabsTrigger value="general">{t.generalSettings}</TabsTrigger>
+                                    </TabsList>
+                                    <TabsContent value="content" className="space-y-4">
+                                        <div>
+                                            <Input
+                                                value={title}
+                                                onChange={(e) => setTitle(e.target.value)}
+                                                placeholder={t.titlePlaceholder}
+                                                className="border-gray-300"
                                             />
                                         </div>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm text-gray-600">{t.fontStyle}</label>
-                                        <ToggleGroup type="multiple" className="justify-start mt-1">
-                                            <ToggleGroupItem
-                                                value="bold"
-                                                aria-label="Toggle bold"
-                                                onClick={() => handleFontStyleToggle('bold')}
+                                        <div>
+                                            <Textarea
+                                                value={content}
+                                                onChange={(e) => handleContentChange(e.target.value)}
+                                                placeholder={t.contentPlaceholder}
+                                                className="border-gray-300"
+                                                rows={4}
+                                            />
+                                        </div>
+                                        <div>
+                                            <Input
+                                                value={author}
+                                                onChange={(e) => setAuthor(e.target.value)}
+                                                placeholder={t.authorPlaceholder}
+                                                className="border-gray-300"
+                                            />
+                                        </div>
+                                    </TabsContent>
+                                    <TabsContent value="style" className="space-y-4">
+                                        <div>
+                                            <label className="text-sm text-gray-600">{t.fontSize}</label>
+                                            <div className="flex gap-2 mt-1">
+                                                <Slider
+                                                    min={12}
+                                                    max={48}
+                                                    step={1}
+                                                    value={[parseInt(titleStyle.fontSize)]}
+                                                    onValueChange={(value) =>
+                                                        setTitleStyle({
+                                                            ...titleStyle,
+                                                            fontSize: `${value[0]}px`,
+                                                        })
+                                                    }
+                                                    className="w-1/2"
+                                                />
+                                                <Slider
+                                                    min={12}
+                                                    max={48}
+                                                    step={1}
+                                                    value={[parseInt(contentStyle.fontSize)]}
+                                                    onValueChange={(value) =>
+                                                        setContentStyle({
+                                                            ...contentStyle,
+                                                            fontSize: `${value[0]}px`,
+                                                        })
+                                                    }
+                                                    className="w-1/2"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-gray-600">{t.fontStyle}</label>
+                                            <ToggleGroup type="multiple" className="justify-start mt-1">
+                                                <ToggleGroupItem
+                                                    value="bold"
+                                                    aria-label="Toggle bold"
+                                                    onClick={() => handleFontStyleToggle('bold')}
+                                                >
+                                                    <Bold className="h-4 w-4" />
+                                                </ToggleGroupItem>
+                                                <ToggleGroupItem
+                                                    value="italic"
+                                                    aria-label="Toggle italic"
+                                                    onClick={() => handleFontStyleToggle('italic')}
+                                                >
+                                                    <Italic className="h-4 w-4" />
+                                                </ToggleGroupItem>
+                                                <ToggleGroupItem
+                                                    value="underline"
+                                                    aria-label="Toggle underline"
+                                                    onClick={() => handleFontStyleToggle('underline')}
+                                                >
+                                                    <Underline className="h-4 w-4" />
+                                                </ToggleGroupItem>
+                                            </ToggleGroup>
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-gray-600">{t.alignment}</label>
+                                            <ToggleGroup
+                                                type="single"
+                                                value={contentStyle.textAlign}
+                                                onValueChange={handleAlignmentChange}
+                                                className="justify-start mt-1"
                                             >
-                                                <Bold className="h-4 w-4" />
-                                            </ToggleGroupItem>
-                                            <ToggleGroupItem
-                                                value="italic"
-                                                aria-label="Toggle italic"
-                                                onClick={() => handleFontStyleToggle('italic')}
-                                            >
-                                                <Italic className="h-4 w-4" />
-                                            </ToggleGroupItem>
-                                            <ToggleGroupItem
-                                                value="underline"
-                                                aria-label="Toggle underline"
-                                                onClick={() => handleFontStyleToggle('underline')}
-                                            >
-                                                <Underline className="h-4 w-4" />
-                                            </ToggleGroupItem>
-                                        </ToggleGroup>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm text-gray-600">{t.alignment}</label>
-                                        <ToggleGroup
-                                            type="single"
-                                            value={contentStyle.textAlign}
-                                            onValueChange={handleAlignmentChange}
-                                            className="justify-start mt-1"
-                                        >
-                                            <ToggleGroupItem value="left" aria-label="Align left">
-                                                <AlignLeft className="h-4 w-4" />
-                                            </ToggleGroupItem>
-                                            <ToggleGroupItem value="center" aria-label="Align center">
-                                                <AlignCenter className="h-4 w-4" />
-                                            </ToggleGroupItem>
-                                            <ToggleGroupItem value="right" aria-label="Align right">
-                                                <AlignRight className="h-4 w-4" />
-                                            </ToggleGroupItem>
-                                        </ToggleGroup>
-                                    </div>
-                                    <div>
-                                        <label className="text-sm text-gray-600">{t.lineHeight}</label>
-                                        <Slider
-                                            min={1}
-                                            max={2}
-                                            step={0.1}
-                                            value={[parseFloat(contentStyle.lineHeight)]}
-                                            onValueChange={(value) =>
-                                                setContentStyle({ ...contentStyle, lineHeight: value[0].toString() })
-                                            }
-                                            className="mt-1"
-                                        />
-                                    </div>
-                                </TabsContent>
-                                <TabsContent value="general" className="space-y-4">
-                                    <div>
-                                        <label className="text-sm text-gray-600">{t.date}</label>
-                                        <Input
-                                            type="date"
-                                            value={date}
-                                            onChange={(e) => setDate(e.target.value)}
-                                            className="border-gray-300 mt-1"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="text-sm text-gray-600">{t.maker}</label>
-                                        <Input
-                                            value={madeBy}
-                                            onChange={(e) => setMadeBy(e.target.value)}
-                                            className="border-gray-300 mt-1"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="text-sm text-gray-600">Language</label>
-                                        <Select value={lang} onValueChange={setLang}>
-                                            <SelectTrigger className="border-gray-300 mt-1">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="en">English</SelectItem>
-                                                <SelectItem value="zh">中文</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-                                </TabsContent>
-                            </Tabs>
-                        </DialogContent>
-                    </Dialog>
-                    <Button variant="outline" size="icon" onClick={downloadImage}>
-                        <Download className="w-5 h-5" />
-                    </Button>
-                </div>
+                                                <ToggleGroupItem value="left" aria-label="Align left">
+                                                    <AlignLeft className="h-4 w-4" />
+                                                </ToggleGroupItem>
+                                                <ToggleGroupItem value="center" aria-label="Align center">
+                                                    <AlignCenter className="h-4 w-4" />
+                                                </ToggleGroupItem>
+                                                <ToggleGroupItem value="right" aria-label="Align right">
+                                                    <AlignRight className="h-4 w-4" />
+                                                </ToggleGroupItem>
+                                            </ToggleGroup>
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-gray-600">{t.lineHeight}</label>
+                                            <Slider
+                                                min={1}
+                                                max={2}
+                                                step={0.1}
+                                                value={[parseFloat(contentStyle.lineHeight)]}
+                                                onValueChange={(value) =>
+                                                    setContentStyle({
+                                                        ...contentStyle,
+                                                        lineHeight: value[0].toString(),
+                                                    })
+                                                }
+                                                className="mt-1"
+                                            />
+                                        </div>
+                                    </TabsContent>
+                                    <TabsContent value="general" className="space-y-4">
+                                        <div>
+                                            <label className="text-sm text-gray-600">{t.date}</label>
+                                            <Input
+                                                type="date"
+                                                value={date}
+                                                onChange={(e) => setDate(e.target.value)}
+                                                className="border-gray-300 mt-1"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-gray-600">{t.maker}</label>
+                                            <Input
+                                                value={madeBy}
+                                                onChange={(e) => setMadeBy(e.target.value)}
+                                                className="border-gray-300 mt-1"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-gray-600">Language</label>
+                                            <Select value={lang} onValueChange={setLang}>
+                                                <SelectTrigger className="border-gray-300 mt-1">
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="en">English</SelectItem>
+                                                    <SelectItem value="zh">中文</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                    </TabsContent>
+                                </Tabs>
+                            </DialogContent>
+                        </Dialog>
+                        <Button variant="outline" size="icon" onClick={downloadImage} disabled={isPending}>
+                            <Download className="w-5 h-5" />
+                        </Button>
 
-                <div ref={cardRef}>{renderCard()}</div>
-
-                <div className="fixed bottom-4 left-4 right-4 max-w-md mx-auto">
-                    <Card className="bg-white/80 backdrop-blur-sm border-gray-200">
-                        <div className="p-4 space-y-4">
-                            <div className="flex gap-4 text-sm text-gray-600">
-                                {TEMPLATES.map((template) => (
-                                    <button
-                                        key={template.id}
-                                        onClick={() => setSelectedTemplate(template)}
-                                        className={cn(
-                                            'hover:text-black transition-colors',
-                                            selectedTemplate.id === template.id && 'text-black',
-                                        )}
-                                    >
-                                        {template.name}
-                                    </button>
-                                ))}
-                            </div>
-                            <div className="flex flex-wrap gap-2">
-                                {GRADIENTS.map((gradient, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => setSelectedGradient(gradient)}
-                                        className={cn(
-                                            'w-8 h-8 rounded-full',
-                                            gradient,
-                                            selectedGradient === gradient &&
-                                                'ring-2 ring-black ring-offset-2 ring-offset-white',
-                                        )}
-                                    />
-                                ))}
-                            </div>
+                        {/* Card statistics */}
+                        <div className="text-xs text-gray-500">
+                            {cardStats.totalCharacters} 字符 | 模板: {cardStats.templateName}
                         </div>
-                    </Card>
+                    </div>
+
+                    <div ref={cardRef}>{renderCard()}</div>
+
+                    <div className="fixed bottom-4 left-4 right-4 max-w-md mx-auto">
+                        <Card className="bg-white/80 backdrop-blur-sm border-gray-200">
+                            <div className="p-4 space-y-4">
+                                <div className="flex gap-4 text-sm text-gray-600">
+                                    {TEMPLATES.map((template) => (
+                                        <button
+                                            key={template.id}
+                                            onClick={() => setSelectedTemplate(template)}
+                                            className={cn(
+                                                'hover:text-black transition-colors',
+                                                selectedTemplate.id === template.id && 'text-black',
+                                            )}
+                                        >
+                                            {template.name}
+                                        </button>
+                                    ))}
+                                </div>
+                                <div className="flex flex-wrap gap-2">
+                                    {GRADIENTS.map((gradient, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => setSelectedGradient(gradient)}
+                                            className={cn(
+                                                'w-8 h-8 rounded-full',
+                                                gradient,
+                                                selectedGradient === gradient &&
+                                                    'ring-2 ring-black ring-offset-2 ring-offset-white',
+                                            )}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        </Card>
+                    </div>
                 </div>
             </div>
-        </div>
+        </AppErrorBoundary>
     )
 }
