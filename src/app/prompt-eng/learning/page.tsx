@@ -61,6 +61,17 @@ export default function LearningModule() {
     const [difficulty, setDifficulty] = useState('normal')
     const [showExplanation, setShowExplanation] = useState(false)
 
+    const handleStartLearning = () => {
+        setIsTimerRunning(true)
+        // 根据难度设置时间
+        setTimeLeft(difficulty === 'easy' ? 420 : difficulty === 'hard' ? 180 : 300)
+    }
+
+    const handleTimeUp = () => {
+        setIsTimerRunning(false)
+        setShowExplanation(true)
+    }
+
     useEffect(() => {
         if (isTimerRunning && timeLeft > 0) {
             const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000)
@@ -70,21 +81,6 @@ export default function LearningModule() {
             handleTimeUp()
         }
     }, [timeLeft, isTimerRunning, handleTimeUp])
-
-    const handleStartLearning = () => {
-        setIsTimerRunning(true)
-        // 根据难度设置时间
-        setTimeLeft(difficulty === 'easy' ? 420 : difficulty === 'hard' ? 180 : 300)
-    }
-
-    const handleTimeUp = () => {
-        setIsTimerRunning(false)
-        toast({
-            title: '时间到！',
-            description: '别担心，你还可以继续学习，但不会获得额外的时间奖励。',
-            variant: 'destructive',
-        })
-    }
 
     const handleNextStep = () => {
         if (currentStep < knowledgePoints.length - 1) {
@@ -110,6 +106,7 @@ export default function LearningModule() {
         let isCorrect = false
         let feedback = ''
 
+        if (!currentPoint) return
         if (Array.isArray(currentPoint.answer)) {
             const userKeywords = userInput.toLowerCase().split(/[,，\s]+/)
             const correctKeywords = currentPoint.answer.map((keyword) => keyword.toLowerCase())
@@ -168,162 +165,174 @@ export default function LearningModule() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-blue-100 to-purple-100 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: -50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    <h1 className="text-3xl font-bold text-center mb-8">总结模块: 学习如何提取和压缩关键信息</h1>
-                </motion.div>
+        <>
+            <div className="min-h-screen bg-gradient-to-b from-blue-100 to-purple-100 py-12 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-3xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: -50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <h1 className="text-3xl font-bold text-center mb-8">总结模块: 学习如何提取和压缩关键信息</h1>
+                    </motion.div>
 
-                {!isTimerRunning && !showSuccess && (
-                    <Card className="mb-8">
-                        <CardHeader>
-                            <CardTitle>准备好开始学习了吗？</CardTitle>
-                            <CardDescription>选择难度并开始你的学习之旅！</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <Select onValueChange={setDifficulty} defaultValue={difficulty}>
-                                <SelectTrigger className="w-full mb-4">
-                                    <SelectValue placeholder="选择难度" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="easy">简单 (7分钟)</SelectItem>
-                                    <SelectItem value="normal">普通 (5分钟)</SelectItem>
-                                    <SelectItem value="hard">困难 (3分钟)</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <Button onClick={handleStartLearning} className="w-full">
-                                开始学习
-                            </Button>
-                        </CardContent>
-                    </Card>
-                )}
+                    {!isTimerRunning && !showSuccess && (
+                        <Card className="mb-8">
+                            <CardHeader>
+                                <CardTitle>准备好开始学习了吗？</CardTitle>
+                                <CardDescription>选择难度并开始你的学习之旅！</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <Select onValueChange={setDifficulty} defaultValue={difficulty}>
+                                    <SelectTrigger className="w-full mb-4">
+                                        <SelectValue placeholder="选择难度" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="easy">简单 (7分钟)</SelectItem>
+                                        <SelectItem value="normal">普通 (5分钟)</SelectItem>
+                                        <SelectItem value="hard">困难 (3分钟)</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <Button onClick={handleStartLearning} className="w-full">
+                                    开始学习
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    )}
 
-                {isTimerRunning && (
-                    <>
-                        <div className="flex justify-between items-center mb-4">
-                            <div className="flex items-center">
-                                <Star className="text-yellow-500 mr-2" />
-                                <span className="font-bold">{score}分</span>
+                    {isTimerRunning && (
+                        <>
+                            <div className="flex justify-between items-center mb-4">
+                                <div className="flex items-center">
+                                    <Star className="text-yellow-500 mr-2" />
+                                    <span className="font-bold">{score}分</span>
+                                </div>
+                                <div className="flex items-center">
+                                    <Clock className="text-blue-500 mr-2" />
+                                    <span className="font-bold">
+                                        {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+                                    </span>
+                                </div>
                             </div>
-                            <div className="flex items-center">
-                                <Clock className="text-blue-500 mr-2" />
-                                <span className="font-bold">
-                                    {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
-                                </span>
-                            </div>
-                        </div>
+                            <Progress value={((currentStep + 1) / knowledgePoints.length) * 100} className="mb-8" />
+                            <AnimatePresence mode="wait">
+                                {knowledgePoints[currentStep] && (
+                                    <motion.div
+                                        key={currentStep}
+                                        initial={{ opacity: 0, x: 50 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -50 }}
+                                        transition={{ duration: 0.5 }}
+                                    >
+                                        <Card className="mb-8">
+                                            <CardHeader>
+                                                <CardTitle>{knowledgePoints[currentStep].title}</CardTitle>
+                                                <CardDescription>
+                                                    {knowledgePoints[currentStep].description}
+                                                </CardDescription>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <h3 className="font-semibold mb-2">示例:</h3>
+                                                <p className="mb-4 whitespace-pre-wrap">
+                                                    {knowledgePoints[currentStep].example}
+                                                </p>
+                                                <h3 className="font-semibold mb-2">练习:</h3>
+                                                <p className="mb-4">{knowledgePoints[currentStep].task}</p>
+                                                <Textarea
+                                                    value={userInput}
+                                                    onChange={(e) => setUserInput(e.target.value)}
+                                                    placeholder="输入你的答案..."
+                                                    rows={4}
+                                                    className="mb-4"
+                                                    disabled={showExplanation}
+                                                />
+                                                <Button
+                                                    onClick={handleSubmit}
+                                                    disabled={showExplanation}
+                                                    className="mb-2 w-full"
+                                                >
+                                                    提交答案
+                                                </Button>
+                                                {showExplanation && (
+                                                    <div className="bg-gray-100 rounded p-2 mt-2 mb-4">
+                                                        <h4 className="font-semibold mb-1">答案解析：</h4>
+                                                        <p>{knowledgePoints[currentStep]?.explanation}</p>
+                                                    </div>
+                                                )}
+                                            </CardContent>
+                                        </Card>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                            {!showSuccess && (
+                                <div className="flex justify-between items-center">
+                                    <Button variant="outline" onClick={handleSaveProgress}>
+                                        <Save className="mr-2 h-4 w-4" /> 保存进度
+                                    </Button>
+                                    <Button
+                                        onClick={handleNextStep}
+                                        disabled={currentStep === knowledgePoints.length - 1}
+                                    >
+                                        下一步 <ChevronRight className="ml-2 h-4 w-4" />
+                                    </Button>
+                                </div>
+                            )}
+                        </>
+                    )}
 
-                        <Progress value={((currentStep + 1) / knowledgePoints.length) * 100} className="mb-8" />
-
-                        <AnimatePresence mode="wait">
+                    <AnimatePresence>
+                        {showSuccess && (
                             <motion.div
-                                key={currentStep}
-                                initial={{ opacity: 0, x: 50 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: -50 }}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8 }}
                                 transition={{ duration: 0.5 }}
+                                className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
                             >
-                                <Card className="mb-8">
+                                <Card className="w-96">
                                     <CardHeader>
-                                        <CardTitle>{knowledgePoints[currentStep].title}</CardTitle>
-                                        <CardDescription>{knowledgePoints[currentStep].description}</CardDescription>
+                                        <CardTitle className="flex items-center">
+                                            <Award className="mr-2 h-6 w-6 text-yellow-500" />
+                                            恭喜!
+                                        </CardTitle>
+                                        <CardDescription>你已经完成了总结模块的学习!</CardDescription>
                                     </CardHeader>
                                     <CardContent>
-                                        <h3 className="font-semibold mb-2">示例:</h3>
-                                        <p className="mb-4 whitespace-pre-wrap">
-                                            {knowledgePoints[currentStep].example}
-                                        </p>
-                                        <h3 className="font-semibold mb-2">练习:</h3>
-                                        <p className="mb-4">{knowledgePoints[currentStep].task}</p>
-                                        <Textarea
-                                            placeholder="在这里输入你的答案..."
-                                            value={userInput}
-                                            onChange={(e) => setUserInput(e.target.value)}
-                                            className="mb-4"
-                                        />
-                                        <Button onClick={handleSubmit} className="w-full mb-4">
-                                            提交答案
+                                        <p className="mb-4">你获得了 {score} 积分和"总结大师"勋章!</p>
+                                        <div className="flex justify-between mb-4">
+                                            <Button variant="outline" onClick={handleShare}>
+                                                <Share2 className="mr-2 h-4 w-4" /> 分享成绩
+                                            </Button>
+                                            <Dialog>
+                                                <DialogTrigger asChild>
+                                                    <Button variant="outline">查看详细解析</Button>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <DialogHeader>
+                                                        <DialogTitle>学习模块详细解析</DialogTitle>
+                                                        <DialogDescription>
+                                                            以下是本模块的所有知识点及其解析：
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                    {knowledgePoints.map((point, _index) => (
+                                                        <div key={point.title} className="mb-4">
+                                                            <h3 className="font-semibold">{point.title}</h3>
+                                                            <p>{point.explanation}</p>
+                                                        </div>
+                                                    ))}
+                                                </DialogContent>
+                                            </Dialog>
+                                        </div>
+                                        <Button onClick={() => setShowSuccess(false)} className="w-full">
+                                            返回主页
                                         </Button>
-                                        {showExplanation && (
-                                            <div className="bg-blue-100 p-4 rounded-md">
-                                                <h4 className="font-semibold mb-2">答案解析:</h4>
-                                                <p>{knowledgePoints[currentStep].explanation}</p>
-                                            </div>
-                                        )}
                                     </CardContent>
                                 </Card>
                             </motion.div>
-                        </AnimatePresence>
-
-                        {!showSuccess && (
-                            <div className="flex justify-between items-center">
-                                <Button variant="outline" onClick={handleSaveProgress}>
-                                    <Save className="mr-2 h-4 w-4" /> 保存进度
-                                </Button>
-                                <Button onClick={handleNextStep} disabled={currentStep === knowledgePoints.length - 1}>
-                                    下一步 <ChevronRight className="ml-2 h-4 w-4" />
-                                </Button>
-                            </div>
                         )}
-                    </>
-                )}
-
-                <AnimatePresence>
-                    {showSuccess && (
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8 }}
-                            transition={{ duration: 0.5 }}
-                            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-                        >
-                            <Card className="w-96">
-                                <CardHeader>
-                                    <CardTitle className="flex items-center">
-                                        <Award className="mr-2 h-6 w-6 text-yellow-500" />
-                                        恭喜!
-                                    </CardTitle>
-                                    <CardDescription>你已经完成了总结模块的学习!</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="mb-4">你获得了 {score} 积分和"总结大师"勋章!</p>
-                                    <div className="flex justify-between mb-4">
-                                        <Button variant="outline" onClick={handleShare}>
-                                            <Share2 className="mr-2 h-4 w-4" /> 分享成绩
-                                        </Button>
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button variant="outline">查看详细解析</Button>
-                                            </DialogTrigger>
-                                            <DialogContent>
-                                                <DialogHeader>
-                                                    <DialogTitle>学习模块详细解析</DialogTitle>
-                                                    <DialogDescription>
-                                                        以下是本模块的所有知识点及其解析：
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                {knowledgePoints.map((point, _index) => (
-                                                    <div key={point.title} className="mb-4">
-                                                        <h3 className="font-semibold">{point.title}</h3>
-                                                        <p>{point.explanation}</p>
-                                                    </div>
-                                                ))}
-                                            </DialogContent>
-                                        </Dialog>
-                                    </div>
-                                    <Button onClick={() => setShowSuccess(false)} className="w-full">
-                                        返回主页
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                    </AnimatePresence>
+                </div>
             </div>
-        </div>
+        </>
     )
 }

@@ -129,6 +129,21 @@ export default function PromptEngineeringGame() {
     const [_showTutorial, setShowTutorial] = useState(true)
     const [unlockedAchievements, setUnlockedAchievements] = useState<string[]>([])
 
+    const loadLevel = (levelIndex: number) => {
+        const level = levels[levelIndex]
+        if (!level) return
+        const safeAvailableModules = (level.availableModules ?? []).filter((id): id is string => typeof id === 'string')
+        const modules = predefinedModules.filter(
+            (module) => typeof module.id === 'string' && safeAvailableModules.includes(module.id),
+        )
+        setAvailableModules(modules)
+        setPrompts([])
+        setFeedback('')
+        setTimeLeft(difficulty === 'hard' ? 30 : 60)
+        setIsGameOver(false)
+        setShowTutorial(true)
+    }
+
     useEffect(() => {
         loadLevel(currentLevel)
     }, [currentLevel, loadLevel])
@@ -144,17 +159,6 @@ export default function PromptEngineeringGame() {
         return () => clearTimeout(timer)
     }, [timerMode, timeLeft, isGameOver])
 
-    const loadLevel = (levelIndex: number) => {
-        const level = levels[levelIndex]
-        const modules = predefinedModules.filter((module) => level.availableModules.includes(module.id))
-        setAvailableModules(modules)
-        setPrompts([])
-        setFeedback('')
-        setTimeLeft(difficulty === 'hard' ? 30 : 60)
-        setIsGameOver(false)
-        setShowTutorial(true)
-    }
-
     const onDragEnd = (result: DropResult) => {
         if (!result.destination) return
 
@@ -163,13 +167,13 @@ export default function PromptEngineeringGame() {
 
         if (result.source.droppableId === 'modules' && result.destination.droppableId === 'prompt') {
             const [movedItem] = newAvailableModules.splice(result.source.index, 1)
-            newPrompt.splice(result.destination.index, 0, movedItem)
+            newPrompt.splice(result.destination.index, 0, movedItem ?? {})
         } else if (result.source.droppableId === 'prompt' && result.destination.droppableId === 'modules') {
             const [movedItem] = newPrompt.splice(result.source.index, 1)
-            newAvailableModules.splice(result.destination.index, 0, movedItem)
+            newAvailableModules.splice(result.destination.index, 0, movedItem ?? {})
         } else if (result.source.droppableId === 'prompt' && result.destination.droppableId === 'prompt') {
             const [reorderedItem] = newPrompt.splice(result.source.index, 1)
-            newPrompt.splice(result.destination.index, 0, reorderedItem)
+            newPrompt.splice(result.destination.index, 0, reorderedItem ?? {})
         }
 
         setAvailableModules(newAvailableModules)
@@ -179,7 +183,7 @@ export default function PromptEngineeringGame() {
     const handleSubmit = () => {
         const currentLevelData = levels[currentLevel]
         const userPrompt = prompts.map((m) => m.content).join(' ')
-        if (userPrompt === currentLevelData.targetPrompt) {
+        if (currentLevelData && userPrompt === currentLevelData.targetPrompt) {
             const levelScore = calculateScore()
             setScore((prevScore) => prevScore + levelScore)
             setFeedback(`太棒了！你完成了这个关卡！获得 ${levelScore} 分。`)
@@ -240,8 +244,12 @@ export default function PromptEngineeringGame() {
                 <TabsContent value="game">
                     <Card>
                         <CardHeader>
-                            <CardTitle>{levels[currentLevel].name}</CardTitle>
-                            <CardDescription>{levels[currentLevel].description}</CardDescription>
+                            {levels[currentLevel] ? (
+                                <>
+                                    <CardTitle>{levels[currentLevel].name}</CardTitle>
+                                    <CardDescription>{levels[currentLevel].description}</CardDescription>
+                                </>
+                            ) : null}
                         </CardHeader>
                         <CardContent>
                             <div className="flex justify-between items-center mb-4">
@@ -270,24 +278,30 @@ export default function PromptEngineeringGame() {
                                                     ref={provided.innerRef}
                                                     className="space-y-2"
                                                 >
-                                                    {availableModules.map((module, index) => (
-                                                        <Draggable
-                                                            key={module.id}
-                                                            draggableId={module.id}
-                                                            index={index}
-                                                        >
-                                                            {(provided) => (
-                                                                <div
-                                                                    ref={provided.innerRef}
-                                                                    {...provided.draggableProps}
-                                                                    {...provided.dragHandleProps}
-                                                                    className={`p-2 rounded ${moduleTypes[module.type].color}`}
-                                                                >
-                                                                    {module.content}
-                                                                </div>
-                                                            )}
-                                                        </Draggable>
-                                                    ))}
+                                                    {availableModules.map((module, index) => {
+                                                        const moduleColor =
+                                                            module.type && moduleTypes[module.type]?.color
+                                                                ? moduleTypes[module.type]!.color
+                                                                : ''
+                                                        return (
+                                                            <Draggable
+                                                                key={module.id as string}
+                                                                draggableId={module.id as string}
+                                                                index={index}
+                                                            >
+                                                                {(provided) => (
+                                                                    <div
+                                                                        ref={provided.innerRef}
+                                                                        {...provided.draggableProps}
+                                                                        {...provided.dragHandleProps}
+                                                                        className={`p-2 rounded ${moduleColor}`}
+                                                                    >
+                                                                        {module.content}
+                                                                    </div>
+                                                                )}
+                                                            </Draggable>
+                                                        )
+                                                    })}
                                                     {provided.placeholder}
                                                 </div>
                                             )}
@@ -304,24 +318,39 @@ export default function PromptEngineeringGame() {
                                                     ref={provided.innerRef}
                                                     className="min-h-[200px] border-2 border-dashed border-gray-300 p-4 flex flex-wrap items-start content-start"
                                                 >
-                                                    {prompts.map((module, index) => (
-                                                        <Draggable
-                                                            key={module.id}
-                                                            draggableId={module.id}
-                                                            index={index}
-                                                        >
-                                                            {(provided) => (
-                                                                <div
-                                                                    ref={provided.innerRef}
-                                                                    {...provided.draggableProps}
-                                                                    {...provided.dragHandleProps}
-                                                                    className={`p-2 m-1 rounded ${moduleTypes[module.type].color}`}
+                                                    {prompts
+                                                        .filter((m) => typeof m.id === 'string')
+                                                        .map((module, index) => {
+                                                            let moduleColor = ''
+                                                            const t = module.type
+                                                            const moduleTypeEntry = t
+                                                                ? moduleTypes[t as keyof typeof moduleTypes]
+                                                                : undefined
+                                                            if (
+                                                                moduleTypeEntry &&
+                                                                typeof moduleTypeEntry.color === 'string'
+                                                            ) {
+                                                                moduleColor = moduleTypeEntry.color
+                                                            }
+                                                            return (
+                                                                <Draggable
+                                                                    key={module.id as string}
+                                                                    draggableId={module.id as string}
+                                                                    index={index}
                                                                 >
-                                                                    {module.content}
-                                                                </div>
-                                                            )}
-                                                        </Draggable>
-                                                    ))}
+                                                                    {(provided) => (
+                                                                        <div
+                                                                            ref={provided.innerRef}
+                                                                            {...provided.draggableProps}
+                                                                            {...provided.dragHandleProps}
+                                                                            className={`p-2 m-1 rounded ${moduleColor}`}
+                                                                        >
+                                                                            {module.content}
+                                                                        </div>
+                                                                    )}
+                                                                </Draggable>
+                                                            )
+                                                        })}
                                                     {provided.placeholder}
                                                 </div>
                                             )}
@@ -373,7 +402,9 @@ export default function PromptEngineeringGame() {
                                 <DialogContent className="sm:max-w-[425px]">
                                     <DialogHeader>
                                         <DialogTitle>关卡教程</DialogTitle>
-                                        <DialogDescription>{levels[currentLevel].tutorial}</DialogDescription>
+                                        <DialogDescription>
+                                            {levels[currentLevel] ? levels[currentLevel].tutorial : ''}
+                                        </DialogDescription>
                                     </DialogHeader>
                                 </DialogContent>
                             </Dialog>

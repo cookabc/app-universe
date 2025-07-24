@@ -165,14 +165,14 @@ export default function AchievementPage() {
                                 <ChevronLeft className="h-4 w-4" />
                             </Button>
                             <Avatar className="h-24 w-24 mx-4">
-                                <AvatarImage src={selectedAvatar.src} alt={selectedAvatar.name} />
-                                <AvatarFallback>{selectedAvatar.name[0]}</AvatarFallback>
+                                <AvatarImage src={selectedAvatar?.src ?? ''} alt={selectedAvatar?.name ?? ''} />
+                                <AvatarFallback>{selectedAvatar?.name ? selectedAvatar.name[0] : '?'}</AvatarFallback>
                             </Avatar>
                             <Button variant="outline" onClick={() => handleAvatarChange(1)}>
                                 <ChevronRight className="h-4 w-4" />
                             </Button>
                         </div>
-                        <p className="text-center font-medium">{selectedAvatar.name}</p>
+                        <p className="text-center font-medium">{selectedAvatar?.name ?? '未选择头像'}</p>
                     </CardContent>
                 </Card>
 
