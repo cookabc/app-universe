@@ -36,13 +36,13 @@ export default function WordSearchGame() {
     const _gameStats = useMemo(
         () => ({
             progress:
-                remainingWords.length > 0
-                    ? ((LEVELS[currentLevel].words.length - remainingWords.length) /
-                          LEVELS[currentLevel].words.length) *
+                remainingWords.length > 0 && LEVELS[currentLevel]?.words
+                    ? ((LEVELS[currentLevel]?.words.length - remainingWords.length) /
+                          (LEVELS[currentLevel]?.words.length || 1)) *
                       100
                     : 100,
-            wordsFound: LEVELS[currentLevel].words.length - remainingWords.length,
-            totalWords: LEVELS[currentLevel].words.length,
+            wordsFound: LEVELS[currentLevel]?.words ? LEVELS[currentLevel]?.words.length - remainingWords.length : 0,
+            totalWords: LEVELS[currentLevel]?.words?.length || 0,
             levelProgress: `${currentLevel + 1} / ${LEVELS.length}`,
             difficulty: currentLevel + 1,
         }),
@@ -76,7 +76,9 @@ export default function WordSearchGame() {
         if (gameState !== 'playing') return
         startTransition(() => {
             setIsSelecting(false)
-            const selectedWord = selectedCells.map(([row, col]) => matrix[row][col]).join('')
+            const selectedWord = selectedCells
+                .map(([row, col]) => (matrix[row] && matrix[row][col] ? matrix[row][col] : ''))
+                .join('')
             if (remainingWords.includes(selectedWord)) {
                 setRemainingWords((prev) => prev.filter((word) => word !== selectedWord))
                 setFoundWords((prev) => [
@@ -84,7 +86,7 @@ export default function WordSearchGame() {
                     {
                         word: selectedWord,
                         cells: selectedCells,
-                        color: COLORS[foundWords.length % COLORS.length],
+                        color: COLORS[prev.length % COLORS.length] ?? '#000',
                     },
                 ])
                 const newScore = score + selectedWord.length * 10
@@ -105,91 +107,7 @@ export default function WordSearchGame() {
         }
     }, [remainingWords, gameState, currentLevel])
 
-    useEffect(() => {
-        drawLines()
-    }, [drawLines])
-
-    const startLevel = (level: number) => {
-        const { words, size } = LEVELS[level]
-        setRemainingWords([...words])
-        setFoundWords([])
-        setMatrix(generateMatrix(words, size))
-        setScore(0)
-        setGameState('playing')
-    }
-
-    const generateMatrix = (words: string[], size: number): string[][] => {
-        const matrix = Array.from({ length: size }, () => Array.from({ length: size }, () => ''))
-
-        for (const word of words) {
-            let placed = false
-            while (!placed) {
-                const direction = Math.random() < 0.5 ? 'horizontal' : 'vertical'
-                const row = Math.floor(Math.random() * size)
-                const col = Math.floor(Math.random() * size)
-
-                if (canPlaceWord(matrix, word, row, col, direction, size)) {
-                    placeWord(matrix, word, row, col, direction)
-                    placed = true
-                }
-            }
-        }
-
-        const chineseChars =
-            '的一是在不了有和人这中大为上个国我以要他时来用们生到作地于出就分对成会可主发年动同工也能下过子说产种面而方后多定行学法所民得经十三之进着等部度家电力里如水化高自二理起小物现实加量都两体制机当使点从业本去把性好应开它合还因由其些然前外天政四日那社义事平形相全表间样与关各重新线内数正心反你明看原又么利比或但质气第向道命此变条只没结解问意建月公无系军很情者最立代想已通并提直题党程展五果料象员革位入常文总次品式活设及管特件长求老头基资边流路级少图山统接知较将组见计别她手角期根论运农指几九区强放决西被干做必战先回则任取据处队南给色光门即保治北造百规热领七海口东导器压志世金增争济阶油思术极交受联什认六共权收证改清己美再采转更单风切打白教速花带安场身车例真务具万每目至达走积示议声报斗完类八离华名确才科张信马节话米整空元况今集温传土许步群广石记需段研界拉林律叫且究观越织装影算低持音众书布复容儿须际商非验连断深难近矿千周委素技备半办青省列习响约支般史感劳便团往酸历市克何除消构府称太准精值号率族维划选标写存候毛亲快效斯院查江型眼王按格养易置派层片始却专状育厂京识适属圆包火住调满县局照参红细引听该铁价严龙飞'
-        for (let i = 0; i < size; i++) {
-            for (let j = 0; j < size; j++) {
-                if (matrix[i][j] === '') {
-                    matrix[i][j] = chineseChars[Math.floor(Math.random() * chineseChars.length)]
-                }
-            }
-        }
-
-        return matrix
-    }
-
-    const canPlaceWord = (
-        matrix: string[][],
-        word: string,
-        row: number,
-        col: number,
-        direction: string,
-        size: number,
-    ): boolean => {
-        if (direction === 'horizontal' && col + word.length > size) return false
-        if (direction === 'vertical' && row + word.length > size) return false
-
-        for (let i = 0; i < word.length; i++) {
-            const currentRow = direction === 'horizontal' ? row : row + i
-            const currentCol = direction === 'horizontal' ? col + i : col
-            if (matrix[currentRow][currentCol] !== '' && matrix[currentRow][currentCol] !== word[i]) {
-                return false
-            }
-        }
-        return true
-    }
-
-    const placeWord = (matrix: string[][], word: string, row: number, col: number, direction: string) => {
-        for (let i = 0; i < word.length; i++) {
-            const currentRow = direction === 'horizontal' ? row : row + i
-            const currentCol = direction === 'horizontal' ? col + i : col
-            matrix[currentRow][currentCol] = word[i]
-        }
-    }
-
-    const isCellSelected = (row: number, col: number) => {
-        return selectedCells.some(([r, c]) => r === row && c === col)
-    }
-
-    const isCellFound = (row: number, col: number) => {
-        return foundWords.some(({ cells }) => cells.some(([r, c]) => r === row && c === col))
-    }
-
-    const getCellColor = (row: number, col: number) => {
-        const foundWord = foundWords.find(({ cells }) => cells.some(([r, c]) => r === row && c === col))
-        return foundWord ? foundWord.color : ''
-    }
-
+    // Move drawLines definition here
     const drawLines = () => {
         const canvas = canvasRef.current
         if (!canvas) return
@@ -224,7 +142,7 @@ export default function WordSearchGame() {
             ctx.strokeStyle = color
             ctx.lineWidth = 4
             for (let index = 0; index < cells.length; index++) {
-                const [row, col] = cells[index]
+                const [row, col] = cells[index] ?? [0, 0]
                 const x = col * (cellSize + cellSpacing) + cellSize / 2
                 const y = row * (cellSize + cellSpacing) + cellSize / 2
                 if (index === 0) {
@@ -237,13 +155,103 @@ export default function WordSearchGame() {
         }
     }
 
+    const startLevel = (level: number) => {
+        const levelObj = LEVELS[level]
+        if (!levelObj) return
+        const { words, size } = levelObj
+        setRemainingWords([...words])
+        setFoundWords([])
+        setMatrix(generateMatrix(words, size))
+        setScore(0)
+        setGameState('playing')
+    }
+
+    const generateMatrix = (words: string[], size: number): string[][] => {
+        const matrix = Array.from({ length: size }, () => Array.from({ length: size }, () => ''))
+
+        for (const word of words) {
+            let placed = false
+            while (!placed) {
+                const direction = Math.random() < 0.5 ? 'horizontal' : 'vertical'
+                const row = Math.floor(Math.random() * size)
+                const col = Math.floor(Math.random() * size)
+
+                if (canPlaceWord(matrix, word, row, col, direction, size)) {
+                    placeWord(matrix, word, row, col, direction)
+                    placed = true
+                }
+            }
+        }
+
+        const chineseChars =
+            '的一是在不了有人和这中大为上个国我以要他时来用们生到作地于出就分对成会可主发年动同工也能下过子说产种面而方后多定行学法所民得经十三之进着等部度家电力里如水化高自二理起小物现实加量都两体制机当使点从业本去把性好应开它合还因由其些然前外天政四日那社义事平形相全表间样与关各重新线内数正心反你明看原又么利比或但质气第向道命此变条只没结解问意建月公无系军很情者最立代想已通并提直题党程展五果料象员革位入常文总次品式活设及管特件长求老头基资边流路级少图山统接知较将组见计别她手角期根论运农指几九区强放决西被干做必战先回则任取据处队南给色光门即保治北造百规热领七海口东导器压志世金增争济阶油思术极交受联什认六共权收证改清己美再采转更单风切打白教速花带安场身车例真务具万每目至达走积示议声报斗完类八离华名确才科张信马节话米整空元况今集温传土许步群广石记需段研界拉林律叫且究观越织装影算低持音众书布复容儿须际商非验连断深难近矿千周委素技备半办青省列习响约支般史感劳便团往酸历市克何除消构府称太准精值号率族维划选标写存候毛亲快效斯院查江型眼王按格养易置派层片始却专状育厂京识适属圆包火住调满县局照参红细引听该铁价严龙飞'
+        for (let i = 0; i < size; i++) {
+            const matrixRow = matrix[i]
+            if (!Array.isArray(matrixRow)) continue
+            for (let j = 0; j < size; j++) {
+                if (typeof matrixRow[j] !== 'undefined' && matrixRow[j] === '') {
+                    matrixRow[j] = chineseChars[Math.floor(Math.random() * chineseChars.length)] as string
+                }
+            }
+        }
+
+        return matrix
+    }
+
+    const canPlaceWord = (
+        matrix: string[][],
+        word: string,
+        row: number,
+        col: number,
+        direction: string,
+        size: number,
+    ): boolean => {
+        if (direction === 'horizontal' && col + word.length > size) return false
+        if (direction === 'vertical' && row + word.length > size) return false
+
+        for (let i = 0; i < word.length; i++) {
+            const currentRow = direction === 'horizontal' ? row : row + i
+            const currentCol = direction === 'horizontal' ? col + i : col
+            if (
+                !matrix[currentRow] ||
+                (matrix[currentRow][currentCol] !== '' && matrix[currentRow][currentCol] !== word[i])
+            ) {
+                return false
+            }
+        }
+        return true
+    }
+
+    const placeWord = (matrix: string[][], word: string, row: number, col: number, direction: string) => {
+        for (let i = 0; i < word.length; i++) {
+            const currentRow = direction === 'horizontal' ? row : row + i
+            const currentCol = direction === 'horizontal' ? col + i : col
+            const currentRowArr = matrix[currentRow]
+            if (!currentRowArr) continue
+            currentRowArr[currentCol] = word[i] as string
+        }
+    }
+
+    const isCellSelected = (row: number, col: number) => {
+        return selectedCells.some(([r, c]) => r === row && c === col)
+    }
+
+    const isCellFound = (row: number, col: number) => {
+        return foundWords.some(({ cells }) => cells.some(([r, c]) => r === row && c === col))
+    }
+
+    const getCellColor = (row: number, col: number) => {
+        const foundWord = foundWords.find(({ cells }) => cells.some(([r, c]) => r === row && c === col))
+        return foundWord ? foundWord.color : ''
+    }
+
     return (
         <GameErrorBoundary>
             <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-linear-to-r from-blue-500 to-purple-600">
                 <Card className="w-full max-w-4xl mx-auto bg-linear-to-br from-purple-500 to-pink-500 text-white">
                     <CardHeader className="text-center">
                         <CardTitle className="text-3xl font-bold">文字搜索挑战</CardTitle>
-                        <p className="text-xl">主题：{LEVELS[currentLevel].theme}</p>
+                        <p className="text-xl">主题：{LEVELS[currentLevel]?.theme}</p>
                         <p className="text-lg">
                             关卡：{currentLevel + 1} / {LEVELS.length}
                         </p>
@@ -271,14 +279,14 @@ export default function WordSearchGame() {
                                 >
                                     <canvas
                                         ref={canvasRef}
-                                        width={LEVELS[currentLevel].size * 52}
-                                        height={LEVELS[currentLevel].size * 52}
+                                        width={LEVELS[currentLevel]?.size ? LEVELS[currentLevel]?.size * 52 : 0}
+                                        height={LEVELS[currentLevel]?.size ? LEVELS[currentLevel]?.size * 52 : 0}
                                         className="absolute top-0 left-0 pointer-events-none"
                                     />
                                     <div
                                         className="grid gap-1"
                                         style={{
-                                            gridTemplateColumns: `repeat(${LEVELS[currentLevel].size}, minmax(0, 1fr))`,
+                                            gridTemplateColumns: `repeat(${LEVELS[currentLevel]?.size ?? 0}, minmax(0, 1fr))`,
                                         }}
                                     >
                                         {matrix.map((row, rowIndex) =>

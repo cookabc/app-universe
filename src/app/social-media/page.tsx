@@ -55,7 +55,10 @@ export default function HomePage() {
                 currentPosts.length > 0
                     ? Math.round(currentPosts.reduce((acc, post) => acc + post.likes, 0) / currentPosts.length)
                     : 0,
-            totalEngagement: currentPosts.reduce((acc, post) => acc + post.likes + post.retweets + post.comments, 0),
+            totalEngagement: currentPosts.reduce(
+                (acc, post) => acc + post.likes + (post.retweets ?? 0) + (post.comments ?? 0),
+                0,
+            ),
             platform: activeTab === 'x' ? 'X' : 'Weibo',
             isAuthenticated: activeTab === 'x' ? isXAuthenticated : isWeiboAuthenticated,
         }
@@ -80,7 +83,7 @@ export default function HomePage() {
     useEffect(() => {
         observerRef.current = new IntersectionObserver(
             (entries) => {
-                if (entries[0].isIntersecting) {
+                if (entries[0]?.isIntersecting) {
                     loadMorePosts()
                 }
             },

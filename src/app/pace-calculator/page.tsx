@@ -41,8 +41,36 @@ export default function PaceCalculator() {
     const [basePace, setBasePace] = useState(300) // 5:00 min/km in seconds
     const [inputMode, setInputMode] = useState<'select' | 'input'>('select')
 
+    // Placing calculateTime here to avoid TDZ in useMemo below
+    const calculateTime = (distance: number, paceSeconds: number) => {
+        if (!paceSeconds || isNaN(distance)) return '--:--'
+        const totalSeconds = distance * paceSeconds
+        const hours = Math.floor(totalSeconds / 3600)
+        const minutes = Math.floor((totalSeconds % 3600) / 60)
+        const seconds = Math.round(totalSeconds % 60)
+        return hours > 0
+            ? `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+            : `${minutes}:${seconds.toString().padStart(2, '0')}`
+    }
+
     // React 19: useTransition for non-blocking calculations
     const [isPending, startTransition] = useTransition()
+
+    // Move calculatePaceTable here to be defined before useEffect
+    const calculatePaceTable = () => {
+        const paces = [-10, -5, 0, 5, 10].map((diff) => basePace + diff)
+        const filteredDistances = isDetailedView
+            ? DISTANCES
+            : DISTANCES.filter((d) => d.value % 5 === 0 || d.value === 21.1 || d.value === 42.2)
+        const table = filteredDistances.map((distance) => {
+            return paces.map((pace) => calculateTime(distance.value, pace))
+        })
+        setPaceTable(table)
+    }
+
+    useEffect(() => {
+        calculatePaceTable()
+    }, [calculatePaceTable])
 
     // React 19: useMemo for expensive calculations
     const paceStats = useMemo(() => {
@@ -77,38 +105,10 @@ export default function PaceCalculator() {
         })
     }, [minutes, seconds])
 
-    useEffect(() => {
-        calculatePaceTable()
-    }, [calculatePaceTable])
-
     const formatPace = (seconds: number) => {
         const mins = Math.floor(seconds / 60)
         const secs = seconds % 60
         return `${mins}:${secs.toString().padStart(2, '0')}`
-    }
-
-    const calculateTime = (distance: number, paceSeconds: number) => {
-        const totalSeconds = distance * paceSeconds
-        const hours = Math.floor(totalSeconds / 3600)
-        const minutes = Math.floor((totalSeconds % 3600) / 60)
-        const seconds = Math.round(totalSeconds % 60)
-
-        if (hours > 0) {
-            return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-        }
-        return `${minutes}:${seconds.toString().padStart(2, '0')}`
-    }
-
-    const calculatePaceTable = () => {
-        const paces = [-10, -5, 0, 5, 10].map((diff) => basePace + diff)
-        const filteredDistances = isDetailedView
-            ? DISTANCES
-            : DISTANCES.filter((d) => d.value % 5 === 0 || d.value === 21.1 || d.value === 42.2)
-
-        const table = filteredDistances.map((distance) => {
-            return paces.map((pace) => calculateTime(distance.value, pace))
-        })
-        setPaceTable(table)
     }
 
     const handleMinutesChange = (e: React.ChangeEvent<HTMLInputElement>) => {

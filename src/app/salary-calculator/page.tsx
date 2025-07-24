@@ -259,7 +259,7 @@ export default function BeijingSalaryCalculator() {
                                         max={12}
                                         step={0.5}
                                         value={[bonusMonths]}
-                                        onValueChange={(value) => setBonusMonths(value[0])}
+                                        onValueChange={(value) => setBonusMonths(value[0] ?? 0)}
                                     />
                                     <div className="text-center mt-2">{bonusMonths} 个月</div>
                                 </div>
