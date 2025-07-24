@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState, useTransition } from 'react'
+import { AppErrorBoundary } from '@/components/optimized/error-boundary'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -40,14 +41,45 @@ export default function PaceCalculator() {
     const [basePace, setBasePace] = useState(300) // 5:00 min/km in seconds
     const [inputMode, setInputMode] = useState<'select' | 'input'>('select')
 
-    const calculatePace = () => {
-        const baseSeconds = parseInt(minutes) * 60 + parseInt(seconds)
-        setBasePace(baseSeconds)
-    }
+    // React 19: useTransition for non-blocking calculations
+    const [isPending, startTransition] = useTransition()
+
+    // React 19: useMemo for expensive calculations
+    const paceStats = useMemo(() => {
+        const currentPaceSeconds = parseInt(minutes) * 60 + parseInt(seconds)
+        const marathonTime = calculateTime(42.2, currentPaceSeconds)
+        const halfMarathonTime = calculateTime(21.1, currentPaceSeconds)
+        const tenKTime = calculateTime(10, currentPaceSeconds)
+        const fiveKTime = calculateTime(5, currentPaceSeconds)
+
+        return {
+            currentPace: `${minutes}:${seconds}`,
+            marathonTime,
+            halfMarathonTime,
+            tenKTime,
+            fiveKTime,
+            paceLevel:
+                currentPaceSeconds < 240
+                    ? '精英'
+                    : currentPaceSeconds < 300
+                      ? '优秀'
+                      : currentPaceSeconds < 360
+                        ? '良好'
+                        : '入门',
+        }
+    }, [minutes, seconds, calculateTime])
+
+    const calculatePace = useCallback(() => {
+        // React 19: Use startTransition for non-blocking calculation
+        startTransition(() => {
+            const baseSeconds = parseInt(minutes) * 60 + parseInt(seconds)
+            setBasePace(baseSeconds)
+        })
+    }, [minutes, seconds])
 
     useEffect(() => {
         calculatePaceTable()
-    }, [basePace, isDetailedView])
+    }, [calculatePaceTable])
 
     const formatPace = (seconds: number) => {
         const mins = Math.floor(seconds / 60)
@@ -94,127 +126,151 @@ export default function PaceCalculator() {
     }
 
     return (
-        <div className="container mx-auto p-4 space-y-8">
-            <Card className="border-0 shadow-none">
-                <CardHeader className="px-0">
-                    <CardTitle className="text-3xl font-bold">跑步配速计算器</CardTitle>
-                </CardHeader>
-                <CardContent className="px-0">
-                    <div className="space-y-8">
-                        <div>
-                            <h2 className="text-xl font-semibold mb-6">预期配速</h2>
-                            <div className="flex gap-6 items-end mb-6">
-                                <div className="space-y-2">
-                                    <Label htmlFor="minutes" className="text-base">
-                                        分
-                                    </Label>
-                                    {inputMode === 'select' ? (
-                                        <Select value={minutes} onValueChange={setMinutes}>
-                                            <SelectTrigger
-                                                id="minutes"
+        <AppErrorBoundary>
+            <div className="container mx-auto p-4 space-y-8">
+                <Card className="border-0 shadow-none">
+                    <CardHeader className="px-0">
+                        <CardTitle className="text-3xl font-bold">跑步配速计算器</CardTitle>
+                    </CardHeader>
+                    <CardContent className="px-0">
+                        <div className="space-y-8">
+                            <div>
+                                <h2 className="text-xl font-semibold mb-6">预期配速</h2>
+                                <div className="flex gap-6 items-end mb-6">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="minutes" className="text-base">
+                                            分
+                                        </Label>
+                                        {inputMode === 'select' ? (
+                                            <Select value={minutes} onValueChange={setMinutes}>
+                                                <SelectTrigger
+                                                    id="minutes"
+                                                    className="w-[100px]"
+                                                    onClick={() => setInputMode('input')}
+                                                >
+                                                    <SelectValue placeholder="分" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {Array.from({ length: 15 }, (_, i) => (
+                                                        <SelectItem key={i} value={i.toString()}>
+                                                            {i}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        ) : (
+                                            <Input
+                                                type="number"
+                                                value={minutes}
+                                                onChange={handleMinutesChange}
                                                 className="w-[100px]"
-                                                onClick={() => setInputMode('input')}
+                                                onBlur={() => minutes === '' && setMinutes('0')}
+                                            />
+                                        )}
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="seconds" className="text-base">
+                                            秒
+                                        </Label>
+                                        {inputMode === 'select' ? (
+                                            <Select
+                                                value={seconds}
+                                                onValueChange={(v) => setSeconds(v.padStart(2, '0'))}
                                             >
-                                                <SelectValue placeholder="分" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {Array.from({ length: 15 }, (_, i) => (
-                                                    <SelectItem key={i} value={i.toString()}>
-                                                        {i}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    ) : (
-                                        <Input
-                                            type="number"
-                                            value={minutes}
-                                            onChange={handleMinutesChange}
-                                            className="w-[100px]"
-                                            onBlur={() => minutes === '' && setMinutes('0')}
-                                        />
-                                    )}
-                                </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="seconds" className="text-base">
-                                        秒
-                                    </Label>
-                                    {inputMode === 'select' ? (
-                                        <Select value={seconds} onValueChange={(v) => setSeconds(v.padStart(2, '0'))}>
-                                            <SelectTrigger
-                                                id="seconds"
+                                                <SelectTrigger
+                                                    id="seconds"
+                                                    className="w-[100px]"
+                                                    onClick={() => setInputMode('input')}
+                                                >
+                                                    <SelectValue placeholder="秒" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {Array.from({ length: 60 }, (_, i) => (
+                                                        <SelectItem key={i} value={i.toString().padStart(2, '0')}>
+                                                            {i.toString().padStart(2, '0')}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        ) : (
+                                            <Input
+                                                type="number"
+                                                value={parseInt(seconds)}
+                                                onChange={handleSecondsChange}
                                                 className="w-[100px]"
-                                                onClick={() => setInputMode('input')}
-                                            >
-                                                <SelectValue placeholder="秒" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {Array.from({ length: 60 }, (_, i) => (
-                                                    <SelectItem key={i} value={i.toString().padStart(2, '0')}>
-                                                        {i.toString().padStart(2, '0')}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    ) : (
-                                        <Input
-                                            type="number"
-                                            value={parseInt(seconds)}
-                                            onChange={handleSecondsChange}
-                                            className="w-[100px]"
-                                            onBlur={() => seconds === '' && setSeconds('00')}
-                                        />
-                                    )}
+                                                onBlur={() => seconds === '' && setSeconds('00')}
+                                            />
+                                        )}
+                                    </div>
+                                    <Button
+                                        onClick={calculatePace}
+                                        disabled={isPending}
+                                        className="bg-black text-white hover:bg-black/90"
+                                    >
+                                        {isPending ? '计算中...' : '计算'}
+                                    </Button>
                                 </div>
-                                <Button onClick={calculatePace} className="bg-black text-white hover:bg-black/90">
-                                    计算
-                                </Button>
+
+                                {/* Quick stats preview */}
+                                <div className="bg-gray-50 rounded-md p-4">
+                                    <h4 className="font-medium mb-2">配速统计 ({paceStats.paceLevel}):</h4>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                        <div>5K: {paceStats.fiveKTime}</div>
+                                        <div>10K: {paceStats.tenKTime}</div>
+                                        <div>半马: {paceStats.halfMarathonTime}</div>
+                                        <div>全马: {paceStats.marathonTime}</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="flex items-center space-x-2">
-                            <Switch id="detailed-view" checked={isDetailedView} onCheckedChange={setIsDetailedView} />
-                            <Label htmlFor="detailed-view" className="text-base">
-                                显示详细公里表
-                            </Label>
-                        </div>
+                            <div className="flex items-center space-x-2">
+                                <Switch
+                                    id="detailed-view"
+                                    checked={isDetailedView}
+                                    onCheckedChange={setIsDetailedView}
+                                />
+                                <Label htmlFor="detailed-view" className="text-base">
+                                    显示详细公里表
+                                </Label>
+                            </div>
 
-                        <div className="overflow-x-auto">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow className="hover:bg-transparent">
-                                        <TableHead className="w-[150px]">距离</TableHead>
-                                        {[-10, -5, 0, 5, 10].map((diff) => (
-                                            <TableHead key={diff}>{formatPace(basePace + diff)}/公里</TableHead>
-                                        ))}
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {(isDetailedView
-                                        ? DISTANCES
-                                        : DISTANCES.filter(
-                                              (d) => d.value % 5 === 0 || d.value === 21.1 || d.value === 42.2,
-                                          )
-                                    ).map((distance, i) => (
-                                        <TableRow
-                                            key={distance.value}
-                                            className={`
+                            <div className="overflow-x-auto">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow className="hover:bg-transparent">
+                                            <TableHead className="w-[150px]">距离</TableHead>
+                                            {[-10, -5, 0, 5, 10].map((diff) => (
+                                                <TableHead key={diff}>{formatPace(basePace + diff)}/公里</TableHead>
+                                            ))}
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {(isDetailedView
+                                            ? DISTANCES
+                                            : DISTANCES.filter(
+                                                  (d) => d.value % 5 === 0 || d.value === 21.1 || d.value === 42.2,
+                                              )
+                                        ).map((distance, i) => (
+                                            <TableRow
+                                                key={distance.value}
+                                                className={`
                         hover:bg-transparent
                         ${distance.value === 21.1 || distance.value === 42.2 ? 'bg-slate-50' : ''}
                       `}
-                                        >
-                                            <TableCell className="font-medium">{distance.label}</TableCell>
-                                            {paceTable[i]?.map((time, j) => (
-                                                <TableCell key={j}>{time}</TableCell>
-                                            ))}
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                                            >
+                                                <TableCell className="font-medium">{distance.label}</TableCell>
+                                                {paceTable[i]?.map((time, j) => (
+                                                    <TableCell key={j}>{time}</TableCell>
+                                                ))}
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
                         </div>
-                    </div>
-                </CardContent>
-            </Card>
-        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        </AppErrorBoundary>
     )
 }

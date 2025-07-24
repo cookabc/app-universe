@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 
 interface Bird {
     x: number
@@ -168,7 +168,7 @@ const useGameLoop = (isGameStarted: boolean, isGameOver: boolean, setIsGameOver:
     return { bird, setBird, pipes, setPipes, score, setScore }
 }
 
-const updatePipes = (prevPipes: Pipe[], bird: Bird, setScore: (cb: (prev: number) => number) => void) => {
+const updatePipes = (prevPipes: Pipe[], _bird: Bird, setScore: (cb: (prev: number) => number) => void) => {
     const updatedPipes = prevPipes
         .map((pipe) => {
             const newPipe = new PipeClass()
@@ -202,7 +202,21 @@ export default function ImprovedFlappyBird() {
     const [isGameOver, setIsGameOver] = useState(false)
     const [isGameStarted, setIsGameStarted] = useState(false)
 
+    // React 19: useTransition for non-blocking game state updates
+    const [_isPending, startTransition] = useTransition()
+
     const { bird, setBird, pipes, setPipes, score, setScore } = useGameLoop(isGameStarted, isGameOver, setIsGameOver)
+
+    // React 19: useMemo for expensive game calculations
+    const _gameStats = useMemo(
+        () => ({
+            currentScore: score,
+            highScore: Math.max(score, highScore),
+            gameProgress: Math.min(score / 50, 1), // Progress towards difficulty increase
+            difficulty: Math.floor(score / 10) + 1,
+        }),
+        [score, highScore],
+    )
 
     useEffect(() => {
         if (score > highScore) {
@@ -212,18 +226,21 @@ export default function ImprovedFlappyBird() {
     }, [score, highScore])
 
     const handleJump = useCallback(() => {
-        if (!isGameStarted) {
-            setIsGameStarted(true)
-        }
-        if (!isGameOver) {
-            setBird((prevBird) => {
-                const newBird = new BirdClass()
-                newBird.x = prevBird.x
-                newBird.y = prevBird.y
-                newBird.velocity = LIFT
-                return newBird
-            })
-        }
+        // React 19: Use startTransition for non-blocking state updates
+        startTransition(() => {
+            if (!isGameStarted) {
+                setIsGameStarted(true)
+            }
+            if (!isGameOver) {
+                setBird((prevBird) => {
+                    const newBird = new BirdClass()
+                    newBird.x = prevBird.x
+                    newBird.y = prevBird.y
+                    newBird.velocity = LIFT
+                    return newBird
+                })
+            }
+        })
     }, [isGameStarted, isGameOver, setBird])
 
     const handleReset = useCallback(() => {

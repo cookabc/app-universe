@@ -22,7 +22,8 @@ import {
     ThumbsUp,
     Watch,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useCallback, useMemo, useState, useTransition } from 'react'
+import { AppErrorBoundary } from '@/components/optimized/error-boundary'
 
 interface PlasticIconButtonProps {
     icon: React.ReactNode
@@ -117,19 +118,74 @@ const ICON_LIST = [
 ]
 
 export default function IconGrid() {
+    // React 19: useTransition for smooth interactions
+    const [_isPending, startTransition] = useTransition()
+    const [clickedButtons, setClickedButtons] = useState<string[]>([])
+
+    // React 19: useMemo for button statistics
+    const buttonStats = useMemo(
+        () => ({
+            totalButtons: ICON_LIST.length,
+            clickedCount: clickedButtons.length,
+            categories: ['Shopping', 'Media', 'Communication', 'Navigation', 'Utilities'],
+            completionRate: Math.round((clickedButtons.length / ICON_LIST.length) * 100),
+        }),
+        [clickedButtons.length],
+    )
+
+    // React 19: useCallback for optimized click handling
+    const handleButtonClick = useCallback((label: string) => {
+        startTransition(() => {
+            setClickedButtons((prev) => (prev.includes(label) ? prev : [...prev, label]))
+        })
+    }, [])
+
     return (
-        <div
-            className="min-h-screen p-8 flex items-center justify-center"
-            style={{
-                background: BACKGROUND_STYLES.gradient,
-                boxShadow: BACKGROUND_STYLES.innerShadow,
-            }}
-        >
-            <div className="grid grid-cols-5 gap-8">
-                {ICON_LIST.map((item, index) => (
-                    <PlasticIconButton key={index} icon={item.icon} label={item.label} />
-                ))}
+        <AppErrorBoundary>
+            <div
+                className="min-h-screen p-8 flex flex-col items-center justify-center"
+                style={{
+                    background: BACKGROUND_STYLES.gradient,
+                    boxShadow: BACKGROUND_STYLES.innerShadow,
+                }}
+            >
+                {/* Button statistics */}
+                <div className="mb-8 text-center">
+                    <h1 className="text-2xl font-bold mb-4">Interactive Button Showcase</h1>
+                    <div className="text-sm text-gray-600 space-x-4">
+                        <span>Total: {buttonStats.totalButtons}</span>
+                        <span>Clicked: {buttonStats.clickedCount}</span>
+                        <span>Progress: {buttonStats.completionRate}%</span>
+                    </div>
+                </div>
+                <div className="grid grid-cols-5 gap-8">
+                    {ICON_LIST.map((item, index) => (
+                        <PlasticIconButton
+                            key={index}
+                            icon={item.icon}
+                            label={item.label}
+                            onClick={() => handleButtonClick(item.label)}
+                        />
+                    ))}
+                </div>
+
+                {/* Progress indicator */}
+                {buttonStats.clickedCount > 0 && (
+                    <div className="mt-8 text-center">
+                        <div className="w-64 bg-gray-200 rounded-full h-2">
+                            <div
+                                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                                style={{ width: `${buttonStats.completionRate}%` }}
+                            />
+                        </div>
+                        <p className="mt-2 text-sm text-gray-600">
+                            {buttonStats.clickedCount === buttonStats.totalButtons
+                                ? '🎉 All buttons clicked!'
+                                : `${buttonStats.totalButtons - buttonStats.clickedCount} buttons remaining`}
+                        </p>
+                    </div>
+                )}
             </div>
-        </div>
+        </AppErrorBoundary>
     )
 }

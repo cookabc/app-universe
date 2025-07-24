@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { FEATURES, Feature } from './constants'
+import { FEATURES, type Feature } from './constants'
 
 interface FeatureIconProps {
     color: string

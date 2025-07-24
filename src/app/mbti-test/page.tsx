@@ -1,8 +1,9 @@
 'use client'
 
 import { AlertCircle, Save } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { getQuestions } from '@/app/actions'
+import { useCallback, useEffect, useMemo, useState, useTransition } from 'react'
+import { getCachedQuestions } from '@/app/actions'
+import { AppErrorBoundary } from '@/components/optimized/error-boundary'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -115,10 +116,27 @@ export default function MBTITest() {
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [answers, setAnswers] = useState<Record<number, string>>({})
     const [result, setResult] = useState<keyof typeof typeDescriptions | ''>('')
-    const [progress, setProgress] = useState(0)
+    const [_progress, setProgress] = useState(0)
     const [questions, setQuestions] = useState<Question[]>(defaultQuestions)
     const [useLLM, setUseLLM] = useState(false)
     const [isGeneratingQuestions, setIsGeneratingQuestions] = useState(false)
+
+    // React 19: useTransition for non-blocking operations
+    const [_isPending, startTransition] = useTransition()
+
+    // React 19: useMemo for test statistics
+    const testStats = useMemo(() => {
+        const answeredCount = Object.keys(answers).length
+        const completionRate = (answeredCount / questions.length) * 100
+        const remainingQuestions = questions.length - answeredCount
+
+        return {
+            answeredCount,
+            completionRate,
+            remainingQuestions,
+            isComplete: answeredCount === questions.length,
+        }
+    }, [answers, questions.length])
 
     useEffect(() => {
         const savedResult = localStorage.getItem('mbtiResult')
@@ -137,24 +155,25 @@ export default function MBTITest() {
         } else {
             resetQuestions()
         }
-    }, [useLLM])
+    }, [useLLM, generateLLMQuestions, resetQuestions])
 
-    const generateLLMQuestions = async () => {
-        setIsGeneratingQuestions(true)
-        try {
-            const { questions: generatedQuestions } = await getQuestions(
-                'Generate 12 MBTI test questions with options in Chinese',
-            )
-            if (generatedQuestions) {
-                setQuestions(generatedQuestions as Question[])
+    const generateLLMQuestions = useCallback(async () => {
+        // React 19: Use startTransition for non-blocking question generation
+        startTransition(async () => {
+            setIsGeneratingQuestions(true)
+            try {
+                const result = await getCachedQuestions('Generate 12 MBTI test questions with options in Chinese')
+                if (result) {
+                    setQuestions(result as Question[])
+                }
+                resetAnswers()
+            } catch (error) {
+                console.error('Error generating questions:', error)
+                resetQuestions()
             }
-            resetAnswers()
-        } catch (error) {
-            console.error('Error generating questions:', error)
-            resetQuestions()
-        }
-        setIsGeneratingQuestions(false)
-    }
+            setIsGeneratingQuestions(false)
+        })
+    }, [resetAnswers, resetQuestions])
 
     const resetQuestions = () => {
         setQuestions(defaultQuestions)
@@ -166,14 +185,20 @@ export default function MBTITest() {
         setCurrentQuestion(0)
     }
 
-    const handleAnswer = (value: string) => {
-        setAnswers({ ...answers, [currentQuestion]: value })
-        if (currentQuestion < questions.length - 1) {
-            setCurrentQuestion(currentQuestion + 1)
-        } else {
-            calculateResult()
-        }
-    }
+    const handleAnswer = useCallback(
+        (value: string) => {
+            // React 19: Use startTransition for smooth navigation
+            startTransition(() => {
+                setAnswers({ ...answers, [currentQuestion]: value })
+                if (currentQuestion < questions.length - 1) {
+                    setCurrentQuestion(currentQuestion + 1)
+                } else {
+                    calculateResult()
+                }
+            })
+        },
+        [answers, currentQuestion, questions.length, calculateResult],
+    )
 
     const calculateResult = () => {
         const types = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 }
@@ -204,93 +229,104 @@ export default function MBTITest() {
 
     if (result) {
         return (
-            <Card className="w-full max-w-2xl mx-auto">
-                <CardHeader>
-                    <CardTitle className="text-2xl">你的MBTI类型是: {result}</CardTitle>
-                    <CardDescription className="text-lg">{typeDescriptions[result] || '个性化描述'}</CardDescription>
-                </CardHeader>
-                <CardFooter className="flex justify-between">
-                    <Button onClick={resetTest}>重新测试</Button>
-                    <Button onClick={saveResult} className="flex items-center gap-2">
-                        <Save size={16} />
-                        保存结果
-                    </Button>
-                </CardFooter>
-            </Card>
+            <AppErrorBoundary>
+                <Card className="w-full max-w-2xl mx-auto">
+                    <CardHeader>
+                        <CardTitle className="text-2xl">你的MBTI类型是: {result}</CardTitle>
+                        <CardDescription className="text-lg">
+                            {typeDescriptions[result] || '个性化描述'}
+                        </CardDescription>
+                    </CardHeader>
+                    <CardFooter className="flex justify-between">
+                        <Button onClick={resetTest}>重新测试</Button>
+                        <Button onClick={saveResult} className="flex items-center gap-2">
+                            <Save size={16} />
+                            保存结果
+                        </Button>
+                    </CardFooter>
+                </Card>
+            </AppErrorBoundary>
         )
     }
 
     return (
-        <Card className="w-full max-w-2xl mx-auto">
-            <CardHeader>
-                <CardTitle className="text-2xl">MBTI人格测试</CardTitle>
-                <CardDescription className="text-lg">
-                    问题 {currentQuestion + 1} / {questions.length}
-                </CardDescription>
-                <div className="flex items-center space-x-2 mt-4">
-                    <Switch
-                        id="use-llm"
-                        checked={useLLM}
-                        onCheckedChange={setUseLLM}
-                        disabled={isGeneratingQuestions}
-                    />
-                    <Label
-                        htmlFor="use-llm"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                        使用AI生成问题
-                    </Label>
-                </div>
-            </CardHeader>
-            <CardContent>
-                <Progress value={progress} className="w-full mb-4" />
-                {isGeneratingQuestions ? (
-                    <div className="text-center">正在生成问题，请稍候...</div>
-                ) : (
-                    <form>
-                        <div className="space-y-4">
-                            <Label className="text-lg">{questions[currentQuestion].text}</Label>
-                            <RadioGroup onValueChange={handleAnswer}>
-                                {questions[currentQuestion].options.map((option, index) => (
-                                    <div
-                                        key={`${questions[currentQuestion].id}-${index}`}
-                                        className="flex items-center space-x-2"
-                                    >
-                                        <RadioGroupItem
-                                            value={index.toString()}
-                                            id={`option${questions[currentQuestion].id}-${index}`}
-                                        />
-                                        <Label
-                                            htmlFor={`option${questions[currentQuestion].id}-${index}`}
-                                            className="text-base"
+        <AppErrorBoundary>
+            <Card className="w-full max-w-2xl mx-auto">
+                <CardHeader>
+                    <CardTitle className="text-2xl">MBTI人格测试</CardTitle>
+                    <CardDescription className="text-lg">
+                        问题 {currentQuestion + 1} / {questions.length}
+                    </CardDescription>
+                    <div className="flex items-center space-x-2 mt-4">
+                        <Switch
+                            id="use-llm"
+                            checked={useLLM}
+                            onCheckedChange={setUseLLM}
+                            disabled={isGeneratingQuestions}
+                        />
+                        <Label
+                            htmlFor="use-llm"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                            使用AI生成问题
+                        </Label>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    <Progress value={testStats.completionRate} className="w-full mb-4" />
+                    <div className="text-sm text-gray-600 mb-4">
+                        已回答: {testStats.answeredCount}/{questions.length} | 剩余: {testStats.remainingQuestions} 题
+                    </div>
+                    {isGeneratingQuestions ? (
+                        <div className="text-center">正在生成问题，请稍候...</div>
+                    ) : (
+                        <form>
+                            <div className="space-y-4">
+                                <Label className="text-lg">{questions[currentQuestion].text}</Label>
+                                <RadioGroup onValueChange={handleAnswer}>
+                                    {questions[currentQuestion].options.map((option, index) => (
+                                        <div
+                                            key={`${questions[currentQuestion].id}-${index}`}
+                                            className="flex items-center space-x-2"
                                         >
-                                            {option}
-                                        </Label>
-                                    </div>
-                                ))}
-                            </RadioGroup>
-                        </div>
-                    </form>
-                )}
-            </CardContent>
-            <CardFooter className="flex justify-between">
-                <Button
-                    onClick={() => setCurrentQuestion(Math.max(0, currentQuestion - 1))}
-                    disabled={currentQuestion === 0 || isGeneratingQuestions}
-                    className="flex items-center gap-2"
-                >
-                    <AlertCircle size={16} />
-                    上一题
-                </Button>
-                <Button
-                    onClick={() => (currentQuestion === questions.length - 1 ? calculateResult() : handleAnswer(''))}
-                    disabled={isGeneratingQuestions}
-                    className="flex items-center gap-2"
-                >
-                    {currentQuestion === questions.length - 1 ? '查看结果' : '下一题'}
-                    <AlertCircle size={16} />
-                </Button>
-            </CardFooter>
-        </Card>
+                                            <RadioGroupItem
+                                                value={index.toString()}
+                                                id={`option${questions[currentQuestion].id}-${index}`}
+                                            />
+                                            <Label
+                                                htmlFor={`option${questions[currentQuestion].id}-${index}`}
+                                                className="text-base"
+                                            >
+                                                {option}
+                                            </Label>
+                                        </div>
+                                    ))}
+                                </RadioGroup>
+                            </div>
+                        </form>
+                    )}
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                    <Button
+                        onClick={() => setCurrentQuestion(Math.max(0, currentQuestion - 1))}
+                        disabled={currentQuestion === 0 || isGeneratingQuestions}
+                        className="flex items-center gap-2"
+                    >
+                        <AlertCircle size={16} />
+                        上一题
+                    </Button>
+                    <Button
+                        onClick={() =>
+                            currentQuestion === questions.length - 1 ? calculateResult() : handleAnswer('')
+                        }
+                        disabled={isGeneratingQuestions}
+                        className="flex items-center gap-2"
+                    >
+                        {currentQuestion === questions.length - 1 ? '查看结果' : '下一题'}
+                        <AlertCircle size={16} />
+                    </Button>
+                </CardFooter>
+            </Card>
+        </AppErrorBoundary>
     )
 }

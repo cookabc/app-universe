@@ -1,12 +1,23 @@
 'use server'
 
 import { openai } from '@ai-sdk/openai'
-import { TranslationServiceClient } from '@google-cloud/translate'
 import { generateObject, streamText } from 'ai'
 import { createStreamableValue } from 'ai/rsc'
 import Kuroshiro from 'kuroshiro'
 import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji'
+import { revalidateTag, unstable_cache } from 'next/cache'
 import { z } from 'zod'
+
+// Enhanced error handling for Next.js 15
+class ActionError extends Error {
+    constructor(
+        message: string,
+        public code?: string,
+    ) {
+        super(message)
+        this.name = 'ActionError'
+    }
+}
 
 const questionSchema = z.object({
     id: z.number(),
@@ -20,13 +31,25 @@ const questionsSchema = z.object({
 })
 
 export async function getQuestions(prompt: string) {
-    const { object: questions } = await generateObject({
-        model: openai('gpt-4o-mini'),
-        prompt,
-        schema: questionsSchema,
-    })
+    try {
+        if (!prompt?.trim()) {
+            throw new ActionError('Prompt is required', 'INVALID_INPUT')
+        }
 
-    return questions
+        const { object: questions } = await generateObject({
+            model: openai('gpt-4o-mini'),
+            prompt,
+            schema: questionsSchema,
+        })
+
+        return { success: true, data: questions }
+    } catch (error) {
+        console.error('Error generating questions:', error)
+        return {
+            success: false,
+            error: error instanceof ActionError ? error.message : 'Failed to generate questions',
+        }
+    }
 }
 
 export interface Message {
@@ -35,55 +58,105 @@ export interface Message {
 }
 
 export async function continueConversation(history: Message[]) {
-    const stream = createStreamableValue()
-    ;(async () => {
-        const { textStream } = await streamText({
-            model: openai('gpt-4o-mini'),
-            // You are an AI assistant capable of generating artifacts. When asked to generate code, respond with "CODE_SNIPPET:" followed by the code, then "END_CODE_SNIPPET".
-            system: 'You are a helpful assistant capable of doing anything.',
-            messages: history,
-        })
-
-        for await (const text of textStream) {
-            stream.update(text)
+    try {
+        if (!Array.isArray(history)) {
+            throw new ActionError('Invalid message history', 'INVALID_INPUT')
         }
 
-        stream.done()
-    })()
+        const stream = createStreamableValue()
 
-    return {
-        messages: history,
-        newMessage: stream.value,
+        ;(async () => {
+            try {
+                const { textStream } = await streamText({
+                    model: openai('gpt-4o-mini'),
+                    system: 'You are a helpful assistant capable of doing anything.',
+                    messages: history,
+                    maxTokens: 1000,
+                    temperature: 0.7,
+                })
+
+                for await (const text of textStream) {
+                    stream.update(text)
+                }
+
+                stream.done()
+            } catch (error) {
+                console.error('Streaming error:', error)
+                stream.error(error instanceof Error ? error.message : 'Streaming failed')
+            }
+        })()
+
+        return {
+            messages: history,
+            newMessage: stream.value,
+        }
+    } catch (error) {
+        console.error('Conversation error:', error)
+        throw new ActionError(
+            error instanceof ActionError ? error.message : 'Failed to continue conversation',
+            'CONVERSATION_ERROR',
+        )
     }
 }
 
-export const translateText = async (text: string, fromLang: string, toLang: string): Promise<string> => {
-    const translationClient = new TranslationServiceClient()
-    if (!translationClient) {
-        throw new Error('Translation client not initialized')
-    }
+export const translateText = async (
+    text: string,
+    fromLang: string,
+    toLang: string,
+): Promise<{ success: boolean; data?: string; error?: string }> => {
     try {
+        if (!text?.trim() || !fromLang || !toLang) {
+            throw new ActionError('Text, source language, and target language are required', 'INVALID_INPUT')
+        }
+
+        // Use Next.js 15 fetch with enhanced caching
         const response = await fetch(
             `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${fromLang}|${toLang}`,
+            {
+                next: {
+                    revalidate: 3600, // Cache for 1 hour
+                    tags: [`translation-${fromLang}-${toLang}`],
+                },
+            },
         )
-        const data = await response.json()
-        if (data.responseStatus === 200) {
-            return data.responseData.translatedText
+
+        if (!response.ok) {
+            throw new ActionError(`HTTP error! status: ${response.status}`, 'FETCH_ERROR')
         }
-        throw new Error(data.responseDetails)
+
+        const data = await response.json()
+
+        if (data.responseStatus === 200) {
+            return { success: true, data: data.responseData.translatedText }
+        }
+
+        throw new ActionError(data.responseDetails || 'Translation API error', 'API_ERROR')
     } catch (error) {
         console.error('Translation error:', error)
-        throw new Error('Translation failed')
+        return {
+            success: false,
+            error: error instanceof ActionError ? error.message : 'Translation failed',
+        }
     }
 }
 
-export const japaneseConvert = async (text: string, fromType: string, toType: string): Promise<string> => {
-    const kuroshiro = new Kuroshiro()
-    await kuroshiro.init(new KuromojiAnalyzer())
-    if (!kuroshiro) {
-        throw new Error('Kuroshiro not initialized')
-    }
+export const japaneseConvert = async (
+    text: string,
+    fromType: string,
+    toType: string,
+): Promise<{ success: boolean; data?: string; error?: string }> => {
     try {
+        if (!text?.trim() || !fromType || !toType) {
+            throw new ActionError('Text, source type, and target type are required', 'INVALID_INPUT')
+        }
+
+        const kuroshiro = new Kuroshiro()
+        await kuroshiro.init(new KuromojiAnalyzer())
+
+        if (!kuroshiro) {
+            throw new ActionError('Kuroshiro not initialized', 'INIT_ERROR')
+        }
+
         let result = text
 
         if (fromType !== 'kanji' && toType !== 'kanji') {
@@ -99,9 +172,71 @@ export const japaneseConvert = async (text: string, fromType: string, toType: st
             result = text
         }
 
-        return result
+        return { success: true, data: result }
     } catch (error) {
         console.error('Japanese conversion error:', error)
-        throw new Error('Japanese conversion failed')
+        return {
+            success: false,
+            error: error instanceof ActionError ? error.message : 'Japanese conversion failed',
+        }
     }
+}
+
+// Enhanced caching with unstable_cache for Next.js 15
+export const getCachedTranslation = unstable_cache(
+    async (text: string, fromLang: string, toLang: string) => {
+        const response = await fetch(
+            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${fromLang}|${toLang}`,
+            { next: { revalidate: 3600 } },
+        )
+
+        if (!response.ok) {
+            throw new ActionError(`HTTP error! status: ${response.status}`, 'FETCH_ERROR')
+        }
+
+        const data = await response.json()
+
+        if (data.responseStatus === 200) {
+            return data.responseData.translatedText
+        }
+
+        throw new ActionError(data.responseDetails || 'Translation API error', 'API_ERROR')
+    },
+    ['translation'],
+    {
+        revalidate: 3600,
+        tags: ['translations'],
+    },
+)
+
+export const getCachedQuestions = unstable_cache(
+    async (prompt: string) => {
+        const { object: questions } = await generateObject({
+            model: openai('gpt-4o-mini'),
+            prompt,
+            schema: questionsSchema,
+        })
+        return questions
+    },
+    ['questions'],
+    {
+        revalidate: 1800, // 30 minutes
+        tags: ['mbti-questions'],
+    },
+)
+
+// Cache management utilities for Next.js 15
+export async function revalidateTranslations() {
+    'use server'
+    revalidateTag('translations')
+}
+
+export async function revalidateQuestions() {
+    'use server'
+    revalidateTag('mbti-questions')
+}
+
+export async function clearTranslationCache(fromLang: string, toLang: string) {
+    'use server'
+    revalidateTag(`translation-${fromLang}-${toLang}`)
 }
