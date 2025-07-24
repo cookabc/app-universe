@@ -1,3 +1,6 @@
+'use client'
+
+'use client'
 import { motion } from 'framer-motion'
 import type { AppData } from '@/data/apps'
 

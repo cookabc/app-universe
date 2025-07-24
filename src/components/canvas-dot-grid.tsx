@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
+import type React from 'react'
+import { useEffect, useRef } from 'react'
 
 interface CanvasDotGridProps {
     className?: string
@@ -56,9 +57,7 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
                     const x = col * config.gap + config.gap / 2
                     const y = row * config.gap + config.gap / 2
 
-                    const distance = Math.sqrt(
-                        Math.pow(mousePosition.current.x - x, 2) + Math.pow(mousePosition.current.y - y, 2),
-                    )
+                    const distance = Math.sqrt((mousePosition.current.x - x) ** 2 + (mousePosition.current.y - y) ** 2)
 
                     drawDot(x, y, distance)
                 }
