@@ -168,10 +168,12 @@
 
 @layer base {
     * {
-        @apply border-border;
+        border-color: var(--color-border);
     }
     body {
-        @apply box-border bg-background text-foreground;
+        box-sizing: border-box;
+        background-color: var(--color-background);
+        color: var(--color-foreground);
     }
 }
 
