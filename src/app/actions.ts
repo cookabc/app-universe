@@ -1,8 +1,7 @@
 'use server'
 
 import { openai } from '@ai-sdk/openai'
-import { generateObject, streamText } from 'ai'
-import { createStreamableValue } from 'ai/rsc'
+import { generateObject, generateText, streamText } from 'ai'
 import Kuroshiro from 'kuroshiro'
 import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji'
 import { revalidateTag, unstable_cache } from 'next/cache'
@@ -63,32 +62,16 @@ export async function continueConversation(history: Message[]) {
             throw new ActionError('Invalid message history', 'INVALID_INPUT')
         }
 
-        const stream = createStreamableValue()
-
-        ;(async () => {
-            try {
-                const { textStream } = await streamText({
-                    model: openai('gpt-4o-mini'),
-                    system: 'You are a helpful assistant capable of doing anything.',
-                    messages: history,
-                    maxTokens: 1000,
-                    temperature: 0.7,
-                })
-
-                for await (const text of textStream) {
-                    stream.update(text)
-                }
-
-                stream.done()
-            } catch (error) {
-                console.error('Streaming error:', error)
-                stream.error(error instanceof Error ? error.message : 'Streaming failed')
-            }
-        })()
+        // Non-streaming response for AI SDK v5 migration
+        const { text } = await generateText({
+            model: openai('gpt-4o-mini'),
+            system: 'You are a helpful assistant capable of doing anything.',
+            messages: history,
+        })
 
         return {
             messages: history,
-            newMessage: stream.value,
+            replyText: text,
         }
     } catch (error) {
         console.error('Conversation error:', error)

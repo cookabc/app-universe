@@ -1,6 +1,6 @@
 'use client'
 
-import { readStreamableValue } from 'ai/rsc'
+// AI SDK v5 migration: non-streaming path
 import { AnimatePresence, motion } from 'framer-motion'
 import { Download, Loader2, Send } from 'lucide-react'
 import { useEffect, useMemo, useOptimistic, useState, useTransition } from 'react'
@@ -79,15 +79,8 @@ export default function AIArtifacts() {
 
         startTransition(async () => {
             try {
-                const { messages, newMessage } = await continueConversation([...conversation, userMessage])
-
-                let textContent = ''
-
-                for await (const delta of readStreamableValue(newMessage)) {
-                    textContent = `${textContent}${delta}`
-
-                    setConversation([...messages, { role: 'assistant', content: textContent }])
-                }
+                const { messages, replyText } = await continueConversation([...conversation, userMessage])
+                setConversation([...messages, { role: 'assistant', content: replyText }])
             } catch (err) {
                 console.error('Error in conversation:', err)
                 setError('An error occurred while processing your request. Please try again.')
