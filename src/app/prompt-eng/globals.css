@@ -85,11 +85,12 @@ body {
 
 @layer base {
     * {
-        @apply border-border;
+        border-color: var(--color-border);
     }
 
     body {
-        @apply bg-background text-foreground;
+        background-color: var(--color-background);
+        color: var(--color-foreground);
     }
 }
 
