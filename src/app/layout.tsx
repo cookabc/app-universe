@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Suspense } from 'react'
+import { ThemeProvider } from 'next-themes'
 import { PerformanceMonitor } from '@/components/optimized/performance-monitor'
 import { Toaster } from '@/components/ui/toaster'
 import './globals.css'
@@ -70,17 +71,19 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className="antialiased">
-                <Suspense
+                <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                    <Suspense
                     fallback={
                         <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-700 flex items-center justify-center">
                             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
                         </div>
                     }
                 >
-                    {children}
-                </Suspense>
-                <Toaster />
-                <PerformanceMonitor enableConsoleLogging={process.env.NODE_ENV === 'development'} />
+                        {children}
+                    </Suspense>
+                    <Toaster />
+                    <PerformanceMonitor enableConsoleLogging={process.env.NODE_ENV === 'development'} />
+                </ThemeProvider>
             </body>
         </html>
     )
