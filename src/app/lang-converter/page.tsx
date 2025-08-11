@@ -135,16 +135,16 @@ export default function App() {
     const [uiLanguage, setUiLanguage] = useState<'en' | 'ja' | 'zh'>('en')
     const [activeTab, setActiveTab] = useState('translation')
 
-    // React 19: useTransition for non-blocking operations
+    // useTransition for non-blocking operations
     const [_isPending, startTransition] = useTransition()
 
-    // React 19: useOptimistic for instant history updates
+    // useOptimistic for instant history updates
     const [optimisticHistory, addOptimisticHistory] = useOptimistic(
         history,
         (current, newItem: (typeof history)[0]) => [newItem, ...current.slice(0, 9)],
     )
 
-    // React 19: useMemo for conversion statistics
+    // useMemo for conversion statistics
     const conversionStats = useMemo(
         () => ({
             totalConversions: history.length,
@@ -190,39 +190,36 @@ export default function App() {
             mode: activeTab,
         }
 
-        // React 19: Optimistic update for instant feedback
+        // Optimistic update for instant feedback
         addOptimisticHistory(newHistoryItem)
 
-        // React 19: Use startTransition for non-blocking conversion
-        startTransition(async () => {
-            setIsLoading(true)
-            setError(null)
-            setOutputText('')
+        setIsLoading(true)
+        setError(null)
+        setOutputText('')
 
-            try {
-                let result: string
-                if (activeTab === 'translation') {
-                    const translationResult = await getCachedTranslation(inputText, fromLang, toLang)
-                    result = translationResult.success ? translationResult.data! : translationResult.error!
-                } else {
-                    const conversionResult = await japaneseConvert(inputText, fromType, toType)
-                    result = conversionResult.success ? conversionResult.data! : conversionResult.error!
-                }
-
-                setOutputText(result)
-                const finalHistoryItem = { ...newHistoryItem, output: result }
-                const newHistory = [finalHistoryItem, ...history.slice(0, 9)]
-                setHistory(newHistory)
-                localStorage.setItem('conversionHistory', JSON.stringify(newHistory))
-            } catch (err) {
-                console.error('Error details:', err)
-                setError(`${languages[uiLanguage].error}: ${err instanceof Error ? err.message : 'Unknown error'}`)
-                // Remove optimistic item on error
-                setHistory((prev) => prev.filter((item) => item.id !== newHistoryItem.id))
-            } finally {
-                setIsLoading(false)
+        try {
+            let result: string
+            if (activeTab === 'translation') {
+                const translationResult = await getCachedTranslation(inputText, fromLang, toLang)
+                result = translationResult.success ? translationResult.data! : translationResult.error!
+            } else {
+                const conversionResult = await japaneseConvert(inputText, fromType, toType)
+                result = conversionResult.success ? conversionResult.data! : conversionResult.error!
             }
-        })
+
+            setOutputText(result)
+            const finalHistoryItem = { ...newHistoryItem, output: result }
+            const newHistory = [finalHistoryItem, ...history.slice(0, 9)]
+            setHistory(newHistory)
+            localStorage.setItem('conversionHistory', JSON.stringify(newHistory))
+        } catch (err) {
+            console.error('Error details:', err)
+            setError(`${languages[uiLanguage].error}: ${err instanceof Error ? err.message : 'Unknown error'}`)
+            // Remove optimistic item on error
+            setHistory((prev) => prev.filter((item) => item.id !== newHistoryItem.id))
+        } finally {
+            setIsLoading(false)
+        }
     }, [inputText, uiLanguage, activeTab, fromLang, toLang, fromType, toType, history, addOptimisticHistory])
 
     const copyToClipboard = () => {
