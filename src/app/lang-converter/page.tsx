@@ -277,6 +277,7 @@ export default function App() {
                                 variant="outline"
                                 size="icon"
                                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                                aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
                             >
                                 {theme === 'dark' ? (
                                     <Sun className="h-[1.2rem] w-[1.2rem]" />
@@ -371,6 +372,8 @@ export default function App() {
                             onClick={convertText}
                             disabled={isLoading || !inputText.trim()}
                             className="w-full mb-4 text-lg bg-blue-500 hover:bg-blue-600 text-white"
+                            aria-busy={isLoading}
+                            aria-live="polite"
                         >
                             {isLoading ? languages[uiLanguage].loading : languages[uiLanguage].convertButton}
                         </Button>
@@ -382,7 +385,7 @@ export default function App() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: -10 }}
                                 >
-                                    <Alert variant="destructive" className="mb-4">
+                                    <Alert variant="destructive" className="mb-4" role="alert" aria-live="assertive">
                                         <AlertCircle className="h-4 w-4" />
                                         <AlertTitle>{languages[uiLanguage].error}</AlertTitle>
                                         <AlertDescription>{error}</AlertDescription>
@@ -398,7 +401,7 @@ export default function App() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: 10 }}
                                 >
-                                    <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-4">
+                                    <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-4" role="status" aria-live="polite">
                                         <div className="flex justify-between items-center mb-2">
                                             <h2 className="text-xl font-semibold">{languages[uiLanguage].result}</h2>
                                             <div>
@@ -412,10 +415,11 @@ export default function App() {
                                                         )
                                                     }
                                                     className="mr-2"
+                                                    aria-label="Speak result"
                                                 >
                                                     <Volume2 className="h-4 w-4" />
                                                 </Button>
-                                                <Button variant="outline" size="sm" onClick={copyToClipboard}>
+                                                <Button variant="outline" size="sm" onClick={copyToClipboard} aria-label={copied ? 'Copied' : 'Copy to clipboard'}>
                                                     {copied ? (
                                                         <Check className="h-4 w-4" />
                                                     ) : (
@@ -442,7 +446,7 @@ export default function App() {
                                 <h2 className="text-2xl font-semibold" style={{ fontFamily: "'Bangers', cursive" }}>
                                     {languages[uiLanguage].history}
                                 </h2>
-                                <Button variant="outline" size="sm" onClick={clearHistory}>
+                                <Button variant="outline" size="sm" onClick={clearHistory} aria-label="Clear history">
                                     <RotateCcw className="h-4 w-4 mr-2" />
                                     {languages[uiLanguage].clearHistory}
                                 </Button>

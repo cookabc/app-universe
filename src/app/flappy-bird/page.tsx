@@ -335,7 +335,7 @@ export default function ImprovedFlappyBird() {
                 ref={canvasRef}
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
-                className="border border-gray-300 focus:outline-hidden"
+                className="border border-gray-300 focus:outline-none"
             />
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -350,7 +350,7 @@ export default function ImprovedFlappyBird() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={handleReset}
-                        className="px-6 py-3 bg-blue-500 text-white rounded-full text-lg font-semibold hover:bg-blue-600 focus:outline-hidden focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition-colors duration-200"
+                        className="px-6 py-3 bg-blue-500 text-white rounded-full text-lg font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition-colors duration-200"
                     >
                         Restart
                     </motion.button>
