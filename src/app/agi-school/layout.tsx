@@ -5,8 +5,8 @@ import Navbar from './components/Navbar'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-    title: 'AGI School - Learn the Future of AI',
-    description: 'Shaping the Future of Artificial General Intelligence',
+    title: 'AGI School - Pioneering Artificial General Intelligence Education',
+    description: 'Join us at AGI School to learn the latest in Artificial General Intelligence research and development. Shape the future of AI with our cutting-edge curriculum and expert instructors.',
     icons: {
         icon: '/favicon.ico',
     },
