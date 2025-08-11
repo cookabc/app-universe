@@ -158,10 +158,10 @@ export default function IconGrid() {
                         <span>Progress: {buttonStats.completionRate}%</span>
                     </div>
                 </div>
-                <div className="grid grid-cols-5 gap-8">
-                    {ICON_LIST.map((item, index) => (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                    {ICON_LIST.map((item) => (
                         <PlasticIconButton
-                            key={index}
+                            key={item.label}
                             icon={item.icon}
                             label={item.label}
                             onClick={() => handleButtonClick(item.label)}

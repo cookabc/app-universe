@@ -12,10 +12,7 @@ interface ActionCardProps {
 
 function ActionCard({ title, children, bgColor, textColor = 'inherit' }: ActionCardProps) {
     return (
-        <div
-            className={`rounded-[15px] border border-[${THEME.colors.border}] ${bgColor} p-6`}
-            style={{ color: textColor }}
-        >
+        <div className={`rounded-[15px] border ${bgColor} p-6`} style={{ color: textColor, borderColor: THEME.colors.border }}>
             <h3 className="mb-4 text-xl font-semibold">{title}</h3>
             {children}
             {!children && (
@@ -54,7 +51,8 @@ function NewsletterCard() {
             <div className="flex flex-col sm:flex-row gap-2">
                 <Input type="email" placeholder="what's your email?" className="rounded-full border-gray-300" />
                 <Button
-                    className={`rounded-full bg-[${THEME.colors.primary}] px-4 py-2 text-white hover:bg-[${THEME.colors.primary}]/90 border border-[${THEME.colors.border}] w-full sm:w-auto`}
+                    className="rounded-full px-4 py-2 text-white border w-full sm:w-auto"
+                    style={{ backgroundColor: THEME.colors.primary, borderColor: THEME.colors.border }}
                 >
                     Subscribe
                 </Button>
@@ -65,13 +63,11 @@ function NewsletterCard() {
 
 export function FreedomSection() {
     return (
-        <section className={`bg-[${THEME.colors.background}] py-12 sm:py-16 md:py-24`}>
+        <section className="py-12 sm:py-16 md:py-24" style={{ backgroundColor: THEME.colors.background }}>
             <div className="mx-auto max-w-[1200px] px-4 sm:px-8 lg:px-12">
                 <div className="grid gap-8 lg:grid-cols-[1fr_2fr] lg:gap-12">
                     <div>
-                        <h2
-                            className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[${THEME.colors.primary}]`}
-                        >
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold" style={{ color: THEME.colors.primary }}>
                             Freedom
                             <br />
                             To Build

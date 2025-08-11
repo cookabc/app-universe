@@ -103,8 +103,8 @@ export default function AIArtifacts() {
 
     return (
         <AppErrorBoundary>
-            <main className="min-h-screen bg-linear-to-b from-blue-100 to-white">
-                <div className="flex flex-col h-screen bg-linear-to-b from-blue-100 to-white p-4 sm:p-6">
+            <main className="min-h-screen bg-gradient-to-b from-blue-100 to-white">
+                <div className="flex flex-col h-screen bg-gradient-to-b from-blue-100 to-white p-4 sm:p-6">
                     <div className="max-w-3xl w-full mx-auto flex flex-col grow">
                         <header className="flex justify-between items-center mb-4">
                             <h1 className="text-3xl font-bold text-gray-800">AI Artifacts Demo</h1>
@@ -119,7 +119,7 @@ export default function AIArtifacts() {
                                 </button>
                             )}
                         </header>
-                        <div className="grow overflow-auto mb-4 space-y-4 scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100">
+                        <div className="grow overflow-auto mb-4 space-y-4">
                             {/* Conversation stats */}
                             <div className="text-xs text-gray-500 mb-2">
                                 Messages: {conversationStats.totalMessages} | Avg length:{' '}
@@ -178,7 +178,7 @@ export default function AIArtifacts() {
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 placeholder="Type your message..."
-                                className="grow p-2 rounded-full border border-gray-300 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                                className="grow p-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 disabled={isPending}
                             />
                             <button

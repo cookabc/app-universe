@@ -24,8 +24,8 @@ export default function Home() {
         },
     ]
     return (
-        <main className="grow">
-            <section className="relative text-white py-20">
+        <section className="grow">
+            <section className="relative py-20 bg-gradient-to-br from-gray-900 to-gray-700 text-white">
                 <div className="container mx-auto text-center">
                     <h1 className="text-5xl font-bold mb-4">Welcome to AGI School</h1>
                     <p className="text-xl mb-8">Shaping the Future of Artificial General Intelligence</p>
@@ -38,8 +38,8 @@ export default function Home() {
                 <div className="container mx-auto">
                     <h2 className="text-4xl font-bold text-center mb-12">Why Choose AGI School?</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {features.map((feature, index) => (
-                            <div key={index} className="bg-gray-800 p-6 rounded-lg">
+                        {features.map((feature) => (
+                            <div key={feature.title} className="bg-gray-800 p-6 rounded-lg">
                                 <feature.icon className="w-12 h-12 mb-4 text-blue-400" />
                                 <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                                 <p>{feature.description}</p>
@@ -48,6 +48,6 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-        </main>
+        </section>
     )
 }

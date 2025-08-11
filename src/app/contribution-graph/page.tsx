@@ -33,7 +33,7 @@ export default function ContributionGraph() {
     const [_isPending, startTransition] = useTransition()
 
     // React 19: useMemo for expensive calculations
-    const _graphStats = useMemo(
+    const graphStats = useMemo(
         () => ({
             totalCells: GRID_ROWS * GRID_COLUMNS,
             activeCells: gridData.flat().filter((cell) => cell > 0).length,
@@ -106,7 +106,12 @@ export default function ContributionGraph() {
                     value={inputText}
                     onChange={handleChange}
                     className={styles.input}
+                    maxLength={MAX_INPUT_LENGTH}
+                    aria-describedby="input-help"
                 />
+                <div id="input-help" className={styles.input} style={{ background: 'transparent', boxShadow: 'none', marginTop: -8 }}>
+                    {graphStats.remainingChars} characters remaining
+                </div>
                 <canvas ref={canvasRef} style={{ display: 'none' }} />
                 <div className={styles.graphContainer}>
                     <div className={styles.graph}>
