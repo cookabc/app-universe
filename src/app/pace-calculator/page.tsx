@@ -53,7 +53,7 @@ export default function PaceCalculator() {
             : `${minutes}:${seconds.toString().padStart(2, '0')}`
     }
 
-    // React 19: useTransition for non-blocking calculations
+    // useTransition for non-blocking calculations
     const [isPending, startTransition] = useTransition()
 
     // Compute pace table based on current settings
@@ -70,7 +70,7 @@ export default function PaceCalculator() {
         calculatePaceTable()
     }, [calculatePaceTable])
 
-    // React 19: useMemo for expensive calculations
+    // useMemo for pace statistics
     const paceStats = useMemo(() => {
         const currentPaceSeconds = parseInt(minutes) * 60 + parseInt(seconds)
         const marathonTime = calculateTime(42.2, currentPaceSeconds)
@@ -96,11 +96,8 @@ export default function PaceCalculator() {
     }, [minutes, seconds, calculateTime])
 
     const calculatePace = useCallback(() => {
-        // React 19: Use startTransition for non-blocking calculation
-        startTransition(() => {
-            const baseSeconds = parseInt(minutes) * 60 + parseInt(seconds)
-            setBasePace(baseSeconds)
-        })
+        const baseSeconds = parseInt(minutes) * 60 + parseInt(seconds)
+        setBasePace(baseSeconds)
     }, [minutes, seconds])
 
     const formatPace = (seconds: number) => {
@@ -124,7 +121,7 @@ export default function PaceCalculator() {
         }
         const num = parseInt(value)
         if (!Number.isNaN(num) && num >= 0 && num < 60) {
-            setSeconds(value.padStart(2, '0'))
+            setSeconds(num.toString().padStart(2, '0'))
         }
     }
 
