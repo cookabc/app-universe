@@ -46,10 +46,7 @@ export default function ContributionGraph() {
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const text = e.target.value.slice(0, MAX_INPUT_LENGTH)
-        // React 19: Use startTransition for non-blocking updates
-        startTransition(() => {
-            setInputText(text)
-        })
+        setInputText(text)
     }, [])
 
     const generateGridData = useCallback((imageData: ImageData) => {
@@ -61,7 +58,9 @@ export default function ContributionGraph() {
             for (let x = 0; x < imageData.width; x++) {
                 const index = (y * imageData.width + x) * 4
                 const alpha = data[index + 3]
-                row.push(typeof alpha === 'number' && alpha > ALPHA_THRESHOLD ? Math.floor(Math.random() * 4) + 1 : 0)
+                // Generate a random contribution level between 1 and 4 if the pixel is opaque enough
+                const contributionLevel = typeof alpha === 'number' && alpha > ALPHA_THRESHOLD ? Math.floor(Math.random() * 4) + 1 : 0
+                row.push(contributionLevel)
             }
             grid.push(row)
         }
