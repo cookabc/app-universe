@@ -1,6 +1,6 @@
 'use client'
 
-import { BrainIcon, FlaskConicalIcon, SchoolIcon, SirenIcon } from 'lucide-react'
+import { BrainIcon, FlaskConicalIcon, SchoolIcon, SirenIcon, UsersIcon } from 'lucide-react'
 
 const features = [
     {
@@ -23,9 +23,14 @@ const features = [
         description: 'Stay ahead of the curve in AI technology',
         icon: SirenIcon,
     },
+    {
+        name: 'Collaborative Community',
+        description: 'Connect with peers and mentors in our vibrant community',
+        icon: UsersIcon,
+    },
 ]
 
-const HomePage = () => {
+const AboutPage = () => {
     return (
         <main className="relative z-10">
             <div className="relative overflow-hidden">
@@ -34,23 +39,14 @@ const HomePage = () => {
                         <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
                             <div className="sm:text-center lg:text-left">
                                 <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
-                                    <span className="block xl:inline">Welcome to the future of</span>{' '}
-                                    <span className="block text-blue-500 xl:inline">Artificial Intelligence</span>
+                                    <span className="block xl:inline">About</span>{' '}
+                                    <span className="block text-blue-500 xl:inline">AGI School</span>
                                 </h1>
                                 <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                    Unlock the potential of Artificial General Intelligence at AGI School. Join us in
-                                    shaping the future of AI technology.
+                                    We are pioneers in the field of Artificial General Intelligence education. Our mission
+                                    is to equip the next generation of AI researchers and developers with the knowledge
+                                    and skills to push the boundaries of what's possible.
                                 </p>
-                                <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                                    <div className="rounded-md shadow-sm">
-                                        <a
-                                            href="#"
-                                            className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
-                                        >
-                                            Get started
-                                        </a>
-                                    </div>
-                                </div>
                             </div>
                         </main>
                     </div>
@@ -60,9 +56,9 @@ const HomePage = () => {
             <div className="py-12 bg-gray-800 bg-opacity-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="lg:text-center">
-                        <h2 className="text-base text-blue-400 font-semibold tracking-wide uppercase">Features</h2>
+                        <h2 className="text-base text-blue-400 font-semibold tracking-wide uppercase">Our Values</h2>
                         <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
-                            Why Choose AGI School?
+                            What Makes Us Unique
                         </p>
                     </div>
 
@@ -83,27 +79,8 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
-
-            <div className="bg-gray-900 bg-opacity-50">
-                <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-                    <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                        <span className="block">Ready to dive into AGI?</span>
-                        <span className="block text-blue-500">Start your journey today.</span>
-                    </h2>
-                    <div className="mt-8 flex lg:mt-0 lg:shrink-0">
-                        <div className="inline-flex rounded-md shadow-sm">
-                            <a
-                                href="#"
-                                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-                            >
-                                Enroll Now
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </main>
     )
 }
 
-export default HomePage
+export default AboutPage
