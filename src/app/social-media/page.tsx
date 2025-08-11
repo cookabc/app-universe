@@ -175,13 +175,14 @@ export default function HomePage() {
 
                         {/* Search bar */}
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden="true" />
                             <Input
                                 type="text"
                                 placeholder="Search"
                                 className="pl-10 w-full"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
+                                aria-label="Search posts"
                             />
                         </div>
 
@@ -209,7 +210,7 @@ export default function HomePage() {
                                                     />
                                                 ))}
                                                 {isLoading && (
-                                                    <div className="flex justify-center items-center py-4">
+                                                    <div className="flex justify-center items-center py-4" role="status" aria-live="polite">
                                                         <Loader className="animate-spin" />
                                                     </div>
                                                 )}
@@ -239,7 +240,7 @@ export default function HomePage() {
                                                     />
                                                 ))}
                                                 {isLoading && (
-                                                    <div className="flex justify-center items-center py-4">
+                                                    <div className="flex justify-center items-center py-4" role="status" aria-live="polite">
                                                         <Loader className="animate-spin" />
                                                     </div>
                                                 )}
