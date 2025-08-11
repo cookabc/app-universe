@@ -1,8 +1,8 @@
-import { Inter } from 'next/font/google'
+import { GeistSans } from 'geist/font/sans'
+import { GeistMono } from 'geist/font/mono'
+import { cn } from '@/lib/utils'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
     title: 'AGI School - Pioneering Artificial General Intelligence Education',
@@ -14,10 +14,12 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className={inter.className}>
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-        </div>
+        <html lang="en" suppressHydrationWarning>
+            <body className={cn('font-sans antialiased', GeistSans.variable, GeistMono.variable)}>
+                <Navbar />
+                <main>{children}</main>
+                <Footer />
+            </body>
+        </html>
     )
 }
