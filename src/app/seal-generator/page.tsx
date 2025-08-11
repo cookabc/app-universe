@@ -43,6 +43,59 @@ interface DrawArcTextProps {
     isUpsideDown?: boolean
 }
 
+function drawArcText({
+    ctx,
+    text,
+    startAngle,
+    endAngle,
+    radius,
+    fontSize,
+    centerX,
+    centerY,
+    isUpsideDown = false,
+}: DrawArcTextProps) {
+    ctx.font = `${fontSize}px ${SEAL_CONFIG.FONT.FAMILY}`
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+
+    const chars = text.split('')
+    const totalAngle = endAngle > startAngle ? endAngle - startAngle : Math.PI * 2 - startAngle + endAngle
+    const angleStep = totalAngle / chars.length
+
+    chars.forEach((char, i) => {
+        const angle = startAngle + angleStep * i
+        const x = centerX + Math.cos(angle) * radius
+        const y = centerY + Math.sin(angle) * radius
+
+        ctx.save()
+        ctx.translate(x, y)
+        ctx.rotate(angle + (isUpsideDown ? -Math.PI / 2 : Math.PI / 2))
+        ctx.fillText(char, 0, 0)
+        ctx.restore()
+    })
+}
+
+function drawStar(ctx: CanvasRenderingContext2D, centerX: number, centerY: number, radius: number) {
+    const starRadius = radius * SEAL_CONFIG.STAR.SCALE
+    const starInnerRadius = starRadius * SEAL_CONFIG.STAR.INNER_RATIO
+
+    ctx.beginPath()
+    for (let i = 0; i < 5; i++) {
+        const outerAngle = (i * 2 * Math.PI) / 5 - Math.PI / 2
+        const innerAngle = outerAngle + Math.PI / 5
+
+        const outerX = centerX + Math.cos(outerAngle) * starRadius
+        const outerY = centerY + Math.sin(outerAngle) * starRadius
+        const innerX = centerX + Math.cos(innerAngle) * starInnerRadius
+        const innerY = centerY + Math.sin(innerAngle) * starInnerRadius
+
+        i === 0 ? ctx.moveTo(outerX, outerY) : ctx.lineTo(outerX, outerY)
+        ctx.lineTo(innerX, innerY)
+    }
+    ctx.closePath()
+    ctx.fill()
+}
+
 export default function SealGenerator() {
     const [companyName, setCompanyName] = useState('北京市某某物业管理有限公司')
     const [registrationNumber, setRegistrationNumber] = useState('123456789012345')
@@ -58,63 +111,10 @@ export default function SealGenerator() {
             registrationLength: registrationNumber.length,
             isValidCompanyName: companyName.length > 0 && companyName.length <= 30,
             isValidRegistration: registrationNumber.length > 0 && registrationNumber.length <= 20,
-            canGenerate: companyName.trim() && registrationNumber.trim(),
+            canGenerate: Boolean(companyName.trim() && registrationNumber.trim()),
         }),
         [companyName, registrationNumber],
     )
-
-    const drawArcText = ({
-        ctx,
-        text,
-        startAngle,
-        endAngle,
-        radius,
-        fontSize,
-        centerX,
-        centerY,
-        isUpsideDown = false,
-    }: DrawArcTextProps) => {
-        ctx.font = `${fontSize}px ${SEAL_CONFIG.FONT.FAMILY}`
-        ctx.textAlign = 'center'
-        ctx.textBaseline = 'middle'
-
-        const chars = text.split('')
-        const totalAngle = endAngle > startAngle ? endAngle - startAngle : Math.PI * 2 - startAngle + endAngle
-        const angleStep = totalAngle / chars.length
-
-        chars.forEach((char, i) => {
-            const angle = startAngle + angleStep * i
-            const x = centerX + Math.cos(angle) * radius
-            const y = centerY + Math.sin(angle) * radius
-
-            ctx.save()
-            ctx.translate(x, y)
-            ctx.rotate(angle + (isUpsideDown ? -Math.PI / 2 : Math.PI / 2))
-            ctx.fillText(char, 0, 0)
-            ctx.restore()
-        })
-    }
-
-    const drawStar = (ctx: CanvasRenderingContext2D, centerX: number, centerY: number, radius: number) => {
-        const starRadius = radius * SEAL_CONFIG.STAR.SCALE
-        const starInnerRadius = starRadius * SEAL_CONFIG.STAR.INNER_RATIO
-
-        ctx.beginPath()
-        for (let i = 0; i < 5; i++) {
-            const outerAngle = (i * 2 * Math.PI) / 5 - Math.PI / 2
-            const innerAngle = outerAngle + Math.PI / 5
-
-            const outerX = centerX + Math.cos(outerAngle) * starRadius
-            const outerY = centerY + Math.sin(outerAngle) * starRadius
-            const innerX = centerX + Math.cos(innerAngle) * starInnerRadius
-            const innerY = centerY + Math.sin(innerAngle) * starInnerRadius
-
-            i === 0 ? ctx.moveTo(outerX, outerY) : ctx.lineTo(outerX, outerY)
-            ctx.lineTo(innerX, innerY)
-        }
-        ctx.closePath()
-        ctx.fill()
-    }
 
     const generateSeal = useCallback(() => {
         // React 19: Use startTransition for non-blocking generation
@@ -180,12 +180,7 @@ export default function SealGenerator() {
 
             setSealImage(canvas.toDataURL())
         })
-    }, [
-        companyName,
-        registrationNumber, // Draw registration number
-        drawArcText, // Draw star
-        drawStar,
-    ])
+    }, [companyName, registrationNumber])
 
     const handleDownload = () => {
         if (!sealImage) return
@@ -201,7 +196,12 @@ export default function SealGenerator() {
                 <div className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="companyName">公司名称</Label>
-                        <Input id="companyName" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
+                        <Input
+                            id="companyName"
+                            value={companyName}
+                            maxLength={30}
+                            onChange={(e) => setCompanyName(e.target.value)}
+                        />
                     </div>
 
                     <div className="space-y-2">
@@ -209,6 +209,7 @@ export default function SealGenerator() {
                         <Input
                             id="registrationNumber"
                             value={registrationNumber}
+                            maxLength={20}
                             onChange={(e) => setRegistrationNumber(e.target.value)}
                         />
                     </div>
@@ -239,6 +240,7 @@ export default function SealGenerator() {
                         onClick={generateSeal}
                         disabled={!sealStats.canGenerate || isPending}
                         className="bg-[#4285f4] hover:bg-[#4285f4]/90 text-white px-8"
+                        aria-busy={isPending}
                     >
                         {isPending ? '生成中...' : '生成'}
                     </Button>

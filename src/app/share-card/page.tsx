@@ -26,14 +26,14 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { cn } from '@/lib/utils'
 
 const GRADIENTS = [
-    'bg-linear-to-br from-blue-600 to-purple-600',
-    'bg-linear-to-br from-green-400 to-green-600',
-    'bg-linear-to-br from-orange-300 to-rose-300',
-    'bg-linear-to-br from-purple-600 to-blue-800',
-    'bg-linear-to-br from-cyan-400 to-blue-500',
-    'bg-linear-to-br from-yellow-400 to-orange-500',
-    'bg-linear-to-br from-pink-500 to-purple-500',
-    'bg-linear-to-br from-teal-400 to-emerald-500',
+    'bg-gradient-to-br from-blue-600 to-purple-600',
+    'bg-gradient-to-br from-green-400 to-green-600',
+    'bg-gradient-to-br from-orange-300 to-rose-300',
+    'bg-gradient-to-br from-purple-600 to-blue-800',
+    'bg-gradient-to-br from-cyan-400 to-blue-500',
+    'bg-gradient-to-br from-yellow-400 to-orange-500',
+    'bg-gradient-to-br from-pink-500 to-purple-500',
+    'bg-gradient-to-br from-teal-400 to-emerald-500',
 ]
 
 const TEMPLATES = [
@@ -471,7 +471,7 @@ export default function ShareCard() {
                                 </Tabs>
                             </DialogContent>
                         </Dialog>
-                        <Button variant="outline" size="icon" onClick={downloadImage} disabled={isPending}>
+                        <Button variant="outline" size="icon" onClick={downloadImage} disabled={isPending} aria-busy={isPending} aria-label={isPending ? 'Generating image' : 'Download image'}>
                             <Download className="w-5 h-5" />
                         </Button>
 
