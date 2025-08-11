@@ -53,7 +53,9 @@ export function FeaturesSection() {
                         <span className="text-[#a78bfa]">Video Analytics Pipeline</span>
                     </h2>
                     <Link
-                        href="#"
+                        href="https://bentoml.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-flex items-center rounded-full bg-[#bbf7d0] px-4 py-1.5 text-sm font-medium text-[#064e3b] transition-colors hover:bg-[#86efac] border border-[#19192c]"
                     >
                         Explore More

@@ -48,7 +48,7 @@ export function Header() {
                         </Button>
                     </div>
                     <div className="md:hidden">
-                        <Button variant="ghost" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                        <Button variant="ghost" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
                             <Menu className="h-6 w-6" />
                         </Button>
                     </div>
