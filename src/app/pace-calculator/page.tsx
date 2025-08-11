@@ -56,17 +56,15 @@ export default function PaceCalculator() {
     // React 19: useTransition for non-blocking calculations
     const [isPending, startTransition] = useTransition()
 
-    // Move calculatePaceTable here to be defined before useEffect
-    const calculatePaceTable = () => {
+    // Compute pace table based on current settings
+    const calculatePaceTable = useCallback(() => {
         const paces = [-10, -5, 0, 5, 10].map((diff) => basePace + diff)
         const filteredDistances = isDetailedView
             ? DISTANCES
             : DISTANCES.filter((d) => d.value % 5 === 0 || d.value === 21.1 || d.value === 42.2)
-        const table = filteredDistances.map((distance) => {
-            return paces.map((pace) => calculateTime(distance.value, pace))
-        })
+        const table = filteredDistances.map((distance) => paces.map((pace) => calculateTime(distance.value, pace)))
         setPaceTable(table)
-    }
+    }, [basePace, isDetailedView])
 
     useEffect(() => {
         calculatePaceTable()
@@ -120,7 +118,12 @@ export default function PaceCalculator() {
 
     const handleSecondsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
-        if (value === '' || (parseInt(value) >= 0 && parseInt(value) < 60)) {
+        if (value === '') {
+            setSeconds('')
+            return
+        }
+        const num = parseInt(value)
+        if (!Number.isNaN(num) && num >= 0 && num < 60) {
             setSeconds(value.padStart(2, '0'))
         }
     }
