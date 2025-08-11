@@ -8,7 +8,7 @@ interface PostListProps {
     platform: 'x' | 'weibo'
     setSelectedPost: (post: Post | null) => void
     isLoading: boolean
-    loadMoreRef: React.RefObject<HTMLDivElement>
+    loadMoreRef: React.RefObject<HTMLDivElement | null>
 }
 
 export function PostList({ posts, platform, setSelectedPost, isLoading, loadMoreRef }: PostListProps) {

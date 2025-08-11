@@ -1,5 +1,5 @@
 export interface Post {
-    id: string
+    id: number
     user: {
         name: string
         username: string
@@ -8,6 +8,6 @@ export interface Post {
     content: string
     likes: number
     retweets?: number
-    comments?: number
+    comments: number
     timestamp: string
 }

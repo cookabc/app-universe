@@ -6,7 +6,7 @@ interface HeaderProps {
     navigationStats: any
     searchTerm: string
     setSearchTerm: (value: string) => void
-    searchInputRef: React.RefObject<HTMLInputElement>
+    searchInputRef: React.RefObject<HTMLInputElement | null>
 }
 
 export function Header({ navigationStats, searchTerm, setSearchTerm, searchInputRef }: HeaderProps) {
