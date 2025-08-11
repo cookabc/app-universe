@@ -336,7 +336,7 @@ export default function EnhancedUIUXToolNavigation() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center" role="status" aria-live="polite">
                 <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500" />
             </div>
         )
@@ -345,7 +345,7 @@ export default function EnhancedUIUXToolNavigation() {
     return (
         <AppErrorBoundary>
             <div
-                className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-white' : 'bg-linear-to-br from-purple-100 to-indigo-200'}`}
+                className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gradient-to-br from-purple-100 to-indigo-200'}`}
             >
                 <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
                     <motion.header
@@ -354,7 +354,7 @@ export default function EnhancedUIUXToolNavigation() {
                         transition={{ duration: 0.5 }}
                         className="text-center mb-12"
                     >
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-purple-600 to-indigo-600">
+                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
                             工具导航
                         </h1>
                         <p className="text-lg sm:text-xl mb-4 opacity-75">发现并访问最佳在线工具</p>
@@ -377,9 +377,11 @@ export default function EnhancedUIUXToolNavigation() {
                                 ref={searchInputRef}
                             />
                             <Search
-                                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
                                 size={24}
+                                aria-hidden="true"
                             />
+                            <span className="sr-only">搜索工具</span>
                         </motion.div>
                     </motion.header>
 
@@ -481,6 +483,7 @@ export default function EnhancedUIUXToolNavigation() {
                                     size="icon"
                                     className="rounded-full p-2 bg-purple-500 text-white hover:bg-purple-600 transition-transform duration-300 hover:scale-110"
                                     onClick={scrollToTop}
+                                    aria-label="回到顶部"
                                 >
                                     <ChevronUp className="h-6 w-6" />
                                 </Button>
@@ -492,6 +495,7 @@ export default function EnhancedUIUXToolNavigation() {
                         size="icon"
                         className={`rounded-full p-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-gray-800 text-white'} transition-transform duration-300 hover:scale-110`}
                         onClick={() => setDarkMode(!darkMode)}
+                        aria-label={darkMode ? '切换到浅色主题' : '切换到深色主题'}
                     >
                         {darkMode ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
                     </Button>
