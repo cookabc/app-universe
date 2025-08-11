@@ -29,12 +29,12 @@ export const LANGUAGES: Record<string, any> = {
     zh: {
         title: '艺术中的设计',
         content:
-            '艺术中的设计是对创造性流动中各种事物、各种元素之间关系的认识.
+            `艺术中的设计是对创造性流动中各种事物、各种元素之间关系的认识.
 
 你不能发明一个设计.
 你在第四维度中认识它.
 
-也就是说，用你的血液和骨骼，以及你的眼睛来认识它。',
+也就是说，用你的血液和骨骼，以及你的眼睛来认识它。`,
         author: 'D. H. 劳伦斯',
         madeBy: '{name} 制作',
         words: '字数',
@@ -58,12 +58,12 @@ export const LANGUAGES: Record<string, any> = {
     en: {
         title: 'Design in art',
         content:
-            "Design in art, is a recognition of the relation between various things, various elements in the creative flux. 
+            `Design in art, is a recognition of the relation between various things, various elements in the creative flux. 
 
 You can't invent a design. 
 You recognize it, in the fourth dimension. 
 
-That is, with your blood and your bones, as well as with your eyes.",
+That is, with your blood and your bones, as well as with your eyes.`,
         author: 'D. H. Lawrence',
         madeBy: 'Made by {name}',
         words: 'Words',

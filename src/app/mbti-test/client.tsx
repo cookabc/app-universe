@@ -154,15 +154,17 @@ export default function MBTITestClient() {
                         正在生成问题，请稍候...
                     </div>
                 ) : (
-                    <QuestionCard
-                        question={questions[currentQuestion]}
-                        handleAnswer={handleAnswer}
-                        currentQuestionIndex={currentQuestion}
-                        totalQuestions={questions.length}
-                        setCurrentQuestion={setCurrentQuestion}
-                        answers={answers}
-                        calculateResult={calculateResult}
-                    />
+                    questions[currentQuestion] && (
+                        <QuestionCard
+                            question={questions[currentQuestion]}
+                            handleAnswer={handleAnswer}
+                            currentQuestionIndex={currentQuestion}
+                            totalQuestions={questions.length}
+                            setCurrentQuestion={setCurrentQuestion}
+                            answers={answers}
+                            calculateResult={calculateResult}
+                        />
+                    )
                 )}
             </Card>
         </AppErrorBoundary>

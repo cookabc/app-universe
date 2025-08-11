@@ -125,7 +125,7 @@ export default function ShareCardClient() {
                             setContentStyle={setContentStyle}
                             handleFontStyleToggle={handleFontStyleToggle}
                             handleAlignmentChange={handleAlignmentChange}
-                            date={date}
+                            date={date ?? ''}
                             setDate={setDate}
                             madeBy={madeBy}
                             setMadeBy={setMadeBy}
@@ -151,11 +151,11 @@ export default function ShareCardClient() {
                     <div ref={cardRef}>
                         <CardPreview
                             selectedTemplate={selectedTemplate}
-                            selectedGradient={selectedGradient}
+                            selectedGradient={selectedGradient ?? ''}
                             title={title}
                             content={content}
                             author={author}
-                            date={date}
+                            date={date ?? ''}
                             madeBy={madeBy}
                             wordCount={wordCount}
                             titleStyle={titleStyle}
@@ -167,7 +167,7 @@ export default function ShareCardClient() {
                     <StyleControls
                         selectedTemplate={selectedTemplate}
                         setSelectedTemplate={setSelectedTemplate}
-                        selectedGradient={selectedGradient}
+                        selectedGradient={selectedGradient ?? ''}
                         setSelectedGradient={setSelectedGradient}
                     />
                 </div>

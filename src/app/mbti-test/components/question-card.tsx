@@ -29,7 +29,7 @@ export function QuestionCard({
             <form>
                 <div className="space-y-4">
                     <Label className="text-lg">{question.text}</Label>
-                    <RadioGroup onValueChange={handleAnswer} value={answers[currentQuestionIndex]}>
+                    <RadioGroup onValueChange={handleAnswer} value={answers[currentQuestionIndex] ?? null}>
                         {question.options.map((option, index) => (
                             <div key={`${question.id}-${index}`} className="flex items-center space-x-2">
                                 <RadioGroupItem value={index.toString()} id={`option${question.id}-${index}`} />

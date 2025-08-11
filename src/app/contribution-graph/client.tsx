@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { AppErrorBoundary } from '@/components/optimized/error-boundary'
-import { Graph } from './graph'
-import { Legend } from './legend'
-import { GraphInput } from './graph-input'
+import { Graph } from './components/graph'
+import { Legend } from './components/legend'
+import { GraphInput } from './components/graph-input'
 
 const MAX_INPUT_LENGTH = 10
 const CANVAS_WIDTH = 60

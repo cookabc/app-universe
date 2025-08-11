@@ -16,7 +16,7 @@ export function createPipe(): Pipe {
     }
 }
 
-export function updatePipes(pipes: Pipe[], setScore: (cb: (prev: number) => number)): Pipe[] {
+export function updatePipes(pipes: Pipe[], setScore: (cb: (prev: number) => number) => void): Pipe[] {
     const updatedPipes = pipes
         .map((pipe) => ({ ...pipe, x: pipe.x - pipe.speed }))
         .filter((pipe) => {
