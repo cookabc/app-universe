@@ -1,13 +1,21 @@
 'use client'
 
-// AI SDK v5 migration: non-streaming path
+// AI Artifacts Demo using AI SDK v5 with non-streaming path
 import { AnimatePresence, motion } from 'framer-motion'
 import { Download, Loader2, Send } from 'lucide-react'
 import { useEffect, useMemo, useOptimistic, useState, useTransition } from 'react'
 import { continueConversation, type Message } from '@/app/actions'
 import { AppErrorBoundary } from '@/components/optimized/error-boundary'
 
+// Welcome message for new conversations
+const WELCOME_MESSAGE: Message = {
+    role: 'assistant',
+    content: 'Welcome to AI Artifacts Demo! How can I assist you today?',
+}
+
 export default function AIArtifacts() {
+    const [input, setInput] = useState<string>('')
+    const [conversation, setConversation] = useState<Message[]>([WELCOME_MESSAGE])
     const [input, setInput] = useState<string>('')
     const [conversation, setConversation] = useState<Message[]>([
         {
@@ -53,12 +61,7 @@ export default function AIArtifacts() {
                 setConversation(JSON.parse(savedMessages))
             } else {
                 // If no saved messages, keep the welcome message
-                setConversation([
-                    {
-                        role: 'assistant',
-                        content: 'Welcome to AI Artifacts Demo! How can I assist you today?',
-                    },
-                ])
+                setConversation([WELCOME_MESSAGE])
             }
         } catch (err) {
             console.error('Failed to load messages from localStorage:', err)
@@ -83,7 +86,11 @@ export default function AIArtifacts() {
                 setConversation([...messages, { role: 'assistant', content: replyText }])
             } catch (err) {
                 console.error('Error in conversation:', err)
-                setError('An error occurred while processing your request. Please try again.')
+                if (err instanceof Error) {
+                    setError(`An error occurred: ${err.message}. Please try again.`)
+                } else {
+                    setError('An unexpected error occurred while processing your request. Please try again.')
+                }
                 // Remove optimistic message on error
                 setConversation((prev) => prev.filter((m) => m !== userMessage))
             }
@@ -177,6 +184,12 @@ export default function AIArtifacts() {
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                        e.preventDefault()
+                                        handleSubmit(e as any)
+                                    }
+                                }}
                                 placeholder="Type your message..."
                                 className="grow p-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 disabled={isPending}
