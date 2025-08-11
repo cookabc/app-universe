@@ -152,7 +152,8 @@ const useGameLoop = (isGameStarted: boolean, isGameOver: boolean, setIsGameOver:
             setPipes((prevPipes) => {
                 const updatedPipes = updatePipes(prevPipes, bird, setScore)
                 // Check for collisions
-                if (updatedPipes.some((pipe) => pipe.hits(bird))) {
+                const hasCollision = updatedPipes.some((pipe) => pipe.hits(bird))
+                if (hasCollision) {
                     setIsGameOver(true)
                 }
                 return updatedPipes
@@ -203,12 +204,12 @@ export default function ImprovedFlappyBird() {
     const [isGameOver, setIsGameOver] = useState(false)
     const [isGameStarted, setIsGameStarted] = useState(false)
 
-    // React 19: useTransition for non-blocking game state updates
+    // useTransition for non-blocking game state updates
     const [_isPending, startTransition] = useTransition()
 
     const { bird, setBird, pipes, setPipes, score, setScore } = useGameLoop(isGameStarted, isGameOver, setIsGameOver)
 
-    // React 19: useMemo for expensive game calculations
+    // useMemo for game statistics
     const _gameStats = useMemo(
         () => ({
             currentScore: score,
@@ -227,21 +228,18 @@ export default function ImprovedFlappyBird() {
     }, [score, highScore])
 
     const handleJump = useCallback(() => {
-        // React 19: Use startTransition for non-blocking state updates
-        startTransition(() => {
-            if (!isGameStarted) {
-                setIsGameStarted(true)
-            }
-            if (!isGameOver) {
-                setBird((prevBird) => {
-                    const newBird = new BirdClass()
-                    newBird.x = prevBird.x
-                    newBird.y = prevBird.y
-                    newBird.velocity = LIFT
-                    return newBird
-                })
-            }
-        })
+        if (!isGameStarted) {
+            setIsGameStarted(true)
+        }
+        if (!isGameOver) {
+            setBird((prevBird) => {
+                const newBird = new BirdClass()
+                newBird.x = prevBird.x
+                newBird.y = prevBird.y
+                newBird.velocity = LIFT
+                return newBird
+            })
+        }
     }, [isGameStarted, isGameOver, setBird])
 
     const handleReset = useCallback(() => {
