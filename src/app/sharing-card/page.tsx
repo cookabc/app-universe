@@ -64,7 +64,7 @@ const SharingCardPreview = ({ date, mainText, author, creator, backgroundImage }
 
     return (
         <Card
-            className="w-[500px] p-12 bg-linear-to-br from-purple-600 to-blue-600 relative"
+            className="w-[500px] p-12 bg-gradient-to-br from-purple-600 to-blue-600 relative"
             style={{
                 ...(backgroundImage && {
                     backgroundImage: `url(${backgroundImage})`,
