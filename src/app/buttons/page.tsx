@@ -61,6 +61,7 @@ const BACKGROUND_STYLES = {
 function PlasticIconButton({ icon, label, onClick }: PlasticIconButtonProps) {
     const [isPressed, setIsPressed] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
+    const [wasClicked, setWasClicked] = useState(false)
 
     const getTransform = () => {
         if (isPressed) return 'translateY(1px) scale(0.95)'
@@ -68,14 +69,23 @@ function PlasticIconButton({ icon, label, onClick }: PlasticIconButtonProps) {
         return 'translateY(0) scale(1)'
     }
 
+    const handleClick = () => {
+        if (onClick) onClick()
+        setWasClicked(true)
+        // Add a subtle animation to indicate the click
+        setTimeout(() => setWasClicked(false), 300)
+    }
+
     return (
         <button
-            onClick={onClick}
+            onClick={handleClick}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onMouseDown={() => setIsPressed(true)}
             onMouseUp={() => setIsPressed(false)}
-            className="relative w-16 h-16 rounded-full flex items-center justify-center"
+            className={`relative w-16 h-16 rounded-full flex items-center justify-center ${
+                wasClicked ? 'animate-pulse' : ''
+            }`}
             style={{
                 background: BUTTON_STYLES.backgroundColor,
                 transform: getTransform(),
@@ -86,7 +96,7 @@ function PlasticIconButton({ icon, label, onClick }: PlasticIconButtonProps) {
         >
             <div
                 className="relative w-7 h-7 flex items-center justify-center"
-                style={{ color: BUTTON_STYLES.iconColor }}
+                style={{ color: wasClicked ? '#0070f3' : BUTTON_STYLES.iconColor }}
             >
                 {icon}
             </div>
@@ -118,11 +128,11 @@ const ICON_LIST = [
 ]
 
 export default function IconGrid() {
-    // React 19: useTransition for smooth interactions
+    // useTransition for smooth interactions
     const [_isPending, startTransition] = useTransition()
     const [clickedButtons, setClickedButtons] = useState<string[]>([])
 
-    // React 19: useMemo for button statistics
+    // useMemo for button statistics
     const buttonStats = useMemo(
         () => ({
             totalButtons: ICON_LIST.length,
@@ -133,7 +143,7 @@ export default function IconGrid() {
         [clickedButtons.length],
     )
 
-    // React 19: useCallback for optimized click handling
+    // useCallback for optimized click handling
     const handleButtonClick = useCallback((label: string) => {
         startTransition(() => {
             setClickedButtons((prev) => (prev.includes(label) ? prev : [...prev, label]))
