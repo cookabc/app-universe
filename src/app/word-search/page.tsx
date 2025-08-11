@@ -247,8 +247,8 @@ export default function WordSearchGame() {
 
     return (
         <GameErrorBoundary>
-            <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-linear-to-r from-blue-500 to-purple-600">
-                <Card className="w-full max-w-4xl mx-auto bg-linear-to-br from-purple-500 to-pink-500 text-white">
+            <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gradient-to-r from-blue-500 to-purple-600">
+                <Card className="w-full max-w-4xl mx-auto bg-gradient-to-br from-purple-500 to-pink-500 text-white">
                     <CardHeader className="text-center">
                         <CardTitle className="text-3xl font-bold">文字搜索挑战</CardTitle>
                         <p className="text-xl">主题：{LEVELS[currentLevel]?.theme}</p>
@@ -292,7 +292,7 @@ export default function WordSearchGame() {
                                         {matrix.map((row, rowIndex) =>
                                             row.map((cell, colIndex) => (
                                                 <motion.div
-                                                    key={`${rowIndex}-${cell}`}
+                                                    key={`${rowIndex}-${colIndex}`}
                                                     className={`w-12 h-12 flex items-center justify-center border-2 rounded-md font-bold text-2xl cursor-pointer transition-all duration-300
                         ${
                             isCellSelected(rowIndex, colIndex)
@@ -314,6 +314,9 @@ export default function WordSearchGame() {
                                                             ? '0 0 10px rgba(255,255,255,0.5)'
                                                             : 'none',
                                                     }}
+                                                    role="button"
+                                                    aria-pressed={isCellSelected(rowIndex, colIndex)}
+                                                    aria-label={`Row ${rowIndex + 1}, Col ${colIndex + 1}, ${isCellFound(rowIndex, colIndex) ? 'found' : 'not found'}`}
                                                 >
                                                     {cell}
                                                 </motion.div>
