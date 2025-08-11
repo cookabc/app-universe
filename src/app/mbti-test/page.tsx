@@ -116,7 +116,6 @@ export default function MBTITest() {
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [answers, setAnswers] = useState<Record<number, string>>({})
     const [result, setResult] = useState<keyof typeof typeDescriptions | ''>('')
-    const [_progress, setProgress] = useState(0)
     const [questions, setQuestions] = useState<Question[]>(defaultQuestions)
     const [useLLM, setUseLLM] = useState(false)
     const [isGeneratingQuestions, setIsGeneratingQuestions] = useState(false)
@@ -145,9 +144,15 @@ export default function MBTITest() {
         }
     }, [])
 
+    // Toggle LLM questions on switch change
     useEffect(() => {
-        setProgress((Object.keys(answers).length / questions.length) * 100)
-    }, [answers, questions.length])
+        if (useLLM) {
+            void generateLLMQuestions()
+        } else {
+            resetQuestions()
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [useLLM])
 
     const resetAnswers = () => {
         setAnswers({})
@@ -175,7 +180,7 @@ export default function MBTITest() {
                 setIsGeneratingQuestions(false)
             }
         })
-    }, [resetAnswers, resetQuestions])
+    }, [resetAnswers])
 
     const calculateResult = () => {
         const types = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 }
@@ -270,7 +275,9 @@ export default function MBTITest() {
                         已回答: {testStats.answeredCount}/{questions.length} | 剩余: {testStats.remainingQuestions} 题
                     </div>
                     {isGeneratingQuestions ? (
-                        <div className="text-center">正在生成问题，请稍候...</div>
+                        <div className="text-center" role="status" aria-live="polite">
+                            正在生成问题，请稍候...
+                        </div>
                     ) : (
                         <form>
                             <div className="space-y-4">
@@ -312,10 +319,16 @@ export default function MBTITest() {
                         上一题
                     </Button>
                     <Button
-                        onClick={() =>
-                            currentQuestion === questions.length - 1 ? calculateResult() : handleAnswer('')
-                        }
-                        disabled={isGeneratingQuestions}
+                        onClick={() => {
+                            const hasAnswer = answers[currentQuestion] !== undefined
+                            if (!hasAnswer) return
+                            if (currentQuestion === questions.length - 1) {
+                                calculateResult()
+                            } else {
+                                setCurrentQuestion(currentQuestion + 1)
+                            }
+                        }}
+                        disabled={isGeneratingQuestions || answers[currentQuestion] === undefined}
                         className="flex items-center gap-2"
                     >
                         {currentQuestion === questions.length - 1 ? '查看结果' : '下一题'}
