@@ -78,7 +78,7 @@ export function FreedomSection() {
                         <ActionCard title="Start a free trial" bgColor="bg-[#a78bfa]" textColor={THEME.colors.white} />
                         <ActionCard
                             title="Schedule a demo"
-                            bgColor={`bg-[${THEME.colors.primary}]`}
+                            bgColor="bg-[#064e3b]"
                             textColor={THEME.colors.white}
                         />
                         <NewsletterCard />
