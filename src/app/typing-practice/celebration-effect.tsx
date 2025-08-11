@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { useTheme } from 'next-themes'
 
 interface ParticleProps {
     x: number
@@ -16,6 +17,7 @@ export function CelebrationEffect() {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const particlesRef = useRef<ParticleProps[]>([])
     const animationRef = useRef<number>(undefined)
+    const { theme } = useTheme()
 
     useEffect(() => {
         const canvas = canvasRef.current
@@ -80,7 +82,7 @@ export function CelebrationEffect() {
             }
             particlesRef.current = []
         }
-    }, [])
+    }, [theme])
 
     return <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 z-50" />
 }

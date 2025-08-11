@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { useTheme } from 'next-themes'
 
 interface ParticleProps {
     x: number
@@ -14,6 +15,7 @@ interface ParticleProps {
 export function TypingEffect({ x, y }: { x: number; y: number }) {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const particles = useRef<ParticleProps[]>([])
+    const { theme } = useTheme()
 
     useEffect(() => {
         const canvas = canvasRef.current
@@ -79,7 +81,7 @@ export function TypingEffect({ x, y }: { x: number; y: number }) {
             cancelAnimationFrame(animationFrame)
             window.removeEventListener('resize', updateCanvasSize)
         }
-    }, [x, y])
+    }, [x, y, theme])
 
     return <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 z-50" />
 }
