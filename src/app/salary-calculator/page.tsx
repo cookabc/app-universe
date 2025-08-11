@@ -218,6 +218,7 @@ export default function BeijingSalaryCalculator() {
                                     <Input
                                         id="baseSalary"
                                         type="number"
+                                        min={0}
                                         value={baseSalary}
                                         onChange={(e) => setBaseSalary(Number(e.target.value))}
                                     />
@@ -227,6 +228,7 @@ export default function BeijingSalaryCalculator() {
                                     <Input
                                         id="socialInsuranceBase"
                                         type="number"
+                                        min={0}
                                         value={socialInsuranceBase}
                                         onChange={(e) => setSocialInsuranceBase(Number(e.target.value))}
                                     />
@@ -236,6 +238,7 @@ export default function BeijingSalaryCalculator() {
                                     <Input
                                         id="housingFundBase"
                                         type="number"
+                                        min={0}
                                         value={housingFundBase}
                                         onChange={(e) => setHousingFundBase(Number(e.target.value))}
                                     />
@@ -247,6 +250,7 @@ export default function BeijingSalaryCalculator() {
                                     <Input
                                         id="annualLeave"
                                         type="number"
+                                        min={0}
                                         value={annualLeave}
                                         onChange={(e) => setAnnualLeave(Number(e.target.value))}
                                     />
@@ -260,6 +264,7 @@ export default function BeijingSalaryCalculator() {
                                         step={0.5}
                                         value={[bonusMonths]}
                                         onValueChange={(value) => setBonusMonths(value[0] ?? 0)}
+                                        aria-label="bonus months"
                                     />
                                     <div className="text-center mt-2">{bonusMonths} 个月</div>
                                 </div>
@@ -289,7 +294,7 @@ export default function BeijingSalaryCalculator() {
                                     </Select>
                                 </div>
                             )}
-                            <Button onClick={calculateSalary} disabled={isPending}>
+                            <Button onClick={calculateSalary} disabled={isPending} aria-busy={isPending}>
                                 {isPending ? '计算中...' : '计算'}
                             </Button>
 
@@ -304,7 +309,7 @@ export default function BeijingSalaryCalculator() {
                                 </div>
                             </div>
                             {errorMessage && (
-                                <Alert variant="destructive">
+                                <Alert variant="destructive" role="alert" aria-live="assertive">
                                     <AlertCircle className="h-4 w-4" />
                                     <AlertTitle>错误</AlertTitle>
                                     <AlertDescription>{errorMessage}</AlertDescription>
