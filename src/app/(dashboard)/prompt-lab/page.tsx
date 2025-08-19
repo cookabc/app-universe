@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { getPrompts, createPrompt } from "@/app/actions";
 import { prompts } from '@/db/schema';
+import Link from 'next/link';
 
 type Prompt = typeof prompts.$inferSelect;
 
@@ -53,7 +54,7 @@ export default function PromptLabClient() {
                 {prompts.map((prompt) => (
                     <Card key={prompt.id}>
                         <CardHeader>
-                            <CardTitle>{prompt.name}</CardTitle>
+                            <CardTitle><Link href={`/dashboard/prompt-lab/${prompt.id}`}>{prompt.name}</Link></CardTitle>
                         </CardHeader>
                         <CardContent>
                             <p>{prompt.description}</p>

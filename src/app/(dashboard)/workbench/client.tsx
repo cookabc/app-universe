@@ -1,4 +1,3 @@
-
 'use client'
 
 import { useState } from 'react';
@@ -10,20 +9,9 @@ const files = {
   'src/app.py': {
     name: 'app.py',
     language: 'python',
-    content: `import os
-from openai import OpenAI
-
-client = OpenAI()
-client.api_key = os.getenv("OPENAI_API_KEY")
-
-def generate_text(prompt):
-  response = client.chat.completions.create(
-    model="gpt-4",
+    content: `import os\nfrom openai import OpenAI\n\nclient = OpenAI()\nclient.api_key = os.getenv("OPENAI_API_KEY")\n\ndef generate_text(prompt):\n  response = client.chat.completions.create(\n    model="gpt-4",
     messages=[{"role": "user", "content": prompt}]
-  )
-  return response.choices[0].message.content
-
-print(generate_text("Hello, world!"))`,
+  )\n  return response.choices[0].message.content\n\nprint(generate_text("Hello, world!"))`,
   },
   'src/requirements.txt': {
     name: 'requirements.txt',

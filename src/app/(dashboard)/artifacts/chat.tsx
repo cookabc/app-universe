@@ -1,11 +1,8 @@
 'use client'
 
 import { useEffect, useMemo, useOptimistic, useState, useTransition } from 'react'
-import { createArtifact, getArtifacts, type Message } from '@/app/actions'
+import { createArtifact, getArtifacts, continueConversation, type Message } from '@/app/actions'
 import { AppErrorBoundary } from '@/components/optimized/error-boundary'
-import ChatHeader from './components/chat-header'
-import MessageList from './components/message-list'
-import ChatInput from './components/chat-input'
 import { useUser } from '@clerk/nextjs'
 
 const WELCOME_MESSAGE: Message = {
@@ -68,9 +65,9 @@ export default function Chat() {
             } catch (err) {
                 console.error('Error in conversation:', err)
                 if (err instanceof Error) {
-                    setError(`An error occurred: ${err.message}. Please try again.`)
+                    setError(`An error occurred: ${err.message}. Please try again.`);
                 } else {
-                    setError('An unexpected error occurred while processing your request. Please try again.')
+                    setError('An unexpected error occurred while processing your request. Please try again.');
                 }
                 setConversation((prev) => prev.filter((m) => m !== userMessage))
             }
@@ -92,16 +89,31 @@ export default function Chat() {
         <AppErrorBoundary>
             <div className="flex flex-col h-screen bg-background p-4 sm:p-6">
                 <div className="max-w-3xl w-full mx-auto flex flex-col grow">
-                    <ChatHeader exportChat={exportChat} hasMessages={conversation.length > 0} />
-                    <div className="grow overflow-auto mb-4 space-y-4">
-                        <div className="text-xs text-muted-foreground mb-2">
-                            Messages: {conversationStats.totalMessages} | Avg length: {' '}
-                            {conversationStats.averageMessageLength} chars
-                        </div>
-                        <MessageList messages={optimisticMessages} />
+                    <h2 className="text-xl font-bold mb-4">AI Artifacts Chat</h2>
+                    <div className="grow overflow-auto mb-4 space-y-4 p-2 border rounded-md">
+                        {optimisticMessages.map((msg, index) => (
+                            <div key={index} className={`p-2 rounded-md ${msg.role === 'user' ? 'bg-blue-100 text-blue-800 self-end' : 'bg-gray-100 text-gray-800 self-start'}`}>
+                                <strong>{msg.role === 'user' ? 'You' : 'AI'}:</strong> {msg.content}
+                            </div>
+                        ))}
                     </div>
                     {error && <div className="text-destructive mb-4">{error}</div>}
-                    <ChatInput input={input} setInput={setInput} handleSubmit={handleSubmit} isPending={isPending} />
+                    <form onSubmit={handleSubmit} className="flex gap-2">
+                        <textarea
+                            className="flex-grow p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder="Type your message..."
+                            rows={3}
+                        />
+                        <button
+                            type="submit"
+                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                            disabled={isPending || !input.trim()}
+                        >
+                            {isPending ? 'Sending...' : 'Send'}
+                        </button>
+                    </form>
                 </div>
             </div>
         </AppErrorBoundary>
