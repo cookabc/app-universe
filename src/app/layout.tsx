@@ -1,4 +1,4 @@
-import { SessionProvider } from '@/hooks/use-session';
+import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata, Viewport } from 'next'
 import { ThemeProvider } from 'next-themes'
 import { Header } from '@/components/Header'
@@ -72,16 +72,16 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className="antialiased">
-                <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-                    <SessionProvider>
+                <ClerkProvider>
+                    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                         <div className="flex flex-col min-h-screen">
                             <Header />
                             <main className="flex-grow">{children}</main>
                             <Footer />
                         </div>
                         <Toaster />
-                    </SessionProvider>
-                </ThemeProvider>
+                    </ThemeProvider>
+                </ClerkProvider>
             </body>
         </html>
     )
