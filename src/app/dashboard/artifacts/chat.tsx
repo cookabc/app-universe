@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useMemo, useOptimistic, useState, useTransition } from 'react'
-import { continueConversation, type Message } from '@/app/actions'
+import { createArtifact, getArtifacts, type Message } from '@/app/actions'
 import { AppErrorBoundary } from '@/components/optimized/error-boundary'
 import ChatHeader from './components/chat-header'
 import MessageList from './components/message-list'
 import ChatInput from './components/chat-input'
+import { useUser } from '@clerk/nextjs'
 
 const WELCOME_MESSAGE: Message = {
     role: 'assistant',
@@ -13,10 +14,21 @@ const WELCOME_MESSAGE: Message = {
 }
 
 export default function Chat() {
+    const { user } = useUser();
     const [input, setInput] = useState<string>('')
     const [conversation, setConversation] = useState<Message[]>([WELCOME_MESSAGE])
     const [isPending, startTransition] = useTransition()
     const [error, setError] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (user) {
+            getArtifacts().then((artifacts) => {
+                if (artifacts.length > 0) {
+                    setConversation(artifacts.map(a => ({ role: a.role, content: a.content } as Message)));
+                }
+            });
+        }
+    }, [user]);
 
     const [optimisticMessages, addOptimisticMessage] = useOptimistic(conversation, (current, newMessage: Message) => [
         ...current,
@@ -36,27 +48,6 @@ export default function Chat() {
         [conversation],
     )
 
-    useEffect(() => {
-        try {
-            localStorage.setItem('chatMessages', JSON.stringify(conversation))
-        } catch (err) {
-            console.error('Failed to save messages to localStorage:', err)
-        }
-    }, [conversation])
-
-    useEffect(() => {
-        try {
-            const savedMessages = localStorage.getItem('chatMessages')
-            if (savedMessages) {
-                setConversation(JSON.parse(savedMessages))
-            } else {
-                setConversation([WELCOME_MESSAGE])
-            }
-        } catch (err) {
-            console.error('Failed to load messages from localStorage:', err)
-        }
-    }, [])
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (!input.trim()) return
@@ -70,8 +61,10 @@ export default function Chat() {
 
         startTransition(async () => {
             try {
+                await createArtifact(userMessage.content, 'user');
                 const { messages, replyText } = await continueConversation([...conversation, userMessage])
                 setConversation([...messages, { role: 'assistant', content: replyText }])
+                await createArtifact(replyText, 'assistant');
             } catch (err) {
                 console.error('Error in conversation:', err)
                 if (err instanceof Error) {
