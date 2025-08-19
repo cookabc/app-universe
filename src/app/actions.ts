@@ -229,7 +229,7 @@ export async function clearTranslationCache(fromLang: string, toLang: string) {
 }
 
 export async function getArtifacts() {
-    const { userId } = auth();
+    const { userId } = await auth();
     if (!userId) {
         throw new ActionError('User not logged in', 'UNAUTHORIZED');
     }
@@ -248,7 +248,7 @@ export async function getArtifacts() {
 }
 
 export async function createArtifact(content: string, role: 'user' | 'assistant') {
-    const { userId } = auth();
+    const { userId } = await auth();
     if (!userId) {
         throw new ActionError('User not logged in', 'UNAUTHORIZED');
     }
@@ -269,7 +269,7 @@ export async function createArtifact(content: string, role: 'user' | 'assistant'
 }
 
 export async function getPrompts() {
-    const { userId } = auth();
+    const { userId } = await auth();
     if (!userId) {
         throw new ActionError('User not logged in', 'UNAUTHORIZED');
     }
@@ -288,7 +288,7 @@ export async function getPrompts() {
 }
 
 export async function createPrompt(name: string, description: string) {
-    const { userId } = auth();
+    const { userId } = await auth();
     if (!userId) {
         throw new ActionError('User not logged in', 'UNAUTHORIZED');
     }
@@ -309,7 +309,7 @@ export async function createPrompt(name: string, description: string) {
 }
 
 export async function createPromptVersion(promptId: number, content: string) {
-    const { userId } = auth();
+    const { userId } = await auth();
     if (!userId) {
         throw new ActionError('User not logged in', 'UNAUTHORIZED');
     }
@@ -337,7 +337,7 @@ export async function createPromptVersion(promptId: number, content: string) {
 }
 
 export async function getPrompt(promptId: number) {
-    const { userId } = auth();
+    const { userId } = await auth();
     if (!userId) {
         throw new ActionError('User not logged in', 'UNAUTHORIZED');
     }
