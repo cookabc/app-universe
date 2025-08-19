@@ -1,58 +1,46 @@
-# Project Context for AI Assistant (GEMINI.md)
+# Gemini Code Assistant Context
 
 ## Project Overview
 
-This is a Next.js 15 (App Router) and React 19 application collection called "App Universe". It's designed to host multiple small applications within a single codebase. The project emphasizes modern web development practices, including Server Components, Suspense for streaming, and integration with AI capabilities via the Vercel AI SDK.
+This is a Next.js 15 project that serves as a collection of various web applications. It utilizes the App Router, React 19, and is styled with Tailwind CSS v4. The project integrates with OpenAI for AI-powered features and uses shadcn/ui for UI components. It's a showcase of modern web development practices and a playground for building and testing new ideas.
 
-Key technologies and features include:
-- **Framework**: Next.js 15, React 19, TypeScript
-- **Styling**: Tailwind CSS v4 (using the PostCSS plugin), `clsx` and `tailwind-merge` for utility class management, CSS variables for theming.
-- **UI Components**: Radix UI primitives and custom shadcn-style components located in `src/components/ui`.
-- **AI Integration**: OpenAI integration using `@ai-sdk/openai` and `ai` packages, with Server Actions defined in `src/app/actions.ts` for generating text, streaming conversations, and managing caching/revalidation.
-- **Optimizations**: Built-in error boundaries, performance monitoring, and streaming loaders for progressive UI enhancement.
-- **Module Aliases**: Uses `@/*` alias for `src/*` as defined in `tsconfig.json` and `components.json`.
+The project is structured as a monorepo-style collection of smaller apps, each with its own route within the main application. These apps range from a typing practice tool to a prompt engineering playground, an AGI school, and more.
 
 ## Building and Running
 
-The project uses standard npm scripts for development and building. It is configured to use Next.js's built-in tooling.
+To get the project up and running, follow these steps:
 
-- **Install Dependencies**:
-  ```bash
-  npm install
-  # or
-  yarn
-  # or
-  pnpm install
-  # or
-  bun install
-  ```
-- **Development Server**:
-  ```bash
-  npm run dev
-  ```
-  Starts the development server, typically on `http://localhost:3000`.
-- **Production Build**:
-  ```bash
-  npm run build
-  ```
-  Creates an optimized production build.
-- **Start Production Server**:
-  ```bash
-  npm run start
-  ```
-  Starts the production server to serve the built application.
-- **Linting/Formatting**:
-  ```bash
-  npm run lint
-  ```
-  Uses Biome for formatting and basic linting checks.
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+    (You can also use `yarn`, `pnpm`, or `bun`)
+
+2.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+
+3.  **Build for production:**
+    ```bash
+    npm run build
+    ```
+
+4.  **Start the production server:**
+    ```bash
+    npm run start
+    ```
+
+5.  **Lint the code:**
+    ```bash
+    npm run lint
+    ```
 
 ## Development Conventions
 
-- **Code Style**: Formatting is managed by Biome, as configured in `biome.json`. This includes rules for JavaScript/TypeScript (single quotes, trailing commas, etc.) and JSON.
-- **Component Structure**: UI components follow a shadcn-inspired pattern, using `class-variance-authority` (`cva`) for defining variants and `clsx`/`tailwind-merge` (`cn`) for combining class names.
-- **Routing**: Uses the Next.js App Router. New pages are created by adding a `page.tsx` file within a directory under `src/app/`.
-- **Server Actions**: Defined in `src/app/actions.ts`. These are asynchronous functions that run on the server and can be called from client components using the `use server` directive.
-- **Data Fetching & Caching**: Leverages Next.js's `fetch` with caching options (`next: { revalidate, tags }`) and `unstable_cache` for more complex caching scenarios. Revalidation is managed via `revalidateTag`.
-- **Naming Conventions**: Prefers clear and readable variable/function names. Components and functions are kept small and focused.
-- **Performance Monitoring**: Includes a custom `PerformanceMonitor` component for tracking metrics in development.
+*   **Formatting:** The project uses Biome for code formatting. Configuration can be found in `biome.json`.
+*   **Styling:** Styling is done with Tailwind CSS v4. The main stylesheet is located at `src/app/globals.css`.
+*   **UI Components:** The project uses shadcn/ui components, which are based on Radix UI. Custom components are located in `src/components`.
+*   **Module Aliases:** The project uses module aliases for cleaner imports. The `@/*` alias maps to the `src/*` directory.
+*   **Server-Side Logic:** Backend logic is handled using Next.js Server Actions, which can be found in files like `src/app/actions.ts`.
+*   **AI Integration:** The project uses the `ai` and `@ai-sdk/openai` packages to interact with the OpenAI API. Environment variables for the API key need to be set up in a `.env.local` file.
