@@ -1,12 +1,11 @@
 
 'use client'
 
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import { useSession } from "@/hooks/use-session";
 import Link from "next/link";
 
 export const Header = () => {
-  const { isLoggedIn, logout } = useSession();
 
   return (
     <header className="container mx-auto px-4 py-6 flex justify-between items-center">
@@ -18,14 +17,17 @@ export const Header = () => {
         <Link href="/blog"><Button variant="ghost">Blog</Button></Link>
       </nav>
       <div className="hidden md:flex items-center space-x-2">
-        {isLoggedIn ? (
-          <Button onClick={logout}>Logout</Button>
-        ) : (
-          <>
-            <Link href="/login"><Button variant="outline">Login</Button></Link>
-            <Link href="/signup"><Button>Sign Up</Button></Link>
-          </>
-        )}
+        <SignedOut>
+          <SignInButton mode="modal">
+            <Button variant="outline">Login</Button>
+          </SignInButton>
+          <SignUpButton mode="modal">
+            <Button>Sign Up</Button>
+          </SignUpButton>
+        </SignedOut>
+        <SignedIn>
+          <UserButton afterSignOutUrl="/" />
+        </SignedIn>
       </div>
     </header>
   );
