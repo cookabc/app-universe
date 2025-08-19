@@ -4,13 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 
-type PromptDetailPageProps = {
-    params: {
-        promptId: string;
-    };
-};
-
-export default async function PromptDetailPage({ params }: PromptDetailPageProps) {
+export default async function PromptDetailPage({ params }: any) {
     const prompt = await getPrompt(parseInt(params.promptId));
 
     if (!prompt) {
