@@ -28,7 +28,11 @@ export function ResultDisplay({
     return (
         <AnimatePresence>
             {error && (
-                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+                <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                >
                     <Alert variant="destructive" className="mb-4" role="alert" aria-live="assertive">
                         <AlertCircle className="h-4 w-4" />
                         <AlertTitle>{languages[uiLanguage].error}</AlertTitle>

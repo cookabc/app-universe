@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { BrainIcon, SchoolIcon } from 'lucide-react'
+import Link from 'next/link'
 
 export default function AboutSection() {
     return (
@@ -9,9 +9,9 @@ export default function AboutSection() {
                 <div className="flex flex-col items-center">
                     <BrainIcon className="w-24 h-24 mb-4 text-primary" />
                     <p className="text-lg text-center max-w-2xl">
-                        At AGI School, we are dedicated to advancing the field of Artificial General Intelligence.
-                        Our cutting-edge curriculum and expert instructors provide students with the knowledge and
-                        skills needed to shape the future of AI.
+                        At AGI School, we are dedicated to advancing the field of Artificial General Intelligence. Our
+                        cutting-edge curriculum and expert instructors provide students with the knowledge and skills
+                        needed to shape the future of AI.
                     </p>
                     <Link
                         href="/agi-school/about"

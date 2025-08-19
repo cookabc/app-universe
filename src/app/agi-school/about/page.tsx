@@ -1,6 +1,7 @@
 'use client'
 
 import { BrainIcon, FlaskConicalIcon, SchoolIcon, SirenIcon, UsersIcon } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const features = [
     {
@@ -32,54 +33,48 @@ const features = [
 
 const AboutPage = () => {
     return (
-        <main className="relative z-10">
-            <div className="relative overflow-hidden">
-                <div className="max-w-7xl mx-auto">
-                    <div className="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
-                        <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-                            <div className="sm:text-center lg:text-left">
-                                <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
-                                    <span className="block xl:inline">About</span>{' '}
-                                    <span className="block text-blue-500 xl:inline">AGI School</span>
-                                </h1>
-                                <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                    We are pioneers in the field of Artificial General Intelligence education. Our mission
-                                    is to equip the next generation of AI researchers and developers with the knowledge
-                                    and skills to push the boundaries of what's possible.
-                                </p>
-                            </div>
-                        </main>
-                    </div>
-                </div>
+        <div>
+            <div className="text-center">
+                <h1 className="text-4xl tracking-tight font-extrabold sm:text-5xl md:text-6xl">
+                    <span className="block xl:inline">About</span>{' '}
+                    <span className="block text-primary xl:inline">AGI School</span>
+                </h1>
+                <p className="mt-3 text-base text-muted-foreground sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                    We are pioneers in the field of Artificial General Intelligence education. Our mission is to equip
+                    the next generation of AI researchers and developers with the knowledge and skills to push the
+                    boundaries of what's possible.
+                </p>
             </div>
 
-            <div className="py-12 bg-gray-800 bg-opacity-50">
+            <div className="py-12">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="lg:text-center">
-                        <h2 className="text-base text-blue-400 font-semibold tracking-wide uppercase">Our Values</h2>
-                        <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
+                        <h2 className="text-base text-primary font-semibold tracking-wide uppercase">Our Values</h2>
+                        <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight sm:text-4xl">
                             What Makes Us Unique
                         </p>
                     </div>
 
                     <div className="mt-10">
-                        <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {features.map((feature) => (
-                                <div key={feature.name} className="relative">
-                                    <dt>
-                                        <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
+                                <Card key={feature.name}>
+                                    <CardHeader className="flex flex-row items-center gap-4">
+                                        <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary text-primary-foreground">
                                             <feature.icon className="h-6 w-6" aria-hidden="true" />
                                         </div>
-                                        <p className="ml-16 text-lg leading-6 font-medium text-white">{feature.name}</p>
-                                    </dt>
-                                    <dd className="mt-2 ml-16 text-base text-gray-400">{feature.description}</dd>
-                                </div>
+                                        <CardTitle>{feature.name}</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <p className="text-muted-foreground">{feature.description}</p>
+                                    </CardContent>
+                                </Card>
                             ))}
-                        </dl>
+                        </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     )
 }
 

@@ -20,12 +20,7 @@ interface HistorySectionProps {
     uiLanguage: 'en' | 'ja' | 'zh'
 }
 
-export function HistorySection({
-    history,
-    clearHistory,
-    conversionStats,
-    uiLanguage,
-}: HistorySectionProps) {
+export function HistorySection({ history, clearHistory, conversionStats, uiLanguage }: HistorySectionProps) {
     return (
         <div className="bg-card rounded-lg shadow-lg p-6 border-4 border-primary">
             <div className="flex justify-between items-center mb-4">

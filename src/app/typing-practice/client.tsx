@@ -112,15 +112,15 @@ export default function TypingPracticeClient() {
 
     return (
         <GameErrorBoundary>
-            <div className="min-h-screen bg-gradient-to-br from-purple-900 via-slate-900 to-blue-900 p-4 sm:p-8">
+            <div className="p-4 sm:p-8">
                 {showEffect && <TypingEffect x={effectPosition.x} y={effectPosition.y} />}
                 {showCelebration && <CelebrationEffect key={celebrationKey} />}
-                <Card className="max-w-4xl mx-auto p-4 sm:p-8 bg-black/40 backdrop-blur-xl border-0">
-                    <h1 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">ProTypist</h1>
+                <Card className="max-w-4xl mx-auto p-4 sm:p-8">
+                    <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">ProTypist</h1>
                     <div className="space-y-4 sm:space-y-8">
                         <div
                             ref={textDisplayRef}
-                            className="font-mono text-lg sm:text-2xl leading-relaxed text-gray-400 min-h-[100px] relative outline-none"
+                            className="font-mono text-lg sm:text-2xl leading-relaxed text-muted-foreground min-h-[100px] relative outline-none"
                             style={{
                                 maxWidth: '100vw',
                                 overflowWrap: 'break-word',
@@ -142,7 +142,7 @@ export default function TypingPracticeClient() {
                                             ? userInput[index] === char
                                                 ? 'text-green-500'
                                                 : 'text-red-500'
-                                            : 'text-gray-500'
+                                            : 'text-muted-foreground'
                                     }`}
                                 >
                                     {char === ' ' ? '\u00A0' : char}
@@ -150,7 +150,7 @@ export default function TypingPracticeClient() {
                             ))}
                             {!isFinished && (
                                 <span
-                                    className="absolute inline-block h-0.5 bg-orange-500"
+                                    className="absolute inline-block h-0.5 bg-primary"
                                     style={{
                                         left: `${cursorPosition.left}px`,
                                         top: `${cursorPosition.top + 24}px`,
@@ -162,34 +162,26 @@ export default function TypingPracticeClient() {
                         </div>
 
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
-                            <Card className="p-2 sm:p-4 bg-black/40">
-                                <div className="text-xs sm:text-sm text-gray-400">WPM</div>
-                                <div className="text-2xl sm:text-4xl font-bold text-white">{gameStats.wpm}</div>
+                            <Card className="p-2 sm:p-4">
+                                <div className="text-xs sm:text-sm text-muted-foreground">WPM</div>
+                                <div className="text-2xl sm:text-4xl font-bold">{gameStats.wpm}</div>
                             </Card>
-                            <Card className="p-2 sm:p-4 bg-black/40">
-                                <div className="text-xs sm:text-sm text-gray-400">Accuracy</div>
-                                <div className="text-2xl sm:text-4xl font-bold text-white">{gameStats.accuracy}%</div>
+                            <Card className="p-2 sm:p-4">
+                                <div className="text-xs sm:text-sm text-muted-foreground">Accuracy</div>
+                                <div className="text-2xl sm:text-4xl font-bold">{gameStats.accuracy}%</div>
                             </Card>
-                            <Card className="p-2 sm:p-4 bg-black/40">
-                                <div className="text-xs sm:text-sm text-gray-400">Correct Words</div>
-                                <div className="text-2xl sm:text-4xl font-bold text-white">
-                                    {gameStats.correctWords}
-                                </div>
+                            <Card className="p-2 sm:p-4">
+                                <div className="text-xs sm:text-sm text-muted-foreground">Correct Words</div>
+                                <div className="text-2xl sm:text-4xl font-bold">{gameStats.correctWords}</div>
                             </Card>
-                            <Card className="p-2 sm:p-4 bg-black/40">
-                                <div className="text-xs sm:text-sm text-gray-400">Time</div>
-                                <div className="text-2xl sm:text-4xl font-bold text-white">
-                                    {gameStats.timeElapsed}s
-                                </div>
+                            <Card className="p-2 sm:p-4">
+                                <div className="text-xs sm:text-sm text-muted-foreground">Time</div>
+                                <div className="text-2xl sm:text-4xl font-bold">{gameStats.timeElapsed}s</div>
                             </Card>
                         </div>
 
                         <div className="flex justify-center gap-4">
-                            <Button
-                                onClick={handleReset}
-                                variant="outline"
-                                className="gap-2 bg-white/10 hover:bg-white/20 text-white"
-                            >
+                            <Button onClick={handleReset} variant="outline" className="gap-2">
                                 <RotateCcw className="w-4 h-4" />
                                 Reset
                             </Button>

@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useOptimistic, useState, useTransition
 import { getCachedTranslation, japaneseConvert } from '@/app/actions'
 import { AppErrorBoundary } from '@/components/optimized/error-boundary'
 import { ConverterForm } from './components/converter-form'
-import { Header } from './components/header'
 import { HistorySection } from './components/history-section'
 import { ResultDisplay } from './components/result-display'
 import { languages } from './constants'
@@ -131,46 +130,43 @@ export default function LangConverterClient() {
 
     return (
         <AppErrorBoundary>
-            <div className="min-h-screen bg-background text-foreground transition-colors duration-200">
-                <div className="container mx-auto p-4 max-w-2xl">
-                    <Header uiLanguage={uiLanguage} setUiLanguage={setUiLanguage} />
-                    <ConverterForm
-                        activeTab={activeTab}
-                        setActiveTab={setActiveTab}
-                        fromLang={fromLang}
-                        setFromLang={setFromLang}
-                        toLang={toLang}
-                        setToLang={setToLang}
-                        fromType={fromType}
-                        setFromType={setFromType}
-                        toType={toType}
-                        setToType={setToType}
-                        switchLanguages={switchLanguages}
-                        inputText={inputText}
-                        setInputText={setInputText}
-                        convertText={convertText}
-                        isLoading={isLoading}
+            <div className="container mx-auto p-4 max-w-2xl">
+                <ConverterForm
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    fromLang={fromLang}
+                    setFromLang={setFromLang}
+                    toLang={toLang}
+                    setToLang={setToLang}
+                    fromType={fromType}
+                    setFromType={setFromType}
+                    toType={toType}
+                    setToType={setToType}
+                    switchLanguages={switchLanguages}
+                    inputText={inputText}
+                    setInputText={setInputText}
+                    convertText={convertText}
+                    isLoading={isLoading}
+                    uiLanguage={uiLanguage}
+                />
+                <ResultDisplay
+                    error={error}
+                    outputText={outputText}
+                    copied={copied}
+                    copyToClipboard={copyToClipboard}
+                    speakText={speakText}
+                    activeTab={activeTab}
+                    toLang={toLang}
+                    uiLanguage={uiLanguage}
+                />
+                {history.length > 0 && (
+                    <HistorySection
+                        history={optimisticHistory}
+                        clearHistory={clearHistory}
+                        conversionStats={conversionStats}
                         uiLanguage={uiLanguage}
                     />
-                    <ResultDisplay
-                        error={error}
-                        outputText={outputText}
-                        copied={copied}
-                        copyToClipboard={copyToClipboard}
-                        speakText={speakText}
-                        activeTab={activeTab}
-                        toLang={toLang}
-                        uiLanguage={uiLanguage}
-                    />
-                    {history.length > 0 && (
-                        <HistorySection
-                            history={optimisticHistory}
-                            clearHistory={clearHistory}
-                            conversionStats={conversionStats}
-                            uiLanguage={uiLanguage}
-                        />
-                    )}
-                </div>
+                )}
             </div>
         </AppErrorBoundary>
     )

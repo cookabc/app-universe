@@ -1,4 +1,3 @@
-
 import type { Metadata, Viewport } from 'next'
 
 // Enhanced metadata for Next.js 15

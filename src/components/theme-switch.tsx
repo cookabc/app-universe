@@ -2,9 +2,9 @@
 
 import * as SwitchPrimitives from '@radix-ui/react-switch'
 import { type LucideIcon, MoonIcon, SunIcon } from 'lucide-react'
+import { useTheme } from 'next-themes'
 import * as React from 'react'
 import { cn } from '@/lib/utils'
-import { useTheme } from 'next-themes'
 
 export interface ThemeSwitchProps extends React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root> {
     width?: number
@@ -37,8 +37,8 @@ const ThemeSwitch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Ro
         },
         ref,
     ) => {
-        const { theme, setTheme } = useTheme();
-        const isDarkMode = theme === 'dark';
+        const { theme, setTheme } = useTheme()
+        const isDarkMode = theme === 'dark'
 
         const computeThumbStyles = React.useMemo(() => {
             const thumbSize = height - DEFAULTS.PADDING
