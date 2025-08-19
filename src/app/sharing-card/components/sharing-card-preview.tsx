@@ -1,11 +1,9 @@
 import { CalendarDaysIcon } from 'lucide-react'
-import { useState } from 'react'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { Card } from '@/components/ui/card'
 import type { SharingCardState } from '../types'
 
 export function SharingCardPreview({ date, mainText, author, creator, backgroundImage }: SharingCardState) {
-    const [isDark, setIsDark] = useState(false)
     const switchHeight = 24
     const switchWidth = 36
 
@@ -24,15 +22,11 @@ export function SharingCardPreview({ date, mainText, author, creator, background
                 <ThemeSwitch
                     height={switchHeight}
                     width={switchWidth}
-                    isDarkMode={isDark}
-                    onCheckedChange={() => setIsDark(!isDark)}
                 />
             </div>
 
             <Card
-                className={`overflow-hidden w-full p-6 bg-transparent backdrop-blur-xs ${
-                    isDark ? 'text-gray-800' : 'text-white'
-                }`}
+                className={`overflow-hidden w-full p-6 bg-transparent backdrop-blur-xs`}
             >
                 <div className="relative flex items-center justify-start gap-2 z-10">
                     <CalendarDaysIcon className="w-6 h-6" />
