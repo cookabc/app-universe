@@ -1,7 +1,6 @@
 
 'use client'
 
-import { withAuth } from '@/hooks/withAuth';
 import { Button } from "@/components/ui/button";
 import { Bell, Code, FileText, LifeBuoy, Palette, Settings, User } from "lucide-react";
 import Link from "next/link";
@@ -45,4 +44,4 @@ function DashboardLayout({
   );
 }
 
-export default withAuth(DashboardLayout);
+export default DashboardLayout;
