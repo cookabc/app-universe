@@ -47,7 +47,9 @@ export function ConverterForm({
             <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-4">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="translation">{languages[uiLanguage].tabs.translation}</TabsTrigger>
-                    <TabsTrigger value="japaneseConversion">{languages[uiLanguage].tabs.japaneseConversion}</TabsTrigger>
+                    <TabsTrigger value="japaneseConversion">
+                        {languages[uiLanguage].tabs.japaneseConversion}
+                    </TabsTrigger>
                 </TabsList>
                 <TabsContent value="translation">
                     <div className="flex justify-between items-center mb-4">
