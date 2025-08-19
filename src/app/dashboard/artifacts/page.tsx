@@ -1,5 +1,6 @@
+
 import Chat from './chat'
 
-export default function AIArtifactsPage() {
+export default function ArtifactsPage() {
     return <Chat />
 }
