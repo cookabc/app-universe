@@ -1,15 +1,15 @@
 'use server'
 
 import { openai } from '@ai-sdk/openai'
-import { generateObject, generateText, streamText } from 'ai'
+import { auth } from '@clerk/nextjs/server'
+import { generateObject, generateText } from 'ai'
+import { eq } from 'drizzle-orm'
 import Kuroshiro from 'kuroshiro'
 import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji'
 import { revalidateTag, unstable_cache } from 'next/cache'
 import { z } from 'zod'
 import { db } from '@/db'
-import { artifacts, users, prompts, promptVersions } from '@/db/schema'
-import { auth } from '@clerk/nextjs/server'
-import { eq } from 'drizzle-orm'
+import { artifacts, prompts, promptVersions, users } from '@/db/schema'
 
 // Enhanced error handling for Next.js 15
 class ActionError extends Error {
@@ -229,125 +229,125 @@ export async function clearTranslationCache(fromLang: string, toLang: string) {
 }
 
 export async function getArtifacts() {
-    const { userId } = await auth();
+    const { userId } = await auth()
     if (!userId) {
-        throw new ActionError('User not logged in', 'UNAUTHORIZED');
+        throw new ActionError('User not logged in', 'UNAUTHORIZED')
     }
 
     const user = await db.query.users.findFirst({
         where: eq(users.clerkId, userId),
-    });
+    })
 
     if (!user) {
-        throw new ActionError('User not found', 'NOT_FOUND');
+        throw new ActionError('User not found', 'NOT_FOUND')
     }
 
     return db.query.artifacts.findMany({
         where: eq(artifacts.userId, user.id),
-    });
+    })
 }
 
 export async function createArtifact(content: string, role: 'user' | 'assistant') {
-    const { userId } = await auth();
+    const { userId } = await auth()
     if (!userId) {
-        throw new ActionError('User not logged in', 'UNAUTHORIZED');
+        throw new ActionError('User not logged in', 'UNAUTHORIZED')
     }
 
     const user = await db.query.users.findFirst({
         where: eq(users.clerkId, userId),
-    });
+    })
 
     if (!user) {
-        throw new ActionError('User not found', 'NOT_FOUND');
+        throw new ActionError('User not found', 'NOT_FOUND')
     }
 
     return db.insert(artifacts).values({
         userId: user.id,
         content,
         role,
-    });
+    })
 }
 
 export async function getPrompts() {
-    const { userId } = await auth();
+    const { userId } = await auth()
     if (!userId) {
-        throw new ActionError('User not logged in', 'UNAUTHORIZED');
+        throw new ActionError('User not logged in', 'UNAUTHORIZED')
     }
 
     const user = await db.query.users.findFirst({
         where: eq(users.clerkId, userId),
-    });
+    })
 
     if (!user) {
-        throw new ActionError('User not found', 'NOT_FOUND');
+        throw new ActionError('User not found', 'NOT_FOUND')
     }
 
     return db.query.prompts.findMany({
         where: eq(prompts.userId, user.id),
-    });
+    })
 }
 
 export async function createPrompt(name: string, description: string) {
-    const { userId } = await auth();
+    const { userId } = await auth()
     if (!userId) {
-        throw new ActionError('User not logged in', 'UNAUTHORIZED');
+        throw new ActionError('User not logged in', 'UNAUTHORIZED')
     }
 
     const user = await db.query.users.findFirst({
         where: eq(users.clerkId, userId),
-    });
+    })
 
     if (!user) {
-        throw new ActionError('User not found', 'NOT_FOUND');
+        throw new ActionError('User not found', 'NOT_FOUND')
     }
 
     return db.insert(prompts).values({
         userId: user.id,
         name,
         description,
-    });
+    })
 }
 
 export async function createPromptVersion(promptId: number, content: string) {
-    const { userId } = await auth();
+    const { userId } = await auth()
     if (!userId) {
-        throw new ActionError('User not logged in', 'UNAUTHORIZED');
+        throw new ActionError('User not logged in', 'UNAUTHORIZED')
     }
 
     const prompt = await db.query.prompts.findFirst({
         where: eq(prompts.id, promptId),
-    });
+    })
 
     if (!prompt) {
-        throw new ActionError('Prompt not found', 'NOT_FOUND');
+        throw new ActionError('Prompt not found', 'NOT_FOUND')
     }
 
     const latestVersion = await db.query.promptVersions.findFirst({
         where: eq(promptVersions.promptId, promptId),
         orderBy: (promptVersions, { desc }) => [desc(promptVersions.version)],
-    });
+    })
 
-    const newVersionNumber = latestVersion ? latestVersion.version + 1 : 1;
+    const newVersionNumber = latestVersion ? latestVersion.version + 1 : 1
 
     return db.insert(promptVersions).values({
         promptId,
         version: newVersionNumber,
         content,
-    });
+    })
 }
 
 export async function getPrompt(promptId: number) {
-    const { userId } = await auth();
+    const { userId } = await auth()
     if (!userId) {
-        throw new ActionError('User not logged in', 'UNAUTHORIZED');
+        throw new ActionError('User not logged in', 'UNAUTHORIZED')
     }
 
     const user = await db.query.users.findFirst({
         where: eq(users.clerkId, userId),
-    });
+    })
 
     if (!user) {
-        throw new ActionError('User not found', 'NOT_FOUND');
+        throw new ActionError('User not found', 'NOT_FOUND')
     }
 
     return db.query.prompts.findFirst({
@@ -355,5 +355,5 @@ export async function getPrompt(promptId: number) {
         with: {
             versions: true,
         },
-    });
+    })
 }
