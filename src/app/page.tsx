@@ -1,13 +1,12 @@
+import { Suspense } from 'react'
 import { AppGrid } from '@/components/AppGrid'
 import { CanvasDotGrid } from '@/components/canvas-dot-grid'
 import { HeroSection } from '@/components/HeroSection'
-import ChatGPT from "@/components/icons/chatgpt"
-import Claude from "@/components/icons/claude"
-import DeepSeek from "@/components/icons/deepseek"
-import Qwen from "@/components/icons/qwen"
+import ChatGPT from '@/components/icons/chatgpt'
+import Claude from '@/components/icons/claude'
+import DeepSeek from '@/components/icons/deepseek'
+import Qwen from '@/components/icons/qwen'
 import { AppErrorBoundary } from '@/components/optimized/error-boundary'
-import { Separator } from '@radix-ui/react-select'
-import { Suspense } from 'react'
 
 export default function HomePage() {
     return (
