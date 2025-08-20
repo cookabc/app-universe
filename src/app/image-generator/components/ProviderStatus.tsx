@@ -11,7 +11,7 @@ export function ProviderStatus({ providers }: ProviderStatusProps) {
         switch (status) {
             case 'online':
                 return 'text-green-500'
-            case 'degraded':
+            case 'maintenance':
                 return 'text-yellow-500'
             case 'offline':
                 return 'text-red-500'
@@ -40,7 +40,7 @@ export function ProviderStatus({ providers }: ProviderStatusProps) {
                             <span>{provider.name}</span>
                             <div className="flex items-center gap-2">
                                 <span className={getStatusColor(provider.status)}>{provider.status}</span>
-                                <span>{provider.latency > 0 ? `${provider.latency}ms` : ''}</span>
+                                <span>{provider.responseTime > 0 ? `${provider.responseTime}ms` : ''}</span>
                             </div>
                         </motion.div>
                     ))}
