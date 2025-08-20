@@ -6,10 +6,10 @@ class ApiDispatcher {
 
     constructor() {
         this.providers = [
-            { name: 'Provider A (Fast)', status: 'online', latency: 2000 },
-            { name: 'Provider B (Average)', status: 'online', latency: 5000 },
-            { name: 'Provider C (Slow)', status: 'online', latency: 10000 },
-            { name: 'Provider D (Unstable)', status: 'degraded', latency: 3000 },
+            { id: '1', name: 'Provider A (Fast)', status: 'online', capacity: 100, currentLoad: 20, responseTime: 2000 },
+            { id: '2', name: 'Provider B (Average)', status: 'online', capacity: 100, currentLoad: 50, responseTime: 5000 },
+            { id: '3', name: 'Provider C (Slow)', status: 'online', capacity: 100, currentLoad: 80, responseTime: 10000 },
+            { id: '4', name: 'Provider D (Unstable)', status: 'maintenance', capacity: 100, currentLoad: 90, responseTime: 3000 },
         ]
     }
 
@@ -17,7 +17,7 @@ class ApiDispatcher {
         const provider = this.getnextProvider()
 
         // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, provider.latency))
+        await new Promise((resolve) => setTimeout(resolve, provider.responseTime))
 
         // Simulate success rate
         const success = provider.status === 'online' ? Math.random() > 0.1 : Math.random() > 0.5
