@@ -1,7 +1,6 @@
 'use server'
 
 import { openai } from '@ai-sdk/openai'
-import { auth } from '@clerk/nextjs/server'
 import { generateObject, generateText } from 'ai'
 import { eq } from 'drizzle-orm'
 import Kuroshiro from 'kuroshiro'
@@ -9,18 +8,9 @@ import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji'
 import { revalidateTag, unstable_cache } from 'next/cache'
 import { z } from 'zod'
 import { db } from '@/db'
-import { artifacts, prompts, promptVersions, users } from '@/db/schema'
-
-// Enhanced error handling for Next.js 15
-class ActionError extends Error {
-    constructor(
-        message: string,
-        public code?: string,
-    ) {
-        super(message)
-        this.name = 'ActionError'
-    }
-}
+import { artifacts, prompts, promptVersions } from '@/db/schema'
+import { getUserWithAuth } from '@/hooks/useAuth'
+import { AppError, formatErrorResponse, safeAsync, ValidationError } from '@/lib/error-handling'
 
 const questionSchema = z.object({
     id: z.number(),
@@ -34,9 +24,9 @@ const questionsSchema = z.object({
 })
 
 export async function getQuestions(prompt: string) {
-    try {
+    const result = await safeAsync(async () => {
         if (!prompt?.trim()) {
-            throw new ActionError('Prompt is required', 'INVALID_INPUT')
+            throw new ValidationError('Prompt is required')
         }
 
         const { object: questions } = await generateObject({
@@ -45,14 +35,14 @@ export async function getQuestions(prompt: string) {
             schema: questionsSchema,
         })
 
-        return { success: true, data: questions }
-    } catch (error) {
-        console.error('Error generating questions:', error)
-        return {
-            success: false,
-            error: error instanceof ActionError ? error.message : 'Failed to generate questions',
-        }
+        return questions
+    }, 'getQuestions')
+
+    if (!result.success) {
+        return formatErrorResponse(result.error)
     }
+
+    return { success: true, data: result.data }
 }
 
 export interface Message {
@@ -61,9 +51,9 @@ export interface Message {
 }
 
 export async function continueConversation(history: Message[]) {
-    try {
+    const result = await safeAsync(async () => {
         if (!Array.isArray(history)) {
-            throw new ActionError('Invalid message history', 'INVALID_INPUT')
+            throw new ValidationError('Invalid message history')
         }
 
         // Non-streaming response for AI SDK v5 migration
@@ -77,13 +67,13 @@ export async function continueConversation(history: Message[]) {
             messages: history,
             replyText: text,
         }
-    } catch (error) {
-        console.error('Conversation error:', error)
-        throw new ActionError(
-            error instanceof ActionError ? error.message : 'Failed to continue conversation',
-            'CONVERSATION_ERROR',
-        )
+    }, 'continueConversation')
+
+    if (!result.success) {
+        throw result.error
     }
+
+    return result.data
 }
 
 export const translateText = async (
@@ -91,9 +81,9 @@ export const translateText = async (
     fromLang: string,
     toLang: string,
 ): Promise<{ success: boolean; data?: string; error?: string }> => {
-    try {
+    const result = await safeAsync(async () => {
         if (!text?.trim() || !fromLang || !toLang) {
-            throw new ActionError('Text, source language, and target language are required', 'INVALID_INPUT')
+            throw new ValidationError('Text, source language, and target language are required')
         }
 
         // Use Next.js 15 fetch with enhanced caching
@@ -108,23 +98,26 @@ export const translateText = async (
         )
 
         if (!response.ok) {
-            throw new ActionError(`HTTP error! status: ${response.status}`, 'FETCH_ERROR')
+            throw new AppError(`HTTP error! status: ${response.status}`, 'FETCH_ERROR', response.status)
         }
 
         const data = await response.json()
 
         if (data.responseStatus === 200) {
-            return { success: true, data: data.responseData.translatedText }
+            return data.responseData.translatedText
         } else {
-            throw new ActionError(data.responseDetails || 'Translation API error', 'API_ERROR')
+            throw new AppError(data.responseDetails || 'Translation API error', 'API_ERROR', 400)
         }
-    } catch (error) {
-        console.error('Translation error:', error)
+    }, 'translateText')
+
+    if (!result.success) {
         return {
             success: false,
-            error: error instanceof ActionError ? error.message : 'Translation failed',
+            error: result.error.message,
         }
     }
+
+    return { success: true, data: result.data }
 }
 
 export const japaneseConvert = async (
@@ -132,16 +125,16 @@ export const japaneseConvert = async (
     fromType: string,
     toType: string,
 ): Promise<{ success: boolean; data?: string; error?: string }> => {
-    try {
+    const result = await safeAsync(async () => {
         if (!text?.trim() || !fromType || !toType) {
-            throw new ActionError('Text, source type, and target type are required', 'INVALID_INPUT')
+            throw new ValidationError('Text, source type, and target type are required')
         }
 
         const kuroshiro = new Kuroshiro()
         await kuroshiro.init(new KuromojiAnalyzer())
 
         if (!kuroshiro) {
-            throw new ActionError('Kuroshiro not initialized', 'INIT_ERROR')
+            throw new AppError('Kuroshiro not initialized', 'INIT_ERROR', 500)
         }
 
         let result = text
@@ -159,14 +152,17 @@ export const japaneseConvert = async (
             result = text
         }
 
-        return { success: true, data: result }
-    } catch (error) {
-        console.error('Japanese conversion error:', error)
+        return result
+    }, 'japaneseConvert')
+
+    if (!result.success) {
         return {
             success: false,
-            error: error instanceof ActionError ? error.message : 'Japanese conversion failed',
+            error: result.error.message,
         }
     }
+
+    return { success: true, data: result.data }
 }
 
 // Enhanced caching with unstable_cache for Next.js 15
@@ -178,7 +174,7 @@ export const getCachedTranslation = unstable_cache(
         )
 
         if (!response.ok) {
-            throw new ActionError(`HTTP error! status: ${response.status}`, 'FETCH_ERROR')
+            throw new AppError(`HTTP error! status: ${response.status}`, 'FETCH_ERROR', response.status)
         }
 
         const data = await response.json()
@@ -186,7 +182,7 @@ export const getCachedTranslation = unstable_cache(
         if (data.responseStatus === 200) {
             return data.responseData.translatedText
         } else {
-            throw new ActionError(data.responseDetails || 'Translation API error', 'API_ERROR')
+            throw new AppError(data.responseDetails || 'Translation API error', 'API_ERROR', 400)
         }
     },
     ['translation'],
@@ -229,18 +225,7 @@ export async function clearTranslationCache(fromLang: string, toLang: string) {
 }
 
 export async function getArtifacts() {
-    const { userId } = await auth()
-    if (!userId) {
-        throw new ActionError('User not logged in', 'UNAUTHORIZED')
-    }
-
-    const user = await db.query.users.findFirst({
-        where: eq(users.clerkId, userId),
-    })
-
-    if (!user) {
-        throw new ActionError('User not found', 'NOT_FOUND')
-    }
+    const user = await getUserWithAuth()
 
     return db.query.artifacts.findMany({
         where: eq(artifacts.userId, user.id),
@@ -248,18 +233,7 @@ export async function getArtifacts() {
 }
 
 export async function createArtifact(content: string, role: 'user' | 'assistant') {
-    const { userId } = await auth()
-    if (!userId) {
-        throw new ActionError('User not logged in', 'UNAUTHORIZED')
-    }
-
-    const user = await db.query.users.findFirst({
-        where: eq(users.clerkId, userId),
-    })
-
-    if (!user) {
-        throw new ActionError('User not found', 'NOT_FOUND')
-    }
+    const user = await getUserWithAuth()
 
     return db.insert(artifacts).values({
         userId: user.id,
@@ -269,18 +243,7 @@ export async function createArtifact(content: string, role: 'user' | 'assistant'
 }
 
 export async function getPrompts() {
-    const { userId } = await auth()
-    if (!userId) {
-        throw new ActionError('User not logged in', 'UNAUTHORIZED')
-    }
-
-    const user = await db.query.users.findFirst({
-        where: eq(users.clerkId, userId),
-    })
-
-    if (!user) {
-        throw new ActionError('User not found', 'NOT_FOUND')
-    }
+    const user = await getUserWithAuth()
 
     return db.query.prompts.findMany({
         where: eq(prompts.userId, user.id),
@@ -288,18 +251,7 @@ export async function getPrompts() {
 }
 
 export async function createPrompt(name: string, description: string) {
-    const { userId } = await auth()
-    if (!userId) {
-        throw new ActionError('User not logged in', 'UNAUTHORIZED')
-    }
-
-    const user = await db.query.users.findFirst({
-        where: eq(users.clerkId, userId),
-    })
-
-    if (!user) {
-        throw new ActionError('User not found', 'NOT_FOUND')
-    }
+    const user = await getUserWithAuth()
 
     return db.insert(prompts).values({
         userId: user.id,
@@ -309,17 +261,14 @@ export async function createPrompt(name: string, description: string) {
 }
 
 export async function createPromptVersion(promptId: number, content: string) {
-    const { userId } = await auth()
-    if (!userId) {
-        throw new ActionError('User not logged in', 'UNAUTHORIZED')
-    }
+    const user = await getUserWithAuth()
 
     const prompt = await db.query.prompts.findFirst({
         where: eq(prompts.id, promptId),
     })
 
     if (!prompt) {
-        throw new ActionError('Prompt not found', 'NOT_FOUND')
+        throw new AppError('Prompt not found', 'NOT_FOUND', 404)
     }
 
     const latestVersion = await db.query.promptVersions.findFirst({
@@ -337,18 +286,7 @@ export async function createPromptVersion(promptId: number, content: string) {
 }
 
 export async function getPrompt(promptId: number) {
-    const { userId } = await auth()
-    if (!userId) {
-        throw new ActionError('User not logged in', 'UNAUTHORIZED')
-    }
-
-    const user = await db.query.users.findFirst({
-        where: eq(users.clerkId, userId),
-    })
-
-    if (!user) {
-        throw new ActionError('User not found', 'NOT_FOUND')
-    }
+    const user = await getUserWithAuth()
 
     return db.query.prompts.findFirst({
         where: eq(prompts.id, promptId),
