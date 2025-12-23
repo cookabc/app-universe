@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AGISchool - Learning Center</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "primary-hover": "#4338ca",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                        "surface-light": "#ffffff",
+                        "text-main": "#0f0e1b",
+                        "text-secondary": "#545095",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(80, 72, 229, 0.1)',
+                        'glow': '0 0 15px rgba(80, 72, 229, 0.5)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Map pattern background */
+        .bg-grid-pattern {
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        .map-node-pulse {
+            animation: node-pulse 2s infinite;
+        }
+        
+        @keyframes node-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(80, 72, 229, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(80, 72, 229, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(80, 72, 229, 0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main font-display h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation -->
+<header class="flex-none relative z-50 bg-surface-light border-b border-[#e8e8f3] px-6 lg:px-10 py-3 shadow-sm">
+<div class="flex items-center justify-between mx-auto max-w-[1440px]">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-text-main">
+<div class="size-8 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl">school</span>
+</div>
+<h2 class="text-text-main text-xl font-bold tracking-tight">AGISchool</h2>
+</div>
+<nav class="hidden md:flex items-center gap-1 bg-background-light/50 p-1 rounded-xl">
+<a class="px-4 py-2 text-text-secondary text-sm font-medium hover:text-primary rounded-lg transition-colors" href="#">Home</a>
+<a class="px-4 py-2 bg-white text-primary text-sm font-bold shadow-sm rounded-lg" href="#">Learning Path</a>
+<a class="px-4 py-2 text-text-secondary text-sm font-medium hover:text-primary rounded-lg transition-colors" href="#">Projects</a>
+<a class="px-4 py-2 text-text-secondary text-sm font-medium hover:text-primary rounded-lg transition-colors" href="#">Community</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search -->
+<div class="hidden lg:flex items-center bg-background-light rounded-lg h-10 px-3 w-64 border border-transparent focus-within:border-primary/30 focus-within:ring-2 focus-within:ring-primary/10 transition-all">
+<span class="material-symbols-outlined text-text-secondary text-[20px]">search</span>
+<input class="bg-transparent border-none text-sm w-full focus:ring-0 text-text-main placeholder-text-secondary" placeholder="Search lessons..."/>
+</div>
+<!-- Notifications -->
+<button class="relative size-10 flex items-center justify-center rounded-lg hover:bg-background-light text-text-secondary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white"></span>
+</button>
+<!-- Profile -->
+<div class="flex items-center gap-3 pl-2 border-l border-gray-200">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 border-2 border-white shadow-sm cursor-pointer" data-alt="User profile picture showing a smiling student" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAQyZj9JQ0Crob_kgR5xubMG5peULFzOa33PqRPmfv2mrw9aDdPTverqQhVp3lohnvXAv1ctos3H58DFmdV2dC_hOXnIrfM3JxmbWibps7EcpR47_nQi5UgoYtoVweJrQLfs-d3oeRSisplXtQGyqLQqA3_HiAJDJso3DuWcf6rfwe7O8GbS_CjSlrqY_y-Hnex5fXsTcSCu3QIZOiO1MwyDrMabpaFZQP6htsDMiW0DEo1f5F7bM4QemmAECaE9FIlUzQ0-ya9u74");'>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 relative w-full h-full overflow-hidden bg-[#f0f2f5]">
+<!-- Interactive Map Canvas -->
+<div class="absolute inset-0 w-[120%] h-[120%] -left-[10%] -top-[10%] bg-[#f9f8fb] cursor-grab active:cursor-grabbing group/map">
+<!-- Background Grid/Pattern -->
+<div class="absolute inset-0 bg-grid-pattern opacity-40"></div>
+<!-- Map Illustrations / Zones Backgrounds -->
+<!-- Zone 1: Novice Village (Bottom Left) -->
+<div class="absolute bottom-[15%] left-[15%] w-64 h-64 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[200px] text-green-500">cottage</span>
+</div>
+<!-- Zone 2: Ability Continent (Center) -->
+<div class="absolute top-[40%] left-[45%] -translate-x-1/2 -translate-y-1/2 w-96 h-96 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[300px] text-blue-500">domain</span>
+</div>
+<!-- Zone 3: Ultimate Challenge (Top Right) -->
+<div class="absolute top-[10%] right-[15%] w-64 h-64 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[200px] text-purple-500">flag</span>
+</div>
+<!-- Connecting Path (SVG) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 0;">
+<defs>
+<lineargradient id="pathGradient" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%" style="stop-color:#10b981;stop-opacity:1"></stop> <!-- Green for completed -->
+<stop offset="60%" style="stop-color:#5048e5;stop-opacity:1"></stop> <!-- Primary for active -->
+<stop offset="100%" style="stop-color:#cbd5e1;stop-opacity:1"></stop> <!-- Grey for locked -->
+</lineargradient>
+</defs>
+<!-- Path curve mimicking a journey from bottom-left to top-right -->
+<path class="drop-shadow-sm" d="M 18% 82% Q 30% 82% 35% 65% T 50% 45% T 70% 30% T 85% 15%" fill="none" stroke="url(#pathGradient)" stroke-dasharray="12 0" stroke-linecap="round" stroke-width="8"></path>
+</svg>
+<!-- Map Nodes -->
+<!-- Node 1: Start (Completed) -->
+<div class="absolute left-[18%] bottom-[18%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 group cursor-pointer z-10" onclick="alert('Level 1 Replay')">
+<div class="size-14 bg-emerald-500 rounded-full shadow-lg flex items-center justify-center border-4 border-white transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-white text-2xl font-bold">check</span>
+</div>
+<div class="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm border border-emerald-100">
+<span class="text-xs font-bold text-emerald-700">Intro to AI</span>
+</div>
+</div>
+<!-- Node 2: (Completed) -->
+<div class="absolute left-[28%] bottom-[25%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 group cursor-pointer z-10">
+<div class="size-14 bg-emerald-500 rounded-full shadow-lg flex items-center justify-center border-4 border-white transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-white text-2xl">check</span>
+</div>
+<div class="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm border border-emerald-100">
+<span class="text-xs font-bold text-emerald-700">Data Basics</span>
+</div>
+</div>
+<!-- Node 3: Current Mission (Active) -->
+<div class="absolute left-[35%] bottom-[35%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 z-20">
+<div class="relative">
+<div class="absolute inset-0 bg-primary/30 rounded-full map-node-pulse"></div>
+<div class="size-20 bg-primary rounded-full shadow-glow flex items-center justify-center border-[6px] border-white cursor-pointer hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-white text-4xl filled">play_arrow</span>
+</div>
+<!-- Tooltip always visible for active -->
+<div class="absolute -right-40 top-0 bg-white p-3 rounded-xl shadow-xl border border-primary/10 w-48 animate-bounce" style="animation-duration: 3s;">
+<h4 class="text-sm font-bold text-text-main">Current Mission</h4>
+<p class="text-xs text-text-secondary mt-1">Level 5: Neural Networks</p>
+<div class="mt-2 w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[40%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="bg-primary text-white px-4 py-1.5 rounded-full shadow-lg font-bold text-sm tracking-wide mt-2">
+                    Start Here
+                </div>
+</div>
+<!-- Node 4: Locked -->
+<div class="absolute left-[50%] bottom-[55%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 opacity-80 group cursor-pointer z-10">
+<div class="size-14 bg-white rounded-full shadow-sm flex items-center justify-center border-4 border-gray-200 group-hover:border-primary/50 transition-colors">
+<span class="material-symbols-outlined text-gray-400 text-2xl">lock</span>
+</div>
+<div class="bg-white/60 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm">
+<span class="text-xs font-medium text-gray-500">Logic Gates</span>
+</div>
+</div>
+<!-- Node 5: Locked -->
+<div class="absolute left-[62%] bottom-[65%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 opacity-70 z-10">
+<div class="size-14 bg-white rounded-full shadow-sm flex items-center justify-center border-4 border-gray-200">
+<span class="material-symbols-outlined text-gray-300 text-2xl">lock</span>
+</div>
+</div>
+<!-- Node 6: Boss/Project Locked -->
+<div class="absolute left-[70%] bottom-[70%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 opacity-70 z-10">
+<div class="size-20 bg-gray-100 rounded-xl rotate-45 shadow-sm flex items-center justify-center border-4 border-gray-200">
+<span class="material-symbols-outlined text-gray-300 text-3xl -rotate-45">school</span>
+</div>
+<div class="bg-white/60 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm mt-4">
+<span class="text-xs font-medium text-gray-500">Mid-term Project</span>
+</div>
+</div>
+<!-- Node 7: Ultimate Goal -->
+<div class="absolute left-[85%] bottom-[85%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 opacity-60 z-10">
+<div class="size-24 bg-white rounded-full shadow-none flex items-center justify-center border-dashed border-4 border-gray-300">
+<span class="material-symbols-outlined text-gray-300 text-4xl">emoji_events</span>
+</div>
+<div class="bg-white/60 backdrop-blur-sm px-3 py-1 rounded-full shadow-sm">
+<span class="text-xs font-bold text-gray-400">AGI Master</span>
+</div>
+</div>
+<!-- Zone Labels -->
+<div class="absolute left-[10%] bottom-[10%] text-emerald-600/20 font-black text-6xl uppercase tracking-widest pointer-events-none select-none">
+                Novice Village
+            </div>
+<div class="absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 text-primary/10 font-black text-7xl uppercase tracking-widest pointer-events-none select-none text-center leading-tight">
+                Ability<br/>Continent
+            </div>
+<div class="absolute right-[5%] top-[5%] text-purple-600/20 font-black text-6xl uppercase tracking-widest pointer-events-none select-none text-right">
+                Ultimate<br/>Challenge
+            </div>
+</div>
+<!-- HUD Layer (Floating Overlays) -->
+<!-- Left Panel: Student Status -->
+<div class="absolute top-6 left-6 w-80 flex flex-col gap-4 pointer-events-none">
+<!-- Profile Card -->
+<div class="bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-soft border border-white/50 pointer-events-auto">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat bg-cover rounded-xl size-14 shadow-inner" data-alt="Student avatar close up" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCSDRJQBZsC8g75jfS3hdlnX-imkkDj1WGuS5Qvo6a5XxonEV8BGJdbT6bU0rpHNFY3qElVKdawDMc-G7Xz_g4O1p9K27PesPKfqn7LxtNoiy0jDqHgpN-TnZ7H0PCNsDqJ1CxVVRWxmP2gUnAl17gRZwv-VSoR1YpUCDZ4FTAH-9XjWZJsgAoSBkHi1I6fHIBeUPOWEqVT5CJz2bPD5cCLvpQ2w4-1QDMgUkF3iX_lGrBBSFc4eAsFUN3D6MloU91P05lKskvo2KY");'></div>
+<div class="flex flex-col">
+<h1 class="text-text-main text-lg font-bold leading-tight">Alex Chen</h1>
+<p class="text-primary text-sm font-medium">Level 5 - Data Detective</p>
+</div>
+<div class="ml-auto flex flex-col items-center justify-center bg-orange-50 text-orange-500 p-2 rounded-lg">
+<span class="material-symbols-outlined text-xl">local_fire_department</span>
+<span class="text-xs font-bold">12</span>
+</div>
+</div>
+<!-- XP Progress -->
+<div class="mt-4 flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="text-xs font-medium text-text-secondary uppercase tracking-wider">Experience</span>
+<span class="text-xs font-bold text-text-main">650 / 1000 XP</span>
+</div>
+<div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-1000" style="width: 65%"></div>
+</div>
+<p class="text-[11px] text-text-secondary mt-1">Next Reward: <span class="text-primary font-medium">Golden Neural Net Badge</span></p>
+</div>
+</div>
+<!-- Current Mission Quick View -->
+<div class="bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-soft border border-white/50 pointer-events-auto group hover:bg-white transition-colors cursor-pointer">
+<div class="flex items-center gap-3 mb-2">
+<div class="bg-primary/10 p-1.5 rounded-lg text-primary">
+<span class="material-symbols-outlined text-xl">target</span>
+</div>
+<p class="text-text-main text-sm font-bold uppercase tracking-wide">Active Mission</p>
+</div>
+<h3 class="text-lg font-bold text-text-main mb-1 group-hover:text-primary transition-colors">Neural Networks Basics</h3>
+<p class="text-sm text-text-secondary line-clamp-2">Learn how artificial neurons simulate the human brain to process information.</p>
+<div class="mt-3 flex items-center gap-2 text-xs font-medium text-text-secondary bg-background-light p-2 rounded-lg">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>25 mins</span>
+<span class="mx-1">•</span>
+<span class="material-symbols-outlined text-sm">stars</span>
+<span>150 XP</span>
+</div>
+</div>
+<!-- Side Menu (Collapsed Style) -->
+<div class="flex gap-2 pointer-events-auto">
+<button class="flex-1 bg-white/90 backdrop-blur-md p-3 rounded-xl shadow-soft border border-white/50 flex flex-col items-center justify-center gap-1 hover:bg-primary hover:text-white group transition-all">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">map</span>
+<span class="text-xs font-medium text-text-secondary group-hover:text-white">World Map</span>
+</button>
+<button class="flex-1 bg-white/90 backdrop-blur-md p-3 rounded-xl shadow-soft border border-white/50 flex flex-col items-center justify-center gap-1 hover:bg-primary hover:text-white group transition-all">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">chat_bubble</span>
+<span class="text-xs font-medium text-text-secondary group-hover:text-white">Feedback</span>
+</button>
+<button class="flex-1 bg-white/90 backdrop-blur-md p-3 rounded-xl shadow-soft border border-white/50 flex flex-col items-center justify-center gap-1 hover:bg-primary hover:text-white group transition-all">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white">backpack</span>
+<span class="text-xs font-medium text-text-secondary group-hover:text-white">Inventory</span>
+</button>
+</div>
+</div>
+<!-- Bottom Right: Map Controls -->
+<div class="absolute bottom-6 right-6 flex flex-col gap-2">
+<div class="bg-white/90 backdrop-blur-md rounded-lg shadow-soft border border-white/50 flex flex-col p-1">
+<button class="p-2 hover:bg-gray-100 rounded-md text-text-main transition-colors" title="Zoom In">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="p-2 hover:bg-gray-100 rounded-md text-text-main transition-colors" title="Zoom Out">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+<button class="bg-white/90 backdrop-blur-md p-3 rounded-lg shadow-soft border border-white/50 text-primary hover:bg-primary hover:text-white transition-all" title="Center on Me">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+</main>
+</body></html>
