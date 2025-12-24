@@ -102,7 +102,7 @@ export function AppHeader({ variant = 'guest', className = '' }: AppHeaderProps)
                   <span className="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"></span>
                 </button>
                 
-                <div className="flex items-center gap-3 pl-4 border-l border-gray-200 dark:border-gray-700">
+                <Link to="/dashboard" className="flex items-center gap-3 pl-4 border-l border-gray-200 dark:border-gray-700 hover:opacity-80 transition-opacity cursor-pointer">
                   <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 rounded-full">
                     <Zap className="w-4 h-4 text-yellow-500 fill-current" />
                     <span className="text-xs font-bold text-gray-700 dark:text-gray-200">Level 4</span>
@@ -114,7 +114,7 @@ export function AppHeader({ variant = 'guest', className = '' }: AppHeaderProps)
                     className="size-9 rounded-full bg-cover bg-center border-2 border-white dark:border-gray-700 shadow-sm" 
                     style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAm5pd4gNnKD9Aw4UVXe8S0VaVi-pTKwyyYcFRl6MRoJR4YtlAWEhc4clzqO7XgIuUG8RigDqaN_2hT1WqC4sjx3xQN8FxPXhVtopFRm9-0yfEkl5uXcnXYAo1yZZyKwNxEvVN-58QT8a56aFhdUCpbbxuHCOfD9CdHi-pYyIVt4moMJkoKsreG33hwOpRUBlefMmqH83nMQqnOvvbg7yOjjzw-U3UnHVoxv6wvlsplcmH3o2N3jNT--ZDBnweKb4VN-Essb96osXc")' }}
                   ></div>
-                </div>
+                </Link>
               </div>
             )}
           </div>
@@ -169,7 +169,7 @@ export function AppHeader({ variant = 'guest', className = '' }: AppHeaderProps)
               </div>
             ) : (
               <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200 dark:border-gray-800">
-                <div className="flex items-center gap-3 py-2">
+                <Link to="/dashboard" className="flex items-center gap-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
                   <div 
                     className="size-8 rounded-full bg-cover bg-center border border-gray-200 dark:border-gray-700" 
                     style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAm5pd4gNnKD9Aw4UVXe8S0VaVi-pTKwyyYcFRl6MRoJR4YtlAWEhc4clzqO7XgIuUG8RigDqaN_2hT1WqC4sjx3xQN8FxPXhVtopFRm9-0yfEkl5uXcnXYAo1yZZyKwNxEvVN-58QT8a56aFhdUCpbbxuHCOfD9CdHi-pYyIVt4moMJkoKsreG33hwOpRUBlefMmqH83nMQqnOvvbg7yOjjzw-U3UnHVoxv6wvlsplcmH3o2N3jNT--ZDBnweKb4VN-Essb96osXc")' }}
@@ -178,7 +178,7 @@ export function AppHeader({ variant = 'guest', className = '' }: AppHeaderProps)
                     <span className="text-sm font-bold text-gray-900 dark:text-white">Alex Chen</span>
                     <span className="text-xs text-primary">Level 4</span>
                   </div>
-                </div>
+                </Link>
               </div>
             )}
           </nav>
