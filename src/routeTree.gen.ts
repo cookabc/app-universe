@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeacherRouteImport } from './routes/teacher'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as LearningRouteImport } from './routes/learning'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CreationRouteImport } from './routes/creation'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,9 +31,19 @@ const TeacherRoute = TeacherRouteImport.update({
   path: '/teacher',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LearningRoute = LearningRouteImport.update({
   id: '/learning',
   path: '/learning',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreationRoute = CreationRouteImport.update({
@@ -99,7 +111,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/community': typeof CommunityRoute
   '/creation': typeof CreationRoute
+  '/dashboard': typeof DashboardRoute
   '/learning': typeof LearningRoute
+  '/settings': typeof SettingsRoute
   '/teacher': typeof TeacherRouteWithChildren
   '/lab/image-classifier': typeof LabImageClassifierRoute
   '/teacher/courses': typeof TeacherCoursesRoute
@@ -115,7 +129,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/community': typeof CommunityRoute
   '/creation': typeof CreationRoute
+  '/dashboard': typeof DashboardRoute
   '/learning': typeof LearningRoute
+  '/settings': typeof SettingsRoute
   '/lab/image-classifier': typeof LabImageClassifierRoute
   '/teacher/courses': typeof TeacherCoursesRoute
   '/teacher/dashboard': typeof TeacherDashboardRoute
@@ -131,7 +147,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/community': typeof CommunityRoute
   '/creation': typeof CreationRoute
+  '/dashboard': typeof DashboardRoute
   '/learning': typeof LearningRoute
+  '/settings': typeof SettingsRoute
   '/teacher': typeof TeacherRouteWithChildren
   '/lab/image-classifier': typeof LabImageClassifierRoute
   '/teacher/courses': typeof TeacherCoursesRoute
@@ -149,7 +167,9 @@ export interface FileRouteTypes {
     | '/'
     | '/community'
     | '/creation'
+    | '/dashboard'
     | '/learning'
+    | '/settings'
     | '/teacher'
     | '/lab/image-classifier'
     | '/teacher/courses'
@@ -165,7 +185,9 @@ export interface FileRouteTypes {
     | '/'
     | '/community'
     | '/creation'
+    | '/dashboard'
     | '/learning'
+    | '/settings'
     | '/lab/image-classifier'
     | '/teacher/courses'
     | '/teacher/dashboard'
@@ -180,7 +202,9 @@ export interface FileRouteTypes {
     | '/'
     | '/community'
     | '/creation'
+    | '/dashboard'
     | '/learning'
+    | '/settings'
     | '/teacher'
     | '/lab/image-classifier'
     | '/teacher/courses'
@@ -197,7 +221,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CommunityRoute: typeof CommunityRoute
   CreationRoute: typeof CreationRoute
+  DashboardRoute: typeof DashboardRoute
   LearningRoute: typeof LearningRoute
+  SettingsRoute: typeof SettingsRoute
   TeacherRoute: typeof TeacherRouteWithChildren
   LabImageClassifierRoute: typeof LabImageClassifierRoute
 }
@@ -211,11 +237,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeacherRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/learning': {
       id: '/learning'
       path: '/learning'
       fullPath: '/learning'
       preLoaderRoute: typeof LearningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/creation': {
@@ -334,7 +374,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CommunityRoute: CommunityRoute,
   CreationRoute: CreationRoute,
+  DashboardRoute: DashboardRoute,
   LearningRoute: LearningRoute,
+  SettingsRoute: SettingsRoute,
   TeacherRoute: TeacherRouteWithChildren,
   LabImageClassifierRoute: LabImageClassifierRoute,
 }
