@@ -15,7 +15,9 @@ function RootComponent() {
     location.pathname.startsWith('/creation') || 
     location.pathname.startsWith('/lab') ||
     location.pathname.startsWith('/learning') ||
-    location.pathname.startsWith('/community')
+    location.pathname.startsWith('/community') ||
+    location.pathname.startsWith('/dashboard') ||
+    location.pathname.startsWith('/settings')
 
   if (hideGlobalLayout) {
     return (
