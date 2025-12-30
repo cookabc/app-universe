@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGISchool - AI启蒙教育，点亮未来</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           CSS变量与基础重置
+           ======================================== */
+        :root {
+            --bg-deep: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-card: #1a1a3e;
+            --accent-cyan: #00f5d4;
+            --accent-cyan-dim: #00f5d440;
+            --accent-orange: #ff9f1c;
+            --accent-orange-dim: #ff9f1c40;
+            --accent-purple: #b388ff;
+            --accent-pink: #ff6b9d;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --gradient-hero: linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0f1f3a 100%);
+            --gradient-accent: linear-gradient(135deg, #00f5d4 0%, #b388ff 100%);
+            --gradient-warm: linear-gradient(135deg, #ff9f1c 0%, #ff6b9d 100%);
+            --shadow-card: 0 20px 60px rgba(0, 0, 0, 0.4);
+            --shadow-glow-cyan: 0 0 40px rgba(0, 245, 212, 0.3);
+            --shadow-glow-orange: 0 0 40px rgba(255, 159, 28, 0.3);
+            --border-radius: 20px;
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ========================================
+           动画背景网格
+           ======================================== */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .bg-grid::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 245, 212, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 212, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridPan 20s linear infinite;
+        }
+
+        .bg-grid::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 20% 30%, rgba(0, 245, 212, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 70%, rgba(179, 136, 255, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 50%, rgba(255, 159, 28, 0.05) 0%, transparent 60%);
+            animation: rotateGradient 30s linear infinite;
+        }
+
+        @keyframes gridPan {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        @keyframes rotateGradient {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ========================================
+           浮动粒子
+           ======================================== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* ========================================
+           导航栏
+           ======================================== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.2rem 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 245, 212, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--bg-deep);
+        }
+
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+        }
+
+        .logo-text span {
+            color: var(--accent-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.75rem;
+            border-radius: 100px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-accent);
+            color: var(--bg-deep);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow-cyan);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .btn-warm {
+            background: var(--gradient-warm);
+            color: var(--bg-deep);
+        }
+
+        .btn-warm:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow-orange);
+        }
+
+        /* ========================================
+           Hero区域
+           ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 4% 4rem;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 245, 212, 0.1);
+            border: 1px solid rgba(0, 245, 212, 0.3);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.1s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero h1 .highlight {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero h1 .warm {
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 540px;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.3s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 500px;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* 3D浮动卡片 */
+        .floating-cards {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            perspective: 1000px;
+        }
+
+        .float-card {
+            position: absolute;
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow-card);
+            animation: floatCard 6s ease-in-out infinite;
+        }
+
+        .float-card:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            width: 200px;
+            animation-delay: 0s;
+            border-color: rgba(0, 245, 212, 0.3);
+        }
+
+        .float-card:nth-child(2) {
+            top: 50%;
+            right: 5%;
+            width: 220px;
+            animation-delay: 1s;
+            border-color: rgba(255, 159, 28, 0.3);
+        }
+
+        .float-card:nth-child(3) {
+            bottom: 10%;
+            left: 30%;
+            width: 180px;
+            animation-delay: 2s;
+            border-color: rgba(179, 136, 255, 0.3);
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-20px) rotateY(5deg); }
+        }
+
+        .float-card .icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .float-card:nth-child(2) .icon {
+            background: var(--gradient-warm);
+        }
+
+        .float-card:nth-child(3) .icon {
+            background: linear-gradient(135deg, #b388ff 0%, #ff6b9d 100%);
+        }
+
+        .float-card h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .float-card p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* 中央AI大脑视觉效果 */
+        .ai-brain {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 280px;
+            height: 280px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            filter: blur(0px);
+            animation: brainPulse 4s ease-in-out infinite;
+        }
+
+        .ai-brain::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            filter: blur(30px);
+            animation: brainGlow 4s ease-in-out infinite;
+        }
+
+        .ai-brain-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background: var(--bg-deep);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+        }
+
+        @keyframes brainPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        @keyframes brainGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        /* ========================================
+           通用Section样式
+           ======================================== */
+        section {
+            position: relative;
+            z-index: 2;
+            padding: 6rem 4%;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            background: rgba(0, 245, 212, 0.1);
+            border-radius: 100px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        /* ========================================
+           特性区域
+           ======================================== */
+        .features {
+            background: var(--bg-secondary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 2.5rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--gradient-accent);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background: var(--gradient-warm);
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            background: linear-gradient(135deg, #b388ff 0%, #ff6b9d 100%);
+        }
+
+        .feature-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ========================================
+           课程区域
+           ======================================== */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .course-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px) rotateX(2deg);
+            box-shadow: var(--shadow-card);
+        }
+
+        .course-image {
+            height: 160px;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card:nth-child(2) .course-image {
+            background: var(--gradient-warm);
+        }
+
+        .course-card:nth-child(3) .course-image {
+            background: linear-gradient(135deg, #b388ff 0%, #7c4dff 100%);
+        }
+
+        .course-card:nth-child(4) .course-image {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff4081 100%);
+        }
+
+        .course-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, rgba(10, 10, 26, 0.5) 100%);
+        }
+
+        .course-content {
+            padding: 1.5rem;
+        }
+
+        .course-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(0, 245, 212, 0.1);
+            border-radius: 100px;
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            margin-bottom: 0.75rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+        }
+
+        .course-card:nth-child(2) .course-tag {
+            background: rgba(255, 159, 28, 0.1);
+            color: var(--accent-orange);
+        }
+
+        .course-card:nth-child(3) .course-tag {
+            background: rgba(179, 136, 255, 0.1);
+            color: var(--accent-purple);
+        }
+
+        .course-card:nth-child(4) .course-tag {
+            background: rgba(255, 107, 157, 0.1);
+            color: var(--accent-pink);
+        }
+
+        .course-content h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-content p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ========================================
+           师资团队
+           ======================================== */
+        .team {
+            background: var(--bg-secondary);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-card {
+            text-align: center;
+            position: relative;
+        }
+
+        .team-avatar {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .team-card:nth-child(2) .team-avatar {
+            background: var(--gradient-warm);
+        }
+
+        .team-card:nth-child(3) .team-avatar {
+            background: linear-gradient(135deg, #b388ff 0%, #7c4dff 100%);
+        }
+
+        .team-card:nth-child(4) .team-avatar {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff4081 100%);
+        }
+
+        .team-avatar::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            border: 2px dashed rgba(0, 245, 212, 0.3);
+            animation: rotateBorder 10s linear infinite;
+        }
+
+        @keyframes rotateBorder {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .team-card h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .team-role {
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-card:nth-child(2) .team-role {
+            color: var(--accent-orange);
+        }
+
+        .team-card:nth-child(3) .team-role {
+            color: var(--accent-purple);
+        }
+
+        .team-card:nth-child(4) .team-role {
+            color: var(--accent-pink);
+        }
+
+        .team-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* ========================================
+           数据统计
+           ======================================== */
+        .stats {
+            padding: 5rem 4%;
+            background: var(--gradient-accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='1' fill='%23000' fill-opacity='0.1'/%3E%3C/svg%3E");
+            animation: panBackground 20s linear infinite;
+        }
+
+        @keyframes panBackground {
+            from { transform: translate(0, 0); }
+            to { transform: translate(50px, 50px); }
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            color: var(--bg-deep);
+        }
+
+        .stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        /* ========================================
+           学员评价
+           ======================================== */
+        .testimonials {
+            background: var(--bg-secondary);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            font-family: 'Outfit', sans-serif;
+            font-size: 6rem;
+            color: var(--accent-cyan);
+            opacity: 0.2;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            line-height: 1;
+        }
+
+        .testimonial-card:nth-child(2)::before {
+            color: var(--accent-orange);
+        }
+
+        .testimonial-card:nth-child(3)::before {
+            color: var(--accent-purple);
+        }
+
+        .testimonial-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-card:nth-child(2) .author-avatar {
+            background: var(--gradient-warm);
+        }
+
+        .testimonial-card:nth-child(3) .author-avatar {
+            background: linear-gradient(135deg, #b388ff 0%, #ff6b9d 100%);
+        }
+
+        .author-info h5 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .author-info span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ========================================
+           CTA区域
+           ======================================== */
+        .cta {
+            padding: 6rem 4%;
+            text-align: center;
+            position: relative;
+        }
+
+        .cta-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: 30px;
+            padding: 4rem 3rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-accent);
+            opacity: 0.05;
+        }
+
+        .cta-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 245, 212, 0.1), transparent 30%);
+            animation: rotateGradient 20s linear infinite;
+        }
+
+        @keyframes rotateGradient {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta h2 span {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .cta-form input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .cta-form input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 245, 212, 0.2);
+        }
+
+        /* ========================================
+           Footer
+           ======================================== */
+        footer {
+            background: var(--bg-secondary);
+            padding: 4rem 4% 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            max-width: 280px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-deep);
+            transform: translateY(-3px);
+        }
+
+        .footer-column h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-column a {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-cyan);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ========================================
+           滚动动画
+           ======================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========================================
+           响应式设计
+           ======================================== */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-description {
+                max-width: 100%;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                height: 400px;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .courses-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding-top: 6rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-visual {
+                height: 300px;
+            }
+
+            .ai-brain {
+                width: 200px;
+                height: 200px;
+            }
+
+            .ai-brain-inner {
+                width: 150px;
+                height: 150px;
+                font-size: 2rem;
+            }
+
+            .float-card {
+                display: none;
+            }
+
+            .features-grid,
+            .courses-grid,
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .cta-card {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .cta-form {
+                flex-direction: column;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+
+        /* ========================================
+           移动端菜单
+           ======================================== */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .mobile-menu-btn span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .nav-links.active {
+                display: flex;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: var(--bg-secondary);
+                padding: 2rem;
+                gap: 1.5rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景网格 -->
+    <div class="bg-grid"></div>
+
+    <!-- 浮动粒子 -->
+    <div class="particles" id="particles"></div>
+
+    <!-- 导航栏 -->
+    <nav class="nav">
+        <a href="#" class="logo">
+            <div class="logo-icon">AI</div>
+            <span class="logo-text">AGI<span>School</span></span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#features">特色</a></li>
+            <li><a href="#courses">课程</a></li>
+            <li><a href="#team">师资</a></li>
+            <li><a href="#testimonials">评价</a></li>
+        </ul>
+        <div class="nav-cta">
+            <a href="#" class="btn btn-secondary">登录</a>
+            <a href="#cta" class="btn btn-primary">免费试听</a>
+        </div>
+        <div class="mobile-menu-btn" id="mobileMenuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero区域 -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    AI启蒙教育的领航者
+                </div>
+                <h1>
+                    帮助更多理念相同之人成为<br>
+                    <span class="highlight">AI时代</span>的<span class="warm">领先者</span>
+                </h1>
+                <p class="hero-description">
+                    AGISchool 致力于普及和传播 AI 知识，做一个时代的参与者、启蒙者。
+                    零编程基础，零数据基础，让每个孩子都能理解 AI 世界，驾驭未来技术。
+                </p>
+                <div class="hero-buttons">
+                    <a href="#courses" class="btn btn-primary">
+                        <span>探索课程</span>
+                    </a>
+                    <a href="#features" class="btn btn-secondary">
+                        <span>了解更多</span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-cards">
+                    <div class="float-card">
+                        <div class="icon">🧠</div>
+                        <h4>AI思维构建</h4>
+                        <p>培养底层逻辑与认知</p>
+                    </div>
+                    <div class="float-card">
+                        <div class="icon">💡</div>
+                        <h4>零基础入门</h4>
+                        <p>无需编程也能学AI</p>
+                    </div>
+                    <div class="float-card">
+                        <div class="icon">🚀</div>
+                        <h4>实战项目</h4>
+                        <p>动手实践掌握技能</p>
+                    </div>
+                </div>
+                <div class="ai-brain">
+                    <div class="ai-brain-inner">🤖</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 特色区域 -->
+    <section class="features" id="features">
+        <div class="section-header reveal">
+            <span class="section-tag">为什么选择我们</span>
+            <h2>AI启蒙，<span class="highlight">点亮未来</span></h2>
+            <p>未来，使用AI去解决问题将成为基础技能</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">🎯</div>
+                <h3>零编程门槛</h3>
+                <p>我们开发了完整的AI教学平台，覆盖各类AI模型的训练过程，实现了零编码基础、零数据基础即可学习。</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🎓</div>
+                <h3>AI原生教育</h3>
+                <p>孩子们正处于"AI原生"时代，应从教育早期阶段开始接触和学习AI底层原理，构建AI思维。</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🔬</div>
+                <h3>实践驱动学习</h3>
+                <p>通过构建AI思维，使其成为基础教育的一部分，让孩子在未来各行各业中使用AI进行创新。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程区域 -->
+    <section class="courses" id="courses">
+        <div class="section-header reveal">
+            <span class="section-tag">精品课程</span>
+            <h2>探索<span class="highlight">AI世界</span></h2>
+            <p>系统化课程体系，从启蒙到精通</p>
+        </div>
+        <div class="courses-grid">
+            <div class="course-card reveal">
+                <div class="course-image">👁️</div>
+                <div class="course-content">
+                    <span class="course-tag">计算机视觉</span>
+                    <h4>图像识别入门</h4>
+                    <p>学习AI如何"看"世界，理解图像识别背后的原理</p>
+                    <div class="course-meta">
+                        <span>12课时</span>
+                        <span>入门级</span>
+                    </div>
+                </div>
+            </div>
+            <div class="course-card reveal">
+                <div class="course-image">🗣️</div>
+                <div class="course-content">
+                    <span class="course-tag">自然语言</span>
+                    <h4>对话AI实践</h4>
+                    <p>探索ChatGPT背后的技术，构建自己的AI助手</p>
+                    <div class="course-meta">
+                        <span>16课时</span>
+                        <span>进阶级</span>
+                    </div>
+                </div>
+            </div>
+            <div class="course-card reveal">
+                <div class="course-image">📊</div>
+                <div class="course-content">
+                    <span class="course-tag">数据分析</span>
+                    <h4>智能预测模型</h4>
+                    <p>用AI发现数据规律，预测未来趋势</p>
+                    <div class="course-meta">
+                        <span>10课时</span>
+                        <span>入门级</span>
+                    </div>
+                </div>
+            </div>
+            <div class="course-card reveal">
+                <div class="course-image">🤖</div>
+                <div class="course-content">
+                    <span class="course-tag">大模型</span>
+                    <h4>生成式AI应用</h4>
+                    <p>掌握Prompt工程，释放大模型潜能</p>
+                    <div class="course-meta">
+                        <span>14课时</span>
+                        <span>高级</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 师资团队 -->
+    <section class="team" id="team">
+        <div class="section-header reveal">
+            <span class="section-tag">专业师资</span>
+            <h2>来自<span class="highlight">清北</span>的教学团队</h2>
+            <p>顶尖学府背景，深耕AI教育领域</p>
+        </div>
+        <div class="team-grid">
+            <div class="team-card reveal">
+                <div class="team-avatar">👨‍🏫</div>
+                <h4>张教授</h4>
+                <span class="team-role">首席科学家</span>
+                <p>清华大学AI博士，10年研究经验</p>
+            </div>
+            <div class="team-card reveal">
+                <div class="team-avatar">👩‍🏫</div>
+                <h4>李老师</h4>
+                <span class="team-role">课程总监</span>
+                <p>北大计算机硕士，专注AI教育</p>
+            </div>
+            <div class="team-card reveal">
+                <div class="team-avatar">👨‍💻</div>
+                <h4>王老师</h4>
+                <span class="team-role">技术导师</span>
+                <p>前大厂AI工程师，实战经验丰富</p>
+            </div>
+            <div class="team-card reveal">
+                <div class="team-avatar">👩‍💻</div>
+                <h4>陈老师</h4>
+                <span class="team-role">启蒙专家</span>
+                <p>儿童教育心理学背景，耐心细致</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 数据统计 -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number" data-target="10000">0</div>
+                <div class="stat-label">学员人数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="50">0</div>
+                <div class="stat-label">精品课程</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="98">0</div>
+                <div class="stat-label">满意度 %</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="20">0</div>
+                <div class="stat-label">专业导师</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 学员评价 -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-header reveal">
+            <span class="section-tag">学员心声</span>
+            <h2>听听他们<span class="highlight">怎么说</span></h2>
+            <p>来自家长和学员的真实反馈</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card reveal">
+                <p class="testimonial-text">
+                    "孩子对AI产生了浓厚的兴趣，课程设计非常适合初学者，老师讲解生动有趣，零基础也能轻松跟上。"
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">👨</div>
+                    <div class="author-info">
+                        <h5>刘先生</h5>
+                        <span>学员家长</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card reveal">
+                <p class="testimonial-text">
+                    "通过AGISchool的学习，我不仅掌握了AI知识，更重要的是培养了AI思维，对未来的专业选择有了更清晰的方向。"
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">👧</div>
+                    <div class="author-info">
+                        <h5>小雪同学</h5>
+                        <span>初二学员</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card reveal">
+                <p class="testimonial-text">
+                    "平台非常好用，可视化操作让复杂的概念变得简单易懂。强烈推荐给想让孩子接触AI的家长们！"
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">👩</div>
+                    <div class="author-info">
+                        <h5>王女士</h5>
+                        <span>学员家长</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA区域 -->
+    <section class="cta" id="cta">
+        <div class="cta-card reveal">
+            <div class="cta-content">
+                <h2>开启孩子的<span>AI启蒙之旅</span></h2>
+                <p>立即预约免费试听课程，让孩子成为AI时代的先行者</p>
+                <form class="cta-form" id="signupForm">
+                    <input type="email" placeholder="输入您的邮箱地址" required>
+                    <button type="submit" class="btn btn-warm">立即预约</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <div class="logo-icon">AI</div>
+                        <span class="logo-text">AGI<span>School</span></span>
+                    </div>
+                    <p>致力于普及和传播AI知识，帮助更多理念相同之人成为AI时代的领先者与践行者。</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link">📱</a>
+                        <a href="#" class="social-link">💬</a>
+                        <a href="#" class="social-link">📧</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>课程</h4>
+                    <ul>
+                        <li><a href="#">AI启蒙基础</a></li>
+                        <li><a href="#">计算机视觉</a></li>
+                        <li><a href="#">自然语言处理</a></li>
+                        <li><a href="#">大模型应用</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>关于</h4>
+                    <ul>
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">师资团队</a></li>
+                        <li><a href="#">教育理念</a></li>
+                        <li><a href="#">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>联系</h4>
+                    <ul>
+                        <li><a href="#">在线客服</a></li>
+                        <li><a href="#">合作咨询</a></li>
+                        <li><a href="#">课程咨询</a></li>
+                        <li><a href="#">常见问题</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AGISchool. All rights reserved.</p>
+                <p>让每个孩子都能驾驭AI，不被AI所控制</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ========================================
+        // 创建浮动粒子
+        // ========================================
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+
+                if (Math.random() > 0.5) {
+                    particle.style.background = '#ff9f1c';
+                }
+                if (Math.random() > 0.7) {
+                    particle.style.background = '#b388ff';
+                }
+
+                container.appendChild(particle);
+            }
+        }
+
+        // ========================================
+        // 滚动动画
+        // ========================================
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal');
+            const windowHeight = window.innerHeight;
+
+            reveals.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const revealPoint = 150;
+
+                if (elementTop < windowHeight - revealPoint) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        // ========================================
+        // 数字计数动画
+        // ========================================
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            const windowHeight = window.innerHeight;
+
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const elementTop = counter.getBoundingClientRect().top;
+
+                if (elementTop < windowHeight - 100 && counter.textContent === '0') {
+                    let current = 0;
+                    const increment = target / 60;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            counter.textContent = target.toLocaleString();
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = Math.floor(current).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        }
+
+        // ========================================
+        // 移动端菜单
+        // ========================================
+        function initMobileMenu() {
+            const menuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+
+            menuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // 点击链接后关闭菜单
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        // ========================================
+        // 表单提交
+        // ========================================
+        function initForm() {
+            const form = document.getElementById('signupForm');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = form.querySelector('input').value;
+
+                // 模拟提交
+                const btn = form.querySelector('button');
+                const originalText = btn.textContent;
+                btn.textContent = '提交中...';
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    btn.textContent = '预约成功！';
+                    btn.style.background = 'linear-gradient(135deg, #00f5d4 0%, #00d4aa 100%)';
+
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                        form.reset();
+                    }, 2000);
+                }, 1000);
+            });
+        }
+
+        // ========================================
+        // 3D卡片倾斜效果
+        // ========================================
+        function initCardTilt() {
+            const cards = document.querySelectorAll('.feature-card, .course-card, .testimonial-card');
+
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 20;
+                    const rotateY = (centerX - x) / 20;
+
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
+            });
+        }
+
+        // ========================================
+        // 初始化
+        // ========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            revealOnScroll();
+            animateCounters();
+            initMobileMenu();
+            initForm();
+            initCardTilt();
+        });
+
+        window.addEventListener('scroll', () => {
+            revealOnScroll();
+            animateCounters();
+        });
+
+        // ========================================
+        // 平滑滚动
+        // ========================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
