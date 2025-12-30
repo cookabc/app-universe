@@ -634,6 +634,139 @@
         }
 
         /* ========================================
+           知识科普区域
+           ======================================== */
+        .knowledge {
+            background: var(--bg-deep);
+        }
+
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .knowledge-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 2.5rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .knowledge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-accent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .knowledge-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .knowledge-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .knowledge-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: var(--gradient-accent);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .knowledge-card:nth-child(2) .knowledge-icon {
+            background: var(--gradient-warm);
+        }
+
+        .knowledge-card:nth-child(3) .knowledge-icon {
+            background: linear-gradient(135deg, #b388ff 0%, #ff6b9d 100%);
+        }
+
+        .knowledge-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .knowledge-card h3 .highlight {
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .knowledge-card:nth-child(2) h3 .highlight {
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .knowledge-card:nth-child(3) h3 .highlight {
+            background: linear-gradient(135deg, #b388ff 0%, #ff6b9d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .knowledge-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        .knowledge-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 3rem auto;
+            max-width: 600px;
+        }
+
+        .knowledge-divider span {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+        }
+
+        .knowledge-divider .vs-badge {
+            padding: 0.5rem 1rem;
+            background: rgba(0, 245, 212, 0.1);
+            border: 1px solid rgba(0, 245, 212, 0.3);
+            border-radius: 100px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        /* ========================================
            课程区域
            ======================================== */
         .courses-grid {
@@ -1270,6 +1403,7 @@
             }
 
             .features-grid,
+            .knowledge-grid,
             .courses-grid,
             .team-grid {
                 grid-template-columns: 1fr;
@@ -1354,6 +1488,7 @@
         <ul class="nav-links" id="navLinks">
             <li><a href="#home">首页</a></li>
             <li><a href="#features">特色</a></li>
+            <li><a href="#knowledge">科普</a></li>
             <li><a href="#courses">课程</a></li>
             <li><a href="#team">师资</a></li>
             <li><a href="#testimonials">评价</a></li>
@@ -1442,6 +1577,37 @@
                 <h3>实践驱动学习</h3>
                 <p>通过构建AI思维，使其成为基础教育的一部分，让孩子在未来各行各业中使用AI进行创新。</p>
             </div>
+        </div>
+    </section>
+
+    <!-- 知识科普区域 -->
+    <section class="knowledge" id="knowledge">
+        <div class="section-header reveal">
+            <span class="section-tag">知识科普</span>
+            <h2>搞懂<span class="highlight">AI、编程、机器人</span></h2>
+            <p>三者的区别与联系，建立正确的认知基础</p>
+        </div>
+        <div class="knowledge-grid">
+            <div class="knowledge-card reveal">
+                <div class="knowledge-icon">🤖</div>
+                <h3><span class="highlight">AI</span> 人工智能</h3>
+                <p>模拟人类智能的技术，通过数据和算法让机器具备学习能力。用于语音识别、图像识别、自然语言处理等领域。</p>
+            </div>
+            <div class="knowledge-card reveal">
+                <div class="knowledge-icon">💻</div>
+                <h3><span class="highlight">编程</span> 程序设计</h3>
+                <p>编写代码指示计算机执行特定任务的过程。是构建AI系统和控制机器人的基础技能，用逻辑语言解决问题。</p>
+            </div>
+            <div class="knowledge-card reveal">
+                <div class="knowledge-icon">🦾</div>
+                <h3><span class="highlight">机器人</span> 机器人学</h3>
+                <p>执行自动任务的机器，具有物理实体。可以集成AI技术变得更智能，通过编程实现各种自动化功能。</p>
+            </div>
+        </div>
+        <div class="knowledge-divider reveal">
+            <span></span>
+            <div class="vs-badge">三者相辅相成，共同构建未来科技世界</div>
+            <span></span>
         </div>
     </section>
 
@@ -1795,7 +1961,7 @@
         // 3D卡片倾斜效果
         // ========================================
         function initCardTilt() {
-            const cards = document.querySelectorAll('.feature-card, .course-card, .testimonial-card');
+            const cards = document.querySelectorAll('.feature-card, .knowledge-card, .course-card, .testimonial-card');
 
             cards.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
