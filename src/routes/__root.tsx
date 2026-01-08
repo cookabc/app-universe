@@ -1,3 +1,10 @@
+/**
+ * [INPUT]: 依赖 @tanstack/react-router 路由能力、Header/Footer 布局组件
+ * [OUTPUT]: 对外提供 Route 根路由定义、布局切换逻辑
+ * [POS]: routes/ 的根路由，控制全局布局显隐与路由结构
+ * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
+ */
+
 import { createRootRoute, Outlet, useLocation } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { Header } from '@/components/layout/Header'
