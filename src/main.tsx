@@ -1,3 +1,10 @@
+/**
+ * [INPUT]: 依赖 React、ReactDOM、TanStack Router/Query、index.css 样式
+ * [OUTPUT]: 对外提供应用入口渲染
+ * [POS]: 应用启动入口，初始化路由与数据获取客户端
+ * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
+ */
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
