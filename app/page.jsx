@@ -34,9 +34,17 @@ function RefreshIcon(props) {
   return (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
       <path d="M4 12a8 8 0 0 1 12.5-6.9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M16 5h3v3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M16 5h3v3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M20 12a8 8 0 0 1-12.5 6.9" stroke="currentColor" strokeWidth="2" />
       <path d="M8 19H5v-3" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  );
+}
+
+function ChevronIcon(props) {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -62,12 +70,29 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const timerRef = useRef(null);
-  const [manualRefreshing, setManualRefreshing] = useState(false);
   
   // 刷新频率状态
   const [refreshMs, setRefreshMs] = useState(30000);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [tempSeconds, setTempSeconds] = useState(30);
+
+  // 全局刷新状态
+  const [refreshing, setRefreshing] = useState(false);
+
+  // 收起/展开状态
+  const [collapsedCodes, setCollapsedCodes] = useState(new Set());
+
+  const toggleCollapse = (code) => {
+    setCollapsedCodes(prev => {
+      const next = new Set(prev);
+      if (next.has(code)) {
+        next.delete(code);
+      } else {
+        next.add(code);
+      }
+      return next;
+    });
+  };
 
   useEffect(() => {
     try {
@@ -221,6 +246,8 @@ export default function HomePage() {
   };
 
   const refreshAll = async (codes) => {
+    if (refreshing) return;
+    setRefreshing(true);
     try {
       // 改用串行请求，避免全局回调 jsonpgz 并发冲突
       const updated = [];
@@ -241,6 +268,8 @@ export default function HomePage() {
       }
     } catch (e) {
       console.error(e);
+    } finally {
+      setRefreshing(false);
     }
   };
 
@@ -277,15 +306,10 @@ export default function HomePage() {
   };
 
   const manualRefresh = async () => {
-    if (manualRefreshing) return;
+    if (refreshing) return;
     const codes = funds.map((f) => f.code);
     if (!codes.length) return;
-    setManualRefreshing(true);
-    try {
-      await refreshAll(codes);
-    } finally {
-      setManualRefreshing(false);
-    }
+    await refreshAll(codes);
   };
 
   const saveSettings = (e) => {
@@ -307,6 +331,7 @@ export default function HomePage() {
   return (
     <div className="container content">
       <div className="navbar glass">
+        {refreshing && <div className="loading-bar"></div>}
         <div className="brand">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="12" r="10" stroke="var(--accent)" strokeWidth="2" />
@@ -323,11 +348,11 @@ export default function HomePage() {
             className="icon-button"
             aria-label="立即刷新"
             onClick={manualRefresh}
-            disabled={manualRefreshing || funds.length === 0}
-            aria-busy={manualRefreshing}
+            disabled={refreshing || funds.length === 0}
+            aria-busy={refreshing}
             title="立即刷新"
           >
-            <RefreshIcon className={manualRefreshing ? 'spin' : ''} width="18" height="18" />
+            <RefreshIcon className={refreshing ? 'spin' : ''} width="18" height="18" />
           </button>
           <button
             className="icon-button"
@@ -394,12 +419,31 @@ export default function HomePage() {
                       <Stat label="估值净值" value={f.gsz ?? '—'} />
                       <Stat label="涨跌幅" value={typeof f.gszzl === 'number' ? `${f.gszzl.toFixed(2)}%` : f.gszzl ?? '—'} delta={Number(f.gszzl) || 0} />
                     </div>
-                    <div style={{ marginBottom: 8 }} className="title">
-                      <span>前10重仓股票</span>
-                      <span className="muted">涨跌幅 / 占比</span>
+                    <div 
+                      style={{ marginBottom: 8, cursor: 'pointer', userSelect: 'none' }} 
+                      className="title"
+                      onClick={() => toggleCollapse(f.code)}
+                    >
+                      <div className="row" style={{ width: '100%', flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                          <span>前10重仓股票</span>
+                          <ChevronIcon 
+                            width="16" 
+                            height="16" 
+                            className="muted"
+                            style={{ 
+                              transform: collapsedCodes.has(f.code) ? 'rotate(-90deg)' : 'rotate(0deg)',
+                              transition: 'transform 0.2s ease'
+                            }} 
+                          />
+                        </div>
+                        <span className="muted">涨跌幅 / 占比</span>
+                      </div>
                     </div>
                     {Array.isArray(f.holdings) && f.holdings.length ? (
-                      <div className="list">
+                      <div className={`list ${collapsedCodes.has(f.code) ? 'collapsed' : ''}`} style={{ 
+                        display: collapsedCodes.has(f.code) ? 'none' : 'grid'
+                      }}>
                         {f.holdings.map((h, idx) => (
                           <div className="item" key={idx}>
                             <span className="name">{h.name}</span>
@@ -415,7 +459,7 @@ export default function HomePage() {
                         ))}
                       </div>
                     ) : (
-                      <div className="muted">暂无重仓数据</div>
+                      <div className="muted" style={{ display: collapsedCodes.has(f.code) ? 'none' : 'block' }}>暂无重仓数据</div>
                     )}
                   </div>
                 </div>

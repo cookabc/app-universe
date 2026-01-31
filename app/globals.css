@@ -39,16 +39,12 @@ body {
   backdrop-filter: blur(8px);
 }
 
-.title {
+.card .title {
   display: flex;
   align-items: center;
   gap: 12px;
   font-weight: 700;
   letter-spacing: 0.2px;
-}
-
-.card .title {
-  flex-wrap: wrap;
 }
 
 .card .title span:first-child {
@@ -203,27 +199,20 @@ body {
 
 .stat {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
+  align-items: baseline;
+  gap: 8px;
 }
 .stat .label {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .stat .value {
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 700;
-  line-height: 1.2;
-  white-space: nowrap;
 }
 .stat .badge {
-  padding: 2px 6px;
-  font-size: 10px;
-  width: fit-content;
+  padding: 4px 8px;
+  font-size: 12px;
 }
 
 @media (max-width: 640px) {
@@ -236,8 +225,29 @@ body {
   .card {
     padding: 12px;
   }
+  .stat {
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .stat .label {
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .stat .value {
     font-size: 15px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .stat .badge {
+    padding: 2px 6px;
+    font-size: 10px;
+    width: fit-content;
+  }
+  .card .title {
+    flex-wrap: wrap;
   }
   .item .name {
     max-width: 100px;
@@ -378,4 +388,21 @@ body {
   .spin {
     animation: none;
   }
+}
+
+.loading-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  width: 100%;
+  animation: loading 1.5s infinite;
+  z-index: 100;
+  border-radius: 16px 16px 0 0;
+}
+
+@keyframes loading {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
