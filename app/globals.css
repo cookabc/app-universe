@@ -114,6 +114,9 @@ body {
     border-left: none;
     border-right: none;
   }
+  .add-fund-section {
+    margin-top: 60px;
+  }
 }
 
 .form {
