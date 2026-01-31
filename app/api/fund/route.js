@@ -1,5 +1,18 @@
 import { NextResponse } from 'next/server';
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: CORS_HEADERS,
+  });
+}
+
 async function fetchGZ(code) {
   const url = `https://fundgz.1234567.com.cn/js/${code}.js`;
   const res = await fetch(url, { cache: 'no-store' });
@@ -75,18 +88,24 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const code = (searchParams.get('code') || '').trim();
     if (!code) {
-      return NextResponse.json({ error: '缺少基金编号' }, { status: 400 });
+      return NextResponse.json({ error: '缺少基金编号' }, { status: 400 }, { headers: CORS_HEADERS });
     }
     const [gz, holdings] = await Promise.allSettled([fetchGZ(code), fetchHoldings(code)]);
     if (gz.status !== 'fulfilled') {
-      return NextResponse.json({ error: gz.reason?.message || '基金估值获取失败' }, { status: 404 });
+      return NextResponse.json({ error: gz.reason?.message || '基金估值获取失败' }, { status: 404 }, { headers: CORS_HEADERS });
     }
     const data = {
       ...gz.value,
       holdings: holdings.status === 'fulfilled' ? holdings.value : []
     };
-    return NextResponse.json(data, { status: 200 });
+    return NextResponse.json(data, {
+      status: 200,
+      headers: CORS_HEADERS
+    });
   } catch (e) {
-    return NextResponse.json({ error: e.message || '服务异常' }, { status: 500 });
+    return NextResponse.json({ error: e.message || '服务异常' }, {
+      status: 500,
+      headers: CORS_HEADERS
+    });
   }
 }

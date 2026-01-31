@@ -67,6 +67,27 @@ export default function HomePage() {
   const [tempSeconds, setTempSeconds] = useState(30);
   const [manualRefreshing, setManualRefreshing] = useState(false);
 
+  // --- 新增：API 地址与数据源模式 ---
+  const [useJsonp, setUseJsonp] = useState(false);
+  const [apiBase, setApiBase] = useState('/api');
+  const [tempApiBase, setTempApiBase] = useState('/api');
+  const [tempUseJsonp, setTempUseJsonp] = useState(false);
+
+  // 构造绝对路径的工具函数，避免 GitHub Pages basePath 干扰
+  const buildUrl = (path) => {
+    // 如果 apiBase 是绝对地址，直接拼接
+    if (apiBase.startsWith('http://') || apiBase.startsWith('https://')) {
+      const base = apiBase.replace(/\/$/, '');
+      const p = path.startsWith('/') ? path : `/${path}`;
+      return `${base}${p}`;
+    }
+    // 否则拼接当前 origin 确保是绝对地址
+    const origin = typeof window !== 'undefined' ? window.location.origin : '';
+    const base = apiBase.startsWith('/') ? apiBase : `/${apiBase}`;
+    const p = path.startsWith('/') ? path : `/${path}`;
+    return `${origin}${base.replace(/\/$/, '')}${p}`;
+  };
+
   useEffect(() => {
     try {
       const saved = JSON.parse(localStorage.getItem('funds') || '[]');
@@ -79,6 +100,12 @@ export default function HomePage() {
         setRefreshMs(savedMs);
         setTempSeconds(Math.round(savedMs / 1000));
       }
+      const savedApi = localStorage.getItem('apiBase') || '/api';
+      setApiBase(savedApi);
+      setTempApiBase(savedApi);
+      const savedJsonp = localStorage.getItem('useJsonp') === 'true';
+      setUseJsonp(savedJsonp);
+      setTempUseJsonp(savedJsonp);
     } catch {}
   }, []);
 
@@ -93,16 +120,75 @@ export default function HomePage() {
     };
   }, [funds, refreshMs]);
 
+  // --- 辅助：JSONP 数据抓取逻辑 ---
+  const loadScript = (url) => {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = url;
+      script.async = true;
+      script.onload = () => {
+        document.body.removeChild(script);
+        resolve();
+      };
+      script.onerror = () => {
+        document.body.removeChild(script);
+        reject(new Error('脚本加载失败'));
+      };
+      document.body.appendChild(script);
+    });
+  };
+
+  const fetchFundData = async (c) => {
+    if (useJsonp) {
+      // JSONP 模式：直接请求东方财富
+      return new Promise(async (resolve, reject) => {
+        const gzUrl = `https://fundgz.1234567.com.cn/js/${c}.js?rt=${Date.now()}`;
+        // 东方财富估值接口固定回调 jsonpgz
+        window.jsonpgz = (json) => {
+          const gszzlNum = Number(json.gszzl);
+          const gzData = {
+            code: json.fundcode,
+            name: json.name,
+            dwjz: json.dwjz,
+            gsz: json.gsz,
+            gztime: json.gztime,
+            gszzl: Number.isFinite(gszzlNum) ? gszzlNum : json.gszzl
+          };
+          
+          // 获取重仓 (通过脚本注入并解析全局变量)
+          const holdingsUrl = `https://fundf10.eastmoney.com/FundArchivesDatas.aspx?type=jjcc&code=${c}&topline=10&year=&month=&rt=${Date.now()}`;
+          loadScript(holdingsUrl).then(() => {
+            let holdings = [];
+            const html = window.apidata?.content || '';
+            const rows = html.match(/<tr[\s\S]*?<\/tr>/gi) || [];
+            for (const r of rows) {
+              const cells = (r.match(/<td[\s\S]*?>([\s\S]*?)<\/td>/gi) || []).map(td => td.replace(/<[^>]*>/g, '').trim());
+              const codeIdx = cells.findIndex(txt => /^\d{6}$/.test(txt));
+              const weightIdx = cells.findIndex(txt => /\d+(?:\.\d+)?\s*%/.test(txt));
+              if (codeIdx >= 0 && weightIdx >= 0) {
+                holdings.push({
+                  code: cells[codeIdx],
+                  name: cells[codeIdx + 1] || '',
+                  weight: cells[weightIdx]
+                });
+              }
+            }
+            resolve({ ...gzData, holdings: holdings.slice(0, 10) });
+          }).catch(() => resolve({ ...gzData, holdings: [] }));
+        };
+        loadScript(gzUrl).catch(reject);
+      });
+    } else {
+      // API 模式：使用绝对路径请求后端
+      const res = await fetch(buildUrl(`/fund?code=${encodeURIComponent(c)}`), { cache: 'no-store' });
+      if (!res.ok) throw new Error('网络错误');
+      return await res.json();
+    }
+  };
+
   const refreshAll = async (codes) => {
     try {
-      const updated = await Promise.all(
-        codes.map(async (c) => {
-          const res = await fetch(`/api/fund?code=${encodeURIComponent(c)}`, { cache: 'no-store' });
-          if (!res.ok) throw new Error('网络错误');
-          const data = await res.json();
-          return data;
-        })
-      );
+      const updated = await Promise.all(codes.map(c => fetchFundData(c)));
       setFunds(updated);
       localStorage.setItem('funds', JSON.stringify(updated));
     } catch (e) {
@@ -124,9 +210,7 @@ export default function HomePage() {
     }
     setLoading(true);
     try {
-      const res = await fetch(`/api/fund?code=${encodeURIComponent(clean)}`, { cache: 'no-store' });
-      if (!res.ok) throw new Error('基金未找到或接口异常');
-      const data = await res.json();
+      const data = await fetchFundData(clean);
       const next = [data, ...funds];
       setFunds(next);
       localStorage.setItem('funds', JSON.stringify(next));
@@ -161,6 +245,14 @@ export default function HomePage() {
     const ms = Math.max(5, Number(tempSeconds)) * 1000;
     setRefreshMs(ms);
     localStorage.setItem('refreshMs', String(ms));
+    
+    const nextApi = (tempApiBase || '/api').trim();
+    setApiBase(nextApi);
+    localStorage.setItem('apiBase', nextApi);
+    
+    setUseJsonp(tempUseJsonp);
+    localStorage.setItem('useJsonp', String(tempUseJsonp));
+    
     setSettingsOpen(false);
   };
 
@@ -301,40 +393,74 @@ export default function HomePage() {
           <div className="glass card modal" onClick={(e) => e.stopPropagation()}>
             <div className="title" style={{ marginBottom: 12 }}>
               <SettingsIcon width="20" height="20" />
-              <span>刷新频率设置</span>
-              <span className="muted">选择预设或自定义秒数</span>
+              <span>设置</span>
+              <span className="muted">配置刷新频率与数据源</span>
             </div>
-            <div className="chips" style={{ marginBottom: 12 }}>
-              {[10, 30, 60, 120, 300].map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  className={`chip ${tempSeconds === s ? 'active' : ''}`}
-                  onClick={() => setTempSeconds(s)}
-                  aria-pressed={tempSeconds === s}
-                >
-                  {s} 秒
-                </button>
-              ))}
-            </div>
-            <form onSubmit={saveSettings}>
-              <div className="form" style={{ marginBottom: 12 }}>
-                <label htmlFor="refresh-seconds" className="muted" style={{ position: 'absolute', left: -9999 }}>
-                  自定义刷新秒数
-                </label>
-                <input
-                  id="refresh-seconds"
-                  className="input"
-                  type="number"
-                  min="5"
-                  step="5"
-                  value={tempSeconds}
-                  onChange={(e) => setTempSeconds(Number(e.target.value))}
-                  placeholder="秒数（≥5）"
-                />
-                <button className="button" type="submit">保存</button>
+            
+            <div className="form-group" style={{ marginBottom: 16 }}>
+              <div className="muted" style={{ marginBottom: 8, fontSize: '0.8rem' }}>刷新频率</div>
+              <div className="chips" style={{ marginBottom: 12 }}>
+                {[10, 30, 60, 120, 300].map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    className={`chip ${tempSeconds === s ? 'active' : ''}`}
+                    onClick={() => setTempSeconds(s)}
+                    aria-pressed={tempSeconds === s}
+                  >
+                    {s} 秒
+                  </button>
+                ))}
               </div>
-            </form>
+              <input
+                className="input"
+                type="number"
+                min="5"
+                step="5"
+                value={tempSeconds}
+                onChange={(e) => setTempSeconds(Number(e.target.value))}
+                placeholder="自定义秒数"
+              />
+            </div>
+
+            <div className="form-group" style={{ marginBottom: 16 }}>
+              <div className="muted" style={{ marginBottom: 8, fontSize: '0.8rem' }}>数据源模式</div>
+              <div className="chips" style={{ marginBottom: 12 }}>
+                <button
+                  type="button"
+                  className={`chip ${!tempUseJsonp ? 'active' : ''}`}
+                  onClick={() => setTempUseJsonp(false)}
+                >
+                  后端 API (推荐)
+                </button>
+                <button
+                  type="button"
+                  className={`chip ${tempUseJsonp ? 'active' : ''}`}
+                  onClick={() => setTempUseJsonp(true)}
+                >
+                  JSONP 直连 (免跨域)
+                </button>
+              </div>
+              {!tempUseJsonp && (
+                <div style={{ marginTop: 8 }}>
+                  <div className="muted" style={{ marginBottom: 4, fontSize: '0.75rem' }}>API 基础地址 (绝对路径)</div>
+                  <input
+                    className="input"
+                    type="text"
+                    value={tempApiBase}
+                    onChange={(e) => setTempApiBase(e.target.value)}
+                    placeholder="/api 或 https://your-backend.com/api"
+                  />
+                  <div className="muted" style={{ marginTop: 4, fontSize: '0.7rem' }}>
+                    部署到 GitHub Pages 时，请填写完整的后端域名地址。
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="row" style={{ justifyContent: 'flex-end', marginTop: 24 }}>
+              <button className="button" onClick={saveSettings}>保存并关闭</button>
+            </div>
           </div>
         </div>
       )}
