@@ -199,6 +199,10 @@ export default function HomePage() {
       const originalJsonpgz = window.jsonpgz;
       window.jsonpgz = (json) => {
         window.jsonpgz = originalJsonpgz; // 立即恢复
+        if (!json || typeof json !== 'object') {
+          reject(new Error('未获取到基金估值数据'));
+          return;
+        }
         const gszzlNum = Number(json.gszzl);
         const gzData = {
           code: json.fundcode,
