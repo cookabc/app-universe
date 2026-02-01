@@ -426,7 +426,6 @@ body {
 
 .name-cell {
   gap: 8px;
-  overflow: hidden;
 }
 
 .title-text {
@@ -438,9 +437,9 @@ body {
 .name-text {
   font-size: 14px;
   font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-all;
+  line-height: 1.4;
 }
 
 .code-text {
