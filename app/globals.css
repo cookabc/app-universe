@@ -258,7 +258,7 @@ body {
   }
   .item .badge {
     padding: 2px 4px;
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 .up { color: var(--danger); }
