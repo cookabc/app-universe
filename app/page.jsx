@@ -91,11 +91,6 @@ function Stat({ label, value, delta }) {
     <div className="stat">
       <span className="label">{label}</span>
       <span className={`value ${dir}`}>{value}</span>
-      {typeof delta === 'number' && (
-        <span className={`badge ${dir}`}>
-          {delta > 0 ? '↗' : delta < 0 ? '↘' : '—'} {Math.abs(delta).toFixed(2)}%
-        </span>
-      )}
     </div>
   );
 }
@@ -574,15 +569,6 @@ export default function HomePage() {
                 transition={{ duration: 0.2 }}
                 className={viewMode === 'card' ? 'grid' : 'table-container glass'}
               >
-                {viewMode === 'list' && (
-                  <div className="table-header-row">
-                    <div className="table-header-cell">基金名称</div>
-                    <div className="table-header-cell text-right">估值净值</div>
-                    <div className="table-header-cell text-right">涨跌幅</div>
-                    <div className="table-header-cell text-right">估值时间</div>
-                    <div className="table-header-cell text-center">操作</div>
-                  </div>
-                )}
                 <div className={viewMode === 'card' ? 'grid col-12' : ''} style={viewMode === 'card' ? { gridColumn: 'span 12', gap: 16 } : {}}>
                   <AnimatePresence mode="popLayout">
                     {funds
