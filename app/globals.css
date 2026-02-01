@@ -243,7 +243,7 @@ body {
   }
   .stat .badge {
     padding: 2px 6px;
-    font-size: 10px;
+    font-size: 13px;
     width: fit-content;
   }
   .card .title {
@@ -251,10 +251,11 @@ body {
   }
   .item .name {
     max-width: 100px;
+    font-size: 14px;
   }
   .item .badge {
     padding: 2px 4px;
-    font-size: 10px;
+    font-size: 12px;
   }
 }
 .up { color: var(--danger); }
