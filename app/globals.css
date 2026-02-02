@@ -298,11 +298,27 @@ body {
   color: var(--muted);
 }
 
+.error-text {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.feedback-modal {
+  max-width: 420px !important;
+}
+
+.link-button:hover {
+  color: var(--accent) !important;
+  opacity: 0.8;
+}
+
 .footer {
   margin-top: 24px;
   font-size: 12px;
   color: var(--muted);
   text-align: center;
+  padding-bottom: 60px;
 }
 
 .actions {
