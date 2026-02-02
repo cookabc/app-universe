@@ -628,7 +628,7 @@ body {
 .search-container {
   position: relative;
   width: 100%;
-  z-index: 1000; /* 提升到更高层级，避免被其他元素遮挡 */
+  z-index: 45;
 }
 
 .search-input-wrapper {
@@ -656,7 +656,7 @@ body {
   right: 0;
   max-height: 320px;
   overflow-y: auto;
-  z-index: 10000; /* 确保全局最高层级 */
+  z-index: 46;
   padding: 8px;
   background: rgba(15, 23, 42, 0.95) !important;
 }
@@ -800,5 +800,5 @@ body {
 /* 提升添加基金区域的层级，避免父级 stacking context 影响 */
 .add-fund-section {
   position: relative;
-  z-index: 1000;
+  z-index: 41;
 }
