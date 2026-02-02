@@ -246,6 +246,38 @@ function AddResultModal({ failures, onClose }) {
   );
 }
 
+function SuccessModal({ message, onClose }) {
+  return (
+    <motion.div
+      className="modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="成功提示"
+      onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        className="glass card modal"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="success-message" style={{ textAlign: 'center', padding: '20px 0' }}>
+          <div style={{ fontSize: '48px', marginBottom: 16 }}>🎉</div>
+          <h3 style={{ marginBottom: 8 }}>{message}</h3>
+          <p className="muted">操作已完成，您可以继续使用。</p>
+          <button className="button" onClick={onClose} style={{ marginTop: 24, width: '100%' }}>
+            关闭
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function HomePage() {
   const [funds, setFunds] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -288,6 +320,9 @@ export default function HomePage() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [addResultOpen, setAddResultOpen] = useState(false);
   const [addFailures, setAddFailures] = useState([]);
+
+  // 成功提示弹窗
+  const [successModal, setSuccessModal] = useState({ open: false, message: '' });
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -620,14 +655,31 @@ export default function HomePage() {
           updated.push(data);
         } catch (e) {
           console.error(`刷新基金 ${c} 失败`, e);
-          const old = funds.find((f) => f.code === c);
-          if (old) updated.push(old);
+          // 失败时从当前 state 中寻找旧数据
+          setFunds(prev => {
+            const old = prev.find((f) => f.code === c);
+            if (old) updated.push(old);
+            return prev;
+          });
         }
       }
-      const deduped = dedupeByCode(updated);
-      if (deduped.length) {
-        setFunds(deduped);
-        localStorage.setItem('funds', JSON.stringify(deduped));
+      
+      if (updated.length > 0) {
+        setFunds(prev => {
+          // 将更新后的数据合并回当前最新的 state 中，防止覆盖掉刚刚导入的数据
+          const merged = [...prev];
+          updated.forEach(u => {
+            const idx = merged.findIndex(f => f.code === u.code);
+            if (idx > -1) {
+              merged[idx] = u;
+            } else {
+              merged.push(u);
+            }
+          });
+          const deduped = dedupeByCode(merged);
+          localStorage.setItem('funds', JSON.stringify(deduped));
+          return deduped;
+        });
       }
     } catch (e) {
       console.error(e);
@@ -732,6 +784,125 @@ export default function HomePage() {
     setRefreshMs(ms);
     localStorage.setItem('refreshMs', String(ms));
     setSettingsOpen(false);
+  };
+
+  const importFileRef = useRef(null);
+  const [importMsg, setImportMsg] = useState('');
+
+  const exportLocalData = async () => {
+    try {
+      const payload = {
+        version: 1,
+        funds: JSON.parse(localStorage.getItem('funds') || '[]'),
+        favorites: JSON.parse(localStorage.getItem('favorites') || '[]'),
+        collapsedCodes: JSON.parse(localStorage.getItem('collapsedCodes') || '[]'),
+        refreshMs: parseInt(localStorage.getItem('refreshMs') || '30000', 10),
+        viewMode: localStorage.getItem('viewMode') || 'card',
+        exportedAt: new Date().toISOString()
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      if (window.showSaveFilePicker) {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: `realtime-fund-config-${Date.now()}.json`,
+          types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }]
+        });
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        setSuccessModal({ open: true, message: '导出成功' });
+        setSettingsOpen(false);
+        return;
+      }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `realtime-fund-config-${Date.now()}.json`;
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        URL.revokeObjectURL(url);
+        setSuccessModal({ open: true, message: '导出成功' });
+        setSettingsOpen(false);
+      };
+      const onVisibility = () => {
+        if (document.visibilityState === 'hidden') return;
+        finish();
+        document.removeEventListener('visibilitychange', onVisibility);
+      };
+      document.addEventListener('visibilitychange', onVisibility, { once: true });
+      a.click();
+      setTimeout(finish, 3000);
+    } catch (err) {
+      console.error('Export error:', err);
+    }
+  };
+
+  const handleImportFileChange = async (e) => {
+    try {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (data && typeof data === 'object') {
+        // 从 localStorage 读取最新数据进行合并，防止状态滞后导致的数据丢失
+        const currentFunds = JSON.parse(localStorage.getItem('funds') || '[]');
+        const currentFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        const currentCollapsed = JSON.parse(localStorage.getItem('collapsedCodes') || '[]');
+
+        let mergedFunds = currentFunds;
+        let appendedCodes = [];
+
+        if (Array.isArray(data.funds)) {
+          const incomingFunds = dedupeByCode(data.funds);
+          const existingCodes = new Set(currentFunds.map(f => f.code));
+          const newItems = incomingFunds.filter(f => f && f.code && !existingCodes.has(f.code));
+          appendedCodes = newItems.map(f => f.code);
+          mergedFunds = [...currentFunds, ...newItems];
+          setFunds(mergedFunds);
+          localStorage.setItem('funds', JSON.stringify(mergedFunds));
+        }
+
+        if (Array.isArray(data.favorites)) {
+          const mergedFav = Array.from(new Set([...currentFavorites, ...data.favorites]));
+          setFavorites(new Set(mergedFav));
+          localStorage.setItem('favorites', JSON.stringify(mergedFav));
+        }
+
+        if (Array.isArray(data.collapsedCodes)) {
+          const mergedCollapsed = Array.from(new Set([...currentCollapsed, ...data.collapsedCodes]));
+          setCollapsedCodes(new Set(mergedCollapsed));
+          localStorage.setItem('collapsedCodes', JSON.stringify(mergedCollapsed));
+        }
+
+        if (typeof data.refreshMs === 'number' && data.refreshMs >= 5000) {
+          setRefreshMs(data.refreshMs);
+          setTempSeconds(Math.round(data.refreshMs / 1000));
+          localStorage.setItem('refreshMs', String(data.refreshMs));
+        }
+        if (data.viewMode === 'card' || data.viewMode === 'list') {
+          setViewMode(data.viewMode);
+          localStorage.setItem('viewMode', data.viewMode);
+        }
+
+        // 导入成功后，仅刷新新追加的基金
+        if (appendedCodes.length) {
+          // 这里需要确保 refreshAll 不会因为闭包问题覆盖掉刚刚合并好的 mergedFunds
+          // 我们直接传入所有代码执行一次全量刷新是最稳妥的，或者修改 refreshAll 支持增量更新
+          const allCodes = mergedFunds.map(f => f.code);
+          await refreshAll(allCodes);
+        }
+
+        setSuccessModal({ open: true, message: '导入成功' });
+        setSettingsOpen(false); // 导入成功自动关闭设置弹框
+        if (importFileRef.current) importFileRef.current.value = '';
+      }
+    } catch (err) {
+      console.error('Import error:', err);
+      setImportMsg('导入失败，请检查文件格式');
+      setTimeout(() => setImportMsg(''), 4000);
+      if (importFileRef.current) importFileRef.current.value = '';
+    }
   };
 
   useEffect(() => {
@@ -1165,6 +1336,15 @@ export default function HomePage() {
         )}
       </AnimatePresence>
 
+      <AnimatePresence>
+        {successModal.open && (
+          <SuccessModal
+            message={successModal.message}
+            onClose={() => setSuccessModal({ open: false, message: '' })}
+          />
+        )}
+      </AnimatePresence>
+
       {settingsOpen && (
         <div className="modal-overlay" role="dialog" aria-modal="true" aria-label="设置" onClick={() => setSettingsOpen(false)}>
           <div className="glass card modal" onClick={(e) => e.stopPropagation()}>
@@ -1198,6 +1378,29 @@ export default function HomePage() {
                 onChange={(e) => setTempSeconds(Number(e.target.value))}
                 placeholder="自定义秒数"
               />
+            </div>
+
+            <div className="form-group" style={{ marginBottom: 16 }}>
+              <div className="muted" style={{ marginBottom: 8, fontSize: '0.8rem' }}>数据导出</div>
+              <div className="row" style={{ gap: 8 }}>
+                <button type="button" className="button" onClick={exportLocalData}>导出配置</button>
+              </div>
+              <div className="muted" style={{ marginBottom: 8, fontSize: '0.8rem', marginTop: 26 }}>数据导入</div>
+              <div className="row" style={{ gap: 8, marginTop: 8 }}>
+                <button type="button" className="button" onClick={() => importFileRef.current?.click?.()}>导入配置</button>
+              </div>
+              <input
+                ref={importFileRef}
+                type="file"
+                accept="application/json"
+                style={{ display: 'none' }}
+                onChange={handleImportFileChange}
+              />
+              {importMsg && (
+                <div className="muted" style={{ marginTop: 8 }}>
+                  {importMsg}
+                </div>
+              )}
             </div>
 
             <div className="row" style={{ justifyContent: 'flex-end', marginTop: 24 }}>
