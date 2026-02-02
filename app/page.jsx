@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Announcement from "./components/Announcement";
 
 function PlusIcon(props) {
   return (
@@ -236,15 +237,15 @@ export default function HomePage() {
       };
 
       const gzUrl = `https://fundgz.1234567.com.cn/js/${c}.js?rt=${Date.now()}`;
-      
+
       // 使用更安全的方式处理全局回调，避免并发覆盖
       const currentCallback = `jsonpgz_${c}_${Math.random().toString(36).slice(2, 7)}`;
-      
+
       // 动态拦截并处理 jsonpgz 回调
       const scriptGz = document.createElement('script');
       // 东方财富接口固定调用 jsonpgz，我们通过修改全局变量临时捕获它
       scriptGz.src = gzUrl;
-      
+
       const originalJsonpgz = window.jsonpgz;
       window.jsonpgz = (json) => {
         window.jsonpgz = originalJsonpgz; // 立即恢复
@@ -261,7 +262,7 @@ export default function HomePage() {
           gztime: json.gztime,
           gszzl: Number.isFinite(gszzlNum) ? gszzlNum : json.gszzl
         };
-        
+
         // 获取重仓股票列表
         const holdingsUrl = `https://fundf10.eastmoney.com/FundArchivesDatas.aspx?type=jjcc&code=${c}&topline=10&year=&month=&rt=${Date.now()}`;
         loadScript(holdingsUrl).then(async () => {
@@ -281,14 +282,14 @@ export default function HomePage() {
               });
             }
           }
-          
+
           holdings = holdings.slice(0, 10);
-          
+
           if (holdings.length) {
             try {
               const tencentCodes = holdings.map(h => `s_${getTencentPrefix(h.code)}${h.code}`).join(',');
               const quoteUrl = `https://qt.gtimg.cn/q=${tencentCodes}`;
-              
+
               await new Promise((resQuote) => {
                 const scriptQuote = document.createElement('script');
                 scriptQuote.src = quoteUrl;
@@ -317,7 +318,7 @@ export default function HomePage() {
               console.error('获取股票涨跌幅失败', e);
             }
           }
-          
+
           resolve({ ...gzData, holdings });
         }).catch(() => resolve({ ...gzData, holdings: [] }));
       };
@@ -448,6 +449,7 @@ export default function HomePage() {
 
   return (
     <div className="container content">
+      <Announcement />
       <div className="navbar glass">
         {refreshing && <div className="loading-bar"></div>}
         <div className="brand">
@@ -510,13 +512,13 @@ export default function HomePage() {
             <div className="filter-bar" style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
               {favorites.size > 0 ? (
                 <div className="tabs">
-                  <button 
+                  <button
                     className={`tab ${currentTab === 'all' ? 'active' : ''}`}
                     onClick={() => setCurrentTab('all')}
                   >
                     全部 ({funds.length})
                   </button>
-                  <button 
+                  <button
                     className={`tab ${currentTab === 'fav' ? 'active' : ''}`}
                     onClick={() => setCurrentTab('fav')}
                   >
@@ -524,10 +526,10 @@ export default function HomePage() {
                   </button>
                 </div>
               ) : <div />}
-              
+
               <div className="sort-group" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <div className="view-toggle" style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', padding: '2px' }}>
-                  <button 
+                  <button
                     className={`icon-button ${viewMode === 'card' ? 'active' : ''}`}
                     onClick={() => { setViewMode('card'); localStorage.setItem('viewMode', 'card'); }}
                     style={{ border: 'none', width: '32px', height: '32px', background: viewMode === 'card' ? 'var(--primary)' : 'transparent', color: viewMode === 'card' ? '#05263b' : 'var(--muted)' }}
@@ -535,7 +537,7 @@ export default function HomePage() {
                   >
                     <GridIcon width="16" height="16" />
                   </button>
-                  <button 
+                  <button
                       className={`icon-button ${viewMode === 'list' ? 'active' : ''}`}
                       onClick={() => { setViewMode('list'); localStorage.setItem('viewMode', 'list'); }}
                       style={{ border: 'none', width: '32px', height: '32px', background: viewMode === 'list' ? 'var(--primary)' : 'transparent', color: viewMode === 'list' ? '#05263b' : 'var(--muted)' }}
@@ -578,7 +580,7 @@ export default function HomePage() {
             <div className="glass card empty">尚未添加基金</div>
           ) : (
             <AnimatePresence mode="wait">
-              <motion.div 
+              <motion.div
                 key={viewMode}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -601,9 +603,9 @@ export default function HomePage() {
                         return 0; // default order is the order in the array
                       })
                       .map((f) => (
-                      <motion.div 
+                      <motion.div
                         layout="position"
-                        key={f.code} 
+                        key={f.code}
                         className={viewMode === 'card' ? 'col-6' : 'table-row-wrapper'}
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -614,7 +616,7 @@ export default function HomePage() {
                         {viewMode === 'list' ? (
                           <>
                             <div className="table-cell name-cell">
-                              <button 
+                              <button
                                 className={`icon-button fav-button ${favorites.has(f.code) ? 'active' : ''}`}
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -655,7 +657,7 @@ export default function HomePage() {
                           <>
                           <div className="row" style={{ marginBottom: 10 }}>
                             <div className="title">
-                              <button 
+                              <button
                                 className={`icon-button fav-button ${favorites.has(f.code) ? 'active' : ''}`}
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -685,14 +687,14 @@ export default function HomePage() {
                               </button>
                             </div>
                           </div>
-                          
+
                           <div className="row" style={{ marginBottom: 12 }}>
                             <Stat label="单位净值" value={f.dwjz ?? '—'} />
                             <Stat label="估值净值" value={f.estPricedCoverage > 0.05 ? f.estGsz.toFixed(4) : (f.gsz ?? '—')} />
-                            <Stat 
-                              label="涨跌幅" 
-                              value={f.estPricedCoverage > 0.05 ? `${f.estGszzl > 0 ? '+' : ''}${f.estGszzl.toFixed(2)}%` : (typeof f.gszzl === 'number' ? `${f.gszzl > 0 ? '+' : ''}${f.gszzl.toFixed(2)}%` : f.gszzl ?? '—')} 
-                              delta={f.estPricedCoverage > 0.05 ? f.estGszzl : (Number(f.gszzl) || 0)} 
+                            <Stat
+                              label="涨跌幅"
+                              value={f.estPricedCoverage > 0.05 ? `${f.estGszzl > 0 ? '+' : ''}${f.estGszzl.toFixed(2)}%` : (typeof f.gszzl === 'number' ? `${f.gszzl > 0 ? '+' : ''}${f.gszzl.toFixed(2)}%` : f.gszzl ?? '—')}
+                              delta={f.estPricedCoverage > 0.05 ? f.estGszzl : (Number(f.gszzl) || 0)}
                             />
                           </div>
                           {f.estPricedCoverage > 0.05 && (
@@ -700,22 +702,22 @@ export default function HomePage() {
                               基于 {Math.round(f.estPricedCoverage * 100)}% 持仓估算
                             </div>
                           )}
-                          <div 
-                            style={{ marginBottom: 8, cursor: 'pointer', userSelect: 'none' }} 
+                          <div
+                            style={{ marginBottom: 8, cursor: 'pointer', userSelect: 'none' }}
                             className="title"
                             onClick={() => toggleCollapse(f.code)}
                           >
                             <div className="row" style={{ width: '100%', flex: 1 }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                                 <span>前10重仓股票</span>
-                                <ChevronIcon 
-                                  width="16" 
-                                  height="16" 
+                                <ChevronIcon
+                                  width="16"
+                                  height="16"
                                   className="muted"
-                                  style={{ 
+                                  style={{
                                     transform: collapsedCodes.has(f.code) ? 'rotate(-90deg)' : 'rotate(0deg)',
                                     transition: 'transform 0.2s ease'
-                                  }} 
+                                  }}
                                 />
                               </div>
                               <span className="muted">涨跌幅 / 占比</span>
@@ -778,7 +780,7 @@ export default function HomePage() {
               <span>设置</span>
               <span className="muted">配置刷新频率</span>
             </div>
-            
+
             <div className="form-group" style={{ marginBottom: 16 }}>
               <div className="muted" style={{ marginBottom: 8, fontSize: '0.8rem' }}>刷新频率</div>
               <div className="chips" style={{ marginBottom: 12 }}>
