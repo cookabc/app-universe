@@ -101,7 +101,8 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const timerRef = useRef(null);
-  
+  const refreshingRef = useRef(false);
+
   // 刷新频率状态
   const [refreshMs, setRefreshMs] = useState(30000);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -151,12 +152,26 @@ export default function HomePage() {
     });
   };
 
+  // 按 code 去重，保留第一次出现的项，避免列表重复
+  const dedupeByCode = (list) => {
+    const seen = new Set();
+    return list.filter((f) => {
+      const c = f?.code;
+      if (!c || seen.has(c)) return false;
+      seen.add(c);
+      return true;
+    });
+  };
+
   useEffect(() => {
     try {
       const saved = JSON.parse(localStorage.getItem('funds') || '[]');
       if (Array.isArray(saved) && saved.length) {
-        setFunds(saved);
-        refreshAll(saved.map((f) => f.code));
+        const deduped = dedupeByCode(saved);
+        setFunds(deduped);
+        localStorage.setItem('funds', JSON.stringify(deduped));
+        const codes = Array.from(new Set(deduped.map((f) => f.code)));
+        if (codes.length) refreshAll(codes);
       }
       const savedMs = parseInt(localStorage.getItem('refreshMs') || '30000', 10);
       if (Number.isFinite(savedMs) && savedMs >= 5000) {
@@ -184,7 +199,7 @@ export default function HomePage() {
   useEffect(() => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
-      const codes = funds.map((f) => f.code);
+      const codes = Array.from(new Set(funds.map((f) => f.code)));
       if (codes.length) refreshAll(codes);
     }, refreshMs);
     return () => {
@@ -322,29 +337,31 @@ export default function HomePage() {
   };
 
   const refreshAll = async (codes) => {
-    if (refreshing) return;
+    if (refreshingRef.current) return;
+    refreshingRef.current = true;
     setRefreshing(true);
+    const uniqueCodes = Array.from(new Set(codes));
     try {
-      // 改用串行请求，避免全局回调 jsonpgz 并发冲突
       const updated = [];
-      for (const c of codes) {
+      for (const c of uniqueCodes) {
         try {
           const data = await fetchFundData(c);
           updated.push(data);
         } catch (e) {
           console.error(`刷新基金 ${c} 失败`, e);
-          // 失败时保留旧数据
-          const old = funds.find(f => f.code === c);
+          const old = funds.find((f) => f.code === c);
           if (old) updated.push(old);
         }
       }
-      if (updated.length) {
-        setFunds(updated);
-        localStorage.setItem('funds', JSON.stringify(updated));
+      const deduped = dedupeByCode(updated);
+      if (deduped.length) {
+        setFunds(deduped);
+        localStorage.setItem('funds', JSON.stringify(deduped));
       }
     } catch (e) {
       console.error(e);
     } finally {
+      refreshingRef.current = false;
       setRefreshing(false);
     }
   };
@@ -407,8 +424,8 @@ export default function HomePage() {
   };
 
   const manualRefresh = async () => {
-    if (refreshing) return;
-    const codes = funds.map((f) => f.code);
+    if (refreshingRef.current) return;
+    const codes = Array.from(new Set(funds.map((f) => f.code)));
     if (!codes.length) return;
     await refreshAll(codes);
   };
