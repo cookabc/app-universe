@@ -197,9 +197,57 @@ function FeedbackModal({ onClose }) {
   );
 }
 
+function AddResultModal({ failures, onClose }) {
+  return (
+    <motion.div
+      className="modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="添加结果"
+      onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        className="glass card modal"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="title" style={{ marginBottom: 12, justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <SettingsIcon width="20" height="20" />
+            <span>部分基金添加失败</span>
+          </div>
+          <button className="icon-button" onClick={onClose} style={{ border: 'none', background: 'transparent' }}>
+            <CloseIcon width="20" height="20" />
+          </button>
+        </div>
+        <div className="muted" style={{ marginBottom: 12, fontSize: '14px' }}>
+          未获取到估值数据的基金如下：
+        </div>
+        <div className="list">
+          {failures.map((it, idx) => (
+            <div className="item" key={idx}>
+              <span className="name">{it.name || '未知名称'}</span>
+              <div className="values">
+                <span className="badge">#{it.code}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="row" style={{ justifyContent: 'flex-end', marginTop: 16 }}>
+          <button className="button" onClick={onClose}>知道了</button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function HomePage() {
   const [funds, setFunds] = useState([]);
-  const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const timerRef = useRef(null);
@@ -229,6 +277,27 @@ export default function HomePage() {
   // 反馈弹窗状态
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [feedbackNonce, setFeedbackNonce] = useState(0);
+
+  // 搜索相关状态
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedFunds, setSelectedFunds] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const searchTimeoutRef = useRef(null);
+  const dropdownRef = useRef(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [addResultOpen, setAddResultOpen] = useState(false);
+  const [addFailures, setAddFailures] = useState([]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const toggleFavorite = (code) => {
     setFavorites(prev => {
@@ -442,6 +511,102 @@ export default function HomePage() {
     });
   };
 
+  const performSearch = async (val) => {
+    if (!val.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    setIsSearching(true);
+    // 使用 JSONP 方式获取数据，添加 callback 参数
+    const callbackName = `SuggestData_${Date.now()}`;
+    const url = `https://fundsuggest.eastmoney.com/FundSearch/api/FundSearchAPI.ashx?m=1&key=${encodeURIComponent(val)}&callback=${callbackName}&_=${Date.now()}`;
+    
+    try {
+      await new Promise((resolve, reject) => {
+        window[callbackName] = (data) => {
+          if (data && data.Datas) {
+            // 过滤出基金类型的数据 (CATEGORY 为 700 是公募基金)
+            const fundsOnly = data.Datas.filter(d => 
+              d.CATEGORY === 700 || 
+              d.CATEGORY === "700" || 
+              d.CATEGORYDESC === "基金"
+            );
+            setSearchResults(fundsOnly);
+          }
+          delete window[callbackName];
+          resolve();
+        };
+
+        const script = document.createElement('script');
+        script.src = url;
+        script.async = true;
+        script.onload = () => {
+          if (document.body.contains(script)) document.body.removeChild(script);
+        };
+        script.onerror = () => {
+          if (document.body.contains(script)) document.body.removeChild(script);
+          delete window[callbackName];
+          reject(new Error('搜索请求失败'));
+        };
+        document.body.appendChild(script);
+      });
+    } catch (e) {
+      console.error('搜索失败', e);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleSearchInput = (e) => {
+    const val = e.target.value;
+    setSearchTerm(val);
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    searchTimeoutRef.current = setTimeout(() => performSearch(val), 300);
+  };
+
+  const toggleSelectFund = (fund) => {
+    setSelectedFunds(prev => {
+      const exists = prev.find(f => f.CODE === fund.CODE);
+      if (exists) {
+        return prev.filter(f => f.CODE !== fund.CODE);
+      }
+      return [...prev, fund];
+    });
+  };
+
+  const batchAddFunds = async () => {
+    if (selectedFunds.length === 0) return;
+    setLoading(true);
+    setError('');
+    
+    try {
+      const newFunds = [];
+      for (const f of selectedFunds) {
+        if (funds.some(existing => existing.code === f.CODE)) continue;
+        try {
+          const data = await fetchFundData(f.CODE);
+          newFunds.push(data);
+        } catch (e) {
+          console.error(`添加基金 ${f.CODE} 失败`, e);
+        }
+      }
+      
+      if (newFunds.length > 0) {
+        const updated = dedupeByCode([...newFunds, ...funds]);
+        setFunds(updated);
+        localStorage.setItem('funds', JSON.stringify(updated));
+      }
+      
+      setSelectedFunds([]);
+      setSearchTerm('');
+      setSearchResults([]);
+    } catch (e) {
+      setError('批量添加失败');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const refreshAll = async (codes) => {
     if (refreshingRef.current) return;
     refreshingRef.current = true;
@@ -479,24 +644,49 @@ export default function HomePage() {
   };
 
   const addFund = async (e) => {
-    e.preventDefault();
+    e?.preventDefault?.();
     setError('');
-    const clean = code.trim();
-    if (!clean) {
-      setError('请输入基金编号');
-      return;
-    }
-    if (funds.some((f) => f.code === clean)) {
-      setError('该基金已添加');
+    const manualTokens = String(searchTerm || '')
+      .split(/[^0-9A-Za-z]+/)
+      .map(t => t.trim())
+      .filter(t => t.length > 0);
+    const selectedCodes = Array.from(new Set([
+      ...selectedFunds.map(f => f.CODE),
+      ...manualTokens.filter(t => /^\d{6}$/.test(t))
+    ]));
+    if (selectedCodes.length === 0) {
+      setError('请输入或选择基金代码');
       return;
     }
     setLoading(true);
     try {
-      const data = await fetchFundData(clean);
-      const next = [data, ...funds];
-      setFunds(next);
-      localStorage.setItem('funds', JSON.stringify(next));
-      setCode('');
+      const newFunds = [];
+      const failures = [];
+      const nameMap = {};
+      selectedFunds.forEach(f => { nameMap[f.CODE] = f.NAME; });
+      for (const c of selectedCodes) {
+        if (funds.some((f) => f.code === c)) continue;
+        try {
+          const data = await fetchFundData(c);
+          newFunds.push(data);
+        } catch (err) {
+          failures.push({ code: c, name: nameMap[c] });
+        }
+      }
+      if (newFunds.length === 0) {
+        setError('未添加任何新基金');
+      } else {
+        const next = dedupeByCode([...newFunds, ...funds]);
+        setFunds(next);
+        localStorage.setItem('funds', JSON.stringify(next));
+      }
+      setSearchTerm('');
+      setSelectedFunds([]);
+      setShowDropdown(false);
+      if (failures.length > 0) {
+        setAddFailures(failures);
+        setAddResultOpen(true);
+      }
     } catch (e) {
       setError(e.message || '添加失败');
     } finally {
@@ -595,20 +785,85 @@ export default function HomePage() {
           <div className="title" style={{ marginBottom: 12 }}>
             <PlusIcon width="20" height="20" />
             <span>添加基金</span>
-            <span className="muted">输入基金编号（例如：110022）</span>
+            <span className="muted">搜索并选择基金（支持名称或代码）</span>
           </div>
-          <form className="form" onSubmit={addFund}>
-            <input
-              className="input"
-              placeholder="基金编号"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              inputMode="numeric"
-            />
-            <button className="button" type="submit" disabled={loading}>
-              {loading ? '添加中…' : '添加'}
-            </button>
-          </form>
+          
+          <div className="search-container" ref={dropdownRef}>
+            <form className="form" onSubmit={addFund}>
+              <div className="search-input-wrapper" style={{ flex: 1, gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                {selectedFunds.length > 0 && (
+                  <div className="selected-inline-chips">
+                    {selectedFunds.map(fund => (
+                      <div key={fund.CODE} className="fund-chip">
+                        <span>{fund.NAME}</span>
+                        <button onClick={() => toggleSelectFund(fund)} className="remove-chip">
+                          <CloseIcon width="14" height="14" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <input
+                  className="input"
+                  placeholder="搜索基金名称或代码..."
+                  value={searchTerm}
+                  onChange={handleSearchInput}
+                  onFocus={() => setShowDropdown(true)}
+                />
+                {isSearching && <div className="search-spinner" />}
+              </div>
+              <button className="button" type="submit" disabled={loading}>
+                {loading ? '添加中…' : '添加'}
+              </button>
+            </form>
+
+            <AnimatePresence>
+              {showDropdown && (searchTerm.trim() || searchResults.length > 0) && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="search-dropdown glass"
+                >
+                  {searchResults.length > 0 ? (
+                    <div className="search-results">
+                      {searchResults.map((fund) => {
+                        const isSelected = selectedFunds.some(f => f.CODE === fund.CODE);
+                        const isAlreadyAdded = funds.some(f => f.code === fund.CODE);
+                        return (
+                          <div
+                            key={fund.CODE}
+                            className={`search-item ${isSelected ? 'selected' : ''} ${isAlreadyAdded ? 'added' : ''}`}
+                            onClick={() => {
+                              if (isAlreadyAdded) return;
+                              toggleSelectFund(fund);
+                            }}
+                          >
+                            <div className="fund-info">
+                              <span className="fund-name">{fund.NAME}</span>
+                              <span className="fund-code muted">#{fund.CODE} | {fund.TYPE}</span>
+                            </div>
+                            {isAlreadyAdded ? (
+                              <span className="added-label">已添加</span>
+                            ) : (
+                              <div className="checkbox">
+                                {isSelected && <div className="checked-mark" />}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : searchTerm.trim() && !isSearching ? (
+                    <div className="no-results muted">未找到相关基金</div>
+                  ) : null}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          
+
           {error && <div className="muted" style={{ marginTop: 8, color: 'var(--danger)' }}>{error}</div>}
         </div>
 
@@ -898,6 +1153,14 @@ export default function HomePage() {
           <FeedbackModal
             key={feedbackNonce}
             onClose={() => setFeedbackOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {addResultOpen && (
+          <AddResultModal
+            failures={addFailures}
+            onClose={() => setAddResultOpen(false)}
           />
         )}
       </AnimatePresence>
