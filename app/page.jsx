@@ -483,7 +483,6 @@ function GroupManageModal({ groups, onClose, onSave }) {
                       style={{ 
                         flex: 1, 
                         height: '36px', 
-                        fontSize: '14px', 
                         background: 'rgba(0,0,0,0.2)',
                         border: !item.name.trim() ? '1px solid var(--danger)' : 'none'
                       }}

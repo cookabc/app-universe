@@ -130,6 +130,7 @@ body {
   background: #0b1220;
   color: var(--text);
   outline: none;
+  font-size: 14px;
   transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 .input:focus {
