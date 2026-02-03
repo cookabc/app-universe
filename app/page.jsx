@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, Reorder } from 'framer-motion';
-import { useForm, ValidationError } from '@formspree/react';
 import Announcement from "./components/Announcement";
 
 function PlusIcon(props) {
@@ -130,16 +129,42 @@ function Stat({ label, value, delta }) {
 }
 
 function FeedbackModal({ onClose }) {
-  const [state, handleSubmit] = useForm("xdadgvjd");
+  const [submitting, setSubmitting] = useState(false);
+  const [succeeded, setSucceeded] = useState(false);
+  const [error, setError] = useState("");
 
-  const onSubmit = (e) => {
-    const form = e?.target;
-    const nicknameInput = form?.elements?.namedItem?.('nickname');
-    if (nicknameInput && typeof nicknameInput.value === 'string') {
-      const v = nicknameInput.value.trim();
-      if (!v) nicknameInput.value = '匿名';
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setError("");
+
+    const formData = new FormData(e.target);
+    const nickname = formData.get("nickname")?.trim();
+    if (!nickname) {
+      formData.set("nickname", "匿名");
     }
-    return handleSubmit(e);
+    
+    // Web3Forms Access Key
+    formData.append("access_key", "c390fbb1-77e0-4aab-a939-caa75edc7319");
+    formData.append("subject", "基估宝 - 用户反馈");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setSucceeded(true);
+      } else {
+        setError(data.message || "提交失败，请稍后再试");
+      }
+    } catch (err) {
+      setError("网络错误，请检查您的连接");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -170,7 +195,7 @@ function FeedbackModal({ onClose }) {
           </button>
         </div>
 
-        {state.succeeded ? (
+        {succeeded ? (
           <div className="success-message" style={{ textAlign: 'center', padding: '20px 0' }}>
             <div style={{ fontSize: '48px', marginBottom: 16 }}>🎉</div>
             <h3 style={{ marginBottom: 8 }}>感谢您的反馈！</h3>
@@ -193,7 +218,6 @@ function FeedbackModal({ onClose }) {
                 placeholder="匿名"
                 style={{ width: '100%' }}
               />
-              <ValidationError prefix="Nickname" field="nickname" errors={state.errors} className="error-text" />
             </div>
 
             <div className="form-group" style={{ marginBottom: 20 }}>
@@ -208,11 +232,16 @@ function FeedbackModal({ onClose }) {
                 placeholder="请描述您遇到的问题或建议..."
                 style={{ width: '100%', minHeight: '120px', padding: '12px', resize: 'vertical' }}
               />
-              <ValidationError prefix="Message" field="message" errors={state.errors} className="error-text" />
             </div>
 
-            <button className="button" type="submit" disabled={state.submitting} style={{ width: '100%' }}>
-              {state.submitting ? '发送中...' : '提交反馈'}
+            {error && (
+              <div className="error-text" style={{ marginBottom: 16, textAlign: 'center' }}>
+                {error}
+              </div>
+            )}
+
+            <button className="button" type="submit" disabled={submitting} style={{ width: '100%' }}>
+              {submitting ? '发送中...' : '提交反馈'}
             </button>
           </form>
         )}
