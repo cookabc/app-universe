@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { motion, AnimatePresence, Reorder } from 'framer-motion';
 import Announcement from "./components/Announcement";
 
@@ -115,6 +115,215 @@ function StarIcon({ filled, ...props }) {
     <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={filled ? "var(--accent)" : "none"}>
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
+  );
+}
+
+function CalendarIcon(props) {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+      <line x1="16" y1="2" x2="16" y2="6"></line>
+      <line x1="8" y1="2" x2="8" y2="6"></line>
+      <line x1="3" y1="10" x2="21" y2="10"></line>
+    </svg>
+  );
+}
+
+function DatePicker({ value, onChange }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(() => value ? new Date(value) : new Date());
+  
+  // 点击外部关闭
+  useEffect(() => {
+    const close = () => setIsOpen(false);
+    if (isOpen) window.addEventListener('click', close);
+    return () => window.removeEventListener('click', close);
+  }, [isOpen]);
+
+  const year = currentMonth.getFullYear();
+  const month = currentMonth.getMonth(); // 0-11
+
+  const handlePrevMonth = (e) => {
+    e.stopPropagation();
+    setCurrentMonth(new Date(year, month - 1, 1));
+  };
+
+  const handleNextMonth = (e) => {
+    e.stopPropagation();
+    setCurrentMonth(new Date(year, month + 1, 1));
+  };
+
+  const handleSelect = (e, day) => {
+    e.stopPropagation();
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    
+    // 检查是否是未来日期
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const selectedDate = new Date(dateStr);
+    
+    if (selectedDate > today) return; // 禁止选择未来日期
+
+    onChange(dateStr);
+    setIsOpen(false);
+  };
+
+  // 生成日历数据
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDayOfWeek = new Date(year, month, 1).getDay(); // 0(Sun)-6(Sat)
+  
+  const days = [];
+  for (let i = 0; i < firstDayOfWeek; i++) days.push(null);
+  for (let i = 1; i <= daysInMonth; i++) days.push(i);
+
+  return (
+    <div className="date-picker" style={{ position: 'relative' }} onClick={(e) => e.stopPropagation()}>
+      <div 
+        className="input-trigger" 
+        onClick={() => setIsOpen(!isOpen)}
+        style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between',
+          padding: '0 12px',
+          height: '40px',
+          background: 'rgba(0,0,0,0.2)',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          border: '1px solid transparent',
+          transition: 'all 0.2s'
+        }}
+      >
+        <span>{value || '选择日期'}</span>
+        <CalendarIcon width="16" height="16" className="muted" />
+      </div>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            className="glass card"
+            style={{
+              position: 'absolute',
+              top: '100%',
+              left: 0,
+              width: '100%',
+              marginTop: 8,
+              padding: 12,
+              zIndex: 10,
+              background: 'rgba(30, 41, 59, 0.95)',
+              backdropFilter: 'blur(12px)',
+              border: '1px solid rgba(255,255,255,0.1)'
+            }}
+          >
+            <div className="calendar-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <button onClick={handlePrevMonth} className="icon-button" style={{ width: 24, height: 24 }}>&lt;</button>
+              <span style={{ fontWeight: 600 }}>{year}年 {month + 1}月</span>
+              <button 
+                onClick={handleNextMonth} 
+                className="icon-button" 
+                style={{ width: 24, height: 24 }}
+                // 如果下个月已经是未来，可以禁用（可选，这里简单起见不禁用翻页，只禁用日期点击）
+              >
+                &gt;
+              </button>
+            </div>
+            
+            <div className="calendar-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4, textAlign: 'center' }}>
+              {['日', '一', '二', '三', '四', '五', '六'].map(d => (
+                <div key={d} className="muted" style={{ fontSize: '12px', marginBottom: 4 }}>{d}</div>
+              ))}
+              {days.map((d, i) => {
+                if (!d) return <div key={i} />;
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                const isSelected = value === dateStr;
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const current = new Date(dateStr);
+                const isToday = current.getTime() === today.getTime();
+                const isFuture = current > today;
+                
+                return (
+                  <div 
+                    key={i}
+                    onClick={(e) => !isFuture && handleSelect(e, d)}
+                    style={{
+                      height: 28,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '13px',
+                      borderRadius: '6px',
+                      cursor: isFuture ? 'not-allowed' : 'pointer',
+                      background: isSelected ? 'var(--primary)' : isToday ? 'rgba(255,255,255,0.1)' : 'transparent',
+                      color: isFuture ? 'var(--muted)' : isSelected ? '#000' : 'var(--text)',
+                      fontWeight: isSelected || isToday ? 600 : 400,
+                      opacity: isFuture ? 0.3 : 1
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isSelected && !isFuture) e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isSelected && !isFuture) e.currentTarget.style.background = isToday ? 'rgba(255,255,255,0.1)' : 'transparent';
+                    }}
+                  >
+                    {d}
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function MinusIcon(props) {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+      <path d="M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function NumericInput({ value, onChange, step = 1, min = 0, placeholder }) {
+  const decimals = String(step).includes('.') ? String(step).split('.')[1].length : 0;
+  const fmt = (n) => Number(n).toFixed(decimals);
+  const inc = () => {
+    const v = parseFloat(value);
+    const base = isNaN(v) ? 0 : v;
+    const next = base + step;
+    onChange(fmt(next));
+  };
+  const dec = () => {
+    const v = parseFloat(value);
+    const base = isNaN(v) ? 0 : v;
+    const next = Math.max(min, base - step);
+    onChange(fmt(next));
+  };
+  return (
+    <div style={{ position: 'relative' }}>
+      <input
+        type="number"
+        step="any"
+        className="input"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        style={{ width: '100%', paddingRight: 56 }}
+      />
+      <div style={{ position: 'absolute', right: 6, top: 6, display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <button className="icon-button" type="button" onClick={inc} style={{ width: 44, height: 16, padding: 0 }}>
+          <PlusIcon width="14" height="14" />
+        </button>
+        <button className="icon-button" type="button" onClick={dec} style={{ width: 44, height: 16, padding: 0 }}>
+          <MinusIcon width="14" height="14" />
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -265,6 +474,378 @@ function FeedbackModal({ onClose }) {
   );
 }
 
+function HoldingActionModal({ fund, onClose, onAction }) {
+  return (
+    <motion.div
+      className="modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="持仓操作"
+      onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        className="glass card modal"
+        onClick={(e) => e.stopPropagation()}
+        style={{ maxWidth: '320px' }}
+      >
+        <div className="title" style={{ marginBottom: 20, justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <SettingsIcon width="20" height="20" />
+            <span>持仓操作</span>
+          </div>
+          <button className="icon-button" onClick={onClose} style={{ border: 'none', background: 'transparent' }}>
+            <CloseIcon width="20" height="20" />
+          </button>
+        </div>
+        
+        <div style={{ marginBottom: 20, textAlign: 'center' }}>
+          <div className="fund-name" style={{ fontWeight: 600, fontSize: '16px', marginBottom: 4 }}>{fund?.name}</div>
+          <div className="muted" style={{ fontSize: '12px' }}>#{fund?.code}</div>
+        </div>
+
+        <div className="grid" style={{ gap: 12 }}>
+          <button hidden className="button col-6" onClick={() => onAction('buy')} style={{ background: 'rgba(34, 211, 238, 0.1)', border: '1px solid var(--primary)', color: 'var(--primary)' }}>
+            加仓
+          </button>
+          <button hidden className="button col-6" onClick={() => onAction('sell')} style={{ background: 'rgba(248, 113, 113, 0.1)', border: '1px solid var(--danger)', color: 'var(--danger)' }}>
+            减仓
+          </button>
+          <button className="button col-12" onClick={() => onAction('edit')} style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text)' }}>
+            编辑持仓
+          </button>
+          <button 
+            className="button col-12" 
+            onClick={() => onAction('clear')} 
+            style={{ 
+              marginTop: 8, 
+              background: 'linear-gradient(180deg, #ef4444, #f87171)', 
+              border: 'none', 
+              color: '#2b0b0b',
+              fontWeight: 600
+            }}
+          >
+            清空持仓
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function TradeModal({ type, fund, onClose, onConfirm }) {
+  const isBuy = type === 'buy';
+  const [share, setShare] = useState('');
+  const [amount, setAmount] = useState('');
+  const [feeRate, setFeeRate] = useState('0');
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [isAfter3pm, setIsAfter3pm] = useState(new Date().getHours() >= 15);
+  const [calcShare, setCalcShare] = useState(null);
+  const price = fund?.estPricedCoverage > 0.05 ? fund?.estGsz : (typeof fund?.gsz === 'number' ? fund?.gsz : Number(fund?.dwjz));
+
+  useEffect(() => {
+    if (!isBuy) return;
+    const a = parseFloat(amount);
+    const f = parseFloat(feeRate);
+    const p = parseFloat(price);
+    if (a > 0 && p > 0 && !isNaN(f)) {
+      const netAmount = a / (1 + f / 100);
+      const s = netAmount / p;
+      setCalcShare(s);
+    } else {
+      setCalcShare(null);
+    }
+  }, [isBuy, amount, feeRate, price]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isBuy) {
+      if (!amount || !feeRate || !date || calcShare === null || !price) return;
+      onConfirm({ share: calcShare, price: Number(price), totalCost: Number(amount), date, isAfter3pm });
+    } else {
+      if (!share || !price) return;
+      onConfirm({ share: Number(share), price: Number(price) });
+    }
+  };
+
+  const isValid = isBuy
+    ? (!!amount && !!feeRate && !!date && calcShare !== null)
+    : (!!share && !!price);
+
+  return (
+    <motion.div
+      className="modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label={isBuy ? "加仓" : "减仓"}
+      onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        className="glass card modal"
+        onClick={(e) => e.stopPropagation()}
+        style={{ maxWidth: '420px' }}
+      >
+        <div className="title" style={{ marginBottom: 20, justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: '20px' }}>{isBuy ? '📥' : '📤'}</span>
+            <span>{isBuy ? '加仓' : '减仓'}</span>
+          </div>
+          <button className="icon-button" onClick={onClose} style={{ border: 'none', background: 'transparent' }}>
+            <CloseIcon width="20" height="20" />
+          </button>
+        </div>
+        
+        <div style={{ marginBottom: 16 }}>
+          <div className="fund-name" style={{ fontWeight: 600, fontSize: '16px', marginBottom: 4 }}>{fund?.name}</div>
+          <div className="muted" style={{ fontSize: '12px' }}>#{fund?.code}</div>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          {isBuy ? (
+            <>
+              <div className="form-group" style={{ marginBottom: 16 }}>
+                <label className="muted" style={{ display: 'block', marginBottom: 8, fontSize: '14px' }}>
+                  加仓金额 (¥) <span style={{ color: 'var(--danger)' }}>*</span>
+                </label>
+                <div style={{ border: !amount ? '1px solid var(--danger)' : '1px solid var(--border)', borderRadius: 12 }}>
+                  <NumericInput
+                    value={amount}
+                    onChange={setAmount}
+                    step={100}
+                    min={0}
+                    placeholder="请输入加仓金额"
+                  />
+                </div>
+              </div>
+
+              <div className="row" style={{ gap: 12, marginBottom: 16 }}>
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label className="muted" style={{ display: 'block', marginBottom: 8, fontSize: '14px' }}>
+                    买入费率 (%) <span style={{ color: 'var(--danger)' }}>*</span>
+                  </label>
+                  <div style={{ border: !feeRate ? '1px solid var(--danger)' : '1px solid var(--border)', borderRadius: 12 }}>
+                    <NumericInput
+                      value={feeRate}
+                      onChange={setFeeRate}
+                      step={0.01}
+                      min={0}
+                      placeholder="0.12"
+                    />
+                  </div>
+                </div>
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label className="muted" style={{ display: 'block', marginBottom: 8, fontSize: '14px' }}>
+                    加仓日期 <span style={{ color: 'var(--danger)' }}>*</span>
+                  </label>
+                  <DatePicker value={date} onChange={setDate} />
+                </div>
+              </div>
+
+              <div className="form-group" style={{ marginBottom: 12 }}>
+                <label className="muted" style={{ display: 'block', marginBottom: 8, fontSize: '14px' }}>
+                  交易时段
+                </label>
+                <div className="row" style={{ gap: 8, background: 'rgba(0,0,0,0.2)', borderRadius: '8px', padding: '4px' }}>
+                  <button
+                    type="button"
+                    onClick={() => setIsAfter3pm(false)}
+                    style={{
+                      flex: 1,
+                      border: 'none',
+                      background: !isAfter3pm ? 'var(--primary)' : 'transparent',
+                      color: !isAfter3pm ? '#05263b' : 'var(--muted)',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      padding: '6px 8px'
+                    }}
+                  >
+                    15:00前
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsAfter3pm(true)}
+                    style={{
+                      flex: 1,
+                      border: 'none',
+                      background: isAfter3pm ? 'var(--primary)' : 'transparent',
+                      color: isAfter3pm ? '#05263b' : 'var(--muted)',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      padding: '6px 8px'
+                    }}
+                  >
+                    15:00后
+                  </button>
+                </div>
+                <div className="muted" style={{ fontSize: '12px', marginTop: 6 }}>
+                  {isAfter3pm ? '将在下一个交易日确认份额' : '将在当日确认份额'}
+                </div>
+              </div>
+
+              {price && calcShare !== null && (
+                <div className="glass" style={{ padding: '12px', borderRadius: '8px', background: 'rgba(34, 211, 238, 0.05)', border: '1px solid rgba(34, 211, 238, 0.2)', marginBottom: 8 }}>
+                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 4 }}>
+                    <span className="muted" style={{ fontSize: '12px' }}>预计确认份额</span>
+                    <span style={{ fontWeight: 700, color: 'var(--primary)' }}>{calcShare.toFixed(2)} 份</span>
+                  </div>
+                  <div className="muted" style={{ fontSize: '12px' }}>计算基于当前净值/估值：¥{Number(price).toFixed(4)}</div>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <div className="form-group" style={{ marginBottom: 16 }}>
+                <label className="muted" style={{ display: 'block', marginBottom: 8, fontSize: '14px' }}>
+                  卖出份额 <span style={{ color: 'var(--danger)' }}>*</span>
+                </label>
+                <div style={{ border: !share ? '1px solid var(--danger)' : '1px solid var(--border)', borderRadius: 12 }}>
+                  <NumericInput
+                    value={share}
+                    onChange={setShare}
+                    step={1}
+                    min={0}
+                    placeholder="请输入卖出份额"
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
+          <div className="row" style={{ gap: 12, marginTop: 12 }}>
+            <button type="button" className="button secondary" onClick={onClose} style={{ flex: 1, background: 'rgba(255,255,255,0.05)', color: 'var(--text)' }}>取消</button>
+            <button 
+              type="submit" 
+              className="button" 
+              disabled={!isValid}
+              style={{ flex: 1, opacity: isValid ? 1 : 0.6 }}
+            >
+              确定
+            </button>
+          </div>
+        </form>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function HoldingEditModal({ fund, holding, onClose, onSave }) {
+  const [share, setShare] = useState(holding?.share || '');
+  const [cost, setCost] = useState(holding?.cost || '');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!share || !cost) return; // 简单校验
+    onSave({
+      share: Number(share),
+      cost: Number(cost)
+    });
+    onClose();
+  };
+
+  const isValid = share && cost && !isNaN(share) && !isNaN(cost);
+
+  return (
+    <motion.div
+      className="modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="编辑持仓"
+      onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        className="glass card modal"
+        onClick={(e) => e.stopPropagation()}
+        style={{ maxWidth: '400px' }}
+      >
+        <div className="title" style={{ marginBottom: 20, justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <SettingsIcon width="20" height="20" />
+            <span>设置持仓</span>
+          </div>
+          <button className="icon-button" onClick={onClose} style={{ border: 'none', background: 'transparent' }}>
+            <CloseIcon width="20" height="20" />
+          </button>
+        </div>
+        
+        <div style={{ marginBottom: 16 }}>
+          <div className="fund-name" style={{ fontWeight: 600, fontSize: '16px', marginBottom: 4 }}>{fund?.name}</div>
+          <div className="muted" style={{ fontSize: '12px' }}>#{fund?.code}</div>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <div className="form-group" style={{ marginBottom: 16 }}>
+            <label className="muted" style={{ display: 'block', marginBottom: 8, fontSize: '14px' }}>
+              持有份额 <span style={{ color: 'var(--danger)' }}>*</span>
+            </label>
+            <input
+              type="number"
+              step="any"
+              className={`input ${!share ? 'error' : ''}`}
+              value={share}
+              onChange={(e) => setShare(e.target.value)}
+              placeholder="请输入持有份额"
+              style={{ 
+                width: '100%',
+                border: !share ? '1px solid var(--danger)' : undefined
+              }}
+              autoFocus
+            />
+          </div>
+
+          <div className="form-group" style={{ marginBottom: 24 }}>
+            <label className="muted" style={{ display: 'block', marginBottom: 8, fontSize: '14px' }}>
+              持仓成本价 <span style={{ color: 'var(--danger)' }}>*</span>
+            </label>
+            <input
+              type="number"
+              step="any"
+              className={`input ${!cost ? 'error' : ''}`}
+              value={cost}
+              onChange={(e) => setCost(e.target.value)}
+              placeholder="请输入持仓成本价"
+              style={{ 
+                width: '100%',
+                border: !cost ? '1px solid var(--danger)' : undefined
+              }}
+            />
+          </div>
+
+          <div className="row" style={{ gap: 12 }}>
+            <button type="button" className="button secondary" onClick={onClose} style={{ flex: 1, background: 'rgba(255,255,255,0.05)', color: 'var(--text)' }}>取消</button>
+            <button 
+              type="submit" 
+              className="button" 
+              disabled={!isValid}
+              style={{ flex: 1, opacity: isValid ? 1 : 0.6 }}
+            >
+              保存
+            </button>
+          </div>
+        </form>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 function AddResultModal({ failures, onClose }) {
   return (
     <motion.div
@@ -346,7 +927,7 @@ function SuccessModal({ message, onClose }) {
   );
 }
 
-function ConfirmModal({ title, message, onConfirm, onCancel }) {
+function ConfirmModal({ title, message, onConfirm, onCancel, confirmText = "确定删除" }) {
   return (
     <motion.div
       className="modal-overlay"
@@ -375,7 +956,7 @@ function ConfirmModal({ title, message, onConfirm, onCancel }) {
         </p>
         <div className="row" style={{ gap: 12 }}>
           <button className="button secondary" onClick={onCancel} style={{ flex: 1, background: 'rgba(255,255,255,0.05)', color: 'var(--text)' }}>取消</button>
-          <button className="button danger" onClick={onConfirm} style={{ flex: 1 }}>确定删除</button>
+          <button className="button danger" onClick={onConfirm} style={{ flex: 1 }}>{confirmText}</button>
         </div>
       </motion.div>
     </motion.div>
@@ -713,6 +1294,82 @@ function GroupModal({ onClose, onConfirm }) {
   );
 }
 
+function GroupSummary({ funds, holdings, groupName, getProfit }) {
+  const [showPercent, setShowPercent] = useState(false);
+
+  const summary = useMemo(() => {
+    let totalAsset = 0;
+    let totalProfitToday = 0;
+    let totalHoldingReturn = 0;
+    let totalCost = 0;
+    let hasHolding = false;
+
+    funds.forEach(fund => {
+      const holding = holdings[fund.code];
+      const profit = getProfit(fund, holding);
+      
+      if (profit) {
+        hasHolding = true;
+        totalAsset += profit.amount;
+        totalProfitToday += profit.profitToday;
+        if (profit.profitTotal !== null) {
+          totalHoldingReturn += profit.profitTotal;
+          if (holding && typeof holding.cost === 'number' && typeof holding.share === 'number') {
+            totalCost += holding.cost * holding.share;
+          }
+        }
+      }
+    });
+
+    const returnRate = totalCost > 0 ? (totalHoldingReturn / totalCost) * 100 : 0;
+
+    return { totalAsset, totalProfitToday, totalHoldingReturn, hasHolding, returnRate };
+  }, [funds, holdings, getProfit]);
+
+  if (!summary.hasHolding) return null;
+
+  return (
+    <div className="glass card" style={{ marginBottom: 16, padding: '16px 20px', background: 'rgba(255, 255, 255, 0.03)' }}>
+      <div className="row" style={{ alignItems: 'flex-end', justifyContent: 'space-between' }}>
+        <div>
+          <div className="muted" style={{ fontSize: '12px', marginBottom: 4 }}>{groupName}</div>
+          <div style={{ fontSize: '24px', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+            <span style={{ fontSize: '16px', marginRight: 2 }}>¥</span>
+            {summary.totalAsset.toFixed(2)}
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: 24 }}>
+          <div style={{ textAlign: 'right' }}>
+            <div className="muted" style={{ fontSize: '12px', marginBottom: 4 }}>当日收益</div>
+            <div 
+              className={summary.totalProfitToday > 0 ? 'up' : summary.totalProfitToday < 0 ? 'down' : ''} 
+              style={{ fontSize: '18px', fontWeight: 700, fontFamily: 'var(--font-mono)' }}
+            >
+              {summary.totalProfitToday > 0 ? '+' : summary.totalProfitToday < 0 ? '-' : ''}
+              ¥{Math.abs(summary.totalProfitToday).toFixed(2)}
+            </div>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <div className="muted" style={{ fontSize: '12px', marginBottom: 4 }}>持有收益{showPercent ? '(%)' : ''}</div>
+            <div 
+              className={summary.totalHoldingReturn > 0 ? 'up' : summary.totalHoldingReturn < 0 ? 'down' : ''} 
+              style={{ fontSize: '18px', fontWeight: 700, fontFamily: 'var(--font-mono)', cursor: 'pointer' }}
+              onClick={() => setShowPercent(!showPercent)}
+              title="点击切换金额/百分比"
+            >
+              {summary.totalHoldingReturn > 0 ? '+' : summary.totalHoldingReturn < 0 ? '-' : ''}
+              {showPercent 
+                ? `${Math.abs(summary.returnRate).toFixed(2)}%`
+                : `¥${Math.abs(summary.totalHoldingReturn).toFixed(2)}`
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function HomePage() {
   const [funds, setFunds] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -760,6 +1417,12 @@ export default function HomePage() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [addResultOpen, setAddResultOpen] = useState(false);
   const [addFailures, setAddFailures] = useState([]);
+  const [holdingModal, setHoldingModal] = useState({ open: false, fund: null });
+  const [actionModal, setActionModal] = useState({ open: false, fund: null });
+  const [tradeModal, setTradeModal] = useState({ open: false, fund: null, type: 'buy' }); // type: 'buy' | 'sell'
+  const [clearConfirm, setClearConfirm] = useState(null); // { fund }
+  const [holdings, setHoldings] = useState({}); // { [code]: { share: number, cost: number } }
+  const [percentModes, setPercentModes] = useState({}); // { [code]: boolean }
   const tabsRef = useRef(null);
 
   // 过滤和排序后的基金列表
@@ -800,6 +1463,95 @@ export default function HomePage() {
   const [tabsOverflow, setTabsOverflow] = useState(false);
   const [canLeft, setCanLeft] = useState(false);
   const [canRight, setCanRight] = useState(false);
+
+  // 计算持仓收益
+  const getHoldingProfit = (fund, holding) => {
+    if (!holding || typeof holding.share !== 'number') return null;
+    
+    // 当前净值
+    const currentNav = fund.estPricedCoverage > 0.05 
+      ? fund.estGsz 
+      : (typeof fund.gsz === 'number' ? fund.gsz : Number(fund.dwjz));
+      
+    if (!currentNav) return null;
+
+    // 持仓金额 = 份额 * 当前净值
+    const amount = holding.share * currentNav;
+    
+    // 估算收益 = 份额 * (当前净值 - 昨日净值)
+    // 注意：这里用估值涨跌幅计算当日盈亏
+    const profitToday = amount * (fund.estPricedCoverage > 0.05 ? fund.estGszzl : (Number(fund.gszzl) || 0)) / 100;
+    
+    // 总收益 = (当前净值 - 成本价) * 份额
+    const profitTotal = typeof holding.cost === 'number' 
+      ? (currentNav - holding.cost) * holding.share
+      : null;
+
+    return {
+      amount,
+      profitToday,
+      profitTotal
+    };
+  };
+
+  const handleSaveHolding = (code, data) => {
+    setHoldings(prev => {
+      const next = { ...prev };
+      if (data.share === null && data.cost === null) {
+        delete next[code];
+      } else {
+        next[code] = data;
+      }
+      localStorage.setItem('holdings', JSON.stringify(next));
+      return next;
+    });
+    setHoldingModal({ open: false, fund: null });
+  };
+
+  const handleAction = (type, fund) => {
+    setActionModal({ open: false, fund: null });
+    if (type === 'edit') {
+      setHoldingModal({ open: true, fund });
+    } else if (type === 'clear') {
+      setClearConfirm({ fund });
+    } else if (type === 'buy' || type === 'sell') {
+      setTradeModal({ open: true, fund, type });
+    }
+  };
+
+  const handleClearConfirm = () => {
+    if (clearConfirm?.fund) {
+      handleSaveHolding(clearConfirm.fund.code, { share: null, cost: null });
+    }
+    setClearConfirm(null);
+  };
+
+  const handleTrade = (fund, data) => {
+    const current = holdings[fund.code] || { share: 0, cost: 0 };
+    const isBuy = tradeModal.type === 'buy';
+    
+    let newShare, newCost;
+    
+    if (isBuy) {
+      newShare = current.share + data.share;
+      
+      // 如果传递了 totalCost（即买入总金额），则用它来计算新成本
+      // 否则回退到用 share * price 计算（减仓或旧逻辑）
+      const buyCost = data.totalCost !== undefined ? data.totalCost : (data.price * data.share);
+      
+      // 加权平均成本 = (原持仓成本 * 原份额 + 本次买入总花费) / 新总份额
+      // 注意：这里默认将手续费也计入成本（如果 totalCost 包含了手续费）
+      newCost = (current.cost * current.share + buyCost) / newShare;
+    } else {
+      newShare = Math.max(0, current.share - data.share);
+      // 减仓不改变单位成本，只减少份额
+      newCost = current.cost;
+      if (newShare === 0) newCost = 0;
+    }
+
+    handleSaveHolding(fund.code, { share: newShare, cost: newCost });
+    setTradeModal({ open: false, fund: null, type: 'buy' });
+  };
 
   const handleMouseDown = (e) => {
     if (!tabsRef.current) return;
@@ -998,6 +1750,11 @@ export default function HomePage() {
       const savedViewMode = localStorage.getItem('viewMode');
       if (savedViewMode === 'card' || savedViewMode === 'list') {
         setViewMode(savedViewMode);
+      }
+      // 加载持仓数据
+      const savedHoldings = JSON.parse(localStorage.getItem('holdings') || '{}');
+      if (savedHoldings && typeof savedHoldings === 'object') {
+        setHoldings(savedHoldings);
       }
     } catch {}
   }, []);
@@ -1373,6 +2130,15 @@ export default function HomePage() {
       if (nextSet.size === 0) setCurrentTab('all');
       return nextSet;
     });
+
+    // 同步删除持仓数据
+    setHoldings(prev => {
+      if (!prev[removeCode]) return prev;
+      const next = { ...prev };
+      delete next[removeCode];
+      localStorage.setItem('holdings', JSON.stringify(next));
+      return next;
+    });
   };
 
   const manualRefresh = async () => {
@@ -1403,6 +2169,7 @@ export default function HomePage() {
         collapsedCodes: JSON.parse(localStorage.getItem('collapsedCodes') || '[]'),
         refreshMs: parseInt(localStorage.getItem('refreshMs') || '30000', 10),
         viewMode: localStorage.getItem('viewMode') || 'card',
+        holdings: JSON.parse(localStorage.getItem('holdings') || '{}'),
         exportedAt: new Date().toISOString()
       };
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
@@ -1509,6 +2276,12 @@ export default function HomePage() {
           localStorage.setItem('viewMode', data.viewMode);
         }
 
+        if (data.holdings && typeof data.holdings === 'object') {
+          const mergedHoldings = { ...JSON.parse(localStorage.getItem('holdings') || '{}'), ...data.holdings };
+          setHoldings(mergedHoldings);
+          localStorage.setItem('holdings', JSON.stringify(mergedHoldings));
+        }
+
         // 导入成功后，仅刷新新追加的基金
         if (appendedCodes.length) {
           // 这里需要确保 refreshAll 不会因为闭包问题覆盖掉刚刚合并好的 mergedFunds
@@ -1537,7 +2310,11 @@ export default function HomePage() {
       addFundToGroupOpen || 
       groupManageOpen || 
       groupModalOpen || 
-      successModal.open;
+      successModal.open ||
+      holdingModal.open ||
+      actionModal.open ||
+      tradeModal.open ||
+      !!clearConfirm;
     
     if (isAnyModalOpen) {
       document.body.style.overflow = 'hidden';
@@ -1557,6 +2334,13 @@ export default function HomePage() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [settingsOpen]);
+
+  const getGroupName = () => {
+    if (currentTab === 'all') return '全部资产';
+    if (currentTab === 'fav') return '自选资产';
+    const group = groups.find(g => g.id === currentTab);
+    return group ? `${group.name}资产` : '分组资产';
+  };
 
   return (
     <div className="container content">
@@ -1821,18 +2605,52 @@ export default function HomePage() {
             </div>
           ) : (
             <>
+              <GroupSummary 
+                funds={displayFunds} 
+                holdings={holdings} 
+                groupName={getGroupName()} 
+                getProfit={getHoldingProfit}
+              />
+
               {currentTab !== 'all' && currentTab !== 'fav' && (
-                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
-                  <button 
-                    className="button" 
-                    onClick={() => setAddFundToGroupOpen(true)}
-                    style={{ height: '32px', fontSize: '13px', padding: '0 12px', display: 'flex', alignItems: 'center', gap: '6px' }}
-                  >
-                    <PlusIcon width="16" height="16" />
-                    <span>添加基金</span>
-                  </button>
-                </div>
+                <motion.button 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="button-dashed"
+                  onClick={() => setAddFundToGroupOpen(true)}
+                  style={{
+                    width: '100%',
+                    height: '48px',
+                    border: '2px dashed rgba(255,255,255,0.1)',
+                    background: 'transparent',
+                    borderRadius: '12px',
+                    color: 'var(--muted)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    marginBottom: '16px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    fontSize: '14px',
+                    fontWeight: 500
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--primary)';
+                    e.currentTarget.style.color = 'var(--primary)';
+                    e.currentTarget.style.background = 'rgba(34, 211, 238, 0.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                    e.currentTarget.style.color = 'var(--muted)';
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <PlusIcon width="18" height="18" />
+                  <span>添加基金到此分组</span>
+                </motion.button>
               )}
+
               <AnimatePresence mode="wait">
               <motion.div
                 key={viewMode}
@@ -1968,6 +2786,70 @@ export default function HomePage() {
                               delta={f.estPricedCoverage > 0.05 ? f.estGszzl : (Number(f.gszzl) || 0)}
                             />
                           </div>
+                          
+                          <div className="row" style={{ marginBottom: 12 }}>
+                            {(() => {
+                              const holding = holdings[f.code];
+                              const profit = getHoldingProfit(f, holding);
+                              
+                              if (!profit) {
+                                return (
+                                  <div className="stat">
+                                    <span className="label">持仓金额</span>
+                                    <div 
+                                      className="value muted" 
+                                      style={{ fontSize: '14px', display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}
+                                      onClick={() => setHoldingModal({ open: true, fund: f })}
+                                    >
+                                      未设置 <SettingsIcon width="12" height="12" />
+                                    </div>
+                                  </div>
+                                );
+                              }
+
+                              return (
+                                <>
+                                  <div 
+                                    className="stat" 
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => setActionModal({ open: true, fund: f })}
+                                  >
+                                    <span className="label" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                                      持仓金额 <SettingsIcon width="12" height="12" style={{ opacity: 0.7 }} />
+                                    </span>
+                                    <span className="value">¥{profit.amount.toFixed(2)}</span>
+                                  </div>
+                                  <div className="stat">
+                                    <span className="label">当日盈亏</span>
+                                    <span className={`value ${profit.profitToday > 0 ? 'up' : profit.profitToday < 0 ? 'down' : ''}`}>
+                                      {profit.profitToday > 0 ? '+' : profit.profitToday < 0 ? '-' : ''}¥{Math.abs(profit.profitToday).toFixed(2)}
+                                    </span>
+                                  </div>
+                                  {profit.profitTotal !== null && (
+                                    <div 
+                                      className="stat"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setPercentModes(prev => ({ ...prev, [f.code]: !prev[f.code] }));
+                                      }}
+                                      style={{ cursor: 'pointer' }}
+                                      title="点击切换金额/百分比"
+                                    >
+                                      <span className="label">持有收益{percentModes[f.code] ? '(%)' : ''}</span>
+                                      <span className={`value ${profit.profitTotal > 0 ? 'up' : profit.profitTotal < 0 ? 'down' : ''}`}>
+                                        {profit.profitTotal > 0 ? '+' : profit.profitTotal < 0 ? '-' : ''}
+                                        {percentModes[f.code] 
+                                          ? `${Math.abs((holding.cost * holding.share) ? (profit.profitTotal / (holding.cost * holding.share)) * 100 : 0).toFixed(2)}%`
+                                          : `¥${Math.abs(profit.profitTotal).toFixed(2)}`
+                                        }
+                                      </span>
+                                    </div>
+                                  )}
+                                </>
+                              );
+                            })()}
+                          </div>
+
                           {f.estPricedCoverage > 0.05 && (
                             <div style={{ fontSize: '10px', color: 'var(--muted)', marginTop: -8, marginBottom: 10, textAlign: 'right' }}>
                               基于 {Math.round(f.estPricedCoverage * 100)}% 持仓估算
@@ -2084,6 +2966,50 @@ export default function HomePage() {
             currentGroupCodes={groups.find(g => g.id === currentTab)?.codes || []}
             onClose={() => setAddFundToGroupOpen(false)}
             onAdd={handleAddFundsToGroup}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {actionModal.open && (
+          <HoldingActionModal
+            fund={actionModal.fund}
+            onClose={() => setActionModal({ open: false, fund: null })}
+            onAction={(type) => handleAction(type, actionModal.fund)}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {tradeModal.open && (
+          <TradeModal
+            type={tradeModal.type}
+            fund={tradeModal.fund}
+            onClose={() => setTradeModal({ open: false, fund: null, type: 'buy' })}
+            onConfirm={(data) => handleTrade(tradeModal.fund, data)}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {clearConfirm && (
+          <ConfirmModal
+            title="清空持仓"
+            message={`确定要清空“${clearConfirm.fund?.name}”的所有持仓记录吗？此操作不可恢复。`}
+            onConfirm={handleClearConfirm}
+            onCancel={() => setClearConfirm(null)}
+            confirmText="确认清空"
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {holdingModal.open && (
+          <HoldingEditModal
+            fund={holdingModal.fund}
+            holding={holdings[holdingModal.fund?.code]}
+            onClose={() => setHoldingModal({ open: false, fund: null })}
+            onSave={(data) => handleSaveHolding(holdingModal.fund?.code, data)}
           />
         )}
       </AnimatePresence>

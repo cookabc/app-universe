@@ -138,6 +138,16 @@ body {
   box-shadow: 0 0 0 3px rgba(96,165,250,0.2);
 }
 
+/* 美化并隐藏原生数字输入的上下按钮，使用自定义按钮 */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .button {
   height: 44px;
   padding: 0 16px;
