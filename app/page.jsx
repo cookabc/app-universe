@@ -233,7 +233,6 @@ function FeedbackModal({ onClose }) {
                 style={{ width: '100%', minHeight: '120px', padding: '12px', resize: 'vertical' }}
               />
             </div>
-
             {error && (
               <div className="error-text" style={{ marginBottom: 16, textAlign: 'center' }}>
                 {error}
@@ -243,6 +242,22 @@ function FeedbackModal({ onClose }) {
             <button className="button" type="submit" disabled={submitting} style={{ width: '100%' }}>
               {submitting ? '发送中...' : '提交反馈'}
             </button>
+
+            <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid var(--border)', textAlign: 'center' }}>
+              <p className="muted" style={{ fontSize: '12px', lineHeight: '1.6' }}>
+                如果您有 Github 账号，也可以在本项目 
+                <a 
+                  href="https://github.com/hzm0321/real-time-fund/issues" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="link-button"
+                  style={{ color: 'var(--primary)', textDecoration: 'underline', padding: '0 4px', fontWeight: 600 }}
+                >
+                  Issues
+                </a> 
+                区留言互动
+              </p>
+            </div>
           </form>
         )}
       </motion.div>
