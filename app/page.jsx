@@ -2517,7 +2517,19 @@ export default function HomePage() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [settingsOpen, feedbackOpen, addResultOpen, addFundToGroupOpen, groupManageOpen, groupModalOpen, successModal.open]);
+  }, [
+    settingsOpen, 
+    feedbackOpen, 
+    addResultOpen, 
+    addFundToGroupOpen, 
+    groupManageOpen, 
+    groupModalOpen, 
+    successModal.open,
+    holdingModal.open,
+    actionModal.open,
+    tradeModal.open,
+    clearConfirm
+  ]);
 
   useEffect(() => {
     const onKey = (ev) => {
