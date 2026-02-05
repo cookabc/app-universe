@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState, useMemo, useLayoutEffect } from 'react';
 import { motion, AnimatePresence, Reorder } from 'framer-motion';
 import Announcement from "./components/Announcement";
+import zhifubaoImg from "./assets/zhifubao.png";
+import weixinImg from "./assets/weixin.png";
 
 function PlusIcon(props) {
   return (
@@ -277,6 +279,78 @@ function DatePicker({ value, onChange }) {
           </motion.div>
         )}
       </AnimatePresence>
+    </div>
+  );
+}
+
+function DonateTabs() {
+  const [method, setMethod] = useState('alipay'); // alipay, wechat
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
+      <div className="tabs glass" style={{ padding: 4, borderRadius: 12, width: '100%', display: 'flex' }}>
+        <button
+          onClick={() => setMethod('alipay')}
+          style={{
+            flex: 1,
+            padding: '8px 0',
+            border: 'none',
+            background: method === 'alipay' ? 'rgba(34, 211, 238, 0.15)' : 'transparent',
+            color: method === 'alipay' ? 'var(--primary)' : 'var(--muted)',
+            borderRadius: 8,
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: 600,
+            transition: 'all 0.2s ease'
+          }}
+        >
+          支付宝
+        </button>
+        <button
+          onClick={() => setMethod('wechat')}
+          style={{
+            flex: 1,
+            padding: '8px 0',
+            border: 'none',
+            background: method === 'wechat' ? 'rgba(34, 211, 238, 0.15)' : 'transparent',
+            color: method === 'wechat' ? 'var(--primary)' : 'var(--muted)',
+            borderRadius: 8,
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: 600,
+            transition: 'all 0.2s ease'
+          }}
+        >
+          微信支付
+        </button>
+      </div>
+
+      <div 
+        style={{ 
+          width: 200, 
+          height: 200, 
+          background: 'white', 
+          borderRadius: 12, 
+          padding: 8,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        {method === 'alipay' ? (
+          <img 
+            src={zhifubaoImg.src} 
+            alt="支付宝收款码" 
+            style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
+          />
+        ) : (
+          <img 
+            src={weixinImg.src} 
+            alt="微信收款码" 
+            style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
+          />
+        )}
+      </div>
     </div>
   );
 }
@@ -1492,6 +1566,7 @@ export default function HomePage() {
   const [actionModal, setActionModal] = useState({ open: false, fund: null });
   const [tradeModal, setTradeModal] = useState({ open: false, fund: null, type: 'buy' }); // type: 'buy' | 'sell'
   const [clearConfirm, setClearConfirm] = useState(null); // { fund }
+  const [donateOpen, setDonateOpen] = useState(false);
   const [holdings, setHoldings] = useState({}); // { [code]: { share: number, cost: number } }
   const [percentModes, setPercentModes] = useState({}); // { [code]: boolean }
   const [isTradingDay, setIsTradingDay] = useState(true); // 默认为交易日，通过接口校正
@@ -2506,7 +2581,8 @@ export default function HomePage() {
       holdingModal.open ||
       actionModal.open ||
       tradeModal.open ||
-      !!clearConfirm;
+      !!clearConfirm ||
+      donateOpen;
     
     if (isAnyModalOpen) {
       document.body.style.overflow = 'hidden';
@@ -2528,7 +2604,8 @@ export default function HomePage() {
     holdingModal.open,
     actionModal.open,
     tradeModal.open,
-    clearConfirm
+    clearConfirm,
+    donateOpen
   ]);
 
   useEffect(() => {
@@ -3192,11 +3269,10 @@ export default function HomePage() {
       </div>
 
       <div className="footer">
-        <p>数据源：实时估值与重仓直连东方财富，仅供个人学习及参考使用。数据可能存在延迟，不作为任何投资建议
-        </p>
-        <p>注：估算数据与真实结算数据会有1%左右误差，非股票型基金误差较大</p>
-        <div style={{ marginTop: 12, opacity: 0.8 }}>
-          <p>
+        <p style={{ marginBottom: 8 }}>数据源：实时估值与重仓直连东方财富，仅供个人学习及参考使用。数据可能存在延迟，不作为任何投资建议</p>
+        <p style={{ marginBottom: 12 }}>注：估算数据与真实结算数据会有1%左右误差，非股票型基金误差较大</p>
+        <div style={{ marginTop: 12, opacity: 0.8, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+          <p style={{ margin: 0 }}>
             遇到任何问题或需求建议可
             <button
               className="link-button"
@@ -3209,6 +3285,33 @@ export default function HomePage() {
               点此提交反馈
             </button>
           </p>
+          <button 
+            onClick={() => setDonateOpen(true)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--muted)',
+              fontSize: '12px',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 4,
+              padding: '4px 8px',
+              borderRadius: '6px',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = 'var(--primary)';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = 'var(--muted)';
+              e.currentTarget.style.background = 'transparent';
+            }}
+          >
+            <span>☕</span> 
+            <span>请作者喝杯咖啡</span>
+          </button>
         </div>
       </div>
 
@@ -3281,6 +3384,38 @@ export default function HomePage() {
             onClose={() => setHoldingModal({ open: false, fund: null })}
             onSave={(data) => handleSaveHolding(holdingModal.fund?.code, data)}
           />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {donateOpen && (
+          <div className="modal-overlay" onClick={() => setDonateOpen(false)}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="glass card modal"
+              style={{ maxWidth: '360px' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="title" style={{ marginBottom: 20, justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span>☕ 请我喝杯咖啡</span>
+                </div>
+                <button className="icon-button" onClick={() => setDonateOpen(false)} style={{ border: 'none', background: 'transparent' }}>
+                  <CloseIcon width="20" height="20" />
+                </button>
+              </div>
+              
+              <div style={{ marginBottom: 20 }}>
+                <DonateTabs />
+              </div>
+
+              <div className="muted" style={{ fontSize: '12px', textAlign: 'center', lineHeight: 1.5 }}>
+                感谢您的支持！您的鼓励是我持续维护和更新的动力。
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
