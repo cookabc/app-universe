@@ -61,6 +61,9 @@ const HomeContent: React.FC<{ navigate: NavigateFunction; events: EventItem[] }>
     
     const filteredEvents = events.filter(event => {
         if (filter === 'all') return true;
+        if (event.type) {
+          return event.type === filter;
+        }
         const isPast = event.date.getTime() < now.getTime();
         return filter === 'past' ? isPast : !isPast;
     });
