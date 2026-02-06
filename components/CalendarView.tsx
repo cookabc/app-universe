@@ -25,7 +25,14 @@ export const CalendarView: React.FC = () => {
   )
 }
 
-const EventRow = ({ color, title, time, location }: any) => (
+type EventRowProps = {
+  color: string;
+  title: string;
+  time: string;
+  location: string;
+};
+
+const EventRow: React.FC<EventRowProps> = ({ color, title, time, location }) => (
     <div className="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm flex items-start space-x-4">
         <div className={`w-1 h-10 ${color} rounded-full mt-1`}></div>
         <div className="flex-1">

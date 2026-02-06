@@ -4,17 +4,17 @@ export const SettingsView: React.FC = () => {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    setIsDark(document.documentElement.classList.contains('dark'));
+    const stored = localStorage.getItem('duekeep-theme');
+    const shouldBeDark = stored ? stored === 'dark' : document.documentElement.classList.contains('dark');
+    document.documentElement.classList.toggle('dark', shouldBeDark);
+    setIsDark(shouldBeDark);
   }, []);
 
   const toggleDarkMode = () => {
-    if (isDark) {
-      document.documentElement.classList.remove('dark');
-      setIsDark(false);
-    } else {
-      document.documentElement.classList.add('dark');
-      setIsDark(true);
-    }
+    const next = !isDark;
+    document.documentElement.classList.toggle('dark', next);
+    localStorage.setItem('duekeep-theme', next ? 'dark' : 'light');
+    setIsDark(next);
   };
 
   return (
@@ -84,7 +84,14 @@ export const SettingsView: React.FC = () => {
   );
 };
 
-const SettingsItem = ({ icon, iconColor, label, value }: any) => (
+type SettingsItemProps = {
+  icon: string;
+  iconColor: string;
+  label: string;
+  value?: string;
+};
+
+const SettingsItem: React.FC<SettingsItemProps> = ({ icon, iconColor, label, value }) => (
   <div className="flex items-center justify-between px-4 py-3 bg-white dark:bg-[#1C1C1E] active:bg-gray-100 dark:active:bg-[#2C2C2E] transition-colors cursor-pointer">
     <div className="flex items-center space-x-3">
         <div className={`w-7 h-7 rounded-md ${iconColor} flex items-center justify-center text-white`}>

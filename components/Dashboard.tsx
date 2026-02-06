@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, type NavigateFunction } from 'react-router-dom';
 import { EventCard } from './EventCard';
-import { MOCK_EVENTS } from '../constants';
 import { SettingsView } from './SettingsView';
 import { CalendarView } from './CalendarView';
+import { EventItem } from '../types';
 
-export const Dashboard: React.FC = () => {
+export const Dashboard: React.FC<{ events: EventItem[] }> = ({ events }) => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('home');
 
@@ -14,7 +14,7 @@ export const Dashboard: React.FC = () => {
       
       {/* Content Area */}
       <div className="flex-1 h-full overflow-hidden relative">
-        {activeTab === 'home' && <HomeContent navigate={navigate} />}
+        {activeTab === 'home' && <HomeContent navigate={navigate} events={events} />}
         {activeTab === 'calendar' && <CalendarView />}
         {activeTab === 'settings' && <SettingsView />}
       </div>
@@ -55,12 +55,14 @@ export const Dashboard: React.FC = () => {
   );
 };
 
-const HomeContent: React.FC<{navigate: any}> = ({ navigate }) => {
+const HomeContent: React.FC<{ navigate: NavigateFunction; events: EventItem[] }> = ({ navigate, events }) => {
     const [filter, setFilter] = useState<'all' | 'past' | 'future'>('all');
+    const now = new Date();
     
-    const filteredEvents = MOCK_EVENTS.filter(event => {
+    const filteredEvents = events.filter(event => {
         if (filter === 'all') return true;
-        return event.type === filter;
+        const isPast = event.date.getTime() < now.getTime();
+        return filter === 'past' ? isPast : !isPast;
     });
 
     const todayStr = new Date().toLocaleDateString('en-US', {

@@ -1,15 +1,41 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CalendarPicker } from './CalendarPicker';
 import { TimePicker } from './TimePicker';
+import { EVENT_COLORS, EventItem } from '../types';
 
-export const AddEvent: React.FC = () => {
+export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) => void }> = ({ events, addEvent }) => {
   const navigate = useNavigate();
-  const [eventName, setEventName] = useState('Event Name');
+  const [eventName, setEventName] = useState('');
   const [eventType, setEventType] = useState<'past' | 'future'>('past');
+  const [allDay, setAllDay] = useState(true);
+
+  const canSave = eventName.trim().length > 0;
+
+  const nextColors = useMemo(() => EVENT_COLORS[events.length % EVENT_COLORS.length], [events.length]);
 
   const handleSave = () => {
-    // In a real app, this would save to context/store
+    if (!canSave) {
+      return;
+    }
+    const now = new Date();
+    const dayOffset = eventType === 'past' ? -1 : 1;
+    const eventDate = new Date(now.getTime() + dayOffset * 24 * 60 * 60 * 1000);
+    if (allDay) {
+      eventDate.setHours(0, 0, 0, 0);
+    }
+    const id = typeof crypto !== 'undefined' && 'randomUUID' in crypto
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    addEvent({
+      id,
+      name: eventName.trim(),
+      date: eventDate,
+      type: eventType,
+      category: 'General',
+      color: nextColors.bg,
+      textColor: nextColors.text
+    });
     navigate('/');
   };
 
@@ -26,9 +52,10 @@ export const AddEvent: React.FC = () => {
         <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
           Add Event
         </h1>
-        <button 
+        <button
           onClick={handleSave}
-          className="text-blue-500 dark:text-accent text-lg font-bold hover:opacity-70 transition-opacity"
+          disabled={!canSave}
+          className={`text-blue-500 dark:text-accent text-lg font-bold transition-opacity ${canSave ? 'hover:opacity-70' : 'opacity-40 cursor-not-allowed'}`}
         >
           Save
         </button>
@@ -95,11 +122,18 @@ export const AddEvent: React.FC = () => {
             <div className="flex items-center justify-between px-4 py-3.5 border-b border-divider-light dark:border-divider-dark">
               <span className="text-base font-medium text-gray-900 dark:text-white">All-day</span>
               <div className="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
-                <input className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-transparent appearance-none cursor-pointer translate-x-0 transition-transform duration-200 ease-in-out z-10" id="toggle" name="toggle" type="checkbox"/>
+                <input
+                  className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-transparent appearance-none cursor-pointer translate-x-0 transition-transform duration-200 ease-in-out z-10"
+                  id="toggle"
+                  name="toggle"
+                  type="checkbox"
+                  checked={allDay}
+                  onChange={() => setAllDay(!allDay)}
+                />
                 <label className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer transition-colors" htmlFor="toggle"></label>
               </div>
             </div>
-            <TimePicker />
+            {!allDay && <TimePicker />}
           </div>
         </section>
 
