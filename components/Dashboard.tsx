@@ -18,6 +18,14 @@ export const Dashboard: React.FC<{ events: EventItem[] }> = ({ events }) => {
         {activeTab === 'calendar' && <CalendarView />}
         {activeTab === 'settings' && <SettingsView />}
       </div>
+      <div className="absolute bottom-24 right-5 z-50">
+        <button 
+          onClick={() => navigate('/add')}
+          className="bg-primary hover:bg-blue-600 text-white w-14 h-14 rounded-full shadow-glow flex items-center justify-center transition-transform transform hover:scale-105 active:scale-95 border border-white/10"
+        >
+          <span className="material-icons-round text-3xl">add</span>
+        </button>
+      </div>
 
       {/* Bottom Nav */}
       <nav className="absolute bottom-0 w-full bg-surface-light/85 dark:bg-[#1C1C1E]/85 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-800/50 pb-6 pt-2 z-40">
@@ -117,14 +125,6 @@ const HomeContent: React.FC<{ navigate: NavigateFunction; events: EventItem[] }>
                 )}
             </main>
 
-            <div className="absolute bottom-24 right-5 z-30">
-                <button 
-                onClick={() => navigate('/add')}
-                className="bg-primary hover:bg-blue-600 text-white w-14 h-14 rounded-full shadow-glow flex items-center justify-center transition-transform transform hover:scale-105 active:scale-95 border border-white/10"
-                >
-                <span className="material-icons-round text-3xl">add</span>
-                </button>
-            </div>
         </div>
     );
 };
