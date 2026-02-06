@@ -8,24 +8,28 @@ import { EventItem } from './types';
 
 const App: React.FC = () => {
   const [events, setEvents] = useState<EventItem[]>([]);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
     const raw = localStorage.getItem('events');
     if (raw) {
       try {
-        const parsed = JSON.parse(raw) as Omit<EventItem, 'date'> & { date: string }[];
+        const parsed = JSON.parse(raw) as (Omit<EventItem, 'date'> & { date: string })[];
         const restored = parsed.map(e => ({ ...e, date: new Date(e.date) })) as EventItem[];
-        setEvents(restored);
+        setEvents(restored.length > 0 ? restored : MOCK_EVENTS);
+        setHasLoaded(true);
         return;
       } catch {}
     }
     setEvents(MOCK_EVENTS);
+    setHasLoaded(true);
   }, []);
 
   useEffect(() => {
+    if (!hasLoaded) return;
     const serializable = events.map(e => ({ ...e, date: e.date.toISOString() }));
     localStorage.setItem('events', JSON.stringify(serializable));
-  }, [events]);
+  }, [events, hasLoaded]);
 
   const addEvent = (e: EventItem) => {
     setEvents(prev => [e, ...prev]);
