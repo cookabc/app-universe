@@ -9,6 +9,11 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
   const [eventName, setEventName] = useState('');
   const [eventType, setEventType] = useState<'past' | 'future'>('past');
   const [allDay, setAllDay] = useState(true);
+  const [selectedDate, setSelectedDate] = useState<Date>(() => {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    return now;
+  });
 
   const canSave = eventName.trim().length > 0;
 
@@ -18,9 +23,7 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
     if (!canSave) {
       return;
     }
-    const now = new Date();
-    const dayOffset = eventType === 'past' ? -1 : 1;
-    const eventDate = new Date(now.getTime() + dayOffset * 24 * 60 * 60 * 1000);
+    const eventDate = new Date(selectedDate);
     if (allDay) {
       eventDate.setHours(0, 0, 0, 0);
     }
@@ -40,7 +43,7 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
   };
 
   return (
-    <div className="min-h-screen bg-background-light dark:bg-background-dark text-gray-900 dark:text-white flex flex-col transition-colors duration-200">
+    <div className="h-full min-h-0 bg-background-light dark:bg-background-dark text-gray-900 dark:text-white flex flex-col transition-colors duration-200">
       {/* Sticky Header */}
       <header className="flex items-center justify-between px-4 pt-12 pb-4 bg-background-light dark:bg-background-dark sticky top-0 z-30 transition-colors duration-200">
         <button 
@@ -61,7 +64,7 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
         </button>
       </header>
 
-      <main className="flex-1 px-4 pb-10 space-y-6 overflow-y-auto">
+      <main className="flex-1 min-h-0 px-4 pb-10 space-y-6 overflow-y-auto">
         
         {/* Event Name */}
         <section>
@@ -112,7 +115,7 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
         {/* Date Picker */}
         <section>
           <h2 className="ml-4 mb-2 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Pick a date</h2>
-          <CalendarPicker />
+          <CalendarPicker selectedDate={selectedDate} onChange={setSelectedDate} />
         </section>
 
         {/* Time Picker */}

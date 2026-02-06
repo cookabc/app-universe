@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { CalendarPicker } from './CalendarPicker';
 
 export const CalendarView: React.FC = () => {
+  const [selectedDate, setSelectedDate] = useState<Date>(() => {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    return now;
+  });
+
+  const selectedLabel = useMemo(() => {
+    return selectedDate.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  }, [selectedDate]);
+
   return (
      <div className="flex-1 flex flex-col h-full bg-background-light dark:bg-background-dark">
       <header className="pt-14 pb-2 px-5 sticky top-0 z-20 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md">
@@ -9,10 +23,10 @@ export const CalendarView: React.FC = () => {
       </header>
       
       <main className="flex-1 overflow-y-auto px-4 pt-2 pb-28 space-y-6 no-scrollbar">
-         <CalendarPicker />
+         <CalendarPicker selectedDate={selectedDate} onChange={setSelectedDate} />
          
          <div className="space-y-4">
-            <h2 className="ml-1 text-[17px] font-semibold text-gray-900 dark:text-white">February 18, 2026</h2>
+            <h2 className="ml-1 text-[17px] font-semibold text-gray-900 dark:text-white">{selectedLabel}</h2>
             
             <div className="space-y-3">
                 <EventRow color="bg-blue-500" title="Team Meeting" time="10:00 AM - 11:00 AM" location="Room 302" />
