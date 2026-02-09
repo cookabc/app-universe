@@ -27,9 +27,9 @@ function TrashIcon(props) {
 
 function SettingsIcon(props) {
   return (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
-      <path d="M19.4 15a7.97 7.97 0 0 0 .1-2l2-1.5-2-3.5-2.3.5a8.02 8.02 0 0 0-1.7-1l-.4-2.3h-4l-.4 2.3a8.02 8.02 0 0 0-1.7 1l-2.3-.5-2 3.5 2 1.5a7.97 7.97 0 0 0 .1 2l-2 1.5 2 3.5 2.3-.5a8.02 8.02 0 0 0 1.7 1l.4 2.3h4l.4-2.3a8.02 8.02 0 0 0 1.7-1l2.3.5 2-3.5-2-1.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="3" />
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
     </svg>
   );
 }
@@ -217,7 +217,7 @@ function DatePicker({ value, onChange }) {
               zIndex: 10,
               background: 'rgba(30, 41, 59, 0.95)',
               backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255,255,255,0.1)'
+              border: '1px solid rgba(0,0,0,0.06)'
             }}
           >
             <div className="calendar-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
@@ -259,16 +259,16 @@ function DatePicker({ value, onChange }) {
                       fontSize: '13px',
                       borderRadius: '6px',
                       cursor: isFuture ? 'not-allowed' : 'pointer',
-                      background: isSelected ? 'var(--primary)' : isToday ? 'rgba(255,255,255,0.1)' : 'transparent',
+                      background: isSelected ? 'var(--primary)' : isToday ? 'rgba(0,0,0,0.06)' : 'transparent',
                       color: isFuture ? 'var(--muted)' : isSelected ? '#000' : 'var(--text)',
                       fontWeight: isSelected || isToday ? 600 : 400,
                       opacity: isFuture ? 0.3 : 1
                     }}
                     onMouseEnter={(e) => {
-                      if (!isSelected && !isFuture) e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                      if (!isSelected && !isFuture) e.currentTarget.style.background = 'rgba(0,0,0,0.06)';
                     }}
                     onMouseLeave={(e) => {
-                      if (!isSelected && !isFuture) e.currentTarget.style.background = isToday ? 'rgba(255,255,255,0.1)' : 'transparent';
+                      if (!isSelected && !isFuture) e.currentTarget.style.background = isToday ? 'rgba(0,0,0,0.06)' : 'transparent';
                     }}
                   >
                     {d}
@@ -295,7 +295,7 @@ function DonateTabs() {
             flex: 1,
             padding: '8px 0',
             border: 'none',
-            background: method === 'alipay' ? 'rgba(34, 211, 238, 0.15)' : 'transparent',
+            background: method === 'alipay' ? 'rgba(255,136,0,0.1)' : 'transparent',
             color: method === 'alipay' ? 'var(--primary)' : 'var(--muted)',
             borderRadius: 8,
             cursor: 'pointer',
@@ -312,7 +312,7 @@ function DonateTabs() {
             flex: 1,
             padding: '8px 0',
             border: 'none',
-            background: method === 'wechat' ? 'rgba(34, 211, 238, 0.15)' : 'transparent',
+            background: method === 'wechat' ? 'rgba(255,136,0,0.1)' : 'transparent',
             color: method === 'wechat' ? 'var(--primary)' : 'var(--muted)',
             borderRadius: 8,
             cursor: 'pointer',
@@ -584,13 +584,13 @@ function HoldingActionModal({ fund, onClose, onAction }) {
         </div>
 
         <div className="grid" style={{ gap: 12 }}>
-          <button hidden className="button col-6" onClick={() => onAction('buy')} style={{ background: 'rgba(34, 211, 238, 0.1)', border: '1px solid var(--primary)', color: 'var(--primary)' }}>
+          <button hidden className="button col-6" onClick={() => onAction('buy')} style={{ background: 'rgba(255,136,0,0.1)', border: '1px solid var(--primary)', color: 'var(--primary)' }}>
             加仓
           </button>
           <button hidden className="button col-6" onClick={() => onAction('sell')} style={{ background: 'rgba(248, 113, 113, 0.1)', border: '1px solid var(--danger)', color: 'var(--danger)' }}>
             减仓
           </button>
-          <button className="button col-12" onClick={() => onAction('edit')} style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text)' }}>
+          <button className="button col-12" onClick={() => onAction('edit')} style={{ background: 'rgba(0,0,0,0.04)', color: 'var(--text)' }}>
             编辑持仓
           </button>
           <button 
@@ -600,7 +600,7 @@ function HoldingActionModal({ fund, onClose, onAction }) {
               marginTop: 8, 
               background: 'linear-gradient(180deg, #ef4444, #f87171)', 
               border: 'none', 
-              color: '#2b0b0b',
+              color: '#ffffff',
               fontWeight: 600
             }}
           >
@@ -738,7 +738,7 @@ function TradeModal({ type, fund, onClose, onConfirm }) {
                       flex: 1,
                       border: 'none',
                       background: !isAfter3pm ? 'var(--primary)' : 'transparent',
-                      color: !isAfter3pm ? '#05263b' : 'var(--muted)',
+                      color: !isAfter3pm ? '#ffffff' : 'var(--muted)',
                       borderRadius: '6px',
                       fontSize: '12px',
                       cursor: 'pointer',
@@ -754,7 +754,7 @@ function TradeModal({ type, fund, onClose, onConfirm }) {
                       flex: 1,
                       border: 'none',
                       background: isAfter3pm ? 'var(--primary)' : 'transparent',
-                      color: isAfter3pm ? '#05263b' : 'var(--muted)',
+                      color: isAfter3pm ? '#ffffff' : 'var(--muted)',
                       borderRadius: '6px',
                       fontSize: '12px',
                       cursor: 'pointer',
@@ -770,7 +770,7 @@ function TradeModal({ type, fund, onClose, onConfirm }) {
               </div>
 
               {price && calcShare !== null && (
-                <div className="glass" style={{ padding: '12px', borderRadius: '8px', background: 'rgba(34, 211, 238, 0.05)', border: '1px solid rgba(34, 211, 238, 0.2)', marginBottom: 8 }}>
+                <div className="glass" style={{ padding: '12px', borderRadius: '8px', background: 'rgba(255,136,0,0.05)', border: '1px solid rgba(255,136,0,0.2)', marginBottom: 8 }}>
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 4 }}>
                     <span className="muted" style={{ fontSize: '12px' }}>预计确认份额</span>
                     <span style={{ fontWeight: 700, color: 'var(--primary)' }}>{calcShare.toFixed(2)} 份</span>
@@ -799,7 +799,7 @@ function TradeModal({ type, fund, onClose, onConfirm }) {
           )}
 
           <div className="row" style={{ gap: 12, marginTop: 12 }}>
-            <button type="button" className="button secondary" onClick={onClose} style={{ flex: 1, background: 'rgba(255,255,255,0.05)', color: 'var(--text)' }}>取消</button>
+            <button type="button" className="button secondary" onClick={onClose} style={{ flex: 1, background: 'rgba(0,0,0,0.04)', color: 'var(--text)' }}>取消</button>
             <button 
               type="submit" 
               className="button" 
@@ -904,7 +904,7 @@ function HoldingEditModal({ fund, holding, onClose, onSave }) {
           </div>
 
           <div className="row" style={{ gap: 12 }}>
-            <button type="button" className="button secondary" onClick={onClose} style={{ flex: 1, background: 'rgba(255,255,255,0.05)', color: 'var(--text)' }}>取消</button>
+            <button type="button" className="button secondary" onClick={onClose} style={{ flex: 1, background: 'rgba(0,0,0,0.04)', color: 'var(--text)' }}>取消</button>
             <button 
               type="submit" 
               className="button" 
@@ -1029,7 +1029,7 @@ function ConfirmModal({ title, message, onConfirm, onCancel, confirmText = "确�
           {message}
         </p>
         <div className="row" style={{ gap: 12 }}>
-          <button className="button secondary" onClick={onCancel} style={{ flex: 1, background: 'rgba(255,255,255,0.05)', color: 'var(--text)' }}>取消</button>
+          <button className="button secondary" onClick={onCancel} style={{ flex: 1, background: 'rgba(0,0,0,0.04)', color: 'var(--text)' }}>取消</button>
           <button className="button danger" onClick={onConfirm} style={{ flex: 1 }}>{confirmText}</button>
         </div>
       </motion.div>
@@ -1179,7 +1179,7 @@ function GroupManageModal({ groups, onClose, onSave }) {
               padding: '10px',
               borderRadius: '12px',
               border: '1px dashed var(--border)',
-              background: 'rgba(255,255,255,0.02)',
+              background: 'rgba(0,0,0,0.02)',
               color: 'var(--muted)',
               fontSize: '14px',
               display: 'flex',
@@ -1297,7 +1297,7 @@ function AddFundToGroupModal({ allFunds, currentGroupCodes, onClose, onAdd }) {
         </div>
 
         <div className="row" style={{ marginTop: 24, gap: 12 }}>
-          <button className="button secondary" onClick={onClose} style={{ flex: 1, background: 'rgba(255,255,255,0.05)', color: 'var(--text)' }}>取消</button>
+          <button className="button secondary" onClick={onClose} style={{ flex: 1, background: 'rgba(0,0,0,0.04)', color: 'var(--text)' }}>取消</button>
           <button 
             className="button" 
             onClick={() => onAdd(Array.from(selected))} 
@@ -1360,7 +1360,7 @@ function GroupModal({ onClose, onConfirm }) {
           />
         </div>
         <div className="row" style={{ gap: 12 }}>
-          <button className="button secondary" onClick={onClose} style={{ flex: 1, background: 'rgba(255,255,255,0.05)', color: 'var(--text)' }}>取消</button>
+          <button className="button secondary" onClick={onClose} style={{ flex: 1, background: 'rgba(0,0,0,0.04)', color: 'var(--text)' }}>取消</button>
           <button className="button" onClick={() => name.trim() && onConfirm(name.trim())} disabled={!name.trim()} style={{ flex: 1 }}>确定</button>
         </div>
       </motion.div>
@@ -1369,6 +1369,83 @@ function GroupModal({ onClose, onConfirm }) {
 }
 
 // 数字滚动组件
+function Sparkline({ data, width = 100, height = 28, className = '' }) {
+  if (!data || data.length < 2) return null;
+  const values = data.map(d => d.y);
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+  const points = values.map((v, i) => {
+    const x = (i / (values.length - 1)) * width;
+    const y = height - ((v - min) / range) * (height - 4) - 2;
+    return `${x},${y}`;
+  }).join(' ');
+  const lastVal = values[values.length - 1];
+  const firstVal = values[0];
+  const color = lastVal >= firstVal ? 'var(--danger)' : 'var(--success)';
+  return (
+    <svg width={width} height={height} className={className} style={{ display: 'block' }}>
+      <polyline points={points} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function MarketBar({ indices }) {
+  if (!indices || indices.length === 0) return null;
+  return (
+    <div className="glass" style={{ display: 'flex', justifyContent: 'space-around', padding: '8px 16px', borderRadius: 12, marginBottom: 16, fontSize: '13px' }}>
+      {indices.map((idx, i) => (
+        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0 }}>
+          <span className="muted" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{idx.name}</span>
+          <span style={{ fontWeight: 600, fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>{idx.price}</span>
+          <span className={idx.change > 0 ? 'up' : idx.change < 0 ? 'down' : ''} style={{ fontWeight: 600, fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
+            {idx.change > 0 ? '+' : ''}{idx.change}%
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function HoldingsContribution({ holdings }) {
+  if (!Array.isArray(holdings) || !holdings.length) return null;
+  const contributions = holdings
+    .filter(h => typeof h.change === 'number' && h.weight)
+    .map(h => {
+      const w = parseFloat(h.weight) || 0;
+      return { name: h.name, contribution: (h.change * w / 100), change: h.change, weight: w };
+    })
+    .sort((a, b) => Math.abs(b.contribution) - Math.abs(a.contribution));
+  if (!contributions.length) return null;
+  const maxAbs = Math.max(...contributions.map(c => Math.abs(c.contribution))) || 1;
+  return (
+    <div style={{ marginTop: 4, marginBottom: 8 }}>
+      <div className="muted" style={{ fontSize: '11px', marginBottom: 6 }}>持仓贡献度</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        {contributions.slice(0, 5).map((c, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '12px' }}>
+            <span style={{ width: 56, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flexShrink: 0 }}>{c.name}</span>
+            <div style={{ flex: 1, height: 4, background: 'rgba(0,0,0,0.04)', borderRadius: 2, overflow: 'hidden', position: 'relative' }}>
+              <div style={{
+                position: 'absolute',
+                left: c.contribution >= 0 ? '50%' : undefined,
+                right: c.contribution < 0 ? '50%' : undefined,
+                width: `${Math.abs(c.contribution) / maxAbs * 50}%`,
+                height: '100%',
+                background: c.contribution > 0 ? 'var(--danger)' : 'var(--success)',
+                borderRadius: 2
+              }} />
+            </div>
+            <span className={c.contribution > 0 ? 'up' : c.contribution < 0 ? 'down' : ''} style={{ width: 48, textAlign: 'right', flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11px' }}>
+              {c.contribution > 0 ? '+' : ''}{c.contribution.toFixed(3)}%
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function CountUp({ value, prefix = '', suffix = '', decimals = 2, className = '', style = {} }) {
   const [displayValue, setDisplayValue] = useState(value);
   const previousValue = useRef(value);
@@ -1471,7 +1548,7 @@ function GroupSummary({ funds, holdings, groupName, getProfit }) {
   if (!summary.hasHolding) return null;
 
   return (
-    <div className="glass card" style={{ marginBottom: 16, padding: '16px 20px', background: 'rgba(255, 255, 255, 0.03)' }}>
+    <div className="glass card" style={{ marginBottom: 16, padding: '16px 20px', background: 'rgba(0,0,0,0.03)' }}>
       <div ref={rowRef} className="row" style={{ alignItems: 'flex-end', justifyContent: 'space-between' }}>
         <div>
           <div className="muted" style={{ fontSize: '12px', marginBottom: 4 }}>{groupName}</div>
@@ -1570,6 +1647,9 @@ export default function HomePage() {
   const [holdings, setHoldings] = useState({}); // { [code]: { share: number, cost: number } }
   const [percentModes, setPercentModes] = useState({}); // { [code]: boolean }
   const [isTradingDay, setIsTradingDay] = useState(true); // 默认为交易日，通过接口校正
+  const [marketIndices, setMarketIndices] = useState([]);
+  const [navHistory, setNavHistory] = useState({});
+  const navHistoryFetchedRef = useRef(new Set());
   const tabsRef = useRef(null);
 
   const today = new Date();
@@ -1624,8 +1704,63 @@ export default function HomePage() {
     document.body.appendChild(script);
   };
 
+  const fetchMarketIndices = () => {
+    const script = document.createElement('script');
+    script.src = `https://qt.gtimg.cn/q=s_sh000001,s_sz399001,s_sz399006&_t=${Date.now()}`;
+    script.onload = () => {
+      const indices = [];
+      const mapping = [
+        { key: 'v_s_sh000001', name: '上证' },
+        { key: 'v_s_sz399001', name: '深证' },
+        { key: 'v_s_sz399006', name: '创业板' }
+      ];
+      mapping.forEach(({ key, name }) => {
+        const data = window[key];
+        if (data) {
+          const parts = data.split('~');
+          if (parts.length > 5) {
+            indices.push({ name, price: parts[3], change: parseFloat(parts[5]) });
+          }
+        }
+      });
+      if (indices.length) setMarketIndices(indices);
+      if (document.body.contains(script)) document.body.removeChild(script);
+    };
+    script.onerror = () => {
+      if (document.body.contains(script)) document.body.removeChild(script);
+    };
+    document.body.appendChild(script);
+  };
+
+  const fetchNavHistory = (code) => {
+    if (navHistoryFetchedRef.current.has(code)) return;
+    navHistoryFetchedRef.current.add(code);
+    const script = document.createElement('script');
+    script.src = `https://fund.eastmoney.com/pingzhongdata/${code}.js?v=${Date.now()}`;
+    script.onload = () => {
+      const trend = window.Data_netWorthTrend;
+      if (Array.isArray(trend) && trend.length > 0) {
+        const last30 = trend.slice(-30);
+        setNavHistory(prev => ({ ...prev, [code]: last30 }));
+      }
+      // 清理全局变量
+      window.Data_netWorthTrend = undefined;
+      window.Data_ACWorthTrend = undefined;
+      window.Data_grandTotal = undefined;
+      window.Data_rateInSimilarType = undefined;
+      window.Data_rateInSimilarPersent = undefined;
+      window.Data_fundSharesPositions = undefined;
+      if (document.body.contains(script)) document.body.removeChild(script);
+    };
+    script.onerror = () => {
+      if (document.body.contains(script)) document.body.removeChild(script);
+    };
+    document.body.appendChild(script);
+  };
+
   useEffect(() => {
     checkTradingDay();
+    fetchMarketIndices();
     // 每分钟检查一次
     const timer = setInterval(checkTradingDay, 60000);
     return () => clearInterval(timer);
@@ -1953,6 +2088,8 @@ export default function HomePage() {
         localStorage.setItem('funds', JSON.stringify(deduped));
         const codes = Array.from(new Set(deduped.map((f) => f.code)));
         if (codes.length) refreshAll(codes);
+        // 加载每只基金的历史净值
+        codes.forEach(c => fetchNavHistory(c));
       }
       const savedMs = parseInt(localStorage.getItem('refreshMs') || '30000', 10);
       if (Number.isFinite(savedMs) && savedMs >= 5000) {
@@ -1992,6 +2129,7 @@ export default function HomePage() {
     timerRef.current = setInterval(() => {
       const codes = Array.from(new Set(funds.map((f) => f.code)));
       if (codes.length) refreshAll(codes);
+      fetchMarketIndices();
     }, refreshMs);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -2351,6 +2489,7 @@ export default function HomePage() {
         const next = dedupeByCode([...newFunds, ...funds]);
         setFunds(next);
         localStorage.setItem('funds', JSON.stringify(next));
+        newFunds.forEach(f => fetchNavHistory(f.code));
       }
       setSearchTerm('');
       setSelectedFunds([]);
@@ -2661,6 +2800,8 @@ export default function HomePage() {
         </div>
       </div>
 
+      <MarketBar indices={marketIndices} />
+
       <div className="grid">
         <div className="col-12 glass card add-fund-section" role="region" aria-label="添加基金">
           <div className="title" style={{ marginBottom: 12 }}>
@@ -2827,11 +2968,11 @@ export default function HomePage() {
             </div>
 
             <div className="sort-group" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div className="view-toggle" style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', padding: '2px' }}>
+                <div className="view-toggle" style={{ display: 'flex', background: 'rgba(0,0,0,0.04)', borderRadius: '10px', padding: '2px' }}>
                   <button
                     className={`icon-button ${viewMode === 'card' ? 'active' : ''}`}
                     onClick={() => { setViewMode('card'); localStorage.setItem('viewMode', 'card'); }}
-                    style={{ border: 'none', width: '32px', height: '32px', background: viewMode === 'card' ? 'var(--primary)' : 'transparent', color: viewMode === 'card' ? '#05263b' : 'var(--muted)' }}
+                    style={{ border: 'none', width: '32px', height: '32px', background: viewMode === 'card' ? 'var(--primary)' : 'transparent', color: viewMode === 'card' ? '#ffffff' : 'var(--muted)' }}
                     title="卡片视图"
                   >
                     <GridIcon width="16" height="16" />
@@ -2839,7 +2980,7 @@ export default function HomePage() {
                   <button
                       className={`icon-button ${viewMode === 'list' ? 'active' : ''}`}
                       onClick={() => { setViewMode('list'); localStorage.setItem('viewMode', 'list'); }}
-                      style={{ border: 'none', width: '32px', height: '32px', background: viewMode === 'list' ? 'var(--primary)' : 'transparent', color: viewMode === 'list' ? '#05263b' : 'var(--muted)' }}
+                      style={{ border: 'none', width: '32px', height: '32px', background: viewMode === 'list' ? 'var(--primary)' : 'transparent', color: viewMode === 'list' ? '#ffffff' : 'var(--muted)' }}
                       title="表格视图"
                     >
                       <ListIcon width="16" height="16" />
@@ -2902,7 +3043,7 @@ export default function HomePage() {
                   style={{
                     width: '100%',
                     height: '48px',
-                    border: '2px dashed rgba(255,255,255,0.1)',
+                    border: '2px dashed rgba(0,0,0,0.06)',
                     background: 'transparent',
                     borderRadius: '12px',
                     color: 'var(--muted)',
@@ -2919,10 +3060,10 @@ export default function HomePage() {
                   onMouseEnter={(e) => {
                     e.currentTarget.style.borderColor = 'var(--primary)';
                     e.currentTarget.style.color = 'var(--primary)';
-                    e.currentTarget.style.background = 'rgba(34, 211, 238, 0.05)';
+                    e.currentTarget.style.background = 'rgba(255,136,0,0.05)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                    e.currentTarget.style.borderColor = 'rgba(0,0,0,0.06)';
                     e.currentTarget.style.color = 'var(--muted)';
                     e.currentTarget.style.background = 'transparent';
                   }}
@@ -3133,6 +3274,13 @@ export default function HomePage() {
                               delta={f.estPricedCoverage > 0.05 ? f.estGszzl : (Number(f.gszzl) || 0)}
                             />
                           </div>
+
+                          {navHistory[f.code] && (
+                            <div style={{ marginBottom: 10, display: 'flex', alignItems: 'center', gap: 8 }}>
+                              <span className="muted" style={{ fontSize: '11px', flexShrink: 0 }}>30日走势</span>
+                              <Sparkline data={navHistory[f.code]} width={140} height={24} />
+                            </div>
+                          )}
                           
                           <div className="row" style={{ marginBottom: 12 }}>
                             {(() => {
@@ -3251,6 +3399,7 @@ export default function HomePage() {
                                 ) : (
                                   <div className="muted" style={{ padding: '8px 0' }}>暂无重仓数据</div>
                                 )}
+                                <HoldingsContribution holdings={f.holdings} />
                               </motion.div>
                             )}
                           </AnimatePresence>
@@ -3302,7 +3451,7 @@ export default function HomePage() {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = 'var(--primary)';
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+              e.currentTarget.style.background = 'rgba(0,0,0,0.04)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.color = 'var(--muted)';
