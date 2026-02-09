@@ -1,13 +1,16 @@
 :root {
-  --bg: #0f172a;
-  --card: #111827;
-  --text: #e5e7eb;
-  --muted: #9ca3af;
-  --primary: #22d3ee;
-  --accent: #60a5fa;
-  --success: #34d399;
-  --danger: #f87171;
-  --border: #1f2937;
+  --bg: #EBECF0;
+  --card: #EBECF0;
+  --text: #4A5568;
+  --muted: #718096;
+  --primary: #FF8800;
+  --accent: #FF8800;
+  --success: #2a9d90;
+  --danger: #e76e50;
+  --border: #D1D9E6;
+  --shadow-light: #ffffff;
+  --shadow-dark: #c8ccd0;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 * {
@@ -20,8 +23,8 @@ html, body {
 
 body {
   margin: 0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  background: radial-gradient(1200px 600px at 10% -10%, rgba(96,165,250,0.15), transparent 40%) , radial-gradient(1000px 500px at 90% 0%, rgba(34,211,238,0.12), transparent 45%), var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
   color: var(--text);
 }
 
@@ -32,11 +35,10 @@ body {
 }
 
 .glass {
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-  border: 1px solid var(--border);
+  background: var(--bg);
+  border: none;
   border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-  backdrop-filter: blur(8px);
+  box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
 }
 
 .card .title {
@@ -126,16 +128,16 @@ body {
   height: 44px;
   padding: 0 14px;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  background: #0b1220;
+  border: none;
+  background: var(--bg);
   color: var(--text);
   outline: none;
   font-size: 14px;
-  transition: border-color 200ms ease, box-shadow 200ms ease;
+  box-shadow: inset 4px 4px 6px var(--shadow-dark), inset -4px -4px 6px var(--shadow-light);
+  transition: box-shadow 200ms ease;
 }
 .input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(96,165,250,0.2);
+  box-shadow: inset 4px 4px 6px var(--shadow-dark), inset -4px -4px 6px var(--shadow-light), 0 0 0 3px rgba(255,136,0,0.2);
 }
 
 /* 美化并隐藏原生数字输入的上下按钮，使用自定义按钮 */
@@ -152,19 +154,21 @@ input[type="number"] {
   height: 44px;
   padding: 0 16px;
   border-radius: 12px;
-  border: 1px solid var(--border);
-  background: linear-gradient(180deg, #0ea5e9, #22d3ee);
-  color: #05263b;
+  border: none;
+  background: var(--primary);
+  color: #ffffff;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
   transition: transform 150ms ease, box-shadow 200ms ease;
 }
 .button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(34,211,238,0.25);
+  box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
 }
 .button:active {
   transform: translateY(0);
+  box-shadow: inset 2px 2px 4px rgba(0,0,0,0.15), inset -2px -2px 4px rgba(255,255,255,0.5);
 }
 
 .card {
@@ -184,8 +188,9 @@ input[type="number"] {
   align-items: center;
   padding: 6px 10px;
   border-radius: 999px;
-  border: 1px solid var(--border);
-  background: #0b1220;
+  border: none;
+  background: var(--bg);
+  box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
   font-size: 12px;
 }
 
@@ -196,8 +201,9 @@ input[type="number"] {
   gap: 2px;
   padding: 4px 10px;
   border-radius: 8px;
-  border: 1px solid var(--border);
-  background: #0b1220;
+  border: none;
+  background: var(--bg);
+  box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
   font-size: 12px;
 }
 .badge-v span {
@@ -290,8 +296,9 @@ input[type="number"] {
   justify-content: space-between;
   padding: 8px 10px;
   border-radius: 10px;
-  border: 1px solid var(--border);
-  background: #0b1220;
+  border: none;
+  background: var(--bg);
+  box-shadow: inset 3px 3px 5px var(--shadow-dark), inset -3px -3px 5px var(--shadow-light);
 }
 .item .name {
   overflow: hidden;
@@ -353,26 +360,29 @@ input[type="number"] {
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  border: 1px solid var(--border);
-  background: #0b1220;
+  border: none;
+  background: var(--bg);
   color: var(--muted);
   cursor: pointer;
-  transition: box-shadow 200ms ease, border-color 200ms ease, transform 150ms ease, color 200ms ease;
+  box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+  transition: box-shadow 200ms ease, transform 150ms ease, color 200ms ease;
 }
 .icon-button:hover {
-  color: var(--text);
+  color: var(--primary);
   transform: translateY(-1px);
-  border-color: var(--accent);
+  box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
 }
 .icon-button:active {
   transform: translateY(0);
+  box-shadow: inset 2px 2px 4px var(--shadow-dark), inset -2px -2px 4px var(--shadow-light);
 }
 .icon-button.danger {
-  background: linear-gradient(180deg, #ef4444, #f87171);
-  color: #2b0b0b;
+  background: var(--danger);
+  color: #ffffff;
+  box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
 }
 .icon-button.danger:hover {
-  box-shadow: 0 10px 20px rgba(248,113,113,0.25);
+  box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
 }
 
 .fav-button {
@@ -428,7 +438,7 @@ input[type="number"] {
 }
 
 .table-row:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(0, 0, 0, 0.03);
 }
 
 .table-row:last-child {
@@ -440,7 +450,7 @@ input[type="number"] {
   grid-template-columns: 2fr 1fr 1fr 1.5fr 60px;
   gap: 12px;
   padding: 16px 24px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.04);
   border-bottom: 1px solid var(--border);
 }
 
@@ -522,7 +532,7 @@ input[type="number"] {
     top: 60px; /* Navbar height */
     z-index: 40;
     width: calc(100% + 32px);
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(235, 236, 240, 0.9);
     margin: 0 -16px 16px -16px;
     padding: 10px 16px;
     border-bottom: 1px solid var(--border);
@@ -566,19 +576,19 @@ input[type="number"] {
 
 .tab:hover {
   color: var(--text);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .tab.active {
   background: var(--primary);
   color: white;
-  box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
+  box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
 }
 
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(2,6,23,0.6);
+  background: rgba(200,204,208,0.6);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -602,14 +612,15 @@ input[type="number"] {
   height: 32px;
   padding: 0 12px;
   border-radius: 999px;
-  border: 1px solid var(--border);
-  background: #0b1220;
+  border: none;
+  background: var(--bg);
   color: var(--text);
   cursor: pointer;
-  transition: border-color 200ms ease, transform 150ms ease;
+  box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+  transition: box-shadow 200ms ease, transform 150ms ease;
 }
-.chip:hover { transform: translateY(-1px); border-color: var(--accent); }
-.chip.active { background: linear-gradient(180deg, #0ea5e9, #22d3ee); color: #05263b; border-color: transparent; }
+.chip:hover { transform: translateY(-1px); box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light); }
+.chip.active { background: var(--primary); color: #ffffff; border-color: transparent; box-shadow: inset 2px 2px 4px rgba(0,0,0,0.15), inset -2px -2px 4px rgba(255,255,255,0.3); }
 
 @keyframes spin {
   from { transform: rotate(0deg); }
@@ -619,8 +630,8 @@ input[type="number"] {
   animation: spin 0.8s linear infinite;
 }
 .icon-button[aria-busy="true"] {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(96,165,250,0.15);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(255,136,0,0.15);
   cursor: default;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -665,7 +676,7 @@ input[type="number"] {
   right: 12px;
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(0, 0, 0, 0.1);
   border-top-color: var(--primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
@@ -680,7 +691,7 @@ input[type="number"] {
   overflow-y: auto;
   z-index: 46;
   padding: 8px;
-  background: rgba(15, 23, 42, 0.95) !important;
+  background: var(--bg) !important;
 }
 
 .search-results {
@@ -700,12 +711,12 @@ input[type="number"] {
 }
 
 .search-item:hover:not(.added) {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .search-item.selected {
-  background: rgba(34, 211, 238, 0.1);
-  border: 1px solid rgba(34, 211, 238, 0.2);
+  background: rgba(255, 136, 0, 0.1);
+  border: 1px solid rgba(255, 136, 0, 0.2);
 }
 
 .search-item.added {
@@ -733,10 +744,12 @@ input[type="number"] {
   height: 20px;
   border-radius: 6px;
   border: 2px solid var(--border);
+  background: var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  box-shadow: inset 2px 2px 3px var(--shadow-dark), inset -2px -2px 3px var(--shadow-light);
 }
 
 .search-item.selected .checkbox {
@@ -747,15 +760,15 @@ input[type="number"] {
 .checked-mark {
   width: 10px;
   height: 6px;
-  border-left: 2px solid #05263b;
-  border-bottom: 2px solid #05263b;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
   transform: rotate(-45deg) translateY(-1px);
 }
 
 .added-label {
   font-size: 11px;
   padding: 2px 8px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.06);
   border-radius: 4px;
   color: var(--muted);
 }
@@ -792,8 +805,8 @@ input[type="number"] {
   align-items: center;
   gap: 6px;
   padding: 4px 10px;
-  background: rgba(34, 211, 238, 0.15);
-  border: 1px solid rgba(34, 211, 238, 0.3);
+  background: rgba(255, 136, 0, 0.1);
+  border: 1px solid rgba(255, 136, 0, 0.3);
   border-radius: 8px;
   font-size: 12px;
   color: var(--primary);
@@ -812,7 +825,7 @@ input[type="number"] {
 }
 
 .remove-chip:hover {
-  background: rgba(34, 211, 238, 0.2);
+  background: rgba(255, 136, 0, 0.2);
 }
 
 .batch-add-button {
@@ -826,11 +839,11 @@ input[type="number"] {
 }
 
 .group-item:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .group-item.selected {
-  background: rgba(34, 211, 238, 0.1);
+  background: rgba(255, 136, 0, 0.1);
   color: var(--primary);
 }
 
@@ -910,19 +923,19 @@ input[type="number"] {
   gap: 12px;
   padding: 8px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  /* 移除全局 transition，避免与 Framer Motion 冲突 */
+  background: var(--bg);
+  border: none;
+  box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
 }
 
 .group-manage-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: var(--primary);
+  background: var(--bg);
+  box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
 }
 
 .group-manage-item.selected {
-  background: rgba(34, 211, 238, 0.1);
-  border-color: var(--primary);
+  background: rgba(255, 136, 0, 0.08);
+  box-shadow: inset 3px 3px 5px var(--shadow-dark), inset -3px -3px 5px var(--shadow-light);
 }
 
 .group-manage-item.selected .checkbox {
@@ -938,7 +951,7 @@ input[type="number"] {
 }
 
 .group-rename-input:focus {
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: rgba(0, 0, 0, 0.03) !important;
 }
 
 .drag-handle:active {
@@ -949,13 +962,14 @@ input[type="number"] {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg);
   border: 1px dashed var(--border);
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  box-shadow: 2px 2px 4px var(--shadow-dark), -2px -2px 4px var(--shadow-light);
 }
 
 .add-group-btn:hover {
@@ -966,21 +980,22 @@ input[type="number"] {
 .add-group-row-btn:hover {
   border-color: var(--primary) !important;
   color: var(--primary) !important;
-  background: rgba(255,255,255,0.05) !important;
+  background: rgba(0,0,0,0.03) !important;
 }
 
 .tabs-nav-btn {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--border);
+  background: var(--bg);
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--muted);
   transition: all 0.2s ease;
   flex-shrink: 0;
+  box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
 }
 
 .tabs-nav-btn:hover {
@@ -1001,8 +1016,8 @@ input[type="number"] {
 }
 
 .group-selector-popup {
-  background: rgba(15, 23, 42, 0.95) !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  background: var(--bg) !important;
+  box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
 }
 
 @media (max-width: 768px) {
