@@ -2,22 +2,30 @@ import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CalendarPicker } from './CalendarPicker';
 import { TimePicker } from './TimePicker';
-import { EVENT_COLORS, EventItem } from '../types';
+import { EVENT_COLORS, EventItem, EVENT_CATEGORIES, REPEAT_OPTIONS, EventCategory, RepeatOption, EventColor } from '../types';
 
 export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) => void }> = ({ events, addEvent }) => {
   const navigate = useNavigate();
   const [eventName, setEventName] = useState('');
-  const [eventType, setEventType] = useState<'past' | 'future'>('past');
-  const [allDay, setAllDay] = useState(true);
+  const [eventType, setEventType] = useState<'past' | 'future'>('future');
+  const [allDay, setAllDay] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>(() => {
     const now = new Date();
-    now.setHours(0, 0, 0, 0);
+    // Default to next hour if not all day? Or just now.
+    // iOS defaults to now.
     return now;
   });
+  
+  // New States
+  const [category, setCategory] = useState<EventCategory>('General');
+  const [alertEnabled, setAlertEnabled] = useState(true);
+  const [repeatOption, setRepeatOption] = useState<RepeatOption>('Never');
+  const [selectedColor, setSelectedColor] = useState<EventColor>(EVENT_COLORS[0]);
+
+  // UI States for expansion
+  const [expandedSection, setExpandedSection] = useState<'category' | 'repeat' | null>(null);
 
   const canSave = eventName.trim().length > 0;
-
-  const nextColors = useMemo(() => EVENT_COLORS[events.length % EVENT_COLORS.length], [events.length]);
 
   const handleSave = () => {
     if (!canSave) {
@@ -27,17 +35,22 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
     if (allDay) {
       eventDate.setHours(0, 0, 0, 0);
     }
+    
     const id = typeof crypto !== 'undefined' && 'randomUUID' in crypto
       ? crypto.randomUUID()
       : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      
     addEvent({
       id,
       name: eventName.trim(),
       date: eventDate,
+      isAllDay: allDay,
       type: eventType,
-      category: 'General',
-      color: nextColors.bg,
-      textColor: nextColors.text
+      category,
+      alertEnabled,
+      repeatOption,
+      color: selectedColor.bg,
+      textColor: selectedColor.text
     });
     navigate('/');
   };
@@ -58,7 +71,7 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
         <button
           onClick={handleSave}
           disabled={!canSave}
-          className={`text-blue-500 dark:text-accent text-lg font-bold transition-opacity ${canSave ? 'hover:opacity-70' : 'opacity-40 cursor-not-allowed'}`}
+          className={`text-accent text-lg font-bold transition-opacity ${canSave ? 'hover:opacity-70' : 'opacity-40 cursor-not-allowed'}`}
         >
           Save
         </button>
@@ -71,7 +84,7 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
           <h2 className="ml-4 mb-2 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Pick an event name</h2>
           <div className="relative">
             <input 
-              className="w-full bg-accent dark:bg-surface-dark text-gray-900 dark:text-white placeholder-gray-700 dark:placeholder-gray-500 px-4 py-4 rounded-xl border-none focus:ring-2 focus:ring-offset-2 focus:ring-accent dark:focus:ring-accent dark:focus:ring-offset-background-dark text-lg font-medium shadow-sm transition-colors duration-200" 
+              className="w-full bg-accent text-gray-900 placeholder-gray-700 px-4 py-4 rounded-xl border-none focus:ring-2 focus:ring-offset-2 focus:ring-accent dark:focus:ring-offset-background-dark text-lg font-medium shadow-sm transition-colors duration-200" 
               placeholder="Event Name" 
               type="text" 
               value={eventName}
@@ -140,40 +153,119 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
           </div>
         </section>
 
+        {/* Color Picker */}
+        <section>
+          <h2 className="ml-4 mb-2 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Pick a color</h2>
+          <div className="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-ios transition-colors duration-200 overflow-x-auto">
+            <div className="flex space-x-3 min-w-max">
+              {EVENT_COLORS.map((c) => (
+                <button
+                  key={c.name}
+                  onClick={() => setSelectedColor(c)}
+                  className={`w-10 h-10 rounded-full border-2 transition-all duration-200 ${selectedColor.name === c.name ? 'scale-110 border-gray-900 dark:border-white' : 'border-transparent hover:scale-105'}`}
+                  style={{ backgroundColor: c.bg }}
+                  aria-label={c.name}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Settings List */}
         <section className="pb-8">
           <div className="bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden shadow-ios transition-colors duration-200">
-            <div className="flex items-center justify-between px-4 py-3.5 active:bg-gray-100 dark:active:bg-gray-800 transition-colors cursor-pointer group">
-              <div className="flex items-center space-x-3">
-                <span className="material-symbols-outlined text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">list</span>
-                <span className="text-base font-medium text-gray-900 dark:text-white">Category</span>
+            
+            {/* Category */}
+            <div 
+              className="flex flex-col active:bg-gray-100 dark:active:bg-gray-800 transition-colors cursor-pointer group"
+            >
+              <div 
+                className="flex items-center justify-between px-4 py-3.5"
+                onClick={() => setExpandedSection(expandedSection === 'category' ? null : 'category')}
+              >
+                <div className="flex items-center space-x-3">
+                  <span className="material-symbols-outlined text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">list</span>
+                  <span className="text-base font-medium text-gray-900 dark:text-white">Category</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <span className="text-gray-500 dark:text-gray-400 text-base">{category}</span>
+                  <span className={`material-symbols-outlined text-gray-400 dark:text-gray-600 text-sm transition-transform ${expandedSection === 'category' ? 'rotate-90' : ''}`}>chevron_right</span>
+                </div>
               </div>
-              <div className="flex items-center space-x-1">
-                <span className="text-gray-500 dark:text-gray-400 text-base">Birthday</span>
-                <span className="material-symbols-outlined text-gray-400 dark:text-gray-600 text-sm">chevron_right</span>
-              </div>
+              
+              {/* Category Expansion */}
+              {expandedSection === 'category' && (
+                <div className="px-4 pb-3.5 grid grid-cols-2 gap-2 animate-fadeIn">
+                  {EVENT_CATEGORIES.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        setCategory(cat);
+                        setExpandedSection(null);
+                      }}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium text-left transition-colors ${category === cat ? 'bg-accent text-black' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
+
             <div className="h-px bg-divider-light dark:bg-divider-dark ml-12"></div>
-            <div className="flex items-center justify-between px-4 py-3.5 active:bg-gray-100 dark:active:bg-gray-800 transition-colors cursor-pointer group">
+
+            {/* Alert */}
+            <div 
+              className="flex items-center justify-between px-4 py-3.5 active:bg-gray-100 dark:active:bg-gray-800 transition-colors cursor-pointer group"
+              onClick={() => setAlertEnabled(!alertEnabled)}
+            >
               <div className="flex items-center space-x-3">
                 <span className="material-symbols-outlined text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">notifications_none</span>
                 <span className="text-base font-medium text-gray-900 dark:text-white">Alert</span>
               </div>
               <div className="flex items-center space-x-1">
-                <span className="text-gray-500 dark:text-gray-400 text-base">Opened</span>
-                <span className="material-symbols-outlined text-gray-400 dark:text-gray-600 text-sm">chevron_right</span>
+                <span className="text-gray-500 dark:text-gray-400 text-base">{alertEnabled ? 'On' : 'Off'}</span>
+                <div className={`w-10 h-6 ml-2 rounded-full relative transition-colors ${alertEnabled ? 'bg-accent' : 'bg-gray-300 dark:bg-gray-600'}`}>
+                    <div className={`absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform ${alertEnabled ? 'translate-x-4' : 'translate-x-0'}`} />
+                </div>
               </div>
             </div>
+
             <div className="h-px bg-divider-light dark:bg-divider-dark ml-12"></div>
-            <div className="flex items-center justify-between px-4 py-3.5 active:bg-gray-100 dark:active:bg-gray-800 transition-colors cursor-pointer group">
-              <div className="flex items-center space-x-3">
-                <span className="material-symbols-outlined text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">cached</span>
-                <span className="text-base font-medium text-gray-900 dark:text-white">Repeat</span>
+
+            {/* Repeat */}
+            <div className="flex flex-col active:bg-gray-100 dark:active:bg-gray-800 transition-colors cursor-pointer group">
+              <div 
+                className="flex items-center justify-between px-4 py-3.5"
+                onClick={() => setExpandedSection(expandedSection === 'repeat' ? null : 'repeat')}
+              >
+                <div className="flex items-center space-x-3">
+                  <span className="material-symbols-outlined text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">cached</span>
+                  <span className="text-base font-medium text-gray-900 dark:text-white">Repeat</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <span className="text-gray-500 dark:text-gray-400 text-base">{repeatOption}</span>
+                  <span className={`material-symbols-outlined text-gray-400 dark:text-gray-600 text-sm transition-transform ${expandedSection === 'repeat' ? 'rotate-90' : ''}`}>chevron_right</span>
+                </div>
               </div>
-              <div className="flex items-center space-x-1">
-                <span className="text-gray-500 dark:text-gray-400 text-base">Daily</span>
-                <span className="material-symbols-outlined text-gray-400 dark:text-gray-600 text-sm">chevron_right</span>
-              </div>
+
+              {/* Repeat Expansion */}
+              {expandedSection === 'repeat' && (
+                <div className="px-4 pb-3.5 grid grid-cols-2 gap-2 animate-fadeIn">
+                  {REPEAT_OPTIONS.map((opt) => (
+                    <button
+                      key={opt}
+                      onClick={() => {
+                        setRepeatOption(opt);
+                        setExpandedSection(null);
+                      }}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium text-left transition-colors ${repeatOption === opt ? 'bg-accent text-black' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </section>
