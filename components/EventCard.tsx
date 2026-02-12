@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { EventItem } from '../types';
+import { calculateCountdown } from '../utils/dateUtils';
 
 interface EventCardProps {
   event: EventItem;
@@ -7,28 +8,7 @@ interface EventCardProps {
 
 export const EventCard: React.FC<EventCardProps> = ({ event }) => {
   const { diffValue, diffUnit, label } = useMemo(() => {
-    const now = new Date();
-    const diffMs = event.date.getTime() - now.getTime();
-    const absDiff = Math.abs(diffMs);
-    const isPast = diffMs < 0;
-
-    const days = Math.floor(absDiff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(absDiff / (1000 * 60 * 60));
-
-    let value = 0;
-    let unit = '';
-    
-    if (days > 0) {
-      value = days;
-      unit = 'days';
-    } else {
-      value = hours;
-      unit = 'hours';
-    }
-
-    const label = isPast ? `${unit} ago` : `${unit} to go`;
-
-    return { diffValue: value, diffUnit: unit, label };
+    return calculateCountdown(event.date);
   }, [event.date]);
 
   const dateString = event.date.toLocaleDateString('en-GB', {
