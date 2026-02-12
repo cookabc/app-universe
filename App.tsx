@@ -4,7 +4,7 @@ import { Dashboard } from './components/Dashboard';
 import { AddEvent } from './components/AddEvent';
 import { IOSStatusBar, IOSHomeIndicator } from './components/IOSChrome';
 import { MOCK_EVENTS } from './constants';
-import { EventItem } from './types';
+import { EventItem, EVENT_CATEGORIES, EventCategory } from './types';
 
 const App: React.FC = () => {
   const [events, setEvents] = useState<EventItem[]>([]);
@@ -14,11 +14,28 @@ const App: React.FC = () => {
     const raw = localStorage.getItem('events');
     if (raw) {
       try {
-        const parsed = JSON.parse(raw) as (Omit<EventItem, 'date'> & { date: string })[];
-        const restored = parsed.map(e => ({ ...e, date: new Date(e.date) })) as EventItem[];
-        setEvents(restored.length > 0 ? restored : MOCK_EVENTS);
-        setHasLoaded(true);
-        return;
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          const restored = parsed.map((e: any) => {
+            // Validate Category
+            let cat: EventCategory = 'General';
+            if (e.category && EVENT_CATEGORIES.includes(e.category)) {
+              cat = e.category;
+            }
+
+            return {
+              ...e,
+              date: new Date(e.date),
+              isAllDay: e.isAllDay ?? false,
+              alertEnabled: e.alertEnabled ?? true,
+              repeatOption: e.repeatOption ?? 'Never',
+              category: cat
+            } as EventItem;
+          });
+          setEvents(restored.length > 0 ? restored : MOCK_EVENTS);
+          setHasLoaded(true);
+          return;
+        }
       } catch {}
     }
     setEvents(MOCK_EVENTS);
