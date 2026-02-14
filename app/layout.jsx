@@ -3,7 +3,8 @@ import './globals.css';
 
 export const metadata = {
   title: '基估宝',
-  description: '输入基金编号添加基金，实时显示估值与前10重仓'
+  description: '输入基金编号添加基金，实时显示估值与前10重仓',
+  viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
 };
 
 export default function RootLayout({ children }) {
@@ -12,7 +13,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="zh-CN">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         {/* Google Analytics */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
