@@ -7,16 +7,25 @@ type CalendarPickerProps = {
 
 export const CalendarPicker: React.FC<CalendarPickerProps> = ({ selectedDate, onChange }) => {
   const weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-  const [internalSelected, setInternalSelected] = useState<Date>(() => selectedDate ?? new Date());
+  
+  // Derived from props or default to now
+  const activeDate = selectedDate ?? new Date();
+
   const [currentMonth, setCurrentMonth] = useState<Date>(() => {
-    const base = selectedDate ?? new Date();
-    return new Date(base.getFullYear(), base.getMonth(), 1);
+    return new Date(activeDate.getFullYear(), activeDate.getMonth(), 1);
   });
 
+  // Sync current month view when selectedDate changes (if it's far away)
   useEffect(() => {
     if (!selectedDate) return;
-    setInternalSelected(selectedDate);
-    setCurrentMonth(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1));
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCurrentMonth(prev => {
+      // Only change view if selected date is in a different month/year
+      if (prev.getFullYear() === selectedDate.getFullYear() && prev.getMonth() === selectedDate.getMonth()) {
+        return prev;
+      }
+      return new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+    });
   }, [selectedDate]);
 
   const daysInMonth = useMemo(() => {
@@ -33,7 +42,6 @@ export const CalendarPicker: React.FC<CalendarPickerProps> = ({ selectedDate, on
 
   const handleSelect = (day: number) => {
     const next = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-    setInternalSelected(next);
     onChange?.(next);
   };
 
@@ -70,9 +78,9 @@ export const CalendarPicker: React.FC<CalendarPickerProps> = ({ selectedDate, on
         ))}
         {Array.from({ length: daysInMonth }, (_, i) => i + 1).map(day => {
           const isSelected =
-            internalSelected.getFullYear() === currentMonth.getFullYear() &&
-            internalSelected.getMonth() === currentMonth.getMonth() &&
-            internalSelected.getDate() === day;
+            activeDate.getFullYear() === currentMonth.getFullYear() &&
+            activeDate.getMonth() === currentMonth.getMonth() &&
+            activeDate.getDate() === day;
           return (
             <button
               key={day}

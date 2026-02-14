@@ -1,7 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { CalendarPicker } from './CalendarPicker';
+import { EventItem } from '../types';
 
-export const CalendarView: React.FC = () => {
+interface CalendarViewProps {
+  events: EventItem[];
+}
+
+export const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(() => {
     const now = new Date();
     now.setHours(0, 0, 0, 0);
@@ -16,6 +21,14 @@ export const CalendarView: React.FC = () => {
     });
   }, [selectedDate]);
 
+  const dailyEvents = useMemo(() => {
+    return events.filter(e => 
+      e.date.getFullYear() === selectedDate.getFullYear() &&
+      e.date.getMonth() === selectedDate.getMonth() &&
+      e.date.getDate() === selectedDate.getDate()
+    );
+  }, [events, selectedDate]);
+
   return (
      <div className="flex-1 flex flex-col h-full bg-background-light dark:bg-background-dark">
       <header className="pt-14 pb-2 px-5 sticky top-0 z-20 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md">
@@ -29,9 +42,19 @@ export const CalendarView: React.FC = () => {
             <h2 className="ml-1 text-[17px] font-semibold text-gray-900 dark:text-white">{selectedLabel}</h2>
             
             <div className="space-y-3">
-                <EventRow color="bg-blue-500" title="Team Meeting" time="10:00 AM - 11:00 AM" location="Room 302" />
-                <EventRow color="bg-orange-500" title="Lunch with Sarah" time="12:30 PM - 1:30 PM" location="Sushi Place" />
-                <EventRow color="bg-purple-500" title="Project Review" time="3:00 PM - 4:30 PM" location="Online" />
+                {dailyEvents.length > 0 ? (
+                  dailyEvents.map(event => (
+                    <EventRow 
+                      key={event.id}
+                      color={event.color} 
+                      title={event.name} 
+                      time={event.isAllDay ? 'All Day' : event.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} 
+                      location={event.category} 
+                    />
+                  ))
+                ) : (
+                  <p className="text-gray-500 dark:text-gray-400 ml-1">No events for this day</p>
+                )}
             </div>
          </div>
       </main>
@@ -48,12 +71,12 @@ type EventRowProps = {
 
 const EventRow: React.FC<EventRowProps> = ({ color, title, time, location }) => (
     <div className="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-sm flex items-start space-x-4">
-        <div className={`w-1 h-10 ${color} rounded-full mt-1`}></div>
+        <div className="w-1 h-10 rounded-full mt-1" style={{ backgroundColor: color }}></div>
         <div className="flex-1">
             <h3 className="font-semibold text-gray-900 dark:text-white text-[17px]">{title}</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{time}</p>
             <div className="flex items-center mt-2 text-gray-400 dark:text-gray-500">
-                <span className="material-icons-round text-sm mr-1">place</span>
+                <span className="material-icons-round text-sm mr-1">label</span>
                 <span className="text-xs">{location}</span>
             </div>
         </div>

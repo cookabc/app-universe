@@ -1,34 +1,54 @@
-import React, { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { CalendarPicker } from './CalendarPicker';
 import { TimePicker } from './TimePicker';
 import { EVENT_COLORS, EventItem, EVENT_CATEGORIES, REPEAT_OPTIONS, EventCategory, RepeatOption, EventColor } from '../types';
 
-export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) => void }> = ({ events, addEvent }) => {
-  const navigate = useNavigate();
-  const [eventName, setEventName] = useState('');
-  const [eventType, setEventType] = useState<'past' | 'future'>('future');
-  const [allDay, setAllDay] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date>(() => {
-    const now = new Date();
-    // Default to next hour if not all day? Or just now.
-    // iOS defaults to now.
-    return now;
-  });
-  
-  // New States
-  const [category, setCategory] = useState<EventCategory>('General');
-  const [alertEnabled, setAlertEnabled] = useState(true);
-  const [repeatOption, setRepeatOption] = useState<RepeatOption>('Never');
-  const [selectedColor, setSelectedColor] = useState<EventColor>(EVENT_COLORS[0]);
+interface AddEventProps {
+  events: EventItem[];
+  addEvent: (e: EventItem) => void;
+  updateEvent?: (e: EventItem) => void;
+  isEditing?: boolean;
+}
 
-  // UI States for expansion
+export const AddEvent: React.FC<AddEventProps> = ({ events, addEvent, updateEvent, isEditing }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const editingEvent = (location.state as { event?: EventItem })?.event;
+  
+  const [eventName, setEventName] = useState(editingEvent?.name || '');
+  const [eventType, setEventType] = useState<'past' | 'future'>(editingEvent?.type || 'future');
+  const [allDay, setAllDay] = useState(editingEvent?.isAllDay || false);
+  const [selectedDate, setSelectedDate] = useState<Date>(editingEvent?.date || new Date());
+  const [category, setCategory] = useState<EventCategory>(editingEvent?.category || 'General');
+  const [alertEnabled, setAlertEnabled] = useState(editingEvent?.alertEnabled ?? true);
+  const [repeatOption, setRepeatOption] = useState<RepeatOption>(editingEvent?.repeatOption || 'Never');
+  const [selectedColor, setSelectedColor] = useState<EventColor>(
+    EVENT_COLORS.find(c => c.bg === editingEvent?.color) || EVENT_COLORS[0]
+  );
+
   const [expandedSection, setExpandedSection] = useState<'category' | 'repeat' | null>(null);
+  const [errors, setErrors] = useState<{ name?: string }>({});
+
+  // Use events prop to check for duplicates if needed in future
+  // currently used just to conform to interface
+  void events; 
 
   const canSave = eventName.trim().length > 0;
 
+  const validate = (): boolean => {
+    const newErrors: { name?: string } = {};
+    if (!eventName.trim()) {
+      newErrors.name = 'Event name is required';
+    } else if (eventName.trim().length < 2) {
+      newErrors.name = 'Event name must be at least 2 characters';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSave = () => {
-    if (!canSave) {
+    if (!validate()) {
       return;
     }
     const eventDate = new Date(selectedDate);
@@ -36,12 +56,10 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
       eventDate.setHours(0, 0, 0, 0);
     }
     
-    const id = typeof crypto !== 'undefined' && 'randomUUID' in crypto
-      ? crypto.randomUUID()
-      : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-      
-    addEvent({
-      id,
+    const eventData: EventItem = {
+      id: editingEvent?.id || (typeof crypto !== 'undefined' && 'randomUUID' in crypto
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(16).slice(2)}`),
       name: eventName.trim(),
       date: eventDate,
       isAllDay: allDay,
@@ -51,13 +69,18 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
       repeatOption,
       color: selectedColor.bg,
       textColor: selectedColor.text
-    });
+    };
+    
+    if (isEditing && updateEvent) {
+      updateEvent(eventData);
+    } else {
+      addEvent(eventData);
+    }
     navigate('/');
   };
 
   return (
     <div className="h-full min-h-0 bg-background-light dark:bg-background-dark text-gray-900 dark:text-white flex flex-col transition-colors duration-200">
-      {/* Sticky Header */}
       <header className="flex items-center justify-between px-4 pt-12 pb-4 bg-background-light dark:bg-background-dark sticky top-0 z-30 transition-colors duration-200">
         <button 
           onClick={() => navigate('/')}
@@ -66,7 +89,7 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
           Cancel
         </button>
         <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Add Event
+          {isEditing ? 'Edit Event' : 'Add Event'}
         </h1>
         <button
           onClick={handleSave}
@@ -78,22 +101,25 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
       </header>
 
       <main className="flex-1 min-h-0 px-4 pb-10 space-y-6 overflow-y-auto">
-        
-        {/* Event Name */}
         <section>
           <h2 className="ml-4 mb-2 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Pick an event name</h2>
           <div className="relative">
             <input 
-              className="w-full bg-accent text-gray-900 placeholder-gray-700 px-4 py-4 rounded-xl border-none focus:ring-2 focus:ring-offset-2 focus:ring-accent dark:focus:ring-offset-background-dark text-lg font-medium shadow-sm transition-colors duration-200" 
+              className={`w-full bg-accent text-gray-900 placeholder-gray-700 px-4 py-4 rounded-xl border-none focus:ring-2 focus:ring-offset-2 focus:ring-accent dark:focus:ring-offset-background-dark text-lg font-medium shadow-sm transition-colors duration-200 ${errors.name ? 'ring-2 ring-red-500' : ''}`}
               placeholder="Event Name" 
               type="text" 
               value={eventName}
-              onChange={(e) => setEventName(e.target.value)}
+              onChange={(e) => {
+                setEventName(e.target.value);
+                if (errors.name) setErrors({});
+              }}
             />
           </div>
+          {errors.name && (
+            <p className="ml-4 mt-1 text-sm text-red-500">{errors.name}</p>
+          )}
         </section>
 
-        {/* Event Type */}
         <section>
           <h2 className="ml-4 mb-2 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Pick event type</h2>
           <div className="bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden shadow-ios transition-colors duration-200">
@@ -125,13 +151,11 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
           </div>
         </section>
 
-        {/* Date Picker */}
         <section>
           <h2 className="ml-4 mb-2 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Pick a date</h2>
           <CalendarPicker selectedDate={selectedDate} onChange={setSelectedDate} />
         </section>
 
-        {/* Time Picker */}
         <section>
           <h2 className="ml-4 mb-2 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Pick a time</h2>
           <div className="bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden shadow-ios transition-colors duration-200">
@@ -149,11 +173,10 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
                 <label className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer transition-colors" htmlFor="toggle"></label>
               </div>
             </div>
-            {!allDay && <TimePicker />}
+            {!allDay && <TimePicker value={selectedDate} onChange={setSelectedDate} />}
           </div>
         </section>
 
-        {/* Color Picker */}
         <section>
           <h2 className="ml-4 mb-2 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Pick a color</h2>
           <div className="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-ios transition-colors duration-200 overflow-x-auto">
@@ -171,14 +194,9 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
           </div>
         </section>
 
-        {/* Settings List */}
         <section className="pb-8">
           <div className="bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden shadow-ios transition-colors duration-200">
-            
-            {/* Category */}
-            <div 
-              className="flex flex-col active:bg-gray-100 dark:active:bg-gray-800 transition-colors cursor-pointer group"
-            >
+            <div className="flex flex-col active:bg-gray-100 dark:active:bg-gray-800 transition-colors cursor-pointer group">
               <div 
                 className="flex items-center justify-between px-4 py-3.5"
                 onClick={() => setExpandedSection(expandedSection === 'category' ? null : 'category')}
@@ -193,7 +211,6 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
                 </div>
               </div>
               
-              {/* Category Expansion */}
               {expandedSection === 'category' && (
                 <div className="px-4 pb-3.5 grid grid-cols-2 gap-2 animate-fadeIn">
                   {EVENT_CATEGORIES.map((cat) => (
@@ -214,7 +231,6 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
 
             <div className="h-px bg-divider-light dark:bg-divider-dark ml-12"></div>
 
-            {/* Alert */}
             <div 
               className="flex items-center justify-between px-4 py-3.5 active:bg-gray-100 dark:active:bg-gray-800 transition-colors cursor-pointer group"
               onClick={() => setAlertEnabled(!alertEnabled)}
@@ -233,7 +249,6 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
 
             <div className="h-px bg-divider-light dark:bg-divider-dark ml-12"></div>
 
-            {/* Repeat */}
             <div className="flex flex-col active:bg-gray-100 dark:active:bg-gray-800 transition-colors cursor-pointer group">
               <div 
                 className="flex items-center justify-between px-4 py-3.5"
@@ -249,7 +264,6 @@ export const AddEvent: React.FC<{ events: EventItem[]; addEvent: (e: EventItem) 
                 </div>
               </div>
 
-              {/* Repeat Expansion */}
               {expandedSection === 'repeat' && (
                 <div className="px-4 pb-3.5 grid grid-cols-2 gap-2 animate-fadeIn">
                   {REPEAT_OPTIONS.map((opt) => (
