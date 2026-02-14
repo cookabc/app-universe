@@ -4,10 +4,12 @@ import { calculateCountdown } from '../utils/dateUtils';
 
 interface EventCardProps {
   event: EventItem;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
-export const EventCard: React.FC<EventCardProps> = ({ event }) => {
-  const { diffValue, diffUnit, label } = useMemo(() => {
+export const EventCard: React.FC<EventCardProps> = ({ event, onEdit, onDelete }) => {
+  const { diffValue, label } = useMemo(() => {
     return calculateCountdown(event.date);
   }, [event.date]);
 
@@ -28,7 +30,6 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
         <p className="text-sm font-bold opacity-70">{dateString}</p>
       </div>
       
-      {/* Divider */}
       <div className="w-px h-12 bg-black/10 mx-2 z-10"></div>
       
       <div className="flex flex-col items-center justify-center w-24 text-center pl-2 z-10">
@@ -38,8 +39,28 @@ export const EventCard: React.FC<EventCardProps> = ({ event }) => {
         </span>
       </div>
 
-      {/* Glossy effect overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none"></div>
+
+      {(onEdit || onDelete) && (
+        <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+          {onEdit && (
+            <button 
+              onClick={(e) => { e.stopPropagation(); onEdit(); }}
+              className="p-2 rounded-full bg-black/20 hover:bg-black/30 transition-colors"
+            >
+              <span className="material-icons-round text-white text-sm">edit</span>
+            </button>
+          )}
+          {onDelete && (
+            <button 
+              onClick={(e) => { e.stopPropagation(); onDelete(); }}
+              className="p-2 rounded-full bg-black/20 hover:bg-red-500 transition-colors"
+            >
+              <span className="material-icons-round text-white text-sm">delete</span>
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 export const SettingsView: React.FC = () => {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
+  const [isDark, setIsDark] = useState(() => {
     const stored = localStorage.getItem('duekeep-theme');
     const shouldBeDark = stored ? stored === 'dark' : document.documentElement.classList.contains('dark');
+    // Side effect to sync DOM
     document.documentElement.classList.toggle('dark', shouldBeDark);
-    setIsDark(shouldBeDark);
-  }, []);
+    return shouldBeDark;
+  });
 
   const toggleDarkMode = () => {
     const next = !isDark;
