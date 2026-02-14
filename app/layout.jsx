@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="zh-CN">
-      <head>
+      <body>
         {/* Google Analytics */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
@@ -26,8 +26,6 @@ export default function RootLayout({ children }) {
             gtag('config', '${GA_ID}');
           `}
         </Script>
-      </head>
-      <body>
         {children}
       </body>
     </html>
