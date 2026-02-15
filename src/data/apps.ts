@@ -30,32 +30,26 @@ const apps: AppData[] = [
         path: '/typing-practice',
         icon: Keyboard,
     },
-    {
-        name: 'AGI School',
-        description: 'Learn about Artificial General Intelligence',
-        color: '#8b5cf6',
-        path: '/agi-school',
-        icon: School,
-    },
+
     {
         name: 'DueKeep',
         description: 'Event countdown and calendar management',
         color: '#10b981',
-        path: '/apps/duekeep',
+        path: '/duekeep',
         icon: Calendar,
     },
     {
         name: 'AGI School Plus',
         description: 'Complete education platform with courses',
         color: '#f97316',
-        path: '/apps/agischool',
+        path: '/agischool',
         icon: GraduationCap,
     },
     {
         name: 'Real-time Fund',
         description: 'Track and manage your fund portfolio',
         color: '#ef4444',
-        path: '/apps/realtime-fund',
+        path: '/realtime-fund',
         icon: TrendingUp,
     },
 ]
