@@ -1,0 +1,5 @@
+{
+  "name": "Event Countdown",
+  "description": "A beautiful event countdown dashboard with dark mode support, featuring event tracking and a sleek iOS-style add event interface.",
+  "requestFramePermissions": []
+}
