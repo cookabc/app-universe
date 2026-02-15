@@ -2,11 +2,14 @@ import { Suspense } from 'react'
 import { AppGrid } from '@/components/AppGrid'
 import { CanvasDotGrid } from '@/components/canvas-dot-grid'
 import { HeroSection } from '@/components/HeroSection'
-import ChatGPT from '@/components/icons/chatgpt'
-import Claude from '@/components/icons/claude'
-import DeepSeek from '@/components/icons/deepseek'
-import Qwen from '@/components/icons/qwen'
 import { AppErrorBoundary } from '@/components/optimized/error-boundary'
+
+export const dynamic = 'force-dynamic'
+
+const ChatGPT = ({ className }: { className?: string }) => <span className={className}>ChatGPT</span>
+const Claude = ({ className }: { className?: string }) => <span className={className}>Claude</span>
+const DeepSeek = ({ className }: { className?: string }) => <span className={className}>DeepSeek</span>
+const Qwen = ({ className }: { className?: string }) => <span className={className}>Qwen</span>
 
 export default function HomePage() {
     return (
