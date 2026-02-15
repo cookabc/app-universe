@@ -17,7 +17,7 @@ export const Dashboard: React.FC<{
     <div className="h-screen flex flex-col relative overflow-hidden bg-background-light dark:bg-background-dark shadow-2xl transition-colors duration-200">
       
       <div className="flex-1 h-full overflow-hidden relative">
-        {activeTab === 'home' && <HomeContent events={events} onEdit={onEdit} onDelete={onDelete} />}
+        {activeTab === 'home' && <HomeContent events={events} onEdit={onEdit!} onDelete={onDelete!} />}
         {activeTab === 'calendar' && <CalendarView events={events} />}
         {activeTab === 'settings' && <SettingsView />}
       </div>
@@ -123,8 +123,8 @@ const HomeContent: React.FC<{
                 <EventCard 
                   key={event.id} 
                   event={event} 
-                  onEdit={onEdit ? () => onEdit(event) : undefined}
-                  onDelete={onDelete ? () => onDelete(event.id) : undefined}
+                  onEdit={onEdit ? () => onEdit(event) : undefined!}
+                  onDelete={onDelete ? () => onDelete(event.id) : undefined!}
                 />
                 ))}
                 {filteredEvents.length === 0 && (
