@@ -73,11 +73,11 @@ export function TrainingPerformance({ data, currentEpoch, totalEpochs }: Trainin
             <>
               {/* Accuracy Curve */}
               <path d={accuracyPath} fill="none" stroke="#5048e5" strokeLinecap="round" strokeWidth="3" className="transition-all duration-300 ease-linear"></path>
-              <circle cx={getX(lastPoint.epoch)} cy={getYAccuracy(lastPoint.accuracy)} fill="#5048e5" r="4" className="transition-all duration-300 ease-linear"></circle>
+              <circle cx={getX(lastPoint?.epoch ?? 0)} cy={getYAccuracy(lastPoint?.accuracy ?? 0)} fill="#5048e5" r="4" className="transition-all duration-300 ease-linear"></circle>
               
               {/* Loss Curve */}
               <path d={lossPath} fill="none" stroke="#fb923c" strokeDasharray="6 4" strokeLinecap="round" strokeWidth="3" className="transition-all duration-300 ease-linear"></path>
-              <circle cx={getX(lastPoint.epoch)} cy={getYLoss(lastPoint.loss)} fill="#fb923c" r="4" className="transition-all duration-300 ease-linear"></circle>
+              <circle cx={getX(lastPoint?.epoch ?? 0)} cy={getYLoss(lastPoint?.loss ?? 0)} fill="#fb923c" r="4" className="transition-all duration-300 ease-linear"></circle>
             </>
           )}
           {data.length <= 1 && (

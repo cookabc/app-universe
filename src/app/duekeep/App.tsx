@@ -41,7 +41,7 @@ export default function App() {
         addEvent={addEvent} 
         updateEvent={updateEvent}
         isEditing
-        initialEvent={editingEvent || undefined}
+        initialEvent={editingEvent!}
       />
     )
   }

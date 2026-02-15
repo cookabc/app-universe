@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { CalendarPicker } from './CalendarPicker';
 import { TimePicker } from './TimePicker';
 import { EVENT_COLORS, EventItem, EVENT_CATEGORIES, REPEAT_OPTIONS, EventCategory, RepeatOption, EventColor } from '../types';
@@ -12,6 +13,7 @@ interface AddEventProps {
 }
 
 export const AddEvent: React.FC<AddEventProps> = ({ events, addEvent, updateEvent, isEditing, initialEvent }) => {
+  const router = useRouter();
   const [eventName, setEventName] = useState(initialEvent?.name || '');
   const [eventType, setEventType] = useState<'past' | 'future'>(initialEvent?.type || 'future');
   const [allDay, setAllDay] = useState(initialEvent?.isAllDay || false);
@@ -19,9 +21,10 @@ export const AddEvent: React.FC<AddEventProps> = ({ events, addEvent, updateEven
   const [category, setCategory] = useState<EventCategory>(initialEvent?.category || 'General');
   const [alertEnabled, setAlertEnabled] = useState(initialEvent?.alertEnabled ?? true);
   const [repeatOption, setRepeatOption] = useState<RepeatOption>(initialEvent?.repeatOption || 'Never');
-  const [selectedColor, setSelectedColor] = useState<EventColor>(
-    EVENT_COLORS.find(c => c.bg === initialEvent?.color) || EVENT_COLORS[0]
-  );
+  const [selectedColor, setSelectedColor] = useState<EventColor>(() => {
+    const found = EVENT_COLORS.find(c => c.bg === initialEvent?.color);
+    return (found as EventColor) ?? EVENT_COLORS[0];
+  });
 
   const [expandedSection, setExpandedSection] = useState<'category' | 'repeat' | null>(null);
   const [errors, setErrors] = useState<{ name?: string }>({});
@@ -72,14 +75,14 @@ export const AddEvent: React.FC<AddEventProps> = ({ events, addEvent, updateEven
     } else {
       addEvent(eventData);
     }
-    navigate('/');
+    router.push('/');
   };
 
   return (
     <div className="h-full min-h-0 bg-background-light dark:bg-background-dark text-gray-900 dark:text-white flex flex-col transition-colors duration-200">
       <header className="flex items-center justify-between px-4 pt-12 pb-4 bg-background-light dark:bg-background-dark sticky top-0 z-30 transition-colors duration-200">
         <button 
-          onClick={() => navigate('/')}
+          onClick={() => router.push('/')}
           className="text-blue-500 text-lg font-normal hover:opacity-70 transition-opacity"
         >
           Cancel
