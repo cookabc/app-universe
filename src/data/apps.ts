@@ -1,4 +1,4 @@
-import { Image, Keyboard, Languages, School } from 'lucide-react'
+import { Image, Keyboard, Languages, School, Calendar, GraduationCap, TrendingUp } from 'lucide-react'
 
 export type AppData = {
     name: string
@@ -36,6 +36,27 @@ const apps: AppData[] = [
         color: '#8b5cf6',
         path: '/agi-school',
         icon: School,
+    },
+    {
+        name: 'DueKeep',
+        description: 'Event countdown and calendar management',
+        color: '#10b981',
+        path: '/apps/duekeep',
+        icon: Calendar,
+    },
+    {
+        name: 'AGI School Plus',
+        description: 'Complete education platform with courses',
+        color: '#f97316',
+        path: '/apps/agischool',
+        icon: GraduationCap,
+    },
+    {
+        name: 'Real-time Fund',
+        description: 'Track and manage your fund portfolio',
+        color: '#ef4444',
+        path: '/apps/realtime-fund',
+        icon: TrendingUp,
     },
 ]
 export default apps
