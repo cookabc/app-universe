@@ -38,7 +38,7 @@ export default function LangConverterClient() {
 
     return (
         <AppErrorBoundary>
-            <div className="container mx-auto p-4 max-w-2xl">
+            <div className="container mx-auto px-4 py-8 max-w-2xl">
                 <ConverterForm
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
