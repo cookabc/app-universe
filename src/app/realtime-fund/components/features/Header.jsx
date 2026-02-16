@@ -1,6 +1,6 @@
-import { RefreshIcon, SettingsIcon } from '../icons'
+import { RefreshIcon, SettingsIcon, SunIcon, MoonIcon } from '../icons'
 
-export default function Header({ refreshing, refreshMs, onRefresh, onOpenSettings, fundCount }) {
+export default function Header({ refreshing, refreshMs, onRefresh, onOpenSettings, fundCount, isDark, onToggleTheme }) {
     return (
         <div className="navbar glass">
             {refreshing && <div className="loading-bar"></div>}
@@ -12,6 +12,14 @@ export default function Header({ refreshing, refreshMs, onRefresh, onOpenSetting
                 <span>基估宝</span>
             </div>
             <div className="actions">
+                <button
+                    className="icon-button"
+                    aria-label={isDark ? '切换到亮色模式' : '切换到暗色模式'}
+                    onClick={onToggleTheme}
+                    title={isDark ? '切换到亮色模式' : '切换到暗色模式'}
+                >
+                    {isDark ? <SunIcon width="18" height="18" /> : <MoonIcon width="18" height="18" />}
+                </button>
                 <div className="badge" title="当前刷新频率">
                     <span>刷新</span>
                     <strong>{Math.round(refreshMs / 1000)}秒</strong>
