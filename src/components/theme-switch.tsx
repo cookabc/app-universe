@@ -38,7 +38,13 @@ const ThemeSwitch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Ro
         ref,
     ) => {
         const { theme, setTheme } = useTheme()
-        const isDarkMode = theme === 'dark'
+        const [mounted, setMounted] = React.useState(false)
+
+        React.useEffect(() => {
+            setMounted(true)
+        }, [])
+
+        const isDarkMode = mounted ? theme === 'dark' : false
 
         const computeThumbStyles = React.useMemo(() => {
             const thumbSize = height - DEFAULTS.PADDING
