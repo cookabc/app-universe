@@ -22,13 +22,13 @@ const features = {
 
 export default function PricingPage() {
     return (
-        <div>
+        <div className="container mx-auto px-4 py-8">
             <div className="text-center mb-12">
-                <h2 className="text-5xl font-extrabold">Find the perfect plan for you</h2>
-                <p className="mt-4 text-lg text-muted-foreground">Start for free, then upgrade as you grow.</p>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold">Find the perfect plan for you</h2>
+                <p className="mt-4 text-base sm:text-lg text-muted-foreground">Start for free, then upgrade as you grow.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
                 <Card className="flex flex-col">
                     <CardHeader>
                         <CardTitle>Free</CardTitle>
