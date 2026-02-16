@@ -1,5 +1,4 @@
 import { useRouter } from 'next/navigation'
-import type React from 'react'
 import { useState } from 'react'
 import {
     EVENT_CATEGORIES,
@@ -21,7 +20,7 @@ interface AddEventProps {
     initialEvent?: EventItem
 }
 
-export const AddEvent: React.FC<AddEventProps> = ({ events, addEvent, updateEvent, isEditing, initialEvent }) => {
+export function AddEvent({ events, addEvent, updateEvent, isEditing, initialEvent }: AddEventProps) {
     const router = useRouter()
     const [eventName, setEventName] = useState(initialEvent?.name || '')
     const [eventType, setEventType] = useState<'past' | 'future'>(initialEvent?.type || 'future')
@@ -38,8 +37,6 @@ export const AddEvent: React.FC<AddEventProps> = ({ events, addEvent, updateEven
     const [expandedSection, setExpandedSection] = useState<'category' | 'repeat' | null>(null)
     const [errors, setErrors] = useState<{ name?: string }>({})
 
-    // Use events prop to check for duplicates if needed in future
-    // currently used just to conform to interface
     void events
 
     const canSave = eventName.trim().length > 0
@@ -86,172 +83,157 @@ export const AddEvent: React.FC<AddEventProps> = ({ events, addEvent, updateEven
         } else {
             addEvent(eventData)
         }
-        router.push('/')
+        router.push('/duekeep')
     }
 
     return (
-        <div className="h-full min-h-0 bg-background-light dark:bg-background-dark text-gray-900 dark:text-white flex flex-col transition-colors duration-200">
-            <header className="flex items-center justify-between px-4 pt-12 pb-4 bg-background-light dark:bg-background-dark sticky top-0 z-30 transition-colors duration-200">
-                <button
-                    onClick={() => router.push('/')}
-                    className="text-blue-500 text-lg font-normal hover:opacity-70 transition-opacity"
-                >
-                    Cancel
-                </button>
-                <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    {isEditing ? 'Edit Event' : 'Add Event'}
-                </h1>
-                <button
-                    onClick={handleSave}
-                    disabled={!canSave}
-                    className={`text-accent text-lg font-bold transition-opacity ${canSave ? 'hover:opacity-70' : 'opacity-40 cursor-not-allowed'}`}
-                >
-                    Save
-                </button>
-            </header>
+        <div className="flex min-h-[600px] bg-card border border-border rounded-xl p-6">
+            <div className="w-full max-w-2xl mx-auto">
+                <header className="flex items-center justify-between mb-6">
+                    <button
+                        onClick={() => router.push('/duekeep')}
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <h1 className="text-xl font-semibold text-foreground">
+                        {isEditing ? 'Edit Event' : 'Add Event'}
+                    </h1>
+                    <button
+                        onClick={handleSave}
+                        disabled={!canSave}
+                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                            canSave
+                                ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                                : 'opacity-50 cursor-not-allowed bg-muted text-muted-foreground'
+                        }`}
+                    >
+                        Save
+                    </button>
+                </header>
 
-            <main className="flex-1 min-h-0 px-4 pb-10 space-y-6 overflow-y-auto">
-                <section>
-                    <h2 className="ml-4 mb-2 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">
-                        Pick an event name
-                    </h2>
-                    <div className="relative">
-                        <input
-                            className={`w-full bg-accent text-gray-900 placeholder-gray-700 px-4 py-4 rounded-xl border-none focus:ring-2 focus:ring-offset-2 focus:ring-accent dark:focus:ring-offset-background-dark text-lg font-medium shadow-sm transition-colors duration-200 ${errors.name ? 'ring-2 ring-red-500' : ''}`}
-                            placeholder="Event Name"
-                            type="text"
-                            value={eventName}
-                            onChange={(e) => {
-                                setEventName(e.target.value)
-                                if (errors.name) setErrors({})
-                            }}
-                        />
-                    </div>
-                    {errors.name && <p className="ml-4 mt-1 text-sm text-red-500">{errors.name}</p>}
-                </section>
+                <main className="space-y-6">
+                    <section>
+                        <h2 className="mb-2 text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                            Event Name
+                        </h2>
+                        <div className="relative">
+                            <input
+                                className={`w-full bg-background border border-border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-colors ${
+                                    errors.name ? 'ring-2 ring-red-500 border-red-500' : ''
+                                }`}
+                                placeholder="Enter event name"
+                                type="text"
+                                value={eventName}
+                                onChange={(e) => {
+                                    setEventName(e.target.value)
+                                    if (errors.name) setErrors({})
+                                }}
+                            />
+                        </div>
+                        {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
+                    </section>
 
-                <section>
-                    <h2 className="ml-4 mb-2 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">
-                        Pick event type
-                    </h2>
-                    <div className="bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden shadow-ios transition-colors duration-200">
-                        <label
-                            className="flex items-center justify-between px-4 py-3.5 cursor-pointer active:bg-gray-100 dark:active:bg-gray-800 transition-colors"
-                            onClick={() => setEventType('past')}
-                        >
-                            <div className="flex items-center space-x-3">
-                                <div className="relative flex items-center justify-center w-5 h-5">
-                                    <div
-                                        className={`w-5 h-5 rounded-full border-2 transition-colors ${eventType === 'past' ? 'border-accent' : 'border-gray-400 dark:border-gray-500'}`}
-                                    ></div>
-                                    {eventType === 'past' && (
-                                        <div className="absolute w-2.5 h-2.5 rounded-full bg-accent"></div>
-                                    )}
-                                </div>
-                                <span className="text-base font-medium text-gray-900 dark:text-white">Past event</span>
-                            </div>
-                        </label>
-                        <div className="h-px bg-divider-light dark:bg-divider-dark ml-12"></div>
-                        <label
-                            className="flex items-center justify-between px-4 py-3.5 cursor-pointer active:bg-gray-100 dark:active:bg-gray-800 transition-colors"
-                            onClick={() => setEventType('future')}
-                        >
-                            <div className="flex items-center space-x-3">
-                                <div className="relative flex items-center justify-center w-5 h-5">
-                                    <div
-                                        className={`w-5 h-5 rounded-full border-2 transition-colors ${eventType === 'future' ? 'border-accent' : 'border-gray-400 dark:border-gray-500'}`}
-                                    ></div>
-                                    {eventType === 'future' && (
-                                        <div className="absolute w-2.5 h-2.5 rounded-full bg-accent"></div>
-                                    )}
-                                </div>
-                                <span className="text-base font-medium text-gray-900 dark:text-white">
-                                    Future event
-                                </span>
-                            </div>
-                        </label>
-                    </div>
-                </section>
+                    <section>
+                        <h2 className="mb-2 text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                            Event Type
+                        </h2>
+                        <div className="flex gap-4">
+                            <button
+                                onClick={() => setEventType('past')}
+                                className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border transition-colors ${
+                                    eventType === 'past'
+                                        ? 'border-primary bg-primary/10 text-primary'
+                                        : 'border-border text-muted-foreground hover:border-primary/50'
+                                }`}
+                            >
+                                <span className="material-icons-round">history</span>
+                                <span>Past Event</span>
+                            </button>
+                            <button
+                                onClick={() => setEventType('future')}
+                                className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border transition-colors ${
+                                    eventType === 'future'
+                                        ? 'border-primary bg-primary/10 text-primary'
+                                        : 'border-border text-muted-foreground hover:border-primary/50'
+                                }`}
+                            >
+                                <span className="material-icons-round">schedule</span>
+                                <span>Future Event</span>
+                            </button>
+                        </div>
+                    </section>
 
-                <section>
-                    <h2 className="ml-4 mb-2 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">
-                        Pick a date
-                    </h2>
-                    <CalendarPicker selectedDate={selectedDate} onChange={setSelectedDate} />
-                </section>
+                    <section>
+                        <h2 className="mb-2 text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                            Date
+                        </h2>
+                        <CalendarPicker selectedDate={selectedDate} onChange={setSelectedDate} />
+                    </section>
 
-                <section>
-                    <h2 className="ml-4 mb-2 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">
-                        Pick a time
-                    </h2>
-                    <div className="bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden shadow-ios transition-colors duration-200">
-                        <div className="flex items-center justify-between px-4 py-3.5 border-b border-divider-light dark:border-divider-dark">
-                            <span className="text-base font-medium text-gray-900 dark:text-white">All-day</span>
-                            <div className="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
-                                <input
-                                    className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-transparent appearance-none cursor-pointer translate-x-0 transition-transform duration-200 ease-in-out z-10"
-                                    id="toggle"
-                                    name="toggle"
-                                    type="checkbox"
-                                    checked={allDay}
-                                    onChange={() => setAllDay(!allDay)}
+                    <section>
+                        <h2 className="mb-2 text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                            Time
+                        </h2>
+                        <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border">
+                            <span className="text-foreground">All-day</span>
+                            <button
+                                onClick={() => setAllDay(!allDay)}
+                                className={`relative w-12 h-6 rounded-full transition-colors ${
+                                    allDay ? 'bg-primary' : 'bg-muted'
+                                }`}
+                            >
+                                <span
+                                    className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${
+                                        allDay ? 'translate-x-7' : 'translate-x-1'
+                                    }`}
                                 />
-                                <label
-                                    className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-600 cursor-pointer transition-colors"
-                                    htmlFor="toggle"
-                                ></label>
-                            </div>
+                            </button>
                         </div>
                         {!allDay && <TimePicker value={selectedDate} onChange={setSelectedDate} />}
-                    </div>
-                </section>
+                    </section>
 
-                <section>
-                    <h2 className="ml-4 mb-2 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">
-                        Pick a color
-                    </h2>
-                    <div className="bg-surface-light dark:bg-surface-dark rounded-xl p-4 shadow-ios transition-colors duration-200 overflow-x-auto">
-                        <div className="flex space-x-3 min-w-max">
+                    <section>
+                        <h2 className="mb-2 text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                            Color
+                        </h2>
+                        <div className="flex gap-3 p-4 bg-muted/30 rounded-lg border border-border">
                             {EVENT_COLORS.map((c) => (
                                 <button
                                     key={c.name}
                                     onClick={() => setSelectedColor(c)}
-                                    className={`w-10 h-10 rounded-full border-2 transition-all duration-200 ${selectedColor.name === c.name ? 'scale-110 border-gray-900 dark:border-white' : 'border-transparent hover:scale-105'}`}
+                                    className={`w-10 h-10 rounded-full border-2 transition-all ${
+                                        selectedColor.name === c.name
+                                            ? 'scale-110 border-foreground'
+                                            : 'border-transparent hover:scale-105'
+                                    }`}
                                     style={{ backgroundColor: c.bg }}
                                     aria-label={c.name}
                                 />
                             ))}
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                <section className="pb-8">
-                    <div className="bg-surface-light dark:bg-surface-dark rounded-xl overflow-hidden shadow-ios transition-colors duration-200">
-                        <div className="flex flex-col active:bg-gray-100 dark:active:bg-gray-800 transition-colors cursor-pointer group">
-                            <div
-                                className="flex items-center justify-between px-4 py-3.5"
+                    <section>
+                        <h2 className="mb-2 text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                            Options
+                        </h2>
+                        <div className="space-y-2">
+                            <button
                                 onClick={() => setExpandedSection(expandedSection === 'category' ? null : 'category')}
+                                className="w-full flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border hover:border-primary/50 transition-colors"
                             >
-                                <div className="flex items-center space-x-3">
-                                    <span className="material-symbols-outlined text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
-                                        list
-                                    </span>
-                                    <span className="text-base font-medium text-gray-900 dark:text-white">
-                                        Category
-                                    </span>
+                                <div className="flex items-center gap-3">
+                                    <span className="material-icons-round text-muted-foreground">category</span>
+                                    <span className="text-foreground">Category</span>
                                 </div>
-                                <div className="flex items-center space-x-1">
-                                    <span className="text-gray-500 dark:text-gray-400 text-base">{category}</span>
-                                    <span
-                                        className={`material-symbols-outlined text-gray-400 dark:text-gray-600 text-sm transition-transform ${expandedSection === 'category' ? 'rotate-90' : ''}`}
-                                    >
-                                        chevron_right
-                                    </span>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-muted-foreground">{category}</span>
+                                    <span className="material-icons-round text-muted-foreground">chevron_right</span>
                                 </div>
-                            </div>
-
+                            </button>
                             {expandedSection === 'category' && (
-                                <div className="px-4 pb-3.5 grid grid-cols-2 gap-2 animate-fadeIn">
+                                <div className="grid grid-cols-2 gap-2 p-2 bg-muted/30 rounded-lg">
                                     {EVENT_CATEGORIES.map((cat) => (
                                         <button
                                             key={cat}
@@ -259,66 +241,33 @@ export const AddEvent: React.FC<AddEventProps> = ({ events, addEvent, updateEven
                                                 setCategory(cat)
                                                 setExpandedSection(null)
                                             }}
-                                            className={`px-3 py-2 rounded-lg text-sm font-medium text-left transition-colors ${category === cat ? 'bg-accent text-black' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
+                                            className={`px-3 py-2 rounded-lg text-sm font-medium text-left transition-colors ${
+                                                category === cat
+                                                    ? 'bg-primary text-primary-foreground'
+                                                    : 'bg-background text-foreground hover:bg-muted'
+                                            }`}
                                         >
                                             {cat}
                                         </button>
                                     ))}
                                 </div>
                             )}
-                        </div>
 
-                        <div className="h-px bg-divider-light dark:bg-divider-dark ml-12"></div>
-
-                        <div
-                            className="flex items-center justify-between px-4 py-3.5 active:bg-gray-100 dark:active:bg-gray-800 transition-colors cursor-pointer group"
-                            onClick={() => setAlertEnabled(!alertEnabled)}
-                        >
-                            <div className="flex items-center space-x-3">
-                                <span className="material-symbols-outlined text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
-                                    notifications_none
-                                </span>
-                                <span className="text-base font-medium text-gray-900 dark:text-white">Alert</span>
-                            </div>
-                            <div className="flex items-center space-x-1">
-                                <span className="text-gray-500 dark:text-gray-400 text-base">
-                                    {alertEnabled ? 'On' : 'Off'}
-                                </span>
-                                <div
-                                    className={`w-10 h-6 ml-2 rounded-full relative transition-colors ${alertEnabled ? 'bg-accent' : 'bg-gray-300 dark:bg-gray-600'}`}
-                                >
-                                    <div
-                                        className={`absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform ${alertEnabled ? 'translate-x-4' : 'translate-x-0'}`}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="h-px bg-divider-light dark:bg-divider-dark ml-12"></div>
-
-                        <div className="flex flex-col active:bg-gray-100 dark:active:bg-gray-800 transition-colors cursor-pointer group">
-                            <div
-                                className="flex items-center justify-between px-4 py-3.5"
+                            <button
                                 onClick={() => setExpandedSection(expandedSection === 'repeat' ? null : 'repeat')}
+                                className="w-full flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border hover:border-primary/50 transition-colors"
                             >
-                                <div className="flex items-center space-x-3">
-                                    <span className="material-symbols-outlined text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
-                                        cached
-                                    </span>
-                                    <span className="text-base font-medium text-gray-900 dark:text-white">Repeat</span>
+                                <div className="flex items-center gap-3">
+                                    <span className="material-icons-round text-muted-foreground">cached</span>
+                                    <span className="text-foreground">Repeat</span>
                                 </div>
-                                <div className="flex items-center space-x-1">
-                                    <span className="text-gray-500 dark:text-gray-400 text-base">{repeatOption}</span>
-                                    <span
-                                        className={`material-symbols-outlined text-gray-400 dark:text-gray-600 text-sm transition-transform ${expandedSection === 'repeat' ? 'rotate-90' : ''}`}
-                                    >
-                                        chevron_right
-                                    </span>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-muted-foreground">{repeatOption}</span>
+                                    <span className="material-icons-round text-muted-foreground">chevron_right</span>
                                 </div>
-                            </div>
-
+                            </button>
                             {expandedSection === 'repeat' && (
-                                <div className="px-4 pb-3.5 grid grid-cols-2 gap-2 animate-fadeIn">
+                                <div className="grid grid-cols-2 gap-2 p-2 bg-muted/30 rounded-lg">
                                     {REPEAT_OPTIONS.map((opt) => (
                                         <button
                                             key={opt}
@@ -326,17 +275,38 @@ export const AddEvent: React.FC<AddEventProps> = ({ events, addEvent, updateEven
                                                 setRepeatOption(opt)
                                                 setExpandedSection(null)
                                             }}
-                                            className={`px-3 py-2 rounded-lg text-sm font-medium text-left transition-colors ${repeatOption === opt ? 'bg-accent text-black' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'}`}
+                                            className={`px-3 py-2 rounded-lg text-sm font-medium text-left transition-colors ${
+                                                repeatOption === opt
+                                                    ? 'bg-primary text-primary-foreground'
+                                                    : 'bg-background text-foreground hover:bg-muted'
+                                            }`}
                                         >
                                             {opt}
                                         </button>
                                     ))}
                                 </div>
                             )}
+
+                            <button
+                                onClick={() => setAlertEnabled(!alertEnabled)}
+                                className="w-full flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border hover:border-primary/50 transition-colors"
+                            >
+                                <div className="flex items-center gap-3">
+                                    <span className="material-icons-round text-muted-foreground">
+                                        {alertEnabled ? 'notifications' : 'notifications_off'}
+                                    </span>
+                                    <span className="text-foreground">Alert</span>
+                                </div>
+                                <span className={`px-2 py-1 rounded text-xs font-medium ${
+                                    alertEnabled ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'
+                                }`}>
+                                    {alertEnabled ? 'On' : 'Off'}
+                                </span>
+                            </button>
                         </div>
-                    </div>
-                </section>
-            </main>
+                    </section>
+                </main>
+            </div>
         </div>
     )
 }
