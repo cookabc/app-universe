@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { ApiProvider } from '../types'
+import type { ApiProvider } from '../types'
 
 interface ProviderStatusProps {
     providers: ApiProvider[]

@@ -1,5 +1,5 @@
 import { AppHeader } from '../../../layout/AppHeader'
 
 export function LabHeader() {
-  return <AppHeader variant="user" />
+    return <AppHeader variant="user" />
 }

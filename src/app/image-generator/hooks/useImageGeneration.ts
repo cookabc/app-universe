@@ -7,7 +7,7 @@ import {
     getProviderStatusAction,
     getQueueStatusAction,
 } from '../actions'
-import { ApiProvider, GenerationRequest, QueueState } from '../types'
+import type { ApiProvider, GenerationRequest, QueueState } from '../types'
 
 interface UseImageGenerationProps {
     initialPrompt?: string
