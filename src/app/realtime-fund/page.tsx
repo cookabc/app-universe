@@ -1120,8 +1120,9 @@ export default function HomePage() {
     }
 
     return (
-        <div className="container content">
-            <Announcement />
+        <div className="rf-wrapper">
+            <div className="container content">
+                <Announcement />
             <Header
                 refreshing={refreshing}
                 refreshMs={refreshMs}
@@ -1435,6 +1436,7 @@ export default function HomePage() {
                     />
                 )}
             </AnimatePresence>
+            </div>
         </div>
     )
 }
