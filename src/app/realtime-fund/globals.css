@@ -1141,3 +1141,190 @@ input[type="number"] {
         max-width: none !important;
     }
 }
+
+/* Dark Mode */
+.dark {
+    --bg: #1a1a1a;
+    --card: #1a1a1a;
+    --text: #e5e5e5;
+    --muted: #a0a0a0;
+    --border: #333333;
+    --shadow-light: #2a2a2a;
+    --shadow-dark: #0a0a0a;
+}
+
+.dark body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+.dark .glass {
+    background: var(--bg);
+    box-shadow:
+        6px 6px 12px var(--shadow-dark),
+        -6px -6px 12px var(--shadow-light);
+}
+
+.dark .input {
+    background: var(--bg);
+    color: var(--text);
+    box-shadow:
+        inset 4px 4px 6px var(--shadow-dark),
+        inset -4px -4px 6px var(--shadow-light);
+}
+
+.dark .item {
+    background: var(--bg);
+    box-shadow:
+        inset 3px 3px 5px var(--shadow-dark),
+        inset -3px -3px 5px var(--shadow-light);
+}
+
+.dark .card {
+    background: var(--bg);
+}
+
+.dark .badge,
+.dark .badge-v {
+    background: var(--bg);
+    box-shadow:
+        3px 3px 6px var(--shadow-dark),
+        -3px -3px 6px var(--shadow-light);
+}
+
+.dark .icon-button {
+    background: var(--bg);
+    color: var(--muted);
+    box-shadow:
+        3px 3px 6px var(--shadow-dark),
+        -3px -3px 6px var(--shadow-light);
+}
+
+.dark .table-row {
+    background: var(--bg);
+    border-color: var(--border);
+}
+
+.dark .table-row:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.dark .table-header-row {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: var(--border);
+}
+
+.dark .table-header-cell {
+    color: var(--text);
+}
+
+.dark .tab {
+    color: var(--muted);
+}
+
+.dark .tab:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.dark .modal-overlay {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.dark .chip {
+    background: var(--bg);
+    color: var(--text);
+    box-shadow:
+        3px 3px 6px var(--shadow-dark),
+        -3px -3px 6px var(--shadow-light);
+}
+
+.dark .search-dropdown {
+    background: var(--bg) !important;
+}
+
+.dark .search-item:hover:not(.added) {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.dark .checkbox {
+    background: var(--bg);
+    border-color: var(--border);
+    box-shadow:
+        inset 2px 2px 3px var(--shadow-dark),
+        inset -2px -2px 3px var(--shadow-light);
+}
+
+.dark .added-label {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.dark .group-manage-item {
+    background: var(--bg);
+    box-shadow:
+        3px 3px 6px var(--shadow-dark),
+        -3px -3px 6px var(--shadow-light);
+}
+
+.dark .group-manage-item:hover {
+    background: var(--bg);
+}
+
+.dark .group-rename-input {
+    color: var(--text) !important;
+}
+
+.dark .add-group-btn {
+    background: var(--bg);
+    border-color: var(--border);
+    box-shadow:
+        2px 2px 4px var(--shadow-dark),
+        -2px -2px 4px var(--shadow-light);
+}
+
+.dark .tabs-nav-btn {
+    background: var(--bg);
+    color: var(--muted);
+    box-shadow:
+        3px 3px 6px var(--shadow-dark),
+        -3px -3px 6px var(--shadow-light);
+}
+
+.dark .group-selector-popup {
+    background: var(--bg) !important;
+    box-shadow:
+        6px 6px 12px var(--shadow-dark),
+        -6px -6px 12px var(--shadow-light);
+}
+
+.dark .modal {
+    background: var(--bg);
+}
+
+.dark .form-group label {
+    color: var(--text);
+}
+
+.dark .muted {
+    color: var(--muted);
+}
+
+.dark .group-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.dark .loading-bar {
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+}
+
+.dark .search-spinner {
+    border-color: rgba(255, 255, 255, 0.1);
+    border-top-color: var(--primary);
+}
+
+@media (max-width: 640px) {
+    .dark .filter-bar {
+        background: rgba(26, 26, 26, 0.9);
+        border-color: var(--border);
+    }
+}
