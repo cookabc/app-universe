@@ -1101,6 +1101,7 @@ export default function HomePage() {
         <div className="rf-wrapper">
             <div className="container content">
                 <Announcement />
+            </div>
             <div className="navbar">
                 <div className="brand">
                     <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
@@ -1443,7 +1444,6 @@ export default function HomePage() {
                     />
                 )}
             </AnimatePresence>
-            </div>
         </div>
     )
 }
