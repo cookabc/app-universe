@@ -15,7 +15,78 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": false
+            "recommended": true,
+            "complexity": {
+                "noForEach": "off"
+            },
+            "suspicious": {
+                "noExplicitAny": "off"
+            },
+            "style": {
+                "useConsistentArrayType": "off"
+            },
+            "a11y": {
+                "noSvgWithoutTitle": "off",
+                "useButtonType": "off",
+                "noLabelWithoutControl": "off",
+                "noStaticElementInteractions": "off",
+                "useKeyWithClickEvents": "off",
+                "useSemanticElements": "off"
+            },
+            "correctness": {
+                "useExhaustiveDependencies": "off"
+            },
+            "suspicious": {
+                "noExplicitAny": "off",
+                "noArrayIndexKey": "off",
+                "useIterableCallbackReturn": "off",
+                "noAsyncPromiseExecutor": "off",
+                "noUnknownAtRules": "off",
+                "noShadowRestrictedNames": "off"
+            },
+            "correctness": {
+                "useExhaustiveDependencies": "off",
+                "useUniqueElementIds": "off"
+            },
+            "a11y": {
+                "noSvgWithoutTitle": "off",
+                "useButtonType": "off",
+                "noLabelWithoutControl": "off",
+                "noStaticElementInteractions": "off",
+                "useKeyWithClickEvents": "off",
+                "useSemanticElements": "off",
+                "useValidAnchor": "off",
+                "noAutofocus": "off"
+            },
+            "performance": {
+                "noImgElement": "off"
+            },
+            "suspicious": {
+                "noExplicitAny": "off",
+                "noArrayIndexKey": "off",
+                "useIterableCallbackReturn": "off",
+                "noAsyncPromiseExecutor": "off",
+                "noUnknownAtRules": "off",
+                "noShadowRestrictedNames": "off",
+                "noGlobalIsNan": "off"
+            },
+            "complexity": {
+                "useOptionalChain": "off",
+                "noImportantStyles": "off",
+                "noUselessFragments": "off"
+            },
+            "correctness": {
+                "useExhaustiveDependencies": "off",
+                "useUniqueElementIds": "off",
+                "noUnusedImports": "off",
+                "noUnusedVariables": "off",
+                "noUnusedFunctionParameters": "off"
+            },
+            "style": {
+                "useConsistentArrayType": "off",
+                "noNonNullAssertion": "off",
+                "useTemplate": "off"
+            }
         }
     },
     "assist": {
