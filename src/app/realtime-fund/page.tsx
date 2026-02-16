@@ -16,7 +16,6 @@ import {
     GroupManageModal,
     GroupModal,
     GroupSummary,
-    Header,
     HoldingActionModal,
     HoldingEditModal,
     HoldingsContribution,
@@ -26,6 +25,7 @@ import {
     TradeModal,
 } from './components/features'
 import { PlusIcon } from './components/icons'
+import Link from 'next/link'
 import './globals.css'
 
 interface FundData {
@@ -95,28 +95,6 @@ export default function HomePage() {
     const [error, setError] = useState('')
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
     const refreshingRef = useRef(false)
-
-    const [isDark, setIsDark] = useState(false)
-
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('realtime-fund-theme')
-        if (savedTheme === 'dark') {
-            setIsDark(true)
-            document.documentElement.classList.add('dark')
-        }
-    }, [])
-
-    const toggleTheme = () => {
-        const newTheme = !isDark
-        setIsDark(newTheme)
-        if (newTheme) {
-            document.documentElement.classList.add('dark')
-            localStorage.setItem('realtime-fund-theme', 'dark')
-        } else {
-            document.documentElement.classList.remove('dark')
-            localStorage.setItem('realtime-fund-theme', 'light')
-        }
-    }
 
     const [refreshMs, setRefreshMs] = useState(30000)
     const [settingsOpen, setSettingsOpen] = useState(false)
@@ -1123,15 +1101,44 @@ export default function HomePage() {
         <div className="rf-wrapper">
             <div className="container content">
                 <Announcement />
-            <Header
-                refreshing={refreshing}
-                refreshMs={refreshMs}
-                onRefresh={manualRefresh}
-                onOpenSettings={() => setSettingsOpen(true)}
-                fundCount={funds.length}
-                isDark={isDark}
-                onToggleTheme={toggleTheme}
-            />
+            <div className="navbar">
+                <div className="brand">
+                    <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="var(--primary)" strokeWidth="2" />
+                            <path d="M5 14c2-4 7-6 14-5" stroke="var(--primary)" strokeWidth="2" />
+                        </svg>
+                        <span>基估宝</span>
+                    </Link>
+                </div>
+                <div className="actions">
+                    <div className="badge">
+                        <span>刷新</span>
+                        <strong>{Math.round(refreshMs / 1000)}秒</strong>
+                    </div>
+                    <button
+                        className="icon-button"
+                        aria-label="立即刷新"
+                        onClick={manualRefresh}
+                        disabled={refreshing || funds.length === 0}
+                        aria-busy={refreshing}
+                        title="立即刷新"
+                    >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M4 12a8 8 0 0 1 12.5-6.9" />
+                            <path d="M16 5h3v3" />
+                            <path d="M20 12a8 8 0 0 1-12.5 6.9" />
+                            <path d="M8 19H5v-3" />
+                        </svg>
+                    </button>
+                    <button className="icon-button" aria-label="打开设置" onClick={() => setSettingsOpen(true)} title="设置">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="3" />
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
 
             <MarketBar indices={marketIndices} />
 
