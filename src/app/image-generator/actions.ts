@@ -2,7 +2,7 @@
 
 import { apiDispatcher } from './lib/api-dispatcher'
 import { queueManager } from './lib/queue-manager'
-import { GenerationRequest } from './types'
+import type { GenerationRequest } from './types'
 
 // This is not a robust way to handle background jobs, but it's fine for a demo.
 setInterval(() => {

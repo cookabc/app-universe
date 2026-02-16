@@ -3,7 +3,7 @@ import { Download, Loader } from 'lucide-react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { GenerationRequest } from '../types'
+import type { GenerationRequest } from '../types'
 
 interface ImageDisplayProps {
     generatedImage: string | null

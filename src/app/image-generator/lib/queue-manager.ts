@@ -1,4 +1,4 @@
-import { GenerationRequest } from '../types'
+import type { GenerationRequest } from '../types'
 
 class QueueManager {
     private queue: GenerationRequest[] = []

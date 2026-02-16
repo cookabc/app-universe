@@ -1,5 +1,5 @@
-export { default as DatePicker } from './DatePicker';
-export { default as NumericInput } from './NumericInput';
-export { default as Sparkline } from './Sparkline';
-export { default as CountUp } from './CountUp';
-export { default as Stat } from './Stat';
+export { default as CountUp } from './CountUp'
+export { default as DatePicker } from './DatePicker'
+export { default as NumericInput } from './NumericInput'
+export { default as Sparkline } from './Sparkline'
+export { default as Stat } from './Stat'
