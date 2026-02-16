@@ -81,16 +81,6 @@ export default function TypingPracticeClient() {
         }
     }, [currentIndex, text.length, userInput.length])
 
-    const handleKeyPress = useCallback(
-        (e: React.KeyboardEvent<HTMLDivElement>) => {
-            startTransition(() => {
-                handleInput(e.key)
-                updateCursorPosition()
-            })
-        },
-        [handleInput, updateCursorPosition],
-    )
-
     const handleReset = useCallback(() => {
         resetGame()
         setCelebrationKey((prev) => prev + 1)
@@ -99,6 +89,20 @@ export default function TypingPracticeClient() {
             textDisplayRef.current.focus()
         }
     }, [resetGame])
+
+    const handleKeyPress = useCallback(
+        (e: React.KeyboardEvent<HTMLDivElement>) => {
+            if (e.key === 'Escape') {
+                handleReset()
+                return
+            }
+            startTransition(() => {
+                handleInput(e.key)
+                updateCursorPosition()
+            })
+        },
+        [handleInput, updateCursorPosition, handleReset],
+    )
 
     const { isMobile, renderVirtualKeyboard } = useVirtualKeyboard({
         onKeyPress: useCallback(
@@ -120,7 +124,7 @@ export default function TypingPracticeClient() {
                     <div className="space-y-4 sm:space-y-8">
                         <div
                             ref={textDisplayRef}
-                            className="font-mono text-lg sm:text-2xl leading-relaxed text-muted-foreground min-h-[100px] relative outline-none"
+                            className="font-mono text-lg sm:text-2xl leading-relaxed text-muted-foreground min-h-[100px] relative outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md"
                             style={{
                                 maxWidth: '100vw',
                                 overflowWrap: 'break-word',
@@ -181,9 +185,18 @@ export default function TypingPracticeClient() {
                         </div>
 
                         <div className="flex justify-center gap-4">
-                            <Button onClick={handleReset} variant="outline" className="gap-2">
+                            <Button
+                                onClick={handleReset}
+                                variant="outline"
+                                className="gap-2"
+                                aria-keyshortcuts="Escape"
+                                title="Press Esc to reset"
+                            >
                                 <RotateCcw className="w-4 h-4" />
                                 Reset
+                                <kbd className="hidden sm:inline-flex pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 ml-1">
+                                    Esc
+                                </kbd>
                             </Button>
                         </div>
 
