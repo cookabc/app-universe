@@ -96,6 +96,28 @@ export default function HomePage() {
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
     const refreshingRef = useRef(false)
 
+    const [isDark, setIsDark] = useState(false)
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('realtime-fund-theme')
+        if (savedTheme === 'dark') {
+            setIsDark(true)
+            document.documentElement.classList.add('dark')
+        }
+    }, [])
+
+    const toggleTheme = () => {
+        const newTheme = !isDark
+        setIsDark(newTheme)
+        if (newTheme) {
+            document.documentElement.classList.add('dark')
+            localStorage.setItem('realtime-fund-theme', 'dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+            localStorage.setItem('realtime-fund-theme', 'light')
+        }
+    }
+
     const [refreshMs, setRefreshMs] = useState(30000)
     const [settingsOpen, setSettingsOpen] = useState(false)
 
@@ -1106,6 +1128,8 @@ export default function HomePage() {
                 onRefresh={manualRefresh}
                 onOpenSettings={() => setSettingsOpen(true)}
                 fundCount={funds.length}
+                isDark={isDark}
+                onToggleTheme={toggleTheme}
             />
 
             <MarketBar indices={marketIndices} />
