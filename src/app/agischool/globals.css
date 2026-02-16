@@ -1,60 +1,28 @@
-/**
- * [INPUT]: 依赖 @tailwindcss/vite 提供的原生 CSS 支持
- * [OUTPUT]: 对外提供全局样式、CSS 变量主题系统
- * [POS]: 样式入口文件，TailwindCSS v4 原生配置
- * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
- */
-
 @import "tailwindcss";
 
 /* ============================================
-   CSS 变量主题系统 (Tailwind v4 原生语法)
+   统一设计系统
    ============================================ */
 
 @theme {
-    /* 品牌色 */
-    --color-primary: #5048e5;
-    --color-primary-hover: #4338ca;
-    --color-primary-light: #818cf8;
-    --color-primary-dark: #3730a3;
-
-    /* 背景色 */
-    --color-background-light: #f6f6f8;
-    --color-background-dark: #121121;
-
-    /* 表面色 */
-    --color-surface-light: #ffffff;
-    --color-surface-dark: #1e1c30;
-
-    /* 文本色 */
-    --color-text-main: #0f0e1b;
-    --color-text-secondary: #545095;
-    --color-text-muted: #8b8aa7;
-
-    /* 字体 */
-    --font-display: "Inter", sans-serif;
-    --font-body: "Noto Sans", sans-serif;
-
-    /* 阴影 */
-    --shadow-soft: 0 4px 20px -2px rgba(80, 72, 229, 0.1);
-    --shadow-glow: 0 0 15px rgba(80, 72, 229, 0.5);
+    --color-primary: hsl(38, 92%, 50%);
+    --color-primary-hover: hsl(38, 92%, 45%);
+    --color-background: hsl(0, 0%, 100%);
+    --color-foreground: hsl(222.2, 84%, 4.9%);
+    --color-card: hsl(0, 0%, 100%);
+    --color-border: hsl(214.3, 31.8%, 91.4%);
 }
 
-/* ============================================
-   全局基础样式
-   ============================================ */
+.dark {
+    --color-background: hsl(222.2, 84%, 4.9%);
+    --color-foreground: hsl(210, 40%, 98%);
+    --color-card: hsl(222.2, 84%, 8%);
+    --color-border: hsl(217.2, 32.6%, 17.5%);
+}
 
 @layer base {
     body {
-        @apply bg-background-light text-text-main dark:bg-background-dark dark:text-white font-body;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        @apply font-display;
+        background-color: var(--color-background);
+        color: var(--color-foreground);
     }
 }
