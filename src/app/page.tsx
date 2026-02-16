@@ -27,15 +27,15 @@ export default function HomePage() {
                 <AppGrid />
             </div>
 
-            <div className="container mx-auto my-40 px-4 text-center">
-                <h2 className="mt-60 mb-20 text-4xl font-bold text-gray-900 dark:text-gray-100">
+            <div className="container mx-auto my-20 sm:my-40 px-4 text-center">
+                <h2 className="mt-16 sm:mt-60 mb-10 sm:mb-20 text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
                     Trusted by Developers at Leading AI Companies
                 </h2>
-                <div className="flex items-center justify-between gap-x-10 text-gray-500 dark:text-gray-400">
-                    <ChatGPT className="h-20 w-20" />
-                    <Claude className="h-20 w-20" />
-                    <DeepSeek className="h-20 w-20" />
-                    <Qwen className="h-20 w-20" />
+                <div className="flex flex-wrap items-center justify-center gap-x-6 sm:gap-x-10 gap-y-4 text-gray-500 dark:text-gray-400">
+                    <ChatGPT className="h-10 w-10 sm:h-16 sm:w-16" />
+                    <Claude className="h-10 w-10 sm:h-16 sm:w-16" />
+                    <DeepSeek className="h-10 w-10 sm:h-16 sm:w-16" />
+                    <Qwen className="h-10 w-10 sm:h-16 sm:w-16" />
                 </div>
             </div>
         </div>
