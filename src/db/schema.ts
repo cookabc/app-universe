@@ -7,6 +7,8 @@ export const users = pgTable('users', {
     email: text('email').notNull().unique(),
     name: text('name'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+    deletedAt: timestamp('deleted_at'),
 })
 
 export const artifacts = pgTable('artifacts', {
@@ -17,6 +19,8 @@ export const artifacts = pgTable('artifacts', {
     role: text('role', { enum: ['user', 'assistant'] }).notNull(),
     content: text('content').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+    deletedAt: timestamp('deleted_at'),
 })
 
 export const prompts = pgTable('prompts', {
@@ -27,6 +31,8 @@ export const prompts = pgTable('prompts', {
     name: text('name').notNull(),
     description: text('description'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+    deletedAt: timestamp('deleted_at'),
 })
 
 export const promptVersions = pgTable('prompt_versions', {
@@ -37,6 +43,7 @@ export const promptVersions = pgTable('prompt_versions', {
     version: integer('version').notNull(),
     content: text('content').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
 
 export const abTests = pgTable('ab_tests', {
@@ -52,6 +59,7 @@ export const abTests = pgTable('ab_tests', {
         .notNull(),
     results: jsonb('results'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
 
 export const usersRelations = relations(users, ({ many }) => ({
