@@ -9,7 +9,7 @@ export const Header = () => {
     return (
         <header className="container mx-auto px-4 py-6 flex justify-between items-center">
             <Link href="/" className="text-2xl font-bold text-foreground">
-                AI Universe
+                App Universe
             </Link>
             <div className="hidden md:flex items-center space-x-4">
                 <ThemeSwitch width={56} height={28} className="scale-75" />
