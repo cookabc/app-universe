@@ -23,7 +23,7 @@ export default function RootLayout({
                 <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Round&display=swap" rel="stylesheet" />
             </head>
             <body className="antialiased">
-                <ClerkProvider>
+                <ClerkProvider telemetry={false}>
                     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                         <div className="flex flex-col min-h-screen bg-background">
                             <Header />
