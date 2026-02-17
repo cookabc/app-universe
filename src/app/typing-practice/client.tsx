@@ -15,6 +15,7 @@ export default function TypingPracticeClient() {
     const [text] = useState(SAMPLE_TEXT)
     const [effectPosition, setEffectPosition] = useState({ x: 0, y: 0 })
     const [showEffect, setShowEffect] = useState(false)
+    const [isInvalid, setIsInvalid] = useState(false)
     const [showCelebration, setShowCelebration] = useState(false)
     const [celebrationKey, setCelebrationKey] = useState(0)
     const [cursorPosition, setCursorPosition] = useState({ left: 0, top: 0 })
@@ -96,8 +97,30 @@ export default function TypingPracticeClient() {
                 handleReset()
                 return
             }
+            const result = handleInput(e.key)
+            if (result && result.type === 'character' && !result.isCorrect) {
+                setIsInvalid(true)
+                setTimeout(() => setIsInvalid(false), 200)
+
+                // Trigger shake animation using Web Animations API
+                if (textDisplayRef.current) {
+                    textDisplayRef.current.animate(
+                        [
+                            { transform: 'translateX(0)' },
+                            { transform: 'translateX(-5px)' },
+                            { transform: 'translateX(5px)' },
+                            { transform: 'translateX(-5px)' },
+                            { transform: 'translateX(5px)' },
+                            { transform: 'translateX(0)' },
+                        ],
+                        {
+                            duration: 400,
+                            easing: 'cubic-bezier(.36,.07,.19,.97)',
+                        },
+                    )
+                }
+            }
             startTransition(() => {
-                handleInput(e.key)
                 updateCursorPosition()
             })
         },
@@ -133,6 +156,7 @@ export default function TypingPracticeClient() {
                             onKeyDown={handleKeyPress}
                             role="textbox"
                             aria-label="Typing area"
+                            aria-invalid={isInvalid}
                             tabIndex={0}
                         >
                             {text.split('').map((char, index) => (
