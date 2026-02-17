@@ -3,14 +3,14 @@ import type { Metadata, Viewport } from 'next'
 // Enhanced metadata for Next.js 15
 export const metadata: Metadata = {
     title: {
-        default: 'AI Universe',
-        template: '%s | AI Universe',
+        default: 'App Universe',
+        template: '%s | App Universe',
     },
     description: 'Your All-in-One AI Development Platform.',
     keywords: ['AI', 'development', 'platform', 'prompt engineering', 'workbench'],
-    authors: [{ name: 'AI Universe Team' }],
-    creator: 'AI Universe',
-    publisher: 'AI Universe',
+    authors: [{ name: 'App Universe Team' }],
+    creator: 'App Universe',
+    publisher: 'App Universe',
     formatDetection: {
         email: false,
         address: false,
@@ -21,16 +21,16 @@ export const metadata: Metadata = {
         canonical: '/',
     },
     openGraph: {
-        title: 'AI Universe',
+        title: 'App Universe',
         description: 'Your All-in-One AI Development Platform.',
         url: 'https://ai-universe.com',
-        siteName: 'AI Universe',
+        siteName: 'App Universe',
         locale: 'en_US',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'AI Universe',
+        title: 'App Universe',
         description: 'Your All-in-One AI Development Platform.',
     },
     robots: {

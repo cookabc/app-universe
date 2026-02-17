@@ -6,7 +6,7 @@ import { Toaster } from '@/components/ui/toaster'
 import './globals.css'
 
 export const metadata = {
-    title: 'AI Universe',
+    title: 'App Universe',
     description: 'Discover and use amazing AI-powered tools',
 }
 
