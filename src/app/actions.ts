@@ -25,6 +25,8 @@ const questionsSchema = z.object({
 
 export async function getQuestions(prompt: string) {
     const result = await safeAsync(async () => {
+        await getUserWithAuth()
+
         if (!prompt?.trim()) {
             throw new ValidationError('Prompt is required')
         }
@@ -52,6 +54,8 @@ export interface Message {
 
 export async function continueConversation(history: Message[]) {
     const result = await safeAsync(async () => {
+        await getUserWithAuth()
+
         if (!Array.isArray(history)) {
             throw new ValidationError('Invalid message history')
         }
