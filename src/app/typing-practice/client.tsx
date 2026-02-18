@@ -1,7 +1,7 @@
 'use client'
 
-import { RotateCcw } from 'lucide-react'
-import { useCallback, useMemo, useRef, useState, useTransition } from 'react'
+import { Lock, RotateCcw } from 'lucide-react'
+import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { GameErrorBoundary } from '@/components/optimized/error-boundary'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -19,8 +19,27 @@ export default function TypingPracticeClient() {
     const [showCelebration, setShowCelebration] = useState(false)
     const [celebrationKey, setCelebrationKey] = useState(0)
     const [cursorPosition, setCursorPosition] = useState({ left: 0, top: 0 })
+    const [isCapsLockOn, setIsCapsLockOn] = useState(false)
 
     const [_isPending, startTransition] = useTransition()
+
+    useEffect(() => {
+        const handleModifierState = (e: Event) => {
+            if (e instanceof KeyboardEvent || e instanceof MouseEvent) {
+                setIsCapsLockOn(e.getModifierState('CapsLock'))
+            }
+        }
+
+        window.addEventListener('keydown', handleModifierState)
+        window.addEventListener('keyup', handleModifierState)
+        window.addEventListener('mousedown', handleModifierState)
+
+        return () => {
+            window.removeEventListener('keydown', handleModifierState)
+            window.removeEventListener('keyup', handleModifierState)
+            window.removeEventListener('mousedown', handleModifierState)
+        }
+    }, [])
 
     const handleFinish = useCallback(() => {
         setShowCelebration(true)
@@ -159,6 +178,15 @@ export default function TypingPracticeClient() {
                             aria-invalid={isInvalid}
                             tabIndex={0}
                         >
+                            {isCapsLockOn && (
+                                <div
+                                    role="alert"
+                                    className="absolute -top-8 right-0 flex items-center gap-1.5 text-xs font-medium text-amber-600 bg-amber-50 px-2 py-1 rounded-md border border-amber-200 shadow-sm animate-in fade-in slide-in-from-top-1 z-10"
+                                >
+                                    <Lock className="w-3 h-3" />
+                                    Caps Lock is on
+                                </div>
+                            )}
                             {text.split('').map((char, index) => (
                                 <span
                                     key={index}
