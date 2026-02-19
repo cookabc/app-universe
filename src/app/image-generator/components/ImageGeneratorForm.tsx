@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { useToast } from '@/hooks/use-toast'
 
 interface ImageGeneratorFormProps {
@@ -46,9 +47,16 @@ export function ImageGeneratorForm({
                 <div className="space-y-2">
                     <div className="flex justify-between items-center">
                         <Label htmlFor="prompt">Prompt</Label>
-                        <Button variant="ghost" size="icon" onClick={handleCopyPrompt}>
-                            <Copy className="w-4 h-4" />
-                        </Button>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="ghost" size="icon" onClick={handleCopyPrompt} aria-label="Copy prompt">
+                                    <Copy className="w-4 h-4" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Copy prompt</p>
+                            </TooltipContent>
+                        </Tooltip>
                     </div>
                     <Textarea
                         id="prompt"
