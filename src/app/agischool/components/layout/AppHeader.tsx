@@ -10,6 +10,7 @@ import { Bell, Menu, Moon, School, Sun, X, Zap } from 'lucide-react'
 import { useState } from 'react'
 import { AuthModal } from '../auth/AuthModal'
 import { Button } from '../ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 
 interface AppHeaderProps {
     variant?: 'guest' | 'user'
@@ -76,9 +77,16 @@ export function AppHeader({ variant = 'guest', className = '' }: AppHeaderProps)
 
                     <div className="flex items-center gap-4">
                         {/* Theme Toggle */}
-                        <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
-                            {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                        </Button>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+                                    {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Toggle theme</p>
+                            </TooltipContent>
+                        </Tooltip>
 
                         {variant === 'guest' ? (
                             <div className="flex gap-3">
@@ -91,10 +99,22 @@ export function AppHeader({ variant = 'guest', className = '' }: AppHeaderProps)
                             </div>
                         ) : (
                             <div className="flex items-center gap-4">
-                                <Button variant="ghost" size="icon" className="relative">
-                                    <Bell className="w-5 h-5" />
-                                    <span className="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-gray-900" />
-                                </Button>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="relative"
+                                            aria-label="Notifications"
+                                        >
+                                            <Bell className="w-5 h-5" />
+                                            <span className="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-gray-900" />
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Notifications</p>
+                                    </TooltipContent>
+                                </Tooltip>
 
                                 <Link
                                     to="/dashboard"
@@ -126,10 +146,22 @@ export function AppHeader({ variant = 'guest', className = '' }: AppHeaderProps)
 
                 {/* Mobile Menu Icon */}
                 <div className="flex md:hidden items-center gap-4">
-                    <Button variant="ghost" size="icon" onClick={toggleTheme}>
-                        {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                    </Button>
-                    <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
+                                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Toggle theme</p>
+                        </TooltipContent>
+                    </Tooltip>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+                    >
                         {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </Button>
                 </div>
