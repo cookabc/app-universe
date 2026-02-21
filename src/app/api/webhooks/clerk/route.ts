@@ -1,4 +1,5 @@
 import type { WebhookEvent } from '@clerk/nextjs/server'
+import { eq } from 'drizzle-orm'
 import { headers } from 'next/headers'
 import { Webhook } from 'svix'
 import { db } from '@/db'
@@ -49,19 +50,53 @@ export async function POST(req: Request) {
     }
 
     // Get the ID and type
-    const { id } = evt.data
     const eventType = evt.type
 
     if (eventType === 'user.created') {
         const { id, email_addresses, first_name, last_name } = evt.data
 
+        const email = email_addresses?.[0]?.email_address
+        const primaryEmail = email || `${id}@no-email.clerk`
+        const name = `${first_name || ''} ${last_name || ''}`.trim() || 'User'
+
         await db.insert(users).values({
             clerkId: id,
-            email: email_addresses?.[0]?.email_address ?? '',
-            name: `${first_name} ${last_name}`,
+            email: primaryEmail,
+            name: name,
         })
 
         return new Response('User created', { status: 201 })
+    }
+
+    if (eventType === 'user.updated') {
+        const { id, email_addresses, first_name, last_name } = evt.data
+
+        const email = email_addresses?.[0]?.email_address
+        const primaryEmail = email || `${id}@no-email.clerk`
+        const name = `${first_name || ''} ${last_name || ''}`.trim() || 'User'
+
+        await db
+            .update(users)
+            .set({
+                email: primaryEmail,
+                name: name,
+                updatedAt: new Date(),
+            })
+            .where(eq(users.clerkId, id))
+
+        return new Response('User updated', { status: 200 })
+    }
+
+    if (eventType === 'user.deleted') {
+        const { id } = evt.data
+
+        if (!id) {
+            return new Response('User deleted event missing ID', { status: 400 })
+        }
+
+        await db.update(users).set({ deletedAt: new Date() }).where(eq(users.clerkId, id))
+
+        return new Response('User deleted', { status: 200 })
     }
 
     return new Response('', { status: 200 })
