@@ -25,7 +25,9 @@ export default function ImageGeneratorClient() {
     return (
         <AppErrorBoundary>
             <div className="container mx-auto px-4 py-8">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-6 sm:mb-8">AI Image Generator</h1>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-6 sm:mb-8">
+                    AI Image Generator
+                </h1>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mb-6 lg:mb-8">
                     <div className="lg:col-span-1">
                         <ImageGeneratorForm
@@ -42,6 +44,7 @@ export default function ImageGeneratorClient() {
                             generatedImage={generatedImage}
                             isLoading={isLoading}
                             requestStatus={requestStatus}
+                            prompt={prompt}
                         />
                     </div>
                 </div>
