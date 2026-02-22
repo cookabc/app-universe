@@ -3,15 +3,17 @@ import { Download, Loader } from 'lucide-react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import type { GenerationRequest } from '../types'
 
 interface ImageDisplayProps {
     generatedImage: string | null
     isLoading: boolean
     requestStatus: GenerationRequest | null
+    prompt: string
 }
 
-export function ImageDisplay({ generatedImage, isLoading, requestStatus }: ImageDisplayProps) {
+export function ImageDisplay({ generatedImage, isLoading, requestStatus, prompt }: ImageDisplayProps) {
     const handleDownload = () => {
         if (!generatedImage) return
         const link = document.createElement('a')
@@ -48,15 +50,27 @@ export function ImageDisplay({ generatedImage, isLoading, requestStatus }: Image
                         >
                             <Image
                                 src={generatedImage}
-                                alt="Generated image"
+                                alt={prompt || 'Generated image'}
                                 width={1024}
                                 height={1024}
                                 className="object-cover w-full h-full rounded-lg"
                             />
-                            <Button onClick={handleDownload} className="absolute bottom-4 right-4" variant="outline">
-                                <Download className="w-4 h-4 mr-2" />
-                                Download
-                            </Button>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        onClick={handleDownload}
+                                        className="absolute bottom-4 right-4"
+                                        variant="outline"
+                                        aria-label="Download generated image"
+                                    >
+                                        <Download className="w-4 h-4 mr-2" />
+                                        Download
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Download generated image</p>
+                                </TooltipContent>
+                            </Tooltip>
                         </motion.div>
                     )}
                     {!isLoading && !generatedImage && (
