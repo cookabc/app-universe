@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { languages } from '../constants'
 
 interface ConverterFormProps {
@@ -65,9 +66,21 @@ export function ConverterForm({
                                 ))}
                             </SelectContent>
                         </Select>
-                        <Button variant="outline" size="icon" onClick={switchLanguages}>
-                            <ArrowLeftRight className="h-4 w-4" />
-                        </Button>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    size="icon"
+                                    onClick={switchLanguages}
+                                    aria-label={languages[uiLanguage].swap}
+                                >
+                                    <ArrowLeftRight className="h-4 w-4" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{languages[uiLanguage].swap}</p>
+                            </TooltipContent>
+                        </Tooltip>
                         <Select value={toLang} onValueChange={setToLang}>
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder="To" />
@@ -96,9 +109,21 @@ export function ConverterForm({
                                 ))}
                             </SelectContent>
                         </Select>
-                        <Button variant="outline" size="icon" onClick={switchLanguages}>
-                            <ArrowLeftRight className="h-4 w-4" />
-                        </Button>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    size="icon"
+                                    onClick={switchLanguages}
+                                    aria-label={languages[uiLanguage].swap}
+                                >
+                                    <ArrowLeftRight className="h-4 w-4" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{languages[uiLanguage].swap}</p>
+                            </TooltipContent>
+                        </Tooltip>
                         <Select value={toType} onValueChange={setToType}>
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder="To" />
