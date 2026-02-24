@@ -1,7 +1,8 @@
 'use server'
 
 import { openai } from '@ai-sdk/openai'
-import { generateObject, generateText } from 'ai'
+import { createStreamableValue } from '@ai-sdk/rsc'
+import { generateObject, generateText, streamText } from 'ai'
 import { eq } from 'drizzle-orm'
 import Kuroshiro from 'kuroshiro'
 import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji'
@@ -71,16 +72,30 @@ export async function continueConversation(history: Message[]) {
             throw new ValidationError('Invalid message history')
         }
 
-        // Non-streaming response for AI SDK v5 migration
-        const { text } = await generateText({
-            model: openai('gpt-4o-mini'),
-            system: 'You are a helpful assistant capable of doing anything.',
-            messages: history,
-        })
+        const stream = createStreamableValue('')
+
+        ;(async () => {
+            try {
+                const { textStream } = await streamText({
+                    model: openai('gpt-4o-mini'),
+                    system: 'You are a helpful assistant capable of doing anything.',
+                    messages: history,
+                })
+
+                for await (const delta of textStream) {
+                    stream.update(delta)
+                }
+
+                stream.done()
+            } catch (error) {
+                stream.error(error)
+                stream.done()
+            }
+        })()
 
         return {
             messages: history,
-            replyText: text,
+            newMessage: stream.value,
         }
     }, 'continueConversation')
 
