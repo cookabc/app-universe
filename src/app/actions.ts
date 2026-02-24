@@ -43,11 +43,7 @@ export async function getQuestions(prompt: string) {
             throw new ValidationError('Prompt is required')
         }
 
-        const { object: questions } = await generateObject({
-            model: openai('gpt-4o-mini'),
-            prompt,
-            schema: questionsSchema,
-        })
+        const questions = await _getCachedQuestions(prompt)
 
         return questions
     }, 'getQuestions')
@@ -217,7 +213,7 @@ export const getCachedTranslation = unstable_cache(
     },
 )
 
-export const getCachedQuestions = unstable_cache(
+const _getCachedQuestions = unstable_cache(
     async (prompt: string) => {
         const { object: questions } = await generateObject({
             model: openai('gpt-4o-mini'),
