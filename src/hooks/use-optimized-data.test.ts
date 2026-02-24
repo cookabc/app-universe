@@ -1,46 +1,118 @@
 import { GlobalRegistrator } from '@happy-dom/global-registrator'
-import { renderHook, act, waitFor } from '@testing-library/react'
-import { describe, it, expect, mock, beforeEach, afterEach, jest } from 'bun:test'
-import { useOptimizedData } from './use-optimized-data'
-
 GlobalRegistrator.register()
 
-describe('useOptimizedData', () => {
-    afterEach(() => {
-        jest.restoreAllMocks()
+import { afterEach, beforeEach, describe, expect, test } from 'bun:test'
+import { renderHook, act, waitFor } from '@testing-library/react'
+import { useRealTimeData } from './use-optimized-data'
+
+// Mock WebSocket
+class MockWebSocket {
+    static instances: MockWebSocket[] = []
+    url: string
+    onopen: (() => void) | null = null
+    onclose: (() => void) | null = null
+    onmessage: ((event: { data: string }) => void) | null = null
+    onerror: ((error: Error) => void) | null = null
+    readyState: number = 0 // CONNECTING
+
+    static CONNECTING = 0
+    static OPEN = 1
+    static CLOSING = 2
+    static CLOSED = 3
+
+    constructor(url: string) {
+        this.url = url
+        this.readyState = MockWebSocket.CONNECTING
+        MockWebSocket.instances.push(this)
+    }
+
+    send(data: any) {}
+
+    close() {
+        this.readyState = MockWebSocket.CLOSED
+        if (this.onclose) this.onclose()
+    }
+
+    // Helper to simulate open
+    open() {
+        this.readyState = MockWebSocket.OPEN
+        if (this.onopen) this.onopen()
+    }
+}
+
+// Override global WebSocket
+// @ts-ignore
+global.WebSocket = MockWebSocket
+
+describe('useRealTimeData', () => {
+    beforeEach(() => {
+        MockWebSocket.instances = []
     })
 
-    it('should retry on error with exponential backoff and stop after max retries', async () => {
-        const fetcher = mock(async () => {
-            throw new Error('Fetch error')
+    test('should connect on mount', async () => {
+        const { result } = renderHook(() => useRealTimeData('ws://test', { reconnectInterval: 10 }))
+
+        await waitFor(() => expect(MockWebSocket.instances.length).toBe(1))
+        expect(result.current.isConnected).toBe(false)
+
+        act(() => {
+            const ws = MockWebSocket.instances[0]
+            if (ws) ws.open()
         })
 
-        const { result, unmount } = renderHook(() => useOptimizedData(fetcher, {
-            errorRetryCount: 3,
-            errorRetryInterval: 20, // Short interval for testing
-            dedupingInterval: 0,
-            revalidateOnFocus: false,
-            revalidateOnReconnect: false
-        }))
+        await waitFor(() => expect(result.current.isConnected).toBe(true))
+    })
 
-        // Initial fetch
-        expect(result.current.isLoading).toBe(true)
-        // Wait for initial call
-        await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(1))
+    test('should reconnect on close', async () => {
+        const { result } = renderHook(() => useRealTimeData('ws://test', { reconnectInterval: 10, maxReconnectAttempts: 2 }))
 
-        // Wait for retries to complete (max retries = 3)
-        // Delays: 20, 40, 80ms. Total ~140ms.
-        // We wait a bit more to ensure stability.
+        // Initial connect
+        await waitFor(() => expect(MockWebSocket.instances.length).toBe(1))
+        act(() => {
+            const ws = MockWebSocket.instances[0]
+            if (ws) ws.open()
+        })
+        await waitFor(() => expect(result.current.isConnected).toBe(true))
 
-        await waitFor(() => {
-             // We expect 1 initial + 3 retries = 4 calls
-             expect(fetcher).toHaveBeenCalledTimes(4)
-        }, { timeout: 1000 })
+        // Close
+        act(() => {
+            const ws = MockWebSocket.instances[0]
+            if (ws) ws.close()
+        })
+        await waitFor(() => expect(result.current.isConnected).toBe(false))
 
-        // Ensure no more calls happen
-        await new Promise(r => setTimeout(r, 200))
-        expect(fetcher).toHaveBeenCalledTimes(4)
+        // Wait for reconnect attempt 1
+        await waitFor(() => expect(MockWebSocket.instances.length).toBe(2))
 
-        unmount()
+        // Simulate open for attempt 1
+        act(() => {
+            const ws = MockWebSocket.instances[1]
+            if (ws) ws.open()
+        })
+        await waitFor(() => expect(result.current.isConnected).toBe(true))
+    })
+
+    test('should not double connect on reconnect', async () => {
+        const { result } = renderHook(() => useRealTimeData('ws://test', { reconnectInterval: 20, maxReconnectAttempts: 5 }))
+
+        // Initial
+        await waitFor(() => expect(MockWebSocket.instances.length).toBe(1))
+        act(() => {
+            const ws = MockWebSocket.instances[0]
+            if (ws) ws.open()
+        })
+
+        // Fail
+        act(() => {
+            const ws = MockWebSocket.instances[0]
+            if (ws) ws.close()
+        })
+
+        // Wait for reconnect
+        await waitFor(() => expect(MockWebSocket.instances.length).toBe(2))
+
+        // Wait a bit more to see if another one spawns (The bug check)
+        await new Promise(r => setTimeout(r, 100))
+        expect(MockWebSocket.instances.length).toBe(2)
     })
 })

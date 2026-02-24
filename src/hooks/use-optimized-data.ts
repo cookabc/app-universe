@@ -221,26 +221,43 @@ export function useRealTimeData<T>(
     const [isConnected, setIsConnected] = useState(false)
     const [error, setError] = useState<Error | null>(null)
     const [reconnectAttempts, setReconnectAttempts] = useState(0)
+    // New state to trigger reconnection via dependency
+    const [reconnectTrigger, setReconnectTrigger] = useState(0)
     const [isPending, startTransition] = useTransition()
 
+    // Internal refs to avoid dependency loops and stale closures
+    const reconnectCountRef = useRef(0)
     const wsRef = useRef<WebSocket | null>(null)
+    const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
     useEffect(() => {
-        let reconnectTimeout: NodeJS.Timeout
+        let isCurrent = true
 
         const connect = () => {
             try {
+                // Ensure previous connection is closed
+                if (wsRef.current) {
+                    wsRef.current.close()
+                }
+
                 wsRef.current = new WebSocket(url)
                 const ws = wsRef.current
 
                 ws.onopen = () => {
+                    if (!isCurrent) {
+                        ws.close()
+                        return
+                    }
                     startTransition(() => {
                         setIsConnected(true)
                         setError(null)
                         setReconnectAttempts(0)
                     })
+                    reconnectCountRef.current = 0
                 }
 
                 ws.onmessage = (event) => {
+                    if (!isCurrent) return
                     try {
                         const newData = JSON.parse(event.data)
                         startTransition(() => {
@@ -252,25 +269,35 @@ export function useRealTimeData<T>(
                 }
 
                 ws.onclose = () => {
+                    if (!isCurrent) return
+
                     startTransition(() => {
                         setIsConnected(false)
                     })
 
-                    // Attempt to reconnect
-                    if (reconnectAttempts < maxReconnectAttempts) {
-                        reconnectTimeout = setTimeout(() => {
-                            setReconnectAttempts((prev) => prev + 1)
-                            connect()
+                    // Attempt to reconnect using effect dependency
+                    if (reconnectCountRef.current < maxReconnectAttempts) {
+                        reconnectTimeoutRef.current = setTimeout(() => {
+                            if (!isCurrent) return
+
+                            reconnectCountRef.current += 1
+                            startTransition(() => {
+                                setReconnectAttempts(reconnectCountRef.current)
+                                // Trigger effect re-run for reconnection
+                                setReconnectTrigger((prev) => prev + 1)
+                            })
                         }, reconnectInterval)
                     }
                 }
 
                 ws.onerror = (_err) => {
+                    if (!isCurrent) return
                     startTransition(() => {
                         setError(new Error('WebSocket connection error'))
                     })
                 }
             } catch (err) {
+                if (!isCurrent) return
                 startTransition(() => {
                     setError(err instanceof Error ? err : new Error('Connection failed'))
                 })
@@ -280,14 +307,15 @@ export function useRealTimeData<T>(
         connect()
 
         return () => {
-            if (reconnectTimeout) {
-                clearTimeout(reconnectTimeout)
+            isCurrent = false
+            if (reconnectTimeoutRef.current) {
+                clearTimeout(reconnectTimeoutRef.current)
             }
             if (wsRef.current) {
                 wsRef.current.close()
             }
         }
-    }, [url, reconnectInterval, maxReconnectAttempts, reconnectAttempts])
+    }, [url, reconnectInterval, maxReconnectAttempts, reconnectTrigger])
 
     const sendMessage = useCallback((message: any) => {
         if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
