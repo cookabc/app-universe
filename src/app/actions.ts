@@ -3,7 +3,7 @@
 import { openai } from '@ai-sdk/openai'
 import { createStreamableValue } from '@ai-sdk/rsc'
 import { generateObject, generateText, streamText } from 'ai'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import Kuroshiro from 'kuroshiro'
 import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji'
 import { revalidateTag, unstable_cache } from 'next/cache'
@@ -43,11 +43,7 @@ export async function getQuestions(prompt: string) {
             throw new ValidationError('Prompt is required')
         }
 
-        const { object: questions } = await generateObject({
-            model: openai('gpt-4o-mini'),
-            prompt,
-            schema: questionsSchema,
-        })
+        const questions = await _getCachedQuestions(prompt)
 
         return questions
     }, 'getQuestions')
@@ -217,7 +213,7 @@ export const getCachedTranslation = unstable_cache(
     },
 )
 
-export const getCachedQuestions = unstable_cache(
+const _getCachedQuestions = unstable_cache(
     async (prompt: string) => {
         const { object: questions } = await generateObject({
             model: openai('gpt-4o-mini'),
@@ -232,6 +228,11 @@ export const getCachedQuestions = unstable_cache(
         tags: ['mbti-questions'],
     },
 )
+
+export const getCachedQuestions = async (prompt: string) => {
+    await getUserWithAuth()
+    return _getCachedQuestions(prompt)
+}
 
 // Cache management utilities for Next.js 16
 export async function revalidateTranslations() {
@@ -289,7 +290,7 @@ export async function createPromptVersion(promptId: number, content: string) {
     const user = await getUserWithAuth()
 
     const prompt = await db.query.prompts.findFirst({
-        where: eq(prompts.id, promptId),
+        where: and(eq(prompts.id, promptId), eq(prompts.userId, user.id)),
     })
 
     if (!prompt) {
@@ -314,7 +315,7 @@ export async function getPrompt(promptId: number) {
     const user = await getUserWithAuth()
 
     return db.query.prompts.findFirst({
-        where: eq(prompts.id, promptId),
+        where: and(eq(prompts.id, promptId), eq(prompts.userId, user.id)),
         with: {
             versions: true,
         },

@@ -1,5 +1,6 @@
 import { auth } from '@clerk/nextjs/server'
 import { eq } from 'drizzle-orm'
+import { cache } from 'react'
 import { db } from '@/db'
 import { users } from '@/db/schema'
 
@@ -36,7 +37,7 @@ export async function optionalAuth() {
     return userId
 }
 
-export async function getUserWithAuth() {
+export const getUserWithAuth = cache(async function getUserWithAuth() {
     const userId = await requireAuth()
 
     const user = await db.query.users.findFirst({
@@ -48,4 +49,4 @@ export async function getUserWithAuth() {
     }
 
     return user
-}
+})
