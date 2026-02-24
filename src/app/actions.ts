@@ -12,6 +12,17 @@ import { artifacts, prompts, promptVersions } from '@/db/schema'
 import { getUserWithAuth } from '@/hooks/useAuth'
 import { AppError, formatErrorResponse, safeAsync, ValidationError } from '@/lib/error-handling'
 
+// Singleton instance for Kuroshiro to avoid re-initialization overhead
+let kuroshiroInstance: Kuroshiro | null = null
+
+async function getKuroshiroInstance() {
+    if (!kuroshiroInstance) {
+        kuroshiroInstance = new Kuroshiro()
+        await kuroshiroInstance.init(new KuromojiAnalyzer())
+    }
+    return kuroshiroInstance
+}
+
 const questionSchema = z.object({
     id: z.number(),
     text: z.string(),
@@ -134,8 +145,7 @@ export const japaneseConvert = async (
             throw new ValidationError('Text, source type, and target type are required')
         }
 
-        const kuroshiro = new Kuroshiro()
-        await kuroshiro.init(new KuromojiAnalyzer())
+        const kuroshiro = await getKuroshiroInstance()
 
         if (!kuroshiro) {
             throw new AppError('Kuroshiro not initialized', 'INIT_ERROR', 500)
