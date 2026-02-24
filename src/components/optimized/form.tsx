@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useOptimistic, useState, useTransition } from 'react'
+import { useActionState, useEffect, useOptimistic, useState, useTransition } from 'react'
 
 interface FormState {
     success?: boolean
@@ -24,12 +24,14 @@ export function OptimizedForm({ action, children, className = '', onSuccess, onE
     const [isPendingTransition, startTransition] = useTransition()
 
     // Handle success/error callbacks
-    if (state.success && onSuccess && state.data) {
-        onSuccess(state.data)
-    }
-    if (state.error && onError) {
-        onError(state.error)
-    }
+    useEffect(() => {
+        if (state.success && onSuccess && state.data) {
+            onSuccess(state.data)
+        }
+        if (state.error && onError) {
+            onError(state.error)
+        }
+    }, [state.success, state.error, state.data, onSuccess, onError])
 
     const handleSubmit = (formData: FormData) => {
         startTransition(() => {
