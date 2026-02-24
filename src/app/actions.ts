@@ -3,7 +3,7 @@
 import { openai } from '@ai-sdk/openai'
 import { createStreamableValue } from '@ai-sdk/rsc'
 import { generateObject, generateText, streamText } from 'ai'
-import { eq } from 'drizzle-orm'
+import { eq, and } from 'drizzle-orm'
 import Kuroshiro from 'kuroshiro'
 import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji'
 import { revalidateTag, unstable_cache } from 'next/cache'
@@ -289,7 +289,7 @@ export async function createPromptVersion(promptId: number, content: string) {
     const user = await getUserWithAuth()
 
     const prompt = await db.query.prompts.findFirst({
-        where: eq(prompts.id, promptId),
+        where: and(eq(prompts.id, promptId), eq(prompts.userId, user.id)),
     })
 
     if (!prompt) {
@@ -314,7 +314,7 @@ export async function getPrompt(promptId: number) {
     const user = await getUserWithAuth()
 
     return db.query.prompts.findFirst({
-        where: eq(prompts.id, promptId),
+        where: and(eq(prompts.id, promptId), eq(prompts.userId, user.id)),
         with: {
             versions: true,
         },
