@@ -3,7 +3,7 @@
 import { openai } from '@ai-sdk/openai'
 import { createStreamableValue } from '@ai-sdk/rsc'
 import { generateObject, generateText, streamText } from 'ai'
-import { eq, and } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import Kuroshiro from 'kuroshiro'
 import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji'
 import { revalidateTag, unstable_cache } from 'next/cache'
