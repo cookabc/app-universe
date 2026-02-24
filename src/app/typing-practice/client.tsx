@@ -1,8 +1,10 @@
 'use client'
 
 import { Lock, RotateCcw } from 'lucide-react'
+import { RotateCcw, TriangleAlert } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { GameErrorBoundary } from '@/components/optimized/error-boundary'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { CelebrationEffect } from './celebration-effect'
@@ -20,6 +22,7 @@ export default function TypingPracticeClient() {
     const [celebrationKey, setCelebrationKey] = useState(0)
     const [cursorPosition, setCursorPosition] = useState({ left: 0, top: 0 })
     const [isCapsLockOn, setIsCapsLockOn] = useState(false)
+    const [capsLock, setCapsLock] = useState(false)
 
     const [_isPending, startTransition] = useTransition()
 
@@ -163,6 +166,15 @@ export default function TypingPracticeClient() {
                 {showCelebration && <CelebrationEffect key={celebrationKey} />}
                 <Card className="max-w-4xl mx-auto p-4 sm:p-8">
                     <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">ProTypist</h1>
+                    {capsLock && (
+                        <Alert variant="destructive" className="mb-4">
+                            <TriangleAlert className="h-4 w-4" />
+                            <AlertTitle>Caps Lock is on</AlertTitle>
+                            <AlertDescription>
+                                Please turn off Caps Lock to avoid typing errors.
+                            </AlertDescription>
+                        </Alert>
+                    )}
                     <div className="space-y-4 sm:space-y-8">
                         <div
                             ref={textDisplayRef}
