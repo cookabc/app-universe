@@ -233,7 +233,7 @@ export const getCachedQuestions = unstable_cache(
     },
 )
 
-// Cache management utilities for Next.js 15
+// Cache management utilities for Next.js 16
 export async function revalidateTranslations() {
     'use server'
     revalidateTag('translations', { expire: 0 })
