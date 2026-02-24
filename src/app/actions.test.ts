@@ -20,7 +20,13 @@ mock.module("ai", () => ({
             })()
         };
     },
-    generateObject: async () => ({ object: { questions: [] } }),
+    generateObject: async () => ({
+        object: {
+            questions: [
+                { id: 1, text: "Question?", type: "EI", options: ["Yes", "No"] }
+            ]
+        }
+    }),
     generateText: async () => ({ text: "generated" })
 }));
 
@@ -118,21 +124,24 @@ describe("continueConversation", () => {
     });
 });
 
-describe("getCachedQuestions Security", () => {
-    beforeEach(() => {
-        getUserWithAuthMock.mockClear();
+describe("getQuestions", () => {
+    test("should return questions on success", async () => {
+        const { getQuestions } = await import("./actions");
+        const prompt = "test prompt";
+        const result: any = await getQuestions(prompt);
+
+        expect(result.success).toBe(true);
+        expect(result.data).toBeDefined();
+        expect(result.data.questions).toBeDefined();
+        expect(result.data.questions.length).toBe(1);
+        expect(result.data.questions[0].text).toBe("Question?");
     });
 
-    test("should enforce authentication", async () => {
-        const { getCachedQuestions } = await import("./actions");
-        const prompt = "test prompt";
+    test("should fail if prompt is empty", async () => {
+        const { getQuestions } = await import("./actions");
+        const result: any = await getQuestions("");
 
-        try {
-            await getCachedQuestions(prompt);
-        } catch (e) {
-            // ignore
-        }
-
-        expect(getUserWithAuthMock).toHaveBeenCalled();
+        expect(result.success).toBe(false);
+        expect(result.error.code).toBe("VALIDATION_ERROR");
     });
 });
