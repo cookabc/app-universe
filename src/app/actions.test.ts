@@ -1,11 +1,14 @@
-import { describe, expect, test, mock } from "bun:test";
+import { describe, expect, test, mock, beforeEach } from "bun:test";
 
 // Mock environment variables
 process.env.DATABASE_URL = "postgres://user:pass@localhost:5432/db";
 
 // Mock dependencies
+// Create a spyable mock for auth
+const getUserWithAuthMock = mock(async () => ({ id: "test-user-id" }));
+
 mock.module("@/hooks/useAuth", () => ({
-    getUserWithAuth: async () => ({ id: "test-user-id" })
+    getUserWithAuth: getUserWithAuthMock
 }));
 
 mock.module("ai", () => ({
@@ -17,7 +20,7 @@ mock.module("ai", () => ({
             })()
         };
     },
-    generateObject: async () => ({ object: [] }),
+    generateObject: async () => ({ object: { questions: [] } }),
     generateText: async () => ({ text: "generated" })
 }));
 
@@ -50,6 +53,18 @@ mock.module("@/db", () => ({
     }
 }));
 
+// Mock schema to avoid drizzle-orm import issues
+mock.module("@/db/schema", () => ({
+    artifacts: {},
+    prompts: {},
+    promptVersions: {},
+}));
+
+// Mock drizzle-orm imports used in actions.ts directly
+mock.module("drizzle-orm", () => ({
+    eq: () => {},
+}));
+
 // Mock kuroshiro
 mock.module("kuroshiro", () => {
     return {
@@ -72,29 +87,52 @@ mock.module("next/cache", () => ({
 }));
 
 // Need to import after mocks
-import type { Message } from "./actions";
+// We use dynamic import in tests to ensure mocks are applied if not using bun test runner native mocking features correctly
+// But here we are using bun test.
 
 describe("continueConversation", () => {
     test("should return streamed response structure", async () => {
         const { continueConversation } = await import("./actions");
-        const history: Message[] = [{ role: "user", content: "Hello" }];
+        const history: any[] = [{ role: "user", content: "Hello" }]; // cast to any to avoid type import issues
 
         const result = await continueConversation(history);
 
         expect(result).toBeDefined();
         expect(result.messages).toEqual(history);
         expect(result.newMessage).toBeDefined();
-        // Check if newMessage has the structure we mocked
-        // Note: createStreamableValue usually returns a more complex object,
-        // but our mock returns { value: { streamValue: ... } }
         expect(result.newMessage).toHaveProperty("streamValue");
     });
 
     test("should throw ValidationError for invalid history", async () => {
         const { continueConversation } = await import("./actions");
-        // We expect it to throw because we pass invalid history
         // @ts-ignore
         const promise = continueConversation("invalid");
+        // Wait, continueConversation is wrapped in safeAsync which might catch errors?
+        // Let's check implementation. It rethrows if not success.
+        // Actually safeAsync returns { success, error } OR throws if specifically handled.
+        // In continueConversation:
+        // const result = await safeAsync(...)
+        // if (!result.success) throw result.error
+        // So it throws.
         expect(promise).rejects.toThrow();
+    });
+});
+
+describe("getCachedQuestions Security", () => {
+    beforeEach(() => {
+        getUserWithAuthMock.mockClear();
+    });
+
+    test("should enforce authentication", async () => {
+        const { getCachedQuestions } = await import("./actions");
+        const prompt = "test prompt";
+
+        try {
+            await getCachedQuestions(prompt);
+        } catch (e) {
+            // ignore
+        }
+
+        expect(getUserWithAuthMock).toHaveBeenCalled();
     });
 });
