@@ -217,7 +217,7 @@ export const getCachedTranslation = unstable_cache(
     },
 )
 
-export const getCachedQuestions = unstable_cache(
+const _getCachedQuestions = unstable_cache(
     async (prompt: string) => {
         const { object: questions } = await generateObject({
             model: openai('gpt-4o-mini'),
@@ -232,6 +232,11 @@ export const getCachedQuestions = unstable_cache(
         tags: ['mbti-questions'],
     },
 )
+
+export const getCachedQuestions = async (prompt: string) => {
+    await getUserWithAuth()
+    return _getCachedQuestions(prompt)
+}
 
 // Cache management utilities for Next.js 16
 export async function revalidateTranslations() {
