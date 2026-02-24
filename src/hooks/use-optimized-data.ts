@@ -27,15 +27,32 @@ export function useOptimizedData<T>(
     const [error, setError] = useState<Error | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [isValidating, setIsValidating] = useState(false)
-    const [retryCount, setRetryCount] = useState(0)
     const [isPending, startTransition] = useTransition()
+
+    const retryCountRef = useRef(0)
+    const retryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
     // Memoize the cache key
     const _cacheKey = useMemo(() => key || fetcher.toString(), [key, fetcher])
 
+    // Clear timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (retryTimeoutRef.current) {
+                clearTimeout(retryTimeoutRef.current)
+            }
+        }
+    }, [])
+
     // Enhanced fetch function with error handling and retries
     const fetchData = useCallback(
         async (isRevalidation = false) => {
+            // Clear any pending retry when starting a new fetch
+            if (retryTimeoutRef.current) {
+                clearTimeout(retryTimeoutRef.current)
+                retryTimeoutRef.current = null
+            }
+
             if (isRevalidation) {
                 setIsValidating(true)
             } else {
@@ -49,18 +66,21 @@ export function useOptimizedData<T>(
                 startTransition(() => {
                     setData(result)
                     setError(null)
-                    setRetryCount(0)
+                    retryCountRef.current = 0
                 })
             } catch (err) {
                 const error = err instanceof Error ? err : new Error('Unknown error')
 
-                if (retryCount < errorRetryCount) {
-                    setTimeout(
+                if (retryCountRef.current < errorRetryCount) {
+                    const nextRetryCount = retryCountRef.current
+                    const delay = errorRetryInterval * 2 ** nextRetryCount
+
+                    retryTimeoutRef.current = setTimeout(
                         () => {
-                            setRetryCount((prev) => prev + 1)
+                            retryCountRef.current += 1
                             fetchData(isRevalidation)
                         },
-                        errorRetryInterval * 2 ** retryCount,
+                        delay,
                     ) // Exponential backoff
                 } else {
                     startTransition(() => {
@@ -74,7 +94,7 @@ export function useOptimizedData<T>(
                 })
             }
         },
-        [fetcher, retryCount, errorRetryCount, errorRetryInterval],
+        [fetcher, errorRetryCount, errorRetryInterval],
     )
 
     // Initial data fetch
