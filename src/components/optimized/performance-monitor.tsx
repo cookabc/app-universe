@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { logger } from '@/lib/logger'
 
 interface PerformanceMetrics {
     fcp?: number // First Contentful Paint
@@ -56,7 +57,7 @@ export function PerformanceMonitor({
                         onMetrics?.(updated)
 
                         if (enableConsoleLogging) {
-                            console.log('Performance Metrics:', updated)
+                            logger.debug('Performance Metrics:', updated)
                         }
 
                         return updated
@@ -71,7 +72,7 @@ export function PerformanceMonitor({
                 entryTypes: ['paint', 'largest-contentful-paint', 'first-input', 'layout-shift', 'navigation'],
             })
         } catch (error) {
-            console.warn('Performance Observer not supported:', error)
+            logger.warn('Performance Observer not supported:', error)
         }
 
         return () => observer.disconnect()
@@ -134,7 +135,7 @@ export function usePerformanceMetrics() {
                 entryTypes: ['paint', 'largest-contentful-paint', 'first-input', 'layout-shift'],
             })
         } catch (error) {
-            console.warn('Performance Observer not supported:', error)
+            logger.warn('Performance Observer not supported:', error)
         }
 
         return () => observer.disconnect()
