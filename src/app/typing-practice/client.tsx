@@ -10,13 +10,12 @@ import { CelebrationEffect } from './celebration-effect'
 import { SAMPLE_TEXT } from './constants'
 import { useTypingGame } from './hooks/useTypingGame'
 import { useVirtualKeyboard } from './hooks/useVirtualKeyboard'
-import { TypingEffect } from './typing-effect'
+import { TypingEffect, type TypingEffectHandle } from './typing-effect'
 
 export default function TypingPracticeClient() {
     const [text] = useState(SAMPLE_TEXT)
-    const [effectPosition, setEffectPosition] = useState({ x: 0, y: 0 })
-    const [showEffect, setShowEffect] = useState(false)
     const [isInvalid, setIsInvalid] = useState(false)
+    const effectRef = useRef<TypingEffectHandle>(null)
     const [showCelebration, setShowCelebration] = useState(false)
     const [celebrationKey, setCelebrationKey] = useState(0)
     const [cursorPosition, setCursorPosition] = useState({ left: 0, top: 0 })
@@ -93,9 +92,7 @@ export default function TypingPracticeClient() {
                 })
 
                 if (nextIndex < userInput.length) {
-                    setEffectPosition({ x: rect.right, y: rect.bottom })
-                    setShowEffect(true)
-                    setTimeout(() => setShowEffect(false), 100)
+                    effectRef.current?.trigger(rect.right, rect.bottom)
                 }
             }
         } else if (nextIndex === 0) {
@@ -161,7 +158,7 @@ export default function TypingPracticeClient() {
     return (
         <GameErrorBoundary>
             <div className="p-4 sm:p-8">
-                {showEffect && <TypingEffect x={effectPosition.x} y={effectPosition.y} />}
+                <TypingEffect ref={effectRef} />
                 {showCelebration && <CelebrationEffect key={celebrationKey} />}
                 <Card className="max-w-4xl mx-auto p-4 sm:p-8">
                     <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">ProTypist</h1>
