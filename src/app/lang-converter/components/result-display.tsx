@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { AlertCircle, Check, Copy, Volume2 } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { languages } from '../constants'
 
 interface ResultDisplayProps {
@@ -46,23 +47,41 @@ export function ResultDisplay({
                         <div className="flex justify-between items-center mb-2">
                             <h2 className="text-xl font-semibold text-foreground">{languages[uiLanguage].result}</h2>
                             <div>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => speakText(outputText, activeTab === 'translation' ? toLang : 'ja')}
-                                    className="mr-2"
-                                    aria-label="Speak result"
-                                >
-                                    <Volume2 className="h-4 w-4" />
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={copyToClipboard}
-                                    aria-label={copied ? 'Copied' : 'Copy to clipboard'}
-                                >
-                                    {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                                </Button>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() =>
+                                                speakText(outputText, activeTab === 'translation' ? toLang : 'ja')
+                                            }
+                                            className="mr-2"
+                                            aria-label={languages[uiLanguage].speak}
+                                        >
+                                            <Volume2 className="h-4 w-4" />
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>{languages[uiLanguage].speak}</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={copyToClipboard}
+                                            aria-label={
+                                                copied ? languages[uiLanguage].copied : languages[uiLanguage].copy
+                                            }
+                                        >
+                                            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>{copied ? languages[uiLanguage].copied : languages[uiLanguage].copy}</p>
+                                    </TooltipContent>
+                                </Tooltip>
                             </div>
                         </div>
                         <p className="text-lg font-bold font-kosugi">{outputText}</p>
