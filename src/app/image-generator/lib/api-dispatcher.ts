@@ -1,11 +1,11 @@
 import type { ApiProvider } from '../types'
 
-class ApiDispatcher {
+export class ApiDispatcher {
     private providers: ApiProvider[]
     private currentIndex = 0
 
-    constructor() {
-        this.providers = [
+    constructor(providers?: ApiProvider[]) {
+        this.providers = providers || [
             {
                 id: '1',
                 name: 'Provider A (Fast)',
