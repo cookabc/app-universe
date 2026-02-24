@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 interface UseTypingGameProps {
     text: string
@@ -29,11 +29,22 @@ export function useTypingGame({ text, onFinish }: UseTypingGameProps) {
         }
     }, [startTime, endTime, userInput, currentIndex, mistakes])
 
+    const calculateStatsRef = useRef(calculateStats)
+
     useEffect(() => {
+        calculateStatsRef.current = calculateStats
         calculateStats()
-        const timer = setInterval(calculateStats, 1000)
-        return () => clearInterval(timer)
     }, [calculateStats])
+
+    useEffect(() => {
+        if (!startTime || isFinished) return
+
+        const timer = setInterval(() => {
+            calculateStatsRef.current()
+        }, 1000)
+
+        return () => clearInterval(timer)
+    }, [startTime, isFinished])
 
     const handleInput = useCallback(
         (key: string) => {
