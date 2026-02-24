@@ -26,40 +26,67 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
             glowColor: 'rgba(59, 130, 246, ',
         }
 
+        let rows = 0
+        let cols = 0
+
         const resizeCanvas = () => {
             canvas.width = window.innerWidth
             canvas.height = window.innerHeight
-        }
-
-        const drawDot = (x: number, y: number, distance: number) => {
-            // Base dot
-            ctx.beginPath()
-            ctx.arc(x, y, config.dotSize / 2, 0, Math.PI * 2)
-            ctx.fillStyle = config.baseColor
-            ctx.fill()
-
-            // Glowing dot
-            const opacity = Math.max(0, 1 - distance / config.maxDistance)
-            ctx.beginPath()
-            ctx.arc(x, y, (config.dotSize / 2) * 1.5, 0, Math.PI * 2)
-            ctx.fillStyle = `${config.glowColor}${opacity})`
-            ctx.fill()
+            rows = Math.floor(canvas.height / config.gap)
+            cols = Math.floor(canvas.width / config.gap)
         }
 
         const drawDots = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-            const rows = Math.floor(canvas.height / config.gap)
-            const cols = Math.floor(canvas.width / config.gap)
+            // Batch Base Dots
+            ctx.fillStyle = config.baseColor
+            ctx.beginPath()
+
+            const dotRadius = config.dotSize / 2
 
             for (let row = 0; row < rows; row++) {
                 for (let col = 0; col < cols; col++) {
                     const x = col * config.gap + config.gap / 2
                     const y = row * config.gap + config.gap / 2
 
-                    const distance = Math.sqrt((mousePosition.current.x - x) ** 2 + (mousePosition.current.y - y) ** 2)
+                    ctx.moveTo(x + dotRadius, y)
+                    ctx.arc(x, y, dotRadius, 0, Math.PI * 2)
+                }
+            }
 
-                    drawDot(x, y, distance)
+            ctx.fill()
+
+            // Draw Glowing Dots - Optimized Loop
+            const maxDist = config.maxDistance
+            const maxDistSq = maxDist * maxDist
+
+            // Calculate bounding box based on mouse position
+            // x = col * gap + gap/2  =>  col = (x - gap/2) / gap
+            const minCol = Math.max(0, Math.floor((mousePosition.current.x - maxDist - config.gap / 2) / config.gap))
+            const maxCol = Math.min(cols, Math.ceil((mousePosition.current.x + maxDist - config.gap / 2) / config.gap))
+
+            const minRow = Math.max(0, Math.floor((mousePosition.current.y - maxDist - config.gap / 2) / config.gap))
+            const maxRow = Math.min(rows, Math.ceil((mousePosition.current.y + maxDist - config.gap / 2) / config.gap))
+
+            for (let row = minRow; row < maxRow; row++) {
+                for (let col = minCol; col < maxCol; col++) {
+                    const x = col * config.gap + config.gap / 2
+                    const y = row * config.gap + config.gap / 2
+
+                    const dx = mousePosition.current.x - x
+                    const dy = mousePosition.current.y - y
+                    const distSq = dx * dx + dy * dy
+
+                    if (distSq < maxDistSq) {
+                        const distance = Math.sqrt(distSq)
+                        const opacity = 1 - distance / maxDist
+
+                        ctx.beginPath()
+                        ctx.arc(x, y, dotRadius * 1.5, 0, Math.PI * 2)
+                        ctx.fillStyle = `${config.glowColor}${opacity})`
+                        ctx.fill()
+                    }
                 }
             }
 
