@@ -26,17 +26,24 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
             glowColor: 'rgba(59, 130, 246, ',
         }
 
+        let rows = 0
+        let cols = 0
+
         const resizeCanvas = () => {
             canvas.width = window.innerWidth
             canvas.height = window.innerHeight
+            rows = Math.floor(canvas.height / config.gap)
+            cols = Math.floor(canvas.width / config.gap)
         }
 
         const drawDots = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-            // Calculate grid dimensions
-            const rows = Math.floor(canvas.height / config.gap)
-            const cols = Math.floor(canvas.width / config.gap)
+            // Batch Base Dots
+            ctx.fillStyle = config.baseColor
+            ctx.beginPath()
+
+            const dotRadius = config.dotSize / 2
 
             // 1. Batch Base Dots
             // Drawing all base dots in a single path is much faster than individual fill() calls.
@@ -61,36 +68,40 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
             const mouseY = mousePosition.current.y
             const maxDistSq = config.maxDistance * config.maxDistance
 
-            // Determine the grid range to check
-            // x = col * gap + gap/2
-            // We want indices where (x - mouseX)^2 <= maxDistSq (roughly)
-            // col * gap + gap/2 >= mouseX - maxDistance
-            // col >= (mouseX - maxDistance - gap/2) / gap
-            // Using a slightly wider range to be safe
+                    ctx.moveTo(x + dotRadius, y)
+                    ctx.arc(x, y, dotRadius, 0, Math.PI * 2)
+                }
+            }
 
-            const startCol = Math.max(0, Math.floor((mouseX - config.maxDistance) / config.gap))
-            const endCol = Math.min(cols, Math.ceil((mouseX + config.maxDistance) / config.gap))
+            ctx.fill()
 
-            const startRow = Math.max(0, Math.floor((mouseY - config.maxDistance) / config.gap))
-            const endRow = Math.min(rows, Math.ceil((mouseY + config.maxDistance) / config.gap))
+            // Draw Glowing Dots - Optimized Loop
+            const maxDist = config.maxDistance
+            const maxDistSq = maxDist * maxDist
 
-            for (let row = startRow; row < endRow; row++) {
-                for (let col = startCol; col < endCol; col++) {
+            // Calculate bounding box based on mouse position
+            // x = col * gap + gap/2  =>  col = (x - gap/2) / gap
+            const minCol = Math.max(0, Math.floor((mousePosition.current.x - maxDist - config.gap / 2) / config.gap))
+            const maxCol = Math.min(cols, Math.ceil((mousePosition.current.x + maxDist - config.gap / 2) / config.gap))
+
+            const minRow = Math.max(0, Math.floor((mousePosition.current.y - maxDist - config.gap / 2) / config.gap))
+            const maxRow = Math.min(rows, Math.ceil((mousePosition.current.y + maxDist - config.gap / 2) / config.gap))
+
+            for (let row = minRow; row < maxRow; row++) {
+                for (let col = minCol; col < maxCol; col++) {
                     const x = col * config.gap + config.gap / 2
                     const y = row * config.gap + config.gap / 2
 
-                    const dx = mouseX - x
-                    const dy = mouseY - y
+                    const dx = mousePosition.current.x - x
+                    const dy = mousePosition.current.y - y
                     const distSq = dx * dx + dy * dy
 
                     if (distSq < maxDistSq) {
                         const distance = Math.sqrt(distSq)
-                        // Verify this formula matches the original: max(0, 1 - dist/maxDist)
-                        // Since dist < maxDist, dist/maxDist < 1, so 1 - ... > 0.
-                        const opacity = 1 - distance / config.maxDistance
+                        const opacity = 1 - distance / maxDist
 
                         ctx.beginPath()
-                        ctx.arc(x, y, (config.dotSize / 2) * 1.5, 0, Math.PI * 2)
+                        ctx.arc(x, y, dotRadius * 1.5, 0, Math.PI * 2)
                         ctx.fillStyle = `${config.glowColor}${opacity})`
                         ctx.fill()
                     }
