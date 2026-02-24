@@ -1,7 +1,7 @@
 // Centralized type definitions for the application
 
 // API Response Types
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
     success: boolean
     data?: T
     error?: string
@@ -183,7 +183,7 @@ export interface AppError {
     message: string
     code: string
     statusCode: number
-    details?: any
+    details?: unknown
     stack?: string
 }
 
@@ -193,7 +193,7 @@ export interface ErrorResponse {
         message: string
         code: string
         statusCode: number
-        details?: any
+        details?: unknown
     }
 }
 
@@ -226,8 +226,8 @@ export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 export type RequiredFields<T, K extends keyof T> = T & Required<Pick<T, K>>
 
 // Event Handler Types
-export type EventHandler<T = any> = (event: T) => void
-export type AsyncEventHandler<T = any> = (event: T) => Promise<void>
+export type EventHandler<T = unknown> = (event: T) => void
+export type AsyncEventHandler<T = unknown> = (event: T) => Promise<void>
 
 // Component Props Types
 export interface BaseComponentProps {
