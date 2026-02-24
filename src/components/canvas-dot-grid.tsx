@@ -45,10 +45,28 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
 
             const dotRadius = config.dotSize / 2
 
+            // 1. Batch Base Dots
+            // Drawing all base dots in a single path is much faster than individual fill() calls.
+            ctx.beginPath()
+            ctx.fillStyle = config.baseColor
+
             for (let row = 0; row < rows; row++) {
                 for (let col = 0; col < cols; col++) {
                     const x = col * config.gap + config.gap / 2
                     const y = row * config.gap + config.gap / 2
+                    // moveTo is crucial to create separate circles without connecting lines
+                    ctx.moveTo(x + config.dotSize / 2, y)
+                    ctx.arc(x, y, config.dotSize / 2, 0, Math.PI * 2)
+                }
+            }
+            ctx.fill()
+
+            // 2. Optimize Glow Dots
+            // Instead of checking distance for every dot (expensive), we calculate the
+            // range of grid cells that are potentially within maxDistance of the mouse.
+            const mouseX = mousePosition.current.x
+            const mouseY = mousePosition.current.y
+            const maxDistSq = config.maxDistance * config.maxDistance
 
                     ctx.moveTo(x + dotRadius, y)
                     ctx.arc(x, y, dotRadius, 0, Math.PI * 2)
