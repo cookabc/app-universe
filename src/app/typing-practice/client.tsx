@@ -1,7 +1,6 @@
 'use client'
 
-import { Lock, RotateCcw } from 'lucide-react'
-import { RotateCcw, TriangleAlert } from 'lucide-react'
+import { Lock, RotateCcw, TriangleAlert } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { GameErrorBoundary } from '@/components/optimized/error-boundary'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -170,9 +169,7 @@ export default function TypingPracticeClient() {
                         <Alert variant="destructive" className="mb-4">
                             <TriangleAlert className="h-4 w-4" />
                             <AlertTitle>Caps Lock is on</AlertTitle>
-                            <AlertDescription>
-                                Please turn off Caps Lock to avoid typing errors.
-                            </AlertDescription>
+                            <AlertDescription>Please turn off Caps Lock to avoid typing errors.</AlertDescription>
                         </Alert>
                     )}
                     <div className="space-y-4 sm:space-y-8">

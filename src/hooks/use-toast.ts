@@ -126,10 +126,16 @@ function dispatch(action: Action) {
 }
 
 function dismissToast(toastId?: string) {
-    dispatch({
-        type: 'DISMISS_TOAST',
-        toastId,
-    })
+    if (toastId) {
+        dispatch({
+            type: 'DISMISS_TOAST',
+            toastId,
+        })
+    } else {
+        dispatch({
+            type: 'DISMISS_TOAST',
+        })
+    }
 
     if (toastId) {
         addToRemoveQueue(toastId)

@@ -111,7 +111,7 @@ export function formatErrorResponse(error: unknown) {
             message: appError.message,
             code: appError.code,
             statusCode: appError.statusCode,
-            ...(appError.details && { details: appError.details }),
+            ...(appError.details ? { details: appError.details } : {}),
         },
     }
 }
