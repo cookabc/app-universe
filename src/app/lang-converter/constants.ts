@@ -9,6 +9,9 @@ export const languages = {
         clearHistory: 'Clear History',
         error: 'Error',
         swap: 'Swap languages',
+        speak: 'Speak',
+        copy: 'Copy',
+        copied: 'Copied!',
         languageOptions: [
             { value: 'en', label: 'English' },
             { value: 'ja', label: 'Japanese' },
@@ -35,6 +38,9 @@ export const languages = {
         clearHistory: '履歴をクリア',
         error: 'エラー',
         swap: '言語を入れ替える',
+        speak: '読み上げ',
+        copy: 'コピー',
+        copied: 'コピーしました！',
         languageOptions: [
             { value: 'en', label: '英語' },
             { value: 'ja', label: '日本語' },
@@ -61,6 +67,9 @@ export const languages = {
         clearHistory: '清除历史',
         error: '错误',
         swap: '交换语言',
+        speak: '朗读',
+        copy: '复制',
+        copied: '已复制！',
         languageOptions: [
             { value: 'en', label: '英语' },
             { value: 'ja', label: '日语' },
