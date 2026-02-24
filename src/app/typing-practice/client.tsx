@@ -1,7 +1,6 @@
 'use client'
 
-import { Lock, RotateCcw } from 'lucide-react'
-import { RotateCcw, TriangleAlert } from 'lucide-react'
+import { Lock, RotateCcw, TriangleAlert } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { GameErrorBoundary } from '@/components/optimized/error-boundary'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
