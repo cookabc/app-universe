@@ -153,11 +153,7 @@ export const japaneseConvert = async (
 
         let result = text
 
-        if (fromType !== 'kanji' && toType !== 'kanji') {
-            result = await kuroshiro.convert(text, {
-                to: toType as 'hiragana' | 'katakana' | 'romaji',
-            })
-        } else if (fromType === 'kanji') {
+        if (toType !== 'kanji') {
             result = await kuroshiro.convert(text, {
                 to: toType as 'hiragana' | 'katakana' | 'romaji',
             })
