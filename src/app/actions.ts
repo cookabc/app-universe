@@ -236,20 +236,17 @@ export const getCachedQuestions = unstable_cache(
 // Cache management utilities for Next.js 15
 export async function revalidateTranslations() {
     'use server'
-    // @ts-expect-error - Next.js 16 API change
-    revalidateTag('translations')
+    revalidateTag('translations', { expire: 0 })
 }
 
 export async function revalidateQuestions() {
     'use server'
-    // @ts-expect-error - Next.js 16 API change
-    revalidateTag('mbti-questions')
+    revalidateTag('mbti-questions', { expire: 0 })
 }
 
 export async function clearTranslationCache(fromLang: string, toLang: string) {
     'use server'
-    // @ts-expect-error - Next.js 16 API change
-    revalidateTag(`translation-${fromLang}-${toLang}`)
+    revalidateTag(`translation-${fromLang}-${toLang}`, { expire: 0 })
 }
 
 export async function getArtifacts() {
