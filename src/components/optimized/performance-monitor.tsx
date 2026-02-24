@@ -2,6 +2,20 @@
 
 import { usePerformanceMetrics } from '@/hooks/use-performance-metrics'
 import { getPerformanceScore, type PerformanceMetrics } from './performance-utils'
+import { useEffect, useState } from 'react'
+import { logger } from '@/lib/logger'
+import { type PerformanceMetrics, getPerformanceScore } from './performance-utils'
+
+export { getPerformanceScore }
+export type { PerformanceMetrics }
+
+interface LayoutShift extends PerformanceEntry {
+    entryType: 'layout-shift'
+    value: number
+    hadRecentInput: boolean
+    lastInputTime: number
+    sources: Array<unknown>
+}
 
 // Performance monitoring component for React 19 and Next.js 15
 export function PerformanceMonitor({

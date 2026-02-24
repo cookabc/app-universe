@@ -1,11 +1,9 @@
+import { Claude, DeepSeek, Gemini, Grok, Kimi, Minimax, OpenAI, Qwen, ZAI } from '@lobehub/icons'
 import { Suspense } from 'react'
 import { AppGrid } from '@/components/AppGrid'
 import { CanvasDotGrid } from '@/components/canvas-dot-grid'
 import { HeroSection } from '@/components/HeroSection'
 import { AppErrorBoundary } from '@/components/optimized/error-boundary'
-import { OpenAI, Claude, Gemini, Grok, ZAI, Minimax, Kimi, DeepSeek, Qwen } from '@lobehub/icons'
-
-export const dynamic = 'force-dynamic'
 
 const ChatGPT = ({ className }: { className?: string }) => <OpenAI className={className} />
 const ClaudeIcon = ({ className }: { className?: string }) => <Claude className={className} />

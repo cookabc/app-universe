@@ -1,4 +1,4 @@
-interface PerformanceMetrics {
+export interface PerformanceMetrics {
     fcp?: number // First Contentful Paint
     lcp?: number // Largest Contentful Paint
     fid?: number // First Input Delay
@@ -6,16 +6,8 @@ interface PerformanceMetrics {
     ttfb?: number // Time to First Byte
 }
 
-interface LayoutShift extends PerformanceEntry {
-    entryType: 'layout-shift'
-    value: number
-    hadRecentInput: boolean
-    lastInputTime: number
-    sources: Array<unknown>
-}
-
 // Performance score calculator
-function getPerformanceScore(metrics: PerformanceMetrics): number {
+export function getPerformanceScore(metrics: PerformanceMetrics): number {
     let score = 100
 
     // FCP scoring (good: <1.8s, needs improvement: 1.8s-3s, poor: >3s)
@@ -44,6 +36,3 @@ function getPerformanceScore(metrics: PerformanceMetrics): number {
 
     return Math.max(0, score)
 }
-
-export { getPerformanceScore }
-export type { PerformanceMetrics, LayoutShift }
