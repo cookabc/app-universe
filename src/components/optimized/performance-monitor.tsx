@@ -10,6 +10,14 @@ interface PerformanceMetrics {
     ttfb?: number // Time to First Byte
 }
 
+interface LayoutShift extends PerformanceEntry {
+    entryType: 'layout-shift'
+    value: number
+    hadRecentInput: boolean
+    lastInputTime: number
+    sources: Array<unknown>
+}
+
 // Performance monitoring component for React 19 and Next.js 15
 export function PerformanceMonitor({
     onMetrics,
@@ -39,8 +47,8 @@ export function PerformanceMonitor({
                         newMetrics.fid = (entry as PerformanceEventTiming).processingStart - entry.startTime
                         break
                     case 'layout-shift':
-                        if (!(entry as any).hadRecentInput) {
-                            newMetrics.cls = (metrics.cls || 0) + (entry as any).value
+                        if (!(entry as LayoutShift).hadRecentInput) {
+                            newMetrics.cls = (metrics.cls || 0) + (entry as LayoutShift).value
                         }
                         break
                     case 'navigation': {
@@ -117,8 +125,8 @@ export function usePerformanceMetrics() {
                         newMetrics.fid = (entry as PerformanceEventTiming).processingStart - entry.startTime
                         break
                     case 'layout-shift':
-                        if (!(entry as any).hadRecentInput) {
-                            newMetrics.cls = (metrics.cls || 0) + (entry as any).value
+                        if (!(entry as LayoutShift).hadRecentInput) {
+                            newMetrics.cls = (metrics.cls || 0) + (entry as LayoutShift).value
                         }
                         break
                 }
