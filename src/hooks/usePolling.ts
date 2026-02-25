@@ -64,9 +64,6 @@ export function usePolling<T>({
         if (isActive) return
 
         setIsActive(true)
-        if (immediate) {
-            fetchData()
-        }
     }
 
     const stop = () => {
