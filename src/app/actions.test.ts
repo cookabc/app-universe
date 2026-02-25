@@ -1,4 +1,4 @@
-import { describe, expect, test, mock, beforeEach } from "bun:test";
+import { describe, expect, test, mock, beforeEach, afterEach } from "bun:test";
 
 // Mock environment variables
 process.env.DATABASE_URL = "postgres://user:pass@localhost:5432/db";
@@ -68,7 +68,7 @@ mock.module("@/db/schema", () => ({
 
 // Mock drizzle-orm imports used in actions.ts directly
 mock.module("drizzle-orm", () => ({
-    eq: () => {},
+    eq: () => {}, and: () => {},
 }));
 
 // Mock kuroshiro
@@ -143,5 +143,89 @@ describe("getQuestions", () => {
 
         expect(result.success).toBe(false);
         expect(result.error.code).toBe("VALIDATION_ERROR");
+    });
+});
+
+describe("Translation Logic", () => {
+    let originalFetch: any;
+
+    beforeEach(() => {
+        originalFetch = global.fetch;
+        global.fetch = mock();
+    });
+
+    afterEach(() => {
+        global.fetch = originalFetch;
+    });
+
+    test("translateText should return translated text on success", async () => {
+        const { translateText } = await import("./actions");
+
+        (global.fetch as any).mockResolvedValue({
+            ok: true,
+            status: 200,
+            json: async () => ({
+                responseStatus: 200,
+                responseData: { translatedText: "Hola Mundo" }
+            })
+        });
+
+        const result = await translateText("Hello World", "en", "es");
+
+        expect(result.success).toBe(true);
+        expect(result.data).toBe("Hola Mundo");
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    test("translateText should handle API errors", async () => {
+        const { translateText } = await import("./actions");
+
+        (global.fetch as any).mockResolvedValue({
+            ok: true,
+            status: 200,
+            json: async () => ({
+                responseStatus: 403,
+                responseDetails: "Quota exceeded"
+            })
+        });
+
+        const result = await translateText("Hello World", "en", "es");
+
+        expect(result.success).toBe(false);
+        expect(result.error).toContain("Quota exceeded");
+    });
+
+    test("getCachedTranslation should return translated text on success", async () => {
+        const { getCachedTranslation } = await import("./actions");
+
+        (global.fetch as any).mockResolvedValue({
+            ok: true,
+            status: 200,
+            json: async () => ({
+                responseStatus: 200,
+                responseData: { translatedText: "Hola Mundo" }
+            })
+        });
+
+        const result = await getCachedTranslation("Hello World", "en", "es");
+
+        expect(result).toBe("Hola Mundo");
+        expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
+
+    test("getCachedTranslation should throw on API errors", async () => {
+        const { getCachedTranslation } = await import("./actions");
+
+        (global.fetch as any).mockResolvedValue({
+            ok: true,
+            status: 200,
+            json: async () => ({
+                responseStatus: 403,
+                responseDetails: "Quota exceeded"
+            })
+        });
+
+        // getCachedTranslation throws, so we expect it to reject
+        expect(getCachedTranslation("Hello World", "en", "es")).rejects.toThrow("Quota exceeded");
     });
 });

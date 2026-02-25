@@ -102,6 +102,32 @@ export async function continueConversation(history: Message[]) {
     return result.data
 }
 
+// Private helper for translation API
+async function _fetchTranslationFromApi(text: string, fromLang: string, toLang: string, tags: string[] = []) {
+    // Use Next.js 15 fetch with enhanced caching
+    const response = await fetch(
+        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${fromLang}|${toLang}`,
+        {
+            next: {
+                revalidate: 3600, // Cache for 1 hour
+                tags: tags.length > 0 ? tags : undefined,
+            },
+        },
+    )
+
+    if (!response.ok) {
+        throw new AppError(`HTTP error! status: ${response.status}`, 'FETCH_ERROR', response.status)
+    }
+
+    const data = await response.json()
+
+    if (data.responseStatus === 200) {
+        return data.responseData.translatedText
+    } else {
+        throw new AppError(data.responseDetails || 'Translation API error', 'API_ERROR', 400)
+    }
+}
+
 export const translateText = async (
     text: string,
     fromLang: string,
@@ -112,28 +138,7 @@ export const translateText = async (
             throw new ValidationError('Text, source language, and target language are required')
         }
 
-        // Use Next.js 15 fetch with enhanced caching
-        const response = await fetch(
-            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${fromLang}|${toLang}`,
-            {
-                next: {
-                    revalidate: 3600, // Cache for 1 hour
-                    tags: [`translation-${fromLang}-${toLang}`],
-                },
-            },
-        )
-
-        if (!response.ok) {
-            throw new AppError(`HTTP error! status: ${response.status}`, 'FETCH_ERROR', response.status)
-        }
-
-        const data = await response.json()
-
-        if (data.responseStatus === 200) {
-            return data.responseData.translatedText
-        } else {
-            throw new AppError(data.responseDetails || 'Translation API error', 'API_ERROR', 400)
-        }
+        return _fetchTranslationFromApi(text, fromLang, toLang, [`translation-${fromLang}-${toLang}`])
     }, 'translateText')
 
     if (!result.success) {
@@ -189,22 +194,7 @@ export const japaneseConvert = async (
 // Enhanced caching with unstable_cache for Next.js 15
 export const getCachedTranslation = unstable_cache(
     async (text: string, fromLang: string, toLang: string) => {
-        const response = await fetch(
-            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${fromLang}|${toLang}`,
-            { next: { revalidate: 3600 } },
-        )
-
-        if (!response.ok) {
-            throw new AppError(`HTTP error! status: ${response.status}`, 'FETCH_ERROR', response.status)
-        }
-
-        const data = await response.json()
-
-        if (data.responseStatus === 200) {
-            return data.responseData.translatedText
-        } else {
-            throw new AppError(data.responseDetails || 'Translation API error', 'API_ERROR', 400)
-        }
+        return _fetchTranslationFromApi(text, fromLang, toLang)
     },
     ['translation'],
     {
