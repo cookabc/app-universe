@@ -2,7 +2,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
     AddFundSection,
     AddFundToGroupModal,
@@ -250,68 +250,73 @@ export default function HomePage() {
         return () => clearInterval(timer)
     }, [])
 
-    const displayFunds = funds
-        .filter((f) => {
-            if (currentTab === 'all') return true
-            if (currentTab === 'fav') return favorites.has(f.code)
-            const group = groups.find((g) => g.id === currentTab)
-            return group ? group.codes.includes(f.code) : true
-        })
-        .sort((a, b) => {
-            if (sortBy === 'yield') {
-                const valA = typeof a.estGszzl === 'number' ? a.estGszzl : Number(a.gszzl) || 0
-                const valB = typeof b.estGszzl === 'number' ? b.estGszzl : Number(b.gszzl) || 0
-                return valB - valA
+    const displayFunds = useMemo(() => {
+        return funds
+            .filter((f) => {
+                if (currentTab === 'all') return true
+                if (currentTab === 'fav') return favorites.has(f.code)
+                const group = groups.find((g) => g.id === currentTab)
+                return group ? group.codes.includes(f.code) : true
+            })
+            .sort((a, b) => {
+                if (sortBy === 'yield') {
+                    const valA = typeof a.estGszzl === 'number' ? a.estGszzl : Number(a.gszzl) || 0
+                    const valB = typeof b.estGszzl === 'number' ? b.estGszzl : Number(b.gszzl) || 0
+                    return valB - valA
+                }
+                if (sortBy === 'name') return a.name.localeCompare(b.name, 'zh-CN')
+                if (sortBy === 'code') return a.code.localeCompare(b.code)
+                return 0
+            })
+    }, [funds, currentTab, favorites, groups, sortBy])
+
+    const getHoldingProfit = useCallback(
+        (fund: FundData, holding: { share: number; cost?: number } | null) => {
+            if (!holding || typeof holding.share !== 'number') return null
+
+            const now = new Date()
+            const isAfter9 = now.getHours() >= 9
+            const hasTodayData = fund.jzrq === todayStr
+
+            const useValuation = isTradingDay && isAfter9 && !hasTodayData
+
+            let currentNav: number
+            let profitToday: number
+
+            if (!useValuation) {
+                currentNav = Number(fund.dwjz)
+                if (!currentNav) return null
+
+                const amount = holding.share * currentNav
+                const rate = typeof fund.gszzl === 'number' ? fund.gszzl : Number(fund.gszzl) || 0
+                profitToday = amount - amount / (1 + rate / 100)
+            } else {
+                currentNav =
+                    fund.estPricedCoverage && fund.estPricedCoverage > 0.05
+                        ? fund.estGsz || Number(fund.dwjz)
+                        : typeof fund.gsz === 'number'
+                          ? fund.gsz
+                          : Number(fund.dwjz)
+
+                if (!currentNav) return null
+
+                const amount = holding.share * currentNav
+                const gzChange = (fund.estPricedCoverage ?? 0) > 0.05 ? (fund.estGszzl ?? 0) : Number(fund.gszzl) || 0
+                profitToday = amount - amount / (1 + gzChange / 100)
             }
-            if (sortBy === 'name') return a.name.localeCompare(b.name, 'zh-CN')
-            if (sortBy === 'code') return a.code.localeCompare(b.code)
-            return 0
-        })
-
-    const getHoldingProfit = (fund: FundData, holding: { share: number; cost?: number } | null) => {
-        if (!holding || typeof holding.share !== 'number') return null
-
-        const now = new Date()
-        const isAfter9 = now.getHours() >= 9
-        const hasTodayData = fund.jzrq === todayStr
-
-        const useValuation = isTradingDay && isAfter9 && !hasTodayData
-
-        let currentNav: number
-        let profitToday: number
-
-        if (!useValuation) {
-            currentNav = Number(fund.dwjz)
-            if (!currentNav) return null
 
             const amount = holding.share * currentNav
-            const rate = typeof fund.gszzl === 'number' ? fund.gszzl : Number(fund.gszzl) || 0
-            profitToday = amount - amount / (1 + rate / 100)
-        } else {
-            currentNav =
-                fund.estPricedCoverage && fund.estPricedCoverage > 0.05
-                    ? fund.estGsz || Number(fund.dwjz)
-                    : typeof fund.gsz === 'number'
-                      ? fund.gsz
-                      : Number(fund.dwjz)
 
-            if (!currentNav) return null
+            const profitTotal = typeof holding.cost === 'number' ? (currentNav - holding.cost) * holding.share : null
 
-            const amount = holding.share * currentNav
-            const gzChange = (fund.estPricedCoverage ?? 0) > 0.05 ? (fund.estGszzl ?? 0) : Number(fund.gszzl) || 0
-            profitToday = amount - amount / (1 + gzChange / 100)
-        }
-
-        const amount = holding.share * currentNav
-
-        const profitTotal = typeof holding.cost === 'number' ? (currentNav - holding.cost) * holding.share : null
-
-        return {
-            amount,
-            profitToday,
-            profitTotal,
-        }
-    }
+            return {
+                amount,
+                profitToday,
+                profitTotal,
+            }
+        },
+        [isTradingDay, todayStr],
+    )
 
     const handleSaveHolding = (code: string, data: { share: number | null; cost: number | null }) => {
         setHoldings((prev) => {
