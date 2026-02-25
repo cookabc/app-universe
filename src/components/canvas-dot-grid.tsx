@@ -2,6 +2,7 @@
 
 import type React from 'react'
 import { useEffect, useRef } from 'react'
+import { type CanvasConfig, drawBaseDots, drawGlowDots } from './canvas-dot-grid.utils'
 
 interface CanvasDotGridProps {
     className?: string
@@ -18,7 +19,7 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
         const ctx = canvas.getContext('2d')
         if (!ctx) return
 
-        const config = {
+        const config: CanvasConfig = {
             dotSize: 2,
             gap: 24,
             maxDistance: 150,
@@ -28,6 +29,7 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
 
         let rows = 0
         let cols = 0
+        let animationFrameId: number
 
         const resizeCanvas = () => {
             canvas.width = window.innerWidth
@@ -39,76 +41,11 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
         const drawDots = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-            // Batch Base Dots
-            ctx.fillStyle = config.baseColor
-            ctx.beginPath()
+            drawBaseDots(ctx, config, rows, cols)
 
-            const dotRadius = config.dotSize / 2
+            drawGlowDots(ctx, config, rows, cols, mousePosition.current.x, mousePosition.current.y)
 
-            // 1. Batch Base Dots
-            // Drawing all base dots in a single path is much faster than individual fill() calls.
-            ctx.beginPath()
-            ctx.fillStyle = config.baseColor
-
-            for (let row = 0; row < rows; row++) {
-                for (let col = 0; col < cols; col++) {
-                    const x = col * config.gap + config.gap / 2
-                    const y = row * config.gap + config.gap / 2
-                    // moveTo is crucial to create separate circles without connecting lines
-                    ctx.moveTo(x + config.dotSize / 2, y)
-                    ctx.arc(x, y, config.dotSize / 2, 0, Math.PI * 2)
-                }
-            }
-            ctx.fill()
-
-            // 2. Optimize Glow Dots
-            // Instead of checking distance for every dot (expensive), we calculate the
-            // range of grid cells that are potentially within maxDistance of the mouse.
-            const mouseX = mousePosition.current.x
-            const mouseY = mousePosition.current.y
-            const maxDistSq = config.maxDistance * config.maxDistance
-
-                    ctx.moveTo(x + dotRadius, y)
-                    ctx.arc(x, y, dotRadius, 0, Math.PI * 2)
-                }
-            }
-
-            ctx.fill()
-
-            // Draw Glowing Dots - Optimized Loop
-            const maxDist = config.maxDistance
-            const maxDistSq = maxDist * maxDist
-
-            // Calculate bounding box based on mouse position
-            // x = col * gap + gap/2  =>  col = (x - gap/2) / gap
-            const minCol = Math.max(0, Math.floor((mousePosition.current.x - maxDist - config.gap / 2) / config.gap))
-            const maxCol = Math.min(cols, Math.ceil((mousePosition.current.x + maxDist - config.gap / 2) / config.gap))
-
-            const minRow = Math.max(0, Math.floor((mousePosition.current.y - maxDist - config.gap / 2) / config.gap))
-            const maxRow = Math.min(rows, Math.ceil((mousePosition.current.y + maxDist - config.gap / 2) / config.gap))
-
-            for (let row = minRow; row < maxRow; row++) {
-                for (let col = minCol; col < maxCol; col++) {
-                    const x = col * config.gap + config.gap / 2
-                    const y = row * config.gap + config.gap / 2
-
-                    const dx = mousePosition.current.x - x
-                    const dy = mousePosition.current.y - y
-                    const distSq = dx * dx + dy * dy
-
-                    if (distSq < maxDistSq) {
-                        const distance = Math.sqrt(distSq)
-                        const opacity = 1 - distance / maxDist
-
-                        ctx.beginPath()
-                        ctx.arc(x, y, dotRadius * 1.5, 0, Math.PI * 2)
-                        ctx.fillStyle = `${config.glowColor}${opacity})`
-                        ctx.fill()
-                    }
-                }
-            }
-
-            return requestAnimationFrame(drawDots)
+            animationFrameId = requestAnimationFrame(drawDots)
         }
 
         const handleMouseMove = (event: MouseEvent) => {
@@ -123,7 +60,7 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
         window.addEventListener('resize', resizeCanvas)
 
         resizeCanvas()
-        const animationFrameId = drawDots()
+        drawDots()
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove)
