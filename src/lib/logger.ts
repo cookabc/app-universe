@@ -1,10 +1,12 @@
 type LogLevel = 'debug' | 'info' | 'warn' | 'error'
 
-const isProduction = process.env.NODE_ENV === 'production'
-
 class Logger {
+    private get isProduction(): boolean {
+        return process.env.NODE_ENV === 'production'
+    }
+
     private shouldLog(level: LogLevel): boolean {
-        if (isProduction && level === 'debug') return false
+        if (this.isProduction && level === 'debug') return false
         return true
     }
 
