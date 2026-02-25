@@ -39,7 +39,7 @@ export async function getGenerationStatusAction(requestId: string): Promise<Gene
     if (request) {
         // In a real app, you would return the image URL when completed.
         if (request.status === 'completed') {
-            ;(request as any).imageUrl = 'https://picsum.photos/1024/1024'
+            request.imageUrl = 'https://picsum.photos/1024/1024'
         }
         return request
     }
