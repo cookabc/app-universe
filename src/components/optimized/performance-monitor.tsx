@@ -2,12 +2,6 @@
 
 import { usePerformanceMetrics } from '@/hooks/use-performance-metrics'
 import { getPerformanceScore, type PerformanceMetrics } from './performance-utils'
-import { useEffect, useState } from 'react'
-import { logger } from '@/lib/logger'
-import { type PerformanceMetrics, getPerformanceScore } from './performance-utils'
-
-export { getPerformanceScore }
-export type { PerformanceMetrics }
 
 interface LayoutShift extends PerformanceEntry {
     entryType: 'layout-shift'
@@ -46,3 +40,4 @@ export function PerformanceMonitor({
 }
 
 export { usePerformanceMetrics, getPerformanceScore }
+export type { PerformanceMetrics }
