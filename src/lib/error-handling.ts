@@ -104,6 +104,8 @@ export function isAppError(error: unknown): error is AppError {
 // Response formatting for API routes
 export function formatErrorResponse(error: unknown) {
     const appError = handleError(error)
+    const isProduction = process.env.NODE_ENV === 'production'
+    const shouldIncludeDetails = !isProduction || appError.code === 'VALIDATION_ERROR'
 
     return {
         success: false,
@@ -111,7 +113,7 @@ export function formatErrorResponse(error: unknown) {
             message: appError.message,
             code: appError.code,
             statusCode: appError.statusCode,
-            ...(appError.details ? { details: appError.details } : {}),
+            ...(shouldIncludeDetails && appError.details ? { details: appError.details } : {}),
         },
     }
 }
