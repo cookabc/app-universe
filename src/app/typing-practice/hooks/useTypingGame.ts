@@ -19,7 +19,7 @@ export function useTypingGame({ text, onFinish }: UseTypingGameProps) {
         if (startTime) {
             const timeElapsed = (endTime || Date.now()) - startTime
             const timeInMinutes = timeElapsed / 60000
-            const wordsTyped = userInput.trim().split(/\s+/).length
+            const wordsTyped = userInput.length / 5
             const newWpm = Math.round(wordsTyped / timeInMinutes) || 0
             const totalCharacters = currentIndex + 1
             const newAccuracy =
