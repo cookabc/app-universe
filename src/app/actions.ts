@@ -237,17 +237,17 @@ export const getCachedQuestions = async (prompt: string) => {
 // Cache management utilities for Next.js 16
 export async function revalidateTranslations() {
     'use server'
-    revalidateTag('translations', { expire: 0 })
+    revalidateTag('translations')
 }
 
 export async function revalidateQuestions() {
     'use server'
-    revalidateTag('mbti-questions', { expire: 0 })
+    revalidateTag('mbti-questions')
 }
 
 export async function clearTranslationCache(fromLang: string, toLang: string) {
     'use server'
-    revalidateTag(`translation-${fromLang}-${toLang}`, { expire: 0 })
+    revalidateTag(`translation-${fromLang}-${toLang}`)
 }
 
 export async function getArtifacts() {
