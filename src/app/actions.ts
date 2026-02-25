@@ -152,6 +152,8 @@ export const japaneseConvert = async (
     toType: string,
 ): Promise<{ success: boolean; data?: string; error?: string }> => {
     const result = await safeAsync(async () => {
+        await getUserWithAuth()
+
         if (!text?.trim() || !fromType || !toType) {
             throw new ValidationError('Text, source type, and target type are required')
         }
@@ -185,7 +187,6 @@ export const japaneseConvert = async (
 
     return { success: true, data: result.data }
 }
-
 // Enhanced caching with unstable_cache for Next.js 15
 export const getCachedTranslation = unstable_cache(
     async (text: string, fromLang: string, toLang: string) => {
