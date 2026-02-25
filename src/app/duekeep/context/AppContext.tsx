@@ -1,7 +1,8 @@
 import type React from 'react'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { MOCK_EVENTS } from '../constants'
-import { EVENT_CATEGORIES, type EventCategory, type EventItem } from '../types'
+import { type EventItem } from '../types'
+import { parseEvents } from '../utils/eventParser'
 
 interface AppContextType {
     events: EventItem[]
@@ -26,46 +27,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     useEffect(() => {
         try {
             const raw = localStorage.getItem('events')
-            if (raw) {
-                const parsed = JSON.parse(raw)
-                if (Array.isArray(parsed)) {
-                    const restored = parsed
-                        .map((e: unknown) => {
-                            if (typeof e !== 'object' || e === null) return null
-                            const item = e as Record<string, unknown>
-
-                            let cat: EventCategory = 'General'
-                            if (
-                                typeof item.category === 'string' &&
-                                EVENT_CATEGORIES.includes(item.category as EventCategory)
-                            ) {
-                                cat = item.category as EventCategory
-                            }
-
-                            const dateStr = typeof item.date === 'string' ? item.date : ''
-                            const dateObj = new Date(dateStr)
-                            const validDate = isNaN(dateObj.getTime()) ? new Date() : dateObj
-
-                            return {
-                                ...item,
-                                id: typeof item.id === 'string' ? item.id : crypto.randomUUID(),
-                                name: typeof item.name === 'string' ? item.name : 'Untitled Event',
-                                date: validDate,
-                                isAllDay: typeof item.isAllDay === 'boolean' ? item.isAllDay : false,
-                                alertEnabled: typeof item.alertEnabled === 'boolean' ? item.alertEnabled : true,
-                                repeatOption: typeof item.repeatOption === 'string' ? item.repeatOption : 'Never',
-                                category: cat,
-                                color: typeof item.color === 'string' ? item.color : '#007AFF',
-                                textColor: typeof item.textColor === 'string' ? item.textColor : '#FFFFFF',
-                                type: item.type === 'past' || item.type === 'future' ? item.type : 'future',
-                            } as EventItem
-                        })
-                        .filter((e): e is EventItem => e !== null)
-
-                    if (restored.length > 0) {
-                        setEvents(restored)
-                    }
-                }
+            const restored = parseEvents(raw)
+            if (restored.length > 0) {
+                setEvents(restored)
             }
         } catch (error) {
             console.error('Failed to load events from localStorage:', error)
