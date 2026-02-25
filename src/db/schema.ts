@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm'
-import { integer, jsonb, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core'
+import { index, integer, jsonb, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
     id: serial('id').primaryKey(),
@@ -21,6 +21,10 @@ export const artifacts = pgTable('artifacts', {
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
     deletedAt: timestamp('deleted_at'),
+}, (table) => {
+    return {
+        userIdIdx: index('artifacts_user_id_idx').on(table.userId),
+    }
 })
 
 export const prompts = pgTable('prompts', {

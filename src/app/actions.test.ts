@@ -68,7 +68,7 @@ mock.module("@/db/schema", () => ({
 
 // Mock drizzle-orm imports used in actions.ts directly
 mock.module("drizzle-orm", () => ({
-    eq: () => {},
+    eq: () => {}, and: () => {},
 }));
 
 // Mock kuroshiro
