@@ -766,20 +766,19 @@ export default function HomePage() {
         setRefreshing(true)
         const uniqueCodes = Array.from(new Set(codes))
         try {
+            const results = await Promise.allSettled(uniqueCodes.map((c) => fetchFundData(c)))
             const updated: FundData[] = []
-            for (const c of uniqueCodes) {
-                try {
-                    const data = await fetchFundData(c)
-                    updated.push(data)
-                } catch (e) {
-                    console.error(`刷新基金 ${c} 失败`, e)
-                    setFunds((prev) => {
-                        const old = prev.find((f) => f.code === c)
-                        if (old) updated.push(old)
-                        return prev
-                    })
+
+            results.forEach((result, idx) => {
+                if (result.status === 'fulfilled') {
+                    updated.push(result.value)
+                } else {
+                    const c = uniqueCodes[idx]
+                    console.error(`刷新基金 ${c} 失败`, result.reason)
+                    const old = funds.find((f) => f.code === c)
+                    if (old) updated.push(old)
                 }
-            }
+            })
 
             if (updated.length > 0) {
                 setFunds((prev) => {
@@ -827,15 +826,17 @@ export default function HomePage() {
             selectedFunds.forEach((f) => {
                 nameMap[f.code] = f.name
             })
-            for (const c of selectedCodes) {
-                if (funds.some((f) => f.code === c)) continue
-                try {
-                    const data = await fetchFundData(c)
-                    newFunds.push(data)
-                } catch (err) {
+            const codesToAdd = selectedCodes.filter((c) => !funds.some((f) => f.code === c))
+            const results = await Promise.allSettled(codesToAdd.map((c) => fetchFundData(c)))
+
+            results.forEach((result, idx) => {
+                const c = codesToAdd[idx]
+                if (result.status === 'fulfilled') {
+                    newFunds.push(result.value)
+                } else {
                     failures.push({ code: c, name: nameMap[c] ?? '' })
                 }
-            }
+            })
             if (newFunds.length === 0) {
                 setError('未添加任何新基金')
             } else {
