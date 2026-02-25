@@ -76,6 +76,7 @@ export default function TypingPracticeClient() {
     )
     const textDisplayRef = useRef<HTMLDivElement>(null)
     const charsRef = useRef<(HTMLSpanElement | null)[]>([])
+    const chars = useMemo(() => text.split(''), [text])
 
     const updateCursorPosition = useCallback(() => {
         if (!textDisplayRef.current) return
@@ -193,7 +194,7 @@ export default function TypingPracticeClient() {
                                     Caps Lock is on
                                 </div>
                             )}
-                            {text.split('').map((char, index) => (
+                            {chars.map((char, index) => (
                                 <span
                                     key={index}
                                     ref={(el) => {
