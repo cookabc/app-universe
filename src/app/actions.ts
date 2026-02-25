@@ -114,7 +114,7 @@ export const translateText = async (
 
         // Use Next.js 15 fetch with enhanced caching
         const response = await fetch(
-            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${fromLang}|${toLang}`,
+            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${encodeURIComponent(fromLang)}|${encodeURIComponent(toLang)}`,
             {
                 next: {
                     revalidate: 3600, // Cache for 1 hour
@@ -190,7 +190,7 @@ export const japaneseConvert = async (
 export const getCachedTranslation = unstable_cache(
     async (text: string, fromLang: string, toLang: string) => {
         const response = await fetch(
-            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${fromLang}|${toLang}`,
+            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${encodeURIComponent(fromLang)}|${encodeURIComponent(toLang)}`,
             { next: { revalidate: 3600 } },
         )
 
