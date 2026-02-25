@@ -36,3 +36,11 @@ export function getPerformanceScore(metrics: PerformanceMetrics): number {
 
     return Math.max(0, score)
 }
+
+export interface LayoutShift extends PerformanceEntry {
+    entryType: 'layout-shift'
+    value: number
+    hadRecentInput: boolean
+    lastInputTime: number
+    sources: Array<unknown>
+}

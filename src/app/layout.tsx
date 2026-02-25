@@ -1,5 +1,6 @@
 import { ClerkProvider } from '@clerk/nextjs'
 import { ThemeProvider } from 'next-themes'
+import localFont from 'next/font/local'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { Toaster } from '@/components/ui/toaster'
@@ -11,21 +12,22 @@ export const metadata = {
     description: 'Discover and use amazing AI-powered tools',
 }
 
+const materialIcons = localFont({
+    src: './fonts/MaterialIconsRound-Regular.woff2',
+    variable: '--font-material-icons',
+    display: 'swap',
+    weight: '400',
+    style: 'normal',
+})
+
 export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning>
-            <head>
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Material+Icons+Round&display=swap"
-                    rel="stylesheet"
-                />
-            </head>
+        <html lang="en" suppressHydrationWarning className={materialIcons.variable}>
+            <head />
             <body className="antialiased">
                 <ClerkProvider telemetry={false}>
                     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>

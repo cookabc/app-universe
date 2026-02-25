@@ -36,12 +36,10 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
             cols = Math.floor(canvas.width / config.gap)
         }
 
+        let animationFrameId: number
+
         const drawDots = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-            // Batch Base Dots
-            ctx.fillStyle = config.baseColor
-            ctx.beginPath()
 
             const dotRadius = config.dotSize / 2
 
@@ -55,27 +53,13 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
                     const x = col * config.gap + config.gap / 2
                     const y = row * config.gap + config.gap / 2
                     // moveTo is crucial to create separate circles without connecting lines
-                    ctx.moveTo(x + config.dotSize / 2, y)
-                    ctx.arc(x, y, config.dotSize / 2, 0, Math.PI * 2)
+                    ctx.moveTo(x + dotRadius, y)
+                    ctx.arc(x, y, dotRadius, 0, Math.PI * 2)
                 }
             }
             ctx.fill()
 
             // 2. Optimize Glow Dots
-            // Instead of checking distance for every dot (expensive), we calculate the
-            // range of grid cells that are potentially within maxDistance of the mouse.
-            const mouseX = mousePosition.current.x
-            const mouseY = mousePosition.current.y
-            const maxDistSq = config.maxDistance * config.maxDistance
-
-                    ctx.moveTo(x + dotRadius, y)
-                    ctx.arc(x, y, dotRadius, 0, Math.PI * 2)
-                }
-            }
-
-            ctx.fill()
-
-            // Draw Glowing Dots - Optimized Loop
             const maxDist = config.maxDistance
             const maxDistSq = maxDist * maxDist
 
@@ -108,7 +92,7 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
                 }
             }
 
-            return requestAnimationFrame(drawDots)
+            animationFrameId = requestAnimationFrame(drawDots)
         }
 
         const handleMouseMove = (event: MouseEvent) => {
@@ -123,7 +107,7 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
         window.addEventListener('resize', resizeCanvas)
 
         resizeCanvas()
-        const animationFrameId = drawDots()
+        drawDots()
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove)

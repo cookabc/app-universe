@@ -19,7 +19,10 @@ export function PerformanceMonitor({
     onMetrics?: (metrics: PerformanceMetrics) => void
     enableConsoleLogging?: boolean
 }) {
-    const metrics = usePerformanceMetrics({ onMetrics, enableConsoleLogging })
+    const metrics = usePerformanceMetrics({
+        ...(onMetrics ? { onMetrics } : {}),
+        enableConsoleLogging
+    })
 
     // Development-only performance display
     if (process.env.NODE_ENV === 'development' && enableConsoleLogging) {
