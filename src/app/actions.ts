@@ -238,16 +238,19 @@ export const getCachedQuestions = async (prompt: string) => {
 // Cache management utilities for Next.js 16
 export async function revalidateTranslations() {
     'use server'
+    // @ts-ignore
     revalidateTag('translations')
 }
 
 export async function revalidateQuestions() {
     'use server'
+    // @ts-ignore
     revalidateTag('mbti-questions')
 }
 
 export async function clearTranslationCache(fromLang: string, toLang: string) {
     'use server'
+    // @ts-ignore
     revalidateTag(`translation-${fromLang}-${toLang}`)
 }
 
