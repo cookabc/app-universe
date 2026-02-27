@@ -6,6 +6,11 @@ export interface PerformanceMetrics {
     ttfb?: number // Time to First Byte
 }
 
+export interface LayoutShift extends PerformanceEntry {
+    value: number
+    hadRecentInput: boolean
+}
+
 // Performance score calculator
 export function getPerformanceScore(metrics: PerformanceMetrics): number {
     let score = 100

@@ -1,17 +1,8 @@
 'use client'
 
 import { usePerformanceMetrics } from '@/hooks/use-performance-metrics'
-import { getPerformanceScore, type PerformanceMetrics } from './performance-utils'
+import type { PerformanceMetrics } from '@/components/optimized/performance-utils'
 
-interface LayoutShift extends PerformanceEntry {
-    entryType: 'layout-shift'
-    value: number
-    hadRecentInput: boolean
-    lastInputTime: number
-    sources: Array<unknown>
-}
-
-// Performance monitoring component for React 19 and Next.js 15
 export function PerformanceMonitor({
     onMetrics,
     enableConsoleLogging = false,
@@ -19,18 +10,22 @@ export function PerformanceMonitor({
     onMetrics?: (metrics: PerformanceMetrics) => void
     enableConsoleLogging?: boolean
 }) {
-    const metrics = usePerformanceMetrics({ onMetrics, enableConsoleLogging })
+    const metrics = usePerformanceMetrics({
+        ...(onMetrics ? { onMetrics } : {}),
+        enableConsoleLogging
+    })
 
     // Development-only performance display
     if (process.env.NODE_ENV === 'development' && enableConsoleLogging) {
         return (
-            <div className="fixed bottom-4 right-4 bg-black/80 text-white p-3 rounded-lg text-xs font-mono z-50">
+            <div className="fixed bottom-4 right-4 bg-black/80 text-white p-4 rounded text-xs font-mono z-[9999] pointer-events-none">
+                <div className="font-bold mb-2">Performance Metrics</div>
                 <div className="space-y-1">
-                    <div>FCP: {metrics.fcp ? `${Math.round(metrics.fcp)}ms` : 'N/A'}</div>
-                    <div>LCP: {metrics.lcp ? `${Math.round(metrics.lcp)}ms` : 'N/A'}</div>
-                    <div>FID: {metrics.fid ? `${Math.round(metrics.fid)}ms` : 'N/A'}</div>
-                    <div>CLS: {metrics.cls ? metrics.cls.toFixed(3) : 'N/A'}</div>
-                    <div>TTFB: {metrics.ttfb ? `${Math.round(metrics.ttfb)}ms` : 'N/A'}</div>
+                    <div>FCP: {metrics.fcp?.toFixed(2) ?? '-'}ms</div>
+                    <div>LCP: {metrics.lcp?.toFixed(2) ?? '-'}ms</div>
+                    <div>CLS: {metrics.cls?.toFixed(4) ?? '-'}</div>
+                    <div>FID: {metrics.fid?.toFixed(2) ?? '-'}ms</div>
+                    <div>TTFB: {metrics.ttfb?.toFixed(2) ?? '-'}ms</div>
                 </div>
             </div>
         )
@@ -38,6 +33,3 @@ export function PerformanceMonitor({
 
     return null
 }
-
-export { usePerformanceMetrics, getPerformanceScore }
-export type { PerformanceMetrics }
