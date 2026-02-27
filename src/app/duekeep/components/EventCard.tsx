@@ -2,6 +2,8 @@ import type React from 'react'
 import { useMemo } from 'react'
 import type { EventItem } from '../types'
 import { calculateCountdown } from '../utils/dateUtils'
+import { motion } from 'framer-motion'
+import { Edit2, Trash2, Clock, CalendarDays } from 'lucide-react'
 
 interface EventCardProps {
     event: EventItem
@@ -14,43 +16,70 @@ export const EventCard: React.FC<EventCardProps> = ({ event, onEdit, onDelete })
         return calculateCountdown(event.date)
     }, [event.date])
 
-    const dateString = event.date.toLocaleDateString('en-GB', {
+    const dateString = event.date.toLocaleDateString('en-US', {
         weekday: 'long',
+        month: 'short',
         day: 'numeric',
-        month: 'long',
-        year: 'numeric',
     })
 
+    const progress = Math.min(100, Math.max(0, 100 - (diffValue / 30) * 100)) // Mock progress for visual
+
     return (
-        <div
-            className="rounded-[20px] p-5 flex items-center shadow-lg relative overflow-hidden group transition-transform hover:scale-[1.02] active:scale-[0.98] duration-200"
-            style={{ backgroundColor: event.color, color: event.textColor }}
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            whileHover={{ scale: 1.02 }}
+            className="relative overflow-hidden rounded-[24px] p-6 shadow-xl transition-all hover:shadow-2xl group"
+            style={{
+                backgroundColor: event.color,
+                color: event.textColor,
+                boxShadow: `0 10px 30px -10px ${event.color}66`
+            }}
         >
-            <div className="flex-1 pr-4 z-10">
-                <h3 className="text-2xl font-bold mb-1">{event.name}</h3>
-                <p className="text-sm font-bold opacity-70">{dateString}</p>
+            {/* Background Texture/Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/5 pointer-events-none" />
+            <div className="absolute -right-12 -top-12 w-48 h-48 rounded-full bg-white/10 blur-3xl" />
+
+            <div className="relative z-10 flex justify-between items-start">
+                <div className="space-y-4 flex-1">
+                    <div>
+                        <div className="flex items-center gap-2 text-sm font-medium opacity-80 mb-1">
+                            <CalendarDays className="w-4 h-4" />
+                            <span>{dateString}</span>
+                        </div>
+                        <h3 className="text-2xl font-bold tracking-tight leading-tight mb-2 pr-4">{event.name}</h3>
+                    </div>
+
+                    {/* Progress Bar Mockup */}
+                    <div className="w-full h-1.5 bg-black/10 rounded-full overflow-hidden max-w-[140px]">
+                        <div
+                            className="h-full bg-current opacity-80 rounded-full"
+                            style={{ width: `${progress}%` }}
+                        />
+                    </div>
+                </div>
+
+                <div className="flex flex-col items-end">
+                    <div className="flex items-baseline gap-1">
+                        <span className="text-5xl font-black tracking-tighter leading-none">{diffValue}</span>
+                    </div>
+                    <span className="text-xs font-bold uppercase tracking-widest opacity-70 mt-1">{label}</span>
+                </div>
             </div>
 
-            <div className="w-px h-12 bg-black/10 mx-2 z-10"></div>
-
-            <div className="flex flex-col items-center justify-center w-24 text-center pl-2 z-10">
-                <span className="text-4xl font-bold leading-none">{diffValue}</span>
-                <span className="text-[10px] font-bold uppercase tracking-wide opacity-70 mt-1">{label}</span>
-            </div>
-
-            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none"></div>
-
+            {/* Action Buttons */}
             {(onEdit || onDelete) && (
-                <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-20">
                     {onEdit && (
                         <button
                             onClick={(e) => {
                                 e.stopPropagation()
                                 onEdit()
                             }}
-                            className="p-2 rounded-full bg-black/20 hover:bg-black/30 transition-colors"
+                            className="p-2.5 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/30 transition-colors shadow-sm"
+                            aria-label="Edit event"
                         >
-                            <span className="material-icons-round text-white text-sm">edit</span>
+                            <Edit2 className="w-4 h-4" />
                         </button>
                     )}
                     {onDelete && (
@@ -59,13 +88,14 @@ export const EventCard: React.FC<EventCardProps> = ({ event, onEdit, onDelete })
                                 e.stopPropagation()
                                 onDelete()
                             }}
-                            className="p-2 rounded-full bg-black/20 hover:bg-red-500 transition-colors"
+                            className="p-2.5 rounded-full bg-white/20 backdrop-blur-md hover:bg-red-500/80 hover:text-white transition-colors shadow-sm"
+                            aria-label="Delete event"
                         >
-                            <span className="material-icons-round text-white text-sm">delete</span>
+                            <Trash2 className="w-4 h-4" />
                         </button>
                     )}
                 </div>
             )}
-        </div>
+        </motion.div>
     )
 }

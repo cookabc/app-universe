@@ -1,10 +1,12 @@
-import { ArrowLeftRight } from 'lucide-react'
+import { ArrowLeftRight, Volume2, Copy, Check, RotateCcw, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { languages } from '../constants'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface ConverterFormProps {
     activeTab: string
@@ -23,6 +25,11 @@ interface ConverterFormProps {
     convertText: () => void
     isLoading: boolean
     uiLanguage: 'en' | 'ja' | 'zh'
+    outputText: string
+    error: string | null
+    copied: boolean
+    copyToClipboard: () => void
+    speakText: (text: string, lang: string) => void
 }
 
 export function ConverterForm({
@@ -42,118 +49,181 @@ export function ConverterForm({
     convertText,
     isLoading,
     uiLanguage,
+    outputText,
+    error,
+    copied,
+    copyToClipboard,
+    speakText,
 }: ConverterFormProps) {
     return (
-        <div className="bg-card rounded-lg shadow-lg p-6 mb-8 border-4 border-primary">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-4">
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="translation">{languages[uiLanguage].tabs.translation}</TabsTrigger>
-                    <TabsTrigger value="japaneseConversion">
-                        {languages[uiLanguage].tabs.japaneseConversion}
-                    </TabsTrigger>
-                </TabsList>
-                <TabsContent value="translation">
-                    <div className="flex justify-between items-center mb-4">
-                        <Select value={fromLang} onValueChange={setFromLang}>
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="From" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {languages[uiLanguage].languageOptions.map((lang) => (
-                                    <SelectItem key={lang.value} value={lang.value}>
-                                        {lang.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    onClick={switchLanguages}
-                                    aria-label={languages[uiLanguage].swap}
-                                >
-                                    <ArrowLeftRight className="h-4 w-4" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{languages[uiLanguage].swap}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                        <Select value={toLang} onValueChange={setToLang}>
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="To" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {languages[uiLanguage].languageOptions.map((lang) => (
-                                    <SelectItem key={lang.value} value={lang.value}>
-                                        {lang.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+        <div className="flex flex-col gap-6">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <div className="flex justify-center mb-6">
+                    <TabsList className="grid w-full max-w-md grid-cols-2">
+                        <TabsTrigger value="translation">{languages[uiLanguage].tabs.translation}</TabsTrigger>
+                        <TabsTrigger value="japaneseConversion">
+                            {languages[uiLanguage].tabs.japaneseConversion}
+                        </TabsTrigger>
+                    </TabsList>
+                </div>
+
+                <div className="bg-card border border-border/50 rounded-3xl shadow-xl overflow-hidden backdrop-blur-sm">
+                    {/* Toolbar */}
+                    <div className="border-b border-border/50 p-4 bg-muted/30 flex items-center justify-between gap-4">
+                        <div className="flex-1">
+                            <TabsContent value="translation" className="mt-0">
+                                <Select value={fromLang} onValueChange={setFromLang}>
+                                    <SelectTrigger className="w-full bg-background border-border/50 h-10">
+                                        <SelectValue placeholder="From" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {languages[uiLanguage].languageOptions.map((lang) => (
+                                            <SelectItem key={lang.value} value={lang.value}>
+                                                {lang.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </TabsContent>
+                            <TabsContent value="japaneseConversion" className="mt-0">
+                                <Select value={fromType} onValueChange={setFromType}>
+                                    <SelectTrigger className="w-full bg-background border-border/50 h-10">
+                                        <SelectValue placeholder="From" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {languages[uiLanguage].japaneseOptions.map((type) => (
+                                            <SelectItem key={type.value} value={type.value}>
+                                                {type.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </TabsContent>
+                        </div>
+
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={switchLanguages}
+                            className="rounded-full hover:bg-primary/10 hover:text-primary shrink-0"
+                        >
+                            <ArrowLeftRight className="h-5 w-5" />
+                        </Button>
+
+                        <div className="flex-1">
+                            <TabsContent value="translation" className="mt-0">
+                                <Select value={toLang} onValueChange={setToLang}>
+                                    <SelectTrigger className="w-full bg-background border-border/50 h-10">
+                                        <SelectValue placeholder="To" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {languages[uiLanguage].languageOptions.map((lang) => (
+                                            <SelectItem key={lang.value} value={lang.value}>
+                                                {lang.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </TabsContent>
+                            <TabsContent value="japaneseConversion" className="mt-0">
+                                <Select value={toType} onValueChange={setToType}>
+                                    <SelectTrigger className="w-full bg-background border-border/50 h-10">
+                                        <SelectValue placeholder="To" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {languages[uiLanguage].japaneseOptions.map((type) => (
+                                            <SelectItem key={type.value} value={type.value}>
+                                                {type.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </TabsContent>
+                        </div>
                     </div>
-                </TabsContent>
-                <TabsContent value="japaneseConversion">
-                    <div className="flex justify-between items-center mb-4">
-                        <Select value={fromType} onValueChange={setFromType}>
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="From" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {languages[uiLanguage].japaneseOptions.map((type) => (
-                                    <SelectItem key={type.value} value={type.value}>
-                                        {type.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    onClick={switchLanguages}
-                                    aria-label={languages[uiLanguage].swap}
-                                >
-                                    <ArrowLeftRight className="h-4 w-4" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{languages[uiLanguage].swap}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                        <Select value={toType} onValueChange={setToType}>
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="To" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {languages[uiLanguage].japaneseOptions.map((type) => (
-                                    <SelectItem key={type.value} value={type.value}>
-                                        {type.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+
+                    {/* Editor Area */}
+                    <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-border/50 min-h-[400px]">
+                        {/* Input Section */}
+                        <div className="flex flex-col relative group bg-background/50">
+                            <Textarea
+                                value={inputText}
+                                onChange={(e) => setInputText(e.target.value)}
+                                placeholder={languages[uiLanguage].inputPlaceholder}
+                                className="flex-1 resize-none border-0 focus-visible:ring-0 p-6 text-lg bg-transparent rounded-none"
+                            />
+                            <div className="p-4 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span className="text-xs text-muted-foreground">{inputText.length} chars</span>
+                                {inputText && (
+                                    <Button variant="ghost" size="sm" onClick={() => setInputText('')} className="h-8 w-8 p-0">
+                                        <RotateCcw className="h-4 w-4" />
+                                    </Button>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Output Section */}
+                        <div className="flex flex-col relative bg-muted/10">
+                            {isLoading ? (
+                                <div className="flex-1 flex items-center justify-center text-muted-foreground gap-2">
+                                    <div className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full" />
+                                    Translating...
+                                </div>
+                            ) : outputText ? (
+                                <>
+                                    <div className="flex-1 p-6 text-lg font-medium leading-relaxed font-kosugi overflow-y-auto">
+                                        {outputText}
+                                    </div>
+                                    <div className="p-4 flex justify-end items-center gap-2 border-t border-border/10">
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => speakText(outputText, activeTab === 'translation' ? toLang : 'ja')}
+                                        >
+                                            <Volume2 className="h-4 w-4 mr-2" /> Listen
+                                        </Button>
+                                        <Button
+                                            variant="secondary"
+                                            size="sm"
+                                            onClick={copyToClipboard}
+                                            className={copied ? "bg-green-500/10 text-green-600 hover:bg-green-500/20" : ""}
+                                        >
+                                            {copied ? <Check className="h-4 w-4 mr-2" /> : <Copy className="h-4 w-4 mr-2" />}
+                                            {copied ? 'Copied' : 'Copy'}
+                                        </Button>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="flex-1 flex items-center justify-center text-muted-foreground/50">
+                                    Translation will appear here
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </TabsContent>
+                </div>
             </Tabs>
 
-            <Textarea
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                placeholder={languages[uiLanguage].inputPlaceholder}
-                className="w-full mb-4 text-lg"
-                rows={4}
-            />
+            <AnimatePresence>
+                {error && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                    >
+                        <Alert variant="destructive">
+                            <AlertCircle className="h-4 w-4" />
+                            <AlertTitle>Error</AlertTitle>
+                            <AlertDescription>{error}</AlertDescription>
+                        </Alert>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <Button
                 onClick={convertText}
                 disabled={isLoading || !inputText.trim()}
-                className="w-full mb-4 text-lg bg-primary hover:bg-primary/90 text-primary-foreground"
-                aria-busy={isLoading}
-                aria-live="polite"
+                size="lg"
+                className="w-full text-lg shadow-lg shadow-primary/20 transition-all hover:scale-[1.01] active:scale-[0.99]"
             >
                 {isLoading ? languages[uiLanguage].loading : languages[uiLanguage].convertButton}
             </Button>

@@ -1,72 +1,72 @@
-import { Gamepad2, Play } from 'lucide-react'
+import { Flag, Map, Trophy, Star, ArrowRight } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 export function GamifiedJourney() {
     const steps = [
         {
-            id: 1,
-            title: 'Learn the Basics',
-            desc: 'Interactive tutorials explaining AI concepts.',
+            icon: Flag,
+            title: 'Start',
+            desc: 'Begin your AI adventure',
+            status: 'completed',
         },
         {
-            id: 2,
-            title: 'Complete Quests',
-            desc: 'Solve puzzles using AI tools to unlock next levels.',
+            icon: Map,
+            title: 'Basics',
+            desc: 'Learn fundamental concepts',
+            status: 'current',
         },
         {
-            id: 3,
-            title: 'Build Projects',
-            desc: 'Create a final project to showcase in your portfolio.',
+            icon: Star,
+            title: 'Skills',
+            desc: 'Master prompting & tools',
+            status: 'locked',
+        },
+        {
+            icon: Trophy,
+            title: 'Mastery',
+            desc: 'Build complex AI agents',
+            status: 'locked',
         },
     ]
 
     return (
-        <section className="w-full bg-white dark:bg-surface-dark py-20 px-4 flex justify-center">
-            <div className="max-w-[1200px] w-full flex flex-col md:flex-row gap-12 items-center">
-                <div className="flex-1 flex flex-col gap-6">
-                    <div className="inline-flex items-center gap-2 self-start rounded-full bg-primary/10 px-3 py-1">
-                        <Gamepad2 className="w-4 h-4 text-primary" />
-                        <span className="text-xs font-bold uppercase text-primary tracking-wide">
-                            Gamified Learning
-                        </span>
-                    </div>
-                    <h2 className="text-3xl md:text-4xl font-black leading-tight text-text-main dark:text-white">
-                        Level Up Your Skills Step by Step
-                    </h2>
-                    <p className="text-lg text-text-muted dark:text-gray-400">
-                        No boring lectures. Our platform adapts to your pace, rewarding you with badges and XP as you
-                        complete real-world challenges.
+        <section className="w-full bg-muted/30 py-24 px-4 overflow-hidden">
+            <div className="max-w-[1200px] mx-auto">
+                <div className="text-center mb-16 space-y-4">
+                    <h2 className="text-3xl md:text-4xl font-black text-foreground">Your Learning Roadmap</h2>
+                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                        Track your progress visually. Earn XP, unlock badges, and level up as you master new AI skills.
                     </p>
-                    <div className="flex flex-col gap-4 mt-4">
-                        {steps.map((step) => (
-                            <div
-                                key={step.id}
-                                className="flex items-center gap-4 p-4 rounded-xl bg-background-light dark:bg-background-dark border border-transparent hover:border-primary/30 transition-colors"
-                            >
-                                <div className="size-10 rounded-full bg-primary text-white flex items-center justify-center font-bold">
-                                    {step.id}
+                </div>
+
+                <div className="relative">
+                    {/* Connecting Line */}
+                    <div className="absolute top-1/2 left-0 w-full h-1 bg-border -translate-y-1/2 hidden md:block" />
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+                        {steps.map((step, index) => (
+                            <div key={index} className="flex flex-col items-center text-center group">
+                                <div
+                                    className={`
+                                        w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 relative
+                                        ${step.status === 'completed' ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/30' : ''}
+                                        ${step.status === 'current' ? 'bg-background border-2 border-primary text-primary shadow-[0_0_20px_rgba(37,99,235,0.3)] scale-110' : ''}
+                                        ${step.status === 'locked' ? 'bg-muted text-muted-foreground border border-border' : ''}
+                                    `}
+                                >
+                                    <step.icon className="w-8 h-8" />
+                                    {step.status === 'completed' && (
+                                        <div className="absolute -right-2 -top-2 bg-green-500 text-white rounded-full p-1 border-2 border-background">
+                                            <ArrowRight className="w-3 h-3" />
+                                        </div>
+                                    )}
                                 </div>
-                                <div>
-                                    <h4 className="font-bold text-text-main dark:text-white">{step.title}</h4>
-                                    <p className="text-sm text-text-muted dark:text-gray-400">{step.desc}</p>
-                                </div>
+                                <h3 className={`text-lg font-bold mb-2 ${step.status === 'locked' ? 'text-muted-foreground' : 'text-foreground'}`}>
+                                    {step.title}
+                                </h3>
+                                <p className="text-sm text-muted-foreground">{step.desc}</p>
                             </div>
                         ))}
-                    </div>
-                </div>
-                <div className="flex-1 w-full">
-                    <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-gray-900 border-4 border-gray-200 dark:border-gray-800">
-                        <div
-                            className="absolute inset-0 bg-cover bg-center"
-                            style={{
-                                backgroundImage:
-                                    'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBp6EzZK-38XrU8chnISsKrBCkD6_pIkhdpFny80_njxW4UNPTEewugtlhc9F1wDZw1uQJlPuJDsAdfNTL5SJFzMaadgDM5TrPQmOgZKTQZt55_EGU0pJH8FwyfW75ArG5e7OcjuMjZardob3tZY8bRDFlUBK3Y7J6HudMfxGnFFx32JIyTtpg6_GAMq44-P77GFGpQi9MW76tu_nuCYN5mx5ME0p0mDcEMvNQO4tEUoW_46WXpaduo8DWiw9wRh3BYRpndVNViJhA")',
-                            }}
-                        ></div>
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                            <div className="size-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
-                                <Play className="w-8 h-8 text-white ml-1" />
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

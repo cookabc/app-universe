@@ -1,6 +1,6 @@
 'use client'
 
-import { Lock, RotateCcw, TriangleAlert } from 'lucide-react'
+import { RotateCcw, Lock, TriangleAlert, Keyboard } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { GameErrorBoundary } from '@/components/optimized/error-boundary'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -11,6 +11,7 @@ import { SAMPLE_TEXT } from './constants'
 import { useTypingGame } from './hooks/useTypingGame'
 import { useVirtualKeyboard } from './hooks/useVirtualKeyboard'
 import { TypingEffect, type TypingEffectHandle } from './typing-effect'
+import { motion } from 'framer-motion'
 
 export default function TypingPracticeClient() {
     const [text] = useState(SAMPLE_TEXT)
@@ -158,24 +159,51 @@ export default function TypingPracticeClient() {
 
     return (
         <GameErrorBoundary>
-            <div className="p-4 sm:p-8">
+            <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background text-foreground transition-colors duration-300">
                 <TypingEffect ref={effectRef} />
                 {showCelebration && <CelebrationEffect key={celebrationKey} />}
-                <Card className="max-w-4xl mx-auto p-4 sm:p-8">
-                    <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">ProTypist</h1>
+
+                {/* Minimalist Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute top-8 w-full max-w-4xl px-8 flex justify-between items-center"
+                >
+                    <div className="flex items-center gap-2 text-primary font-bold text-xl">
+                        <Keyboard className="w-6 h-6" />
+                        TypeFlow
+                    </div>
+                    <div className="flex gap-8 text-sm font-medium text-muted-foreground">
+                        <div className="flex flex-col items-center">
+                            <span className="text-2xl font-bold text-foreground">{gameStats.wpm}</span>
+                            <span className="text-xs uppercase tracking-wider">WPM</span>
+                        </div>
+                        <div className="flex flex-col items-center">
+                            <span className="text-2xl font-bold text-foreground">{gameStats.accuracy}%</span>
+                            <span className="text-xs uppercase tracking-wider">Acc</span>
+                        </div>
+                        <div className="hidden sm:flex flex-col items-center">
+                            <span className="text-2xl font-bold text-foreground">{gameStats.timeElapsed}</span>
+                            <span className="text-xs uppercase tracking-wider">Time</span>
+                        </div>
+                    </div>
+                </motion.div>
+
+                <div className="w-full max-w-4xl px-4 sm:px-8 flex flex-col gap-8">
                     {capsLock && (
-                        <Alert variant="destructive" className="mb-4">
+                        <Alert variant="destructive" className="animate-in fade-in slide-in-from-top-2">
                             <TriangleAlert className="h-4 w-4" />
                             <AlertTitle>Caps Lock is on</AlertTitle>
                             <AlertDescription>Please turn off Caps Lock to avoid typing errors.</AlertDescription>
                         </Alert>
                     )}
-                    <div className="space-y-4 sm:space-y-8">
+
+                    {/* Main Typing Area */}
+                    <div className="relative group">
                         <div
                             ref={textDisplayRef}
-                            className="font-mono text-lg sm:text-2xl leading-relaxed text-muted-foreground min-h-[100px] relative outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md"
+                            className="font-mono text-2xl sm:text-3xl lg:text-4xl leading-relaxed text-muted-foreground/30 min-h-[200px] outline-none tracking-wide text-center"
                             style={{
-                                maxWidth: '100vw',
                                 overflowWrap: 'break-word',
                                 wordBreak: 'break-word',
                             }}
@@ -188,10 +216,10 @@ export default function TypingPracticeClient() {
                             {isCapsLockOn && (
                                 <div
                                     role="alert"
-                                    className="absolute -top-8 right-0 flex items-center gap-1.5 text-xs font-medium text-amber-600 bg-amber-50 px-2 py-1 rounded-md border border-amber-200 shadow-sm animate-in fade-in slide-in-from-top-1 z-10"
+                                    className="absolute -top-12 right-0 flex items-center gap-1.5 text-xs font-medium text-amber-500 bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/20"
                                 >
                                     <Lock className="w-3 h-3" />
-                                    Caps Lock is on
+                                    Caps Lock
                                 </div>
                             )}
                             {chars.map((char, index) => (
@@ -200,79 +228,43 @@ export default function TypingPracticeClient() {
                                     ref={(el) => {
                                         if (el) charsRef.current[index] = el
                                     }}
-                                    className={`${
+                                    className={`transition-colors duration-100 ${
                                         index < userInput.length
                                             ? userInput[index] === char
-                                                ? 'text-green-500'
+                                                ? 'text-foreground'
                                                 : 'text-red-500'
-                                            : 'text-muted-foreground'
-                                    }`}
+                                            : 'text-muted-foreground/20'
+                                    } ${index === currentIndex + 1 ? 'border-b-2 border-primary' : ''}`}
                                 >
                                     {char === ' ' ? '\u00A0' : char}
                                 </span>
                             ))}
-                            {!isFinished && (
-                                <span
-                                    className="absolute inline-block h-0.5 bg-primary"
-                                    style={{
-                                        left: `${cursorPosition.left}px`,
-                                        top: `${cursorPosition.top + 24}px`,
-                                        width: '0.61em',
-                                        animation: 'blink 1s infinite',
-                                    }}
-                                />
-                            )}
                         </div>
 
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
-                            <Card className="p-2 sm:p-4">
-                                <div className="text-xs sm:text-sm text-muted-foreground">WPM</div>
-                                <div className="text-2xl sm:text-4xl font-bold">{gameStats.wpm}</div>
-                            </Card>
-                            <Card className="p-2 sm:p-4">
-                                <div className="text-xs sm:text-sm text-muted-foreground">Accuracy</div>
-                                <div className="text-2xl sm:text-4xl font-bold">{gameStats.accuracy}%</div>
-                            </Card>
-                            <Card className="p-2 sm:p-4">
-                                <div className="text-xs sm:text-sm text-muted-foreground">Correct Words</div>
-                                <div className="text-2xl sm:text-4xl font-bold">{gameStats.correctWords}</div>
-                            </Card>
-                            <Card className="p-2 sm:p-4">
-                                <div className="text-xs sm:text-sm text-muted-foreground">Time</div>
-                                <div className="text-2xl sm:text-4xl font-bold">{gameStats.timeElapsed}s</div>
-                            </Card>
-                        </div>
-
-                        <div className="flex justify-center gap-4">
+                        {/* Subtle Reset Button */}
+                        <motion.div
+                            className="absolute -bottom-16 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            initial={false}
+                        >
                             <Button
                                 onClick={handleReset}
-                                variant="outline"
-                                className="gap-2"
-                                aria-keyshortcuts="Escape"
-                                title="Press Esc to reset"
+                                variant="ghost"
+                                size="sm"
+                                className="gap-2 text-muted-foreground hover:text-foreground"
                             >
                                 <RotateCcw className="w-4 h-4" />
-                                Reset
-                                <kbd className="hidden sm:inline-flex pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 ml-1">
-                                    Esc
-                                </kbd>
+                                <span className="text-xs uppercase tracking-widest">Restart</span>
                             </Button>
-                        </div>
-
-                        {isMobile && renderVirtualKeyboard()}
+                        </motion.div>
                     </div>
-                </Card>
-                <style jsx>{`
-                    @keyframes blink {
-                        0%,
-                        100% {
-                            opacity: 0;
-                        }
-                        50% {
-                            opacity: 1;
-                        }
-                    }
-                `}</style>
+
+                    {/* Virtual Keyboard */}
+                    {isMobile && (
+                        <div className="fixed bottom-0 left-0 w-full p-2 bg-background/80 backdrop-blur-lg border-t border-border/10">
+                            {renderVirtualKeyboard()}
+                        </div>
+                    )}
+                </div>
             </div>
         </GameErrorBoundary>
     )

@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronIcon, ExitIcon, SettingsIcon, StarIcon, TrashIcon } from '../icons'
 import { Sparkline, Stat } from '../ui'
 import HoldingsContribution from './HoldingsContribution'
+import { TrendingUp, TrendingDown, Clock, BarChart2 } from 'lucide-react'
 
 export default function FundList({
     viewMode,
@@ -31,478 +32,244 @@ export default function FundList({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className={viewMode === 'card' ? 'grid' : 'table-container glass'}
+                className={viewMode === 'card' ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6' : 'rounded-xl border border-border bg-card overflow-hidden shadow-sm'}
             >
-                <div
-                    className={viewMode === 'card' ? 'grid col-12' : ''}
-                    style={viewMode === 'card' ? { gridColumn: 'span 12', gap: 16 } : {}}
-                >
-                    <AnimatePresence mode="popLayout">
-                        {funds.map((f) => (
-                            <motion.div
-                                layout="position"
-                                key={f.code}
-                                className={viewMode === 'card' ? 'col-6' : 'table-row-wrapper'}
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.95 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                <div className={viewMode === 'card' ? 'glass card' : 'table-row'}>
-                                    {viewMode === 'list' ? (
-                                        <>
-                                            <div className="table-cell name-cell">
-                                                {currentTab !== 'all' && currentTab !== 'fav' ? (
-                                                    <button
-                                                        className="icon-button fav-button"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation()
-                                                            onRemoveFromGroup(f.code)
-                                                        }}
-                                                        title="从当前分组移除"
-                                                    >
-                                                        <ExitIcon
-                                                            width="18"
-                                                            height="18"
-                                                            style={{ transform: 'rotate(180deg)' }}
-                                                        />
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        className={`icon-button fav-button ${favorites.has(f.code) ? 'active' : ''}`}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation()
-                                                            onToggleFavorite(f.code)
-                                                        }}
-                                                        title={favorites.has(f.code) ? '取消自选' : '添加自选'}
-                                                    >
-                                                        <StarIcon
-                                                            width="18"
-                                                            height="18"
-                                                            filled={favorites.has(f.code)}
-                                                        />
-                                                    </button>
-                                                )}
-                                                <div className="title-text">
-                                                    <span className="name-text">{f.name}</span>
-                                                    <span className="muted code-text">#{f.code}</span>
+                {viewMode === 'list' && (
+                    <div className="grid grid-cols-12 gap-4 p-4 border-b border-border bg-muted/30 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        <div className="col-span-4">Fund Name / Code</div>
+                        <div className="col-span-2 text-right">Net Worth</div>
+                        <div className="col-span-2 text-right">Change</div>
+                        <div className="col-span-3 text-right">Update Time</div>
+                        <div className="col-span-1 text-center">Actions</div>
+                    </div>
+                )}
+
+                <AnimatePresence mode="popLayout">
+                    {funds.map((f) => (
+                        <motion.div
+                            layout="position"
+                            key={f.code}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.2 }}
+                            className={viewMode === 'list' ? 'border-b border-border/50 last:border-0 hover:bg-muted/10 transition-colors' : ''}
+                        >
+                            <div className={viewMode === 'card' ? 'rounded-2xl border border-border bg-card p-5 shadow-sm hover:shadow-md transition-all h-full flex flex-col' : 'grid grid-cols-12 gap-4 p-4 items-center'}>
+                                {viewMode === 'list' ? (
+                                    <>
+                                        {/* List View Row */}
+                                        <div className="col-span-4 flex items-center gap-3">
+                                            <button
+                                                className={`p-1.5 rounded-full hover:bg-muted transition-colors ${favorites.has(f.code) ? 'text-yellow-500' : 'text-muted-foreground'}`}
+                                                onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    onToggleFavorite(f.code)
+                                                }}
+                                            >
+                                                <StarIcon width="16" height="16" filled={favorites.has(f.code)} />
+                                            </button>
+                                            <div className="flex flex-col">
+                                                <span className="font-semibold text-foreground text-sm truncate max-w-[200px]">{f.name}</span>
+                                                <span className="text-xs font-mono text-muted-foreground">#{f.code}</span>
+                                            </div>
+                                        </div>
+
+                                        {(() => {
+                                            const now = new Date()
+                                            const isAfter9 = now.getHours() >= 9
+                                            const hasTodayData = f.jzrq === todayStr
+                                            const shouldHideChange = isTradingDay && isAfter9 && !hasTodayData
+
+                                            // Logic for displaying values
+                                            const displayNav = shouldHideChange
+                                                ? (f.estPricedCoverage > 0.05 ? f.estGsz.toFixed(4) : (f.gsz ?? '—'))
+                                                : (f.dwjz ?? '—')
+
+                                            const changeValue = shouldHideChange
+                                                ? (f.estPricedCoverage > 0.05 ? f.estGszzl : Number(f.gszzl))
+                                                : f.zzl
+
+                                            const changePercent = typeof changeValue === 'number'
+                                                ? `${changeValue > 0 ? '+' : ''}${changeValue.toFixed(2)}%`
+                                                : '--'
+
+                                            const isUp = typeof changeValue === 'number' && changeValue > 0
+                                            const isDown = typeof changeValue === 'number' && changeValue < 0
+
+                                            return (
+                                                <>
+                                                    <div className="col-span-2 text-right font-mono font-medium">
+                                                        {displayNav}
+                                                    </div>
+                                                    <div className="col-span-2 text-right">
+                                                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold ${isUp ? 'bg-red-500/10 text-red-500' : isDown ? 'bg-green-500/10 text-green-500' : 'bg-muted text-muted-foreground'}`}>
+                                                            {changePercent}
+                                                        </span>
+                                                    </div>
+                                                </>
+                                            )
+                                        })()}
+
+                                        <div className="col-span-3 text-right text-xs text-muted-foreground font-mono">
+                                            {f.gztime || f.time || '-'}
+                                        </div>
+
+                                        <div className="col-span-1 flex justify-center">
+                                            <button
+                                                className="p-1.5 rounded-full hover:bg-red-500/10 hover:text-red-500 text-muted-foreground transition-colors"
+                                                onClick={() => onRemoveFund(f.code)}
+                                            >
+                                                <TrashIcon width="14" height="14" />
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        {/* Card View Content */}
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div className="flex items-center gap-3 flex-1 min-w-0">
+                                                <div className="flex flex-col min-w-0">
+                                                    <div className="flex items-center gap-2">
+                                                        <h3 className="font-bold text-lg truncate" title={f.name}>{f.name}</h3>
+                                                        {f.jzrq === todayStr && (
+                                                            <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" title="Updated today" />
+                                                        )}
+                                                    </div>
+                                                    <span className="text-xs font-mono text-muted-foreground">#{f.code}</span>
                                                 </div>
                                             </div>
+                                            <div className="flex gap-1">
+                                                <button
+                                                    className={`p-2 rounded-full hover:bg-muted transition-colors ${favorites.has(f.code) ? 'text-yellow-500' : 'text-muted-foreground'}`}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        onToggleFavorite(f.code)
+                                                    }}
+                                                >
+                                                    <StarIcon width="18" height="18" filled={favorites.has(f.code)} />
+                                                </button>
+                                                <button
+                                                    className="p-2 rounded-full hover:bg-red-500/10 hover:text-red-500 text-muted-foreground transition-colors"
+                                                    onClick={() => onRemoveFund(f.code)}
+                                                >
+                                                    <TrashIcon width="18" height="18" />
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-4 mb-4">
                                             {(() => {
                                                 const now = new Date()
                                                 const isAfter9 = now.getHours() >= 9
                                                 const hasTodayData = f.jzrq === todayStr
                                                 const shouldHideChange = isTradingDay && isAfter9 && !hasTodayData
 
-                                                if (!shouldHideChange) {
-                                                    // 如果涨跌幅列显示（即非交易时段或今日净值已更新），则显示单位净值和真实涨跌幅
-                                                    return (
-                                                        <>
-                                                            <div className="table-cell text-right value-cell">
-                                                                <span style={{ fontWeight: 700 }}>{f.dwjz ?? '—'}</span>
+                                                const displayNav = shouldHideChange
+                                                    ? (f.estPricedCoverage > 0.05 ? f.estGsz.toFixed(4) : (f.gsz ?? '—'))
+                                                    : (f.dwjz ?? '—')
+
+                                                const changeValue = shouldHideChange
+                                                    ? (f.estPricedCoverage > 0.05 ? f.estGszzl : Number(f.gszzl))
+                                                    : f.zzl
+
+                                                const isUp = typeof changeValue === 'number' && changeValue > 0
+                                                const isDown = typeof changeValue === 'number' && changeValue < 0
+
+                                                return (
+                                                    <>
+                                                        <div className="flex flex-col">
+                                                            <span className="text-xs text-muted-foreground mb-1">Net Worth</span>
+                                                            <span className="text-2xl font-bold font-mono tracking-tight">{displayNav}</span>
+                                                        </div>
+                                                        <div className="flex flex-col items-end">
+                                                            <span className="text-xs text-muted-foreground mb-1">Growth</span>
+                                                            <div className={`flex items-center gap-1 font-bold text-lg ${isUp ? 'text-red-500' : isDown ? 'text-green-500' : 'text-muted-foreground'}`}>
+                                                                {isUp ? <TrendingUp className="w-4 h-4" /> : isDown ? <TrendingDown className="w-4 h-4" /> : null}
+                                                                {typeof changeValue === 'number' ? `${Math.abs(changeValue).toFixed(2)}%` : '--'}
                                                             </div>
-                                                            <div className="table-cell text-right change-cell">
-                                                                <span
-                                                                    className={
-                                                                        f.zzl > 0 ? 'up' : f.zzl < 0 ? 'down' : ''
-                                                                    }
-                                                                    style={{ fontWeight: 700 }}
-                                                                >
-                                                                    {f.zzl !== undefined
-                                                                        ? `${f.zzl > 0 ? '+' : ''}${Number(f.zzl).toFixed(2)}%`
-                                                                        : '--'}
-                                                                </span>
-                                                            </div>
-                                                        </>
-                                                    )
-                                                } else {
-                                                    // 否则显示估值净值和估值涨跌幅
-                                                    return (
-                                                        <>
-                                                            <div className="table-cell text-right value-cell">
-                                                                <span style={{ fontWeight: 700 }}>
-                                                                    {f.estPricedCoverage > 0.05
-                                                                        ? f.estGsz.toFixed(4)
-                                                                        : (f.gsz ?? '—')}
-                                                                </span>
-                                                            </div>
-                                                            <div className="table-cell text-right change-cell">
-                                                                <span
-                                                                    className={
-                                                                        f.estPricedCoverage > 0.05
-                                                                            ? f.estGszzl > 0
-                                                                                ? 'up'
-                                                                                : f.estGszzl < 0
-                                                                                  ? 'down'
-                                                                                  : ''
-                                                                            : Number(f.gszzl) > 0
-                                                                              ? 'up'
-                                                                              : Number(f.gszzl) < 0
-                                                                                ? 'down'
-                                                                                : ''
-                                                                    }
-                                                                    style={{ fontWeight: 700 }}
-                                                                >
-                                                                    {f.estPricedCoverage > 0.05
-                                                                        ? `${f.estGszzl > 0 ? '+' : ''}${f.estGszzl.toFixed(2)}%`
-                                                                        : typeof f.gszzl === 'number'
-                                                                          ? `${f.gszzl > 0 ? '+' : ''}${f.gszzl.toFixed(2)}%`
-                                                                          : (f.gszzl ?? '—')}
-                                                                </span>
-                                                            </div>
-                                                        </>
-                                                    )
-                                                }
+                                                        </div>
+                                                    </>
+                                                )
                                             })()}
-                                            <div className="table-cell text-right time-cell">
-                                                <span className="muted" style={{ fontSize: '12px' }}>
-                                                    {f.gztime || f.time || '-'}
-                                                </span>
-                                            </div>
-                                            <div className="table-cell text-center action-cell" style={{ gap: 4 }}>
-                                                <button
-                                                    className="icon-button danger"
-                                                    onClick={() => onRemoveFund(f.code)}
-                                                    title="删除"
-                                                    style={{ width: '28px', height: '28px' }}
-                                                >
-                                                    <TrashIcon width="14" height="14" />
-                                                </button>
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <div className="row" style={{ marginBottom: 10 }}>
-                                                <div className="title">
-                                                    {currentTab !== 'all' && currentTab !== 'fav' ? (
-                                                        <button
-                                                            className="icon-button fav-button"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation()
-                                                                onRemoveFromGroup(f.code)
-                                                            }}
-                                                            title="从当前分组移除"
-                                                        >
-                                                            <ExitIcon
-                                                                width="18"
-                                                                height="18"
-                                                                style={{ transform: 'rotate(180deg)' }}
-                                                            />
-                                                        </button>
-                                                    ) : (
-                                                        <button
-                                                            className={`icon-button fav-button ${favorites.has(f.code) ? 'active' : ''}`}
-                                                            onClick={(e) => {
-                                                                e.stopPropagation()
-                                                                onToggleFavorite(f.code)
-                                                            }}
-                                                            title={favorites.has(f.code) ? '取消自选' : '添加自选'}
-                                                        >
-                                                            <StarIcon
-                                                                width="18"
-                                                                height="18"
-                                                                filled={favorites.has(f.code)}
-                                                            />
-                                                        </button>
-                                                    )}
-                                                    <div className="title-text">
-                                                        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                                            {f.name}
-                                                            {f.jzrq === todayStr && (
-                                                                <span
-                                                                    title="今日净值已更新"
-                                                                    style={{
-                                                                        display: 'inline-flex',
-                                                                        alignItems: 'center',
-                                                                        justifyContent: 'center',
-                                                                        width: 16,
-                                                                        height: 16,
-                                                                        borderRadius: '50%',
-                                                                        background: 'rgba(34, 197, 94, 0.2)',
-                                                                        color: '#22c55e',
-                                                                        fontSize: '10px',
-                                                                    }}
-                                                                >
-                                                                    ✓
-                                                                </span>
-                                                            )}
-                                                        </span>
-                                                        <span className="muted">#{f.code}</span>
-                                                    </div>
-                                                </div>
+                                        </div>
 
-                                                <div className="actions">
-                                                    <div className="badge-v">
-                                                        <span>估值时间</span>
-                                                        <strong>{f.gztime || f.time || '-'}</strong>
-                                                    </div>
-                                                    <div className="row" style={{ gap: 4 }}>
-                                                        <button
-                                                            className="icon-button danger"
-                                                            onClick={() => onRemoveFund(f.code)}
-                                                            title="删除"
-                                                            style={{ width: '28px', height: '28px' }}
-                                                        >
-                                                            <TrashIcon width="14" height="14" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="row" style={{ marginBottom: 12 }}>
-                                                <Stat label="单位净值" value={f.dwjz ?? '—'} />
-                                                {(() => {
-                                                    const now = new Date()
-                                                    const isAfter9 = now.getHours() >= 9
-                                                    const hasTodayData = f.jzrq === todayStr
-                                                    const shouldHideChange = isTradingDay && isAfter9 && !hasTodayData
-
-                                                    if (shouldHideChange) return null
-
-                                                    return (
-                                                        <Stat
-                                                            label="涨跌幅"
-                                                            value={
-                                                                f.zzl !== undefined
-                                                                    ? `${f.zzl > 0 ? '+' : ''}${Number(f.zzl).toFixed(2)}%`
-                                                                    : '--'
-                                                            }
-                                                            delta={f.zzl}
-                                                        />
-                                                    )
-                                                })()}
-                                                <Stat
-                                                    label="估值净值"
-                                                    value={
-                                                        f.estPricedCoverage > 0.05
-                                                            ? f.estGsz.toFixed(4)
-                                                            : (f.gsz ?? '—')
-                                                    }
-                                                />
-                                                <Stat
-                                                    label="估值涨跌幅"
-                                                    value={
-                                                        f.estPricedCoverage > 0.05
-                                                            ? `${f.estGszzl > 0 ? '+' : ''}${f.estGszzl.toFixed(2)}%`
-                                                            : typeof f.gszzl === 'number'
-                                                              ? `${f.gszzl > 0 ? '+' : ''}${f.gszzl.toFixed(2)}%`
-                                                              : (f.gszzl ?? '—')
-                                                    }
-                                                    delta={
-                                                        f.estPricedCoverage > 0.05 ? f.estGszzl : Number(f.gszzl) || 0
-                                                    }
-                                                />
-                                            </div>
-
+                                        {/* Sparkline & Holdings Section */}
+                                        <div className="mt-auto pt-4 border-t border-border/50">
                                             {navHistory[f.code] && (
-                                                <div
-                                                    style={{
-                                                        marginBottom: 10,
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        gap: 8,
-                                                    }}
-                                                >
-                                                    <span className="muted" style={{ fontSize: '11px', flexShrink: 0 }}>
-                                                        30日走势
-                                                    </span>
-                                                    <Sparkline data={navHistory[f.code]} width={140} height={24} />
-                                                </div>
-                                            )}
-
-                                            <div className="row" style={{ marginBottom: 12 }}>
-                                                {(() => {
-                                                    const holding = holdings[f.code]
-                                                    const profit = getHoldingProfit(f, holding)
-
-                                                    if (!profit) {
-                                                        return (
-                                                            <div
-                                                                className="stat"
-                                                                style={{ flexDirection: 'column', gap: 4 }}
-                                                            >
-                                                                <span className="label">持仓金额</span>
-                                                                <div
-                                                                    className="value muted"
-                                                                    style={{
-                                                                        fontSize: '14px',
-                                                                        display: 'flex',
-                                                                        alignItems: 'center',
-                                                                        gap: 4,
-                                                                        cursor: 'pointer',
-                                                                    }}
-                                                                    onClick={() => onOpenHoldingModal(f)}
-                                                                >
-                                                                    未设置 <SettingsIcon width="12" height="12" />
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    }
-
-                                                    return (
-                                                        <>
-                                                            <div
-                                                                className="stat"
-                                                                style={{
-                                                                    cursor: 'pointer',
-                                                                    flexDirection: 'column',
-                                                                    gap: 4,
-                                                                }}
-                                                                onClick={() => onOpenActionModal(f)}
-                                                            >
-                                                                <span
-                                                                    className="label"
-                                                                    style={{
-                                                                        display: 'flex',
-                                                                        alignItems: 'center',
-                                                                        gap: 4,
-                                                                    }}
-                                                                >
-                                                                    持仓金额{' '}
-                                                                    <SettingsIcon
-                                                                        width="12"
-                                                                        height="12"
-                                                                        style={{ opacity: 0.7 }}
-                                                                    />
-                                                                </span>
-                                                                <span className="value">
-                                                                    ¥{profit.amount.toFixed(2)}
-                                                                </span>
-                                                            </div>
-                                                            <div
-                                                                className="stat"
-                                                                style={{ flexDirection: 'column', gap: 4 }}
-                                                            >
-                                                                <span className="label">当日盈亏</span>
-                                                                <span
-                                                                    className={`value ${profit.profitToday > 0 ? 'up' : profit.profitToday < 0 ? 'down' : ''}`}
-                                                                >
-                                                                    {profit.profitToday > 0
-                                                                        ? '+'
-                                                                        : profit.profitToday < 0
-                                                                          ? '-'
-                                                                          : ''}
-                                                                    ¥{Math.abs(profit.profitToday).toFixed(2)}
-                                                                </span>
-                                                            </div>
-                                                            {profit.profitTotal !== null && (
-                                                                <div
-                                                                    className="stat"
-                                                                    onClick={(e) => {
-                                                                        e.stopPropagation()
-                                                                        onTogglePercentMode(f.code)
-                                                                    }}
-                                                                    style={{
-                                                                        cursor: 'pointer',
-                                                                        flexDirection: 'column',
-                                                                        gap: 4,
-                                                                    }}
-                                                                    title="点击切换金额/百分比"
-                                                                >
-                                                                    <span className="label">
-                                                                        持有收益{percentModes[f.code] ? '(%)' : ''}
-                                                                    </span>
-                                                                    <span
-                                                                        className={`value ${profit.profitTotal > 0 ? 'up' : profit.profitTotal < 0 ? 'down' : ''}`}
-                                                                    >
-                                                                        {profit.profitTotal > 0
-                                                                            ? '+'
-                                                                            : profit.profitTotal < 0
-                                                                              ? '-'
-                                                                              : ''}
-                                                                        {percentModes[f.code]
-                                                                            ? `${Math.abs(holding.cost * holding.share ? (profit.profitTotal / (holding.cost * holding.share)) * 100 : 0).toFixed(2)}%`
-                                                                            : `¥${Math.abs(profit.profitTotal).toFixed(2)}`}
-                                                                    </span>
-                                                                </div>
-                                                            )}
-                                                        </>
-                                                    )
-                                                })()}
-                                            </div>
-
-                                            {f.estPricedCoverage > 0.05 && (
-                                                <div
-                                                    style={{
-                                                        fontSize: '10px',
-                                                        color: 'var(--muted)',
-                                                        marginTop: -8,
-                                                        marginBottom: 10,
-                                                        textAlign: 'right',
-                                                    }}
-                                                >
-                                                    基于 {Math.round(f.estPricedCoverage * 100)}% 持仓估算
-                                                </div>
-                                            )}
-                                            <div
-                                                style={{ marginBottom: 8, cursor: 'pointer', userSelect: 'none' }}
-                                                className="title"
-                                                onClick={() => onToggleCollapse(f.code)}
-                                            >
-                                                <div className="row" style={{ width: '100%', flex: 1 }}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                                        <span>前10重仓股票</span>
-                                                        <ChevronIcon
-                                                            width="16"
-                                                            height="16"
-                                                            className="muted"
-                                                            style={{
-                                                                transform: collapsedCodes.has(f.code)
-                                                                    ? 'rotate(-90deg)'
-                                                                    : 'rotate(0deg)',
-                                                                transition: 'transform 0.2s ease',
-                                                            }}
-                                                        />
+                                                <div className="mb-4">
+                                                    <div className="flex justify-between items-center mb-2">
+                                                        <span className="text-xs text-muted-foreground flex items-center gap-1">
+                                                            <ActivityIcon className="w-3 h-3" /> 30-Day Trend
+                                                        </span>
                                                     </div>
-                                                    <span className="muted">涨跌幅 / 占比</span>
+                                                    <Sparkline data={navHistory[f.code]} width={200} height={32} color="var(--primary)" />
                                                 </div>
-                                            </div>
+                                            )}
+
+                                            <button
+                                                onClick={() => onToggleCollapse(f.code)}
+                                                className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors group"
+                                            >
+                                                <span className="text-xs font-medium text-muted-foreground group-hover:text-primary transition-colors">
+                                                    Top Holdings
+                                                </span>
+                                                <ChevronIcon
+                                                    width="14"
+                                                    height="14"
+                                                    className={`text-muted-foreground transition-transform duration-200 ${collapsedCodes.has(f.code) ? '-rotate-90' : ''}`}
+                                                />
+                                            </button>
+
                                             <AnimatePresence>
                                                 {!collapsedCodes.has(f.code) && (
                                                     <motion.div
                                                         initial={{ height: 0, opacity: 0 }}
                                                         animate={{ height: 'auto', opacity: 1 }}
                                                         exit={{ height: 0, opacity: 0 }}
-                                                        transition={{ duration: 0.3, ease: 'easeInOut' }}
-                                                        style={{ overflow: 'hidden' }}
+                                                        className="overflow-hidden"
                                                     >
-                                                        {Array.isArray(f.holdings) && f.holdings.length ? (
-                                                            <div className="list">
-                                                                {f.holdings.map((h, idx) => (
-                                                                    <div className="item" key={idx}>
-                                                                        <span className="name">{h.name}</span>
-                                                                        <div className="values">
-                                                                            {typeof h.change === 'number' && (
-                                                                                <span
-                                                                                    className={`badge ${h.change > 0 ? 'up' : h.change < 0 ? 'down' : ''}`}
-                                                                                    style={{ marginRight: 8 }}
-                                                                                >
-                                                                                    {h.change > 0 ? '+' : ''}
-                                                                                    {h.change.toFixed(2)}%
-                                                                                </span>
-                                                                            )}
-                                                                            <span className="weight">{h.weight}</span>
-                                                                        </div>
+                                                        <div className="pt-2 space-y-2">
+                                                            {Array.isArray(f.holdings) && f.holdings.slice(0, 5).map((h, idx) => (
+                                                                <div key={idx} className="flex justify-between text-xs">
+                                                                    <span className="text-foreground/80 truncate max-w-[120px]">{h.name}</span>
+                                                                    <div className="flex gap-3 font-mono">
+                                                                        <span className={h.change > 0 ? 'text-red-500' : 'text-green-500'}>
+                                                                            {h.change > 0 ? '+' : ''}{h.change?.toFixed(2)}%
+                                                                        </span>
+                                                                        <span className="text-muted-foreground">{h.weight}</span>
                                                                     </div>
-                                                                ))}
-                                                            </div>
-                                                        ) : (
-                                                            <div className="muted" style={{ padding: '8px 0' }}>
-                                                                暂无重仓数据
-                                                            </div>
-                                                        )}
-                                                        <HoldingsContribution holdings={f.holdings} />
+                                                                </div>
+                                                            ))}
+                                                        </div>
                                                     </motion.div>
                                                 )}
                                             </AnimatePresence>
-                                        </>
-                                    )}
-                                </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-                </div>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
             </motion.div>
         </AnimatePresence>
+    )
+}
+
+function ActivityIcon({ className }) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={className}
+        >
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+        </svg>
     )
 }
