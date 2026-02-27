@@ -1,100 +1,68 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useCallback, useEffect, useState } from 'react' // Import necessary hooks
-import { TypewriterText } from '@/components/typewriter-text' // Import TypewriterText
-import { Button } from '@/components/ui/button' // Import Button component
-
-// Constants
-const ANIMATION_CONFIG = {
-    TYPING_SPEED: 120,
-    DELETING_SPEED: 100,
-    PAUSE_TIME: 1500,
-    WORDS: ['Universe', 'Future', 'Dreams'] as const, // Example words
-} as const
+import { ArrowRight, Sparkles } from 'lucide-react'
+import Link from 'next/link'
 
 export const HeroSection = () => {
-    const [currentWordIndex, setCurrentWordIndex] = useState(0)
-    const [currentText, setCurrentText] = useState('')
-    const [isDeleting, setIsDeleting] = useState(false)
-
-    const animateText = useCallback(() => {
-        const currentWord = ANIMATION_CONFIG.WORDS[currentWordIndex]
-
-        if (!currentWord) return { newText: '', delay: ANIMATION_CONFIG.TYPING_SPEED }
-
-        if (!isDeleting) {
-            if (currentText !== currentWord) {
-                return {
-                    newText: currentWord.slice(0, currentText.length + 1),
-                    delay: ANIMATION_CONFIG.TYPING_SPEED,
-                }
-            }
-            return {
-                newText: currentText,
-                delay: ANIMATION_CONFIG.PAUSE_TIME,
-                shouldDelete: true,
-            }
-        }
-
-        if (currentText !== '') {
-            return {
-                newText: currentText.slice(0, currentText.length - 1),
-                delay: ANIMATION_CONFIG.DELETING_SPEED,
-            }
-        }
-
-        return {
-            newText: currentText,
-            nextWord: true,
-        }
-    }, [currentWordIndex, currentText, isDeleting])
-
-    useEffect(() => {
-        let timeout: NodeJS.Timeout
-
-        const updateText = () => {
-            const result = animateText()
-
-            if (result.shouldDelete) {
-                timeout = setTimeout(() => setIsDeleting(true), result.delay)
-            } else if (result.nextWord) {
-                setIsDeleting(false)
-                setCurrentWordIndex((prev) => (prev + 1) % ANIMATION_CONFIG.WORDS.length)
-            } else {
-                timeout = setTimeout(() => setCurrentText(result.newText), result.delay)
-            }
-        }
-
-        updateText()
-
-        return () => clearTimeout(timeout)
-    }, [animateText])
-
     return (
-        <section className="min-h-[50vh] w-full my-20 p-10 md:p-16 flex items-center justify-center text-center z-10">
+        <section className="relative w-full py-20 md:py-32 flex items-center justify-center text-center overflow-hidden">
+            {/* Background Gradients */}
+            <div className="absolute inset-0 -z-10">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-primary/10 rounded-full blur-[120px] opacity-50 animate-pulse" />
+                <div className="absolute top-0 right-0 w-[800px] h-[600px] bg-blue-500/5 rounded-full blur-[100px]" />
+                <div className="absolute bottom-0 left-0 w-[800px] h-[600px] bg-purple-500/5 rounded-full blur-[100px]" />
+            </div>
+
             <motion.div
-                className="space-y-8"
+                className="container relative z-10 px-4 space-y-8 max-w-5xl mx-auto"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+                transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
             >
-                <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-foreground">
-                    Build Your AI <TypewriterText text={currentText} />
-                    <span className="block mt-4 text-2xl sm:text-3xl md:text-4xl font-normal">One App at a Time</span>
-                </h2>
-                <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                    Explore our curated collection of innovative AI tools designed to streamline your workflow and boost
-                    productivity.
+                {/* Pill Badge */}
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm text-sm font-medium text-muted-foreground hover:bg-white/10 hover:text-foreground transition-colors cursor-pointer"
+                >
+                    <Sparkles className="w-4 h-4 text-primary" />
+                    <span>Welcome to the Future of Apps</span>
+                    <ArrowRight className="w-3 h-3 ml-1" />
+                </motion.div>
+
+                {/* Main Heading */}
+                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground leading-[1.1]">
+                    All the <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-blue-500">AI Tools</span>
+                    <br /> You Need in One Place.
+                </h1>
+
+                {/* Subheading */}
+                <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-light">
+                    Experience a curated collection of next-generation applications.
+                    From generative art to intelligent automation, power your workflow with cutting-edge AI.
                 </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-12">
-                    <Button size="lg" className="px-8 py-4 text-lg w-full sm:w-auto">
-                        Get Started
-                    </Button>
-                    <Button size="lg" variant="outline" className="px-8 py-4 text-lg w-full sm:w-auto">
-                        Learn More
-                    </Button>
-                </div>
+
+                {/* CTA Buttons */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10"
+                >
+                    <Link href="#explore" className="group w-full sm:w-auto">
+                        <div className="px-8 py-4 rounded-full bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5">
+                            Get Started
+                            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                        </div>
+                    </Link>
+                    <Link href="https://github.com/your-repo" target="_blank" className="w-full sm:w-auto">
+                        <div className="px-8 py-4 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm text-foreground font-semibold text-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2 hover:-translate-y-0.5">
+                            View Source
+                        </div>
+                    </Link>
+                </motion.div>
             </motion.div>
         </section>
     )
