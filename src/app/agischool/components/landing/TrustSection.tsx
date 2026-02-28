@@ -2,7 +2,7 @@ import { BookOpen, FlaskConical, School, ShieldCheck } from 'lucide-react'
 
 export function TrustSection() {
     return (
-        <section className="w-full border-y border-[#e8e8f3] dark:border-gray-800 bg-white dark:bg-surface-dark py-10 px-4 flex justify-center">
+        <section className="w-full border-y border-border bg-white dark:bg-card py-10 px-4 flex justify-center">
             <div className="max-w-[1200px] w-full flex flex-col items-center gap-8">
                 <p className="text-sm font-bold text-text-muted dark:text-gray-400 uppercase tracking-wider text-center">
                     Trusted by 50+ Forward-Thinking Schools
