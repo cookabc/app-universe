@@ -1,6 +1,6 @@
 import type { ApiProvider } from '../types'
 
-export class ApiDispatcher {
+class ApiDispatcher {
     private providers: ApiProvider[]
     private currentIndex = 0
 

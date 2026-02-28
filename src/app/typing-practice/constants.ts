@@ -33,24 +33,4 @@ export const VIRTUAL_KEYBOARD_KEYS = [
 
 export const MOBILE_BREAKPOINT = 768
 
-export const CELEBRATION_EFFECT_CONFIG = {
-    particleCount: 100,
-    gravity: 0.05,
-    colorRange: {
-        hueStart: 0,
-        hueEnd: 360,
-        saturation: 100,
-        lightness: '50%',
-    },
-}
 
-export const TYPING_EFFECT_CONFIG = {
-    particleCount: 5,
-    gravity: 0.1,
-    colorRange: {
-        hueStart: 180,
-        hueEnd: 230,
-        saturation: 100,
-        lightness: '70%',
-    },
-}

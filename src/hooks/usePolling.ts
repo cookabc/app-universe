@@ -129,7 +129,7 @@ interface UseSimplePollingOptions<T> {
     enabled?: boolean
 }
 
-export function useSimplePolling<T>({ fn, interval, enabled = true }: UseSimplePollingOptions<T>): T | null {
+function useSimplePolling<T>({ fn, interval, enabled = true }: UseSimplePollingOptions<T>): T | null {
     const [data, setData] = useState<T | null>(null)
 
     useEffect(() => {
