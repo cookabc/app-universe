@@ -52,13 +52,13 @@ export const HeroSection = () => {
                     className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10"
                 >
                     <Link href="#explore" className="group w-full sm:w-auto">
-                        <div className="px-8 py-4 rounded-full bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5">
+                        <div className="px-8 py-4 rounded-[var(--radius)] bg-primary border-2 border-slate-800 text-primary-foreground font-semibold text-lg hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-[var(--box-shadow)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[calc(var(--box-shadow)_+_4px)]">
                             Get Started
                             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                         </div>
                     </Link>
                     <Link href="https://github.com/your-repo" target="_blank" className="w-full sm:w-auto">
-                        <div className="px-8 py-4 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm text-foreground font-semibold text-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2 hover:-translate-y-0.5">
+                        <div className="px-8 py-4 rounded-[var(--radius)] bg-background border-2 border-slate-800 shadow-[var(--box-shadow)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[calc(var(--box-shadow)_+_4px)] hover:bg-muted text-foreground font-semibold text-lg transition-all flex items-center justify-center gap-2">
                             View Source
                         </div>
                     </Link>
