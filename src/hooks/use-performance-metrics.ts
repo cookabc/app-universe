@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react'
-import type { LayoutShift, PerformanceMetrics } from '@/components/optimized/performance-utils'
+import type { PerformanceMetrics } from '@/components/optimized/performance-utils'
+
+interface LayoutShift extends PerformanceEntry {
+    entryType: 'layout-shift'
+    value: number
+    hadRecentInput: boolean
+    lastInputTime: number
+    sources: Array<unknown>
+}
 import { logger } from '@/lib/logger'
 
 interface UsePerformanceMetricsOptions {

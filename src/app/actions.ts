@@ -70,24 +70,24 @@ export async function continueConversation(history: Message[]) {
 
         const stream = createStreamableValue('')
 
-        ;(async () => {
-            try {
-                const { textStream } = await streamText({
-                    model: openai('gpt-4o-mini'),
-                    system: 'You are a helpful assistant capable of doing anything.',
-                    messages: history,
-                })
+            ; (async () => {
+                try {
+                    const { textStream } = await streamText({
+                        model: openai('gpt-4o-mini'),
+                        system: 'You are a helpful assistant capable of doing anything.',
+                        messages: history,
+                    })
 
-                for await (const delta of textStream) {
-                    stream.update(delta)
+                    for await (const delta of textStream) {
+                        stream.update(delta)
+                    }
+
+                    stream.done()
+                } catch (error) {
+                    stream.error(error)
+                    stream.done()
                 }
-
-                stream.done()
-            } catch (error) {
-                stream.error(error)
-                stream.done()
-            }
-        })()
+            })()
 
         return {
             messages: history,
