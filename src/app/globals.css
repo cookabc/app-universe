@@ -3,6 +3,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+    --font-heading: var(--font-space-grotesk);
+    --font-sans: var(--font-inter);
+    --font-mono: var(--font-jetbrains-mono);
+
     --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
     --background-image-gradient-conic: conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops));
 
@@ -51,10 +55,12 @@
     --color-info: hsl(var(--info));
 
     @keyframes blink {
+
         0%,
         100% {
             opacity: 1;
         }
+
         50% {
             opacity: 0;
         }
@@ -62,6 +68,7 @@
 }
 
 @layer base {
+
     *,
     ::after,
     ::before,
@@ -83,7 +90,7 @@
 
 @layer base {
     :root {
-        --background: 0 0% 100%;
+        --background: 210 40% 98%;
         --foreground: 222.2 84% 4.9%;
 
         --card: 0 0% 100%;
@@ -92,7 +99,7 @@
         --popover: 0 0% 100%;
         --popover-foreground: 222.2 84% 4.9%;
 
-        --primary: 38 92% 50%;
+        --primary: 250 95% 64%;
         --primary-foreground: 0 0% 100%;
 
         --secondary: 210 40% 96.1%;
@@ -118,7 +125,7 @@
 
         --border: 214.3 31.8% 91.4%;
         --input: 214.3 31.8% 91.4%;
-        --ring: 38 92% 50%;
+        --ring: 250 95% 64%;
 
         --chart-1: 12 76% 61%;
         --chart-2: 173 58% 39%;
@@ -130,16 +137,16 @@
     }
 
     .dark {
-        --background: 222.2 84% 4.9%;
+        --background: 222 47% 11%;
         --foreground: 210 40% 98%;
 
-        --card: 222.2 84% 8%;
+        --card: 222 47% 11%;
         --card-foreground: 210 40% 98%;
 
-        --popover: 222.2 84% 8%;
+        --popover: 222 47% 11%;
         --popover-foreground: 210 40% 98%;
 
-        --primary: 38 92% 50%;
+        --primary: 250 95% 64%;
         --primary-foreground: 0 0% 100%;
 
         --secondary: 217.2 32.6% 17.5%;
@@ -165,7 +172,7 @@
 
         --border: 217.2 32.6% 17.5%;
         --input: 217.2 32.6% 17.5%;
-        --ring: 38 92% 50%;
+        --ring: 250 95% 64%;
 
         --chart-1: 220 70% 50%;
         --chart-2: 160 60% 45%;
@@ -179,10 +186,29 @@
     * {
         border-color: var(--color-border);
     }
+
     body {
         box-sizing: border-box;
         background-color: var(--color-background);
         color: var(--color-foreground);
+        font-family: var(--font-sans), sans-serif;
+    }
+
+    /* Global enter animation for a smoother SaaS feel */
+    main {
+        animation: fade-in-up 0.5s ease-out forwards;
+    }
+
+    @keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 }
 
@@ -220,4 +246,22 @@
 .particle:nth-child(3n + 2) {
     width: 4px;
     height: 4px;
+}
+
+@layer utilities {
+    .glass {
+        @apply backdrop-blur-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10;
+    }
+
+    .glass-card {
+        @apply backdrop-blur-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-3xl shadow-lg transition-all duration-300;
+    }
+
+    .glass-card:hover {
+        @apply border-black/20 dark:border-white/20 shadow-primary/20 bg-black/10 dark:bg-white/10;
+    }
+
+    .text-gradient {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600;
+    }
 }
