@@ -295,8 +295,8 @@ export default function HomePage() {
                     fund.estPricedCoverage && fund.estPricedCoverage > 0.05
                         ? fund.estGsz || Number(fund.dwjz)
                         : typeof fund.gsz === 'number'
-                          ? fund.gsz
-                          : Number(fund.dwjz)
+                            ? fund.gsz
+                            : Number(fund.dwjz)
 
                 if (!currentNav) return null
 
@@ -743,14 +743,8 @@ export default function HomePage() {
         searchTimeoutRef.current = setTimeout(() => performSearch(val), 300)
     }
 
-    interface SearchFundResult {
-        CODE: string
-        NAME: string
-        [key: string]: unknown
-    }
-
-    const toggleSelectFund = (fund: SearchFundResult) => {
-        const fundData: FundData = { code: fund.CODE, name: fund.NAME }
+    const toggleSelectFund = (fund: FundData) => {
+        const fundData: FundData = { code: fund.code, name: fund.name }
         setSelectedFunds((prev) => {
             const exists = prev.find((f) => f.code === fundData.code)
             if (exists) {
