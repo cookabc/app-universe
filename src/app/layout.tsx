@@ -1,14 +1,14 @@
 import { ClerkProvider } from '@clerk/nextjs'
 import { ThemeProvider } from 'next-themes'
-import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google'
+import { Plus_Jakarta_Sans, Outfit, JetBrains_Mono } from 'next/font/google'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { Toaster } from '@/components/ui/toaster'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' })
+const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sans' })
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-serif' })
 const jetBrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains-mono' })
 
 export const metadata = {
@@ -31,7 +31,7 @@ export default function RootLayout({
                     rel="stylesheet"
                 />
             </head>
-            <body className={`${inter.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable} antialiased min-w-[320px]`}>
+            <body className={`${plusJakarta.variable} ${outfit.variable} ${jetBrainsMono.variable} antialiased min-w-[320px]`}>
                 <ClerkProvider telemetry={false}>
                     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                         <TooltipProvider delayDuration={300}>
