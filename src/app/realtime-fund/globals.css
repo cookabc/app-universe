@@ -46,8 +46,8 @@
 .rf-wrapper body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background: var(--background);
-    color: var(--foreground);
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
 }
 
 .rf-wrapper .container {
@@ -57,7 +57,7 @@
 }
 
 .rf-wrapper .glass {
-    background: var(--card);
+    background: hsl(var(--card));
     border: 1px solid var(--border);
     border-radius: var(--radius);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -80,7 +80,7 @@
 }
 
 .rf-wrapper .muted {
-    color: var(--muted-foreground);
+    color: hsl(var(--muted-foreground));
 }
 
 .rf-wrapper .grid {
@@ -108,7 +108,7 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--border);
-    background: var(--background);
+    background: hsl(var(--background));
 }
 
 .rf-wrapper .brand {
@@ -140,8 +140,8 @@
     padding: 0 14px;
     border-radius: 0.5rem;
     border: 1px solid var(--border);
-    background: var(--background);
-    color: var(--foreground);
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
     outline: none;
     font-size: 14px;
     transition: border-color 0.2s, box-shadow 0.2s;
@@ -169,7 +169,7 @@
     border-radius: 0.5rem;
     border: none;
     background: var(--primary);
-    color: var(--primary-foreground);
+    color: hsl(var(--primary-foreground));
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.15s, opacity 0.2s;
@@ -184,7 +184,7 @@
 
 .rf-wrapper .card {
     padding: 16px;
-    background: var(--card);
+    background: hsl(var(--card));
     border: 1px solid var(--border);
     border-radius: var(--radius);
 }
@@ -203,7 +203,7 @@
     padding: 6px 10px;
     border-radius: 999px;
     border: 1px solid var(--border);
-    background: var(--background);
+    background: hsl(var(--background));
     font-size: 12px;
 }
 
@@ -215,12 +215,12 @@
     padding: 4px 10px;
     border-radius: 0.5rem;
     border: 1px solid var(--border);
-    background: var(--background);
+    background: hsl(var(--background));
     font-size: 12px;
 }
 .rf-wrapper .badge-v span {
     font-size: 10px;
-    color: var(--muted-foreground);
+    color: hsl(var(--muted-foreground));
 }
 .rf-wrapper .badge-v strong {
     font-size: 11px;
@@ -233,7 +233,7 @@
 }
 .rf-wrapper .stat .label {
     font-size: 12px;
-    color: var(--muted-foreground);
+    color: hsl(var(--muted-foreground));
 }
 .rf-wrapper .stat .value {
     font-size: 20px;
@@ -259,8 +259,8 @@
     .rf-wrapper .card .title { flex-wrap: wrap; }
     .rf-wrapper .item .name { max-width: 100px; font-size: 14px; }
 }
-.rf-wrapper .up { color: var(--destructive); }
-.rf-wrapper .down { color: var(--success); }
+.rf-wrapper .up { color: hsl(var(--destructive)); }
+.rf-wrapper .down { color: hsl(var(--success)); }
 
 .rf-wrapper .list {
     display: grid;
@@ -278,7 +278,7 @@
     padding: 8px 10px;
     border-radius: 0.5rem;
     border: 1px solid var(--border);
-    background: var(--background);
+    background: hsl(var(--background));
 }
 .rf-wrapper .item .name {
     overflow: hidden;
@@ -298,11 +298,11 @@
 .rf-wrapper .empty {
     padding: 24px;
     text-align: center;
-    color: var(--muted-foreground);
+    color: hsl(var(--muted-foreground));
 }
 
 .rf-wrapper .error-text {
-    color: var(--destructive);
+    color: hsl(var(--destructive));
     font-size: 12px;
     margin-top: 4px;
 }
@@ -318,7 +318,7 @@
 .rf-wrapper .footer {
     margin-top: 24px;
     font-size: 12px;
-    color: var(--muted-foreground);
+    color: hsl(var(--muted-foreground));
     text-align: center;
     padding-bottom: 60px;
 }
@@ -337,8 +337,8 @@
     justify-content: center;
     border-radius: 0.5rem;
     border: 1px solid var(--border);
-    background: var(--background);
-    color: var(--muted-foreground);
+    background: hsl(var(--background));
+    color: hsl(var(--muted-foreground));
     cursor: pointer;
     transition: color 0.2s, transform 0.15s;
 }
@@ -350,7 +350,7 @@
     transform: translateY(0);
 }
 .rf-wrapper .icon-button.danger {
-    background: var(--destructive);
+    background: hsl(var(--destructive));
     color: white;
     border: none;
 }
@@ -358,7 +358,7 @@
 .rf-wrapper .fav-button {
     padding: 4px;
     margin-right: 4px;
-    color: var(--muted-foreground);
+    color: hsl(var(--muted-foreground));
     transition: color 0.2s;
     background: transparent;
     border: none;
@@ -396,12 +396,12 @@
     gap: 12px;
     padding: 12px 24px;
     border-bottom: 1px solid var(--border);
-    background: var(--background);
+    background: hsl(var(--background));
     transition: background-color 0.2s;
 }
 
 .rf-wrapper .table-row:hover {
-    background: var(--muted);
+    background: hsl(var(--muted));
 }
 
 .rf-wrapper .table-row:last-child {
@@ -413,13 +413,13 @@
     grid-template-columns: 2fr 1fr 1fr 1.5fr 60px;
     gap: 12px;
     padding: 16px 24px;
-    background: var(--muted);
+    background: hsl(var(--muted));
     border-bottom: 1px solid var(--border);
 }
 
 .rf-wrapper .table-header-cell {
     font-size: 13px;
-    color: var(--foreground);
+    color: hsl(var(--foreground));
     font-weight: 700;
 }
 
@@ -463,8 +463,8 @@
     .rf-wrapper .action-cell { grid-area: action; }
 }
 
-.rf-wrapper .stat-compact .up { color: var(--destructive); }
-.rf-wrapper .stat-compact .down { color: var(--success); }
+.rf-wrapper .stat-compact .up { color: hsl(var(--destructive)); }
+.rf-wrapper .stat-compact .down { color: hsl(var(--success)); }
 
 .rf-wrapper .filter-bar { transition: all 0.3s; }
 
@@ -474,7 +474,7 @@
         top: 60px;
         z-index: 40;
         width: calc(100% + 32px);
-        background: var(--background);
+        background: hsl(var(--background));
         margin: 0 -16px 16px -16px;
         padding: 10px 16px;
         border-bottom: 1px solid var(--border);
@@ -491,7 +491,7 @@
     border-radius: 0.5rem;
     border: none;
     background: transparent;
-    color: var(--muted-foreground);
+    color: hsl(var(--muted-foreground));
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -503,13 +503,13 @@
 }
 
 .rf-wrapper .tab:hover {
-    color: var(--foreground);
-    background: var(--muted);
+    color: hsl(var(--foreground));
+    background: hsl(var(--muted));
 }
 
 .rf-wrapper .tab.active {
     background: var(--primary);
-    color: var(--primary-foreground);
+    color: hsl(var(--primary-foreground));
 }
 
 .rf-wrapper .modal-overlay {
@@ -525,7 +525,7 @@
     width: 560px;
     max-width: 92vw;
     padding: 16px;
-    background: var(--background);
+    background: hsl(var(--background));
     border: 1px solid var(--border);
     border-radius: var(--radius);
 }
@@ -542,8 +542,8 @@
     padding: 0 12px;
     border-radius: 999px;
     border: 1px solid var(--border);
-    background: var(--background);
-    color: var(--foreground);
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
     cursor: pointer;
     transition: all 0.2s;
 }
@@ -553,7 +553,7 @@
 }
 .rf-wrapper .chip.active {
     background: var(--primary);
-    color: var(--primary-foreground);
+    color: hsl(var(--primary-foreground));
     border-color: var(--primary);
 }
 
@@ -616,7 +616,7 @@
     overflow-y: auto;
     z-index: 46;
     padding: 8px;
-    background: var(--background);
+    background: hsl(var(--background));
     border: 1px solid var(--border);
     border-radius: 0.5rem;
 }
@@ -638,7 +638,7 @@
 }
 
 .rf-wrapper .search-item:hover:not(.added) {
-    background: var(--muted);
+    background: hsl(var(--muted));
 }
 
 .rf-wrapper .search-item.selected {
@@ -665,7 +665,7 @@
     height: 20px;
     border-radius: 0.375rem;
     border: 1px solid var(--border);
-    background: var(--background);
+    background: hsl(var(--background));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -688,9 +688,9 @@
 .rf-wrapper .added-label {
     font-size: 11px;
     padding: 2px 8px;
-    background: var(--muted);
+    background: hsl(var(--muted));
     border-radius: 0.25rem;
-    color: var(--muted-foreground);
+    color: hsl(var(--muted-foreground));
 }
 
 .rf-wrapper .no-results {
@@ -746,7 +746,7 @@
     z-index: 41;
 }
 
-.rf-wrapper .group-item:hover { background: var(--muted); }
+.rf-wrapper .group-item:hover { background: hsl(var(--muted)); }
 
 .rf-wrapper .group-item.selected {
     background: hsla(38, 92%, 50%, 0.1);
@@ -801,11 +801,11 @@
     gap: 12px;
     padding: 8px;
     border-radius: var(--radius);
-    background: var(--background);
+    background: hsl(var(--background));
     border: 1px solid var(--border);
 }
 
-.rf-wrapper .group-manage-item:hover { background: var(--muted); }
+.rf-wrapper .group-manage-item:hover { background: hsl(var(--muted)); }
 
 .rf-wrapper .group-manage-item.selected {
     background: hsla(38, 92%, 50%, 0.1);
@@ -821,10 +821,10 @@
     border: none;
     background: transparent;
     font-weight: 500;
-    color: var(--foreground);
+    color: hsl(var(--foreground));
 }
 
-.rf-wrapper .group-rename-input:focus { background: var(--muted); }
+.rf-wrapper .group-rename-input:focus { background: hsl(var(--muted)); }
 
 .rf-wrapper .drag-handle:active { cursor: grabbing; }
 
@@ -832,14 +832,14 @@
     width: 32px;
     height: 32px;
     border-radius: 0.5rem;
-    background: var(--background);
+    background: hsl(var(--background));
     border: 1px dashed var(--border);
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
-    color: var(--muted-foreground);
+    color: hsl(var(--muted-foreground));
 }
 
 .rf-wrapper .add-group-btn:hover {
@@ -851,12 +851,12 @@
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: var(--background);
+    background: hsl(var(--background));
     border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--muted-foreground);
+    color: hsl(var(--muted-foreground));
     transition: all 0.2s;
     flex-shrink: 0;
 }
@@ -879,7 +879,7 @@
 }
 
 .rf-wrapper .group-selector-popup {
-    background: var(--background);
+    background: hsl(var(--background));
     border: 1px solid var(--border);
     border-radius: var(--radius);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
