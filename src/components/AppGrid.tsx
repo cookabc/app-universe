@@ -31,10 +31,10 @@ export function AppGrid() {
             {apps.map((app) => (
                 <motion.div key={app.path} variants={item}>
                     <Link href={app.path} className="group block h-full">
-                        <div className="relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:shadow-2xl hover:shadow-primary/5 dark:border-gray-800 dark:bg-gray-900/50 dark:hover:border-gray-700 dark:hover:bg-gray-800/50">
-                            {/* Glow Effect */}
+                        <div className="relative h-full overflow-hidden rounded-[var(--radius)] border-2 border-slate-800 bg-card p-8 transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 shadow-[var(--box-shadow)] hover:shadow-[calc(var(--box-shadow)_+_4px)]">
+                            {/* Decorative Block */}
                             <div
-                                className="absolute -right-20 -top-20 h-64 w-64 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-20"
+                                className="absolute -right-6 -top-6 h-32 w-32 rounded-[var(--radius)] opacity-20 rotate-12 transition-transform duration-500 group-hover:rotate-45"
                                 style={{ backgroundColor: app.color }}
                             />
 
@@ -42,22 +42,19 @@ export function AppGrid() {
                                 {/* Icon */}
                                 <div className="flex items-center justify-between">
                                     <div
-                                        className="flex h-16 w-16 items-center justify-center rounded-2xl text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
-                                        style={{
-                                            backgroundColor: app.color,
-                                            boxShadow: `0 8px 32px -8px ${app.color}66`,
-                                        }}
+                                        className="flex h-16 w-16 items-center justify-center rounded-[var(--radius)] text-white border-2 border-slate-800 shadow-[var(--box-shadow)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:-translate-x-1"
+                                        style={{ backgroundColor: app.color }}
                                     >
                                         <app.icon className="h-8 w-8" strokeWidth={2} />
                                     </div>
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-muted-foreground transition-all duration-300 group-hover:border-primary/20 group-hover:bg-primary/10 group-hover:text-primary">
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-slate-800 bg-background text-foreground transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground shadow-[var(--box-shadow)]">
                                         <ArrowRight className="h-5 w-5 -rotate-45 transition-transform duration-300 group-hover:rotate-0" />
                                     </div>
                                 </div>
 
                                 {/* Content */}
                                 <div className="space-y-3">
-                                    <h3 className="text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                                    <h3 className="text-2xl font-black font-heading tracking-tight text-foreground transition-colors group-hover:text-primary">
                                         {app.name}
                                     </h3>
                                     <p className="text-base leading-relaxed text-muted-foreground line-clamp-2">
@@ -66,7 +63,7 @@ export function AppGrid() {
                                 </div>
 
                                 {/* Learn More Link */}
-                                <div className="mt-auto flex items-center text-sm font-medium text-primary opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
+                                <div className="mt-auto flex items-center text-sm font-bold text-primary opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
                                     Launch App <ArrowRight className="ml-1 h-4 w-4" />
                                 </div>
                             </div>

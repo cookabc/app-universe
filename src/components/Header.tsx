@@ -7,9 +7,9 @@ import { ThemeSwitch } from '@/components/theme-switch'
 
 export const Header = () => {
     return (
-        <header className="sticky top-0 z-50 w-full glass border-b-0 border-x-0 rounded-none bg-background/60 backdrop-blur-xl">
+        <header className="sticky top-0 z-50 w-full bg-background border-b-2 border-slate-800 shadow-[var(--box-shadow)]">
             <div className="container mx-auto px-4 h-16 flex justify-between items-center">
-                <Link href="/" className="text-2xl font-bold font-heading text-gradient tracking-tight">
+                <Link href="/" className="text-2xl font-black font-heading tracking-tight text-foreground hover:text-primary transition-colors">
                     App Universe
                 </Link>
                 <div className="hidden md:flex items-center space-x-4">
