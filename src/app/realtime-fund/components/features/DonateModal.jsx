@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { CloseIcon } from '../icons'
-import DonateTabs from './DonateTabs'
 
 export default function DonateModal({ isOpen, onClose }) {
     if (!isOpen) return null
@@ -28,9 +27,6 @@ export default function DonateModal({ isOpen, onClose }) {
                     </button>
                 </div>
 
-                <div style={{ marginBottom: 20 }}>
-                    <DonateTabs />
-                </div>
 
                 <div className="muted" style={{ fontSize: '12px', textAlign: 'center', lineHeight: 1.5 }}>
                     感谢您的支持！您的鼓励是我持续维护和更新的动力。

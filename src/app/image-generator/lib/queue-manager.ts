@@ -1,6 +1,6 @@
 import type { GenerationRequest } from '../types'
 
-export class QueueManager {
+class QueueManager {
     private queue: GenerationRequest[] = []
     private processing: GenerationRequest[] = []
     private maxWorkers: number

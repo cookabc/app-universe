@@ -14,7 +14,7 @@ interface State {
 }
 
 // Enhanced error boundary for Next.js 15 with React 19 features
-export class OptimizedErrorBoundary extends Component<Props, State> {
+class OptimizedErrorBoundary extends Component<Props, State> {
     constructor(props: Props) {
         super(props)
         this.state = { hasError: false }
