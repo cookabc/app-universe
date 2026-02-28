@@ -1,35 +1,50 @@
-import { TrendingUp, TrendingDown, Activity } from 'lucide-react'
+import { TrendingUp, TrendingDown } from 'lucide-react'
 
 export default function MarketBar({ indices }) {
     if (!indices || indices.length === 0) return null
 
     return (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-            {indices.map((idx, i) => (
-                <div
-                    key={i}
-                    className="relative overflow-hidden rounded-xl bg-card border border-border/50 p-4 shadow-sm hover:shadow-md transition-all group"
-                >
-                    <div className={`absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity ${idx.change > 0 ? 'text-green-500' : 'text-red-500'}`}>
-                        {idx.change > 0 ? <TrendingUp className="w-12 h-12" /> : <TrendingDown className="w-12 h-12" />}
-                    </div>
+        <div className="market-index-grid">
+            {indices.map((idx, i) => {
+                const isUp = idx.change > 0
+                const isDown = idx.change < 0
+                const accentColor = isUp ? '#22c55e' : isDown ? '#ef4444' : '#94a3b8'
 
-                    <div className="relative z-10">
-                        <div className="text-sm font-medium text-muted-foreground mb-1 flex items-center gap-2">
-                            <Activity className="w-3 h-3" />
-                            {idx.name}
+                return (
+                    <div
+                        key={i}
+                        className="relative overflow-hidden rounded-lg bg-card border-2 border-slate-800 shadow-[var(--box-shadow)] p-4 hover:-translate-x-0.5 hover:-translate-y-0.5 transition-transform group"
+                        style={{ borderLeftColor: accentColor, borderLeftWidth: 4 }}
+                    >
+                        {/* Background icon */}
+                        <div className={`absolute -right-3 -bottom-3 opacity-5 transition-opacity group-hover:opacity-10 ${isUp ? 'text-green-500' : 'text-red-500'}`}>
+                            {isUp ? <TrendingUp className="w-20 h-20" /> : <TrendingDown className="w-20 h-20" />}
                         </div>
-                        <div className="flex items-baseline gap-2">
-                            <span className="text-2xl font-bold font-mono tracking-tight">{idx.price}</span>
+
+                        <div className="relative z-10 min-w-0">
+                            {/* Index Name */}
+                            <p className="text-xs font-semibold text-muted-foreground mb-2 truncate">{idx.name}</p>
+                            {/* Price - full value, no truncation */}
+                            <p className="text-xl font-black font-mono tracking-tight text-foreground leading-none mb-1.5">
+                                {typeof idx.price === 'number'
+                                    ? idx.price.toLocaleString('zh-CN')
+                                    : String(idx.price).replace(/\..+$/, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            </p>
+                            {/* Change badge */}
                             <span
-                                className={`text-sm font-bold flex items-center ${idx.change > 0 ? 'text-green-500' : idx.change < 0 ? 'text-red-500' : 'text-muted-foreground'}`}
+                                className="inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full"
+                                style={{
+                                    backgroundColor: `${accentColor}20`,
+                                    color: accentColor,
+                                }}
                             >
+                                {isUp ? <TrendingUp className="w-3 h-3" /> : isDown ? <TrendingDown className="w-3 h-3" /> : null}
                                 {idx.change > 0 ? '+' : ''}{idx.change}%
                             </span>
                         </div>
                     </div>
-                </div>
-            ))}
+                )
+            })}
         </div>
     )
 }
