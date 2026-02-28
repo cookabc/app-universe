@@ -23,7 +23,7 @@ export function Hero() {
 
                         <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] tracking-tight text-foreground mt-6">
                             Master the Future <br />
-                            with <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">AGI School Plus</span>
+                            with <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">AGI School</span>
                         </h1>
 
                         <p className="text-xl text-muted-foreground max-w-[540px] leading-relaxed mt-4">
