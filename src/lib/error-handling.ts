@@ -19,28 +19,28 @@ export class ValidationError extends AppError {
     }
 }
 
-export class AuthenticationError extends AppError {
+class AuthenticationError extends AppError {
     constructor(message: string = 'Authentication required') {
         super(message, 'AUTHENTICATION_ERROR', 401)
         this.name = 'AuthenticationError'
     }
 }
 
-export class AuthorizationError extends AppError {
+class AuthorizationError extends AppError {
     constructor(message: string = 'Insufficient permissions') {
         super(message, 'AUTHORIZATION_ERROR', 403)
         this.name = 'AuthorizationError'
     }
 }
 
-export class NotFoundError extends AppError {
+class NotFoundError extends AppError {
     constructor(message: string = 'Resource not found') {
         super(message, 'NOT_FOUND_ERROR', 404)
         this.name = 'NotFoundError'
     }
 }
 
-export class NetworkError extends AppError {
+class NetworkError extends AppError {
     constructor(message: string = 'Network request failed') {
         super(message, 'NETWORK_ERROR', 502)
         this.name = 'NetworkError'
@@ -48,7 +48,7 @@ export class NetworkError extends AppError {
 }
 
 // Error handler utility functions
-export function handleError(error: unknown): AppError {
+function handleError(error: unknown): AppError {
     if (error instanceof AppError) {
         return error
     }
@@ -78,7 +78,7 @@ export function handleError(error: unknown): AppError {
     return new AppError(typeof error === 'string' ? error : 'An unknown error occurred', 'UNKNOWN_ERROR', 500, error)
 }
 
-export function logError(error: unknown, context?: string): void {
+function logError(error: unknown, context?: string): void {
     const appError = handleError(error)
 
     console.error(`[${context || 'APP'}] ${appError.code}: ${appError.message}`, {
@@ -89,17 +89,6 @@ export function logError(error: unknown, context?: string): void {
     })
 }
 
-export function createErrorHandler(context: string) {
-    return (error: unknown) => {
-        logError(error, context)
-        return handleError(error)
-    }
-}
-
-// Type guard for error handling
-export function isAppError(error: unknown): error is AppError {
-    return error instanceof AppError
-}
 
 // Response formatting for API routes
 export function formatErrorResponse(error: unknown) {

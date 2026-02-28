@@ -1,6 +1,6 @@
 import { Calendar, GraduationCap, Image, Keyboard, Languages, School, TrendingUp } from 'lucide-react'
 
-export type AppData = {
+type AppData = {
     name: string
     description: string
     color: string
