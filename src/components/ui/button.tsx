@@ -9,12 +9,12 @@ const buttonVariants = cva(
     {
         variants: {
             variant: {
-                default: 'bg-primary bg-gradient-to-r from-primary to-purple-600 text-primary-foreground shadow-lg hover:-translate-y-0.5 hover:shadow-primary/20 transition-all duration-300',
-                destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
-                outline: 'border border-primary/20 bg-background/50 shadow-sm hover:bg-primary/10 hover:text-foreground transition-all',
-                secondary: 'bg-secondary/50 text-secondary-foreground shadow-sm hover:bg-secondary/80 transition-all',
+                default: 'bg-primary text-primary-foreground border-2 border-slate-800 shadow-[var(--box-shadow)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[calc(var(--box-shadow)_+_4px)] transition-all duration-200',
+                destructive: 'bg-destructive text-destructive-foreground border-2 border-slate-800 shadow-[var(--box-shadow)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[calc(var(--box-shadow)_+_4px)] transition-all duration-200',
+                outline: 'border-2 border-slate-800 bg-background shadow-[var(--box-shadow)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[calc(var(--box-shadow)_+_4px)] hover:bg-muted transition-all duration-200',
+                secondary: 'bg-secondary text-secondary-foreground border-2 border-slate-800 shadow-[var(--box-shadow)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[calc(var(--box-shadow)_+_4px)] transition-all duration-200',
                 ghost: 'hover:bg-primary/10 hover:text-foreground transition-all',
-                link: 'text-primary underline-offset-4 hover:underline text-gradient',
+                link: 'text-primary underline-offset-4 hover:underline',
             },
             size: {
                 default: 'h-9 px-5 py-2',
