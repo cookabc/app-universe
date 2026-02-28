@@ -26,7 +26,7 @@ export default function ImageGeneratorClient() {
 
     return (
         <AppErrorBoundary>
-            <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
+            <div className="min-h-[calc(100vh-64px)] bg-background text-foreground transition-colors duration-300">
                 <div className="container mx-auto px-4 py-8 max-w-7xl">
                     {/* Header */}
                     <motion.div

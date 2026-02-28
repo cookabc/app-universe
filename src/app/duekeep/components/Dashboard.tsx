@@ -3,8 +3,7 @@ import { useState } from 'react'
 import type { EventItem } from '../types'
 import { CalendarView } from './CalendarView'
 import { EventCard } from './EventCard'
-import { SettingsView } from './SettingsView'
-import { LayoutDashboard, Calendar, Settings, Plus, Clock, ChevronRight } from 'lucide-react'
+import { LayoutDashboard, Calendar, Plus, Clock, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export const Dashboard: React.FC<{
@@ -12,19 +11,19 @@ export const Dashboard: React.FC<{
     onDelete?: (id: string) => void
     onEdit?: (event: EventItem) => void
     onAdd?: () => void
-    initialTab?: 'home' | 'calendar' | 'settings'
+    initialTab?: 'home' | 'calendar'
 }> = ({ events, onDelete, onEdit, onAdd, initialTab = 'home' }) => {
-    const [activeTab, setActiveTab] = useState<'home' | 'calendar' | 'settings'>(initialTab)
+    const [activeTab, setActiveTab] = useState<'home' | 'calendar'>(initialTab)
 
     return (
         <div className="flex h-screen bg-background text-foreground overflow-hidden">
             {/* Sidebar */}
-            <aside className="w-64 border-r border-border bg-card/50 backdrop-blur-xl p-6 hidden md:flex flex-col gap-8">
+            <aside className="w-64 border-r-2 border-slate-800 bg-card p-6 hidden md:flex flex-col gap-8">
                 <div className="flex items-center gap-3 px-2">
-                    <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
+                    <div className="w-10 h-10 rounded-[var(--radius)] bg-primary border-2 border-slate-800 shadow-[var(--box-shadow)] flex items-center justify-center">
                         <Clock className="w-6 h-6 text-primary-foreground" />
                     </div>
-                    <h2 className="text-xl font-bold tracking-tight">DueKeep</h2>
+                    <h2 className="text-xl font-black tracking-tight">DueKeep</h2>
                 </div>
 
                 <nav className="flex-1 space-y-2">
@@ -40,19 +39,13 @@ export const Dashboard: React.FC<{
                         icon={Calendar}
                         label="Calendar"
                     />
-                    <NavButton
-                        active={activeTab === 'settings'}
-                        onClick={() => setActiveTab('settings')}
-                        icon={Settings}
-                        label="Settings"
-                    />
                 </nav>
 
-                <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/10">
-                    <p className="text-sm font-medium mb-3 text-primary">Need to track something?</p>
+                <div className="p-4 rounded-[var(--radius)] border-2 border-slate-800 bg-primary/10 shadow-[var(--box-shadow)]">
+                    <p className="text-sm font-bold mb-3 text-primary">Need to track something?</p>
                     <button
                         onClick={() => onAdd?.()}
-                        className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground py-3 px-4 rounded-xl font-medium transition-all shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0"
+                        className="w-full flex items-center justify-center gap-2 bg-primary border-2 border-slate-800 shadow-[var(--box-shadow)] hover:-translate-y-0.5 hover:-translate-x-0.5 active:translate-y-0 text-primary-foreground py-3 px-4 rounded-[var(--radius)] font-bold transition-all"
                     >
                         <Plus className="w-5 h-5" />
                         <span>Add New Event</span>
@@ -60,8 +53,8 @@ export const Dashboard: React.FC<{
                 </div>
             </aside>
 
-            {/* Mobile Bottom Nav (Visible only on small screens) */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-card/80 backdrop-blur-lg border-t border-border flex justify-around items-center z-50 px-4 pb-safe">
+            {/* Mobile Bottom Nav */}
+            <div className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-card border-t-2 border-slate-800 flex justify-around items-center z-50 px-4 pb-safe">
                 <MobileNavButton
                     active={activeTab === 'home'}
                     onClick={() => setActiveTab('home')}
@@ -69,7 +62,7 @@ export const Dashboard: React.FC<{
                 />
                 <button
                     onClick={() => onAdd?.()}
-                    className="p-3 bg-primary text-primary-foreground rounded-full shadow-lg shadow-primary/30 -translate-y-4"
+                    className="p-3 bg-primary border-2 border-slate-800 shadow-[var(--box-shadow)] text-primary-foreground rounded-full -translate-y-4"
                 >
                     <Plus className="w-6 h-6" />
                 </button>
@@ -93,7 +86,6 @@ export const Dashboard: React.FC<{
                     >
                         {activeTab === 'home' && <HomeContent events={events} onEdit={onEdit!} onDelete={onDelete!} />}
                         {activeTab === 'calendar' && <CalendarView events={events} />}
-                        {activeTab === 'settings' && <SettingsView />}
                     </motion.div>
                 </AnimatePresence>
             </main>
@@ -104,11 +96,10 @@ export const Dashboard: React.FC<{
 const NavButton = ({ active, onClick, icon: Icon, label }: any) => (
     <button
         onClick={onClick}
-        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200 group ${
-            active
+        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200 group ${active
                 ? 'bg-primary/10 text-primary font-semibold'
                 : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-        }`}
+            }`}
     >
         <Icon className={`w-5 h-5 transition-colors ${active ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'}`} />
         <span>{label}</span>
@@ -119,9 +110,8 @@ const NavButton = ({ active, onClick, icon: Icon, label }: any) => (
 const MobileNavButton = ({ active, onClick, icon: Icon }: any) => (
     <button
         onClick={onClick}
-        className={`p-2 rounded-lg transition-colors ${
-            active ? 'text-primary' : 'text-muted-foreground'
-        }`}
+        className={`p-2 rounded-lg transition-colors ${active ? 'text-primary' : 'text-muted-foreground'
+            }`}
     >
         <Icon className="w-6 h-6" />
     </button>
@@ -159,7 +149,7 @@ const HomeContent: React.FC<{
                             {todayStr}
                         </p>
                         <h1 className="text-4xl font-bold tracking-tight text-foreground">
-                            Good Morning, <br/>
+                            Good Morning, <br />
                             <span className="text-primary">Creator</span>
                         </h1>
                     </div>
@@ -180,11 +170,10 @@ const HomeContent: React.FC<{
                         <button
                             key={f}
                             onClick={() => setFilter(f as any)}
-                            className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
-                                filter === f
+                            className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${filter === f
                                     ? 'bg-foreground text-background shadow-md'
                                     : 'bg-background border border-border text-muted-foreground hover:border-foreground/20'
-                            }`}
+                                }`}
                         >
                             {f.charAt(0).toUpperCase() + f.slice(1)}
                         </button>

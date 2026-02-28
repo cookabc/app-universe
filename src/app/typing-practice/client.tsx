@@ -159,7 +159,7 @@ export default function TypingPracticeClient() {
 
     return (
         <GameErrorBoundary>
-            <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background text-foreground transition-colors duration-300">
+            <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-4 bg-background text-foreground transition-colors duration-300">
                 <TypingEffect ref={effectRef} />
                 {showCelebration && <CelebrationEffect key={celebrationKey} />}
 
@@ -228,13 +228,12 @@ export default function TypingPracticeClient() {
                                     ref={(el) => {
                                         if (el) charsRef.current[index] = el
                                     }}
-                                    className={`transition-colors duration-100 ${
-                                        index < userInput.length
+                                    className={`transition-colors duration-100 ${index < userInput.length
                                             ? userInput[index] === char
                                                 ? 'text-foreground'
                                                 : 'text-red-500'
                                             : 'text-muted-foreground/20'
-                                    } ${index === currentIndex + 1 ? 'border-b-2 border-primary' : ''}`}
+                                        } ${index === currentIndex + 1 ? 'border-b-2 border-primary' : ''}`}
                                 >
                                     {char === ' ' ? '\u00A0' : char}
                                 </span>
