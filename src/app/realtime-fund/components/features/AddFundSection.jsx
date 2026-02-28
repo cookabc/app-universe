@@ -45,8 +45,8 @@ export default function AddFundSection({
                         {selectedFunds.length > 0 && (
                             <div className="selected-inline-chips">
                                 {selectedFunds.map((fund) => (
-                                    <div key={fund.CODE} className="fund-chip">
-                                        <span>{fund.NAME}</span>
+                                    <div key={fund.code} className="fund-chip">
+                                        <span>{fund.name}</span>
                                         <button
                                             type="button"
                                             onClick={() => onToggleSelectFund(fund)}
@@ -78,33 +78,33 @@ export default function AddFundSection({
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
-                            className="search-dropdown glass"
+                            className="absolute mt-2 left-0 right-0 max-h-[320px] overflow-y-auto z-50 p-2 bg-background rounded-xl shadow-xl border border-border"
                         >
                             {searchResults.length > 0 ? (
-                                <div className="search-results">
-                                    {searchResults.map((fund) => {
-                                        const isSelected = selectedFunds.some((f) => f.CODE === fund.CODE)
-                                        const isAlreadyAdded = existingFunds.some((f) => f.code === fund.CODE)
+                                <div className="flex flex-col gap-1">
+                                    {searchResults.map((fund, index) => {
+                                        const isSelected = selectedFunds.some((f) => f.code === fund.code)
+                                        const isAlreadyAdded = existingFunds.some((f) => f.code === fund.code)
                                         return (
                                             <div
-                                                key={fund.CODE}
-                                                className={`search-item ${isSelected ? 'selected' : ''} ${isAlreadyAdded ? 'added' : ''}`}
+                                                key={`${fund.code}-${index}`}
+                                                className={`flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer transition-colors ${isSelected ? 'bg-primary/10 border-primary/30 border' : 'hover:bg-muted'} ${isAlreadyAdded ? 'opacity-50 cursor-not-allowed' : ''}`}
                                                 onClick={() => {
                                                     if (isAlreadyAdded) return
                                                     onToggleSelectFund(fund)
                                                 }}
                                             >
-                                                <div className="fund-info">
-                                                    <span className="fund-name">{fund.NAME}</span>
-                                                    <span className="fund-code muted">
-                                                        #{fund.CODE} | {fund.TYPE}
+                                                <div className="flex flex-col gap-0.5">
+                                                    <span className="text-sm font-semibold text-foreground">{fund.name}</span>
+                                                    <span className="text-xs text-muted-foreground">
+                                                        #{fund.code}
                                                     </span>
                                                 </div>
                                                 {isAlreadyAdded ? (
-                                                    <span className="added-label">已添加</span>
+                                                    <span className="text-[11px] px-2 py-0.5 bg-muted rounded text-muted-foreground">已添加</span>
                                                 ) : (
-                                                    <div className="checkbox">
-                                                        {isSelected && <div className="checked-mark" />}
+                                                    <div className={`w-5 h-5 rounded flex items-center justify-center border transition-all ${isSelected ? 'bg-primary border-primary' : 'bg-background border-border border-2'}`}>
+                                                        {isSelected && <div className="w-2.5 h-1.5 border-b-2 border-l-2 border-white -rotate-45 -translate-y-[1px]" />}
                                                     </div>
                                                 )}
                                             </div>
@@ -112,7 +112,7 @@ export default function AddFundSection({
                                     })}
                                 </div>
                             ) : searchTerm.trim() && !isSearching ? (
-                                <div className="no-results muted">未找到相关基金</div>
+                                <div className="p-5 text-center text-sm text-muted-foreground">未找到相关基金</div>
                             ) : null}
                         </motion.div>
                     )}
@@ -120,7 +120,7 @@ export default function AddFundSection({
             </div>
 
             {error && (
-                <div className="muted" style={{ marginTop: 8, color: 'var(--danger)' }}>
+                <div className="mt-2 text-sm text-destructive">
                     {error}
                 </div>
             )}
