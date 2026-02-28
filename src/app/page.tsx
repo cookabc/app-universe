@@ -27,11 +27,11 @@ export default function HomePage() {
                 </div>
             </AppErrorBoundary>
 
-            <div className="container mx-auto my-40 px-4 text-center">
+            <div className="container max-w-7xl mx-auto my-32 px-4 text-center">
                 <AppGrid />
             </div>
 
-            <div className="container mx-auto my-20 sm:my-40 px-4 text-center">
+            <div className="container max-w-7xl mx-auto my-20 sm:my-32 px-4 text-center">
                 <h2 className="mt-16 sm:mt-60 mb-10 sm:mb-20 text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
                     Trusted by Developers at Leading AI Companies
                 </h2>
