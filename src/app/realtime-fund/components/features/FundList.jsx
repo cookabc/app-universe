@@ -32,7 +32,7 @@ export default function FundList({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className={viewMode === 'card' ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6' : 'rounded-xl border border-border bg-card overflow-hidden shadow-sm'}
+                className={viewMode === 'card' ? 'fund-card-grid' : 'rounded-xl border border-border bg-card overflow-hidden shadow-sm'}
             >
                 {viewMode === 'list' && (
                     <div className="grid grid-cols-12 gap-4 p-4 border-b border-border bg-muted/30 text-xs font-medium text-muted-foreground uppercase tracking-wider">
