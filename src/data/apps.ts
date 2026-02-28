@@ -39,7 +39,7 @@ const apps: AppData[] = [
         icon: Calendar,
     },
     {
-        name: 'AGI School Plus',
+        name: 'AGI School',
         description: 'Complete education platform with courses',
         color: '#f97316',
         path: '/agischool',
