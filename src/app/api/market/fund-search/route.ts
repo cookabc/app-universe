@@ -29,7 +29,7 @@ export async function GET(request: Request) {
             data = JSON.parse(text) as EastMoneySearchResponse
         } catch {
             const match = text.match(/\w+\((\{[\s\S]*\})\)/)
-            if (match) data = JSON.parse(match[1]) as EastMoneySearchResponse
+            if (match && match[1]) data = JSON.parse(match[1]) as EastMoneySearchResponse
         }
 
         if (!data?.Datas) return NextResponse.json([])

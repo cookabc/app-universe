@@ -21,7 +21,7 @@ export async function GET(request: Request) {
         })
         const text = await res.text()
         const match = text.match(/var\s+Data_netWorthTrend\s*=\s*(\[[\s\S]*?\]);/)
-        if (match) {
+        if (match && match[1]) {
             const raw: NetWorthPoint[] = JSON.parse(match[1])
             const trend = raw.slice(-30).map((item) => ({
                 date: new Date(item.x).toISOString().slice(0, 10),
