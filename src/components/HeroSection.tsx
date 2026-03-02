@@ -57,7 +57,7 @@ export const HeroSection = () => {
                             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                         </div>
                     </Link>
-                    <Link href="https://github.com/your-repo" target="_blank" className="w-full sm:w-auto">
+                    <Link href={process.env.NEXT_PUBLIC_GITHUB_URL ?? '#'} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                         <div className="px-8 py-4 rounded-[var(--radius)] bg-background border-2 border-slate-800 shadow-[var(--box-shadow)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[calc(var(--box-shadow)_+_4px)] hover:bg-muted text-foreground font-semibold text-lg transition-all flex items-center justify-center gap-2">
                             View Source
                         </div>
