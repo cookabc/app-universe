@@ -4,14 +4,6 @@ import { apiDispatcher } from './lib/api-dispatcher'
 import { queueManager } from './lib/queue-manager'
 import type { GenerationRequest } from './types'
 
-// This is not a robust way to handle background jobs, but it's fine for a demo.
-setInterval(() => {
-    const request = queueManager.getNext()
-    if (request) {
-        processImageRequest(request)
-    }
-}, 1000) // Check for new requests every second
-
 async function processImageRequest(request: GenerationRequest) {
     const { success } = await apiDispatcher.dispatch()
     queueManager.complete(request.id, success)
@@ -20,6 +12,9 @@ async function processImageRequest(request: GenerationRequest) {
 
 export async function generateImageAction(prompt: string, negativePrompt: string) {
     const request = queueManager.add(prompt, negativePrompt)
+    // Process immediately instead of relying on a module-level setInterval,
+    // which does not survive serverless cold starts.
+    processImageRequest(request).catch(console.error)
     return {
         success: true,
         requestId: request.id,
