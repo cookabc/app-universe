@@ -596,19 +596,44 @@ export default function HomePage() {
                             let holdings: FundHolding[] = []
                             const html = window.apidata?.content ?? ''
                             const rows = html.match(/<tr[\s\S]*?<\/tr>/gi) || []
+                            const TD_REGEX = /<td[\s\S]*?>([\s\S]*?)<\/td>/gi
+                            const TAG_REGEX = /<[^>]*>/g
+                            const CODE_REGEX = /^\d{6}$/
+                            const WEIGHT_REGEX = /\d+(?:\.\d+)?\s*%/
+                            let codeIdx = -1
+                            let weightIdx = -1
+
                             for (const r of rows) {
-                                const cells = (r.match(/<td[\s\S]*?>([\s\S]*?)<\/td>/gi) || []).map((td: string) =>
-                                    td.replace(/<[^>]*>/g, '').trim(),
-                                )
-                                const codeIdx = cells.findIndex((txt: string) => /^\d{6}$/.test(txt))
-                                const weightIdx = cells.findIndex((txt: string) => /\d+(?:\.\d+)?\s*%/.test(txt))
-                                if (codeIdx >= 0 && weightIdx >= 0) {
-                                    holdings.push({
-                                        code: cells[codeIdx]!,
-                                        name: cells[codeIdx + 1] ?? '',
-                                        weight: cells[weightIdx]!,
-                                        change: null,
-                                    })
+                                const tdMatches = r.match(TD_REGEX)
+                                if (!tdMatches) continue
+
+                                if (codeIdx === -1 || weightIdx === -1) {
+                                    const cells = tdMatches.map((td: string) => td.replace(TAG_REGEX, '').trim())
+                                    codeIdx = cells.findIndex((txt: string) => CODE_REGEX.test(txt))
+                                    weightIdx = cells.findIndex((txt: string) => WEIGHT_REGEX.test(txt))
+
+                                    if (codeIdx >= 0 && weightIdx >= 0) {
+                                        holdings.push({
+                                            code: cells[codeIdx]!,
+                                            name: cells[codeIdx + 1] ?? '',
+                                            weight: cells[weightIdx]!,
+                                            change: null,
+                                        })
+                                    }
+                                } else if (codeIdx < tdMatches.length && weightIdx < tdMatches.length) {
+                                    const code = tdMatches[codeIdx]!.replace(TAG_REGEX, '').trim()
+                                    if (CODE_REGEX.test(code)) {
+                                        const weight = tdMatches[weightIdx]!.replace(TAG_REGEX, '').trim()
+                                        const nameTd = tdMatches[codeIdx + 1]
+                                        const name = nameTd ? nameTd.replace(TAG_REGEX, '').trim() : ''
+
+                                        holdings.push({
+                                            code,
+                                            name,
+                                            weight,
+                                            change: null,
+                                        })
+                                    }
                                 }
                             }
 
