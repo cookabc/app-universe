@@ -1,9 +1,8 @@
 'use client'
 
-import { RotateCcw, Lock, TriangleAlert, Keyboard } from 'lucide-react'
+import { RotateCcw, Lock, Keyboard } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { GameErrorBoundary } from '@/components/optimized/error-boundary'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { CelebrationEffect } from './celebration-effect'
@@ -21,7 +20,6 @@ export default function TypingPracticeClient() {
     const [celebrationKey, setCelebrationKey] = useState(0)
     const [cursorPosition, setCursorPosition] = useState({ left: 0, top: 0 })
     const [isCapsLockOn, setIsCapsLockOn] = useState(false)
-    const [capsLock, setCapsLock] = useState(false)
 
     const [_isPending, startTransition] = useTransition()
 
@@ -190,15 +188,7 @@ export default function TypingPracticeClient() {
                 </motion.div>
 
                 <div className="w-full max-w-4xl px-4 sm:px-8 flex flex-col gap-8">
-                    {capsLock && (
-                        <Alert variant="destructive" className="animate-in fade-in slide-in-from-top-2">
-                            <TriangleAlert className="h-4 w-4" />
-                            <AlertTitle>Caps Lock is on</AlertTitle>
-                            <AlertDescription>Please turn off Caps Lock to avoid typing errors.</AlertDescription>
-                        </Alert>
-                    )}
-
-                    {/* Main Typing Area */}
+                    {/* Main Typing Area */
                     <div className="relative group">
                         <div
                             ref={textDisplayRef}
