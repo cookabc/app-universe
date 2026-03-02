@@ -16,76 +16,45 @@
         "enabled": true,
         "rules": {
             "recommended": true,
-            "complexity": {
-                "noForEach": "off"
-            },
-            "suspicious": {
-                "noExplicitAny": "off"
-            },
-            "style": {
-                "useConsistentArrayType": "off"
-            },
             "a11y": {
-                "noSvgWithoutTitle": "off",
-                "useButtonType": "off",
+                "noAutofocus": "off",
                 "noLabelWithoutControl": "off",
                 "noStaticElementInteractions": "off",
-                "useKeyWithClickEvents": "off",
-                "useSemanticElements": "off"
-            },
-            "correctness": {
-                "useExhaustiveDependencies": "off"
-            },
-            "suspicious": {
-                "noExplicitAny": "off",
-                "noArrayIndexKey": "off",
-                "useIterableCallbackReturn": "off",
-                "noAsyncPromiseExecutor": "off",
-                "noUnknownAtRules": "off",
-                "noShadowRestrictedNames": "off"
-            },
-            "correctness": {
-                "useExhaustiveDependencies": "off",
-                "useUniqueElementIds": "off"
-            },
-            "a11y": {
                 "noSvgWithoutTitle": "off",
                 "useButtonType": "off",
-                "noLabelWithoutControl": "off",
-                "noStaticElementInteractions": "off",
                 "useKeyWithClickEvents": "off",
                 "useSemanticElements": "off",
-                "useValidAnchor": "off",
-                "noAutofocus": "off"
+                "useValidAnchor": "off"
+            },
+            "complexity": {
+                "noForEach": "off",
+                "noImportantStyles": "off",
+                "noUselessFragments": "off",
+                "useOptionalChain": "off"
+            },
+            "correctness": {
+                "noUnusedFunctionParameters": "warn",
+                "noUnusedImports": "warn",
+                "noUnusedVariables": "warn",
+                "useExhaustiveDependencies": "off",
+                "useUniqueElementIds": "off"
             },
             "performance": {
                 "noImgElement": "off"
             },
-            "suspicious": {
-                "noExplicitAny": "off",
-                "noArrayIndexKey": "off",
-                "useIterableCallbackReturn": "off",
-                "noAsyncPromiseExecutor": "off",
-                "noUnknownAtRules": "off",
-                "noShadowRestrictedNames": "off",
-                "noGlobalIsNan": "off"
-            },
-            "complexity": {
-                "useOptionalChain": "off",
-                "noImportantStyles": "off",
-                "noUselessFragments": "off"
-            },
-            "correctness": {
-                "useExhaustiveDependencies": "off",
-                "useUniqueElementIds": "off",
-                "noUnusedImports": "off",
-                "noUnusedVariables": "off",
-                "noUnusedFunctionParameters": "off"
-            },
             "style": {
-                "useConsistentArrayType": "off",
                 "noNonNullAssertion": "off",
+                "useConsistentArrayType": "off",
                 "useTemplate": "off"
+            },
+            "suspicious": {
+                "noArrayIndexKey": "off",
+                "noAsyncPromiseExecutor": "off",
+                "noExplicitAny": "off",
+                "noGlobalIsNan": "off",
+                "noShadowRestrictedNames": "off",
+                "noUnknownAtRules": "off",
+                "useIterableCallbackReturn": "off"
             }
         }
     },
