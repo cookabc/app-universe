@@ -3,6 +3,7 @@
 import { apiDispatcher } from './lib/api-dispatcher'
 import { queueManager } from './lib/queue-manager'
 import type { GenerationRequest } from './types'
+import { auth } from '@clerk/nextjs/server'
 
 // This is not a robust way to handle background jobs, but it's fine for a demo.
 setInterval(() => {
@@ -19,6 +20,9 @@ async function processImageRequest(request: GenerationRequest) {
 }
 
 export async function generateImageAction(prompt: string, negativePrompt: string) {
+    const { userId } = await auth()
+    if (!userId) throw new Error('Unauthorized')
+
     const request = queueManager.add(prompt, negativePrompt)
     return {
         success: true,
@@ -27,14 +31,23 @@ export async function generateImageAction(prompt: string, negativePrompt: string
 }
 
 export async function getQueueStatusAction() {
+    const { userId } = await auth()
+    if (!userId) throw new Error('Unauthorized')
+
     return queueManager.getStatus()
 }
 
 export async function getProviderStatusAction() {
+    const { userId } = await auth()
+    if (!userId) throw new Error('Unauthorized')
+
     return apiDispatcher.getProviderStatus()
 }
 
 export async function getGenerationStatusAction(requestId: string): Promise<GenerationRequest | { error: string }> {
+    const { userId } = await auth()
+    if (!userId) throw new Error('Unauthorized')
+
     const request = queueManager.getRequest(requestId)
     if (request) {
         // In a real app, you would return the image URL when completed.
