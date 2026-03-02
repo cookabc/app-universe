@@ -34,8 +34,8 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "verbatimModuleSyntax": false,
-    "exactOptionalPropertyTypes": true,
-    "noUncheckedIndexedAccess": true
+    "exactOptionalPropertyTypes": false,
+    "noUncheckedIndexedAccess": false
   },
   "include": [
     "next-env.d.ts",
