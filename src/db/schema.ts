@@ -14,7 +14,7 @@ export const users = pgTable('users', {
 export const artifacts = pgTable('artifacts', {
     id: serial('id').primaryKey(),
     userId: integer('user_id')
-        .references(() => users.id)
+        .references(() => users.id, { onDelete: 'cascade' })
         .notNull(),
     role: text('role', { enum: ['user', 'assistant'] }).notNull(),
     content: text('content').notNull(),
@@ -26,7 +26,7 @@ export const artifacts = pgTable('artifacts', {
 export const prompts = pgTable('prompts', {
     id: serial('id').primaryKey(),
     userId: integer('user_id')
-        .references(() => users.id)
+        .references(() => users.id, { onDelete: 'cascade' })
         .notNull(),
     name: text('name').notNull(),
     description: text('description'),
