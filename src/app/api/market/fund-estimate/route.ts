@@ -14,8 +14,8 @@ export async function GET(request: Request) {
         })
         const text = await res.text()
         // Strip JSONP wrapper: jsonpgz({...})
-        const match = text.match(/jsonpgz\((\{[^)]+\})\)/)
-        if (match) {
+        const match = text.match(/jsonpgz\((\{[^)]+\))\)/)
+        if (match && match[1]) {
             const json = JSON.parse(match[1])
             return NextResponse.json(json)
         }
