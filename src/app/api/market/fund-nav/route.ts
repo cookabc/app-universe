@@ -14,7 +14,7 @@ export async function GET(request: Request) {
         })
         const text = await res.text()
         const match = text.match(new RegExp(`v_jj${code}="([^"]+)"`))
-        if (match) {
+        if (match && match[1]) {
             const parts = match[1].split('~')
             return NextResponse.json({
                 dwjz: parts[5] ?? '',

@@ -16,7 +16,7 @@ export async function GET() {
 
         const indices = mapping.flatMap(({ key, name }) => {
             const match = text.match(new RegExp(`${key}="([^"]+)"`))
-            if (!match) return []
+            if (!match || !match[1]) return []
             const parts = match[1].split('~')
             if (parts.length <= 5) return []
             return [{ name, price: parts[3] ?? '', change: parseFloat(parts[5] ?? '0') }]
