@@ -63,7 +63,7 @@ export function useLanguageConverter({ uiLanguage }: UseLanguageConverterProps) 
         }
 
         const newHistoryItem: ConversionHistoryItem = {
-            id: Date.now().toString(),
+            id: crypto.randomUUID(),
             input: inputText,
             output: '...',
             from: activeTab === 'translation' ? fromLang : fromType,
