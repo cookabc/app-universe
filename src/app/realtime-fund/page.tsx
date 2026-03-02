@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
@@ -55,38 +54,11 @@ interface Group {
     codes: string[]
 }
 
-interface FundGzResponse {
-    fundcode: string
-    name: string
-    dwjz: string
-    gsz: string
-    gztime: string
-    jzrq: string
-    gszzl: string | number
-}
-
-interface TencentFundData {
-    dwjz: string
-    zzl: number
-    jzrq: string
-}
-
 interface FundHolding {
     code: string
     name: string
     weight: string
     change: number | null
-}
-
-interface ApidataContent {
-    content?: string
-}
-
-declare global {
-    interface Window {
-        apidata?: ApidataContent
-        [key: string]: unknown
-    }
 }
 
 export default function HomePage() {
@@ -150,98 +122,44 @@ export default function HomePage() {
     const today = new Date()
     const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
 
-    const checkTradingDay = () => {
+    const checkTradingDay = useCallback(async () => {
         const now = new Date()
-        const isWeekend = now.getDay() === 0 || now.getDay() === 6
-
-        if (isWeekend) {
+        if (now.getDay() === 0 || now.getDay() === 6) {
             setIsTradingDay(false)
             return
         }
-
-        const script = document.createElement('script')
-        script.src = `https://qt.gtimg.cn/q=sh000001&_t=${Date.now()}`
-        script.onload = () => {
-            const data = window.v_sh000001
-            if (data) {
-                const parts = data.split('~')
-                if (parts.length > 30 && parts[30]) {
-                    const dateStr = parts[30].slice(0, 8)
-                    const currentStr = todayStr.replace(/-/g, '')
-
-                    if (dateStr === currentStr) {
-                        setIsTradingDay(true)
-                    } else {
-                        const minutes = now.getHours() * 60 + now.getMinutes()
-                        if (minutes >= 9 * 60 + 30) {
-                            setIsTradingDay(false)
-                        } else {
-                            setIsTradingDay(true)
-                        }
-                    }
-                }
-            }
-            document.body.removeChild(script)
+        try {
+            const res = await fetch('/api/market/trading-day')
+            const data = await res.json() as { isTradingDay: boolean }
+            setIsTradingDay(data.isTradingDay)
+        } catch {
+            setIsTradingDay(true)
         }
-        script.onerror = () => {
-            document.body.removeChild(script)
-            setIsTradingDay(!isWeekend)
-        }
-        document.body.appendChild(script)
-    }
+    }, [])
 
-    const fetchMarketIndices = () => {
-        const script = document.createElement('script')
-        script.src = `https://qt.gtimg.cn/q=s_sh000001,s_sz399001,s_sz399006&_t=${Date.now()}`
-        script.onload = () => {
-            const indices: Array<{ name: string; price: string; change: number }> = []
-            const mapping = [
-                { key: 'v_s_sh000001', name: '上证' },
-                { key: 'v_s_sz399001', name: '深证' },
-                { key: 'v_s_sz399006', name: '创业板' },
-            ]
-            mapping.forEach(({ key, name }) => {
-                const data = window[key as keyof Window] as string | undefined
-                if (data && typeof data === 'string') {
-                    const parts = data.split('~')
-                    if (parts.length > 5) {
-                        indices.push({ name, price: parts[3]!, change: parseFloat(parts[5]!) })
-                    }
-                }
-            })
-            if (indices.length) setMarketIndices(indices)
-            if (document.body.contains(script)) document.body.removeChild(script)
+    const fetchMarketIndices = useCallback(async () => {
+        try {
+            const res = await fetch('/api/market/indices')
+            const data = await res.json() as MarketIndex[]
+            if (Array.isArray(data) && data.length) setMarketIndices(data)
+        } catch (e) {
+            console.error('获取市场指数失败', e)
         }
-        script.onerror = () => {
-            if (document.body.contains(script)) document.body.removeChild(script)
-        }
-        document.body.appendChild(script)
-    }
+    }, [])
 
-    const fetchNavHistory = (code: string) => {
+    const fetchNavHistory = useCallback(async (code: string) => {
         if (navHistoryFetchedRef.current.has(code)) return
         navHistoryFetchedRef.current.add(code)
-        const script = document.createElement('script')
-        script.src = `https://fund.eastmoney.com/pingzhongdata/${code}.js?v=${Date.now()}`
-        script.onload = () => {
-            const trend = window.Data_netWorthTrend
-            if (Array.isArray(trend) && trend.length > 0) {
-                const last30 = trend.slice(-30)
-                setNavHistory((prev) => ({ ...prev, [code]: last30 }))
+        try {
+            const res = await fetch(`/api/market/fund-history?code=${encodeURIComponent(code)}`)
+            const data = await res.json() as Array<{ date: string; value: number }>
+            if (Array.isArray(data) && data.length) {
+                setNavHistory((prev) => ({ ...prev, [code]: data }))
             }
-            window.Data_netWorthTrend = undefined
-            window.Data_ACWorthTrend = undefined
-            window.Data_grandTotal = undefined
-            window.Data_rateInSimilarType = undefined
-            window.Data_rateInSimilarPersent = undefined
-            window.Data_fundSharesPositions = undefined
-            if (document.body.contains(script)) document.body.removeChild(script)
+        } catch (e) {
+            console.error(`获取基金 ${code} 历史净值失败`, e)
         }
-        script.onerror = () => {
-            if (document.body.contains(script)) document.body.removeChild(script)
-        }
-        document.body.appendChild(script)
-    }
+    }, [])
 
     useEffect(() => {
         checkTradingDay()
@@ -514,170 +432,46 @@ export default function HomePage() {
         }
     }, [funds, refreshMs])
 
-    const loadScript = (url: string) => {
-        return new Promise<void>((resolve, reject) => {
-            const script = document.createElement('script')
-            script.src = url
-            script.async = true
-            script.onload = () => {
-                document.body.removeChild(script)
-                resolve()
-            }
-            script.onerror = () => {
-                document.body.removeChild(script)
-                reject(new Error('数据加载失败'))
-            }
-            document.body.appendChild(script)
-        })
-    }
+    const fetchFundData = async (c: string): Promise<FundData> => {
+        const [estimateRes, navRes, holdingsRes] = await Promise.allSettled([
+            fetch(`/api/market/fund-estimate?code=${c}`),
+            fetch(`/api/market/fund-nav?code=${c}`),
+            fetch(`/api/market/fund-holdings?code=${c}`),
+        ])
 
-    const fetchFundData = async (c: string) => {
-        return new Promise<FundData>(async (resolve, reject) => {
-            const getTencentPrefix = (code: string) => {
-                if (code.startsWith('6') || code.startsWith('9')) return 'sh'
-                if (code.startsWith('0') || code.startsWith('3')) return 'sz'
-                if (code.startsWith('4') || code.startsWith('8')) return 'bj'
-                return 'sz'
-            }
+        let fundData: FundData = { code: c, name: '' }
 
-            const gzUrl = `https://fundgz.1234567.com.cn/js/${c}.js?rt=${Date.now()}`
-            const currentCallback = `jsonpgz_${c}_${Math.random().toString(36).slice(2, 7)}`
-            const scriptGz = document.createElement('script')
-            scriptGz.src = gzUrl
-
-            const originalJsonpgz = window.jsonpgz
-            window.jsonpgz = (json: unknown) => {
-                window.jsonpgz = originalJsonpgz
-                if (!json || typeof json !== 'object') {
-                    reject(new Error('未获取到基金估值数据'))
-                    return
+        if (estimateRes.status === 'fulfilled' && estimateRes.value.ok) {
+            const estimate = await estimateRes.value.json() as FundData & { fundcode?: string }
+            if (estimate.name || estimate.fundcode) {
+                const gszzlNum = Number(estimate.gszzl)
+                fundData = {
+                    ...fundData,
+                    name: estimate.name ?? '',
+                    dwjz: estimate.dwjz,
+                    gsz: estimate.gsz,
+                    gztime: estimate.gztime,
+                    jzrq: estimate.jzrq,
+                    gszzl: Number.isFinite(gszzlNum) ? gszzlNum : estimate.gszzl,
                 }
-                const jsonObj = json as FundGzResponse
-                const gszzlNum = Number(jsonObj.gszzl)
-                const gzData: FundData = {
-                    code: jsonObj.fundcode,
-                    name: jsonObj.name,
-                    dwjz: jsonObj.dwjz,
-                    gsz: jsonObj.gsz,
-                    gztime: jsonObj.gztime,
-                    jzrq: jsonObj.jzrq,
-                    gszzl: Number.isFinite(gszzlNum) ? gszzlNum : jsonObj.gszzl,
-                }
-
-                const tencentPromise = new Promise<TencentFundData | null>((resolveT) => {
-                    const tUrl = `https://qt.gtimg.cn/q=jj${c}`
-                    const tScript = document.createElement('script')
-                    tScript.src = tUrl
-                    tScript.onload = () => {
-                        const v = window[`v_jj${c}`] as string | undefined
-                        if (v) {
-                            const p = v.split('~')
-                            resolveT({
-                                dwjz: p[5]!,
-                                zzl: parseFloat(p[7]!),
-                                jzrq: p[8] ? p[8].slice(0, 10) : '',
-                            })
-                        } else {
-                            resolveT(null)
-                        }
-                        if (document.body.contains(tScript)) document.body.removeChild(tScript)
-                    }
-                    tScript.onerror = () => {
-                        if (document.body.contains(tScript)) document.body.removeChild(tScript)
-                        resolveT(null)
-                    }
-                    document.body.appendChild(tScript)
-                })
-
-                const holdingsPromise = new Promise<FundHolding[]>((resolveH) => {
-                    const holdingsUrl = `https://fundf10.eastmoney.com/FundArchivesDatas.aspx?type=jjcc&code=${c}&topline=10&year=&month=&rt=${Date.now()}`
-                    loadScript(holdingsUrl)
-                        .then(async () => {
-                            let holdings: FundHolding[] = []
-                            const html = window.apidata?.content ?? ''
-                            const rows = html.match(/<tr[\s\S]*?<\/tr>/gi) || []
-                            for (const r of rows) {
-                                const cells = (r.match(/<td[\s\S]*?>([\s\S]*?)<\/td>/gi) || []).map((td: string) =>
-                                    td.replace(/<[^>]*>/g, '').trim(),
-                                )
-                                const codeIdx = cells.findIndex((txt: string) => /^\d{6}$/.test(txt))
-                                const weightIdx = cells.findIndex((txt: string) => /\d+(?:\.\d+)?\s*%/.test(txt))
-                                if (codeIdx >= 0 && weightIdx >= 0) {
-                                    holdings.push({
-                                        code: cells[codeIdx]!,
-                                        name: cells[codeIdx + 1] ?? '',
-                                        weight: cells[weightIdx]!,
-                                        change: null,
-                                    })
-                                }
-                            }
-
-                            holdings = holdings.slice(0, 10)
-
-                            if (holdings.length) {
-                                try {
-                                    const tencentCodes = holdings
-                                        .map((h) => `s_${getTencentPrefix(h.code)}${h.code}`)
-                                        .join(',')
-                                    const quoteUrl = `https://qt.gtimg.cn/q=${tencentCodes}`
-
-                                    await new Promise<void>((resQuote) => {
-                                        const scriptQuote = document.createElement('script')
-                                        scriptQuote.src = quoteUrl
-                                        scriptQuote.onload = () => {
-                                            holdings.forEach((h) => {
-                                                const varName = `v_s_${getTencentPrefix(h.code)}${h.code}`
-                                                const dataStr = window[varName] as string | undefined
-                                                if (dataStr && typeof dataStr === 'string') {
-                                                    const parts = dataStr.split('~')
-                                                    if (parts.length > 5) {
-                                                        h.change = parseFloat(parts[5]!)
-                                                    }
-                                                }
-                                            })
-                                            if (document.body.contains(scriptQuote))
-                                                document.body.removeChild(scriptQuote)
-                                            resQuote()
-                                        }
-                                        scriptQuote.onerror = () => {
-                                            if (document.body.contains(scriptQuote))
-                                                document.body.removeChild(scriptQuote)
-                                            resQuote()
-                                        }
-                                        document.body.appendChild(scriptQuote)
-                                    })
-                                } catch (e) {
-                                    console.error('获取股票涨跌幅失败', e)
-                                }
-                            }
-                            resolveH(holdings)
-                        })
-                        .catch(() => resolveH([]))
-                })
-
-                Promise.all([tencentPromise, holdingsPromise]).then(([tData, holdings]) => {
-                    if (tData) {
-                        if (tData.jzrq && (!gzData.jzrq || tData.jzrq >= gzData.jzrq)) {
-                            gzData.dwjz = tData.dwjz
-                            gzData.jzrq = tData.jzrq
-                            gzData.zzl = tData.zzl
-                        }
-                    }
-                    resolve({ ...gzData, holdings })
-                })
             }
+        }
 
-            scriptGz.onerror = () => {
-                window.jsonpgz = originalJsonpgz
-                if (document.body.contains(scriptGz)) document.body.removeChild(scriptGz)
-                reject(new Error('基金数据加载失败'))
+        if (navRes.status === 'fulfilled' && navRes.value.ok) {
+            const nav = await navRes.value.json() as { dwjz: string; zzl: number; jzrq: string }
+            if (nav.jzrq && (!fundData.jzrq || nav.jzrq >= fundData.jzrq)) {
+                fundData.dwjz = nav.dwjz
+                fundData.jzrq = nav.jzrq
+                fundData.zzl = nav.zzl
             }
+        }
 
-            document.body.appendChild(scriptGz)
-            setTimeout(() => {
-                if (document.body.contains(scriptGz)) document.body.removeChild(scriptGz)
-            }, 5000)
-        })
+        if (holdingsRes.status === 'fulfilled' && holdingsRes.value.ok) {
+            const h = await holdingsRes.value.json() as FundHolding[]
+            if (Array.isArray(h)) fundData.holdings = h
+        }
+
+        return fundData
     }
 
     const performSearch = async (val: string) => {
@@ -686,49 +480,10 @@ export default function HomePage() {
             return
         }
         setIsSearching(true)
-        const callbackName = `SuggestData_${Date.now()}`
-        const url = `https://fundsuggest.eastmoney.com/FundSearch/api/FundSearchAPI.ashx?m=1&key=${encodeURIComponent(val)}&callback=${callbackName}&_=${Date.now()}`
-
         try {
-            await new Promise<void>((resolve, reject) => {
-                window[callbackName] = (data: unknown) => {
-                    if (data && typeof data === 'object' && 'Datas' in data) {
-                        const dataObj = data as {
-                            Datas: Array<{
-                                CATEGORY: number | string
-                                CATEGORYDESC: string
-                                CODE: string
-                                NAME: string
-                            }>
-                        }
-                        if (dataObj.Datas) {
-                            const fundsOnly = dataObj.Datas.filter(
-                                (d) => d.CATEGORY === 700 || d.CATEGORY === '700' || d.CATEGORYDESC === '基金',
-                            )
-                            const mappedResults: FundData[] = fundsOnly.map((d) => ({
-                                code: d.CODE,
-                                name: d.NAME,
-                            }))
-                            setSearchResults(mappedResults)
-                        }
-                    }
-                    delete window[callbackName]
-                    resolve()
-                }
-
-                const script = document.createElement('script')
-                script.src = url
-                script.async = true
-                script.onload = () => {
-                    if (document.body.contains(script)) document.body.removeChild(script)
-                }
-                script.onerror = () => {
-                    if (document.body.contains(script)) document.body.removeChild(script)
-                    delete window[callbackName]
-                    reject(new Error('搜索请求失败'))
-                }
-                document.body.appendChild(script)
-            })
+            const res = await fetch(`/api/market/fund-search?key=${encodeURIComponent(val)}`)
+            const data = await res.json() as FundData[]
+            setSearchResults(Array.isArray(data) ? data : [])
         } catch (e) {
             console.error('搜索失败', e)
         } finally {
@@ -899,7 +654,7 @@ export default function HomePage() {
         await refreshAll(codes)
     }
 
-    const saveSettings = (ms) => {
+    const saveSettings = (ms: number) => {
         setRefreshMs(ms)
         localStorage.setItem('refreshMs', String(ms))
         setSettingsOpen(false)
@@ -958,7 +713,7 @@ export default function HomePage() {
         }
     }
 
-    const handleImportFile = async (file) => {
+    const handleImportFile = async (file: File | null | undefined) => {
         try {
             if (!file) return
             const text = await file.text()
@@ -1083,7 +838,7 @@ export default function HomePage() {
     ])
 
     useEffect(() => {
-        const onKey = (ev) => {
+        const onKey = (ev: KeyboardEvent) => {
             if (ev.key === 'Escape' && settingsOpen) setSettingsOpen(false)
         }
         window.addEventListener('keydown', onKey)
