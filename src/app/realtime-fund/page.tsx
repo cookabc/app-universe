@@ -49,9 +49,9 @@ interface MarketIndex {
 }
 
 interface Group {
-    id: string
-    name: string
-    codes: string[]
+    id?: string
+    name?: string
+    codes?: string[]
 }
 
 interface FundHolding {
@@ -174,7 +174,7 @@ export default function HomePage() {
                 if (currentTab === 'all') return true
                 if (currentTab === 'fav') return favorites.has(f.code)
                 const group = groups.find((g) => g.id === currentTab)
-                return group ? group.codes.includes(f.code) : true
+                return group?.codes ? group.codes.includes(f.code) : true
             })
             .sort((a, b) => {
                 if (sortBy === 'yield') {
@@ -327,7 +327,7 @@ export default function HomePage() {
         const next = [...groups, newGroup]
         setGroups(next)
         localStorage.setItem('groups', JSON.stringify(next))
-        setCurrentTab(newGroup.id)
+        if (newGroup.id) setCurrentTab(newGroup.id)
         setGroupModalOpen(false)
     }
 
@@ -345,7 +345,7 @@ export default function HomePage() {
             if (g.id === currentTab) {
                 return {
                     ...g,
-                    codes: Array.from(new Set([...g.codes, ...codes])),
+                    codes: Array.from(new Set([...(g.codes || []), ...codes])),
                 }
             }
             return g
@@ -361,7 +361,7 @@ export default function HomePage() {
             if (g.id === currentTab) {
                 return {
                     ...g,
-                    codes: g.codes.filter((c) => c !== code),
+                    codes: (g.codes || []).filter((c) => c !== code),
                 }
             }
             return g
@@ -448,11 +448,11 @@ export default function HomePage() {
                 fundData = {
                     ...fundData,
                     name: estimate.name ?? '',
-                    dwjz: estimate.dwjz,
-                    gsz: estimate.gsz,
-                    gztime: estimate.gztime,
-                    jzrq: estimate.jzrq,
-                    gszzl: Number.isFinite(gszzlNum) ? gszzlNum : estimate.gszzl,
+                    dwjz: estimate.dwjz ?? '',
+                    gsz: estimate.gsz ?? '',
+                    gztime: estimate.gztime ?? '',
+                    jzrq: estimate.jzrq ?? '',
+                    gszzl: Number.isFinite(gszzlNum) ? gszzlNum : (estimate.gszzl ?? 0),
                 }
             }
         }
@@ -580,10 +580,12 @@ export default function HomePage() {
 
             results.forEach((result, idx) => {
                 const c = codesToAdd[idx]
+                if (!c) return
                 if (result.status === 'fulfilled') {
                     newFunds.push(result.value)
                 } else {
-                    failures.push({ code: c, name: nameMap[c] ?? '' })
+                    const name = nameMap[c]
+                    if (name) failures.push({ code: c, name })
                 }
             })
             if (newFunds.length === 0) {
@@ -616,7 +618,7 @@ export default function HomePage() {
 
         const nextGroups = groups.map((g) => ({
             ...g,
-            codes: g.codes.filter((c) => c !== removeCode),
+            codes: (g.codes || []).filter((c) => c !== removeCode),
         }))
         setGroups(nextGroups)
         localStorage.setItem('groups', JSON.stringify(nextGroups))
@@ -676,8 +678,9 @@ export default function HomePage() {
                 exportedAt: new Date().toISOString(),
             }
             const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
-            if (window.showSaveFilePicker) {
-                const handle = await window.showSaveFilePicker({
+            const showSaveFilePicker = window.showSaveFilePicker as unknown as (options?: { suggestedName?: string; types?: Array<{ description: string; accept: Record<string, string[]> }> }) => Promise<{ createWritable: () => Promise<{ write: (blob: Blob) => Promise<void>; close: () => Promise<void> }> }>
+            if (showSaveFilePicker) {
+                const handle = await showSaveFilePicker({
                     suggestedName: `realtime-fund-config-${Date.now()}.json`,
                     types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }],
                 })
@@ -719,9 +722,9 @@ export default function HomePage() {
             const text = await file.text()
             const data = JSON.parse(text)
             if (data && typeof data === 'object') {
-                const currentFunds = JSON.parse(localStorage.getItem('funds') || '[]')
-                const currentFavorites = JSON.parse(localStorage.getItem('favorites') || '[]')
-                const currentGroups = JSON.parse(localStorage.getItem('groups') || '[]')
+                const currentFunds: FundData[] = JSON.parse(localStorage.getItem('funds') || '[]')
+                const currentFavorites = JSON.parse(localStorage.getItem('favorites') || '[]') as string[]
+                const currentGroups: Group[] = JSON.parse(localStorage.getItem('groups') || '[]')
                 const currentCollapsed = JSON.parse(localStorage.getItem('collapsedCodes') || '[]')
 
                 let mergedFunds = currentFunds
@@ -745,13 +748,13 @@ export default function HomePage() {
 
                 if (Array.isArray(data.groups)) {
                     const mergedGroups = [...currentGroups]
-                    data.groups.forEach((incomingGroup) => {
+                    data.groups.forEach((incomingGroup: Group) => {
                         const existingIdx = mergedGroups.findIndex((g) => g.id === incomingGroup.id)
                         if (existingIdx > -1) {
                             mergedGroups[existingIdx] = {
                                 ...mergedGroups[existingIdx],
                                 codes: Array.from(
-                                    new Set([...mergedGroups[existingIdx].codes, ...(incomingGroup.codes || [])]),
+                                    new Set([...(mergedGroups[existingIdx].codes || []), ...(incomingGroup.codes || [])]),
                                 ),
                             }
                         } else {
@@ -928,7 +931,7 @@ export default function HomePage() {
                         onManageGroups={() => setGroupManageOpen(true)}
                         onAddGroup={() => setGroupModalOpen(true)}
                         viewMode={viewMode}
-                        onViewModeChange={(mode) => {
+                        onViewModeChange={(mode: string) => {
                             setViewMode(mode)
                             localStorage.setItem('viewMode', mode)
                         }}
@@ -1018,10 +1021,10 @@ export default function HomePage() {
                                 navHistory={navHistory}
                                 holdings={holdings}
                                 getHoldingProfit={getHoldingProfit}
-                                onOpenHoldingModal={(fund) => setHoldingModal({ open: true, fund })}
-                                onOpenActionModal={(fund) => setActionModal({ open: true, fund })}
+                                onOpenHoldingModal={(fund: FundData) => setHoldingModal({ open: true, fund })}
+                                onOpenActionModal={(fund: FundData) => setActionModal({ open: true, fund })}
                                 percentModes={percentModes}
-                                onTogglePercentMode={(code) =>
+                                onTogglePercentMode={(code: string) =>
                                     setPercentModes((prev) => ({ ...prev, [code]: !prev[code] }))
                                 }
                                 collapsedCodes={collapsedCodes}
@@ -1076,20 +1079,20 @@ export default function HomePage() {
                     <HoldingActionModal
                         fund={actionModal.fund}
                         onClose={() => setActionModal({ open: false, fund: null })}
-                        onAction={(type) => handleAction(type, actionModal.fund)}
+                        onAction={(type: string) => handleAction(type, actionModal.fund)}
                     />
                 )}
             </AnimatePresence>
 
             <AnimatePresence>
-                {tradeModal.open && (
+                {tradeModal.open && tradeModal.fund ? (
                     <TradeModal
                         type={tradeModal.type}
                         fund={tradeModal.fund}
                         onClose={() => setTradeModal({ open: false, fund: null, type: 'buy' })}
-                        onConfirm={(data) => handleTrade(tradeModal.fund, data)}
+                        onConfirm={(data: { share: number; price?: number; totalCost?: number }) => handleTrade(tradeModal.fund!, data)}
                     />
-                )}
+                ) : null}
             </AnimatePresence>
 
             <AnimatePresence>
@@ -1105,14 +1108,14 @@ export default function HomePage() {
             </AnimatePresence>
 
             <AnimatePresence>
-                {holdingModal.open && (
+                {holdingModal.open && holdingModal.fund?.code ? (
                     <HoldingEditModal
                         fund={holdingModal.fund}
-                        holding={holdings[holdingModal.fund?.code]}
+                        holding={holdings[holdingModal.fund.code]}
                         onClose={() => setHoldingModal({ open: false, fund: null })}
-                        onSave={(data) => handleSaveHolding(holdingModal.fund?.code, data)}
+                        onSave={(data: { share: number | null; cost: number | null }) => handleSaveHolding(holdingModal.fund!.code, data)}
                     />
-                )}
+                ) : null}
             </AnimatePresence>
 
             <AnimatePresence>
