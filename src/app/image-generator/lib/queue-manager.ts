@@ -10,7 +10,7 @@ class QueueManager {
     }
 
     add(prompt: string, negativePrompt?: string): GenerationRequest {
-        const id = `req-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+        const id = `req-${crypto.randomUUID()}`
         const request: GenerationRequest = {
             id,
             prompt,
