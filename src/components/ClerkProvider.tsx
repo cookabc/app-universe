@@ -1,13 +1,14 @@
 'use client'
 
 import type { ClerkProvider as OriginalClerkProviderType } from '@clerk/nextjs'
-import { ReactNode, createContext, useContext } from 'react'
+import { ReactNode, createContext, useContext, useState, useEffect } from 'react'
 
 interface ClerkContextType {
     isEnabled: boolean
+    isLoaded: boolean
 }
 
-const ClerkEnabledContext = createContext<ClerkContextType>({ isEnabled: false })
+const ClerkEnabledContext = createContext<ClerkContextType>({ isEnabled: false, isLoaded: false })
 
 export function useClerkEnabled() {
     return useContext(ClerkEnabledContext)
@@ -20,26 +21,28 @@ interface ClerkProviderProps {
 
 // Dynamic import to avoid loading Clerk when not needed
 function ClerkProviderInner({ children, publishableKey }: ClerkProviderProps) {
-    const [ClerkProviderComponent, setClerkProvider] = React.useState<typeof OriginalClerkProviderType | null>(null)
+    const [ClerkProviderComponent, setClerkProvider] = useState<typeof OriginalClerkProviderType | null>(null)
+    const [isLoaded, setIsLoaded] = useState(false)
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (publishableKey) {
             import('@clerk/nextjs').then((mod) => {
                 setClerkProvider(() => mod.ClerkProvider)
+                setIsLoaded(true)
             })
         }
     }, [publishableKey])
 
     if (!ClerkProviderComponent) {
         return (
-            <ClerkEnabledContext.Provider value={{ isEnabled: false }}>
+            <ClerkEnabledContext.Provider value={{ isEnabled: false, isLoaded: true }}>
                 {children}
             </ClerkEnabledContext.Provider>
         )
     }
 
     return (
-        <ClerkEnabledContext.Provider value={{ isEnabled: true }}>
+        <ClerkEnabledContext.Provider value={{ isEnabled: true, isLoaded }}>
             <ClerkProviderComponent telemetry={false} publishableKey={publishableKey}>
                 {children}
             </ClerkProviderComponent>
@@ -47,13 +50,11 @@ function ClerkProviderInner({ children, publishableKey }: ClerkProviderProps) {
     )
 }
 
-import React from 'react'
-
 export function ClerkProvider({ children, publishableKey }: ClerkProviderProps) {
     // During SSR/build, if no key, just render children without Clerk
     if (!publishableKey) {
         return (
-            <ClerkEnabledContext.Provider value={{ isEnabled: false }}>
+            <ClerkEnabledContext.Provider value={{ isEnabled: false, isLoaded: true }}>
                 {children}
             </ClerkEnabledContext.Provider>
         )
