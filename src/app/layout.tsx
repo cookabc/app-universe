@@ -1,4 +1,4 @@
-import { ClerkProvider } from '@clerk/nextjs'
+import { ClerkProvider } from '@/components/ClerkProvider'
 import { ThemeProvider } from 'next-themes'
 import { Plus_Jakarta_Sans, Outfit, JetBrains_Mono } from 'next/font/google'
 import { Footer } from '@/components/Footer'
@@ -34,20 +34,7 @@ export default function RootLayout({
                 />
             </head>
             <body className={`${plusJakarta.variable} ${outfit.variable} ${jetBrainsMono.variable} antialiased min-w-[320px]`}>
-                {publishableKey ? (
-                    <ClerkProvider telemetry={false} publishableKey={publishableKey}>
-                        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-                            <TooltipProvider delayDuration={300}>
-                                <div className="flex flex-col min-h-screen bg-background">
-                                    <Header />
-                                    <main className="flex-grow container max-w-7xl mx-auto px-4 py-8">{children}</main>
-                                    <Footer />
-                                </div>
-                                <Toaster />
-                            </TooltipProvider>
-                        </ThemeProvider>
-                    </ClerkProvider>
-                ) : (
+                <ClerkProvider publishableKey={publishableKey}>
                     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                         <TooltipProvider delayDuration={300}>
                             <div className="flex flex-col min-h-screen bg-background">
@@ -58,7 +45,7 @@ export default function RootLayout({
                             <Toaster />
                         </TooltipProvider>
                     </ThemeProvider>
-                )}
+                </ClerkProvider>
             </body>
         </html>
     )
