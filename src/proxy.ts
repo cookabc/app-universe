@@ -1,6 +1,20 @@
-import { clerkMiddleware } from '@clerk/nextjs/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-export default clerkMiddleware()
+export default async function middleware(request: NextRequest) {
+    // Check if Clerk is configured
+    const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+    
+    if (!publishableKey) {
+        // Clerk not configured, just pass through
+        return NextResponse.next()
+    }
+    
+    // Clerk is configured, use clerkMiddleware
+    const { clerkMiddleware } = await import('@clerk/nextjs/server')
+    const handler = clerkMiddleware()
+    return handler(request, {} as any)
+}
 
 export const config = {
     matcher: [
