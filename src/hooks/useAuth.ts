@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server'
 import { eq } from 'drizzle-orm'
 import { cache } from 'react'
 import { users } from '@/db/schema'
@@ -9,6 +8,8 @@ async function getDb() {
 }
 
 async function requireAuth() {
+    // Dynamic import to avoid build-time errors
+    const { auth } = await import('@clerk/nextjs/server')
     const { userId } = await auth()
 
     if (!userId) {
