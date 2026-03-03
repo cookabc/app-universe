@@ -88,14 +88,15 @@ export default function FundList({
 
                                             const changeValue = shouldHideChange
                                                 ? (f.estPricedCoverage > 0.05 ? f.estGszzl : Number(f.gszzl))
-                                                : f.zzl
+                                                : (f.zzl ?? Number(f.gszzl) ?? 0)
 
-                                            const changePercent = typeof changeValue === 'number'
-                                                ? `${changeValue > 0 ? '+' : ''}${changeValue.toFixed(2)}%`
+                                            const validChangeValue = typeof changeValue === 'number' && !isNaN(changeValue) ? changeValue : null
+                                            const changePercent = validChangeValue !== null
+                                                ? `${validChangeValue > 0 ? '+' : ''}${validChangeValue.toFixed(2)}%`
                                                 : '--'
 
-                                            const isUp = typeof changeValue === 'number' && changeValue > 0
-                                            const isDown = typeof changeValue === 'number' && changeValue < 0
+                                            const isUp = validChangeValue !== null && validChangeValue > 0
+                                            const isDown = validChangeValue !== null && validChangeValue < 0
 
                                             return (
                                                 <>
@@ -171,10 +172,11 @@ export default function FundList({
 
                                                 const changeValue = shouldHideChange
                                                     ? (f.estPricedCoverage > 0.05 ? f.estGszzl : Number(f.gszzl))
-                                                    : f.zzl
+                                                    : (f.zzl ?? Number(f.gszzl) ?? 0)
 
-                                                const isUp = typeof changeValue === 'number' && changeValue > 0
-                                                const isDown = typeof changeValue === 'number' && changeValue < 0
+                                                const validChangeValue = typeof changeValue === 'number' && !isNaN(changeValue) ? changeValue : null
+                                                const isUp = validChangeValue !== null && validChangeValue > 0
+                                                const isDown = validChangeValue !== null && validChangeValue < 0
 
                                                 return (
                                                     <>
@@ -186,7 +188,7 @@ export default function FundList({
                                                             <span className="text-xs text-muted-foreground mb-1">Growth</span>
                                                             <div className={`flex items-center gap-1 font-bold text-lg ${isUp ? 'text-red-500' : isDown ? 'text-green-500' : 'text-muted-foreground'}`}>
                                                                 {isUp ? <TrendingUp className="w-4 h-4" /> : isDown ? <TrendingDown className="w-4 h-4" /> : null}
-                                                                {typeof changeValue === 'number' ? `${Math.abs(changeValue).toFixed(2)}%` : '--'}
+                                                                {validChangeValue !== null ? `${Math.abs(validChangeValue).toFixed(2)}%` : '--'}
                                                             </div>
                                                         </div>
                                                     </>
