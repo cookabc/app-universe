@@ -76,21 +76,15 @@ export default function FundList({
                                         </div>
 
                                         {(() => {
-                                            const now = new Date()
-                                            const isAfter9 = now.getHours() >= 9
-                                            const hasTodayData = f.jzrq === todayStr
-                                            const shouldHideChange = isTradingDay && isAfter9 && !hasTodayData
+                                            // Get NAV value - use estimate (gsz) if available, otherwise use last NAV (dwjz)
+                                            const navValue = f.gsz || f.dwjz
+                                            const displayNav = navValue ? Number(navValue).toFixed(4) : '—'
 
-                                            // Logic for displaying values
-                                            const displayNav = shouldHideChange
-                                                ? (f.estPricedCoverage > 0.05 ? f.estGsz.toFixed(4) : (f.gsz ?? '—'))
-                                                : (f.dwjz ?? '—')
+                                            // Get change value - use estimate change (gszzl) if available, otherwise use last change (zzl)
+                                            const rawChange = f.gszzl !== undefined ? f.gszzl : f.zzl
+                                            const changeValue = Number(rawChange)
+                                            const validChangeValue = !isNaN(changeValue) ? changeValue : null
 
-                                            const changeValue = shouldHideChange
-                                                ? (f.estPricedCoverage > 0.05 ? f.estGszzl : Number(f.gszzl))
-                                                : (f.zzl ?? Number(f.gszzl) ?? 0)
-
-                                            const validChangeValue = typeof changeValue === 'number' && !isNaN(changeValue) ? changeValue : null
                                             const changePercent = validChangeValue !== null
                                                 ? `${validChangeValue > 0 ? '+' : ''}${validChangeValue.toFixed(2)}%`
                                                 : '--'
@@ -161,20 +155,15 @@ export default function FundList({
 
                                         <div className="grid grid-cols-2 gap-4 mb-4">
                                             {(() => {
-                                                const now = new Date()
-                                                const isAfter9 = now.getHours() >= 9
-                                                const hasTodayData = f.jzrq === todayStr
-                                                const shouldHideChange = isTradingDay && isAfter9 && !hasTodayData
+                                                // Get NAV value - use estimate (gsz) if available, otherwise use last NAV (dwjz)
+                                                const navValue = f.gsz || f.dwjz
+                                                const displayNav = navValue ? Number(navValue).toFixed(4) : '—'
 
-                                                const displayNav = shouldHideChange
-                                                    ? (f.estPricedCoverage > 0.05 ? f.estGsz.toFixed(4) : (f.gsz ?? '—'))
-                                                    : (f.dwjz ?? '—')
+                                                // Get change value - use estimate change (gszzl) if available, otherwise use last change (zzl)
+                                                const rawChange = f.gszzl !== undefined ? f.gszzl : f.zzl
+                                                const changeValue = Number(rawChange)
+                                                const validChangeValue = !isNaN(changeValue) ? changeValue : null
 
-                                                const changeValue = shouldHideChange
-                                                    ? (f.estPricedCoverage > 0.05 ? f.estGszzl : Number(f.gszzl))
-                                                    : (f.zzl ?? Number(f.gszzl) ?? 0)
-
-                                                const validChangeValue = typeof changeValue === 'number' && !isNaN(changeValue) ? changeValue : null
                                                 const isUp = validChangeValue !== null && validChangeValue > 0
                                                 const isDown = validChangeValue !== null && validChangeValue < 0
 
