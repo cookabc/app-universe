@@ -1,6 +1,7 @@
 export default function Sparkline({ data, width = 100, height = 28, className = '' }) {
     if (!data || data.length < 2) return null
-    const values = data.map((d) => d.y)
+    // Support both { y: number } and { value: number } formats
+    const values = data.map((d) => d.y ?? d.value)
     const min = Math.min(...values)
     const max = Math.max(...values)
     const range = max - min || 1
