@@ -15,7 +15,7 @@ export async function GET() {
         })
         const text = await res.text()
         const match = text.match(/v_sh000001="([^"]+)"/)
-        if (match) {
+        if (match && match[1]) {
             const parts = match[1].split('~')
             const dateStr = parts[30]?.slice(0, 8) ?? ''
             const todayStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`

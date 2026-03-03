@@ -1,6 +1,13 @@
+import { Metadata } from 'next'
 import { Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+
+export const metadata: Metadata = {
+    title: 'Pricing',
+    description: 'Find the perfect plan for you. Start for free, then upgrade as you grow with our Pro and Team plans.',
+    keywords: ['pricing', 'subscription', 'pro plan', 'team plan', 'free tier', 'AI tools pricing'],
+}
 
 const features = {
     free: ['Basic Prompt Lab access', '3 AI Artifacts', 'Community support'],

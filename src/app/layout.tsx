@@ -11,9 +11,41 @@ const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sa
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-serif' })
 const jetBrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains-mono' })
 
-export const metadata = {
-    title: 'App Universe',
-    description: 'Discover and use amazing AI-powered tools',
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: {
+        template: '%s | App Universe',
+        default: 'App Universe | AI-powered Tools Collection',
+    },
+    description: 'Discover and use amazing AI-powered tools including language converters, image generators, real-time fund trackers, and more.',
+    keywords: ['AI tools', 'Next.js', 'React', 'language converter', 'image generator', 'typing practice', 'real-time fund'],
+    authors: [{ name: 'App Universe Team' }],
+    creator: 'App Universe Team',
+    openGraph: {
+        type: 'website',
+        locale: 'en_US',
+        url: 'https://app-universe.example.com',
+        title: 'App Universe | AI-powered Tools Collection',
+        description: 'Discover and use amazing AI-powered tools including language converters, image generators, real-time fund trackers, and more.',
+        siteName: 'App Universe',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'App Universe | AI-powered Tools Collection',
+        description: 'Discover and use amazing AI-powered tools including language converters, image generators, real-time fund trackers, and more.',
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            'max-video-preview': -1,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+        },
+    },
 }
 
 export default function RootLayout({
