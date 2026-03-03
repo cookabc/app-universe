@@ -4,11 +4,15 @@ import { apiDispatcher } from './lib/api-dispatcher'
 import { queueManager } from './lib/queue-manager'
 import type { GenerationRequest } from './types'
 
+// Auth is optional - app works without Clerk
 async function requireAuth() {
-    const { auth } = await import('@clerk/nextjs/server')
-    const { userId } = await auth()
-    if (!userId) throw new Error('Unauthorized')
-    return userId
+    try {
+        const { auth } = await import('@clerk/nextjs/server')
+        const { userId } = await auth()
+        return userId || 'anonymous'
+    } catch {
+        return 'anonymous'
+    }
 }
 
 async function processImageRequest(request: GenerationRequest) {
