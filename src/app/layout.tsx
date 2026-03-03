@@ -21,6 +21,8 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode
 }>) {
+    const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
@@ -32,7 +34,20 @@ export default function RootLayout({
                 />
             </head>
             <body className={`${plusJakarta.variable} ${outfit.variable} ${jetBrainsMono.variable} antialiased min-w-[320px]`}>
-                <ClerkProvider telemetry={false}>
+                {publishableKey ? (
+                    <ClerkProvider telemetry={false} publishableKey={publishableKey}>
+                        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                            <TooltipProvider delayDuration={300}>
+                                <div className="flex flex-col min-h-screen bg-background">
+                                    <Header />
+                                    <main className="flex-grow container max-w-7xl mx-auto px-4 py-8">{children}</main>
+                                    <Footer />
+                                </div>
+                                <Toaster />
+                            </TooltipProvider>
+                        </ThemeProvider>
+                    </ClerkProvider>
+                ) : (
                     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                         <TooltipProvider delayDuration={300}>
                             <div className="flex flex-col min-h-screen bg-background">
@@ -43,7 +58,7 @@ export default function RootLayout({
                             <Toaster />
                         </TooltipProvider>
                     </ThemeProvider>
-                </ClerkProvider>
+                )}
             </body>
         </html>
     )

@@ -1,9 +1,36 @@
 'use client'
 
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton, useClerk } from '@clerk/nextjs'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ThemeSwitch } from '@/components/theme-switch'
+
+const AuthButtons = () => {
+    try {
+        useClerk()
+        return (
+            <>
+                <SignedOut>
+                    <SignInButton mode="modal">
+                        <Button variant="outline" asChild>
+                            <span>Login</span>
+                        </Button>
+                    </SignInButton>
+                    <SignUpButton mode="modal">
+                        <Button asChild>
+                            <span>Sign Up</span>
+                        </Button>
+                    </SignUpButton>
+                </SignedOut>
+                <SignedIn>
+                    <UserButton afterSignOutUrl="/" />
+                </SignedIn>
+            </>
+        )
+    } catch {
+        return null
+    }
+}
 
 export const Header = () => {
     return (
@@ -14,21 +41,7 @@ export const Header = () => {
                 </Link>
                 <div className="hidden md:flex items-center space-x-4">
                     <ThemeSwitch width={56} height={28} className="scale-75" />
-                    <SignedOut>
-                        <SignInButton mode="modal">
-                            <Button variant="outline" asChild>
-                                <span>Login</span>
-                            </Button>
-                        </SignInButton>
-                        <SignUpButton mode="modal">
-                            <Button asChild>
-                                <span>Sign Up</span>
-                            </Button>
-                        </SignUpButton>
-                    </SignedOut>
-                    <SignedIn>
-                        <UserButton afterSignOutUrl="/" />
-                    </SignedIn>
+                    <AuthButtons />
                 </div>
             </div>
         </header>
