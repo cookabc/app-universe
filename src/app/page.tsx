@@ -1,9 +1,12 @@
+'use client'
+
 import { Claude, DeepSeek, Gemini, Grok, Kimi, Minimax, OpenAI, Qwen, ZAI } from '@lobehub/icons'
-import { Suspense } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { AppGrid } from '@/components/AppGrid'
 import { CanvasDotGrid } from '@/components/canvas-dot-grid'
 import { HeroSection } from '@/components/HeroSection'
 import { AppErrorBoundary } from '@/components/optimized/error-boundary'
+import { useTranslation } from 'react-i18next'
 
 const ChatGPT = ({ className }: { className?: string }) => <OpenAI className={className} />
 const ClaudeIcon = ({ className }: { className?: string }) => <Claude className={className} />
@@ -16,6 +19,13 @@ const MinimaxIcon = ({ className }: { className?: string }) => <Minimax classNam
 const KimiIcon = ({ className }: { className?: string }) => <Kimi className={className} />
 
 export default function HomePage() {
+    const { t } = useTranslation()
+    const [isReady, setIsReady] = useState(false)
+
+    useEffect(() => {
+        setIsReady(true)
+    }, [])
+
     return (
         <div>
             <CanvasDotGrid />
@@ -33,7 +43,7 @@ export default function HomePage() {
 
             <div className="container max-w-7xl mx-auto my-20 sm:my-32 px-4 text-center">
                 <h2 className="mt-16 sm:mt-60 mb-10 sm:mb-20 text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
-                    Trusted by Developers at Leading AI Companies
+                    {isReady ? t('trustedBy') : 'Trusted by Developers at Leading AI Companies'}
                 </h2>
                 <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
                     <div className="group flex flex-col items-center gap-2">

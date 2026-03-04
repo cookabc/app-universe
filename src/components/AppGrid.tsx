@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import apps from '@/data/apps'
 
 const container = {
@@ -21,6 +23,14 @@ const item = {
 }
 
 export function AppGrid() {
+    const { i18n, t } = useTranslation()
+    const currentLang = i18n.language
+    const [isReady, setIsReady] = useState(false)
+
+    useEffect(() => {
+        setIsReady(i18n.isInitialized)
+    }, [i18n.isInitialized])
+    
     return (
         <motion.div
             variants={container}
@@ -55,16 +65,16 @@ export function AppGrid() {
                                 {/* Content */}
                                 <div className="space-y-3">
                                     <h3 className="text-2xl font-black font-heading tracking-tight text-foreground transition-colors group-hover:text-primary">
-                                        {app.name}
+                                        {app.name[currentLang as 'en' | 'zh'] || app.name.en}
                                     </h3>
                                     <p className="text-base leading-relaxed text-muted-foreground line-clamp-2">
-                                        {app.description}
+                                        {app.description[currentLang as 'en' | 'zh'] || app.description.en}
                                     </p>
                                 </div>
 
                                 {/* Learn More Link */}
                                 <div className="mt-auto flex items-center text-sm font-bold text-primary opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-                                    Launch App <ArrowRight className="ml-1 h-4 w-4" />
+                                    {isReady ? t('launchApp') : 'Launch App'} <ArrowRight className="ml-1 h-4 w-4" />
                                 </div>
                             </div>
                         </div>
