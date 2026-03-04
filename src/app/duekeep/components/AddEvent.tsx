@@ -11,6 +11,7 @@ import {
 } from '../types'
 import { CalendarPicker } from './CalendarPicker'
 import { TimePicker } from './TimePicker'
+import { useTranslation } from 'react-i18next'
 
 interface AddEventProps {
     events: EventItem[]
@@ -21,6 +22,7 @@ interface AddEventProps {
 }
 
 export function AddEvent({ events, addEvent, updateEvent, isEditing, initialEvent }: AddEventProps) {
+    const { t } = useTranslation()
     const router = useRouter()
     const [eventName, setEventName] = useState(initialEvent?.name || '')
     const [eventType, setEventType] = useState<'past' | 'future'>(initialEvent?.type || 'future')
@@ -44,9 +46,9 @@ export function AddEvent({ events, addEvent, updateEvent, isEditing, initialEven
     const validate = (): boolean => {
         const newErrors: { name?: string } = {}
         if (!eventName.trim()) {
-            newErrors.name = 'Event name is required'
+            newErrors.name = t('duekeep.addEvent.errors.required')
         } else if (eventName.trim().length < 2) {
-            newErrors.name = 'Event name must be at least 2 characters'
+            newErrors.name = t('duekeep.addEvent.errors.minLength')
         }
         setErrors(newErrors)
         return Object.keys(newErrors).length === 0
@@ -94,10 +96,10 @@ export function AddEvent({ events, addEvent, updateEvent, isEditing, initialEven
                         onClick={() => router.push('/duekeep')}
                         className="text-muted-foreground hover:text-foreground transition-colors"
                     >
-                        Cancel
+                        {t('duekeep.addEvent.cancel')}
                     </button>
                     <h1 className="text-xl font-semibold text-foreground">
-                        {isEditing ? 'Edit Event' : 'Add Event'}
+                        {isEditing ? t('duekeep.addEvent.editTitle') : t('duekeep.addEvent.title')}
                     </h1>
                     <button
                         onClick={handleSave}
@@ -108,21 +110,21 @@ export function AddEvent({ events, addEvent, updateEvent, isEditing, initialEven
                                 : 'opacity-50 cursor-not-allowed bg-muted text-muted-foreground'
                         }`}
                     >
-                        Save
+                        {t('duekeep.addEvent.save')}
                     </button>
                 </header>
 
                 <main className="space-y-6">
                     <section>
                         <h2 className="mb-2 text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                            Event Name
+                            {t('duekeep.addEvent.eventName')}
                         </h2>
                         <div className="relative">
                             <input
                                 className={`w-full bg-background border border-border rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-colors ${
                                     errors.name ? 'ring-2 ring-red-500 border-red-500' : ''
                                 }`}
-                                placeholder="Enter event name"
+                                placeholder={t('duekeep.addEvent.eventNamePlaceholder')}
                                 type="text"
                                 value={eventName}
                                 onChange={(e) => {
@@ -136,7 +138,7 @@ export function AddEvent({ events, addEvent, updateEvent, isEditing, initialEven
 
                     <section>
                         <h2 className="mb-2 text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                            Event Type
+                            {t('duekeep.addEvent.eventType')}
                         </h2>
                         <div className="flex gap-4">
                             <button
@@ -148,7 +150,7 @@ export function AddEvent({ events, addEvent, updateEvent, isEditing, initialEven
                                 }`}
                             >
                                 <span className="material-icons-round">history</span>
-                                <span>Past Event</span>
+                                <span>{t('duekeep.addEvent.pastEvent')}</span>
                             </button>
                             <button
                                 onClick={() => setEventType('future')}
@@ -159,24 +161,24 @@ export function AddEvent({ events, addEvent, updateEvent, isEditing, initialEven
                                 }`}
                             >
                                 <span className="material-icons-round">schedule</span>
-                                <span>Future Event</span>
+                                <span>{t('duekeep.addEvent.futureEvent')}</span>
                             </button>
                         </div>
                     </section>
 
                     <section>
                         <h2 className="mb-2 text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                            Date
+                            {t('duekeep.addEvent.date')}
                         </h2>
                         <CalendarPicker selectedDate={selectedDate} onChange={setSelectedDate} />
                     </section>
 
                     <section>
                         <h2 className="mb-2 text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                            Time
+                            {t('duekeep.addEvent.time')}
                         </h2>
                         <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border">
-                            <span className="text-foreground">All-day</span>
+                            <span className="text-foreground">{t('duekeep.addEvent.allDay')}</span>
                             <button
                                 onClick={() => setAllDay(!allDay)}
                                 className={`relative w-12 h-6 rounded-full transition-colors ${
@@ -195,7 +197,7 @@ export function AddEvent({ events, addEvent, updateEvent, isEditing, initialEven
 
                     <section>
                         <h2 className="mb-2 text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                            Color
+                            {t('duekeep.addEvent.color')}
                         </h2>
                         <div className="flex gap-3 p-4 bg-muted/30 rounded-lg border border-border">
                             {EVENT_COLORS.map((c) => (
@@ -216,7 +218,7 @@ export function AddEvent({ events, addEvent, updateEvent, isEditing, initialEven
 
                     <section>
                         <h2 className="mb-2 text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                            Options
+                            {t('duekeep.addEvent.options')}
                         </h2>
                         <div className="space-y-2">
                             <button
@@ -225,7 +227,7 @@ export function AddEvent({ events, addEvent, updateEvent, isEditing, initialEven
                             >
                                 <div className="flex items-center gap-3">
                                     <span className="material-icons-round text-muted-foreground">category</span>
-                                    <span className="text-foreground">Category</span>
+                                    <span className="text-foreground">{t('duekeep.addEvent.category')}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <span className="text-muted-foreground">{category}</span>
@@ -259,7 +261,7 @@ export function AddEvent({ events, addEvent, updateEvent, isEditing, initialEven
                             >
                                 <div className="flex items-center gap-3">
                                     <span className="material-icons-round text-muted-foreground">cached</span>
-                                    <span className="text-foreground">Repeat</span>
+                                    <span className="text-foreground">{t('duekeep.addEvent.repeat')}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <span className="text-muted-foreground">{repeatOption}</span>
@@ -295,12 +297,12 @@ export function AddEvent({ events, addEvent, updateEvent, isEditing, initialEven
                                     <span className="material-icons-round text-muted-foreground">
                                         {alertEnabled ? 'notifications' : 'notifications_off'}
                                     </span>
-                                    <span className="text-foreground">Alert</span>
+                                    <span className="text-foreground">{t('duekeep.addEvent.alert')}</span>
                                 </div>
                                 <span className={`px-2 py-1 rounded text-xs font-medium ${
                                     alertEnabled ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'
                                 }`}>
-                                    {alertEnabled ? 'On' : 'Off'}
+                                    {alertEnabled ? t('duekeep.addEvent.on') : t('duekeep.addEvent.off')}
                                 </span>
                             </button>
                         </div>

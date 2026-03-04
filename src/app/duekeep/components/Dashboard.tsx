@@ -5,6 +5,7 @@ import { CalendarView } from './CalendarView'
 import { EventCard } from './EventCard'
 import { LayoutDashboard, Calendar, Plus, Clock, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 
 export const Dashboard: React.FC<{
     events: EventItem[]
@@ -13,6 +14,7 @@ export const Dashboard: React.FC<{
     onAdd?: () => void
     initialTab?: 'home' | 'calendar'
 }> = ({ events, onDelete, onEdit, onAdd, initialTab = 'home' }) => {
+    const { t } = useTranslation()
     const [activeTab, setActiveTab] = useState<'home' | 'calendar'>(initialTab)
 
     return (
@@ -23,7 +25,7 @@ export const Dashboard: React.FC<{
                     <div className="w-10 h-10 rounded-[var(--radius)] bg-primary border-2 border-slate-800 shadow-[var(--box-shadow)] flex items-center justify-center">
                         <Clock className="w-6 h-6 text-primary-foreground" />
                     </div>
-                    <h2 className="text-xl font-black tracking-tight">DueKeep</h2>
+                    <h2 className="text-xl font-black tracking-tight">{t('duekeep.appName')}</h2>
                 </div>
 
                 <nav className="flex-1 space-y-2">
@@ -31,24 +33,24 @@ export const Dashboard: React.FC<{
                         active={activeTab === 'home'}
                         onClick={() => setActiveTab('home')}
                         icon={LayoutDashboard}
-                        label="Dashboard"
+                        label={t('duekeep.nav.dashboard')}
                     />
                     <NavButton
                         active={activeTab === 'calendar'}
                         onClick={() => setActiveTab('calendar')}
                         icon={Calendar}
-                        label="Calendar"
+                        label={t('duekeep.nav.calendar')}
                     />
                 </nav>
 
                 <div className="p-4 rounded-[var(--radius)] border-2 border-slate-800 bg-primary/10 shadow-[var(--box-shadow)]">
-                    <p className="text-sm font-bold mb-3 text-primary">Need to track something?</p>
+                    <p className="text-sm font-bold mb-3 text-primary">{t('duekeep.dashboard.needToTrack')}</p>
                     <button
                         onClick={() => onAdd?.()}
                         className="w-full flex items-center justify-center gap-2 bg-primary border-2 border-slate-800 shadow-[var(--box-shadow)] hover:-translate-y-0.5 hover:-translate-x-0.5 active:translate-y-0 text-primary-foreground py-3 px-4 rounded-[var(--radius)] font-bold transition-all"
                     >
                         <Plus className="w-5 h-5" />
-                        <span>Add New Event</span>
+                        <span>{t('duekeep.dashboard.addNew')}</span>
                     </button>
                 </div>
             </aside>
@@ -122,6 +124,7 @@ const HomeContent: React.FC<{
     onEdit?: (event: EventItem) => void
     onDelete?: (id: string) => void
 }> = ({ events, onEdit, onDelete }) => {
+    const { t } = useTranslation()
     const [filter, setFilter] = useState<'all' | 'past' | 'future'>('all')
     const now = new Date()
 
@@ -149,8 +152,7 @@ const HomeContent: React.FC<{
                             {todayStr}
                         </p>
                         <h1 className="text-4xl font-bold tracking-tight text-foreground">
-                            Good Morning, <br />
-                            <span className="text-primary">Creator</span>
+                            {t('duekeep.dashboard.greeting')}
                         </h1>
                     </div>
                     <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-primary to-purple-500 p-0.5 shadow-lg">
@@ -175,7 +177,7 @@ const HomeContent: React.FC<{
                                     : 'bg-background border border-border text-muted-foreground hover:border-foreground/20'
                                 }`}
                         >
-                            {f.charAt(0).toUpperCase() + f.slice(1)}
+                            {t(`duekeep.dashboard.filters.${f}`)}
                         </button>
                     ))}
                 </div>
@@ -196,8 +198,8 @@ const HomeContent: React.FC<{
                 {filteredEvents.length === 0 && (
                     <div className="flex flex-col items-center justify-center py-20 text-muted-foreground opacity-60">
                         <Calendar className="w-16 h-16 mb-4 stroke-1" />
-                        <p className="text-lg font-medium">No events found</p>
-                        <p className="text-sm">Try adding a new event to get started</p>
+                        <p className="text-lg font-medium">{t('duekeep.dashboard.empty.title')}</p>
+                        <p className="text-sm">{t('duekeep.dashboard.empty.message')}</p>
                     </div>
                 )}
             </div>
