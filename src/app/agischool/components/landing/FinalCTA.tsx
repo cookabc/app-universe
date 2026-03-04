@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * [INPUT]: 依赖 lucide-react 图标、shadcn/ui Button 组件
  * [OUTPUT]: 对外提供 FinalCTA 最终行动号召组件

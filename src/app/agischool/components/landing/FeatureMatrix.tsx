@@ -1,3 +1,5 @@
+'use client'
+
 import { Check, X, Sparkles, Zap, Shield, Rocket } from 'lucide-react'
 import { StaggerContainer, StaggerItem } from '../common/FadeIn'
 import { Button } from '../ui/button'

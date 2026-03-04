@@ -1,3 +1,5 @@
+'use client'
+
 import { ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 

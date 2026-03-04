@@ -1,3 +1,5 @@
+'use client'
+
 import { Flag, Map, Trophy, Star, ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
