@@ -1,3 +1,5 @@
+'use client'
+
 import { AnimatePresence, motion } from 'framer-motion'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import type { ApiProvider } from '../types'

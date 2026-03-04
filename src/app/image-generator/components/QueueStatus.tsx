@@ -1,3 +1,5 @@
+'use client'
+
 import { AnimatePresence, motion } from 'framer-motion'
 import { Loader } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'

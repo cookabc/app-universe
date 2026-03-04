@@ -1,3 +1,5 @@
+'use client'
+
 import { ArrowRight, PlayCircle, Sparkles, CheckCircle2 } from 'lucide-react'
 import { FadeIn } from '../common/FadeIn'
 import { Badge } from '../ui/badge'

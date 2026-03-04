@@ -1,3 +1,5 @@
+'use client'
+
 import { AnimatePresence, motion } from 'framer-motion'
 import { Download, Loader2, Maximize2, Share2, ImageIcon } from 'lucide-react'
 import Image from 'next/image'

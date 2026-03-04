@@ -1,3 +1,5 @@
+'use client'
+
 import { BookOpen, FlaskConical, School, ShieldCheck } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
