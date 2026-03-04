@@ -3,18 +3,20 @@ import { Loader } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import type { QueueState } from '../types'
+import { useTranslation } from 'react-i18next'
 
 interface QueueStatusProps {
     status: QueueState | null
 }
 
 export function QueueStatus({ status }: QueueStatusProps) {
+    const { t } = useTranslation()
     if (!status) {
         return (
             <Card>
                 <CardHeader>
-                    <CardTitle>Queue Status</CardTitle>
-                    <CardDescription>Loading queue status...</CardDescription>
+                    <CardTitle>{t('imageGenerator.queueStatus')}</CardTitle>
+                    <CardDescription>{t('imageGenerator.loadingQueueStatus')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Loader className="w-8 h-8 animate-spin" />
@@ -29,9 +31,9 @@ export function QueueStatus({ status }: QueueStatusProps) {
     return (
         <Card className="transition-all duration-300 hover:scale-105">
             <CardHeader>
-                <CardTitle>Queue Status</CardTitle>
+                <CardTitle>{t('imageGenerator.queueStatus')}</CardTitle>
                 <CardDescription>
-                    {allRequests.length} requests in queue. {activeWorkers}/{maxWorkers} workers active.
+                    {allRequests.length} {t('imageGenerator.requestsInQueue')} {activeWorkers}/{maxWorkers} {t('imageGenerator.workersActive')}
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -47,7 +49,7 @@ export function QueueStatus({ status }: QueueStatusProps) {
                                 exit={{ opacity: 0, y: 10 }}
                                 className="flex justify-between items-center text-sm p-2 bg-secondary rounded-md"
                             >
-                                <span>Request ID: {req.id.substring(0, 12)}...</span>
+                                <span>{t('imageGenerator.requestId')}: {req.id.substring(0, 12)}...</span>
                                 <span
                                     className={`px-2 py-1 rounded-full text-xs ${
                                         req.status === 'processing'

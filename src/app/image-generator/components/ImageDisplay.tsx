@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import type { GenerationRequest } from '../types'
+import { useTranslation } from 'react-i18next'
 
 interface ImageDisplayProps {
     generatedImage: string | null
@@ -15,6 +16,7 @@ interface ImageDisplayProps {
 }
 
 export function ImageDisplay({ generatedImage, isLoading, requestStatus, prompt }: ImageDisplayProps) {
+    const { t } = useTranslation()
     const handleDownload = () => {
         if (!generatedImage) return
         const link = document.createElement('a')
@@ -42,10 +44,10 @@ export function ImageDisplay({ generatedImage, isLoading, requestStatus, prompt 
                                 <Loader2 className="w-16 h-16 animate-spin text-primary relative z-10" />
                             </div>
                             <div className="flex flex-col items-center gap-2">
-                                <h3 className="text-xl font-medium animate-pulse">Dreaming...</h3>
+                                <h3 className="text-xl font-medium animate-pulse">{t('imageGenerator.dreaming')}</h3>
                                 {requestStatus && (
                                     <Badge variant="outline" className="animate-pulse bg-background/50">
-                                        {requestStatus.status}
+                                        {t(`imageGenerator.status.${requestStatus.status}`)}
                                     </Badge>
                                 )}
                             </div>
@@ -82,7 +84,7 @@ export function ImageDisplay({ generatedImage, isLoading, requestStatus, prompt 
                                             size="sm"
                                             className="bg-white/90 hover:bg-white text-black"
                                         >
-                                            <Download className="w-4 h-4 mr-2" /> Download
+                                            <Download className="w-4 h-4 mr-2" /> {t('imageGenerator.download')}
                                         </Button>
                                         <Button variant="outline" size="icon" className="text-white border-white/20 hover:bg-white/10">
                                             <Share2 className="w-4 h-4" />
@@ -107,9 +109,9 @@ export function ImageDisplay({ generatedImage, isLoading, requestStatus, prompt 
                             <div className="w-24 h-24 rounded-full bg-muted/30 flex items-center justify-center mb-6">
                                 <ImageIcon className="w-10 h-10 opacity-50" />
                             </div>
-                            <h3 className="text-xl font-semibold mb-2">Ready to Create</h3>
+                            <h3 className="text-xl font-semibold mb-2">{t('imageGenerator.readyToCreate')}</h3>
                             <p className="max-w-md mx-auto opacity-70">
-                                Enter a prompt in the panel to generate your first masterpiece.
+                                {t('imageGenerator.enterPrompt')}
                             </p>
                         </motion.div>
                     )}
