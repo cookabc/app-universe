@@ -1,6 +1,6 @@
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { languages } from '../constants'
+import { useTranslation } from 'react-i18next'
 
 interface HistorySectionProps {
     history: Array<{
@@ -21,17 +21,18 @@ interface HistorySectionProps {
 }
 
 export function HistorySection({ history, clearHistory, conversionStats, uiLanguage }: HistorySectionProps) {
+    const { t } = useTranslation()
     return (
         <div className="bg-card rounded-lg shadow-lg p-6 border-4 border-primary">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-semibold font-bangers text-foreground">{languages[uiLanguage].history}</h2>
+                <h2 className="text-2xl font-semibold font-bangers text-foreground">{t('langConverter.history')}</h2>
                 <Button variant="outline" size="sm" onClick={clearHistory} aria-label="Clear history">
                     <RotateCcw className="h-4 w-4 mr-2" />
-                    {languages[uiLanguage].clearHistory}
+                    {t('langConverter.clearHistory')}
                 </Button>
             </div>
             <div className="text-sm text-muted-foreground mb-4">
-                Total: {conversionStats.totalConversions} | Translations: {conversionStats.translationCount} | Japanese:
+                {t('langConverter.stats.total')}: {conversionStats.totalConversions} | {t('langConverter.stats.translations')}: {conversionStats.translationCount} | {t('langConverter.stats.japanese')}:
                 {conversionStats.japaneseCount}
             </div>
             <ul className="space-y-2">
@@ -43,8 +44,8 @@ export function HistorySection({ history, clearHistory, conversionStats, uiLangu
                         <p className="text-sm text-muted-foreground">{item.output}</p>
                         <p className="text-xs text-muted-foreground mt-1">
                             {item.mode === 'translation'
-                                ? languages[uiLanguage].tabs.translation
-                                : languages[uiLanguage].tabs.japaneseConversion}
+                                ? t('langConverter.tabs.translation')
+                                : t('langConverter.tabs.japaneseConversion')}
                         </p>
                     </li>
                 ))}

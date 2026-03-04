@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useOptimistic, useState, useTransition } from 'react'
 import { getCachedTranslation, japaneseConvert } from '@/app/actions'
-import { languages } from '../constants'
+import { useTranslation } from 'react-i18next'
 
 interface ConversionHistoryItem {
     id: string
@@ -16,6 +16,7 @@ interface UseLanguageConverterProps {
 }
 
 export function useLanguageConverter({ uiLanguage }: UseLanguageConverterProps) {
+    const { t } = useTranslation()
     const [inputText, setInputText] = useState('')
     const [outputText, setOutputText] = useState('')
     const [fromLang, setFromLang] = useState('en')
@@ -58,7 +59,7 @@ export function useLanguageConverter({ uiLanguage }: UseLanguageConverterProps) 
 
     const convertText = useCallback(async () => {
         if (!inputText.trim()) {
-            setError(languages[uiLanguage].inputPlaceholder)
+            setError(t('langConverter.inputPlaceholder'))
             return
         }
 
@@ -94,7 +95,7 @@ export function useLanguageConverter({ uiLanguage }: UseLanguageConverterProps) 
             localStorage.setItem('conversionHistory', JSON.stringify(newHistory))
         } catch (err) {
             console.error('Error details:', err)
-            setError(`${languages[uiLanguage].error}: ${err instanceof Error ? err.message : 'Unknown error'}`)
+            setError(`${t('langConverter.error')}: ${err instanceof Error ? err.message : 'Unknown error'}`)
             setHistory((prev) => prev.filter((item) => item.id !== newHistoryItem.id))
         } finally {
             setIsLoading(false)

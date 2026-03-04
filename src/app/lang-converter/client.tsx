@@ -7,9 +7,11 @@ import { HistorySection } from './components/history-section'
 import { useLanguageConverter } from './hooks/useLanguageConverter'
 import { motion } from 'framer-motion'
 import { Languages } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export default function LangConverterClient() {
-    const [uiLanguage, setUiLanguage] = useState<'en' | 'ja' | 'zh'>('en')
+    const { t, i18n } = useTranslation()
+    const uiLanguage = i18n.language as 'en' | 'ja' | 'zh'
 
     const {
         inputText,
@@ -51,10 +53,10 @@ export default function LangConverterClient() {
                             <Languages className="w-8 h-8" />
                         </div>
                         <h1 className="text-3xl md:text-4xl font-black tracking-tight">
-                            Global Translator
+                            {t('langConverter.appName')}
                         </h1>
                         <p className="text-muted-foreground text-base max-w-lg">
-                            Break language barriers with our smart translation engine.
+                            {t('langConverter.subtitle')}
                         </p>
                     </motion.div>
 
