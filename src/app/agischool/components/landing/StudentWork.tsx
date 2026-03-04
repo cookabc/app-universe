@@ -1,6 +1,8 @@
 import { ArrowRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export function StudentWork() {
+    const { t } = useTranslation()
     const projects = [
         {
             title: 'Cyber City Concept',
@@ -30,10 +32,10 @@ export function StudentWork() {
             <div className="max-w-[1200px] w-full flex flex-col gap-10">
                 <div className="flex flex-col items-center text-center gap-4">
                     <h2 className="text-3xl md:text-4xl font-black text-text-main dark:text-white">
-                        What Our Students Build
+                        {t('agischool.studentWork.title')}
                     </h2>
                     <p className="text-lg text-text-muted dark:text-gray-400 max-w-[600px]">
-                        From AI-generated comic books to object detection apps for recycling. See what's possible.
+                        {t('agischool.studentWork.subtitle')}
                     </p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -65,7 +67,7 @@ export function StudentWork() {
                 </div>
                 <div className="flex justify-center mt-6">
                     <button className="flex items-center gap-2 text-primary font-bold hover:underline">
-                        View All Projects <ArrowRight className="w-5 h-5" />
+                        {t('agischool.studentWork.viewAll')} <ArrowRight className="w-5 h-5" />
                     </button>
                 </div>
             </div>

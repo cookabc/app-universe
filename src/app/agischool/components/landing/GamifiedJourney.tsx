@@ -1,30 +1,32 @@
 import { Flag, Map, Trophy, Star, ArrowRight } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 
 export function GamifiedJourney() {
+    const { t } = useTranslation()
+    const journeySteps = t('agischool.journey.steps', { returnObjects: true }) as Array<{ title: string; desc: string }>
     const steps = [
         {
             icon: Flag,
-            title: 'Start',
-            desc: 'Begin your AI adventure',
+            title: journeySteps[0]?.title || '',
+            desc: journeySteps[0]?.desc || '',
             status: 'completed',
         },
         {
             icon: Map,
-            title: 'Basics',
-            desc: 'Learn fundamental concepts',
+            title: journeySteps[1]?.title || '',
+            desc: journeySteps[1]?.desc || '',
             status: 'current',
         },
         {
             icon: Star,
-            title: 'Skills',
-            desc: 'Master prompting & tools',
+            title: journeySteps[2]?.title || '',
+            desc: journeySteps[2]?.desc || '',
             status: 'locked',
         },
         {
             icon: Trophy,
-            title: 'Mastery',
-            desc: 'Build complex AI agents',
+            title: journeySteps[3]?.title || '',
+            desc: journeySteps[3]?.desc || '',
             status: 'locked',
         },
     ]
@@ -33,9 +35,9 @@ export function GamifiedJourney() {
         <section className="w-full bg-muted/30 py-24 px-4 overflow-hidden">
             <div className="max-w-[1200px] mx-auto">
                 <div className="text-center mb-16 space-y-4">
-                    <h2 className="text-3xl md:text-4xl font-black text-foreground">Your Learning Roadmap</h2>
+                    <h2 className="text-3xl md:text-4xl font-black text-foreground">{t('agischool.journey.title')}</h2>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                        Track your progress visually. Earn XP, unlock badges, and level up as you master new AI skills.
+                        {t('agischool.journey.subtitle')}
                     </p>
                 </div>
 
