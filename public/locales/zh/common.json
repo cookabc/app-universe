@@ -1,0 +1,491 @@
+{
+  "app": {
+    "name": "应用宇宙",
+    "description": "发现并使用令人惊叹的AI驱动工具"
+  },
+  "navigation": {
+    "home": "首页",
+    "apps": "应用",
+    "pricing": "定价",
+    "login": "登录",
+    "signup": "注册",
+    "profile": "个人资料",
+    "logout": "退出登录"
+  },
+  "hero": {
+    "title": "所有 <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-blue-500\">AI 工具</span>\n尽在一处。",
+    "subtitle": "体验精心策划的下一代应用集合。从生成艺术到智能自动化，用尖端AI为您的工作流程提供动力。",
+    "cta": "开始使用",
+    "badge": "欢迎来到应用的未来",
+    "viewSource": "查看源码"
+  },
+  "trustedBy": "受到领先AI公司开发者的信任",
+  "launchApp": "启动应用",
+  "pricing": {
+    "title": "为您找到完美的计划",
+    "subtitle": "免费开始，然后随着成长升级。",
+    "plans": {
+      "free": {
+        "name": "免费",
+        "description": "适合个人和爱好者",
+        "price": "¥0",
+        "period": "/月",
+        "features": [
+          "基本提示实验室访问",
+          "3 个 AI 制品",
+          "社区支持"
+        ],
+        "cta": "开始使用"
+      },
+      "pro": {
+        "name": "专业版",
+        "description": "适合专业开发者",
+        "price": "¥29",
+        "period": "/月",
+        "features": [
+          "无限提示实验室使用",
+          "无限 AI 制品",
+          "访问 AI 工作台",
+          "高级模型（GPT-4 等）",
+          "优先支持"
+        ],
+        "cta": "升级到专业版"
+      },
+      "team": {
+        "name": "团队版",
+        "description": "适合协作项目",
+        "price": "¥79",
+        "period": "/月",
+        "features": [
+          "所有专业版功能",
+          "团队协作工具",
+          "集中计费",
+          "更高的 API 速率限制",
+          "专属客户经理"
+        ],
+        "cta": "联系销售"
+      }
+    }
+  },
+  "agischool": {
+    "hero": {
+      "badge": "未来领导者的首选 AI 学校",
+      "title": "掌握未来，从 AGI 学校开始",
+      "subtitle": "加入世界上最先进的 AI 素养平台。通过实践学习，构建真实应用，并获得下一代技术的认证。",
+      "cta": "立即开始学习",
+      "demo": "观看演示",
+      "noCreditCard": "无需信用卡",
+      "freeTrial": "14 天免费试用",
+      "completionRate": "课程完成率",
+      "completionRateDesc": "我们的学生坚持完成他们的学习。"
+    },
+    "trust": {
+      "title": "受到 50+ 前瞻思维学校的信任",
+      "schools": [
+        "科技高中",
+        "未来学院",
+        "STEM 预备学校",
+        "创新 K12"
+      ]
+    },
+    "features": {
+      "title": "选择你的 AI 精通之路",
+      "subtitle": "为学习旅程的每个阶段提供透明定价。无隐藏费用。",
+      "badge": "定价方案",
+      "mostPopular": "最受欢迎",
+      "plans": {
+        "free": {
+          "name": "免费",
+          "price": "¥0",
+          "period": "/月",
+          "desc": "使用基本工具和教程开始你的 AI 之旅。",
+          "features": [
+            "访问 3 门入门课程",
+            "基本社区支持",
+            "每天 5 次 AI 生成",
+            "仅限网页访问"
+          ],
+          "cta": "开始使用"
+        },
+        "pro": {
+          "name": "专业版",
+          "price": "¥29",
+          "period": "/月",
+          "desc": "通过高级项目和指导释放全部潜力。",
+          "features": [
+            "无限课程访问",
+            "优先指导",
+            "无限 AI 生成",
+            "可下载资源",
+            "完成证书"
+          ],
+          "cta": "升级到专业版"
+        },
+        "enterprise": {
+          "name": "企业版",
+          "price": "定制",
+          "period": "",
+          "desc": "为学校和大型组织量身定制的解决方案。",
+          "features": [
+            "定制课程",
+            "管理员仪表板",
+            "SSO 和安全",
+            "专属成功经理",
+            "API 访问"
+          ],
+          "cta": "联系销售"
+        }
+      }
+    },
+    "journey": {
+      "title": "你的学习路线图",
+      "subtitle": "直观跟踪你的进度。赚取经验值，解锁徽章，并在掌握新 AI 技能时升级。",
+      "steps": [
+        {
+          "title": "开始",
+          "desc": "开始你的 AI 冒险"
+        },
+        {
+          "title": "基础",
+          "desc": "学习基本概念"
+        },
+        {
+          "title": "技能",
+          "desc": "掌握提示和工具"
+        },
+        {
+          "title": "精通",
+          "desc": "构建复杂的 AI 代理"
+        }
+      ]
+    },
+    "studentWork": {
+      "title": "我们的学生构建了什么",
+      "subtitle": "从 AI 生成的漫画书到用于回收的物体检测应用。看看什么是可能的。",
+      "viewAll": "查看所有项目"
+    },
+    "cta": {
+      "badge": "今天开始你的 AI 之旅",
+      "title": "准备好解锁你的",
+      "subtitle": "AI 超能力了吗？",
+      "description": "加入已经掌握 AI 技能的 10,000+ 学生。从免费教程开始，然后解锁高级项目和个性化学习路径。",
+      "primaryButton": "免费开始",
+      "secondaryButton": "查看定价",
+      "trust": "无需信用卡 • 随时取消 • 14 天免费试用"
+    }
+  },
+  "duekeep": {
+    "appName": "DueKeep",
+    "nav": {
+      "dashboard": "仪表盘",
+      "calendar": "日历"
+    },
+    "addEvent": {
+      "title": "添加事件",
+      "editTitle": "编辑事件",
+      "cancel": "取消",
+      "save": "保存",
+      "eventName": "事件名称",
+      "eventNamePlaceholder": "输入事件名称",
+      "eventType": "事件类型",
+      "pastEvent": "过去事件",
+      "futureEvent": "未来事件",
+      "date": "日期",
+      "time": "时间",
+      "allDay": "全天",
+      "color": "颜色",
+      "options": "选项",
+      "category": "分类",
+      "repeat": "重复",
+      "alert": "提醒",
+      "on": "开启",
+      "off": "关闭",
+      "errors": {
+        "required": "事件名称是必填项",
+        "minLength": "事件名称至少需要 2 个字符"
+      }
+    },
+    "dashboard": {
+      "greeting": "早上好，创建者",
+      "filters": {
+        "all": "全部",
+        "future": "未来",
+        "past": "过去"
+      },
+      "empty": {
+        "title": "未找到事件",
+        "message": "尝试添加一个新事件来开始"
+      },
+      "addNew": "添加新事件",
+      "needToTrack": "需要跟踪什么吗？"
+    }
+  },
+  "typingPractice": {
+    "appName": "TypeFlow",
+    "stats": {
+      "wpm": "每分钟字数",
+      "accuracy": "准确率",
+      "time": "时间"
+    },
+    "capsLock": "大写锁定",
+    "restart": "重新开始",
+    "typingArea": "打字区域"
+  },
+  "langConverter": {
+    "appName": "全球翻译器",
+    "subtitle": "使用我们的智能翻译引擎打破语言障碍。",
+    "inputPlaceholder": "在此输入文本...",
+    "convertButton": "转换！",
+    "loading": "转换中...",
+    "result": "结果：",
+    "history": "转换历史",
+    "clearHistory": "清除历史",
+    "error": "错误",
+    "swap": "交换语言",
+    "speak": "朗读",
+    "copy": "复制",
+    "copied": "已复制！",
+    "listen": "听",
+    "translationWillAppear": "翻译将显示在此处",
+    "translating": "正在翻译...",
+    "tabs": {
+      "translation": "翻译",
+      "japaneseConversion": "日语转换"
+    },
+    "languageOptions": [
+      { "value": "en", "label": "英语" },
+      { "value": "ja", "label": "日语" },
+      { "value": "zh", "label": "中文" }
+    ],
+    "japaneseOptions": [
+      { "value": "hiragana", "label": "平假名" },
+      { "value": "katakana", "label": "片假名" },
+      { "value": "kanji", "label": "汉字" },
+      { "value": "romaji", "label": "罗马字" }
+    ],
+    "stats": {
+      "total": "总计",
+      "translations": "翻译",
+      "japanese": "日语"
+    }
+  },
+  "imageGenerator": {
+    "appName": "AI 图像工作室",
+    "subtitle": "使用我们的高级生成引擎，将您的想象力转化为令人惊叹的视觉效果。",
+    "recentCreations": "最近创作",
+    "prompt": "提示词",
+    "promptPlaceholder": "描述您想要创建的图像...",
+    "negativePrompt": "负面提示词",
+    "negativePromptPlaceholder": "图像中要避免的内容...",
+    "generate": "生成",
+    "generating": "生成中...",
+    "reset": "重置",
+    "providerStatus": "提供商状态",
+    "providerStatusDesc": "图像生成提供商的实时状态。",
+    "queueStatus": "队列状态",
+    "queuePosition": "位置",
+    "queueLength": "队列长度",
+    "estimatedTime": "预计时间",
+    "generationControls": "生成控制",
+    "configureParams": "配置图像参数",
+    "basic": "基础",
+    "advanced": "高级",
+    "promptCopied": "提示词已复制！",
+    "promptCopiedDesc": "提示词已复制到您的剪贴板。",
+    "modelSettings": "模型设置",
+    "advancedParamsDesc": "步数、CFG 比例和种子等高级参数将在下次更新中提供。",
+    "loadingQueueStatus": "正在加载队列状态...",
+    "requestsInQueue": "个请求在队列中。",
+    "workersActive": "个工作进程活跃。",
+    "requestId": "请求 ID",
+    "dreaming": "正在生成...",
+    "download": "下载",
+    "readyToCreate": "准备创建",
+    "enterPrompt": "在面板中输入提示词以生成您的第一个杰作。",
+    "status": {
+      "pending": "等待中",
+      "processing": "处理中",
+      "completed": "已完成",
+      "failed": "失败"
+    }
+  },
+  "realtimeFund": {
+    "appName": "实时基金",
+    "subtitle": "实时追踪您的基金投资",
+    "loading": "正在加载基金数据...",
+    "error": "加载基金数据失败",
+    "searchPlaceholder": "搜索基金代码或名称...",
+    "addFund": "添加基金",
+    "favorites": "收藏",
+    "allFunds": "全部基金",
+    "groups": "分组",
+    "settings": "设置",
+    "refresh": "刷新",
+    "lastUpdated": "最后更新",
+    "nav": "净值",
+    "estimate": "估值",
+    "change": "涨跌幅",
+    "holdings": "持仓",
+    "market": "市场",
+    "feedback": "反馈",
+    "donate": "捐赠",
+    "addToGroup": "添加到分组",
+    "createGroup": "创建分组",
+    "manageGroups": "管理分组",
+    "confirmDelete": "确定要删除吗？",
+    "yes": "是",
+    "no": "否",
+    "save": "保存",
+    "cancel": "取消",
+    "close": "关闭",
+    "fundCode": "基金代码",
+    "fundName": "基金名称",
+    "share": "份额",
+    "cost": "成本",
+    "profit": "收益",
+    "profitRate": "收益率",
+    "today": "今日",
+    "total": "总计"
+  },
+
+  "footer": {
+    "copyright": "© 2026 应用宇宙。保留所有权利。",
+    "links": {
+      "privacy": "隐私政策",
+      "terms": "服务条款",
+      "contact": "联系我们"
+    }
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "出错了",
+    "success": "成功！",
+    "confirm": "确认",
+    "cancel": "取消",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "add": "添加",
+    "remove": "移除",
+    "search": "搜索",
+    "filter": "筛选",
+    "sort": "排序",
+    "refresh": "刷新",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "done": "完成",
+    "close": "关闭",
+    "open": "打开",
+    "copy": "复制",
+    "paste": "粘贴",
+    "cut": "剪切",
+    "selectAll": "全选",
+    "deselectAll": "取消全选",
+    "clear": "清除",
+    "reset": "重置",
+    "apply": "应用",
+    "cancelChanges": "取消更改",
+    "saveChanges": "保存更改",
+    "areYouSure": "您确定吗？",
+    "yes": "是",
+    "no": "否",
+    "ok": "确定",
+    "cancel": "取消",
+    "continue": "继续",
+    "finish": "完成",
+    "start": "开始",
+    "stop": "停止",
+    "pause": "暂停",
+    "resume": "恢复",
+    "restart": "重新开始",
+    "skip": "跳过",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "first": "第一个",
+    "last": "最后一个",
+    "more": "更多",
+    "less": "更少",
+    "expand": "展开",
+    "collapse": "折叠",
+    "show": "显示",
+    "hide": "隐藏",
+    "view": "查看",
+    "edit": "编辑",
+    "delete": "删除",
+    "create": "创建",
+    "update": "更新",
+    "save": "保存",
+    "cancel": "取消",
+    "submit": "提交",
+    "reset": "重置",
+    "clear": "清除",
+    "search": "搜索",
+    "filter": "筛选",
+    "sort": "排序",
+    "refresh": "刷新",
+    "loadMore": "加载更多",
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "warning": "警告",
+    "info": "信息",
+    "close": "关闭",
+    "open": "打开",
+    "copy": "复制",
+    "paste": "粘贴",
+    "cut": "剪切",
+    "selectAll": "全选",
+    "deselectAll": "取消全选",
+    "clear": "清除",
+    "reset": "重置",
+    "apply": "应用",
+    "cancelChanges": "取消更改",
+    "saveChanges": "保存更改",
+    "areYouSure": "您确定吗？",
+    "yes": "是",
+    "no": "否",
+    "ok": "确定",
+    "cancel": "取消",
+    "continue": "继续",
+    "finish": "完成",
+    "start": "开始",
+    "stop": "停止",
+    "pause": "暂停",
+    "resume": "恢复",
+    "restart": "重新开始",
+    "skip": "跳过",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "first": "第一个",
+    "last": "最后一个",
+    "more": "更多",
+    "less": "更少",
+    "expand": "展开",
+    "collapse": "折叠",
+    "show": "显示",
+    "hide": "隐藏",
+    "view": "查看",
+    "edit": "编辑",
+    "delete": "删除",
+    "create": "创建",
+    "update": "更新",
+    "save": "保存",
+    "cancel": "取消",
+    "submit": "提交",
+    "reset": "重置",
+    "clear": "清除",
+    "search": "搜索",
+    "filter": "筛选",
+    "sort": "排序",
+    "refresh": "刷新",
+    "loadMore": "加载更多",
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "warning": "警告",
+    "info": "信息"
+  }
+}

@@ -1,0 +1,490 @@
+{
+  "app": {
+    "name": "App Universe",
+    "description": "Discover and use amazing AI-powered tools"
+  },
+  "navigation": {
+    "home": "Home",
+    "apps": "Apps",
+    "pricing": "Pricing",
+    "login": "Login",
+    "signup": "Sign Up",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "hero": {
+    "title": "All the <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-blue-500\">AI Tools</span>\nYou Need in One Place.",
+    "subtitle": "Experience a curated collection of next-generation applications. From generative art to intelligent automation, power your workflow with cutting-edge AI.",
+    "cta": "Get Started",
+    "badge": "Welcome to the Future of Apps",
+    "viewSource": "View Source"
+  },
+  "trustedBy": "Trusted by Developers at Leading AI Companies",
+  "launchApp": "Launch App",
+  "pricing": {
+    "title": "Find the perfect plan for you",
+    "subtitle": "Start for free, then upgrade as you grow.",
+    "plans": {
+      "free": {
+        "name": "Free",
+        "description": "For individuals and hobbyists",
+        "price": "$0",
+        "period": "/month",
+        "features": [
+          "Basic Prompt Lab access",
+          "3 AI Artifacts",
+          "Community support"
+        ],
+        "cta": "Get Started"
+      },
+      "pro": {
+        "name": "Pro",
+        "description": "For professional developers",
+        "price": "$29",
+        "period": "/month",
+        "features": [
+          "Unlimited Prompt Lab usage",
+          "Unlimited AI Artifacts",
+          "Access to AI Workbench",
+          "Advanced models (GPT-4, etc.)",
+          "Priority support"
+        ],
+        "cta": "Upgrade to Pro"
+      },
+      "team": {
+        "name": "Team",
+        "description": "For collaborative projects",
+        "price": "$79",
+        "period": "/month",
+        "features": [
+          "All Pro features",
+          "Team collaboration tools",
+          "Centralized billing",
+          "Higher API rate limits",
+          "Dedicated account manager"
+        ],
+        "cta": "Contact Sales"
+      }
+    }
+  },
+  "agischool": {
+    "hero": {
+      "badge": "The #1 AI School for Future Leaders",
+      "title": "Master the Future with AGI School",
+      "subtitle": "Join the world's most advanced AI literacy platform. Learn by doing, build real apps, and get certified in next-gen technologies.",
+      "cta": "Start Learning Now",
+      "demo": "View Demo",
+      "noCreditCard": "No credit card required",
+      "freeTrial": "14-day free trial",
+      "completionRate": "Course Completion Rate",
+      "completionRateDesc": "Our students finish what they start."
+    },
+    "trust": {
+      "title": "Trusted by 50+ Forward-Thinking Schools",
+      "schools": [
+        "TechHigh",
+        "FutureAcad",
+        "STEM Prep",
+        "InnovateK12"
+      ]
+    },
+    "features": {
+      "title": "Choose Your Path to AI Mastery",
+      "subtitle": "Transparent pricing for every stage of your learning journey. No hidden fees.",
+      "badge": "Pricing Plans",
+      "mostPopular": "Most Popular",
+      "plans": {
+        "free": {
+          "name": "Free",
+          "price": "$0",
+          "period": "/month",
+          "desc": "Start your AI journey with basic tools and tutorials.",
+          "features": [
+            "Access to 3 intro courses",
+            "Basic community support",
+            "5 AI generations/day",
+            "Web-only access"
+          ],
+          "cta": "Get Started"
+        },
+        "pro": {
+          "name": "Pro",
+          "price": "$29",
+          "period": "/month",
+          "desc": "Unlock full potential with advanced projects and mentorship.",
+          "features": [
+            "Unlimited course access",
+            "Priority mentorship",
+            "Unlimited AI generations",
+            "Downloadable resources",
+            "Certificate of completion"
+          ],
+          "cta": "Upgrade to Pro"
+        },
+        "enterprise": {
+          "name": "Enterprise",
+          "price": "Custom",
+          "period": "",
+          "desc": "Tailored solutions for schools and large organizations.",
+          "features": [
+            "Custom curriculum",
+            "Admin dashboard",
+            "SSO & Security",
+            "Dedicated success manager",
+            "API access"
+          ],
+          "cta": "Contact Sales"
+        }
+      }
+    },
+    "journey": {
+      "title": "Your Learning Roadmap",
+      "subtitle": "Track your progress visually. Earn XP, unlock badges, and level up as you master new AI skills.",
+      "steps": [
+        {
+          "title": "Start",
+          "desc": "Begin your AI adventure"
+        },
+        {
+          "title": "Basics",
+          "desc": "Learn fundamental concepts"
+        },
+        {
+          "title": "Skills",
+          "desc": "Master prompting & tools"
+        },
+        {
+          "title": "Mastery",
+          "desc": "Build complex AI agents"
+        }
+      ]
+    },
+    "studentWork": {
+      "title": "What Our Students Build",
+      "subtitle": "From AI-generated comic books to object detection apps for recycling. See what's possible.",
+      "viewAll": "View All Projects"
+    },
+    "cta": {
+      "badge": "Start Your AI Journey Today",
+      "title": "Ready to Unlock Your",
+      "subtitle": "AI Superpowers?",
+      "description": "Join 10,000+ students already mastering AI skills. Start with free tutorials, then unlock premium projects and personalized learning paths.",
+      "primaryButton": "Get Started Free",
+      "secondaryButton": "View Pricing",
+      "trust": "No credit card required • Cancel anytime • 14-day free trial"
+    }
+  },
+  "duekeep": {
+    "appName": "DueKeep",
+    "nav": {
+      "dashboard": "Dashboard",
+      "calendar": "Calendar"
+    },
+    "addEvent": {
+      "title": "Add Event",
+      "editTitle": "Edit Event",
+      "cancel": "Cancel",
+      "save": "Save",
+      "eventName": "Event Name",
+      "eventNamePlaceholder": "Enter event name",
+      "eventType": "Event Type",
+      "pastEvent": "Past Event",
+      "futureEvent": "Future Event",
+      "date": "Date",
+      "time": "Time",
+      "allDay": "All-day",
+      "color": "Color",
+      "options": "Options",
+      "category": "Category",
+      "repeat": "Repeat",
+      "alert": "Alert",
+      "on": "On",
+      "off": "Off",
+      "errors": {
+        "required": "Event name is required",
+        "minLength": "Event name must be at least 2 characters"
+      }
+    },
+    "dashboard": {
+      "greeting": "Good Morning, Creator",
+      "filters": {
+        "all": "All",
+        "future": "Future",
+        "past": "Past"
+      },
+      "empty": {
+        "title": "No events found",
+        "message": "Try adding a new event to get started"
+      },
+      "addNew": "Add New Event",
+      "needToTrack": "Need to track something?"
+    }
+  },
+  "typingPractice": {
+    "appName": "TypeFlow",
+    "stats": {
+      "wpm": "WPM",
+      "accuracy": "Acc",
+      "time": "Time"
+    },
+    "capsLock": "Caps Lock",
+    "restart": "Restart",
+    "typingArea": "Typing area"
+  },
+  "langConverter": {
+    "appName": "Global Translator",
+    "subtitle": "Break language barriers with our smart translation engine.",
+    "inputPlaceholder": "Enter text here...",
+    "convertButton": "Convert!",
+    "loading": "Converting...",
+    "result": "Result:",
+    "history": "Conversion History",
+    "clearHistory": "Clear History",
+    "error": "Error",
+    "swap": "Swap languages",
+    "speak": "Speak",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "listen": "Listen",
+    "translationWillAppear": "Translation will appear here",
+    "translating": "Translating...",
+    "tabs": {
+      "translation": "Translation",
+      "japaneseConversion": "Japanese Conversion"
+    },
+    "languageOptions": [
+      { "value": "en", "label": "English" },
+      { "value": "ja", "label": "Japanese" },
+      { "value": "zh", "label": "Chinese" }
+    ],
+    "japaneseOptions": [
+      { "value": "hiragana", "label": "Hiragana" },
+      { "value": "katakana", "label": "Katakana" },
+      { "value": "kanji", "label": "Kanji" },
+      { "value": "romaji", "label": "Romaji" }
+    ],
+    "stats": {
+      "total": "Total",
+      "translations": "Translations",
+      "japanese": "Japanese"
+    }
+  },
+  "imageGenerator": {
+    "appName": "AI Image Studio",
+    "subtitle": "Transform your imagination into stunning visuals with our advanced generation engine.",
+    "recentCreations": "Recent Creations",
+    "prompt": "Prompt",
+    "promptPlaceholder": "Describe the image you want to create...",
+    "negativePrompt": "Negative Prompt",
+    "negativePromptPlaceholder": "What to avoid in the image...",
+    "generate": "Generate",
+    "generating": "Generating...",
+    "reset": "Reset",
+    "providerStatus": "Provider Status",
+    "providerStatusDesc": "Real-time status of image generation providers.",
+    "queueStatus": "Queue Status",
+    "queuePosition": "Position",
+    "queueLength": "Queue Length",
+    "estimatedTime": "Estimated Time",
+    "generationControls": "Generation Controls",
+    "configureParams": "Configure your image parameters",
+    "basic": "Basic",
+    "advanced": "Advanced",
+    "promptCopied": "Prompt copied!",
+    "promptCopiedDesc": "The prompt has been copied to your clipboard.",
+    "modelSettings": "Model Settings",
+    "advancedParamsDesc": "Advanced parameters like Steps, CFG Scale, and Seed will be available in the next update.",
+    "loadingQueueStatus": "Loading queue status...",
+    "requestsInQueue": "requests in queue.",
+    "workersActive": "workers active.",
+    "requestId": "Request ID",
+    "dreaming": "Dreaming...",
+    "download": "Download",
+    "readyToCreate": "Ready to Create",
+    "enterPrompt": "Enter a prompt in the panel to generate your first masterpiece.",
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "completed": "Completed",
+      "failed": "Failed"
+    }
+  },
+  "realtimeFund": {
+    "appName": "Real-time Fund",
+    "subtitle": "Track your fund investments in real-time",
+    "loading": "Loading fund data...",
+    "error": "Failed to load fund data",
+    "searchPlaceholder": "Search fund code or name...",
+    "addFund": "Add Fund",
+    "favorites": "Favorites",
+    "allFunds": "All Funds",
+    "groups": "Groups",
+    "settings": "Settings",
+    "refresh": "Refresh",
+    "lastUpdated": "Last updated",
+    "nav": "NAV",
+    "estimate": "Estimate",
+    "change": "Change",
+    "holdings": "Holdings",
+    "market": "Market",
+    "feedback": "Feedback",
+    "donate": "Donate",
+    "addToGroup": "Add to Group",
+    "createGroup": "Create Group",
+    "manageGroups": "Manage Groups",
+    "confirmDelete": "Are you sure you want to delete?",
+    "yes": "Yes",
+    "no": "No",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "fundCode": "Fund Code",
+    "fundName": "Fund Name",
+    "share": "Share",
+    "cost": "Cost",
+    "profit": "Profit",
+    "profitRate": "Profit Rate",
+    "today": "Today",
+    "total": "Total"
+  },
+  "footer": {
+    "copyright": "© 2026 App Universe. All rights reserved.",
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "contact": "Contact Us"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "success": "Success!",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "remove": "Remove",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "done": "Done",
+    "close": "Close",
+    "open": "Open",
+    "copy": "Copy",
+    "paste": "Paste",
+    "cut": "Cut",
+    "selectAll": "Select All",
+    "deselectAll": "Deselect All",
+    "clear": "Clear",
+    "reset": "Reset",
+    "apply": "Apply",
+    "cancelChanges": "Cancel Changes",
+    "saveChanges": "Save Changes",
+    "areYouSure": "Are you sure?",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "finish": "Finish",
+    "start": "Start",
+    "stop": "Stop",
+    "pause": "Pause",
+    "resume": "Resume",
+    "restart": "Restart",
+    "skip": "Skip",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "first": "First",
+    "last": "Last",
+    "more": "More",
+    "less": "Less",
+    "expand": "Expand",
+    "collapse": "Collapse",
+    "show": "Show",
+    "hide": "Hide",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "create": "Create",
+    "update": "Update",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "reset": "Reset",
+    "clear": "Clear",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "loadMore": "Load More",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Info",
+    "close": "Close",
+    "open": "Open",
+    "copy": "Copy",
+    "paste": "Paste",
+    "cut": "Cut",
+    "selectAll": "Select All",
+    "deselectAll": "Deselect All",
+    "clear": "Clear",
+    "reset": "Reset",
+    "apply": "Apply",
+    "cancelChanges": "Cancel Changes",
+    "saveChanges": "Save Changes",
+    "areYouSure": "Are you sure?",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "finish": "Finish",
+    "start": "Start",
+    "stop": "Stop",
+    "pause": "Pause",
+    "resume": "Resume",
+    "restart": "Restart",
+    "skip": "Skip",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "first": "First",
+    "last": "Last",
+    "more": "More",
+    "less": "Less",
+    "expand": "Expand",
+    "collapse": "Collapse",
+    "show": "Show",
+    "hide": "Hide",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "create": "Create",
+    "update": "Update",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "reset": "Reset",
+    "clear": "Clear",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "loadMore": "Load More",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Info"
+  }
+}
