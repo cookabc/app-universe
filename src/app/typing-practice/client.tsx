@@ -11,8 +11,10 @@ import { useTypingGame } from './hooks/useTypingGame'
 import { useVirtualKeyboard } from './hooks/useVirtualKeyboard'
 import { TypingEffect, type TypingEffectHandle } from './typing-effect'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 
 export default function TypingPracticeClient() {
+    const { t } = useTranslation()
     const [text] = useState(SAMPLE_TEXT)
     const [isInvalid, setIsInvalid] = useState(false)
     const effectRef = useRef<TypingEffectHandle>(null)
@@ -169,20 +171,20 @@ export default function TypingPracticeClient() {
                 >
                     <div className="flex items-center gap-2 text-primary font-bold text-xl">
                         <Keyboard className="w-6 h-6" />
-                        TypeFlow
+                        {t('typingPractice.appName')}
                     </div>
                     <div className="flex gap-8 text-sm font-medium text-muted-foreground">
                         <div className="flex flex-col items-center">
                             <span className="text-2xl font-bold text-foreground">{gameStats.wpm}</span>
-                            <span className="text-xs uppercase tracking-wider">WPM</span>
+                            <span className="text-xs uppercase tracking-wider">{t('typingPractice.stats.wpm')}</span>
                         </div>
                         <div className="flex flex-col items-center">
                             <span className="text-2xl font-bold text-foreground">{gameStats.accuracy}%</span>
-                            <span className="text-xs uppercase tracking-wider">Acc</span>
+                            <span className="text-xs uppercase tracking-wider">{t('typingPractice.stats.accuracy')}</span>
                         </div>
                         <div className="hidden sm:flex flex-col items-center">
                             <span className="text-2xl font-bold text-foreground">{gameStats.timeElapsed}</span>
-                            <span className="text-xs uppercase tracking-wider">Time</span>
+                            <span className="text-xs uppercase tracking-wider">{t('typingPractice.stats.time')}</span>
                         </div>
                     </div>
                 </motion.div>
@@ -199,7 +201,7 @@ export default function TypingPracticeClient() {
                             }}
                             onKeyDown={handleKeyPress}
                             role="textbox"
-                            aria-label="Typing area"
+                            aria-label={t('typingPractice.typingArea')}
                             aria-invalid={isInvalid}
                             tabIndex={0}
                         >
@@ -209,7 +211,7 @@ export default function TypingPracticeClient() {
                                     className="absolute -top-12 right-0 flex items-center gap-1.5 text-xs font-medium text-amber-500 bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/20"
                                 >
                                     <Lock className="w-3 h-3" />
-                                    Caps Lock
+                                    {t('typingPractice.capsLock')}
                                 </div>
                             )}
                             {chars.map((char, index) => (
@@ -242,7 +244,7 @@ export default function TypingPracticeClient() {
                                 className="gap-2 text-muted-foreground hover:text-foreground"
                             >
                                 <RotateCcw className="w-4 h-4" />
-                                <span className="text-xs uppercase tracking-widest">Restart</span>
+                                <span className="text-xs uppercase tracking-widest">{t('typingPractice.restart')}</span>
                             </Button>
                         </motion.div>
                     </div>

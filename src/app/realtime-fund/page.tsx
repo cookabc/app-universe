@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
     AddFundSection,
     AddFundToGroupModal,
@@ -62,6 +63,7 @@ interface FundHolding {
 }
 
 export default function HomePage() {
+    const { t } = useTranslation()
     const [funds, setFunds] = useState<FundData[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
