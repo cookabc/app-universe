@@ -218,6 +218,21 @@
       },
       "addNew": "Add New Event",
       "needToTrack": "Need to track something?"
+    },
+    "settings": {
+      "title": "Settings",
+      "profile": "Profile",
+      "appearance": "Appearance",
+      "darkMode": "Dark Mode",
+      "general": "General",
+      "notifications": "Notifications",
+      "language": "Language",
+      "english": "English",
+      "privacy": "Privacy",
+      "about": "About",
+      "version": "Version",
+      "helpSupport": "Help & Support",
+      "logOut": "Log Out"
     }
   },
   "typingPractice": {
@@ -253,15 +268,36 @@
       "japaneseConversion": "Japanese Conversion"
     },
     "languageOptions": [
-      { "value": "en", "label": "English" },
-      { "value": "ja", "label": "Japanese" },
-      { "value": "zh", "label": "Chinese" }
+      {
+        "value": "en",
+        "label": "English"
+      },
+      {
+        "value": "ja",
+        "label": "Japanese"
+      },
+      {
+        "value": "zh",
+        "label": "Chinese"
+      }
     ],
     "japaneseOptions": [
-      { "value": "hiragana", "label": "Hiragana" },
-      { "value": "katakana", "label": "Katakana" },
-      { "value": "kanji", "label": "Kanji" },
-      { "value": "romaji", "label": "Romaji" }
+      {
+        "value": "hiragana",
+        "label": "Hiragana"
+      },
+      {
+        "value": "katakana",
+        "label": "Katakana"
+      },
+      {
+        "value": "kanji",
+        "label": "Kanji"
+      },
+      {
+        "value": "romaji",
+        "label": "Romaji"
+      }
     ],
     "stats": {
       "total": "Total",
@@ -345,7 +381,31 @@
     "profit": "Profit",
     "profitRate": "Profit Rate",
     "today": "Today",
-    "total": "Total"
+    "total": "Total",
+    "enterFundCode": "Please enter or select a fund code",
+    "noNewFund": "No new funds added",
+    "addFailed": "Failed to add",
+    "addSuccess": "Successfully added {{count}} fund(s)",
+    "exportSuccess": "Export successful",
+    "importSuccess": "Import successful",
+    "importFailed": "Import failed, please check the file format",
+    "tabAll": "All Assets",
+    "tabFavorite": "Favorites",
+    "tabGroupAssets": "{{name}} Assets",
+    "tabGroupDefault": "Group Assets",
+    "brandName": "Fund Tracker",
+    "refreshNow": "Refresh now",
+    "openSettings": "Open settings",
+    "noFundsYet": "No funds added yet",
+    "noDataInGroup": "No data in this group",
+    "addFundToGroup": "Add fund to this group",
+    "clearHoldings": "Clear holdings",
+    "clearHoldingsMsg": "Are you sure you want to clear all holdings for \"{{name}}\"? This action cannot be undone.",
+    "confirmClear": "Confirm clear",
+    "refreshLabel": "Refresh",
+    "refreshInterval": "{{seconds}}s",
+    "footerDisclaimer": "Data source: Real-time estimates and top holdings from Eastmoney. For personal study and reference only. Data may be delayed and does not constitute investment advice.",
+    "footerNote": "Note: Estimated data may have ~1% error compared to actual settlement. Non-equity funds may have larger errors."
   },
   "footer": {
     "copyright": "© 2026 App Universe. All rights reserved.",
@@ -357,8 +417,8 @@
   },
   "common": {
     "loading": "Loading...",
-    "error": "Something went wrong",
-    "success": "Success!",
+    "error": "Error",
+    "success": "Success",
     "confirm": "Confirm",
     "cancel": "Cancel",
     "save": "Save",
@@ -390,7 +450,6 @@
     "yes": "Yes",
     "no": "No",
     "ok": "OK",
-    "cancel": "Cancel",
     "continue": "Continue",
     "finish": "Finish",
     "start": "Start",
@@ -399,9 +458,6 @@
     "resume": "Resume",
     "restart": "Restart",
     "skip": "Skip",
-    "back": "Back",
-    "next": "Next",
-    "previous": "Previous",
     "first": "First",
     "last": "Last",
     "more": "More",
@@ -411,80 +467,12 @@
     "show": "Show",
     "hide": "Hide",
     "view": "View",
-    "edit": "Edit",
-    "delete": "Delete",
     "create": "Create",
     "update": "Update",
-    "save": "Save",
-    "cancel": "Cancel",
     "submit": "Submit",
-    "reset": "Reset",
-    "clear": "Clear",
-    "search": "Search",
-    "filter": "Filter",
-    "sort": "Sort",
-    "refresh": "Refresh",
     "loadMore": "Load More",
-    "loading": "Loading...",
-    "error": "Error",
-    "success": "Success",
     "warning": "Warning",
     "info": "Info",
-    "close": "Close",
-    "open": "Open",
-    "copy": "Copy",
-    "paste": "Paste",
-    "cut": "Cut",
-    "selectAll": "Select All",
-    "deselectAll": "Deselect All",
-    "clear": "Clear",
-    "reset": "Reset",
-    "apply": "Apply",
-    "cancelChanges": "Cancel Changes",
-    "saveChanges": "Save Changes",
-    "areYouSure": "Are you sure?",
-    "yes": "Yes",
-    "no": "No",
-    "ok": "OK",
-    "cancel": "Cancel",
-    "continue": "Continue",
-    "finish": "Finish",
-    "start": "Start",
-    "stop": "Stop",
-    "pause": "Pause",
-    "resume": "Resume",
-    "restart": "Restart",
-    "skip": "Skip",
-    "back": "Back",
-    "next": "Next",
-    "previous": "Previous",
-    "first": "First",
-    "last": "Last",
-    "more": "More",
-    "less": "Less",
-    "expand": "Expand",
-    "collapse": "Collapse",
-    "show": "Show",
-    "hide": "Hide",
-    "view": "View",
-    "edit": "Edit",
-    "delete": "Delete",
-    "create": "Create",
-    "update": "Update",
-    "save": "Save",
-    "cancel": "Cancel",
-    "submit": "Submit",
-    "reset": "Reset",
-    "clear": "Clear",
-    "search": "Search",
-    "filter": "Filter",
-    "sort": "Sort",
-    "refresh": "Refresh",
-    "loadMore": "Load More",
-    "loading": "Loading...",
-    "error": "Error",
-    "success": "Success",
-    "warning": "Warning",
-    "info": "Info"
+    "somethingWentWrong": "Something went wrong"
   }
 }
