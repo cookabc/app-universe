@@ -89,6 +89,9 @@ export function usePolling<T>({
         }
     }, [])
 
+    const fnRef = useRef(fn)
+    fnRef.current = fn
+
     useEffect(() => {
         if (!isActive) {
             if (intervalRef.current) {
@@ -102,7 +105,9 @@ export function usePolling<T>({
             fetchData()
         }
 
-        intervalRef.current = setInterval(fetchData, interval)
+        intervalRef.current = setInterval(() => {
+            fnRef.current()
+        }, interval)
 
         return () => {
             if (intervalRef.current) {
@@ -110,7 +115,7 @@ export function usePolling<T>({
                 intervalRef.current = null
             }
         }
-    }, [isActive, interval, immediate, fn])
+    }, [isActive, interval, immediate])
 
     return {
         data,
