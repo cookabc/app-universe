@@ -1,12 +1,14 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import type { ApiProvider } from '../types'
+import { useTranslation } from 'react-i18next'
 
 interface ProviderStatusProps {
     providers: ApiProvider[]
 }
 
 export function ProviderStatus({ providers }: ProviderStatusProps) {
+    const { t } = useTranslation()
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'online':
@@ -23,8 +25,8 @@ export function ProviderStatus({ providers }: ProviderStatusProps) {
     return (
         <Card className="transition-all duration-300 hover:scale-105">
             <CardHeader>
-                <CardTitle>API Provider Status</CardTitle>
-                <CardDescription>Real-time status of image generation providers.</CardDescription>
+                <CardTitle>{t('imageGenerator.providerStatus')}</CardTitle>
+                <CardDescription>{t('imageGenerator.providerStatusDesc')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
                 <AnimatePresence>

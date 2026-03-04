@@ -8,8 +8,10 @@ import { QueueStatus } from './components/QueueStatus'
 import { useImageGeneration } from './hooks/useImageGeneration'
 import { motion } from 'framer-motion'
 import { Sparkles, History, ImageIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export default function ImageGeneratorClient() {
+    const { t } = useTranslation()
     const {
         prompt,
         negativePrompt,
@@ -38,10 +40,10 @@ export default function ImageGeneratorClient() {
                             <Sparkles className="w-8 h-8" />
                         </div>
                         <h1 className="text-4xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
-                            AI Image Studio
+                            {t('imageGenerator.appName')}
                         </h1>
                         <p className="text-muted-foreground text-lg max-w-2xl">
-                            Transform your imagination into stunning visuals with our advanced generation engine.
+                            {t('imageGenerator.subtitle')}
                         </p>
                     </motion.div>
 
@@ -88,7 +90,7 @@ export default function ImageGeneratorClient() {
                             <div className="mt-12">
                                 <div className="flex items-center gap-2 mb-6">
                                     <History className="w-5 h-5 text-muted-foreground" />
-                                    <h3 className="text-xl font-semibold">Recent Creations</h3>
+                                    <h3 className="text-xl font-semibold">{t('imageGenerator.recentCreations')}</h3>
                                 </div>
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                     {[1, 2, 3].map((i) => (

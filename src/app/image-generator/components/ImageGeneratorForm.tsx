@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { useToast } from '@/hooks/use-toast'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { useTranslation } from 'react-i18next'
 
 interface ImageGeneratorFormProps {
     prompt: string
@@ -25,13 +26,14 @@ export function ImageGeneratorForm({
     isLoading,
     onSubmit,
 }: ImageGeneratorFormProps) {
+    const { t } = useTranslation()
     const { toast } = useToast()
 
     const handleCopyPrompt = () => {
         navigator.clipboard.writeText(prompt)
         toast({
-            title: 'Prompt copied!',
-            description: 'The prompt has been copied to your clipboard.',
+            title: t('imageGenerator.promptCopied'),
+            description: t('imageGenerator.promptCopiedDesc'),
         })
     }
 
@@ -40,22 +42,22 @@ export function ImageGeneratorForm({
             <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-xl">
                     <Wand2 className="w-5 h-5 text-primary" />
-                    Generation Controls
+                    {t('imageGenerator.generationControls')}
                 </CardTitle>
-                <CardDescription>Configure your image parameters</CardDescription>
+                <CardDescription>{t('imageGenerator.configureParams')}</CardDescription>
             </CardHeader>
             <CardContent>
                 <Tabs defaultValue="basic" className="w-full">
                     <TabsList className="grid w-full grid-cols-2 mb-6">
-                        <TabsTrigger value="basic">Basic</TabsTrigger>
-                        <TabsTrigger value="advanced">Advanced</TabsTrigger>
+                        <TabsTrigger value="basic">{t('imageGenerator.basic')}</TabsTrigger>
+                        <TabsTrigger value="advanced">{t('imageGenerator.advanced')}</TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="basic" className="space-y-6">
                         <div className="space-y-3">
                             <div className="flex justify-between items-center">
                                 <Label htmlFor="prompt" className="text-sm font-medium">
-                                    Prompt
+                                    {t('imageGenerator.prompt')}
                                 </Label>
                                 <Button
                                     variant="ghost"
@@ -70,7 +72,7 @@ export function ImageGeneratorForm({
                                 id="prompt"
                                 value={prompt}
                                 onChange={(e) => setPrompt(e.target.value)}
-                                placeholder="Describe your imagination... (e.g., A futuristic cyberpunk city with neon lights)"
+                                placeholder={t('imageGenerator.promptPlaceholder')}
                                 className="min-h-[140px] resize-none bg-background/50 focus:bg-background transition-colors text-base p-4 rounded-xl border-primary/20 focus:border-primary/50"
                             />
                         </div>
@@ -82,11 +84,11 @@ export function ImageGeneratorForm({
                         >
                             {isLoading ? (
                                 <div className="flex items-center gap-2">
-                                    <span className="animate-spin">⏳</span> Generating...
+                                    <span className="animate-spin">⏳</span> {t('imageGenerator.generating')}
                                 </div>
                             ) : (
                                 <div className="flex items-center gap-2">
-                                    <Wand2 className="w-5 h-5" /> Generate Image
+                                    <Wand2 className="w-5 h-5" /> {t('imageGenerator.generate')}
                                 </div>
                             )}
                         </Button>
@@ -95,13 +97,13 @@ export function ImageGeneratorForm({
                     <TabsContent value="advanced" className="space-y-6">
                         <div className="space-y-3">
                             <Label htmlFor="negative-prompt" className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                                <Sliders className="w-3 h-3" /> Negative Prompt
+                                <Sliders className="w-3 h-3" /> {t('imageGenerator.negativePrompt')}
                             </Label>
                             <Textarea
                                 id="negative-prompt"
                                 value={negativePrompt}
                                 onChange={(e) => setNegativePrompt(e.target.value)}
-                                placeholder="what to exclude (e.g., blurry, ugly, bad anatomy)"
+                                placeholder={t('imageGenerator.negativePromptPlaceholder')}
                                 className="min-h-[100px] bg-background/50 resize-none text-sm"
                             />
                         </div>
@@ -109,10 +111,10 @@ export function ImageGeneratorForm({
                         <div className="p-4 rounded-lg bg-muted/30 border border-border/50 text-sm text-muted-foreground">
                             <div className="flex items-center gap-2 mb-2">
                                 <Settings2 className="w-4 h-4" />
-                                <span className="font-medium">Model Settings</span>
+                                <span className="font-medium">{t('imageGenerator.modelSettings')}</span>
                             </div>
                             <p className="text-xs">
-                                Advanced parameters like Steps, CFG Scale, and Seed will be available in the next update.
+                                {t('imageGenerator.advancedParamsDesc')}
                             </p>
                         </div>
                     </TabsContent>
