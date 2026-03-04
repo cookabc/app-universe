@@ -5,8 +5,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { languages } from '../constants'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
+import { languages } from '../constants'
 
 interface ConverterFormProps {
     activeTab: string
@@ -55,14 +56,15 @@ export function ConverterForm({
     copyToClipboard,
     speakText,
 }: ConverterFormProps) {
+    const { t } = useTranslation()
     return (
         <div className="flex flex-col gap-6">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <div className="flex justify-center mb-6">
                     <TabsList className="grid w-full max-w-md grid-cols-2">
-                        <TabsTrigger value="translation">{languages[uiLanguage].tabs.translation}</TabsTrigger>
+                        <TabsTrigger value="translation">{t('langConverter.tabs.translation')}</TabsTrigger>
                         <TabsTrigger value="japaneseConversion">
-                            {languages[uiLanguage].tabs.japaneseConversion}
+                            {t('langConverter.tabs.japaneseConversion')}
                         </TabsTrigger>
                     </TabsList>
                 </div>
@@ -77,7 +79,7 @@ export function ConverterForm({
                                         <SelectValue placeholder="From" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {languages[uiLanguage].languageOptions.map((lang) => (
+                                        {languages[uiLanguage].languageOptions.map((lang: { value: string; label: string }) => (
                                             <SelectItem key={lang.value} value={lang.value}>
                                                 {lang.label}
                                             </SelectItem>
@@ -91,7 +93,7 @@ export function ConverterForm({
                                         <SelectValue placeholder="From" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {languages[uiLanguage].japaneseOptions.map((type) => (
+                                        {languages[uiLanguage].japaneseOptions.map((type: { value: string; label: string }) => (
                                             <SelectItem key={type.value} value={type.value}>
                                                 {type.label}
                                             </SelectItem>
@@ -117,7 +119,7 @@ export function ConverterForm({
                                         <SelectValue placeholder="To" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {languages[uiLanguage].languageOptions.map((lang) => (
+                                        {languages[uiLanguage].languageOptions.map((lang: { value: string; label: string }) => (
                                             <SelectItem key={lang.value} value={lang.value}>
                                                 {lang.label}
                                             </SelectItem>
@@ -131,7 +133,7 @@ export function ConverterForm({
                                         <SelectValue placeholder="To" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {languages[uiLanguage].japaneseOptions.map((type) => (
+                                        {languages[uiLanguage].japaneseOptions.map((type: { value: string; label: string }) => (
                                             <SelectItem key={type.value} value={type.value}>
                                                 {type.label}
                                             </SelectItem>
@@ -149,7 +151,7 @@ export function ConverterForm({
                             <Textarea
                                 value={inputText}
                                 onChange={(e) => setInputText(e.target.value)}
-                                placeholder={languages[uiLanguage].inputPlaceholder}
+                                placeholder={t('langConverter.inputPlaceholder')}
                                 className="flex-1 resize-none border-0 focus-visible:ring-0 p-6 text-lg bg-transparent rounded-none"
                             />
                             <div className="p-4 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -167,7 +169,7 @@ export function ConverterForm({
                             {isLoading ? (
                                 <div className="flex-1 flex items-center justify-center text-muted-foreground gap-2">
                                     <div className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full" />
-                                    Translating...
+                                    {t('langConverter.translating')}
                                 </div>
                             ) : outputText ? (
                                 <>
@@ -180,7 +182,7 @@ export function ConverterForm({
                                             size="sm"
                                             onClick={() => speakText(outputText, activeTab === 'translation' ? toLang : 'ja')}
                                         >
-                                            <Volume2 className="h-4 w-4 mr-2" /> Listen
+                                            <Volume2 className="h-4 w-4 mr-2" /> {t('langConverter.listen')}
                                         </Button>
                                         <Button
                                             variant="secondary"
@@ -189,13 +191,13 @@ export function ConverterForm({
                                             className={copied ? "bg-green-500/10 text-green-600 hover:bg-green-500/20" : ""}
                                         >
                                             {copied ? <Check className="h-4 w-4 mr-2" /> : <Copy className="h-4 w-4 mr-2" />}
-                                            {copied ? 'Copied' : 'Copy'}
+                                            {copied ? t('langConverter.copied') : t('langConverter.copy')}
                                         </Button>
                                     </div>
                                 </>
                             ) : (
                                 <div className="flex-1 flex items-center justify-center text-muted-foreground/50">
-                                    Translation will appear here
+                                    {t('langConverter.translationWillAppear')}
                                 </div>
                             )}
                         </div>
@@ -212,7 +214,7 @@ export function ConverterForm({
                     >
                         <Alert variant="destructive">
                             <AlertCircle className="h-4 w-4" />
-                            <AlertTitle>Error</AlertTitle>
+                            <AlertTitle>{t('langConverter.error')}</AlertTitle>
                             <AlertDescription>{error}</AlertDescription>
                         </Alert>
                     </motion.div>
@@ -225,7 +227,7 @@ export function ConverterForm({
                 size="lg"
                 className="w-full text-lg shadow-lg shadow-primary/20 transition-all hover:scale-[1.01] active:scale-[0.99]"
             >
-                {isLoading ? languages[uiLanguage].loading : languages[uiLanguage].convertButton}
+                {isLoading ? t('langConverter.loading') : t('langConverter.convertButton')}
             </Button>
         </div>
     )
