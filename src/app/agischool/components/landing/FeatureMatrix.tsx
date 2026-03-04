@@ -3,53 +3,38 @@ import { StaggerContainer, StaggerItem } from '../common/FadeIn'
 import { Button } from '../ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
 import { Badge } from '../ui/badge'
+import { useTranslation } from 'react-i18next'
 
 export function FeatureMatrix() {
+    const { t } = useTranslation()
     const plans = [
         {
-            name: 'Free',
-            price: '$0',
-            period: '/month',
-            desc: 'Start your AI journey with basic tools and tutorials.',
-            features: [
-                'Access to 3 intro courses',
-                'Basic community support',
-                '5 AI generations/day',
-                'Web-only access',
-            ],
-            cta: 'Get Started',
+            name: t('agischool.features.plans.free.name'),
+            price: t('agischool.features.plans.free.price'),
+            period: t('agischool.features.plans.free.period'),
+            desc: t('agischool.features.plans.free.desc'),
+            features: t('agischool.features.plans.free.features', { returnObjects: true }) as string[],
+            cta: t('agischool.features.plans.free.cta'),
             popular: false,
             color: 'border-border/50',
         },
         {
-            name: 'Pro',
-            price: '$29',
-            period: '/month',
-            desc: 'Unlock full potential with advanced projects and mentorship.',
-            features: [
-                'Unlimited course access',
-                'Priority mentorship',
-                'Unlimited AI generations',
-                'Downloadable resources',
-                'Certificate of completion',
-            ],
-            cta: 'Upgrade to Pro',
+            name: t('agischool.features.plans.pro.name'),
+            price: t('agischool.features.plans.pro.price'),
+            period: t('agischool.features.plans.pro.period'),
+            desc: t('agischool.features.plans.pro.desc'),
+            features: t('agischool.features.plans.pro.features', { returnObjects: true }) as string[],
+            cta: t('agischool.features.plans.pro.cta'),
             popular: true,
             color: 'border-primary shadow-2xl shadow-primary/20 scale-105 z-10',
         },
         {
-            name: 'Enterprise',
-            price: 'Custom',
-            period: '',
-            desc: 'Tailored solutions for schools and large organizations.',
-            features: [
-                'Custom curriculum',
-                'Admin dashboard',
-                'SSO & Security',
-                'Dedicated success manager',
-                'API access',
-            ],
-            cta: 'Contact Sales',
+            name: t('agischool.features.plans.enterprise.name'),
+            price: t('agischool.features.plans.enterprise.price'),
+            period: t('agischool.features.plans.enterprise.period'),
+            desc: t('agischool.features.plans.enterprise.desc'),
+            features: t('agischool.features.plans.enterprise.features', { returnObjects: true }) as string[],
+            cta: t('agischool.features.plans.enterprise.cta'),
             popular: false,
             color: 'border-border/50',
         },
@@ -60,13 +45,13 @@ export function FeatureMatrix() {
             <div className="max-w-[1200px] w-full flex flex-col gap-16">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
                     <Badge variant="outline" className="text-primary border-primary/20 bg-primary/5">
-                        Pricing Plans
+                        {t('agischool.features.badge')}
                     </Badge>
                     <h2 className="text-3xl md:text-5xl font-black text-text-main dark:text-white">
-                        Choose Your Path to AI Mastery
+                        {t('agischool.features.title')}
                     </h2>
                     <p className="text-lg text-text-muted dark:text-gray-400">
-                        Transparent pricing for every stage of your learning journey. No hidden fees.
+                        {t('agischool.features.subtitle')}
                     </p>
                 </div>
 
@@ -78,7 +63,7 @@ export function FeatureMatrix() {
                         >
                             {plan.popular && (
                                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-bold shadow-lg">
-                                    Most Popular
+                                    {t('agischool.features.mostPopular')}
                                 </div>
                             )}
                             <div>
