@@ -145,7 +145,7 @@ export default function HomePage() {
             const data = await res.json() as MarketIndex[]
             if (Array.isArray(data) && data.length) setMarketIndices(data)
         } catch (e) {
-            console.error('获取市场指数失败', e)
+            console.error('Failed to fetch market indices', e)
         }
     }, [])
 
@@ -159,7 +159,7 @@ export default function HomePage() {
                 setNavHistory((prev) => ({ ...prev, [code]: data }))
             }
         } catch (e) {
-            console.error(`获取基金 ${code} 历史净值失败`, e)
+            console.error(`Failed to fetch NAV history for fund ${code}`, e)
         }
     }, [])
 
@@ -355,7 +355,7 @@ export default function HomePage() {
         setGroups(next)
         localStorage.setItem('groups', JSON.stringify(next))
         setAddFundToGroupOpen(false)
-        setSuccessModal({ open: true, message: `成功添加 ${codes.length} 支基金` })
+        setSuccessModal({ open: true, message: t('realtimeFund.addSuccess', { count: codes.length }) })
     }
 
     const removeFundFromCurrentGroup = (code: string) => {
@@ -487,7 +487,7 @@ export default function HomePage() {
             const data = await res.json() as FundData[]
             setSearchResults(Array.isArray(data) ? data : [])
         } catch (e) {
-            console.error('搜索失败', e)
+            console.error('Search failed', e)
         } finally {
             setIsSearching(false)
         }
@@ -525,7 +525,7 @@ export default function HomePage() {
                     updated.push(result.value)
                 } else {
                     const c = uniqueCodes[idx]
-                    console.error(`刷新基金 ${c} 失败`, result.reason)
+                    console.error(`Failed to refresh fund ${c}`, result.reason)
                     const old = funds.find((f) => f.code === c)
                     if (old) updated.push(old)
                 }
@@ -566,7 +566,7 @@ export default function HomePage() {
             new Set([...selectedFunds.map((f) => f.code), ...manualTokens.filter((t) => /^\d{6}$/.test(t))]),
         )
         if (selectedCodes.length === 0) {
-            setError('请输入或选择基金代码')
+            setError(t('realtimeFund.enterFundCode'))
             return
         }
         setLoading(true)
@@ -591,7 +591,7 @@ export default function HomePage() {
                 }
             })
             if (newFunds.length === 0) {
-                setError('未添加任何新基金')
+                setError(t('realtimeFund.noNewFund'))
             } else {
                 const next = dedupeByCode([...newFunds, ...funds])
                 setFunds(next)
@@ -606,7 +606,7 @@ export default function HomePage() {
                 setAddResultOpen(true)
             }
         } catch (e) {
-            const errorMessage = e instanceof Error ? e.message : '添加失败'
+            const errorMessage = e instanceof Error ? e.message : t('realtimeFund.addFailed')
             setError(errorMessage)
         } finally {
             setLoading(false)
@@ -689,7 +689,7 @@ export default function HomePage() {
                 const writable = await handle.createWritable()
                 await writable.write(blob)
                 await writable.close()
-                setSuccessModal({ open: true, message: '导出成功' })
+                setSuccessModal({ open: true, message: t('realtimeFund.exportSuccess') })
                 setSettingsOpen(false)
                 return
             }
@@ -702,7 +702,7 @@ export default function HomePage() {
                 if (done) return
                 done = true
                 URL.revokeObjectURL(url)
-                setSuccessModal({ open: true, message: '导出成功' })
+                setSuccessModal({ open: true, message: t('realtimeFund.exportSuccess') })
                 setSettingsOpen(false)
             }
             const onVisibility = () => {
@@ -793,12 +793,12 @@ export default function HomePage() {
                     await refreshAll(allCodes)
                 }
 
-                setSuccessModal({ open: true, message: '导入成功' })
+                setSuccessModal({ open: true, message: t('realtimeFund.importSuccess') })
                 setSettingsOpen(false)
             }
         } catch (err) {
             console.error('Import error:', err)
-            setImportMsg('导入失败，请检查文件格式')
+            setImportMsg(t('realtimeFund.importFailed'))
             setTimeout(() => setImportMsg(''), 4000)
         }
     }
@@ -851,10 +851,10 @@ export default function HomePage() {
     }, [settingsOpen])
 
     const getGroupName = () => {
-        if (currentTab === 'all') return '全部资产'
-        if (currentTab === 'fav') return '自选资产'
+        if (currentTab === 'all') return t('realtimeFund.tabAll')
+        if (currentTab === 'fav') return t('realtimeFund.tabFavorite')
         const group = groups.find((g) => g.id === currentTab)
-        return group ? `${group.name}资产` : '分组资产'
+        return group ? t('realtimeFund.tabGroupAssets', { name: group.name }) : t('realtimeFund.tabGroupDefault')
     }
 
     return (
@@ -869,21 +869,21 @@ export default function HomePage() {
                             <circle cx="12" cy="12" r="10" stroke="var(--primary)" strokeWidth="2" />
                             <path d="M5 14c2-4 7-6 14-5" stroke="var(--primary)" strokeWidth="2" />
                         </svg>
-                        <span>基估宝</span>
+                        <span>{t('realtimeFund.brandName')}</span>
                     </Link>
                 </div>
                 <div className="actions">
                     <div className="badge">
-                        <span>刷新</span>
-                        <strong>{Math.round(refreshMs / 1000)}秒</strong>
+                        <span>{t('realtimeFund.refreshLabel')}</span>
+                        <strong>{t('realtimeFund.refreshInterval', { seconds: Math.round(refreshMs / 1000) })}</strong>
                     </div>
                     <button
                         className="icon-button"
-                        aria-label="立即刷新"
+                        aria-label={t('realtimeFund.refreshNow')}
                         onClick={manualRefresh}
                         disabled={refreshing || funds.length === 0}
                         aria-busy={refreshing}
-                        title="立即刷新"
+                        title={t('realtimeFund.refreshNow')}
                     >
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M4 12a8 8 0 0 1 12.5-6.9" />
@@ -892,7 +892,7 @@ export default function HomePage() {
                             <path d="M8 19H5v-3" />
                         </svg>
                     </button>
-                    <button className="icon-button" aria-label="打开设置" onClick={() => setSettingsOpen(true)} title="设置">
+                    <button className="icon-button" aria-label={t('realtimeFund.openSettings')} onClick={() => setSettingsOpen(true)} title={t('realtimeFund.settings')}>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <circle cx="12" cy="12" r="3" />
                             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
@@ -954,11 +954,11 @@ export default function HomePage() {
                         >
                             <div style={{ fontSize: '48px', marginBottom: 16, opacity: 0.5 }}>📂</div>
                             <div className="muted" style={{ marginBottom: 20 }}>
-                                {funds.length === 0 ? '尚未添加基金' : '该分组下暂无数据'}
+                                {funds.length === 0 ? t('realtimeFund.noFundsYet') : t('realtimeFund.noDataInGroup')}
                             </div>
                             {currentTab !== 'all' && currentTab !== 'fav' && funds.length > 0 && (
                                 <button className="button" onClick={() => setAddFundToGroupOpen(true)}>
-                                    添加基金到此分组
+                                    {t('realtimeFund.addFundToGroup')}
                                 </button>
                             )}
                         </div>
@@ -1006,7 +1006,7 @@ export default function HomePage() {
                                     }}
                                 >
                                     <PlusIcon width="18" height="18" />
-                                    <span>添加基金到此分组</span>
+                                    <span>{t('realtimeFund.addFundToGroup')}</span>
                                 </motion.button>
                             )}
 
@@ -1039,9 +1039,9 @@ export default function HomePage() {
 
             <div className="footer">
                 <p style={{ marginBottom: 8 }}>
-                    数据源：实时估值与重仓直连东方财富，仅供个人学习及参考使用。数据可能存在延迟，不作为任何投资建议
+                    {t('realtimeFund.footerDisclaimer')}
                 </p>
-                <p style={{ marginBottom: 12 }}>注：估算数据与真实结算数据会有1%左右误差，非股票型基金误差较大</p>
+                <p style={{ marginBottom: 12 }}>{t('realtimeFund.footerNote')}</p>
             </div>
 
             <AnimatePresence>

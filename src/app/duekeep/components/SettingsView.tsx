@@ -1,7 +1,9 @@
 import type React from 'react'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export const SettingsView: React.FC = () => {
+    const { t } = useTranslation()
     const [isDark, setIsDark] = useState(false)
 
     useEffect(() => {
@@ -30,7 +32,7 @@ export const SettingsView: React.FC = () => {
         <div className="flex-1 flex flex-col h-full bg-background-light dark:bg-background-dark">
             <header className="pt-14 pb-2 px-5 sticky top-0 z-20 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md">
                 <h1 className="text-[34px] leading-tight font-bold tracking-tight text-gray-900 dark:text-white">
-                    Settings
+                    {t('duekeep.settings.title')}
                 </h1>
             </header>
 
@@ -39,7 +41,7 @@ export const SettingsView: React.FC = () => {
                     <div className="w-20 h-20 rounded-full bg-gray-200 dark:bg-gray-800 overflow-hidden border-2 border-white dark:border-gray-700 shadow-md">
                         <img
                             src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
-                            alt="Profile"
+                            alt={t('duekeep.settings.profile')}
                             className="w-full h-full"
                         />
                     </div>
@@ -51,7 +53,7 @@ export const SettingsView: React.FC = () => {
 
                 <section>
                     <h2 className="ml-4 mb-2 text-[13px] text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">
-                        Appearance
+                        {t('duekeep.settings.appearance')}
                     </h2>
                     <div className="bg-surface-light dark:bg-surface-dark rounded-[10px] overflow-hidden shadow-sm">
                         <div className="flex items-center justify-between px-4 py-3 bg-white dark:bg-[#1C1C1E]">
@@ -59,7 +61,7 @@ export const SettingsView: React.FC = () => {
                                 <div className="w-7 h-7 rounded-md bg-blue-500 flex items-center justify-center text-white">
                                     <span className="material-icons-round text-lg">dark_mode</span>
                                 </div>
-                                <span className="text-[17px] font-medium text-gray-900 dark:text-white">Dark Mode</span>
+                                <span className="text-[17px] font-medium text-gray-900 dark:text-white">{t('duekeep.settings.darkMode')}</span>
                             </div>
                             <div
                                 onClick={toggleDarkMode}
@@ -75,28 +77,28 @@ export const SettingsView: React.FC = () => {
 
                 <section>
                     <h2 className="ml-4 mb-2 text-[13px] text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">
-                        General
+                        {t('duekeep.settings.general')}
                     </h2>
                     <div className="bg-surface-light dark:bg-surface-dark rounded-[10px] overflow-hidden shadow-sm divide-y divide-gray-200 dark:divide-gray-800">
-                        <SettingsItem icon="notifications" iconColor="bg-red-500" label="Notifications" />
-                        <SettingsItem icon="language" iconColor="bg-orange-500" label="Language" value="English" />
-                        <SettingsItem icon="lock" iconColor="bg-gray-500" label="Privacy" />
+                        <SettingsItem icon="notifications" iconColor="bg-red-500" label={t('duekeep.settings.notifications')} />
+                        <SettingsItem icon="language" iconColor="bg-orange-500" label={t('duekeep.settings.language')} value={t('duekeep.settings.english')} />
+                        <SettingsItem icon="lock" iconColor="bg-gray-500" label={t('duekeep.settings.privacy')} />
                     </div>
                 </section>
 
                 <section>
                     <h2 className="ml-4 mb-2 text-[13px] text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">
-                        About
+                        {t('duekeep.settings.about')}
                     </h2>
                     <div className="bg-surface-light dark:bg-surface-dark rounded-[10px] overflow-hidden shadow-sm divide-y divide-gray-200 dark:divide-gray-800">
-                        <SettingsItem icon="info" iconColor="bg-blue-500" label="Version" value="1.0.0" />
-                        <SettingsItem icon="help" iconColor="bg-green-500" label="Help & Support" />
+                        <SettingsItem icon="info" iconColor="bg-blue-500" label={t('duekeep.settings.version')} value="1.0.0" />
+                        <SettingsItem icon="help" iconColor="bg-green-500" label={t('duekeep.settings.helpSupport')} />
                     </div>
                 </section>
 
                 <div className="pt-4 pb-8">
                     <button className="w-full py-3 rounded-xl bg-surface-light dark:bg-surface-dark text-red-500 text-[17px] font-medium shadow-sm active:bg-gray-100 dark:active:bg-gray-800 transition-colors">
-                        Log Out
+                        {t('duekeep.settings.logOut')}
                     </button>
                 </div>
             </main>

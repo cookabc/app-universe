@@ -218,6 +218,21 @@
       },
       "addNew": "添加新事件",
       "needToTrack": "需要跟踪什么吗？"
+    },
+    "settings": {
+      "title": "设置",
+      "profile": "个人资料",
+      "appearance": "外观",
+      "darkMode": "深色模式",
+      "general": "通用",
+      "notifications": "通知",
+      "language": "语言",
+      "english": "英文",
+      "privacy": "隐私",
+      "about": "关于",
+      "version": "版本",
+      "helpSupport": "帮助与支持",
+      "logOut": "退出登录"
     }
   },
   "typingPractice": {
@@ -253,15 +268,36 @@
       "japaneseConversion": "日语转换"
     },
     "languageOptions": [
-      { "value": "en", "label": "英语" },
-      { "value": "ja", "label": "日语" },
-      { "value": "zh", "label": "中文" }
+      {
+        "value": "en",
+        "label": "英语"
+      },
+      {
+        "value": "ja",
+        "label": "日语"
+      },
+      {
+        "value": "zh",
+        "label": "中文"
+      }
     ],
     "japaneseOptions": [
-      { "value": "hiragana", "label": "平假名" },
-      { "value": "katakana", "label": "片假名" },
-      { "value": "kanji", "label": "汉字" },
-      { "value": "romaji", "label": "罗马字" }
+      {
+        "value": "hiragana",
+        "label": "平假名"
+      },
+      {
+        "value": "katakana",
+        "label": "片假名"
+      },
+      {
+        "value": "kanji",
+        "label": "汉字"
+      },
+      {
+        "value": "romaji",
+        "label": "罗马字"
+      }
     ],
     "stats": {
       "total": "总计",
@@ -345,9 +381,32 @@
     "profit": "收益",
     "profitRate": "收益率",
     "today": "今日",
-    "total": "总计"
+    "total": "总计",
+    "enterFundCode": "请输入或选择基金代码",
+    "noNewFund": "未添加任何新基金",
+    "addFailed": "添加失败",
+    "addSuccess": "成功添加 {{count}} 支基金",
+    "exportSuccess": "导出成功",
+    "importSuccess": "导入成功",
+    "importFailed": "导入失败，请检查文件格式",
+    "tabAll": "全部资产",
+    "tabFavorite": "自选资产",
+    "tabGroupAssets": "{{name}}资产",
+    "tabGroupDefault": "分组资产",
+    "brandName": "基估宝",
+    "refreshNow": "立即刷新",
+    "openSettings": "打开设置",
+    "noFundsYet": "尚未添加基金",
+    "noDataInGroup": "该分组下暂无数据",
+    "addFundToGroup": "添加基金到此分组",
+    "clearHoldings": "清空持仓",
+    "clearHoldingsMsg": "确定要清空\"{{name}}\"的所有持仓记录吗？此操作不可恢复。",
+    "confirmClear": "确认清空",
+    "refreshLabel": "刷新",
+    "refreshInterval": "{{seconds}}秒",
+    "footerDisclaimer": "数据源：实时估值与重仓直连东方财富，仅供个人学习及参考使用。数据可能存在延迟，不作为任何投资建议",
+    "footerNote": "注：估算数据与真实结算数据会有1%左右误差，非股票型基金误差较大"
   },
-
   "footer": {
     "copyright": "© 2026 应用宇宙。保留所有权利。",
     "links": {
@@ -358,8 +417,8 @@
   },
   "common": {
     "loading": "加载中...",
-    "error": "出错了",
-    "success": "成功！",
+    "error": "错误",
+    "success": "成功",
     "confirm": "确认",
     "cancel": "取消",
     "save": "保存",
@@ -391,7 +450,6 @@
     "yes": "是",
     "no": "否",
     "ok": "确定",
-    "cancel": "取消",
     "continue": "继续",
     "finish": "完成",
     "start": "开始",
@@ -400,9 +458,6 @@
     "resume": "恢复",
     "restart": "重新开始",
     "skip": "跳过",
-    "back": "返回",
-    "next": "下一步",
-    "previous": "上一步",
     "first": "第一个",
     "last": "最后一个",
     "more": "更多",
@@ -412,80 +467,12 @@
     "show": "显示",
     "hide": "隐藏",
     "view": "查看",
-    "edit": "编辑",
-    "delete": "删除",
     "create": "创建",
     "update": "更新",
-    "save": "保存",
-    "cancel": "取消",
     "submit": "提交",
-    "reset": "重置",
-    "clear": "清除",
-    "search": "搜索",
-    "filter": "筛选",
-    "sort": "排序",
-    "refresh": "刷新",
     "loadMore": "加载更多",
-    "loading": "加载中...",
-    "error": "错误",
-    "success": "成功",
     "warning": "警告",
     "info": "信息",
-    "close": "关闭",
-    "open": "打开",
-    "copy": "复制",
-    "paste": "粘贴",
-    "cut": "剪切",
-    "selectAll": "全选",
-    "deselectAll": "取消全选",
-    "clear": "清除",
-    "reset": "重置",
-    "apply": "应用",
-    "cancelChanges": "取消更改",
-    "saveChanges": "保存更改",
-    "areYouSure": "您确定吗？",
-    "yes": "是",
-    "no": "否",
-    "ok": "确定",
-    "cancel": "取消",
-    "continue": "继续",
-    "finish": "完成",
-    "start": "开始",
-    "stop": "停止",
-    "pause": "暂停",
-    "resume": "恢复",
-    "restart": "重新开始",
-    "skip": "跳过",
-    "back": "返回",
-    "next": "下一步",
-    "previous": "上一步",
-    "first": "第一个",
-    "last": "最后一个",
-    "more": "更多",
-    "less": "更少",
-    "expand": "展开",
-    "collapse": "折叠",
-    "show": "显示",
-    "hide": "隐藏",
-    "view": "查看",
-    "edit": "编辑",
-    "delete": "删除",
-    "create": "创建",
-    "update": "更新",
-    "save": "保存",
-    "cancel": "取消",
-    "submit": "提交",
-    "reset": "重置",
-    "clear": "清除",
-    "search": "搜索",
-    "filter": "筛选",
-    "sort": "排序",
-    "refresh": "刷新",
-    "loadMore": "加载更多",
-    "loading": "加载中...",
-    "error": "错误",
-    "success": "成功",
-    "warning": "警告",
-    "info": "信息"
+    "somethingWentWrong": "出错了"
   }
 }
