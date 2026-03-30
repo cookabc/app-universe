@@ -1,35 +1,35 @@
-import { eq } from 'drizzle-orm'
-import { cache } from 'react'
-import { users } from '@/db/schema'
+import { eq } from "drizzle-orm";
+import { cache } from "react";
+import { users } from "@/db/schema";
 
 async function getDb() {
-    const { db } = await import('@/db')
-    return db
+  const { db } = await import("@/db");
+  return db;
 }
 
 async function requireAuth() {
-    // Dynamic import to avoid build-time errors
-    const { auth } = await import('@clerk/nextjs/server')
-    const { userId } = await auth()
+  // Dynamic import to avoid build-time errors
+  const { auth } = await import("@clerk/nextjs/server");
+  const { userId } = await auth();
 
-    if (!userId) {
-        throw new Error('User not authenticated')
-    }
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
 
-    return userId
+  return userId;
 }
 
 export const getUserWithAuth = cache(async function getUserWithAuth() {
-    const userId = await requireAuth()
-    const db = await getDb()
+  const userId = await requireAuth();
+  const db = await getDb();
 
-    const user = await db.query.users.findFirst({
-        where: eq(users.clerkId, userId),
-    })
+  const user = await db.query.users.findFirst({
+    where: eq(users.clerkId, userId),
+  });
 
-    if (!user) {
-        throw new Error('User not found')
-    }
+  if (!user) {
+    throw new Error("User not found");
+  }
 
-    return user
-})
+  return user;
+});

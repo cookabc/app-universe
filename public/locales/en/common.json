@@ -81,12 +81,7 @@
     },
     "trust": {
       "title": "Trusted by 50+ Forward-Thinking Schools",
-      "schools": [
-        "TechHigh",
-        "FutureAcad",
-        "STEM Prep",
-        "InnovateK12"
-      ]
+      "schools": ["TechHigh", "FutureAcad", "STEM Prep", "InnovateK12"]
     },
     "features": {
       "title": "Choose Your Path to AI Mastery",
