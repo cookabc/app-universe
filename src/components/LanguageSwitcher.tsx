@@ -1,35 +1,35 @@
-'use client'
+"use client";
 
-import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/button'
+import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 
 interface LanguageOption {
-  value: string
-  label: string
-  flag: string
+  value: string;
+  label: string;
+  flag: string;
 }
 
 const languages: LanguageOption[] = [
-  { value: 'en', label: 'EN', flag: '🇺🇸' },
-  { value: 'zh', label: '中文', flag: '🇨🇳' },
-]
+  { value: "en", label: "EN", flag: "🇺🇸" },
+  { value: "zh", label: "中文", flag: "🇨🇳" },
+];
 
 export function LanguageSwitcher() {
-  const { i18n } = useTranslation()
+  const { i18n } = useTranslation();
 
   const handleLanguageChange = (value: string) => {
-    i18n.changeLanguage(value)
-  }
+    i18n.changeLanguage(value);
+  };
 
   return (
     <div className="flex items-center space-x-2">
       {languages.map((lang) => (
         <Button
           key={lang.value}
-          variant={i18n.language === lang.value ? 'default' : 'outline'}
+          variant={i18n.language === lang.value ? "default" : "outline"}
           size="sm"
           onClick={() => handleLanguageChange(lang.value)}
-          className={`transition-all duration-300 ${i18n.language === lang.value ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
+          className={`transition-all duration-300 ${i18n.language === lang.value ? "bg-primary text-primary-foreground" : "hover:bg-muted"}`}
         >
           <span className="flex items-center space-x-1">
             <span>{lang.flag}</span>
@@ -38,5 +38,5 @@ export function LanguageSwitcher() {
         </Button>
       ))}
     </div>
-  )
+  );
 }
