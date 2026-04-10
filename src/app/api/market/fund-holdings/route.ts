@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { apiSuccess, apiError, validateFundCode, safeParseFloat } from "@/lib/api-utils";
+import { ValidationError } from "@/lib/error-handling";
 
 function getTencentPrefix(code: string): string {
   if (code.startsWith("6") || code.startsWith("9")) return "sh";
@@ -17,11 +18,9 @@ interface Holding {
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
-  if (!code || !/^\d{6}$/.test(code)) {
-    return NextResponse.json(
-      { error: "Invalid or missing fund code" },
-      { status: 400 },
-    );
+  const validationError = validateFundCode(code);
+  if (validationError) {
+    return apiError(new ValidationError(validationError), 400);
   }
 
   try {
@@ -31,9 +30,8 @@ export async function GET(request: Request) {
     );
     const text = await res.text();
 
-    // East Money returns a JS assignment: apidata = {...}
     const apiMatch = text.match(/apidata\s*=\s*(\{[\s\S]*\})/);
-    if (!apiMatch) return NextResponse.json([]);
+    if (!apiMatch) return apiSuccess([]);
 
     const apiData: { content?: string } = JSON.parse(apiMatch[1] ?? "{}");
     const html = apiData?.content ?? "";
@@ -59,7 +57,6 @@ export async function GET(request: Request) {
 
     const top10 = holdings.slice(0, 10);
 
-    // Enrich with today's change % from Tencent quotes
     if (top10.length > 0) {
       const tencentCodes = top10
         .map((h) => `s_${getTencentPrefix(h.code)}${h.code}`)
@@ -74,7 +71,7 @@ export async function GET(request: Request) {
           const match = quoteText.match(new RegExp(`${varName}="([^"]+)"`));
           if (match) {
             const parts = (match[1] ?? "").split("~");
-            if (parts.length > 5) h.change = parseFloat(parts[5] ?? "0");
+            if (parts.length > 5) h.change = safeParseFloat(parts[5], 0);
           }
         }
       } catch {
@@ -82,8 +79,9 @@ export async function GET(request: Request) {
       }
     }
 
-    return NextResponse.json(top10);
-  } catch {
-    return NextResponse.json({ error: "Upstream error" }, { status: 502 });
+    return apiSuccess(top10);
+  } catch (error) {
+    console.error("[fund-holdings] Error:", error);
+    return apiError(error, 502);
   }
 }
