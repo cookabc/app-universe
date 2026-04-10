@@ -15,6 +15,8 @@ interface CanvasDotGridProps {
 export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePosition = useRef({ x: 0, y: 0 });
+  const isVisibleRef = useRef(true);
+  const lastMoveTime = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -43,6 +45,11 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
     };
 
     const drawDots = () => {
+      if (!isVisibleRef.current) {
+        animationFrameId = requestAnimationFrame(drawDots);
+        return;
+      }
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       drawBaseDots(ctx, config, rows, cols);
@@ -60,6 +67,10 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
     };
 
     const handleMouseMove = (event: MouseEvent) => {
+      const now = Date.now();
+      if (now - lastMoveTime.current < 16) return;
+      lastMoveTime.current = now;
+
       const rect = canvas.getBoundingClientRect();
       mousePosition.current = {
         x: event.clientX - rect.left,
@@ -67,15 +78,31 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
       };
     };
 
+    const handleVisibilityChange = () => {
+      isVisibleRef.current = document.visibilityState === "visible";
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { threshold: 0 },
+    );
+
+    observer.observe(canvas);
+
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("resize", resizeCanvas);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     resizeCanvas();
     drawDots();
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", resizeCanvas);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
@@ -85,6 +112,8 @@ export const CanvasDotGrid: React.FC<CanvasDotGridProps> = ({ className }) => {
       ref={canvasRef}
       className={`z-0 fixed left-0 top-0 right-0 bottom-0 pointer-events-none ${className || ""}`}
       style={{ touchAction: "none" }}
+      role="img"
+      aria-label="Interactive dot grid background animation"
     />
   );
 };
