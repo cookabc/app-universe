@@ -3,26 +3,20 @@
 import { Button } from "@/components/ui/button";
 import { useClerkEnabled } from "./ClerkProvider";
 import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useI18nReady } from "@/hooks/useI18nReady";
 import { User, LogIn } from "lucide-react";
 
-// Dynamic import of Clerk components
 function ClerkAuthInner() {
-  const [components, setComponents] = useState<any>(null);
-  const { t, i18n } = useTranslation();
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    setIsReady(i18n.isInitialized);
-  }, [i18n.isInitialized]);
+  const [components, setComponents] = useState<Record<string, React.ComponentType<any>> | null>(null);
+  const { t, isReady } = useI18nReady();
 
   useEffect(() => {
     import("@clerk/nextjs").then((mod) => {
       setComponents({
-        SignedOut: mod.SignedOut,
-        SignedIn: mod.SignedIn,
-        SignInButton: mod.SignInButton,
-        UserButton: mod.UserButton,
+        SignedOut: mod.SignedOut as React.ComponentType<{ children: React.ReactNode }>,
+        SignedIn: mod.SignedIn as React.ComponentType<{ children: React.ReactNode }>,
+        SignInButton: mod.SignInButton as React.ComponentType<any>,
+        UserButton: mod.UserButton as React.ComponentType<any>,
       });
     });
   }, []);
@@ -72,7 +66,6 @@ function ClerkAuthInner() {
 export function ClerkAuth() {
   const { isEnabled, isLoaded } = useClerkEnabled();
 
-  // Wait until Clerk is fully loaded before rendering any Clerk components
   if (!isEnabled || !isLoaded) {
     return null;
   }

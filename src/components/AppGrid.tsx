@@ -3,8 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useI18nReady } from "@/hooks/useI18nReady";
 import apps from "@/data/apps";
 
 const container = {
@@ -23,13 +22,8 @@ const item = {
 };
 
 export function AppGrid() {
-  const { i18n, t } = useTranslation();
+  const { i18n, t, isReady } = useI18nReady();
   const currentLang = i18n.language;
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    setIsReady(i18n.isInitialized);
-  }, [i18n.isInitialized]);
 
   return (
     <motion.div
@@ -40,16 +34,14 @@ export function AppGrid() {
     >
       {apps.map((app) => (
         <motion.div key={app.path} variants={item}>
-          <Link href={app.path} className="group block h-full">
+          <Link href={app.path} className="group block h-full" aria-label={isReady ? t("launchApp") : "Launch App"}>
             <div className="relative h-full overflow-hidden rounded-[var(--radius)] border-2 border-slate-800 bg-card p-8 transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 shadow-[var(--box-shadow)] hover:shadow-[calc(var(--box-shadow)_+_4px)]">
-              {/* Decorative Block */}
               <div
                 className="absolute -right-6 -top-6 h-32 w-32 rounded-[var(--radius)] opacity-20 rotate-12 transition-transform duration-500 group-hover:rotate-45"
                 style={{ backgroundColor: app.color }}
               />
 
               <div className="relative flex flex-col h-full gap-6">
-                {/* Icon */}
                 <div className="flex items-center justify-between">
                   <div
                     className="flex h-16 w-16 items-center justify-center rounded-[var(--radius)] text-white border-2 border-slate-800 shadow-[var(--box-shadow)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:-translate-x-1"
@@ -62,7 +54,6 @@ export function AppGrid() {
                   </div>
                 </div>
 
-                {/* Content */}
                 <div className="space-y-3">
                   <h3 className="text-2xl font-black font-heading tracking-tight text-foreground transition-colors group-hover:text-primary">
                     {app.name[currentLang as "en" | "zh"] || app.name.en}
@@ -73,7 +64,6 @@ export function AppGrid() {
                   </p>
                 </div>
 
-                {/* Learn More Link */}
                 <div className="mt-auto flex items-center text-sm font-bold text-primary opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
                   {isReady ? t("launchApp") : "Launch App"}{" "}
                   <ArrowRight className="ml-1 h-4 w-4" />
