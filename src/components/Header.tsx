@@ -6,19 +6,14 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import { ClerkAuth } from "./ClerkAuth";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useClerkEnabled } from "./ClerkProvider";
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import { useI18nReady } from "@/hooks/useI18nReady";
 import { Menu, X } from "lucide-react";
 
 export const Header = () => {
   const { isEnabled } = useClerkEnabled();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { t, i18n } = useTranslation();
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    setIsReady(i18n.isInitialized);
-  }, [i18n.isInitialized]);
+  const { t, isReady } = useI18nReady();
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background border-b border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-300">
@@ -45,6 +40,9 @@ export const Header = () => {
             size="icon"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="relative rounded-full p-2 transition-all duration-300 hover:bg-muted"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {mobileMenuOpen ? (
               <X className="w-6 h-6 transition-transform duration-300" />
@@ -57,6 +55,8 @@ export const Header = () => {
 
       {/* Mobile Menu Dropdown */}
       <div
+        id="mobile-menu"
+        role="menu"
         className={`md:hidden border-t border-border bg-background transition-all duration-300 ease-in-out overflow-hidden ${mobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
       >
         <div className="container mx-auto px-4 py-6 flex flex-col items-center space-y-6">
