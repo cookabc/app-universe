@@ -15,11 +15,23 @@ export function useTypingGame({ text, onFinish }: UseTypingGameProps) {
   const [wpm, setWpm] = useState(0);
   const [accuracy, setAccuracy] = useState(100);
 
+  const userInputRef = useRef(userInput);
+  userInputRef.current = userInput;
+
+  const startTimeRef = useRef(startTime);
+  startTimeRef.current = startTime;
+
+  const isFinishedRef = useRef(isFinished);
+  isFinishedRef.current = isFinished;
+
+  const onFinishRef = useRef(onFinish);
+  onFinishRef.current = onFinish;
+
   const calculateStats = useCallback(() => {
-    if (startTime) {
-      const timeElapsed = (endTime || Date.now()) - startTime;
+    if (startTimeRef.current) {
+      const timeElapsed = (endTime || Date.now()) - startTimeRef.current;
       const timeInMinutes = timeElapsed / 60000;
-      const wordsTyped = userInput.trim().split(/\s+/).length;
+      const wordsTyped = userInputRef.current.trim().split(/\s+/).length;
       const newWpm = Math.round(wordsTyped / timeInMinutes) || 0;
       const totalCharacters = currentIndex + 1;
       const newAccuracy =
@@ -29,10 +41,9 @@ export function useTypingGame({ text, onFinish }: UseTypingGameProps) {
       setWpm(newWpm);
       setAccuracy(newAccuracy);
     }
-  }, [startTime, endTime, userInput, currentIndex, mistakes]);
+  }, [endTime, currentIndex, mistakes]);
 
   const calculateStatsRef = useRef(calculateStats);
-
   useEffect(() => {
     calculateStatsRef.current = calculateStats;
     calculateStats();
@@ -50,9 +61,9 @@ export function useTypingGame({ text, onFinish }: UseTypingGameProps) {
 
   const handleInput = useCallback(
     (key: string) => {
-      if (isFinished) return;
+      if (isFinishedRef.current) return;
 
-      if (!startTime) {
+      if (!startTimeRef.current) {
         setStartTime(Date.now());
       }
 
@@ -63,7 +74,8 @@ export function useTypingGame({ text, onFinish }: UseTypingGameProps) {
       }
 
       if (key.length === 1) {
-        const newInput = userInput + key;
+        const currentInput = userInputRef.current;
+        const newInput = currentInput + key;
         setUserInput(newInput);
         setCurrentIndex(newInput.length - 1);
 
@@ -75,7 +87,7 @@ export function useTypingGame({ text, onFinish }: UseTypingGameProps) {
         if (newInput.length === text.length) {
           setEndTime(Date.now());
           setIsFinished(true);
-          onFinish?.();
+          onFinishRef.current?.();
         }
 
         return {
@@ -87,7 +99,7 @@ export function useTypingGame({ text, onFinish }: UseTypingGameProps) {
 
       return null;
     },
-    [text, userInput, startTime, isFinished, onFinish],
+    [text],
   );
 
   const reset = useCallback(() => {
