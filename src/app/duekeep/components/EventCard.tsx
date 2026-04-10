@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import type { EventItem } from "../types";
 import { calculateCountdown } from "../utils/dateUtils";
 import { motion } from "framer-motion";
-import { Edit2, Trash2, Clock, CalendarDays } from "lucide-react";
+import { Edit2, Trash2, CalendarDays } from "lucide-react";
 
 interface EventCardProps {
   event: EventItem;
@@ -26,7 +26,7 @@ export const EventCard: React.FC<EventCardProps> = ({
     day: "numeric",
   });
 
-  const progress = Math.min(100, Math.max(0, 100 - (diffValue / 30) * 100)); // Mock progress for visual
+  const progress = Math.min(100, Math.max(0, 100 - (diffValue / 30) * 100));
 
   return (
     <motion.div
@@ -40,7 +40,6 @@ export const EventCard: React.FC<EventCardProps> = ({
         boxShadow: `0 10px 30px -10px ${event.color}66`,
       }}
     >
-      {/* Background Texture/Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/5 pointer-events-none" />
       <div className="absolute -right-12 -top-12 w-48 h-48 rounded-full bg-white/10 blur-3xl" />
 
@@ -56,7 +55,6 @@ export const EventCard: React.FC<EventCardProps> = ({
             </h3>
           </div>
 
-          {/* Progress Bar Mockup */}
           <div className="w-full h-1.5 bg-black/10 rounded-full overflow-hidden max-w-[140px]">
             <div
               className="h-full bg-current opacity-80 rounded-full"
@@ -77,7 +75,6 @@ export const EventCard: React.FC<EventCardProps> = ({
         </div>
       </div>
 
-      {/* Action Buttons */}
       {(onEdit || onDelete) && (
         <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-20">
           {onEdit && (

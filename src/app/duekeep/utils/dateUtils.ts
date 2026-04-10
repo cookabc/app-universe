@@ -1,8 +1,4 @@
-export function calculateCountdown(targetDate: Date): {
-  diffValue: number;
-  diffUnit: string;
-  label: string;
-} {
+export function calculateCountdown(targetDate: Date): { diffValue: number; diffUnit: string; label: string } {
   const now = new Date();
   const diffMs = targetDate.getTime() - now.getTime();
   const absDiff = Math.abs(diffMs);
