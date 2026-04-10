@@ -1,11 +1,7 @@
 import { eq } from "drizzle-orm";
 import { cache } from "react";
 import { users } from "@/db/schema";
-
-async function getDb() {
-  const { db } = await import("@/db");
-  return db;
-}
+import { getDb } from "@/db/helpers";
 
 async function requireAuth() {
   // Dynamic import to avoid build-time errors
