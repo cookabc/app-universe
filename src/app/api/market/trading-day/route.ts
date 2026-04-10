@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { apiSuccess, apiError } from "@/lib/api-utils";
 
 export async function GET() {
   const now = new Date();
   const isWeekend = now.getDay() === 0 || now.getDay() === 6;
 
   if (isWeekend) {
-    return NextResponse.json({ isTradingDay: false });
+    return apiSuccess({ isTradingDay: false });
   }
 
   try {
@@ -19,14 +19,12 @@ export async function GET() {
       const parts = match[1].split("~");
       const dateStr = parts[30]?.slice(0, 8) ?? "";
       const todayStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
-      const minutes = now.getHours() * 60 + now.getMinutes();
-      // If market hasn't opened yet (before 9:30), treat as trading day
-      const isTradingDay = dateStr === todayStr || minutes < 9 * 60 + 30;
-      return NextResponse.json({ isTradingDay });
+      const isTradingDay = dateStr === todayStr;
+      return apiSuccess({ isTradingDay });
     }
-  } catch {
-    // Fall through to default
+  } catch (error) {
+    console.error("[trading-day] Error:", error);
   }
 
-  return NextResponse.json({ isTradingDay: !isWeekend });
+  return apiSuccess({ isTradingDay: !isWeekend });
 }

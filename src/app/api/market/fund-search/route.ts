@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { apiSuccess, apiError } from "@/lib/api-utils";
+import { ValidationError } from "@/lib/error-handling";
 
 interface EastMoneyFundEntry {
   CATEGORY: number | string;
@@ -11,10 +12,19 @@ interface EastMoneySearchResponse {
   Datas?: EastMoneyFundEntry[];
 }
 
+const MAX_KEY_LENGTH = 50;
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const key = searchParams.get("key");
-  if (!key?.trim()) return NextResponse.json([]);
+
+  if (!key?.trim()) {
+    return apiError(new ValidationError("Search key is required"), 400);
+  }
+
+  if (key.length > MAX_KEY_LENGTH) {
+    return apiError(new ValidationError(`Search key must be at most ${MAX_KEY_LENGTH} characters`), 400);
+  }
 
   try {
     const res = await fetch(
@@ -24,7 +34,6 @@ export async function GET(request: Request) {
     const text = await res.text();
 
     let data: EastMoneySearchResponse | null = null;
-    // East Money may return JSONP or plain JSON — try both
     try {
       data = JSON.parse(text) as EastMoneySearchResponse;
     } catch {
@@ -33,17 +42,16 @@ export async function GET(request: Request) {
         data = JSON.parse(match[1]) as EastMoneySearchResponse;
     }
 
-    if (!data?.Datas) return NextResponse.json([]);
+    if (!data?.Datas) return apiSuccess([]);
 
     const fundsOnly = data.Datas.filter(
       (d) =>
         d.CATEGORY === 700 || d.CATEGORY === "700" || d.CATEGORYDESC === "基金",
     );
 
-    return NextResponse.json(
-      fundsOnly.map((d) => ({ code: d.CODE, name: d.NAME })),
-    );
-  } catch {
-    return NextResponse.json([]);
+    return apiSuccess(fundsOnly.map((d) => ({ code: d.CODE, name: d.NAME })));
+  } catch (error) {
+    console.error("[fund-search] Error:", error);
+    return apiError(error, 502);
   }
 }

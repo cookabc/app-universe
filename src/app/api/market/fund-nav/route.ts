@@ -1,13 +1,12 @@
-import { NextResponse } from "next/server";
+import { apiSuccess, apiError, validateFundCode, safeParseFloat } from "@/lib/api-utils";
+import { ValidationError } from "@/lib/error-handling";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
-  if (!code || !/^\d{6}$/.test(code)) {
-    return NextResponse.json(
-      { error: "Invalid or missing fund code" },
-      { status: 400 },
-    );
+  const validationError = validateFundCode(code);
+  if (validationError) {
+    return apiError(new ValidationError(validationError), 400);
   }
 
   try {
@@ -19,17 +18,15 @@ export async function GET(request: Request) {
     const match = text.match(new RegExp(`v_jj${code}="([^"]+)"`));
     if (match && match[1]) {
       const parts = match[1].split("~");
-      return NextResponse.json({
-        dwjz: parts[5] ?? "",
-        zzl: parseFloat(parts[7] ?? "0"),
-        jzrq: parts[8] ? parts[8].slice(0, 10) : "",
+      return apiSuccess({
+        nav: parts[5] ?? "",
+        changeRate: safeParseFloat(parts[7]),
+        navDate: parts[8] ? parts[8].slice(0, 10) : "",
       });
     }
-    return NextResponse.json(
-      { error: "Failed to parse fund NAV data" },
-      { status: 502 },
-    );
-  } catch {
-    return NextResponse.json({ error: "Upstream error" }, { status: 502 });
+    return apiError(new Error("Failed to parse fund NAV data"), 502);
+  } catch (error) {
+    console.error("[fund-nav] Error:", error);
+    return apiError(error, 502);
   }
 }

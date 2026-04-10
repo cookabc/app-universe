@@ -1,13 +1,12 @@
-import { NextResponse } from "next/server";
+import { apiSuccess, apiError, validateFundCode } from "@/lib/api-utils";
+import { ValidationError } from "@/lib/error-handling";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
-  if (!code || !/^\d{6}$/.test(code)) {
-    return NextResponse.json(
-      { error: "Invalid or missing fund code" },
-      { status: 400 },
-    );
+  const validationError = validateFundCode(code);
+  if (validationError) {
+    return apiError(new ValidationError(validationError), 400);
   }
 
   try {
@@ -19,17 +18,14 @@ export async function GET(request: Request) {
       },
     );
     const text = await res.text();
-    // Strip JSONP wrapper: jsonpgz({...})
-    const match = text.match(/jsonpgz\((\{[^)]+\))\)/);
+    const match = text.match(/jsonpgz\((\{[\s\S]+?\})\)/);
     if (match && match[1]) {
       const json = JSON.parse(match[1]);
-      return NextResponse.json(json);
+      return apiSuccess(json);
     }
-    return NextResponse.json(
-      { error: "Failed to parse fund estimate data" },
-      { status: 502 },
-    );
-  } catch {
-    return NextResponse.json({ error: "Upstream error" }, { status: 502 });
+    return apiError(new Error("Failed to parse fund estimate data"), 502);
+  } catch (error) {
+    console.error("[fund-estimate] Error:", error);
+    return apiError(error, 502);
   }
 }

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { apiSuccess, apiError, safeParseFloat } from "@/lib/api-utils";
 
 export async function GET() {
   try {
@@ -23,12 +23,13 @@ export async function GET() {
       const parts = match[1].split("~");
       if (parts.length <= 5) return [];
       return [
-        { name, price: parts[3] ?? "", change: parseFloat(parts[5] ?? "0") },
+        { name, price: parts[3] ?? "", change: safeParseFloat(parts[5]) },
       ];
     });
 
-    return NextResponse.json(indices);
-  } catch {
-    return NextResponse.json([]);
+    return apiSuccess(indices);
+  } catch (error) {
+    console.error("[indices] Error:", error);
+    return apiError(error, 502);
   }
 }
