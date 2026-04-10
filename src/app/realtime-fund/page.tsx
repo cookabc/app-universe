@@ -501,9 +501,11 @@ export default function HomePage() {
     let fundData: FundData = { code: c, name: "" };
 
     if (estimateRes.status === "fulfilled" && estimateRes.value.ok) {
-      const estimate = (await estimateRes.value.json()) as FundData & {
-        fundcode?: string;
-      };
+      const estimateResult = (await estimateRes.value.json()) as {
+        success?: boolean;
+        data?: FundData & { fundcode?: string };
+      } & (FundData & { fundcode?: string });
+      const estimate = estimateResult.data ?? estimateResult;
       if (estimate.name || estimate.fundcode) {
         const gszzlNum = Number(estimate.gszzl);
         fundData = {
@@ -519,21 +521,28 @@ export default function HomePage() {
     }
 
     if (navRes.status === "fulfilled" && navRes.value.ok) {
-      const nav = (await navRes.value.json()) as {
-        dwjz: string;
-        zzl: number;
-        jzrq: string;
+      const navResult = (await navRes.value.json()) as {
+        success?: boolean;
+        data?: { nav: string; changeRate: number; navDate: string };
       };
-      if (nav.jzrq && (!fundData.jzrq || nav.jzrq >= fundData.jzrq)) {
-        fundData.dwjz = nav.dwjz;
-        fundData.jzrq = nav.jzrq;
-        fundData.zzl = nav.zzl;
+      const nav = navResult.data ?? navResult;
+      const navStr = (nav as Record<string, unknown>).nav as string | undefined;
+      const navDate = (nav as Record<string, unknown>).navDate as string | undefined;
+      const changeRate = (nav as Record<string, unknown>).changeRate as number | undefined;
+      if (navDate && (!fundData.jzrq || navDate >= fundData.jzrq)) {
+        fundData.dwjz = navStr ?? "";
+        fundData.jzrq = navDate;
+        fundData.zzl = changeRate ?? 0;
       }
     }
 
     if (holdingsRes.status === "fulfilled" && holdingsRes.value.ok) {
-      const h = (await holdingsRes.value.json()) as FundHolding[];
-      if (Array.isArray(h)) fundData.holdings = h;
+      const holdingsResult = (await holdingsRes.value.json()) as {
+        success?: boolean;
+        data?: FundHolding[];
+      } & { success?: boolean };
+      const h = holdingsResult.data ?? holdingsResult;
+      if (Array.isArray(h)) fundData.holdings = h as FundHolding[];
     }
 
     return fundData;
