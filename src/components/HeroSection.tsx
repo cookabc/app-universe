@@ -3,16 +3,11 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useI18nReady } from "@/hooks/useI18nReady";
+import { Trans } from "react-i18next";
 
 export const HeroSection = () => {
-  const { t } = useTranslation();
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    setIsReady(true);
-  }, []);
+  const { t, isReady } = useI18nReady();
 
   return (
     <section className="relative w-full py-20 md:py-32 flex items-center justify-center text-center overflow-hidden">
@@ -45,13 +40,22 @@ export const HeroSection = () => {
 
         {/* Main Heading */}
         <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground leading-[1.1] whitespace-pre-line">
-          <span
-            dangerouslySetInnerHTML={{
-              __html: isReady
-                ? t("hero.title")
-                : 'All the <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-blue-500">AI Tools</span>\\nYou Need in One Place.',
-            }}
-          />
+          {isReady ? (
+            <Trans
+              i18nKey="hero.title"
+              components={{
+                span: <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-blue-500" />,
+              }}
+            />
+          ) : (
+            <>
+              All the{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-blue-500">
+                AI Tools
+              </span>
+              {"\n"}You Need in One Place.
+            </>
+          )}
         </h1>
 
         {/* Subheading */}

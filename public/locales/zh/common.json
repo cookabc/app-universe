@@ -13,7 +13,7 @@
     "logout": "退出登录"
   },
   "hero": {
-    "title": "所有 <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-blue-500\">AI 工具</span>\n尽在一处。",
+    "title": "所有 <span>AI 工具</span>\n尽在一处。",
     "subtitle": "体验精心策划的下一代应用集合。从生成艺术到智能自动化，用尖端AI为您的工作流程提供动力。",
     "cta": "开始使用",
     "badge": "欢迎来到应用的未来",

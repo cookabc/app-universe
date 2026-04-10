@@ -13,7 +13,7 @@
     "logout": "Logout"
   },
   "hero": {
-    "title": "All the <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-blue-500\">AI Tools</span>\nYou Need in One Place.",
+    "title": "All the <span>AI Tools</span>\nYou Need in One Place.",
     "subtitle": "Experience a curated collection of next-generation applications. From generative art to intelligent automation, power your workflow with cutting-edge AI.",
     "cta": "Get Started",
     "badge": "Welcome to the Future of Apps",
