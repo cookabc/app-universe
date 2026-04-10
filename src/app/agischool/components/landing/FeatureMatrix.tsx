@@ -16,15 +16,18 @@ import { useTranslation } from "react-i18next";
 
 export function FeatureMatrix() {
   const { t } = useTranslation();
+  const getFeatures = (key: string): string[] => {
+    const result = t(key, { returnObjects: true });
+    return Array.isArray(result) ? (result as string[]) : [];
+  };
+
   const plans = [
     {
       name: t("agischool.features.plans.free.name"),
       price: t("agischool.features.plans.free.price"),
       period: t("agischool.features.plans.free.period"),
       desc: t("agischool.features.plans.free.desc"),
-      features: t("agischool.features.plans.free.features", {
-        returnObjects: true,
-      }) as string[],
+      features: getFeatures("agischool.features.plans.free.features"),
       cta: t("agischool.features.plans.free.cta"),
       popular: false,
       color: "border-border/50",
@@ -34,9 +37,7 @@ export function FeatureMatrix() {
       price: t("agischool.features.plans.pro.price"),
       period: t("agischool.features.plans.pro.period"),
       desc: t("agischool.features.plans.pro.desc"),
-      features: t("agischool.features.plans.pro.features", {
-        returnObjects: true,
-      }) as string[],
+      features: getFeatures("agischool.features.plans.pro.features"),
       cta: t("agischool.features.plans.pro.cta"),
       popular: true,
       color: "border-primary shadow-2xl shadow-primary/20 scale-105 z-10",
@@ -46,9 +47,7 @@ export function FeatureMatrix() {
       price: t("agischool.features.plans.enterprise.price"),
       period: t("agischool.features.plans.enterprise.period"),
       desc: t("agischool.features.plans.enterprise.desc"),
-      features: t("agischool.features.plans.enterprise.features", {
-        returnObjects: true,
-      }) as string[],
+      features: getFeatures("agischool.features.plans.enterprise.features"),
       cta: t("agischool.features.plans.enterprise.cta"),
       popular: false,
       color: "border-border/50",
