@@ -23,7 +23,12 @@ export async function GET(request: Request) {
   }
 
   if (key.length > MAX_KEY_LENGTH) {
-    return apiError(new ValidationError(`Search key must be at most ${MAX_KEY_LENGTH} characters`), 400);
+    return apiError(
+      new ValidationError(
+        `Search key must be at most ${MAX_KEY_LENGTH} characters`,
+      ),
+      400,
+    );
   }
 
   try {
