@@ -11,7 +11,8 @@ function extractUserInfo(data: unknown) {
   const id = d.id as string | undefined;
   if (!id) throw new Error("Missing user ID");
 
-  const emailAddresses = (d.email_addresses as Array<{ email_address: string }> | undefined) ?? [];
+  const emailAddresses =
+    (d.email_addresses as Array<{ email_address: string }> | undefined) ?? [];
   const firstName = (d.first_name as string) ?? "";
   const lastName = (d.last_name as string) ?? "";
 
@@ -26,7 +27,10 @@ export async function POST(req: Request) {
 
   if (!WEBHOOK_SECRET) {
     console.error("[ClerkWebhook] CLERK_WEBHOOK_SECRET is not set");
-    return Response.json(formatErrorResponse(new Error("Webhook secret not configured")), { status: 500 });
+    return Response.json(
+      formatErrorResponse(new Error("Webhook secret not configured")),
+      { status: 500 },
+    );
   }
 
   const headerPayload = await headers();
@@ -35,7 +39,10 @@ export async function POST(req: Request) {
   const svix_signature = headerPayload.get("svix-signature");
 
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return Response.json(formatErrorResponse(new Error("Missing svix headers")), { status: 400 });
+    return Response.json(
+      formatErrorResponse(new Error("Missing svix headers")),
+      { status: 400 },
+    );
   }
 
   const payload = await req.text();
@@ -52,7 +59,10 @@ export async function POST(req: Request) {
     }) as WebhookEvent;
   } catch (err) {
     console.error("[ClerkWebhook] Error verifying webhook:", err);
-    return Response.json(formatErrorResponse(new Error("Webhook verification failed")), { status: 400 });
+    return Response.json(
+      formatErrorResponse(new Error("Webhook verification failed")),
+      { status: 400 },
+    );
   }
 
   const eventType = evt.type;
@@ -69,7 +79,10 @@ export async function POST(req: Request) {
         name,
       });
 
-      return Response.json({ success: true, data: { message: "User created" } }, { status: 201 });
+      return Response.json(
+        { success: true, data: { message: "User created" } },
+        { status: 201 },
+      );
     }
 
     if (eventType === "user.updated") {
@@ -84,7 +97,10 @@ export async function POST(req: Request) {
         })
         .where(eq(users.clerkId, id));
 
-      return Response.json({ success: true, data: { message: "User updated" } }, { status: 200 });
+      return Response.json(
+        { success: true, data: { message: "User updated" } },
+        { status: 200 },
+      );
     }
 
     if (eventType === "user.deleted") {
@@ -92,7 +108,10 @@ export async function POST(req: Request) {
       const id = d.id as string | undefined;
 
       if (!id) {
-        return Response.json(formatErrorResponse(new Error("User deleted event missing ID")), { status: 400 });
+        return Response.json(
+          formatErrorResponse(new Error("User deleted event missing ID")),
+          { status: 400 },
+        );
       }
 
       await db
@@ -100,12 +119,21 @@ export async function POST(req: Request) {
         .set({ deletedAt: new Date() })
         .where(eq(users.clerkId, id));
 
-      return Response.json({ success: true, data: { message: "User deleted" } }, { status: 200 });
+      return Response.json(
+        { success: true, data: { message: "User deleted" } },
+        { status: 200 },
+      );
     }
 
-    return Response.json({ success: true, data: { message: "Unhandled event type" } }, { status: 200 });
+    return Response.json(
+      { success: true, data: { message: "Unhandled event type" } },
+      { status: 200 },
+    );
   } catch (error) {
-    console.error(`[ClerkWebhook] Database error for event ${eventType}:`, error);
+    console.error(
+      `[ClerkWebhook] Database error for event ${eventType}:`,
+      error,
+    );
     return Response.json(formatErrorResponse(error), { status: 500 });
   }
 }
