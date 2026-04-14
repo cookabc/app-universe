@@ -36,9 +36,23 @@ export async function GET(request: Request) {
     const text = await res.text();
 
     const apiMatch = text.match(/apidata\s*=\s*(\{[\s\S]*\})/);
-    if (!apiMatch) return apiSuccess([]);
+    if (!apiMatch) {
+      console.log(`[fund-holdings] No apidata found for code ${code}`);
+      return apiSuccess([]);
+    }
 
-    const apiData: { content?: string } = JSON.parse(apiMatch[1] ?? "{}");
+    let apiData: { content?: string };
+    try {
+      apiData = JSON.parse(apiMatch[1] ?? "{}");
+    } catch (parseError) {
+      console.error(
+        `[fund-holdings] JSON parse error for code ${code}:`,
+        parseError,
+      );
+      console.error(`[fund-holdings] Raw data:`, apiMatch[1]?.substring(0, 200));
+      return apiSuccess([]);
+    }
+
     const html = apiData?.content ?? "";
 
     const holdings: Holding[] = [];
