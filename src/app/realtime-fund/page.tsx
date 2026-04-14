@@ -527,8 +527,12 @@ export default function HomePage() {
       };
       const nav = navResult.data ?? navResult;
       const navStr = (nav as Record<string, unknown>).nav as string | undefined;
-      const navDate = (nav as Record<string, unknown>).navDate as string | undefined;
-      const changeRate = (nav as Record<string, unknown>).changeRate as number | undefined;
+      const navDate = (nav as Record<string, unknown>).navDate as
+        | string
+        | undefined;
+      const changeRate = (nav as Record<string, unknown>).changeRate as
+        | number
+        | undefined;
       if (navDate && (!fundData.jzrq || navDate >= fundData.jzrq)) {
         fundData.dwjz = navStr ?? "";
         fundData.jzrq = navDate;

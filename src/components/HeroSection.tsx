@@ -44,7 +44,9 @@ export const HeroSection = () => {
             <Trans
               i18nKey="hero.title"
               components={{
-                span: <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-blue-500" />,
+                span: (
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-blue-500" />
+                ),
               }}
             />
           ) : (
