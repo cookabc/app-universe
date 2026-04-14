@@ -5,30 +5,34 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import Backend from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
+import enTranslations from "@/../public/locales/en/common.json";
+import zhTranslations from "@/../public/locales/zh/common.json";
 
-// Initialize i18next
-i18n
-  .use(Backend)
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    lng: "en",
-    fallbackLng: "en",
-    ns: ["common"],
-    defaultNS: "common",
-    backend: {
-      loadPath: "/locales/{{lng}}/{{ns}}.json",
-    },
-    detection: {
-      order: ["path", "cookie", "localStorage", "navigator", "htmlTag"],
-      caches: ["cookie"],
-    },
-    interpolation: {
-      escapeValue: true,
-    },
-  });
+const resources = {
+  en: { common: enTranslations },
+  zh: { common: zhTranslations },
+};
+
+if (!i18n.isInitialized) {
+  i18n
+    .use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+      resources,
+      lng: "en",
+      fallbackLng: "en",
+      ns: ["common"],
+      defaultNS: "common",
+      detection: {
+        order: ["path", "cookie", "localStorage", "navigator", "htmlTag"],
+        caches: ["cookie"],
+      },
+      interpolation: {
+        escapeValue: true,
+      },
+    });
+}
 
 interface I18nProviderProps {
   children: React.ReactNode;
