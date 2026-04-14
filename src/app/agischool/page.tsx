@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import "./globals.css";
 import { FeatureMatrix } from "./components/landing/FeatureMatrix";
 import { FinalCTA } from "./components/landing/FinalCTA";
 import { GamifiedJourney } from "./components/landing/GamifiedJourney";
