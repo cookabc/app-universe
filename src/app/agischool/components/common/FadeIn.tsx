@@ -14,6 +14,7 @@ interface FadeInProps {
   duration?: number;
   className?: string;
   y?: number;
+  immediate?: boolean;
 }
 
 export function FadeIn({
@@ -22,12 +23,16 @@ export function FadeIn({
   duration = 0.6,
   className = "",
   y = 20,
+  immediate = false,
 }: FadeInProps) {
+  if (immediate) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >
