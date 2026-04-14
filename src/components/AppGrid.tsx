@@ -34,7 +34,11 @@ export function AppGrid() {
     >
       {apps.map((app) => (
         <motion.div key={app.path} variants={item}>
-          <Link href={app.path} className="group block h-full" aria-label={isReady ? t("launchApp") : "Launch App"}>
+          <Link
+            href={app.path}
+            className="group block h-full"
+            aria-label={isReady ? t("launchApp") : "Launch App"}
+          >
             <div className="relative h-full overflow-hidden rounded-[var(--radius)] border-2 border-slate-800 bg-card p-8 transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 shadow-[var(--box-shadow)] hover:shadow-[calc(var(--box-shadow)_+_4px)]">
               <div
                 className="absolute -right-6 -top-6 h-32 w-32 rounded-[var(--radius)] opacity-20 rotate-12 transition-transform duration-500 group-hover:rotate-45"

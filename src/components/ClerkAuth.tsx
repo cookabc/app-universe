@@ -7,14 +7,21 @@ import { useI18nReady } from "@/hooks/useI18nReady";
 import { User, LogIn } from "lucide-react";
 
 function ClerkAuthInner() {
-  const [components, setComponents] = useState<Record<string, React.ComponentType<any>> | null>(null);
+  const [components, setComponents] = useState<Record<
+    string,
+    React.ComponentType<any>
+  > | null>(null);
   const { t, isReady } = useI18nReady();
 
   useEffect(() => {
     import("@clerk/nextjs").then((mod) => {
       setComponents({
-        SignedOut: mod.SignedOut as React.ComponentType<{ children: React.ReactNode }>,
-        SignedIn: mod.SignedIn as React.ComponentType<{ children: React.ReactNode }>,
+        SignedOut: mod.SignedOut as React.ComponentType<{
+          children: React.ReactNode;
+        }>,
+        SignedIn: mod.SignedIn as React.ComponentType<{
+          children: React.ReactNode;
+        }>,
         SignInButton: mod.SignInButton as React.ComponentType<any>,
         UserButton: mod.UserButton as React.ComponentType<any>,
       });
