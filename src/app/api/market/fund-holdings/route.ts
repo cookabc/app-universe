@@ -35,25 +35,33 @@ export async function GET(request: Request) {
     );
     const text = await res.text();
 
-    const apiMatch = text.match(/apidata\s*=\s*(\{[\s\S]*\})/);
+    // Match apidata = { content:"..." } - handles both JSON and JS object literal formats
+    const apiMatch = text.match(/apidata\s*=\s*(\{[\s\S]*?\})\s*;?\s*$/m);
     if (!apiMatch) {
       console.log(`[fund-holdings] No apidata found for code ${code}`);
       return apiSuccess([]);
     }
 
-    let apiData: { content?: string };
+    let content = "";
     try {
-      apiData = JSON.parse(apiMatch[1] ?? "{}");
-    } catch (parseError) {
-      console.error(
-        `[fund-holdings] JSON parse error for code ${code}:`,
-        parseError,
-      );
-      console.error(`[fund-holdings] Raw data:`, apiMatch[1]?.substring(0, 200));
-      return apiSuccess([]);
+      // Try parsing as JSON first
+      const apiData: { content?: string } = JSON.parse(apiMatch[1] ?? "{}");
+      content = apiData?.content ?? "";
+    } catch {
+      // Fallback: extract content using regex for JS object literal format
+      // Matches patterns like: { content:"<html>..." } or { content:'<html>...' }
+      const contentMatch = apiMatch[1]?.match(/content\s*:\s*["']([\s\S]*?)["']/);
+      if (contentMatch) {
+        content = contentMatch[1] ?? "";
+      } else {
+        console.log(
+          `[fund-holdings] Could not extract content for code ${code}`,
+        );
+        return apiSuccess([]);
+      }
     }
 
-    const html = apiData?.content ?? "";
+    const html = content;
 
     const holdings: Holding[] = [];
     const rows = html.match(/<tr[\s\S]*?<\/tr>/gi) ?? [];
