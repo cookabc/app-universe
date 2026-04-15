@@ -40,7 +40,7 @@ export function SettingsIcon(props) {
     )
 }
 
-function RefreshIcon(props) {
+function _RefreshIcon(props) {
     return (
         <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
             <path d="M4 12a8 8 0 0 1 12.5-6.9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -170,7 +170,7 @@ export function MinusIcon(props) {
     )
 }
 
-function SunIcon(props) {
+function _SunIcon(props) {
     return (
         <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
             <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" />
@@ -210,7 +210,7 @@ function SunIcon(props) {
     )
 }
 
-function MoonIcon(props) {
+function _MoonIcon(props) {
     return (
         <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
             <path
