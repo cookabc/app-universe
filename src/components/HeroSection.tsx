@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useI18nReady } from "@/hooks/useI18nReady";
@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 
 export const HeroSection = () => {
   const { t, isReady } = useI18nReady();
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <section className="relative w-full py-20 md:py-32 flex items-center justify-center text-center overflow-hidden">
@@ -21,15 +22,15 @@ export const HeroSection = () => {
 
       <motion.div
         className="container relative z-10 px-4 space-y-8 max-w-5xl mx-auto"
-        initial={{ opacity: 0, y: 20 }}
+        initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.8, ease: [0.23, 1, 0.32, 1] }}
       >
         {/* Pill Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: shouldReduceMotion ? 0 : 0.2 }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm text-sm font-medium text-muted-foreground"
           role="status"
           aria-label="Welcome badge"
@@ -72,9 +73,9 @@ export const HeroSection = () => {
 
         {/* CTA Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: shouldReduceMotion ? 0 : 0.4 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10"
         >
           <Button asChild size="lg" className="w-full sm:w-auto px-8 py-4 text-lg font-semibold">

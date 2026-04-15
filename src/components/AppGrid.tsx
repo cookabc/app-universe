@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useI18nReady } from "@/hooks/useI18nReady";
@@ -16,24 +16,35 @@ const container = {
   },
 };
 
+const containerReduced = {
+  hidden: { opacity: 1 },
+  show: { opacity: 1 },
+};
+
 const item = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0 },
 };
 
+const itemReduced = {
+  hidden: { opacity: 1 },
+  show: { opacity: 1 },
+};
+
 export function AppGrid() {
   const { i18n, t, isReady } = useI18nReady();
   const currentLang = i18n.language;
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <motion.div
-      variants={container}
+      variants={shouldReduceMotion ? containerReduced : container}
       initial="hidden"
       animate="show"
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto"
     >
       {apps.map((app) => (
-        <motion.div key={app.path} variants={item}>
+        <motion.div key={app.path} variants={shouldReduceMotion ? itemReduced : item}>
           <Link
             href={app.path}
             className="group block h-full"
