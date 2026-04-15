@@ -56,7 +56,8 @@ export const Header = () => {
       {/* Mobile Menu Dropdown */}
       <div
         id="mobile-menu"
-        role="menu"
+        role="navigation"
+        aria-label="Mobile navigation"
         className={`md:hidden border-t border-border bg-background transition-all duration-300 ease-in-out overflow-hidden ${mobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
       >
         <div className="container mx-auto px-4 py-6 flex flex-col items-center space-y-6">

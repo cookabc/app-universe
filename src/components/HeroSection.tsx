@@ -5,6 +5,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useI18nReady } from "@/hooks/useI18nReady";
 import { Trans } from "react-i18next";
+import { Button } from "@/components/ui/button";
 
 export const HeroSection = () => {
   const { t, isReady } = useI18nReady();
@@ -74,22 +75,21 @@ export const HeroSection = () => {
           transition={{ delay: 0.4 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10"
         >
-          <Link href="#explore" className="group w-full sm:w-auto">
-            <div className="px-8 py-4 rounded-[var(--radius)] bg-primary border-2 border-slate-800 text-primary-foreground font-semibold text-lg hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-[var(--box-shadow)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[calc(var(--box-shadow)_+_4px)]">
+          <Button asChild size="lg" className="w-full sm:w-auto px-8 py-4 text-lg font-semibold">
+            <Link href="#explore" className="gap-2">
               {isReady ? t("hero.cta") : "Get Started"}
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </div>
-          </Link>
-          <Link
-            href={process.env.NEXT_PUBLIC_GITHUB_URL ?? "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto"
-          >
-            <div className="px-8 py-4 rounded-[var(--radius)] bg-background border-2 border-slate-800 shadow-[var(--box-shadow)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[calc(var(--box-shadow)_+_4px)] hover:bg-muted text-foreground font-semibold text-lg transition-all flex items-center justify-center gap-2">
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="lg" className="w-full sm:w-auto px-8 py-4 text-lg font-semibold">
+            <Link
+              href={process.env.NEXT_PUBLIC_GITHUB_URL ?? "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {isReady ? t("hero.viewSource") : "View Source"}
-            </div>
-          </Link>
+            </Link>
+          </Button>
         </motion.div>
       </motion.div>
     </section>
