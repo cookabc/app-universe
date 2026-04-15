@@ -19,7 +19,6 @@ import {
     GroupSummary,
     HoldingActionModal,
     HoldingEditModal,
-    HoldingsContribution,
     MarketBar,
     SettingsModal,
     SuccessModal,
@@ -89,7 +88,7 @@ export default function HomePage() {
     const [viewMode, setViewMode] = useState('card')
 
     const [feedbackOpen, setFeedbackOpen] = useState(false)
-    const [feedbackNonce, setFeedbackNonce] = useState(0)
+    const [feedbackNonce, _setFeedbackNonce] = useState(0)
 
     const [searchTerm, setSearchTerm] = useState('')
     const [searchResults, setSearchResults] = useState<FundData[]>([])

@@ -20,7 +20,7 @@ export default function TypingPracticeClient() {
     const effectRef = useRef<TypingEffectHandle>(null)
     const [showCelebration, setShowCelebration] = useState(false)
     const [celebrationKey, setCelebrationKey] = useState(0)
-    const [cursorPosition, setCursorPosition] = useState({ left: 0, top: 0 })
+    const [_cursorPosition, setCursorPosition] = useState({ left: 0, top: 0 })
     const [isCapsLockOn, setIsCapsLockOn] = useState(false)
 
     const [_isPending, startTransition] = useTransition()
@@ -53,7 +53,7 @@ export default function TypingPracticeClient() {
     const {
         userInput,
         currentIndex,
-        isFinished,
+        isFinished: _isFinished,
         wpm,
         accuracy,
         mistakes,

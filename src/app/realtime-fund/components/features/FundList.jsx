@@ -1,26 +1,25 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { BarChart2, Clock, TrendingDown, TrendingUp } from 'lucide-react'
-import { ChevronIcon, ExitIcon, SettingsIcon, StarIcon, TrashIcon } from '../icons'
-import { Sparkline, Stat } from '../ui'
-import HoldingsContribution from './HoldingsContribution'
+import { TrendingDown, TrendingUp } from 'lucide-react'
+import { ChevronIcon, StarIcon, TrashIcon } from '../icons'
+import { Sparkline } from '../ui'
 
 export default function FundList({
     viewMode,
     funds,
-    currentTab,
+    _currentTab,
     favorites,
     onToggleFavorite,
-    onRemoveFromGroup,
+    _onRemoveFromGroup,
     onRemoveFund,
     todayStr,
-    isTradingDay,
+    _isTradingDay,
     navHistory,
-    holdings,
-    getHoldingProfit,
-    onOpenHoldingModal,
-    onOpenActionModal,
-    percentModes,
-    onTogglePercentMode,
+    _holdings,
+    _getHoldingProfit,
+    _onOpenHoldingModal,
+    _onOpenActionModal,
+    _percentModes,
+    _onTogglePercentMode,
     collapsedCodes,
     onToggleCollapse,
 }) {
