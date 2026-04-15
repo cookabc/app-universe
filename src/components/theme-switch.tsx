@@ -85,6 +85,7 @@ const ThemeSwitch = React.forwardRef<
             checked={isDarkMode}
             onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
             aria-label={label}
+            aria-pressed={isDarkMode}
             {...props}
             ref={ref}
             style={{

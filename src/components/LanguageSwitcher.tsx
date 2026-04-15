@@ -22,7 +22,7 @@ export function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center space-x-2" role="group" aria-label="Language selection">
       {languages.map((lang) => (
         <Button
           key={lang.value}
@@ -30,9 +30,11 @@ export function LanguageSwitcher() {
           size="sm"
           onClick={() => handleLanguageChange(lang.value)}
           className={`transition-all duration-300 ${i18n.language === lang.value ? "bg-primary text-primary-foreground" : "hover:bg-muted"}`}
+          aria-pressed={i18n.language === lang.value}
+          aria-label={`Switch to ${lang.label}`}
         >
           <span className="flex items-center space-x-1">
-            <span>{lang.flag}</span>
+            <span aria-hidden="true">{lang.flag}</span>
             <span>{lang.label}</span>
           </span>
         </Button>
