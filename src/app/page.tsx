@@ -73,60 +73,60 @@ export default function HomePage() {
         <AppGrid />
       </div>
 
-      <div className="container max-w-7xl mx-auto my-20 sm:my-32 px-4 text-center">
-        <h2 className="mt-16 sm:mt-60 mb-10 sm:mb-20 text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
+      <section className="container max-w-7xl mx-auto my-20 sm:my-32 px-4 text-center" aria-labelledby="partners-heading">
+        <h2 id="partners-heading" className="mt-16 sm:mt-60 mb-10 sm:mb-20 text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
           {isReady
             ? t("trustedBy")
             : "Trusted by Developers at Leading AI Companies"}
         </h2>
-        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-          <div className="group flex flex-col items-center gap-2">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1">
-              <ChatGPT className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" />
+        <ul className="flex flex-wrap items-center justify-center gap-8 sm:gap-12" role="list">
+          <li className="group flex flex-col items-center gap-2">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1" aria-label="OpenAI ChatGPT">
+              <ChatGPT className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" aria-hidden="true" />
             </div>
-          </div>
-          <div className="group flex flex-col items-center gap-2">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1">
-              <ClaudeIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" />
+          </li>
+          <li className="group flex flex-col items-center gap-2">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1" aria-label="Claude">
+              <ClaudeIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" aria-hidden="true" />
             </div>
-          </div>
-          <div className="group flex flex-col items-center gap-2">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1">
-              <GeminiIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" />
+          </li>
+          <li className="group flex flex-col items-center gap-2">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1" aria-label="Google Gemini">
+              <GeminiIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" aria-hidden="true" />
             </div>
-          </div>
-          <div className="group flex flex-col items-center gap-2">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1">
-              <GrokIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" />
+          </li>
+          <li className="group flex flex-col items-center gap-2">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1" aria-label="xAI Grok">
+              <GrokIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" aria-hidden="true" />
             </div>
-          </div>
-          <div className="group flex flex-col items-center gap-2">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1">
-              <ZAIIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" />
+          </li>
+          <li className="group flex flex-col items-center gap-2">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1" aria-label="ZAI">
+              <ZAIIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" aria-hidden="true" />
             </div>
-          </div>
-          <div className="group flex flex-col items-center gap-2">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1">
-              <MinimaxIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" />
+          </li>
+          <li className="group flex flex-col items-center gap-2">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1" aria-label="Minimax">
+              <MinimaxIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" aria-hidden="true" />
             </div>
-          </div>
-          <div className="group flex flex-col items-center gap-2">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1">
-              <KimiIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" />
+          </li>
+          <li className="group flex flex-col items-center gap-2">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1" aria-label="Kimi">
+              <KimiIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" aria-hidden="true" />
             </div>
-          </div>
-          <div className="group flex flex-col items-center gap-2">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1">
-              <DeepSeekIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" />
+          </li>
+          <li className="group flex flex-col items-center gap-2">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1" aria-label="DeepSeek">
+              <DeepSeekIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" aria-hidden="true" />
             </div>
-          </div>
-          <div className="group flex flex-col items-center gap-2">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1">
-              <QwenIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" />
+          </li>
+          <li className="group flex flex-col items-center gap-2">
+            <div className="p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-1" aria-label="Qwen">
+              <QwenIcon className="h-8 w-8 sm:h-12 sm:w-12 text-gray-600 dark:text-gray-300" aria-hidden="true" />
             </div>
-          </div>
-        </div>
-      </div>
+          </li>
+        </ul>
+      </section>
     </div>
   );
 }
