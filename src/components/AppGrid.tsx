@@ -37,7 +37,7 @@ export function AppGrid() {
           <Link
             href={app.path}
             className="group block h-full"
-            aria-label={isReady ? t("launchApp") : "Launch App"}
+            aria-label={isReady ? t("launchApp", { appName: app.name[currentLang as "en" | "zh"] || app.name.en }) : `Launch ${app.name[currentLang as "en" | "zh"] || app.name.en}`}
           >
             <div className="relative h-full overflow-hidden rounded-[var(--radius)] border-2 border-slate-800 bg-card p-8 transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 shadow-[var(--box-shadow)] hover:shadow-[calc(var(--box-shadow)_+_4px)]">
               <div
