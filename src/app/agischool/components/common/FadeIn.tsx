@@ -5,99 +5,87 @@
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
 
-import { motion } from "framer-motion";
-import type { ReactNode } from "react";
+import { motion } from 'framer-motion'
+import type { ReactNode } from 'react'
 
 interface FadeInProps {
-  children: ReactNode;
-  delay?: number;
-  duration?: number;
-  className?: string;
-  y?: number;
-  immediate?: boolean;
+    children: ReactNode
+    delay?: number
+    duration?: number
+    className?: string
+    y?: number
+    immediate?: boolean
 }
 
 export function FadeIn({
-  children,
-  delay = 0,
-  duration = 0.6,
-  className = "",
-  y = 20,
-  immediate = false,
+    children,
+    delay = 0,
+    duration = 0.6,
+    className = '',
+    y = 20,
+    immediate = false,
 }: FadeInProps) {
-  if (immediate) {
-    return <div className={className}>{children}</div>;
-  }
+    if (immediate) {
+        return <div className={className}>{children}</div>
+    }
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
+    return (
+        <motion.div
+            initial={{ opacity: 0, y }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}
+            className={className}
+        >
+            {children}
+        </motion.div>
+    )
 }
 
 interface StaggerContainerProps {
-  children: ReactNode;
-  className?: string;
-  staggerDelay?: number;
+    children: ReactNode
+    className?: string
+    staggerDelay?: number
 }
 
-export function StaggerContainer({
-  children,
-  className = "",
-  staggerDelay = 0.1,
-}: StaggerContainerProps) {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: staggerDelay,
-      },
-    },
-  };
+export function StaggerContainer({ children, className = '', staggerDelay = 0.1 }: StaggerContainerProps) {
+    const container = {
+        hidden: { opacity: 0 },
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: staggerDelay,
+            },
+        },
+    }
 
-  return (
-    <motion.div
-      variants={container}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-100px" }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
+    return (
+        <motion.div
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-100px' }}
+            className={className}
+        >
+            {children}
+        </motion.div>
+    )
 }
 
 interface StaggerItemProps {
-  children: ReactNode;
-  className?: string;
-  y?: number;
+    children: ReactNode
+    className?: string
+    y?: number
 }
 
-export function StaggerItem({
-  children,
-  className = "",
-  y = 20,
-}: StaggerItemProps) {
-  const item = {
-    hidden: { opacity: 0, y },
-    show: { opacity: 1, y: 0 },
-  };
+export function StaggerItem({ children, className = '', y = 20 }: StaggerItemProps) {
+    const item = {
+        hidden: { opacity: 0, y },
+        show: { opacity: 1, y: 0 },
+    }
 
-  return (
-    <motion.div
-      variants={item}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
+    return (
+        <motion.div variants={item} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }} className={className}>
+            {children}
+        </motion.div>
+    )
 }
