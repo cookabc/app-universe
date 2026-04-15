@@ -61,7 +61,12 @@ export default function HomePage() {
         <div className="px-6 sm:px-12 md:px-16 lg:px-24 xl:px-32">
           <Suspense
             fallback={
-              <div className="h-64 bg-muted/30 animate-pulse rounded-lg" />
+              <div
+                className="h-64 bg-muted/30 animate-pulse rounded-lg"
+                role="status"
+                aria-label="Loading hero section"
+                aria-busy="true"
+              />
             }
           >
             <HeroSection />
@@ -75,9 +80,11 @@ export default function HomePage() {
 
       <section className="container max-w-7xl mx-auto my-20 sm:my-32 px-4 text-center" aria-labelledby="partners-heading">
         <h2 id="partners-heading" className="mt-16 sm:mt-60 mb-10 sm:mb-20 text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
-          {isReady
-            ? t("trustedBy")
-            : "Trusted by Developers at Leading AI Companies"}
+          <span aria-live="polite" aria-atomic="true">
+            {isReady
+              ? t("trustedBy")
+              : "Trusted by Developers at Leading AI Companies"}
+          </span>
         </h2>
         <ul className="flex flex-wrap items-center justify-center gap-8 sm:gap-12" role="list">
           <li className="group flex flex-col items-center gap-2">
