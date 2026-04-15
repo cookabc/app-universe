@@ -30,13 +30,15 @@ export const HeroSection = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm text-sm font-medium text-muted-foreground hover:bg-white/10 hover:text-foreground transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm text-sm font-medium text-muted-foreground"
+          role="status"
+          aria-label="Welcome badge"
         >
-          <Sparkles className="w-4 h-4 text-primary" />
+          <Sparkles className="w-4 h-4 text-primary" aria-hidden="true" />
           <span>
             {isReady ? t("hero.badge") : "Welcome to the Future of Apps"}
           </span>
-          <ArrowRight className="w-3 h-3 ml-1" />
+          <ArrowRight className="w-3 h-3 ml-1" aria-hidden="true" />
         </motion.div>
 
         {/* Main Heading */}
