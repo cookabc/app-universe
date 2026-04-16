@@ -16,7 +16,7 @@ export default function HomePage() {
   if (loading) {
     return (
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh" }}>
-        <span style={{ color: "var(--text-secondary)" }}>Loading skills...</span>
+        <span style={{ color: "var(--text-secondary)" }}>Loading skills…</span>
       </div>
     );
   }
@@ -39,12 +39,12 @@ export default function HomePage() {
                 color: "var(--accent)", cursor: "pointer",
                 fontSize: "13px", fontWeight: 600,
                 display: "flex", alignItems: "center", gap: 6,
-                transition: "all .2s",
+                transition: "background-color .15s ease, border-color .15s ease",
               }}
               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.1)"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
             >
-              &#10010; Add Skill
+              ➕ Add Skill
             </button>
           </div>
         </div>

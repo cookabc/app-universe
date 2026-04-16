@@ -11,14 +11,14 @@ const btnStyle=(tkey:string):CSSProperties=>({
   color:tab===tkey?'var(--text-primary)':'var(--text-secondary)',
   fontSize:'13px',fontWeight:600,cursor:'pointer',
   borderBottom:tab===tkey?'2px solid var(--accent)':'2px solid transparent',
-  transition:'all .2s',whiteSpace:'nowrap',fontFamily:'var(--font-mono)',
+  transition:'color .15s ease,border-bottom-color .15s ease',whiteSpace:'nowrap',fontFamily:'var(--font-mono)',
 });
 
 return(<div style={{marginBottom:'32px'}}>
-<div style={{display:'flex',gap:'4px',borderBottom:'1px solid var(--border)',overflowX:'auto',marginBottom:'20px'}}>
-{TABS.map(t=><button key={t.k}onClick={()=>setTab(t.k)}style={btnStyle(t.k)}>{t.l}</button>)}
+<div role="tablist" aria-label="Content tabs" style={{display:'flex',gap:'4px',borderBottom:'1px solid var(--border)',overflowX:'auto',marginBottom:'20px'}}>
+{TABS.map(t=><button key={t.k}role="tab"aria-selected={tab===t.k}onClick={()=>setTab(t.k)}style={btnStyle(t.k)}>{t.l}</button>)}
 </div>
-<div style={{animation:'fadeInUp .3s ease'}}>
+<div style={{animation:'fadeInUp .3s ease'}} role="tabpanel" id={`panel-${tab}`}>
 {tab==='overview'&&<Overview skill={skill}/>}
 {tab==='doc'&&<MarkdownRenderer content={skill.content}/>}
 {tab==='examples'&&<Examples skill={skill}/>}
@@ -45,7 +45,7 @@ return(<div><p style={{color:'var(--text-secondary)',fontSize:'14px',marginBotto
 
 function Files({skill}:Props){const tree=skill.fileInfo.tree;
 function FileNode({node,depth}:{node:any;depth:number}){const[open,setOpen]=useState(depth<1);
-if(node.type==='dir')return(<div><button onClick={()=>setOpen(!open)}style={{display:'flex',alignItems:'center',gap:'6px',padding:'3px 0',marginLeft:depth*16,background:'none',border:'none',color:'var(--text-primary)',cursor:'pointer',fontSize:'13px',width:'100%',textAlign:'left'}}><span>{open?'▾':'▸'}</span><span>📁</span><span>{node.name}/</span></button>
+if(node.type==='dir')return(<div><button onClick={()=>setOpen(!open)}aria-expanded={open}style={{display:'flex',alignItems:'center',gap:'6px',padding:'3px 0',marginLeft:depth*16,background:'none',border:'none',color:'var(--text-primary)',cursor:'pointer',fontSize:'13px',width:'100%',textAlign:'left'}}><span>{open?'▾':'▸'}</span><span>📁</span><span>{node.name}/</span></button>
 {open&&node.children?.map((c:any,j:number)=><FileNode key={j}node={c}depth={depth+1}/>)}</div>);
 return(<div style={{display:'flex',alignItems:'center',gap:'6px',padding:'3px 0',marginLeft:depth*16,fontSize:'13px',color:'var(--text-secondary)'}}><span style={{visibility:'hidden'}}>▸</span><span>📄</span><span>{node.name}</span>{node.size!=null?<span style={{marginLeft:'auto',opacity:.5}}>{(node.size/1024).toFixed(1)}KB</span>:null}</div>);}
 return(<div style={{borderRadius:'var(--radius-md)',background:'var(--bg-card)',border:'1px solid var(--border)',padding:'16px',fontFamily:'var(--font-mono)',fontSize:'13px'}}>
