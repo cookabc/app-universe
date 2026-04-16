@@ -20,23 +20,23 @@ export default function ColorPalette({ themes, title = "Design Systems" }: Props
   const [ti, setTi] = useState(0);
   if (!themes.length) return null;
   const t = themes[ti];
-  const roles = ["primary", "background", "card", "border", "muted", "accent", "foreground", "secondary"];
 
   return (
     <div style={{ borderRadius: "var(--radius-md)", background: "var(--bg-card)", border: "1px solid var(--border)", overflow: "hidden" }}>
       <div style={{ padding: "12px 16px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 12 }}>
-        <span style={{ fontSize: "13px", fontWeight: 600 }}>&#127912; {title}</span>
+        <span style={{ fontSize: "13px", fontWeight: 600 }}>🎨 {title}</span>
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
           {themes.map((th, i) => (
             <button
               key={i}
               onClick={() => setTi(i)}
+              aria-pressed={i === ti}
               style={{
                 padding: "4px 12px", borderRadius: 20, border: "none", cursor: "pointer",
                 fontSize: "12px", fontWeight: 600,
                 background: i === ti ? "var(--accent)" : "var(--bg-secondary)",
                 color: i === ti ? "#fff" : "var(--text-secondary)",
-                transition: "all .2s",
+                transition: "background-color .15s ease, color .15s ease",
               }}
             >{th.name}</button>
           ))}
@@ -49,7 +49,9 @@ export default function ColorPalette({ themes, title = "Design Systems" }: Props
             <div key={i} style={{
               borderRadius: 8, overflow: "hidden",
               border: "1px solid var(--border)", background: "var(--bg-secondary)",
-            }}>
+              transition: "transform .15s ease",
+            }} onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.transform = "scale(1.03)"}
+               onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}>
               <div style={{ height: 48, background: c.hex }} />
               <div style={{ padding: "6px 8px" }}>
                 <div style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-primary)" }}>{c.name}</div>

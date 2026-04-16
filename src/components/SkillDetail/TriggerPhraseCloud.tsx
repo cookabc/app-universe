@@ -11,7 +11,7 @@ export default function TriggerPhraseCloud({ phrases }: Props) {
             background: "var(--tag-bg)", color: "var(--accent)",
             fontSize: "12px", fontWeight: 500,
             fontFamily: "var(--font-mono)", border: "1px solid transparent",
-            transition: "all .2s",
+            transition: "background-color .15s ease, border-color .15s ease"
           }}>{p}</span>
         ))}
       </div>
