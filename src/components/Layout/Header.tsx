@@ -38,14 +38,6 @@ export default function Header() {
             ← Home
           </Link>
         )}
-        <a
-          href="https://opc-skills.ft07.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: "var(--text-secondary)", fontSize: "12px" }}
-        >
-          Inspired by OPC
-        </a>
       </nav>
     </header>
   );
