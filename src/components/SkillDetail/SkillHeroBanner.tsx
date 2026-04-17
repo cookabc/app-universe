@@ -19,7 +19,11 @@ export default function SkillHeroBanner({ skill }: Props) {
 
   return (
     <article
-      style={{ marginBottom: "32px", padding: "32px 0", borderBottom: "1px solid var(--border)" }}
+      style={{
+        marginBottom: "32px",
+        padding: "32px 20px",
+        borderBottom: "1px solid var(--border)",
+      }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
         <span
@@ -29,7 +33,7 @@ export default function SkillHeroBanner({ skill }: Props) {
             fontWeight: 600,
             letterSpacing: "0.05em",
             textTransform: "uppercase",
-            padding: "4px 12px",
+            padding: "8px 12px",
             borderRadius: "6px",
             background: cat.color + "14",
             color: cat.color,
@@ -59,7 +63,7 @@ export default function SkillHeroBanner({ skill }: Props) {
           color: "var(--text-secondary)",
           fontSize: "15px",
           lineHeight: 1.7,
-          maxWidth: "640px",
+          maxWidth: "65ch",
           margin: "0 auto 20px",
           textAlign: "center",
         }}

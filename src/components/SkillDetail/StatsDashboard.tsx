@@ -14,6 +14,8 @@ export default function StatsDashboard({ skill }: Props) {
         gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
         gap: "16px",
         marginBottom: "24px",
+        maxWidth: "65ch",
+        margin: "0 auto",
       }}
     >
       {[
@@ -57,7 +59,7 @@ export default function StatsDashboard({ skill }: Props) {
             borderRadius: "var(--radius-md)",
             background: "var(--bg-card)",
             border: "1px solid var(--border)",
-            padding: "16px 20px",
+            padding: "20px 24px",
           }}
         >
           <div

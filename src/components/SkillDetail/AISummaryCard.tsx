@@ -16,11 +16,13 @@ export default function AISummaryCard({ skill }: Props) {
         borderRadius: "var(--radius-lg)",
         background: "var(--bg-card)",
         border: "1px solid var(--border)",
-        padding: "20px 24px",
+        padding: "24px 28px",
         marginBottom: "24px",
         display: "flex",
         gap: "12px",
         alignItems: "flex-start",
+        maxWidth: "65ch",
+        margin: "0 auto",
       }}
     >
       <span style={{ fontSize: "20px", flexShrink: 0 }}>🤖</span>
@@ -43,7 +45,7 @@ export default function AISummaryCard({ skill }: Props) {
         <div
           style={{
             marginTop: "8px",
-            fontSize: "11px",
+            fontSize: "12px",
             color: "var(--text-secondary)",
             opacity: 0.6,
           }}

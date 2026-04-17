@@ -94,7 +94,7 @@ export default function LiveDemoSection({ skill }: Props) {
   if (!demos.length) return null;
 
   return (
-    <div style={{ marginTop: "32px" }}>
+    <div style={{ marginTop: "32px", maxWidth: "65ch", padding: "12px 16px" }}>
       <h3
         style={{
           fontSize: "18px",
