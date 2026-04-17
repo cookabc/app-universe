@@ -1,2 +1,17 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"; import Layout from "./components/Layout/Layout"; import HomePage from "./pages/HomePage"; import SkillDetailPage from "./pages/SkillDetailPage"; import "./styles/global.css";
-export default function App() { return (<BrowserRouter><Routes><Route element={<Layout />}><Route index element={<HomePage />} /><Route path="/skill/:id" element={<SkillDetailPage />} /></Route></Routes></BrowserRouter>) }
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout/Layout";
+import HomePage from "./pages/HomePage";
+import SkillDetailPage from "./pages/SkillDetailPage";
+import "./styles/global.css";
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/skill/:id" element={<SkillDetailPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
