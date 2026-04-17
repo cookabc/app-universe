@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface ColorSwatch {
   name: string;
@@ -22,8 +22,23 @@ export default function ColorPalette({ themes, title = "Design Systems" }: Props
   const t = themes[ti];
 
   return (
-    <div style={{ borderRadius: "var(--radius-md)", background: "var(--bg-card)", border: "1px solid var(--border)", overflow: "hidden" }}>
-      <div style={{ padding: "12px 16px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 12 }}>
+    <div
+      style={{
+        borderRadius: "var(--radius-md)",
+        background: "var(--bg-card)",
+        border: "1px solid var(--border)",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          padding: "12px 16px",
+          borderBottom: "1px solid var(--border)",
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+        }}
+      >
         <span style={{ fontSize: "13px", fontWeight: 600 }}>🎨 {title}</span>
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
           {themes.map((th, i) => (
@@ -32,31 +47,65 @@ export default function ColorPalette({ themes, title = "Design Systems" }: Props
               onClick={() => setTi(i)}
               aria-pressed={i === ti}
               style={{
-                padding: "4px 12px", borderRadius: 20, border: "none", cursor: "pointer",
-                fontSize: "12px", fontWeight: 600,
+                padding: "4px 12px",
+                borderRadius: 20,
+                border: "none",
+                cursor: "pointer",
+                fontSize: "12px",
+                fontWeight: 600,
                 background: i === ti ? "var(--accent)" : "var(--bg-secondary)",
                 color: i === ti ? "#fff" : "var(--text-secondary)",
                 transition: "background-color .15s ease, color .15s ease",
               }}
-            >{th.name}</button>
+            >
+              {th.name}
+            </button>
           ))}
         </div>
       </div>
       <div style={{ padding: "16px" }}>
         <div style={{ fontSize: "14px", fontWeight: 600, marginBottom: 12 }}>{t.name} Palette</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(140px,1fr))", gap: 8 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill,minmax(140px,1fr))",
+            gap: 8,
+          }}
+        >
           {t.colors.map((c, i) => (
-            <div key={i} style={{
-              borderRadius: 8, overflow: "hidden",
-              border: "1px solid var(--border)", background: "var(--bg-secondary)",
-              transition: "transform .15s ease",
-            }} onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.transform = "scale(1.03)"}
-               onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}>
+            <div
+              key={i}
+              style={{
+                borderRadius: 8,
+                overflow: "hidden",
+                border: "1px solid var(--border)",
+                background: "var(--bg-secondary)",
+                transition: "transform .15s ease",
+              }}
+              onMouseEnter={(e) =>
+                ((e.currentTarget as HTMLElement).style.transform = "scale(1.03)")
+              }
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1)")}
+            >
               <div style={{ height: 48, background: c.hex }} />
               <div style={{ padding: "6px 8px" }}>
-                <div style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-primary)" }}>{c.name}</div>
-                <div style={{ fontSize: "11px", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{c.hex}</div>
-                {c.role && <div style={{ fontSize: "10px", color: "var(--text-secondary)", opacity: 0.7 }}>{c.role}</div>}
+                <div style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-primary)" }}>
+                  {c.name}
+                </div>
+                <div
+                  style={{
+                    fontSize: "11px",
+                    fontFamily: "var(--font-mono)",
+                    color: "var(--text-secondary)",
+                  }}
+                >
+                  {c.hex}
+                </div>
+                {c.role && (
+                  <div style={{ fontSize: "10px", color: "var(--text-secondary)", opacity: 0.7 }}>
+                    {c.role}
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -73,11 +122,19 @@ export function extractThemeColors(systemJson: Record<string, any>): ThemeData[]
     const dark = ds.themeConfig?.dark || {};
     const colors: ColorSwatch[] = [];
     const roleMap: Record<string, string> = {
-      primary: "Primary", background: "Background", card: "Card",
-      border: "Border", muted: "Muted", accent: "Accent",
-      foreground: "Foreground", secondary: "Secondary",
-      destructive: "Destructive", popover: "Popover",
-      ring: "Ring", input: "Input", sidebar: "Sidebar",
+      primary: "Primary",
+      background: "Background",
+      card: "Card",
+      border: "Border",
+      muted: "Muted",
+      accent: "Accent",
+      foreground: "Foreground",
+      secondary: "Secondary",
+      destructive: "Destructive",
+      popover: "Popover",
+      ring: "Ring",
+      input: "Input",
+      sidebar: "Sidebar",
     };
     for (const [key, label] of Object.entries(roleMap)) {
       const hex = light[key] || dark[key];

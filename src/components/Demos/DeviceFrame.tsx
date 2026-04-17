@@ -28,39 +28,72 @@ export default function DeviceFrame({ screenshots, title = "Device Preview" }: P
   };
 
   return (
-    <div style={{ borderRadius: "var(--radius-md)", background: "var(--bg-card)", border: "1px solid var(--border)", overflow: "hidden" }}>
+    <div
+      style={{
+        borderRadius: "var(--radius-md)",
+        background: "var(--bg-card)",
+        border: "1px solid var(--border)",
+        overflow: "hidden",
+      }}
+    >
       {title && (
         <div style={{ padding: "12px 16px", borderBottom: "1px solid var(--border)" }}>
           <span style={{ fontSize: "13px", fontWeight: 600 }}>&#128241; {title}</span>
         </div>
       )}
-      <div style={{ padding: "24px", display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
+      <div
+        style={{
+          padding: "24px",
+          display: "flex",
+          gap: 20,
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
         {screenshots.map((sc, i) => {
           const f = frameStyle(sc.device);
           return (
-            <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+            <div
+              key={i}
+              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}
+            >
               <div
                 style={{
-                  width: f.width, height: f.height,
-                  borderRadius: f.radius, background: f.color,
+                  width: f.width,
+                  height: f.height,
+                  borderRadius: f.radius,
+                  background: f.color,
                   border: "3px solid #333",
                   padding: f.notch ? 8 : 12,
-                  position: "relative", overflow: "hidden",
+                  position: "relative",
+                  overflow: "hidden",
                   boxShadow: "0 20px 60px rgba(0,0,0,0.4)",
                 }}
               >
                 {f.notch && (
-                  <div style={{
-                    position: "absolute", top: 0, left: "50%",
-                    transform: "translateX(-50%)",
-                    width: 90, height: 26, borderRadius: 20,
-                    background: "#000", zIndex: 1,
-                  }} />
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      width: 90,
+                      height: 26,
+                      borderRadius: 20,
+                      background: "#000",
+                      zIndex: 1,
+                    }}
+                  />
                 )}
                 <img
                   src={sc.url}
                   alt={sc.label}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: f.notch ? 32 : 12 }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    borderRadius: f.notch ? 32 : 12,
+                  }}
                 />
               </div>
               <span style={{ fontSize: "11px", color: "var(--text-secondary)" }}>{sc.label}</span>
