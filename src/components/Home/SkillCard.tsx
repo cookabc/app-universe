@@ -24,9 +24,9 @@ export default function SkillCard({ skill, index }: Props) {
         }}
         onMouseEnter={(e) => {
           const el = e.currentTarget as HTMLElement;
-          el.style.borderColor = cat.color;
+          el.style.borderColor = "var(--accent)";
           el.style.transform = "translateY(-4px)";
-          el.style.boxShadow = `0 8px 32px ${cat.color}20`;
+          el.style.boxShadow = `0 8px 32px var(--accent)20`;
         }}
         onMouseLeave={(e) => {
           const el = e.currentTarget as HTMLElement;
@@ -41,7 +41,7 @@ export default function SkillCard({ skill, index }: Props) {
               style={{
                 fontSize: "13px",
                 fontWeight: 700,
-                color: cat.color,
+                color: "var(--accent)",
                 opacity: 0.7,
                 fontFamily: "var(--font-mono)",
               }}
@@ -53,8 +53,8 @@ export default function SkillCard({ skill, index }: Props) {
                 fontSize: "11px",
                 padding: "2px 8px",
                 borderRadius: "10px",
-                background: cat.color + "18",
-                color: cat.color,
+                background: "var(--accent)18",
+                color: "var(--accent)",
                 fontWeight: 500,
               }}
             >
@@ -97,7 +97,7 @@ export default function SkillCard({ skill, index }: Props) {
         <div
           style={{
             height: "2px",
-            background: `linear-gradient(90deg,${cat.color},transparent)`,
+            background: `linear-gradient(90deg,var(--accent),transparent)`,
             opacity: 0.5,
           }}
         />
