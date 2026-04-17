@@ -19,9 +19,7 @@
       "complexityLabel": "Simple",
       "readTime": "2 min"
     },
-    "triggerPhrases": [
-      "Extract and replicate AI art styles"
-    ],
+    "triggerPhrases": ["Extract and replicate AI art styles"],
     "useCases": [
       {
         "icon": "📌",
@@ -114,9 +112,7 @@
       "complexityLabel": "Trivial",
       "readTime": "2 min"
     },
-    "triggerPhrases": [
-      "Help users create app icons using"
-    ],
+    "triggerPhrases": ["Help users create app icons using"],
     "useCases": [
       {
         "icon": "📌",
@@ -215,9 +211,7 @@
       "complexityLabel": "Moderate",
       "readTime": "5 min"
     },
-    "triggerPhrases": [
-      "\"App Store and Google Play screenshot"
-    ],
+    "triggerPhrases": ["\"App Store and Google Play screenshot"],
     "useCases": [
       {
         "icon": "📌",
@@ -311,9 +305,7 @@
       "complexityLabel": "Trivial",
       "readTime": "1 min"
     },
-    "triggerPhrases": [
-      "Guidance for using asc cli in"
-    ],
+    "triggerPhrases": ["Guidance for using asc cli in"],
     "useCases": [
       {
         "icon": "📌",
@@ -398,9 +390,7 @@
       "complexityLabel": "Complex+",
       "readTime": "10 min"
     },
-    "triggerPhrases": [
-      "Use when building App Store screenshot"
-    ],
+    "triggerPhrases": ["Use when building App Store screenshot"],
     "useCases": [
       {
         "icon": "📌",
@@ -523,9 +513,7 @@
       "complexityLabel": "Simple",
       "readTime": "5 min"
     },
-    "triggerPhrases": [
-      "Generate technical diagrams using HTML/CSS in"
-    ],
+    "triggerPhrases": ["Generate technical diagrams using HTML/CSS in"],
     "useCases": [
       {
         "icon": "📌",
@@ -616,9 +604,7 @@
       "complexityLabel": "Moderate",
       "readTime": "6 min"
     },
-    "triggerPhrases": [
-      "\"Turn any codebase into a beautiful,"
-    ],
+    "triggerPhrases": ["\"Turn any codebase into a beautiful,"],
     "useCases": [
       {
         "icon": "📌",
@@ -725,9 +711,7 @@
       "complexityLabel": "Simple",
       "readTime": "4 min"
     },
-    "triggerPhrases": [
-      ">"
-    ],
+    "triggerPhrases": [">"],
     "useCases": [
       {
         "icon": "✅",
@@ -809,9 +793,7 @@
       "complexityLabel": "Trivial",
       "readTime": "1 min"
     },
-    "triggerPhrases": [
-      "what colors/style/theme"
-    ],
+    "triggerPhrases": ["what colors/style/theme"],
     "useCases": [
       {
         "icon": "✅",
@@ -849,9 +831,7 @@
         "description": "Do NOT use for:** Creating new design systems, modifying existing system data, generating UI components (only provides tokens/config), or general CSS questions unrelated to these design systems."
       }
     ],
-    "keyFeatures": [
-      "Design Systems"
-    ],
+    "keyFeatures": ["Design Systems"],
     "installCommand": null,
     "content": "# Design System Browser\n\nBrowse 11 curated design themes with complete color palettes, typography, and visual effects.\n\n## Design Systems\n\n| Name        | Style                | Accent         |\n| ----------- | -------------------- | -------------- |\n| Bauhaus     | Minimalist, Bold     | Red #D02020    |\n| Beam        | Clean, Modern        | Orange #ffaa40 |\n| Hand-draw   | Handwritten, Playful | Red #ff6b6b    |\n| Kinetic     | Edgy, Bold           | Yellow #DFE104 |\n| Luxury      | Elegant, Premium     | Gold #D4AF37   |\n| Motion      | Smooth, Fluid        | Blue #3b82f6   |\n| Neumorphism | Soft, 3D             | Orange #FF8800 |\n| Newsprint   | Editorial, Classic   | Red #CC0000    |\n| Playful     | Colorful, Fun        | Purple #8B5CF6 |\n| Uber        | Professional         | Blue #276EF1   |\n| Win98       | Retro, Nostalgic     | Blue #0000FF   |\n\n## When to Use\n\n- List, browse, or view available design systems\n- Get colors, color palettes, themes, design tokens, or style configurations\n- Generate CSS variables or Tailwind config from a design system\n- Create globals.css or theme file using a specific design system\n- Compare design systems or view their screenshots\n- Query \"what colors\", \"what theme\", \"what styling\" for a design system\n\n**Do NOT use for:** Creating new design systems, modifying existing system data, generating UI components (only provides tokens/config), or general CSS questions unrelated to these design systems.\n\n## Usage Examples\n\n```\n# List all systems\n\"Show me all design systems\"\n\n# Get colors/theme\n\"What colors does Bauhaus use?\"\n\"Show me the Luxury theme\"\n\n# Generate CSS\n\"Generate CSS variables for Kinetic\"\n\"Create a globals.css using Playful design system\"\n\n# Generate Tailwind config\n\"Create a tailwind config for Uber\"\n```\n\n## Data Source\n\n```\n/Users/someone/.claude/skills/design-system/system.json\n```\n\n## Screenshots\n\n```\n/Users/someone/.claude/skills/design-system/screenshots/[Name].png\n```",
     "fileInfo": {
@@ -2037,9 +2017,7 @@
       "complexityLabel": "Basic",
       "readTime": "4 min"
     },
-    "triggerPhrases": [
-      "\"Generate high-density editorial HTML info cards"
-    ],
+    "triggerPhrases": ["\"Generate high-density editorial HTML info cards"],
     "useCases": [
       {
         "icon": "📌",
@@ -2192,11 +2170,7 @@
       "complexityLabel": "Simple",
       "readTime": "3 min"
     },
-    "triggerPhrases": [
-      "how do I do X",
-      "find a skill for X",
-      "is there a skill that can..."
-    ],
+    "triggerPhrases": ["how do I do X", "find a skill for X", "is there a skill that can..."],
     "useCases": [
       {
         "icon": "📌",
@@ -2669,9 +2643,7 @@
     },
     "lastUpdated": "",
     "assets": {
-      "screenshots": [
-        "agentloop-core.svg"
-      ],
+      "screenshots": ["agentloop-core.svg"],
       "samples": [
         "samples/sample-style1-flat.png",
         "samples/sample-style2-dark.png",
@@ -2703,9 +2675,7 @@
       "complexityLabel": "Moderate+",
       "readTime": "10 min"
     },
-    "triggerPhrases": [
-      "AI builders digest — monitors top"
-    ],
+    "triggerPhrases": ["AI builders digest — monitors top"],
     "useCases": [
       {
         "icon": "📌",
@@ -2937,9 +2907,7 @@
       "complexityLabel": "Simple",
       "readTime": "2 min"
     },
-    "triggerPhrases": [
-      "Bulk rewrite git history to change"
-    ],
+    "triggerPhrases": ["Bulk rewrite git history to change"],
     "useCases": [
       {
         "icon": "✅",
@@ -3045,9 +3013,7 @@
       "complexityLabel": "Trivial",
       "readTime": "1 min"
     },
-    "triggerPhrases": [
-      "grill me"
-    ],
+    "triggerPhrases": ["grill me"],
     "useCases": [
       {
         "icon": "🎯",
@@ -3100,9 +3066,7 @@
       "complexityLabel": "Complex+",
       "readTime": "12 min"
     },
-    "triggerPhrases": [
-      "Create beautiful infographics using AntV Infographic."
-    ],
+    "triggerPhrases": ["Create beautiful infographics using AntV Infographic."],
     "useCases": [
       {
         "icon": "📌",
@@ -3196,9 +3160,7 @@
       "complexityLabel": "Basic+",
       "readTime": "5 min"
     },
-    "triggerPhrases": [
-      "Ink terminal renderer for json-render that"
-    ],
+    "triggerPhrases": ["Ink terminal renderer for json-render that"],
     "useCases": [
       {
         "icon": "📌",
@@ -3292,9 +3254,7 @@
       "complexityLabel": "Expert",
       "readTime": "23 min"
     },
-    "triggerPhrases": [
-      "Apple Human Interface Guidelines for Mac."
-    ],
+    "triggerPhrases": ["Apple Human Interface Guidelines for Mac."],
     "useCases": [
       {
         "icon": "📌",
@@ -3406,9 +3366,7 @@
       "complexityLabel": "Trivial",
       "readTime": "2 min"
     },
-    "triggerPhrases": [
-      "Build, refactor, or review macOS menubar"
-    ],
+    "triggerPhrases": ["Build, refactor, or review macOS menubar"],
     "useCases": [
       {
         "icon": "📌",
@@ -3505,9 +3463,7 @@
       "complexityLabel": "Simple",
       "readTime": "2 min"
     },
-    "triggerPhrases": [
-      "Comprehensive security review framework for AI"
-    ],
+    "triggerPhrases": ["Comprehensive security review framework for AI"],
     "useCases": [
       {
         "icon": "📌",
@@ -3719,9 +3675,7 @@
       "complexityLabel": "Simple",
       "readTime": "3 min"
     },
-    "triggerPhrases": [
-      "Systematically review and fix incomplete/unreasonable parts"
-    ],
+    "triggerPhrases": ["Systematically review and fix incomplete/unreasonable parts"],
     "useCases": [
       {
         "icon": "📌",
@@ -3823,11 +3777,7 @@
         "description": "Review UI code for Web Interface Guidelines compliance. Use when asked to \"review my UI\", \"check accessibility\", \"audit design\", \"review UX\", or \"check my site against best practices\"."
       }
     ],
-    "keyFeatures": [
-      "How It Works",
-      "Guidelines Source",
-      "Usage"
-    ],
+    "keyFeatures": ["How It Works", "Guidelines Source", "Usage"],
     "installCommand": null,
     "content": "# Web Interface Guidelines\n\nReview files for compliance with Web Interface Guidelines.\n\n## How It Works\n\n1. Fetch the latest guidelines from the source URL below\n2. Read the specified files (or prompt user for files/pattern)\n3. Check against all rules in the fetched guidelines\n4. Output findings in the terse `file:line` format\n\n## Guidelines Source\n\nFetch fresh guidelines before each review:\n\n```\nhttps://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md\n```\n\nUse WebFetch to retrieve the latest rules. The fetched content contains all the rules and output format instructions.\n\n## Usage\n\nWhen a user provides a file or pattern argument:\n\n1. Fetch guidelines from the source URL above\n2. Read the specified files\n3. Apply all rules from the fetched guidelines\n4. Output findings using the format specified in the guidelines\n\nIf no files specified, ask the user which files to review.",
     "fileInfo": {

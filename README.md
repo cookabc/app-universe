@@ -14,17 +14,17 @@ A web-based gallery for browsing, exploring, and demonstrating Agent Skills. Sea
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Framework | React 19 + TypeScript |
-| Build | Vite 8 |
-| Routing | React Router v7 |
-| State | React hooks (no external state library) |
-| Markdown | react-markdown + remark-gfm + rehype-highlight |
-| Syntax Highlighting | highlight.js |
-| Virtualization | @tanstack/react-virtual |
-| Data Fetching | @tanstack/react-query |
-| Linting | ESLint with typescript-eslint, react-hooks, react-refresh |
+| Layer               | Technology                                                |
+| ------------------- | --------------------------------------------------------- |
+| Framework           | React 19 + TypeScript                                     |
+| Build               | Vite 8                                                    |
+| Routing             | React Router v7                                           |
+| State               | React hooks (no external state library)                   |
+| Markdown            | react-markdown + remark-gfm + rehype-highlight            |
+| Syntax Highlighting | highlight.js                                              |
+| Virtualization      | @tanstack/react-virtual                                   |
+| Data Fetching       | @tanstack/react-query                                     |
+| Linting             | ESLint with typescript-eslint, react-hooks, react-refresh |
 
 ## Getting Started
 
