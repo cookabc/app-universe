@@ -9,8 +9,6 @@ export default function Footer() {
         fontSize: "13px",
       }}
     >
-      <p>Skill Showcase — Built with React+Vite</p>
-      <p style={{ marginTop: "4px", opacity: 0.6 }}>Data source: ~/.claude/skills/</p>
     </footer>
   );
 }
