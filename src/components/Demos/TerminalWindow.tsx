@@ -26,13 +26,13 @@ export default function TerminalWindow({
   const lineColor = (type?: string) => {
     switch (type) {
       case "input":
-        return "#7dd3fc";
+        return "#b8563e";
       case "error":
         return "#fca5a5";
       case "success":
         return "#86efac";
       case "info":
-        return "#93c5fd";
+        return "#a8a29e";
       default:
         return "#d4d4d8";
     }

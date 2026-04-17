@@ -36,7 +36,15 @@ export default function RelatedSkills({ currentId }: Props) {
   };
 
   return (
-    <div style={{ marginTop: "40px", paddingTop: "24px", borderTop: "1px solid var(--border)" }}>
+    <div
+      style={{
+        marginTop: "40px",
+        padding: "24px 16px",
+        borderTop: "1px solid var(--border)",
+        maxWidth: "65ch",
+        margin: "0 auto",
+      }}
+    >
       <h3
         style={{
           fontSize: "14px",
@@ -61,7 +69,7 @@ export default function RelatedSkills({ currentId }: Props) {
             }}
           >
             <div style={{ fontSize: "13px", fontWeight: 600, marginBottom: "4px" }}>{s.name}</div>
-            <div style={{ fontSize: "11px", color: "var(--text-secondary)" }}>
+            <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
               {s.category.icon} {s.category.label}
             </div>
           </Link>

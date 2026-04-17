@@ -48,6 +48,7 @@ export default function HomePage() {
           </div>
         </div>
         <CategoryFilter active={cat} onChange={setCat} />
+        <h2 style={{ fontSize: "20px", fontWeight: 600, marginTop: "8px" }}>Available Skills</h2>
         <SkillGrid skills={filtered} />
       </div>
     </>

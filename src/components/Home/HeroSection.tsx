@@ -9,9 +9,7 @@ export default function HeroSection() {
         style={{
           fontSize: "clamp(28px,5vw,42px)",
           fontWeight: 800,
-          background: "linear-gradient(135deg,var(--near-black) 30%,var(--terracotta))",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
+          color: "var(--text-primary)",
           marginBottom: "12px",
           lineHeight: 1.2,
           textWrap: "balance",
