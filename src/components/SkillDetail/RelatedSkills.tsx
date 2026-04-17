@@ -15,9 +15,9 @@ export default function RelatedSkills({ currentId }: Props) {
       const cur = all.find((s) => s.id === currentId);
       if (!cur) return;
       setCl(cur.category.label);
-      const f = all.filter((s) =>
-        s.id !== currentId && s.category.key === cur.category.key
-      ).slice(0, 4);
+      const f = all
+        .filter((s) => s.id !== currentId && s.category.key === cur.category.key)
+        .slice(0, 4);
       setRel(f);
     });
   }, [currentId]);
@@ -37,17 +37,33 @@ export default function RelatedSkills({ currentId }: Props) {
 
   return (
     <div style={{ marginTop: "40px", paddingTop: "24px", borderTop: "1px solid var(--border)" }}>
-      <h3 style={{ fontSize: "14px", fontWeight: 600, color: "var(--text-secondary)", marginBottom: "16px" }}>
+      <h3
+        style={{
+          fontSize: "14px",
+          fontWeight: 600,
+          color: "var(--text-secondary)",
+          marginBottom: "16px",
+        }}
+      >
         🔗 Related Skills ({cl})
       </h3>
       <div style={{ display: "flex", gap: "12px", overflowX: "auto", paddingBottom: "8px" }}>
         {rel.map((s) => (
-          <Link key={s.id} to={`/skill/${s.id}`} style={cardStyle}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = s.category.color; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--border)"; }}
+          <Link
+            key={s.id}
+            to={`/skill/${s.id}`}
+            style={cardStyle}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.borderColor = s.category.color;
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+            }}
           >
             <div style={{ fontSize: "13px", fontWeight: 600, marginBottom: "4px" }}>{s.name}</div>
-            <div style={{ fontSize: "11px", color: "var(--text-secondary)" }}>{s.category.icon} {s.category.label}</div>
+            <div style={{ fontSize: "11px", color: "var(--text-secondary)" }}>
+              {s.category.icon} {s.category.label}
+            </div>
           </Link>
         ))}
       </div>
