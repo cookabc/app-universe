@@ -51,8 +51,9 @@ export default function SkillDetailPage() {
   }
 
   return (
-    <div className="animate-in">
+    <div className="animate-in" style={{ maxWidth: "60ch", margin: "0 auto", padding: "20px" }}>
       <SkillHeroBanner skill={skill} />
+      <h2 style={{ fontSize: "20px", fontWeight: 600, margin: "24px 0 16px" }}>Skill Details</h2>
       <AISummaryCard skill={skill} />
       <StatsDashboard skill={skill} />
       <TriggerPhraseCloud phrases={skill.triggerPhrases} />

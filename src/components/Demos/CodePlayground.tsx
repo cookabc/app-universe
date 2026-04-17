@@ -32,6 +32,8 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
         border: "1px solid var(--border)",
         overflow: "hidden",
         background: "var(--bg-card)",
+        maxWidth: "65ch",
+        margin: "0 auto",
       }}
     >
       <div
@@ -57,11 +59,11 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
                 role="tab"
                 aria-selected={i === ei}
                 style={{
-                  padding: "3px 10px",
+                  padding: "5px 10px",
                   borderRadius: "4px",
                   border: "none",
                   cursor: "pointer",
-                  fontSize: "11px",
+                  fontSize: "12px",
                   fontWeight: 500,
                   fontFamily: "var(--font-mono)",
                   background: i === ei ? "var(--near-black)" : "transparent",
@@ -78,13 +80,13 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
           onClick={handleCopy}
           aria-label="Copy code"
           style={{
-            padding: "4px 10px",
+            padding: "5px 10px",
             borderRadius: "4px",
             border: "1px solid var(--border)",
             background: copied ? "var(--success)" : "transparent",
             color: copied ? "var(--white)" : "var(--text-secondary)",
             cursor: "pointer",
-            fontSize: "11px",
+            fontSize: "12px",
             fontFamily: "var(--font-mono)",
             transition: "background-color .15s ease, color .15s ease",
           }}

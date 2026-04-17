@@ -32,7 +32,7 @@ export default function ContentTabs({ skill }: Props) {
   });
 
   return (
-    <div style={{ marginBottom: "32px" }}>
+    <div style={{ marginBottom: "32px", maxWidth: "65ch", margin: "0 auto" }}>
       <div
         role="tablist"
         aria-label="Content tabs"
@@ -42,7 +42,7 @@ export default function ContentTabs({ skill }: Props) {
           borderBottom: "1px solid var(--border)",
           overflowX: "auto",
           marginBottom: "20px",
-          maxWidth: "800px",
+          maxWidth: "65ch",
           marginLeft: "auto",
           marginRight: "auto",
           padding: "0 20px",
@@ -63,9 +63,9 @@ export default function ContentTabs({ skill }: Props) {
       <div
         style={{
           animation: "fadeInUp .3s ease",
-          maxWidth: "800px",
+          maxWidth: "65ch",
           margin: "0 auto",
-          padding: "0 20px",
+          padding: "20px",
         }}
       >
         {tab === "overview" && <Overview skill={skill} />}
@@ -103,7 +103,7 @@ export default function ContentTabs({ skill }: Props) {
 
 function Overview({ skill }: Props) {
   return (
-    <div>
+    <div style={{ padding: "8px 0" }}>
       <h3 style={{ fontSize: "16px", fontWeight: 700, marginBottom: "16px" }}>What is this?</h3>
       <p
         style={{
@@ -131,7 +131,7 @@ function Overview({ skill }: Props) {
               <li
                 key={i}
                 style={{
-                  padding: "10px 14px",
+                  padding: "12px 16px",
                   borderRadius: "var(--radius-sm)",
                   background: "var(--bg-secondary)",
                   border: "1px solid var(--border)",
