@@ -16,11 +16,16 @@ export default function SkillDetailPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id) { setLoading(false); return; }
-    getSkillById(decodeURIComponent(id)).then((s) => {
-      setSkill(s);
+    if (!id) {
       setLoading(false);
-    }).catch(() => setLoading(false));
+      return;
+    }
+    getSkillById(decodeURIComponent(id))
+      .then((s) => {
+        setSkill(s);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, [id]);
 
   if (loading) {
@@ -38,7 +43,9 @@ export default function SkillDetailPage() {
         <p style={{ color: "var(--text-secondary)", marginBottom: "16px" }}>
           No skill found with ID: "{id}"
         </p>
-        <Link to="/" style={{ color: "var(--accent)" }}>&#8592; Back to gallery</Link>
+        <Link to="/" style={{ color: "var(--accent)" }}>
+          &#8592; Back to gallery
+        </Link>
       </div>
     );
   }
