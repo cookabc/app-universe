@@ -91,3 +91,65 @@ code,.mono,pre,[data-mono]{font-variant-numeric:tabular-nums}
   border-radius:0 0 4px 0;transition:top .2s;
 }
 .skip-link:focus{top:0}
+
+/* === Highlight.js Overrides — force light theme === */
+.hljs{
+  background:transparent!important;
+  color:var(--text-primary)!important;
+  padding:0!important;
+}
+.hljs .hljs-tag,
+.hljs .hljs-name,
+.hljs .hljs-attr,
+.hljs .hljs-keyword,
+.hljs .hljs-selector-tag{
+  color:var(--terracotta)!important;
+}
+.hljs .hljs-string,
+.hljs .hljs-attribute,
+.hljs .hljs-addition{
+  color:#c96442!important;
+}
+.hljs .hljs-number,
+.hljs .hljs-literal,
+.hljs .hljs-constant{
+  color:var(--charcoal)!important;
+}
+.hljs .hljs-comment,
+.hljs .hljs-quote,
+.hljs .hljs-doctag{
+  color:var(--stone)!important;
+  font-style:italic;
+}
+.hljs .hljs-type,
+.hljs .hljs-built_in,
+.hljs .hljs-builtin-name{
+  color:var(--charcoal)!important;
+}
+
+/* Code block reset — override dark GitHub backgrounds */
+pre{
+  background:var(--bg-primary)!important;
+  border:1px solid var(--border)!important;
+  border-radius:var(--radius-sm)!important;
+  overflow-x:auto;
+}
+pre code{
+  background:transparent!important;
+  padding:16px 20px!important;
+  display:block;
+  text-align:left!important;
+}
+/* Kill any inline dark backgrounds or centered text */
+pre[style*="background"],
+pre > div[style*="background"]{
+  background:var(--bg-primary)!important;
+}
+pre code[style*="background"],
+pre code span[style*="background"]{
+  background:transparent!important;
+}
+pre code div[style*="text-align"],
+pre code span[style*="text-align"]{
+  text-align:left!important;
+}
