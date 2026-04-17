@@ -92,42 +92,36 @@ code,.mono,pre,[data-mono]{font-variant-numeric:tabular-nums}
 }
 .skip-link:focus{top:0}
 
-/* === Highlight.js Overrides — force light theme === */
-.hljs{
+/* === Strip highlight.js dark theme === */
+.hljs,
+pre .hljs,
+code .hljs{
   background:transparent!important;
   color:var(--text-primary)!important;
   padding:0!important;
 }
-.hljs .hljs-tag,
-.hljs .hljs-name,
-.hljs .hljs-attr,
-.hljs .hljs-keyword,
-.hljs .hljs-selector-tag{
+/* Override all highlight.js token colors with OPC palette */
+.hljs-keyword,.hljs-selector-tag,.hljs-literal,.hljs-section,.hljs-name{
   color:var(--terracotta)!important;
 }
-.hljs .hljs-string,
-.hljs .hljs-attribute,
-.hljs .hljs-addition{
-  color:#c96442!important;
+.hljs-string,.hljs-attr,.hljs-value,.hljs-attribute,.hljs-addition{
+  color:#b8563e!important;
 }
-.hljs .hljs-number,
-.hljs .hljs-literal,
-.hljs .hljs-constant{
+.hljs-number,.hljs-symbol,.hljs-bullet,.hljs-regexp{
   color:var(--charcoal)!important;
 }
-.hljs .hljs-comment,
-.hljs .hljs-quote,
-.hljs .hljs-doctag{
+.hljs-comment,.hljs-quote,.hljs-doctag{
   color:var(--stone)!important;
   font-style:italic;
 }
-.hljs .hljs-type,
-.hljs .hljs-built_in,
-.hljs .hljs-builtin-name{
+.hljs-type,.hljs-class .hljs-title,.hljs-built_in{
   color:var(--charcoal)!important;
 }
+.hljs-subst,.hljs-formula,.hljs-meta{
+  color:var(--text-secondary)!important;
+}
 
-/* Code block reset — override dark GitHub backgrounds */
+/* Reset all code blocks to light theme */
 pre{
   background:var(--bg-primary)!important;
   border:1px solid var(--border)!important;
@@ -139,17 +133,51 @@ pre code{
   padding:16px 20px!important;
   display:block;
   text-align:left!important;
+  color:var(--text-primary)!important;
 }
-/* Kill any inline dark backgrounds or centered text */
+/* Kill inline dark backgrounds from rehype-highlight */
 pre[style*="background"],
-pre > div[style*="background"]{
+pre > div[style*="background"],
+pre > span[style*="background"]{
   background:var(--bg-primary)!important;
 }
 pre code[style*="background"],
 pre code span[style*="background"]{
   background:transparent!important;
 }
+/* Kill centered text from rehype-highlight */
 pre code div[style*="text-align"],
 pre code span[style*="text-align"]{
   text-align:left!important;
+}
+/* Kill inline dark text colors */
+pre code span[style*="color: #c9d1d9"],
+pre code span[style*="color:#c9d1d9"],
+pre code span[style*="color: rgb(201"],
+pre code span[style*="color:#8b949e"]{
+  color:var(--text-primary)!important;
+}
+
+/* Code playground overrides */
+.code-playground{
+  background:var(--bg-primary)!important;
+}
+.code-playground span[style*="background"],
+.code-playground code span[style*="background"]{
+  background:transparent!important;
+}
+.code-playground span[style*="color: #c9d1d9"],
+.code-playground span[style*="color:#c9d1d9"],
+.code-playground span[style*="color: rgb(201"],
+.code-playground span[style*="color:#8b949e"]{
+  color:var(--text-primary)!important;
+}
+.code-playground div[style*="text-align"],
+.code-playground span[style*="text-align"]{
+  text-align:left!important;
+}
+.code-playground .hljs{
+  background:transparent!important;
+  color:var(--text-primary)!important;
+  padding:0!important;
 }

@@ -93,22 +93,18 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
           {ex.description}
         </div>
       )}
-      <div style={{
-        background: 'var(--bg-primary)',
-        borderTop: '1px solid var(--border)',
-      }}>
-        <pre style={{
-          margin: 0,
-          padding: '16px 20px',
-          fontSize: '13px',
-          fontFamily: 'var(--font-mono)',
-          lineHeight: 1.7,
-          whiteSpace: 'pre-wrap',
-          wordBreak: 'break-word',
-          color: 'var(--text-primary)',
-          overflowX: 'auto',
-        }}><code>{ex.code}</code></pre>
-      </div>
+      <div className="code-playground" style={{
+        margin: 0,
+        padding: '16px 20px',
+        fontSize: '13px',
+        fontFamily: 'var(--font-mono)',
+        lineHeight: 1.7,
+        whiteSpace: 'pre-wrap',
+        wordBreak: 'break-word',
+        color: 'var(--text-primary)',
+        overflowX: 'auto',
+        textAlign: 'left',
+      }}><code>{ex.code}</code></div>
     </div>
   );
 }
