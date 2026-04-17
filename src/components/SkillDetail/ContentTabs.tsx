@@ -34,7 +34,7 @@ return(<div>
 {skill.keyFeatures.map((f,i)=><li key={i}style={{padding:'10px 14px',borderRadius:'var(--radius-sm)',background:'var(--bg-secondary)',border:'1px solid var(--border)',fontSize:'13px',color:'var(--text-secondary)',display:'flex',alignItems:'center',gap:'8px'}}><span>✨</span>{f}</li>)}</ul></>)}
 {skill.useCases.length>0&&(<><h3 style={{fontSize:'16px',fontWeight:700,marginBottom:'12px'}}>Use Cases</h3>
 <div style={{display:'flex',flexDirection:'column',gap:'8px',marginBottom:'24px'}}>
-{skill.useCases.map((uc,i)=><div key={i}style={{padding:'12px 16px',borderRadius:'var(--radius-sm)',background:'var(--bg-secondary)',border:'1px solid var(--border)',display:'flex',alignItems:'center',gap:'12px'}}><span style={{fontSize:'18px'}}>{uc.icon}</span><div><div style={{fontWeight:600,fontSize:'13px'}}>{uc.title}</div><div style={{fontSize:'12px',color:'var(--text-secondary)'}}>{uc.description}</div></div></div>)}</div></>)}
+{skill.useCases.map((uc,i)=><div key={i}style={{padding:'12px 16px',borderRadius:'var(--radius-sm)',background:'var(--bg-secondary)',border:'1px solid var(--border)',display:'flex',alignItems:'center',gap:'12px'}}><span style={{fontSize:'18px'}}>{uc.icon}</span><div><div style={{fontWeight:600,fontSize:'13px'}}>{uc.title}</div>{uc.description!==uc.title&&<div style={{fontSize:'12px',color:'var(--text-secondary)'}}>{uc.description}</div>}</div></div>)}</div></>)}
 </div>);}
 
 function Examples({skill}:Props){const blocks=extractCodeBlocks(skill.content);
