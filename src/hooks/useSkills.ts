@@ -1,5 +1,10 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { getAllSkills, registerCustomSkill, subscribeToSkillsChange, type SkillData } from "../data/skills";
+import {
+  getAllSkills,
+  registerCustomSkill,
+  subscribeToSkillsChange,
+  type SkillData,
+} from "../data/skills";
 import { CATEGORIES } from "../data/categories";
 
 export function useSkills() {
@@ -8,15 +13,25 @@ export function useSkills() {
 
   useEffect(() => {
     let mounted = true;
-    getAllSkills().then((data) => {
-      if (mounted) { setS(data); setL(false); }
-    }).catch(() => { if (mounted) setL(false); });
+    getAllSkills()
+      .then((data) => {
+        if (mounted) {
+          setS(data);
+          setL(false);
+        }
+      })
+      .catch(() => {
+        if (mounted) setL(false);
+      });
 
     const unsub = subscribeToSkillsChange((data) => {
       if (mounted) setS([...data]);
     });
 
-    return () => { mounted = false; unsub(); };
+    return () => {
+      mounted = false;
+      unsub();
+    };
   }, []);
 
   const addSkill = useCallback((skill: SkillData) => {
@@ -36,7 +51,7 @@ export function useSearch(sk: SkillData[], q: string, cf: string) {
         (s) =>
           s.name.toLowerCase().includes(ql) ||
           s.description.toLowerCase().includes(ql) ||
-          s.id.toLowerCase().includes(ql)
+          s.id.toLowerCase().includes(ql),
       );
     }
     return r;
