@@ -220,8 +220,18 @@ function extractCodeBlocksLimited(content: string, max: number): { language: str
   while ((m = re.exec(content)) !== null && results.length < max) {
     const code = m[2].trim();
     if (code.length > 20 && code.length < 5000) {
-      results.push({ language: m[1] || "text", code });
+      results.push({ language: m[1] || "text", code: stripHljs(code) });
     }
   }
   return results;
+}
+
+function stripHljs(code: string): string {
+  return code
+    .replace(/<\/?span[^>]*>/gi, '')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
 }
