@@ -1,4 +1,6 @@
-import type { SkillData } from "./skills";
+import type { SkillData } from "./skills.types";
+
+export type { SkillData };
 
 let _cache: SkillData[] | null = null;
 let _promise: Promise<SkillData[]> | null = null;
@@ -59,6 +61,10 @@ export function subscribeToSkillsChange(cb: (skills: SkillData[]) => void): () =
 
 function _notifyListeners(skills: SkillData[]): void {
   for (const cb of _customListeners) {
-    try { cb(skills); } catch (e) { console.warn("Skill listener error", e); }
+    try {
+      cb(skills);
+    } catch (e) {
+      console.warn("Skill listener error", e);
+    }
   }
 }
