@@ -20,7 +20,13 @@ return(<div style={{marginBottom:'32px'}}>
 </div>
 <div style={{animation:'fadeInUp .3s ease'}} role="tabpanel" id={`panel-${tab}`}>
 {tab==='overview'&&<Overview skill={skill}/>}
-{tab==='doc'&&<MarkdownRenderer content={skill.content}/>}
+{tab === 'doc' && (
+  <div style={{ textAlign: 'left', maxWidth: '800px', margin: '0 auto' }}>
+    <h2 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '12px', color: 'var(--text-primary)' }}>{skill.name}</h2>
+    <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '14px', marginBottom: '24px' }}>{skill.description}</p>
+    <MarkdownRenderer content={skill.content} />
+  </div>
+)}
 {tab==='examples'&&<Examples skill={skill}/>}
 {tab==='files'&&<Files skill={skill}/>}
 </div></div>);}
