@@ -1,6 +1,6 @@
 :root {
   --text: #6b6375;
-  --text-h: #08060d;
+  --text-h: #2d2d2d;
   --bg: #fff;
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
@@ -104,6 +104,6 @@ code,
 code {
   font-size: 15px;
   line-height: 135%;
-  padding: 4px 8px;
+  padding: 8px 12px;
   background: var(--code-bg);
 }
