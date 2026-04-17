@@ -15,7 +15,9 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh" }}>
+      <div
+        style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh" }}
+      >
         <span style={{ color: "var(--text-secondary)" }}>Loading skills…</span>
       </div>
     );
@@ -25,24 +27,48 @@ export default function HomePage() {
     <>
       <HeroSection />
       <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap", justifyContent: "space-between" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+          }}
+        >
           <SearchBar value={q} onChange={setQ} />
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <span style={{ color: "var(--text-secondary)", fontSize: "13px", fontFamily: "var(--font-mono)" }}>
+            <span
+              style={{
+                color: "var(--text-secondary)",
+                fontSize: "13px",
+                fontFamily: "var(--font-mono)",
+              }}
+            >
               {filtered.length} results
             </span>
             <button
               onClick={() => setShowAdd(true)}
               style={{
-                padding: "8px 16px", borderRadius: 8,
-                border: "1px dashed var(--accent)", background: "transparent",
-                color: "var(--accent)", cursor: "pointer",
-                fontSize: "13px", fontWeight: 600,
-                display: "flex", alignItems: "center", gap: 6,
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: "1px dashed var(--accent)",
+                background: "transparent",
+                color: "var(--accent)",
+                cursor: "pointer",
+                fontSize: "13px",
+                fontWeight: 600,
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
                 transition: "background-color .15s ease, border-color .15s ease",
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.1)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "rgba(99,102,241,0.1)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "transparent";
+              }}
             >
               ➕ Add Skill
             </button>
