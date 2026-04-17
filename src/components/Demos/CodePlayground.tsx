@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface CodeExample {
   language: string;
@@ -26,24 +26,30 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
   };
 
   return (
-    <div style={{
-      borderRadius: 'var(--radius-md)',
-      border: '1px solid var(--border)',
-      overflow: 'hidden',
-      background: 'var(--bg-card)',
-    }}>
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '12px 16px',
-        borderBottom: '1px solid var(--border)',
-        gap: '8px',
-        flexWrap: 'wrap',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}>{title}</span>
-          <div style={{ display: 'flex', gap: '4px' }}>
+    <div
+      style={{
+        borderRadius: "var(--radius-md)",
+        border: "1px solid var(--border)",
+        overflow: "hidden",
+        background: "var(--bg-card)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "12px 16px",
+          borderBottom: "1px solid var(--border)",
+          gap: "8px",
+          flexWrap: "wrap",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+          <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--text-primary)" }}>
+            {title}
+          </span>
+          <div style={{ display: "flex", gap: "4px" }}>
             {examples.map((e, i) => (
               <button
                 key={i}
@@ -51,18 +57,20 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
                 role="tab"
                 aria-selected={i === ei}
                 style={{
-                  padding: '3px 10px',
-                  borderRadius: '4px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: '11px',
+                  padding: "3px 10px",
+                  borderRadius: "4px",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "11px",
                   fontWeight: 500,
-                  fontFamily: 'var(--font-mono)',
-                  background: i === ei ? 'var(--near-black)' : 'transparent',
-                  color: i === ei ? 'var(--white)' : 'var(--text-secondary)',
-                  transition: 'background-color .15s ease, color .15s ease',
+                  fontFamily: "var(--font-mono)",
+                  background: i === ei ? "var(--near-black)" : "transparent",
+                  color: i === ei ? "var(--white)" : "var(--text-secondary)",
+                  transition: "background-color .15s ease, color .15s ease",
                 }}
-              >{e.language?.toLowerCase()}</button>
+              >
+                {e.language?.toLowerCase()}
+              </button>
             ))}
           </div>
         </div>
@@ -70,41 +78,50 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
           onClick={handleCopy}
           aria-label="Copy code"
           style={{
-            padding: '4px 10px',
-            borderRadius: '4px',
-            border: '1px solid var(--border)',
-            background: copied ? 'var(--success)' : 'transparent',
-            color: copied ? 'var(--white)' : 'var(--text-secondary)',
-            cursor: 'pointer',
-            fontSize: '11px',
-            fontFamily: 'var(--font-mono)',
-            transition: 'background-color .15s ease, color .15s ease',
+            padding: "4px 10px",
+            borderRadius: "4px",
+            border: "1px solid var(--border)",
+            background: copied ? "var(--success)" : "transparent",
+            color: copied ? "var(--white)" : "var(--text-secondary)",
+            cursor: "pointer",
+            fontSize: "11px",
+            fontFamily: "var(--font-mono)",
+            transition: "background-color .15s ease, color .15s ease",
           }}
-        >{copied ? 'Copied' : 'Copy'}</button>
+        >
+          {copied ? "Copied" : "Copy"}
+        </button>
       </div>
       {ex.description && (
-        <div style={{
-          padding: '10px 16px',
-          fontSize: '12px',
-          color: 'var(--text-secondary)',
-          lineHeight: 1.5,
-          borderBottom: '1px solid var(--border)',
-        }}>
+        <div
+          style={{
+            padding: "10px 16px",
+            fontSize: "12px",
+            color: "var(--text-secondary)",
+            lineHeight: 1.5,
+            borderBottom: "1px solid var(--border)",
+          }}
+        >
           {ex.description}
         </div>
       )}
-      <div className="code-playground" style={{
-        margin: 0,
-        padding: '16px 20px',
-        fontSize: '13px',
-        fontFamily: 'var(--font-mono)',
-        lineHeight: 1.7,
-        whiteSpace: 'pre-wrap',
-        wordBreak: 'break-word',
-        color: 'var(--text-primary)',
-        overflowX: 'auto',
-        textAlign: 'left',
-      }}><code>{ex.code}</code></div>
+      <div
+        className="code-playground"
+        style={{
+          margin: 0,
+          padding: "16px 20px",
+          fontSize: "13px",
+          fontFamily: "var(--font-mono)",
+          lineHeight: 1.7,
+          whiteSpace: "pre-wrap",
+          wordBreak: "break-word",
+          color: "var(--text-primary)",
+          overflowX: "auto",
+          textAlign: "left",
+        }}
+      >
+        <code>{ex.code}</code>
+      </div>
     </div>
   );
 }

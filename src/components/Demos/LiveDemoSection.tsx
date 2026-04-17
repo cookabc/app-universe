@@ -1,4 +1,5 @@
-import type { SkillData } from "../../data/skills";
+import React from "react";
+import type { SkillData } from "../../data/skills.types";
 import ImageGallery from "./ImageGallery";
 import ColorPalette, { extractThemeColors } from "./ColorPalette";
 import TerminalWindow from "./TerminalWindow";
@@ -12,80 +13,80 @@ interface Props {
 const ASSETS_BASE = "/skills-assets";
 
 const INK_LINES = [
-  { text: "$ ink init my-app", type: "input" },
-  { text: "Creating new ink project: my-app", type: "info" },
-  { text: "  + src/App.ink", type: "output" },
-  { text: "  + src/components/", type: "output" },
-  { text: "  + ink.config.json", type: "output" },
-  { text: "", type: "output" },
-  { text: "Done! Run 'ink dev' to start.", type: "success" },
+  { text: "$ ink init my-app", type: "input" as const },
+  { text: "Creating new ink project: my-app", type: "info" as const },
+  { text: "  + src/App.ink", type: "output" as const },
+  { text: "  + src/components/", type: "output" as const },
+  { text: "  + ink.config.json", type: "output" as const },
+  { text: "", type: "output" as const },
+  { text: "Done! Run 'ink dev' to start.", type: "success" as const },
 ];
 
 const GIT_LINES = [
-  { text: "$ git-author-replace --repo ./my-project", type: "input" },
-  { text: "Scanning commit history...", type: "info" },
-  { text: "Found 42 commits by Old Name <old@email.com>", type: "output" },
-  { text: "Replacing with: New Name <new@email.com>", type: "output" },
-  { text: "", type: "output" },
-  { text: "Rewritten 42 commits across 8 branches.", type: "success" },
-  { text: "Run 'git push --force' to update remote.", type: "info" },
+  { text: "$ git-author-replace --repo ./my-project", type: "input" as const },
+  { text: "Scanning commit history...", type: "info" as const },
+  { text: "Found 42 commits by Old Name <old@email.com>", type: "output" as const },
+  { text: "Replacing with: New Name <new@email.com>", type: "output" as const },
+  { text: "", type: "output" as const },
+  { text: "Rewritten 42 commits across 8 branches.", type: "success" as const },
+  { text: "Run 'git push --force' to update remote.", type: "info" as const },
 ];
 
 const SECURITY_LINES = [
-  { text: "> Reviewing skill: example-mcp-tool v1.2.0", type: "input" },
-  { text: "[SCAN] Analyzing package manifest...", type: "info" },
-  { text: "[SCAN] Checking dependency chain...", type: "info" },
-  { text: "[WARN] Dependency 'request' has known CVE-2023-28158", type: "error" },
-  { text: "[PASS] No secrets found in source code", type: "success" },
-  { text: "[PASS] Input sanitization verified", type: "success" },
-  { text: "[INFO] Risk Score: Medium (6/10)", type: "info" },
+  { text: "> Reviewing skill: example-mcp-tool v1.2.0", type: "input" as const },
+  { text: "[SCAN] Analyzing package manifest...", type: "info" as const },
+  { text: "[SCAN] Checking dependency chain...", type: "info" as const },
+  { text: "[WARN] Dependency 'request' has known CVE-2023-28158", type: "error" as const },
+  { text: "[PASS] No secrets found in source code", type: "success" as const },
+  { text: "[PASS] Input sanitization verified", type: "success" as const },
+  { text: "[INFO] Risk Score: Medium (6/10)", type: "info" as const },
 ];
 
 const GRILL_LINES = [
-  { text: "> I want to build a real-time chat app with WebSockets", type: "input" },
-  { text: "", type: "output" },
-  { text: "\u{1F525} Let us grill this plan!", type: "error" },
-  { text: "", type: "output" },
-  { text: "Q1: What happens if WebSocket connection drops?", type: "info" },
-  { text: "   - You mention auto-reconnect but no backoff strategy", type: "output" },
-  { text: "   - How do you handle message ordering after reconnect?", type: "output" },
-  { text: "", type: "output" },
-  { text: "Q2: Horizontal scaling with multiple server instances?", type: "info" },
-  { text: "   - Your plan uses in-memory state. Will not work at scale.", type: "output" },
-  { text: "   - Consider Redis pub/sub or a message broker.", type: "output" },
-  { text: "", type: "output" },
-  { text: "Q3: Authentication for WS connections?", type: "info" },
-  { text: "   - Token validation on upgrade is missing.", type: "error" },
+  { text: "> I want to build a real-time chat app with WebSockets", type: "input" as const },
+  { text: "", type: "output" as const },
+  { text: "\u{1F525} Let us grill this plan!", type: "error" as const },
+  { text: "", type: "output" as const },
+  { text: "Q1: What happens if WebSocket connection drops?", type: "info" as const },
+  { text: "   - You mention auto-reconnect but no backoff strategy", type: "output" as const },
+  { text: "   - How do you handle message ordering after reconnect?", type: "output" as const },
+  { text: "", type: "output" as const },
+  { text: "Q2: Horizontal scaling with multiple server instances?", type: "info" as const },
+  { text: "   - Your plan uses in-memory state. Will not work at scale.", type: "output" as const },
+  { text: "   - Consider Redis pub/sub or a message broker.", type: "output" as const },
+  { text: "", type: "output" as const },
+  { text: "Q3: Authentication for WS connections?", type: "info" as const },
+  { text: "   - Token validation on upgrade is missing.", type: "error" as const },
 ];
 
 const COURSE_LINES = [
-  { text: "$ codebase-to-course ./src --output ./course", type: "input" },
-  { text: "Analyzing codebase structure...", type: "info" },
-  { text: "  Found 24 modules across 8 directories", type: "output" },
-  { text: "  Detected patterns: React hooks, REST API, State management", type: "output" },
-  { text: "Generating interactive course...", type: "info" },
-  { text: "  + Module 1: Project Architecture Overview", type: "success" },
-  { text: "  + Module 2: Core Components Deep Dive", type: "success" },
-  { text: "  + Module 3: Data Flow and State Management", type: "success" },
-  { text: "  + Module 4: API Integration Patterns", type: "success" },
-  { text: "", type: "output" },
-  { text: "Course ready! Open ./course/index.html", type: "success" },
+  { text: "$ codebase-to-course ./src --output ./course", type: "input" as const },
+  { text: "Analyzing codebase structure...", type: "info" as const },
+  { text: "  Found 24 modules across 8 directories", type: "output" as const },
+  { text: "  Detected patterns: React hooks, REST API, State management", type: "output" as const },
+  { text: "Generating interactive course...", type: "info" as const },
+  { text: "  + Module 1: Project Architecture Overview", type: "success" as const },
+  { text: "  + Module 2: Core Components Deep Dive", type: "success" as const },
+  { text: "  + Module 3: Data Flow and State Management", type: "success" as const },
+  { text: "  + Module 4: API Integration Patterns", type: "success" as const },
+  { text: "", type: "output" as const },
+  { text: "Course ready! Open ./course/index.html", type: "success" as const },
 ];
 
 const BUILDER_LINES = [
-  { text: "$ follow-builders --digest weekly", type: "input" },
-  { text: "Fetching latest posts from configured sources...", type: "info" },
-  { text: "", type: "output" },
-  { text: "\u{1F386} This Week's Builder Digest:", type: "success" },
-  { text: "", type: "output" },
-  { text: "[Evan You] What is next for Vite+ and Rolldown", type: "output" },
-  { text: "  -> Key insight: Unified toolchain reduces config by 70%", type: "info" },
-  { text: "", type: "output" },
-  { text: "[tbl] Oxc: Blazing fast JS tools written in Rust", type: "output" },
-  { text: "  -> Key insight: 100x faster than ESLint for large repos", type: "info" },
-  { text: "", type: "output" },
-  { text: "[Anthony Fu] TanStack Start: Full-stack React done right", type: "output" },
-  { text: "  -> Key insight: Type-safe from server to client", type: "info" },
+  { text: "$ follow-builders --digest weekly", type: "input" as const },
+  { text: "Fetching latest posts from configured sources...", type: "info" as const },
+  { text: "", type: "output" as const },
+  { text: "\u{1F386} This Week's Builder Digest:", type: "success" as const },
+  { text: "", type: "output" as const },
+  { text: "[Evan You] What is next for Vite+ and Rolldown", type: "output" as const },
+  { text: "  -> Key insight: Unified toolchain reduces config by 70%", type: "info" as const },
+  { text: "", type: "output" as const },
+  { text: "[tbl] Oxc: Blazing fast JS tools written in Rust", type: "output" as const },
+  { text: "  -> Key insight: 100x faster than ESLint for large repos", type: "info" as const },
+  { text: "", type: "output" as const },
+  { text: "[Anthony Fu] TanStack Start: Full-stack React done right", type: "output" as const },
+  { text: "  -> Key insight: Type-safe from server to client", type: "info" as const },
 ];
 
 export default function LiveDemoSection({ skill }: Props) {
@@ -94,10 +95,16 @@ export default function LiveDemoSection({ skill }: Props) {
 
   return (
     <div style={{ marginTop: "32px" }}>
-      <h3 style={{
-        fontSize: "18px", fontWeight: 700, marginBottom: "16px",
-        display: "flex", alignItems: "center", gap: "8px",
-      }}>
+      <h3
+        style={{
+          fontSize: "18px",
+          fontWeight: 700,
+          marginBottom: "16px",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+        }}
+      >
         &#9889; Live Demo
       </h3>
       <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
@@ -109,8 +116,8 @@ export default function LiveDemoSection({ skill }: Props) {
   );
 }
 
-function getDemosForSkill(skill: SkillData): JSX.Element[] {
-  const el: JSX.Element[] = [];
+function getDemosForSkill(skill: SkillData): React.ReactNode[] {
+  const el: React.ReactNode[] = [];
   const id = skill.id;
   const assets = skill.assets as Record<string, any> | undefined;
   const content = skill.content;
@@ -121,13 +128,17 @@ function getDemosForSkill(skill: SkillData): JSX.Element[] {
       if (!themes.length && assets?.systemJson) {
         themes = extractThemeColors(assets.systemJson);
       }
-      if (themes.length) el.push(<ColorPalette key="cp" themes={themes} title="11 Design Systems" />);
+      if (themes.length)
+        el.push(<ColorPalette key="cp" themes={themes} title="11 Design Systems" />);
       const screenshots = (assets?.screenshots || []).map((s: string) => ({
         url: `${ASSETS_BASE}/${id}/${s}`,
         title: s.replace(".png", ""),
         caption: s.replace(".png", "").replace(/-/g, " "),
       }));
-      if (screenshots.length) el.push(<ImageGallery key="ig" images={screenshots} title="Theme Screenshots" height="300px" />);
+      if (screenshots.length)
+        el.push(
+          <ImageGallery key="ig" images={screenshots} title="Theme Screenshots" height="300px" />,
+        );
       break;
     }
     case "fireworks-tech-graph": {
@@ -136,9 +147,13 @@ function getDemosForSkill(skill: SkillData): JSX.Element[] {
         title: s.replace("sample-", "").replace(".png", ""),
         caption: s.replace("sample-", "").replace(".png", "").replace(/-/g, " "),
       }));
-      if (samples.length) el.push(<ImageGallery key="ig" images={samples} title="Diagram Styles" height="340px" />);
+      if (samples.length)
+        el.push(<ImageGallery key="ig" images={samples} title="Diagram Styles" height="340px" />);
       const codeExamples = extractCodeBlocksLimited(content, 3);
-      if (codeExamples.length) el.push(<CodePlayground key="cp" examples={codeExamples} title="SVG Generation Examples" />);
+      if (codeExamples.length)
+        el.push(
+          <CodePlayground key="cp" examples={codeExamples} title="SVG Generation Examples" />,
+        );
       break;
     }
     case "asc-screenshots":
@@ -148,12 +163,14 @@ function getDemosForSkill(skill: SkillData): JSX.Element[] {
         device: inferDevice(s),
         label: makeLabel(s),
       }));
-      if (devices.length) el.push(<DeviceFrame key="df" screenshots={devices} title="App Store Screenshots" />);
+      if (devices.length)
+        el.push(<DeviceFrame key="df" screenshots={devices} title="App Store Screenshots" />);
       break;
     }
     case "editorial-card-screenshot": {
       const codeExamples = extractCodeBlocksLimited(content, 4);
-      if (codeExamples.length) el.push(<CodePlayground key="cp" examples={codeExamples} title="Card Template Examples" />);
+      if (codeExamples.length)
+        el.push(<CodePlayground key="cp" examples={codeExamples} title="Card Template Examples" />);
       break;
     }
     case "ink":
@@ -162,23 +179,56 @@ function getDemosForSkill(skill: SkillData): JSX.Element[] {
     case "blueprinter":
     case "infographic-creation": {
       const codeExamples = extractCodeBlocksLimited(content, 3);
-      if (codeExamples.length) el.push(<CodePlayground key="cp" examples={codeExamples} title={`${skill.name} Examples`} />);
+      if (codeExamples.length)
+        el.push(
+          <CodePlayground key="cp" examples={codeExamples} title={`${skill.name} Examples`} />,
+        );
       break;
     }
     case "git-author-replacement":
-      el.push(<TerminalWindow key="tw" lines={GIT_LINES} title="Git Author Replacement" height="220px" />);
+      el.push(
+        <TerminalWindow key="tw" lines={GIT_LINES} title="Git Author Replacement" height="220px" />,
+      );
       break;
     case "slowmist-agent-security":
-      el.push(<TerminalWindow key="tw" lines={SECURITY_LINES} title="Security Audit Report" height="240px" />);
+      el.push(
+        <TerminalWindow
+          key="tw"
+          lines={SECURITY_LINES}
+          title="Security Audit Report"
+          height="240px"
+        />,
+      );
       break;
     case "grill-me":
-      el.push(<TerminalWindow key="tw" lines={GRILL_LINES} title="Grill Me - Plan Review" height="320px" />);
+      el.push(
+        <TerminalWindow
+          key="tw"
+          lines={GRILL_LINES}
+          title="Grill Me - Plan Review"
+          height="320px"
+        />,
+      );
       break;
     case "codebase-to-course":
-      el.push(<TerminalWindow key="tw" lines={COURSE_LINES} title="Codebase to Course Generator" height="280px" />);
+      el.push(
+        <TerminalWindow
+          key="tw"
+          lines={COURSE_LINES}
+          title="Codebase to Course Generator"
+          height="280px"
+        />,
+      );
       break;
     case "follow-builders":
-      el.push(<TerminalWindow key="tw" lines={BUILDER_LINES} title="Follow Builders Digest" height="290px" />);
+      el.push(
+        <TerminalWindow
+          key="tw"
+          lines={BUILDER_LINES}
+          title="Follow Builders Digest"
+          height="290px"
+        />,
+      );
       break;
     case "find-skills":
     case "asc-cli-usage":
@@ -190,7 +240,10 @@ function getDemosForSkill(skill: SkillData): JSX.Element[] {
     case "ai-style-copycat":
     case "app-icon-minimalist": {
       const codeExamples = extractCodeBlocksLimited(content, 4);
-      if (codeExamples.length) el.push(<CodePlayground key="cp" examples={codeExamples} title={`${skill.name} Examples`} />);
+      if (codeExamples.length)
+        el.push(
+          <CodePlayground key="cp" examples={codeExamples} title={`${skill.name} Examples`} />,
+        );
       break;
     }
     default:
@@ -213,14 +266,27 @@ function inferDevice(filename: string): string {
   return "iphone-pro";
 }
 
-function extractCodeBlocksLimited(content: string, max: number): { language: string; code: string; title?: string; description?: string }[] {
+function extractCodeBlocksLimited(
+  content: string,
+  max: number,
+): { language: string; code: string; title?: string; description?: string }[] {
   const re = /\x60\x60\x60(\w*)\n([\s\S]*?)\x60\x60\x60/g;
   const results: { language: string; code: string; title?: string; description?: string }[] = [];
   let m: RegExpExecArray | null;
   while ((m = re.exec(content)) !== null && results.length < max) {
     const code = m[2].trim();
     if (code.length > 20 && code.length < 5000) {
-      results.push({ language: m[1] || "text", code: stripHljs(code) });
+      let lang = m[1] || "text";
+      // Map common aliases
+      const langMap: Record<string, string> = {
+        js: "javascript",
+        py: "python",
+        sh: "bash",
+        rb: "ruby",
+        md: "markdown",
+      };
+      lang = langMap[lang] || lang;
+      results.push({ language: lang, code: stripHljs(code) });
     }
   }
   return results;
@@ -228,10 +294,10 @@ function extractCodeBlocksLimited(content: string, max: number): { language: str
 
 function stripHljs(code: string): string {
   return code
-    .replace(/<\/?span[^>]*>/gi, '')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&amp;/g, '&')
+    .replace(/<\/?span[^>]*>/gi, "")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'");
 }
