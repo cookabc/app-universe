@@ -17,7 +17,6 @@ export default function CategoryFilter({ active, onChange }: Props) {
           label={`${c.icon} ${c.label}`}
           active={active === c.key}
           onClick={() => onChange(c.key)}
-          color={c.color}
         />
       ))}
     </div>

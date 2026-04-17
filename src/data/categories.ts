@@ -31,7 +31,7 @@ export const CATEGORIES: Category[] = [
     key: "course",
     label: "Course",
     color: "#3b82f6",
-    gradient: "linear-gradient(135deg,#3b82f6,#06b6d4)",
+    gradient: "linear-gradient(135deg,#3b82f6,#6366f1)",
     icon: "📚",
   },
   {
@@ -58,8 +58,8 @@ export const CATEGORIES: Category[] = [
   {
     key: "macos",
     label: "macOS",
-    color: "#06b6d4",
-    gradient: "linear-gradient(135deg,#06b6d4,#3b82f6)",
+    color: "#3b82f6",
+    gradient: "linear-gradient(135deg,#3b82f6,#6366f1)",
     icon: "💻",
   },
   {
