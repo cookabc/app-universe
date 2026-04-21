@@ -1,8 +1,9 @@
-/* === OPC Design Tokens (from opc-skills.ft07.com) === */
+/* === Kami + OPC Design Tokens === */
+/* Warm parchment canvas, ink-blue accent, serif-led hierarchy, tight editorial rhythm */
 :root {
   color-scheme: light;
 
-  /* Surfaces */
+  /* Surfaces - Kami parchment */
   --bg-primary: var(--parchment);
   --bg-secondary: var(--sand);
   --bg-card: var(--ivory);
@@ -10,22 +11,25 @@
   --bg-primary-rgb: 245, 244, 237;
   --bg-secondary-rgb: 232, 230, 220;
 
-  /* Text */
+  /* Text - Near black for body, charcoal for secondary */
   --text-primary: var(--near-black);
   --text-secondary: var(--charcoal);
   --text-muted: var(--stone);
 
-  /* Accent */
+  /* Accent - Ink blue (kami) + terracotta (opc) */
+  --brand: #1B365D;       /* ink blue */
+  --brand-deep: #a64f33;  /* terracotta deep */
   --accent: var(--terracotta);
   --accent-hover: var(--coral);
 
-  /* Border */
+  /* Border - Warm cream */
   --border: var(--border-warm);
   --border-strong: var(--border-dark);
+  --border-soft: var(--border-cream);
 
   /* Ring / Focus */
-  --glow: rgba(201, 100, 66, 0.25);
-  --tag-bg: rgba(201, 100, 66, 0.12);
+  --glow: rgba(166, 79, 51, 0.25);
+  --tag-bg: rgba(27, 54, 93, 0.12);
   --success: #22c55e;
 
   /* Category colors — mapped to OPC palette */
@@ -39,24 +43,24 @@
   --cat-macos: #30302e;
   --cat-web: #b0aea5;
 
-  /* Radius */
+  /* Radius - Concentric: outer = inner + padding */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
   --radius-xl: 16px;
 
-  /* Typography */
+  /* Typography - Kami serif-led hierarchy */
   --font-mono: "SF Mono", "Fira Code", monospace;
   --font-sans:
     -apple-system, "PingFang SC", "Noto Sans SC", "Source Han Sans SC", system-ui, sans-serif;
   --font-serif: Georgia, "Noto Serif SC", "Source Han Serif SC", serif;
 
-  /* Focus */
-  --focus-ring: 0 0 0 2px var(--terracotta);
+  /* Focus - WDG compliant */
+  --focus-ring: 0 0 0 2px var(--brand);
   --focus-ring-offset: 2px;
 }
 
-/* Base OPC color tokens */
+/* Base color tokens */
 :root {
   --parchment: #f5f4ed;
   --ivory: #faf9f5;
@@ -92,9 +96,10 @@ body {
   font-family: var(--font-sans);
   background: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.45;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
@@ -142,6 +147,14 @@ h1,
 h2,
 h3 {
   text-wrap: balance;
+  line-height: 1.2;
+}
+h4, h5, h6 {
+  text-wrap: balance;
+  line-height: 1.3;
+}
+p {
+  text-wrap: pretty;
 }
 code,
 .mono,

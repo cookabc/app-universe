@@ -1,7 +1,9 @@
 import type { SkillData } from "../../data/skills";
+
 interface Props {
   skill: SkillData;
 }
+
 function getSummary(s: SkillData): string {
   const secs = s.stats.sectionCount;
   const cbs = s.stats.codeBlockCount;
@@ -13,44 +15,44 @@ export default function AISummaryCard({ skill }: Props) {
   return (
     <div
       style={{
-        borderRadius: "var(--radius-lg)",
+        borderRadius: "var(--radius-md)",
         background: "var(--bg-card)",
-        border: "1px solid var(--border)",
-        padding: "24px 28px",
+        border: "1px solid var(--border-soft)",
+        padding: "18px 20px",
         marginBottom: "24px",
-        display: "flex",
-        gap: "12px",
-        alignItems: "flex-start",
         maxWidth: "65ch",
-        margin: "0 auto",
+        margin: "0 auto 24px",
+        animation: "fadeInUp .4s ease .1s both",
       }}
     >
-      <span style={{ fontSize: "20px", flexShrink: 0 }}>🤖</span>
-      <div>
-        <div
-          style={{
-            fontSize: "12px",
-            color: "var(--accent)",
-            fontWeight: 600,
-            marginBottom: "6px",
-            textTransform: "uppercase",
-            letterSpacing: ".5px",
-          }}
-        >
-          TL;DR Summary
-        </div>
-        <p style={{ fontSize: "14px", color: "var(--text-secondary)", lineHeight: 1.6 }}>
-          {summary}
-        </p>
-        <div
-          style={{
-            marginTop: "8px",
-            fontSize: "12px",
-            color: "var(--text-secondary)",
-            opacity: 0.6,
-          }}
-        >
-          Auto-generated from SKILL.md · {skill.stats.readTime} read time
+      <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+        <span style={{ fontSize: "16px", flexShrink: 0 }}>🤖</span>
+        <div>
+          <div
+            style={{
+              fontSize: "10px",
+              color: "var(--brand)",
+              fontWeight: 600,
+              marginBottom: "4px",
+              textTransform: "uppercase",
+              letterSpacing: "1px",
+            }}
+          >
+            AI Summary
+          </div>
+          <p style={{ fontSize: "13px", color: "var(--text-secondary)", lineHeight: 1.5, textWrap: "pretty" }}>
+            {summary}
+          </p>
+          <div
+            style={{
+              marginTop: "6px",
+              fontSize: "11px",
+              color: "var(--stone)",
+              fontVariantNumeric: "tabular-nums",
+            }}
+          >
+            Auto-generated from SKILL.md · {skill.stats.readTime} read time
+          </div>
         </div>
       </div>
     </div>

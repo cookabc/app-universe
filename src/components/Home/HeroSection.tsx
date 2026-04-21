@@ -1,38 +1,69 @@
 import { useSkills } from "../../hooks/useSkills";
+
 export default function HeroSection() {
   const { total } = useSkills();
   return (
     <section
-      style={{ textAlign: "center", padding: "48px 24px 40px", animation: "fadeInUp .5s ease" }}
+      style={{
+        padding: "60px 0 48px",
+        animation: "fadeInUp .5s ease",
+        maxWidth: "800px",
+        margin: "0 auto",
+      }}
     >
+      {/* Eyebrow label - kami style */}
+      <div
+        style={{
+          fontSize: "11px",
+          color: "var(--brand)",
+          letterSpacing: "1.5px",
+          textTransform: "uppercase",
+          marginBottom: "12px",
+          fontWeight: 500,
+        }}
+      >
+        Selected Skills 2024–2026
+      </div>
+
+      {/* Main title with subtle accent */}
       <h1
         style={{
-          fontSize: "clamp(28px,5vw,42px)",
-          fontWeight: 800,
+          fontSize: "clamp(32px, 5vw, 52px)",
+          fontWeight: 500,
+          fontFamily: "var(--font-serif)",
           color: "var(--text-primary)",
-          marginBottom: "12px",
-          lineHeight: 1.2,
+          marginBottom: "16px",
+          lineHeight: 1.1,
           textWrap: "balance",
         }}
       >
-        Agent Skills Gallery
+        Agent Skills
+        <br />
+        Gallery
       </h1>
+
+      {/* Subtitle */}
       <p
         style={{
+          fontFamily: "var(--font-serif)",
           color: "var(--text-secondary)",
-          fontSize: "16px",
-          maxWidth: "500px",
-          margin: "0 auto",
+          fontSize: "clamp(16px, 2vw, 20px)",
+          lineHeight: 1.5,
+          maxWidth: "600px",
+          marginLeft: "19px",
+          textWrap: "pretty",
         }}
       >
         Explore all available Agent Skills — interactive demos, documentation & more.
       </p>
+
+      {/* Stats row - kami style */}
       <div
         style={{
           display: "flex",
-          justifyContent: "center",
-          gap: "24px",
-          marginTop: "20px",
+          gap: "20px",
+          marginTop: "28px",
+          marginLeft: "19px",
           flexWrap: "wrap",
         }}
       >
@@ -45,17 +76,14 @@ export default function HeroSection() {
             key={i}
             style={{
               display: "inline-flex",
-              alignItems: "center",
+              alignItems: "baseline",
               gap: "6px",
-              padding: "6px 14px",
-              borderRadius: "20px",
-              background: "var(--bg-card)",
-              border: "1px solid var(--border)",
               fontSize: "13px",
+              fontVariantNumeric: "tabular-nums",
             }}
           >
-            <strong style={{ color: "var(--accent)" }}>{v}</strong>
-            <span style={{ color: "var(--text-secondary)" }}>{l}</span>
+            <strong style={{ color: "var(--brand)", fontWeight: 600, fontSize: "18px" }}>{v}</strong>
+            <span style={{ color: "var(--stone)" }}>{l}</span>
           </span>
         ))}
       </div>
