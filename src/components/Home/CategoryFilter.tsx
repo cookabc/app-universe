@@ -48,8 +48,17 @@ function Chip({
         fontSize: "12px",
         fontWeight: 500,
         cursor: "pointer",
-        transition: "border-color .15s ease,background-color .15s ease,color .15s ease",
+        transition: "border-color .15s ease,background-color .15s ease,color .15s ease,transform .15s ease",
         whiteSpace: "nowrap",
+      }}
+      onMouseDown={(e) => {
+        e.currentTarget.style.transform = "scale(0.96)";
+      }}
+      onMouseUp={(e) => {
+        e.currentTarget.style.transform = "scale(1)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "scale(1)";
       }}
     >
       {label}

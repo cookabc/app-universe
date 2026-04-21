@@ -68,7 +68,16 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
                   fontFamily: "var(--font-mono)",
                   background: i === ei ? "var(--near-black)" : "transparent",
                   color: i === ei ? "var(--white)" : "var(--text-secondary)",
-                  transition: "background-color .15s ease, color .15s ease",
+                  transition: "background-color .15s ease, color .15s ease, transform .15s ease",
+                }}
+                onMouseDown={(e) => {
+                  e.currentTarget.style.transform = "scale(0.96)";
+                }}
+                onMouseUp={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
                 }}
               >
                 {e.language?.toLowerCase()}
@@ -88,7 +97,16 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
             cursor: "pointer",
             fontSize: "12px",
             fontFamily: "var(--font-mono)",
-            transition: "background-color .15s ease, color .15s ease",
+            transition: "background-color .15s ease, color .15s ease, transform .15s ease",
+          }}
+          onMouseDown={(e) => {
+            e.currentTarget.style.transform = "scale(0.96)";
+          }}
+          onMouseUp={(e) => {
+            e.currentTarget.style.transform = "scale(1)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1)";
           }}
         >
           {copied ? "Copied" : "Copy"}

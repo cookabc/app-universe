@@ -28,6 +28,14 @@ export default function SkillCard({ skill, index }: Props) {
           el.style.transform = "translateY(-4px)";
           el.style.boxShadow = `0 8px 32px var(--accent)20`;
         }}
+        onMouseDown={(e) => {
+          const el = e.currentTarget as HTMLElement;
+          el.style.transform = "translateY(-4px) scale(0.96)";
+        }}
+        onMouseUp={(e) => {
+          const el = e.currentTarget as HTMLElement;
+          el.style.transform = "translateY(-4px)";
+        }}
         onMouseLeave={(e) => {
           const el = e.currentTarget as HTMLElement;
           el.style.borderColor = "var(--border)";
