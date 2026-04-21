@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 interface CodeExample {
   language: string;
@@ -28,50 +26,91 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
   };
 
   return (
-    <Card className="max-w-[65ch] mx-auto overflow-hidden">
-      <CardHeader className="flex flex-row items-center justify-between gap-4 pb-3">
-        <div className="flex items-center gap-3 flex-wrap">
-          <span className="text-sm font-semibold text-foreground">
+    <div
+      style={{
+        borderRadius: "var(--radius-md)",
+        background: "var(--bg-card)",
+        border: "1px solid var(--border-soft)",
+        overflow: "hidden",
+        maxWidth: "65ch",
+        margin: "0 auto",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "10px 14px",
+          borderBottom: "1px solid var(--border-soft)",
+          gap: "8px",
+          flexWrap: "wrap",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+          <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--text-primary)" }}>
             {title}
           </span>
-          <div className="flex gap-1">
+          <div style={{ display: "flex", gap: "4px" }}>
             {examples.map((e, i) => (
-              <Button
+              <button
                 key={i}
                 onClick={() => setEi(i)}
                 role="tab"
                 aria-selected={i === ei}
-                variant={i === ei ? "default" : "ghost"}
-                size="sm"
-                className="text-xs font-mono"
+                style={{
+                  padding: "4px 10px",
+                  borderRadius: "3px",
+                  border: i === ei ? "1px solid var(--brand)" : "1px solid transparent",
+                  background: i === ei ? "var(--tag-bg)" : "transparent",
+                  color: i === ei ? "var(--brand)" : "var(--text-secondary)",
+                  cursor: "pointer",
+                  fontSize: "12px",
+                  fontWeight: 500,
+                  fontFamily: "var(--font-mono)",
+                  transition: "all .15s ease",
+                }}
+                onMouseDown={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(0.96)"; }}
+                onMouseUp={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
               >
                 {e.language?.toLowerCase()}
-              </Button>
+              </button>
             ))}
           </div>
         </div>
-        <Button
+        <button
           onClick={handleCopy}
           aria-label="Copy code"
-          variant={copied ? "default" : "ghost"}
-          size="sm"
-          className="text-xs font-mono"
+          style={{
+            padding: "4px 10px",
+            borderRadius: "3px",
+            border: copied ? "1px solid var(--success)" : "1px solid var(--border-soft)",
+            background: copied ? "rgba(34,197,94,0.08)" : "transparent",
+            color: copied ? "var(--success)" : "var(--text-secondary)",
+            cursor: "pointer",
+            fontSize: "12px",
+            fontFamily: "var(--font-mono)",
+            transition: "all .15s ease",
+          }}
+          onMouseDown={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(0.96)"; }}
+          onMouseUp={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
         >
           {copied ? "Copied" : "Copy"}
-        </Button>
-      </CardHeader>
+        </button>
+      </div>
       {ex.description && (
-        <div className="px-4 py-2 text-sm text-muted-foreground border-b border-border">
+        <div style={{ padding: "8px 14px", fontSize: "13px", color: "var(--text-secondary)", lineHeight: 1.5, borderBottom: "1px solid var(--border-soft)" }}>
           {ex.description}
         </div>
       )}
-      <CardContent className="p-0">
-        <div
-          className="code-playground p-5 text-sm font-mono leading-relaxed whitespace-pre-wrap break-words text-foreground overflow-x-auto text-left"
-        >
-          <code>{ex.code}</code>
-        </div>
-      </CardContent>
-    </Card>
+      <div
+        className="code-playground"
+        style={{ margin: 0, padding: "14px", fontSize: "12px", fontFamily: "var(--font-mono)", lineHeight: 1.6, whiteSpace: "pre-wrap", wordBreak: "break-word", color: "var(--text-primary)", overflowX: "auto" }}
+      >
+        <code>{ex.code}</code>
+      </div>
+    </div>
   );
 }
