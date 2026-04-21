@@ -1,67 +1,33 @@
 import { CATEGORIES } from "../../data/categories";
+import { Button } from "@/components/ui/button";
+
 interface Props {
   active: string;
   onChange: (v: string) => void;
 }
+
 export default function CategoryFilter({ active, onChange }: Props) {
   return (
-    <div
-      style={{ display: "flex", gap: "8px", flexWrap: "wrap", padding: "4px 0" }}
-      role="tablist"
-      aria-label="Filter by category"
-    >
-      <Chip label="All" active={active === "all"} onClick={() => onChange("all")} />
+    <div className="flex gap-2 flex-wrap py-1" role="tablist" aria-label="Filter by category">
+      <Button 
+        variant={active === "all" ? "default" : "ghost"} 
+        size="sm"
+        onClick={() => onChange("all")}
+        className="rounded-full px-4"
+      >
+        All
+      </Button>
       {CATEGORIES.map((c) => (
-        <Chip
+        <Button
           key={c.key}
-          label={`${c.icon} ${c.label}`}
-          active={active === c.key}
+          variant={active === c.key ? "default" : "ghost"}
+          size="sm"
           onClick={() => onChange(c.key)}
-        />
+          className="rounded-full px-4"
+        >
+          {c.icon} {c.label}
+        </Button>
       ))}
     </div>
-  );
-}
-function Chip({
-  label,
-  active,
-  onClick,
-  color,
-}: {
-  label: string;
-  active: boolean;
-  onClick: () => void;
-  color?: string;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      role="tab"
-      aria-selected={active}
-      style={{
-        padding: "6px 14px",
-        borderRadius: "20px",
-        border: "1px solid",
-        borderColor: active ? color || "var(--accent)" : "var(--border)",
-        background: active ? (color || "var(--accent)") + "20" : "transparent",
-        color: active ? color || "var(--accent)" : "var(--text-secondary)",
-        fontSize: "12px",
-        fontWeight: 500,
-        cursor: "pointer",
-        transition: "border-color .15s ease,background-color .15s ease,color .15s ease,transform .15s ease",
-        whiteSpace: "nowrap",
-      }}
-      onMouseDown={(e) => {
-        e.currentTarget.style.transform = "scale(0.96)";
-      }}
-      onMouseUp={(e) => {
-        e.currentTarget.style.transform = "scale(1)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "scale(1)";
-      }}
-    >
-      {label}
-    </button>
   );
 }

@@ -1,115 +1,45 @@
 import { Link } from "react-router-dom";
 import type { SkillData } from "../../data/skills";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
 interface Props {
   skill: SkillData;
   index: number;
 }
+
 export default function SkillCard({ skill, index }: Props) {
   const cat = skill.category;
   const num = String(index + 1).padStart(2, "0");
+  
   return (
-    <Link
-      to={`/skill/${skill.id}`}
-      style={{ textDecoration: "none", color: "inherit", display: "block" }}
-    >
-      <article
-        style={{
-          borderRadius: "var(--radius-lg)",
-          background: "var(--bg-card)",
-          border: "1px solid var(--border)",
-          overflow: "hidden",
-          cursor: "pointer",
-          animation: `fadeInUp .5s ease ${index * 0.05}s both`,
-          transition: "border-color .2s ease,transform .2s ease,box-shadow .2s ease",
-        }}
-        onMouseEnter={(e) => {
-          const el = e.currentTarget as HTMLElement;
-          el.style.borderColor = "var(--accent)";
-          el.style.transform = "translateY(-4px)";
-          el.style.boxShadow = `0 8px 32px var(--accent)20`;
-        }}
-        onMouseDown={(e) => {
-          const el = e.currentTarget as HTMLElement;
-          el.style.transform = "translateY(-4px) scale(0.96)";
-        }}
-        onMouseUp={(e) => {
-          const el = e.currentTarget as HTMLElement;
-          el.style.transform = "translateY(-4px)";
-        }}
-        onMouseLeave={(e) => {
-          const el = e.currentTarget as HTMLElement;
-          el.style.borderColor = "var(--border)";
-          el.style.transform = "translateY(0)";
-          el.style.boxShadow = "none";
-        }}
-      >
-        <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "10px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span
-              style={{
-                fontSize: "13px",
-                fontWeight: 700,
-                color: "var(--accent)",
-                opacity: 0.7,
-                fontFamily: "var(--font-mono)",
-              }}
-            >
+    <Link to={`/skill/${skill.id}`} className="block group">
+      <Card className="overflow-hidden transition-all duration-200 hover:border-primary hover:shadow-lg hover:-translate-y-1 group-hover:border-primary">
+        <CardContent className="p-5">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm font-bold text-primary/70 font-mono">
               {num}
             </span>
-            <span
-              style={{
-                fontSize: "11px",
-                padding: "2px 8px",
-                borderRadius: "10px",
-                background: "var(--accent)18",
-                color: "var(--accent)",
-                fontWeight: 500,
-              }}
-            >
+            <span className="text-xs px-2 py-1 rounded-full bg-primary/18 text-primary font-medium">
               {cat.label}
             </span>
           </div>
-          <h3 style={{ fontSize: "15px", fontWeight: 600, lineHeight: 1.3 }}>{skill.name}</h3>
-          <p
-            style={{
-              fontSize: "13px",
-              color: "var(--text-secondary)",
-              lineHeight: 1.5,
-              display: "-webkit-box",
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-            }}
-          >
+          <h3 className="text-lg font-semibold mb-3 line-clamp-2">
+            {skill.name}
+          </h3>
+          <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
             {skill.description || "No description available"}
           </p>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              marginTop: "4px",
-              fontSize: "11px",
-              color: "var(--text-secondary)",
-              fontFamily: "var(--font-mono)",
-              fontVariantNumeric: "tabular-nums",
-            }}
-          >
+          <div className="flex items-center gap-3 text-xs text-muted-foreground font-mono tabular-nums">
             <span>{skill.stats.lineCount} lines</span>
             <span>·</span>
             <span>{skill.fileInfo.totalFiles} files</span>
             <span>·</span>
             <span>{skill.stats.complexityLabel}</span>
           </div>
-        </div>
-        <div
-          style={{
-            height: "2px",
-            background: `linear-gradient(90deg,var(--accent),transparent)`,
-            opacity: 0.5,
-          }}
-        />
-      </article>
+        </CardContent>
+        <div className="h-0.5 bg-gradient-to-r from-primary to-transparent opacity-50" />
+      </Card>
     </Link>
   );
 }

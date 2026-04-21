@@ -1,103 +1,53 @@
-import { useState, type CSSProperties } from "react";
+import { useState } from "react";
 import MarkdownRenderer from "../common/MarkdownRenderer";
 import type { SkillData } from "../../data/skills";
 import { extractCodeBlocks } from "../../utils/markdownParser";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   skill: SkillData;
 }
+
 const TABS = [
   { k: "overview", l: "📖 Overview" },
   { k: "doc", l: "📄 Full Doc" },
   { k: "examples", l: "💻 Code Examples" },
   { k: "files", l: "📂 Files" },
 ] as const;
+
 type TK = (typeof TABS)[number]["k"];
 
 export default function ContentTabs({ skill }: Props) {
   const [tab, setTab] = useState<TK>("overview");
 
-  const btnStyle = (tkey: string): CSSProperties => ({
-    padding: "10px 18px",
-    border: "none",
-    background: "none",
-    color: tab === tkey ? "var(--text-primary)" : "var(--text-secondary)",
-    fontSize: "13px",
-    fontWeight: 600,
-    cursor: "pointer",
-    borderBottom: tab === tkey ? "2px solid var(--accent)" : "2px solid transparent",
-    transition: "color .15s ease,border-bottom-color .15s ease,transform .15s ease",
-    whiteSpace: "nowrap",
-    fontFamily: "var(--font-mono)",
-  });
-
   return (
-    <div style={{ marginBottom: "32px", maxWidth: "65ch", margin: "0 auto" }}>
-      <div
-        role="tablist"
+    <div className="mb-8 max-w-[65ch] mx-auto">
+      <div 
+        role="tablist" 
         aria-label="Content tabs"
-        style={{
-          display: "flex",
-          gap: "4px",
-          borderBottom: "1px solid var(--border)",
-          overflowX: "auto",
-          marginBottom: "20px",
-          maxWidth: "65ch",
-          marginLeft: "auto",
-          marginRight: "auto",
-          padding: "0 20px",
-        }}
+        className="flex gap-1 border-b border-border overflow-x-auto mb-5 max-w-[65ch] mx-auto px-5"
       >
         {TABS.map((t) => (
-          <button
+          <Button
             key={t.k}
             role="tab"
             aria-selected={tab === t.k}
             onClick={() => setTab(t.k)}
-            style={btnStyle(t.k)}
-            onMouseDown={(e) => {
-              e.currentTarget.style.transform = "scale(0.96)";
-            }}
-            onMouseUp={(e) => {
-              e.currentTarget.style.transform = "scale(1)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "scale(1)";
-            }}
+            variant={tab === t.k ? "default" : "ghost"}
+            className={`rounded-none border-b-2 ${tab === t.k ? 'border-primary' : 'border-transparent'}`}
           >
             {t.l}
-          </button>
+          </Button>
         ))}
       </div>
-      <div
-        style={{
-          animation: "fadeInUp .3s ease",
-          maxWidth: "65ch",
-          margin: "0 auto",
-          padding: "20px",
-        }}
-      >
+      <div className="animate-fadeInUp max-w-[65ch] mx-auto p-5">
         {tab === "overview" && <Overview skill={skill} />}
         {tab === "doc" && (
-          <div style={{ textAlign: "left" }}>
-            <h2
-              style={{
-                fontSize: "22px",
-                fontWeight: 700,
-                marginBottom: "12px",
-                color: "var(--text-primary)",
-              }}
-            >
+          <div className="text-left">
+            <h2 className="text-2xl font-bold mb-3 text-foreground">
               {skill.name}
             </h2>
-            <p
-              style={{
-                color: "var(--text-secondary)",
-                lineHeight: 1.7,
-                fontSize: "14px",
-                marginBottom: "24px",
-              }}
-            >
+            <p className="text-muted-foreground leading-relaxed mb-6">
               {skill.description}
             </p>
             <MarkdownRenderer content={skill.content} />
