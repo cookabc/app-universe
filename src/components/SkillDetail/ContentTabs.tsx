@@ -26,7 +26,7 @@ export default function ContentTabs({ skill }: Props) {
     fontWeight: 600,
     cursor: "pointer",
     borderBottom: tab === tkey ? "2px solid var(--accent)" : "2px solid transparent",
-    transition: "color .15s ease,border-bottom-color .15s ease",
+    transition: "color .15s ease,border-bottom-color .15s ease,transform .15s ease",
     whiteSpace: "nowrap",
     fontFamily: "var(--font-mono)",
   });
@@ -55,6 +55,15 @@ export default function ContentTabs({ skill }: Props) {
             aria-selected={tab === t.k}
             onClick={() => setTab(t.k)}
             style={btnStyle(t.k)}
+            onMouseDown={(e) => {
+              e.currentTarget.style.transform = "scale(0.96)";
+            }}
+            onMouseUp={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+            }}
           >
             {t.l}
           </button>
