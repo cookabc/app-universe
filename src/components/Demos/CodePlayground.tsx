@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 interface CodeExample {
   language: string;
@@ -26,122 +28,50 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
   };
 
   return (
-    <div
-      style={{
-        borderRadius: "var(--radius-md)",
-        border: "1px solid var(--border)",
-        overflow: "hidden",
-        background: "var(--bg-card)",
-        maxWidth: "65ch",
-        margin: "0 auto",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "12px 16px",
-          borderBottom: "1px solid var(--border)",
-          gap: "8px",
-          flexWrap: "wrap",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-          <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--text-primary)" }}>
+    <Card className="max-w-[65ch] mx-auto overflow-hidden">
+      <CardHeader className="flex flex-row items-center justify-between gap-4 pb-3">
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="text-sm font-semibold text-foreground">
             {title}
           </span>
-          <div style={{ display: "flex", gap: "4px" }}>
+          <div className="flex gap-1">
             {examples.map((e, i) => (
-              <button
+              <Button
                 key={i}
                 onClick={() => setEi(i)}
                 role="tab"
                 aria-selected={i === ei}
-                style={{
-                  padding: "5px 10px",
-                  borderRadius: "4px",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "12px",
-                  fontWeight: 500,
-                  fontFamily: "var(--font-mono)",
-                  background: i === ei ? "var(--near-black)" : "transparent",
-                  color: i === ei ? "var(--white)" : "var(--text-secondary)",
-                  transition: "background-color .15s ease, color .15s ease, transform .15s ease",
-                }}
-                onMouseDown={(e) => {
-                  e.currentTarget.style.transform = "scale(0.96)";
-                }}
-                onMouseUp={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
-                }}
+                variant={i === ei ? "default" : "ghost"}
+                size="sm"
+                className="text-xs font-mono"
               >
                 {e.language?.toLowerCase()}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
-        <button
+        <Button
           onClick={handleCopy}
           aria-label="Copy code"
-          style={{
-            padding: "5px 10px",
-            borderRadius: "4px",
-            border: "1px solid var(--border)",
-            background: copied ? "var(--success)" : "transparent",
-            color: copied ? "var(--white)" : "var(--text-secondary)",
-            cursor: "pointer",
-            fontSize: "12px",
-            fontFamily: "var(--font-mono)",
-            transition: "background-color .15s ease, color .15s ease, transform .15s ease",
-          }}
-          onMouseDown={(e) => {
-            e.currentTarget.style.transform = "scale(0.96)";
-          }}
-          onMouseUp={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = "scale(1)";
-          }}
+          variant={copied ? "default" : "ghost"}
+          size="sm"
+          className="text-xs font-mono"
         >
           {copied ? "Copied" : "Copy"}
-        </button>
-      </div>
+        </Button>
+      </CardHeader>
       {ex.description && (
-        <div
-          style={{
-            padding: "10px 16px",
-            fontSize: "12px",
-            color: "var(--text-secondary)",
-            lineHeight: 1.5,
-            borderBottom: "1px solid var(--border)",
-          }}
-        >
+        <div className="px-4 py-2 text-sm text-muted-foreground border-b border-border">
           {ex.description}
         </div>
       )}
-      <div
-        className="code-playground"
-        style={{
-          margin: 0,
-          padding: "16px 20px",
-          fontSize: "13px",
-          fontFamily: "var(--font-mono)",
-          lineHeight: 1.7,
-          whiteSpace: "pre-wrap",
-          wordBreak: "break-word",
-          color: "var(--text-primary)",
-          overflowX: "auto",
-          textAlign: "left",
-        }}
-      >
-        <code>{ex.code}</code>
-      </div>
-    </div>
+      <CardContent className="p-0">
+        <div
+          className="code-playground p-5 text-sm font-mono leading-relaxed whitespace-pre-wrap break-words text-foreground overflow-x-auto text-left"
+        >
+          <code>{ex.code}</code>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
