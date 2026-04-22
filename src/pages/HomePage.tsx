@@ -14,7 +14,12 @@ export default function HomePage() {
   if (loading) {
     return (
       <div
-        style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh" }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "60vh",
+        }}
       >
         <span style={{ color: "var(--text-secondary)" }}>Loading skills…</span>
       </div>
@@ -48,7 +53,9 @@ export default function HomePage() {
           </div>
         </div>
         <CategoryFilter active={cat} onChange={setCat} />
-        <h2 style={{ fontSize: "20px", fontWeight: 600, marginTop: "8px" }}>Available Skills</h2>
+        <h2 style={{ fontSize: "20px", fontWeight: 600, marginTop: "8px" }}>
+          Available Skills
+        </h2>
         <SkillGrid skills={filtered} />
       </div>
     </>
