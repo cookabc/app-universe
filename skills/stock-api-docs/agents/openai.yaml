@@ -1,0 +1,4 @@
+interface:
+  display_name: "Stock API Docs"
+  short_description: "Use docs/api.md as the source of truth for stock-platform APIs"
+  default_prompt: "Use the stock-platform API contract in docs/api.md to guide backend, frontend, documentation, and curl-based verification work."
