@@ -1,7 +1,8 @@
 import { useSkills } from "../../hooks/useSkills";
 
 export default function HeroSection() {
-  const { total } = useSkills();
+  const { total, skills } = useSkills();
+  const catCount = new Set(skills.map((s) => s.category.key)).size;
 
   return (
     <section
@@ -99,8 +100,7 @@ export default function HeroSection() {
       >
         {[
           [String(total), "Skills", "📄"],
-          ["9", "Categories", "🏷️"],
-          ["19", "Available", "✓"],
+          [String(catCount), "Categories", "🏷️"],
         ].map(([value, label, icon], i) => (
           <div
             key={i}
