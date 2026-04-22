@@ -3,9 +3,18 @@ import { CATEGORIES } from "../../data/categories";
 interface Props {
   active: string;
   onChange: (v: string) => void;
+  availableKeys?: string[];
 }
 
-export default function CategoryFilter({ active, onChange }: Props) {
+export default function CategoryFilter({
+  active,
+  onChange,
+  availableKeys,
+}: Props) {
+  const cats = availableKeys
+    ? CATEGORIES.filter((c) => availableKeys.includes(c.key))
+    : CATEGORIES;
+
   return (
     <div
       style={{
@@ -22,7 +31,7 @@ export default function CategoryFilter({ active, onChange }: Props) {
         active={active === "all"}
         onClick={() => onChange("all")}
       />
-      {CATEGORIES.map((c) => (
+      {cats.map((c) => (
         <Chip
           key={c.key}
           label={`${c.icon} ${c.label}`}

@@ -10,6 +10,7 @@ export default function HomePage() {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("all");
   const filtered = useSearch(skills, q, cat);
+  const activeCategoryKeys = [...new Set(skills.map((s) => s.category.key))];
 
   if (loading) {
     return (
@@ -52,7 +53,11 @@ export default function HomePage() {
             </span>
           </div>
         </div>
-        <CategoryFilter active={cat} onChange={setCat} />
+        <CategoryFilter
+          active={cat}
+          onChange={setCat}
+          availableKeys={activeCategoryKeys}
+        />
         <h2 style={{ fontSize: "20px", fontWeight: 600, marginTop: "8px" }}>
           Available Skills
         </h2>
