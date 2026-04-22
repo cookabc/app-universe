@@ -2,6 +2,10 @@
 
 使用 Docker Compose 在阿里云 ECS 上部署股票分析平台。
 
+> **推荐**: 此方案适合长期稳定使用，数据完全可控，访问速度快。
+>
+> **如需免费快速上线，可使用 [Vercel + Render 部署方案](DEPLOY.md)**。
+
 ## 架构
 
 ```
@@ -282,60 +286,61 @@ CMD ["gunicorn", "-w", "8", "-b", "0.0.0.0:5200", "--timeout", "120", "app:app"]
 4. **定期更新系统**和 Docker 镜像
 5. **启用阿里云安全中心**，监控异常行为
 
+## 方案对比
+
+| 特性 | 阿里云 ECS | Vercel + Render |
+|------|-----------|----------------|
+| **费用** | ~150-250元/月 | 免费（有限制） |
+| **稳定性** | 24/7 稳定运行 | 有休眠限制 |
+| **数据持久化** | 数据持久保存 | 磁盘可能重置 |
+| **访问速度** | 国内快速访问 | 海外 CDN |
+| **适用场景** | 生产环境、长期使用 | 测试、演示 |
+
+## 从其他方案迁移
+
+### 从 Vercel + Render 迁移
+
+1. 在 Render Dashboard 中导出数据库：
+   ```bash
+   # 在 Render Shell 中执行
+   cat /opt/render/project/src/api/data/stock_platform.db | base64
+   ```
+
+2. 在阿里云 ECS 上恢复：
+   ```bash
+   # 解码并保存
+   echo "<base64内容>" | base64 -d > /opt/stock-platform/data/stock_platform.db
+   ```
+
+3. 重启服务：
+   ```bash
+   cd /opt/stock-platform
+   docker-compose restart
+   ```
+
 ## 快速部署脚本
 
-保存为 `deploy.sh`，在服务器上执行：
+项目已内置 `deploy.sh` 脚本，在服务器上执行：
 
 ```bash
-#!/bin/bash
-set -e
+# 下载并执行部署脚本
+curl -fsSL https://raw.githubusercontent.com/cookabc/stock-platform/main/deploy.sh | sudo bash
+```
 
-echo "=== 股票平台部署脚本 ==="
+或手动执行：
 
-# 安装依赖
-echo "[1/5] 安装 Docker..."
-apt update
-apt install -y docker.io docker-compose git curl
-systemctl start docker
-systemctl enable docker
-
+```bash
 # 克隆代码
-echo "[2/5] 克隆代码..."
-cd /opt
-if [ ! -d "stock-platform" ]; then
-    git clone https://github.com/cookabc/stock-platform.git
-fi
-cd stock-platform
+git clone https://github.com/cookabc/stock-platform.git /opt/stock-platform
+cd /opt/stock-platform
 
-# 创建数据目录
-echo "[3/5] 创建数据目录..."
-mkdir -p data
-
-# 构建镜像
-echo "[4/5] 构建 Docker 镜像..."
-docker-compose build
-
-# 启动服务
-echo "[5/5] 启动服务..."
-docker-compose up -d
-
-echo ""
-echo "=== 部署完成 ==="
-echo "等待服务启动..."
-sleep 10
-
-# 检查状态
-if curl -s http://localhost/api/udf/config > /dev/null; then
-    echo "✅ 服务运行正常"
-    echo "访问地址: http://$(curl -s ip.sb)"
-else
-    echo "❌ 服务启动失败，请检查日志:"
-    echo "   docker-compose logs"
-fi
+# 执行部署脚本
+sudo ./deploy.sh
 ```
 
-执行：
-```bash
-chmod +x deploy.sh
-./deploy.sh
-```
+脚本会自动完成：
+1. 安装 Docker 和 Docker Compose
+2. 克隆/更新代码
+3. 构建 Docker 镜像
+4. 启动服务
+5. 检查服务状态

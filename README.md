@@ -38,6 +38,21 @@ stock-platform/
     └── stock-api-docs/   # 基于 docs/api.md 的 API 契约 skill
 ```
 
+## 部署方案
+
+本项目支持多种部署方式：
+
+| 方案 | 适用场景 | 费用 | 文档 |
+|------|---------|------|------|
+| **本地开发** | 本地调试、开发 | 免费 | 见下方「快速开始」 |
+| **Vercel + Render** | 无服务器、快速上线 | 免费（有限制） | [DEPLOY.md](DEPLOY.md) |
+| **阿里云 ECS** | 稳定生产环境、长期使用 | ~150-250元/月 | [DEPLOY_ALIYUN.md](DEPLOY_ALIYUN.md) |
+
+### 推荐配置
+
+- **个人使用/测试**: Vercel + Render（零成本，快速上线）
+- **长期使用/稳定需求**: 阿里云 ECS（Docker Compose 部署，数据可控）
+
 ## 快速开始
 
 ### 0. 前置依赖
@@ -45,12 +60,13 @@ stock-platform/
 - Python ≥ 3.10
 - Node.js ≥ 18
 - Git
+- Docker & Docker Compose（可选，用于容器化部署）
 
 ### 1. 克隆代码
 
 ```bash
-git clone https://github.com/haskaomni/ai-chain-dashboard.git
-cd ai-chain-dashboard
+git clone https://github.com/cookabc/stock-platform.git
+cd stock-platform
 ```
 
 ### 2. 启动后端
