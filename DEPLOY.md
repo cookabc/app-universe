@@ -1,6 +1,10 @@
-# 部署指南
+# 部署指南（Vercel + Render）
 
 本项目采用前后端分离部署方案，完全使用免费云服务。
+
+> **注意**: 此方案适合快速上线和测试使用。Render 免费版有休眠限制（15分钟无访问后休眠）。
+> 
+> **如需稳定生产环境，推荐使用 [阿里云 ECS 部署方案](DEPLOY_ALIYUN.md)**。
 
 ## 架构
 
@@ -158,6 +162,24 @@ CORS(app, origins=[
 ### 数据库丢失
 - 确认 Render Disk 正确挂载
 - 确认 `DATABASE_URL` 路径指向挂载目录
+
+## 与其他部署方案对比
+
+| 特性 | Vercel + Render | 阿里云 ECS |
+|------|----------------|-----------|
+| **费用** | 免费（有限制） | ~150-250元/月 |
+| **稳定性** | 有休眠限制 | 24/7 稳定运行 |
+| **数据持久化** | 磁盘可能重置 | 数据持久保存 |
+| **访问速度** | 海外 CDN | 国内快速访问 |
+| **适用场景** | 测试、演示 | 生产环境、长期使用 |
+
+## 切换到其他方案
+
+如需迁移到阿里云 ECS：
+1. 按照 [DEPLOY_ALIYUN.md](DEPLOY_ALIYUN.md) 购买并配置 ECS
+2. 导出 Render 上的数据库：`docker exec stock-platform-backend cat /app/data/stock_platform.db > stock_platform.db`
+3. 上传到阿里云 ECS 的 `data/` 目录
+4. 重新部署并启动
 
 ## 更新部署
 
