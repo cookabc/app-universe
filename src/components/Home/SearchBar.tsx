@@ -5,7 +5,10 @@ interface Props {
 export default function SearchBar({ value, onChange }: Props) {
   return (
     <div style={{ position: "relative", maxWidth: "400px", width: "100%" }}>
-      <label htmlFor="skill-search" style={{ position: "absolute", left: "-9999px" }}>
+      <label
+        htmlFor="skill-search"
+        style={{ position: "absolute", left: "-9999px" }}
+      >
         Search skills
       </label>
       <input
