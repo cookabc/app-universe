@@ -74,3 +74,7 @@ export function extractCodeBlocks(
     blocks.push({ language: m[1] || "text", code: m[2] });
   return blocks;
 }
+
+export function stripLeadingH1(content: string): string {
+  return content.replace(/^#\s+.+\n+\n*/, "");
+}
