@@ -10,7 +10,10 @@ export interface AnalysisResult {
   keyFeatures: string[];
 }
 
-export function analyzeContent(description: string, content: string): AnalysisResult {
+export function analyzeContent(
+  description: string,
+  content: string,
+): AnalysisResult {
   const triggerPhrases: string[] = [];
   const quoted = description.match(/"([^"]+)"/g);
   if (quoted) {
@@ -34,7 +37,12 @@ export function analyzeContent(description: string, content: string): AnalysisRe
   }
   if (!useCases.length) {
     const m = description.match(/Use when[^.]*/i);
-    if (m) useCases.push({ icon: "❌", title: "Primary Use Case", description: m[0] });
+    if (m)
+      useCases.push({
+        icon: "❌",
+        title: "Primary Use Case",
+        description: m[0],
+      });
   }
   if (!useCases.length) {
     const keywords = [
