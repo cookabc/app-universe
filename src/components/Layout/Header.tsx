@@ -21,7 +21,7 @@ export default function Header() {
         to="/"
         style={{
           fontSize: "18px",
-          fontWeight: 700,
+          fontWeight: 600,
           color: "var(--text-primary)",
           textDecoration: "none",
           display: "flex",
@@ -32,7 +32,14 @@ export default function Header() {
         <span style={{ fontSize: "22px" }}>⚡</span>
         <span>Skill Gallery</span>
       </Link>
-      <nav style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "14px" }}>
+      <nav
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "16px",
+          fontSize: "14px",
+        }}
+      >
         {loc.pathname !== "/" && (
           <Link to="/" style={{ color: "var(--text-secondary)" }}>
             ← Home

@@ -17,8 +17,8 @@
   --text-muted: var(--stone);
 
   /* Accent - Ink blue (kami) + terracotta (opc) */
-  --brand: #1B365D;       /* ink blue */
-  --brand-deep: #a64f33;  /* terracotta deep */
+  --brand: #1b365d; /* ink blue */
+  --brand-deep: #a64f33; /* terracotta deep */
   --accent: var(--terracotta);
   --accent-hover: var(--coral);
 
@@ -28,9 +28,16 @@
   --border-soft: var(--border-cream);
 
   /* Ring / Focus */
-  --glow: rgba(166, 79, 51, 0.25);
-  --tag-bg: rgba(27, 54, 93, 0.12);
+  --glow: #e4ecf5; /* Tag default: solid hex, NOT rgba */
+  --tag-bg-light: #eef2f7; /* Tag light 0.08 equivalent */
+  --tag-bg-default: #e4ecf5; /* Tag standard 0.14-0.18 equivalent */
+  --tag-bg-medium: #d0dce9; /* Tag medium 0.22 equivalent */
+  --tag-bg-strong: #d6e1ee; /* Tag strong 0.30 equivalent */
   --success: #22c55e;
+
+  /* Shadows - Kami compliant (Ring / Whisper only) */
+  --shadow-ring: 0 0 0 1px var(--ring-warm);
+  --shadow-whisper: 0 4px 24px rgba(0, 0, 0, 0.05);
 
   /* Category colors — mapped to OPC palette */
   --cat-diagram: #c96442;
@@ -52,7 +59,8 @@
   /* Typography - Kami serif-led hierarchy */
   --font-mono: "SF Mono", "Fira Code", monospace;
   --font-sans:
-    -apple-system, "PingFang SC", "Noto Sans SC", "Source Han Sans SC", system-ui, sans-serif;
+    -apple-system, "PingFang SC", "Noto Sans SC", "Source Han Sans SC",
+    system-ui, sans-serif;
   --font-serif: Georgia, "Noto Serif SC", "Source Han Serif SC", serif;
 
   /* Focus - WDG compliant */
@@ -116,17 +124,25 @@ body {
   outline: none;
 }
 
-/* Links */
+/* Links — kami: brand color, underline on hover only */
 a {
-  color: var(--accent);
+  color: var(--brand);
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    text-decoration-color 0.15s ease;
 }
 a:hover {
-  color: var(--accent-hover);
+  color: var(--brand);
+  text-decoration: underline;
+  text-decoration-color: var(--brand-light);
+  text-decoration-thickness: 0.5px;
+  text-underline-offset: 3px;
 }
 a:focus-visible {
-  border-radius: 4px;
+  outline: 0.5px solid var(--ring-warm);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 /* Scrollbar */
@@ -149,7 +165,9 @@ h3 {
   text-wrap: balance;
   line-height: 1.2;
 }
-h4, h5, h6 {
+h4,
+h5,
+h6 {
   text-wrap: balance;
   line-height: 1.3;
 }
@@ -245,7 +263,6 @@ code .hljs {
 .hljs-quote,
 .hljs-doctag {
   color: var(--stone) !important;
-  font-style: italic;
 }
 .hljs-type,
 .hljs-class .hljs-title,
