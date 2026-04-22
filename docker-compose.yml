@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: stock-platform-backend
+    restart: unless-stopped
+    environment:
+      - FLASK_ENV=production
+      - DATABASE_URL=sqlite:///data/stock_platform.db
+    volumes:
+      - ./data:/app/data
+    networks:
+      - stock-platform-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5200/api/udf/config"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_UDF_BASE_URL=/api
+    container_name: stock-platform-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - stock-platform-network
+
+networks:
+  stock-platform-network:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local
