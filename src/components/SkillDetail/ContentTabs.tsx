@@ -22,8 +22,8 @@ export default function ContentTabs({ skill }: Props) {
   return (
     <div style={{ marginBottom: "32px", maxWidth: "65ch", margin: "0 auto" }}>
       {/* Tab bar - kami refined */}
-      <div 
-        role="tablist" 
+      <div
+        role="tablist"
         aria-label="Content tabs"
         style={{
           display: "flex",
@@ -43,18 +43,23 @@ export default function ContentTabs({ skill }: Props) {
               padding: "10px 16px",
               border: "none",
               background: "none",
-              color: tab === t.k ? "var(--text-primary)" : "var(--stone)",
+              color:
+                tab === t.k ? "var(--text-primary)" : "var(--text-secondary)",
               fontSize: "12px",
               fontWeight: 500,
               cursor: "pointer",
-              borderBottom: tab === t.k ? "2px solid var(--brand)" : "2px solid transparent",
-              transition: "color .15s ease, border-bottom-color .15s ease",
+              borderBottom:
+                tab === t.k
+                  ? "2px solid var(--brand)"
+                  : "2px solid transparent",
+              transition:
+                "color .15s ease, border-bottom-color .15s ease, transform .15s ease",
               whiteSpace: "nowrap",
               letterSpacing: "0.3px",
               fontFamily: "var(--font-sans)",
             }}
             onMouseDown={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "scale(0.96)";
+              (e.currentTarget as HTMLElement).style.transform = "scale(0.98)";
             }}
             onMouseUp={(e) => {
               (e.currentTarget as HTMLElement).style.transform = "scale(1)";
@@ -67,7 +72,16 @@ export default function ContentTabs({ skill }: Props) {
           </button>
         ))}
       </div>
-      <div style={{ animation: "fadeInUp .3s ease", padding: "0 4px" }}>
+
+      {/* Content area with transition instead of animation */}
+      <div
+        style={{
+          opacity: 1,
+          transform: "translateY(0)",
+          transition: "opacity .25s ease, transform .25s ease",
+          padding: "0 4px",
+        }}
+      >
         {tab === "overview" && <Overview skill={skill} />}
         {tab === "doc" && (
           <div style={{ textAlign: "left" }}>
@@ -107,11 +121,11 @@ export default function ContentTabs({ skill }: Props) {
 function Overview({ skill }: Props) {
   return (
     <div style={{ padding: "8px 0" }}>
-      <h3 
-        style={{ 
+      <h3
+        style={{
           fontFamily: "var(--font-serif)",
-          fontSize: "16px", 
-          fontWeight: 500, 
+          fontSize: "16px",
+          fontWeight: 500,
           marginBottom: "16px",
           textWrap: "balance",
         }}
@@ -131,11 +145,11 @@ function Overview({ skill }: Props) {
       </p>
       {skill.keyFeatures.length > 0 && (
         <>
-          <h3 
-            style={{ 
+          <h3
+            style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "14px", 
-              fontWeight: 500, 
+              fontSize: "14px",
+              fontWeight: 500,
               marginBottom: "12px",
               color: "var(--brand)",
             }}
@@ -173,11 +187,11 @@ function Overview({ skill }: Props) {
       )}
       {skill.useCases.length > 0 && (
         <>
-          <h3 
-            style={{ 
+          <h3
+            style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "14px", 
-              fontWeight: 500, 
+              fontSize: "14px",
+              fontWeight: 500,
               marginBottom: "12px",
               color: "var(--brand)",
             }}
@@ -185,7 +199,12 @@ function Overview({ skill }: Props) {
             Use Cases
           </h3>
           <div
-            style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "24px" }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "6px",
+              marginBottom: "24px",
+            }}
           >
             {skill.useCases.map((uc, i) => (
               <div
@@ -201,13 +220,29 @@ function Overview({ skill }: Props) {
                   transition: "border-color .15s ease",
                 }}
               >
-                <span style={{ fontSize: "14px", flexShrink: 0 }}>{uc.icon}</span>
+                <span style={{ fontSize: "14px", flexShrink: 0 }}>
+                  {uc.icon}
+                </span>
                 <div>
-                    <div style={{ fontWeight: 600, fontSize: "13px", color: "var(--text-primary)" }}>{uc.title}</div>
-                    {uc.description !== uc.title && (
-                      <div style={{ fontSize: "12px", color: "var(--text-secondary)", marginTop: "2px" }}>
-                        {uc.description}
-                      </div>
+                  <div
+                    style={{
+                      fontWeight: 600,
+                      fontSize: "13px",
+                      color: "var(--text-primary)",
+                    }}
+                  >
+                    {uc.title}
+                  </div>
+                  {uc.description !== uc.title && (
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        color: "var(--text-secondary)",
+                        marginTop: "2px",
+                      }}
+                    >
+                      {uc.description}
+                    </div>
                   )}
                 </div>
               </div>
@@ -223,7 +258,13 @@ function Examples({ skill }: Props) {
   const blocks = extractCodeBlocks(skill.content);
   return (
     <div>
-      <p style={{ color: "var(--text-secondary)", fontSize: "13px", marginBottom: "16px" }}>
+      <p
+        style={{
+          color: "var(--text-secondary)",
+          fontSize: "13px",
+          marginBottom: "16px",
+        }}
+      >
         Found {blocks.length} code example{blocks.length !== 1 ? "s" : ""}
       </p>
       {blocks.map((b, i) => (
@@ -274,8 +315,10 @@ function Examples({ skill }: Props) {
 
 function Files({ skill }: Props) {
   const tree = skill.fileInfo.tree;
+
   function FileNode({ node, depth }: { node: any; depth: number }) {
     const [open, setOpen] = useState(depth < 1);
+
     if (node.type === "dir")
       return (
         <div>
@@ -298,7 +341,9 @@ function Files({ skill }: Props) {
               fontFamily: "var(--font-mono)",
             }}
           >
-            <span style={{ color: "var(--stone)" }}>{open ? "▾" : "▸"}</span>
+            <span style={{ color: "var(--text-secondary)" }}>
+              {open ? "▾" : "▸"}
+            </span>
             <span>{node.name}/</span>
           </button>
           {open &&
@@ -307,6 +352,7 @@ function Files({ skill }: Props) {
             ))}
         </div>
       );
+
     return (
       <div
         style={{
@@ -323,13 +369,21 @@ function Files({ skill }: Props) {
         <span style={{ visibility: "hidden", width: "10px" }}>▸</span>
         <span>{node.name}</span>
         {node.size != null ? (
-          <span style={{ marginLeft: "auto", color: "var(--text-secondary)", fontVariantNumeric: "tabular-nums", fontSize: "11px" }}>
+          <span
+            style={{
+              marginLeft: "auto",
+              color: "var(--text-secondary)",
+              fontVariantNumeric: "tabular-nums",
+              fontSize: "12px",
+            }}
+          >
             {(node.size / 1024).toFixed(1)}KB
           </span>
         ) : null}
       </div>
     );
   }
+
   return (
     <div
       style={{
@@ -341,10 +395,19 @@ function Files({ skill }: Props) {
         fontSize: "12px",
       }}
     >
-      <div style={{ marginBottom: "8px", fontWeight: 600, color: "var(--brand)", fontSize: "12px" }}>
+      <div
+        style={{
+          marginBottom: "8px",
+          fontWeight: 600,
+          color: "var(--brand)",
+          fontSize: "12px",
+        }}
+      >
         {tree?.name || skill.id}/
       </div>
-      {tree?.children?.map((c: any, i: number) => <FileNode key={i} node={c} depth={0} />) || (
+      {tree?.children?.map((c: any, i: number) => (
+        <FileNode key={i} node={c} depth={0} />
+      )) || (
         <div style={{ color: "var(--text-secondary)" }}>No files found</div>
       )}
     </div>

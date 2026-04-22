@@ -17,12 +17,17 @@ export default function AISummaryCard({ skill }: Props) {
       style={{
         borderRadius: "var(--radius-md)",
         background: "var(--bg-card)",
-        border: "1px solid var(--border-soft)",
+        border: "0.5px solid var(--border-cream)",
         padding: "18px 20px",
         marginBottom: "24px",
         maxWidth: "65ch",
         margin: "0 auto 24px",
-        animation: "fadeInUp .4s ease .1s both",
+        borderRadius: "8px",
+        background: "var(--ivory)",
+        boxShadow: "var(--shadow-whisper)",
+        opacity: 1,
+        transform: "translateY(0)",
+        transition: "opacity .4s ease .1s, transform .4s ease .1s",
       }}
     >
       <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
@@ -40,7 +45,14 @@ export default function AISummaryCard({ skill }: Props) {
           >
             AI Summary
           </div>
-          <p style={{ fontSize: "13px", color: "var(--text-secondary)", lineHeight: 1.5, textWrap: "pretty" }}>
+          <p
+            style={{
+              fontSize: "13px",
+              color: "var(--text-secondary)",
+              lineHeight: 1.5,
+              textWrap: "pretty",
+            }}
+          >
             {summary}
           </p>
           <div

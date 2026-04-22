@@ -65,7 +65,7 @@ export default function StatsDashboard({ skill }: Props) {
           <div
             style={{
               fontSize: "12px",
-              fontWeight: 700,
+              fontWeight: 600,
               marginBottom: "14px",
               color: "var(--text-primary)",
               textTransform: "uppercase",
@@ -78,9 +78,19 @@ export default function StatsDashboard({ skill }: Props) {
             {card.i.map((item) => (
               <div
                 key={item.l}
-                style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "baseline",
+                }}
               >
-                <span style={{ fontSize: "12px", color: "var(--text-secondary)", fontWeight: 400 }}>
+                <span
+                  style={{
+                    fontSize: "12px",
+                    color: "var(--text-secondary)",
+                    fontWeight: 400,
+                  }}
+                >
                   {item.l}
                 </span>
                 <span

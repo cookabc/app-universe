@@ -4,7 +4,14 @@ interface Props {
 export default function TriggerPhraseCloud({ phrases }: Props) {
   if (!phrases?.length) return null;
   return (
-    <div style={{ marginBottom: "24px", padding: "12px 16px", maxWidth: "65ch", margin: "0 auto" }}>
+    <div
+      style={{
+        marginBottom: "24px",
+        padding: "12px 16px",
+        maxWidth: "65ch",
+        margin: "0 auto",
+      }}
+    >
       <h3
         style={{
           fontSize: "14px",
