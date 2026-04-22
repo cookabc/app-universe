@@ -12,7 +12,11 @@ interface Props {
   height?: string;
 }
 
-export default function ImageGallery({ images, title = "Gallery", height = "360px" }: Props) {
+export default function ImageGallery({
+  images,
+  title = "Gallery",
+  height = "360px",
+}: Props) {
   const [idx, setIdx] = useState(0);
   if (!images.length) return null;
 
@@ -61,7 +65,12 @@ export default function ImageGallery({ images, title = "Gallery", height = "360p
         <img
           src={cur.url}
           alt={cur.title || "Gallery image"}
-          style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", borderRadius: "4px" }}
+          style={{
+            maxWidth: "100%",
+            maxHeight: "100%",
+            objectFit: "contain",
+            borderRadius: "4px",
+          }}
           loading="lazy"
         />
         {images.length > 1 && (
@@ -88,10 +97,12 @@ export default function ImageGallery({ images, title = "Gallery", height = "360p
                 transition: "background-color .15s ease",
               }}
               onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.8)")
+                ((e.currentTarget as HTMLElement).style.background =
+                  "rgba(0,0,0,0.8)")
               }
               onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.6)")
+                ((e.currentTarget as HTMLElement).style.background =
+                  "rgba(0,0,0,0.6)")
               }
             >
               ‹
@@ -118,10 +129,12 @@ export default function ImageGallery({ images, title = "Gallery", height = "360p
                 transition: "background-color .15s ease",
               }}
               onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.8)")
+                ((e.currentTarget as HTMLElement).style.background =
+                  "rgba(0,0,0,0.8)")
               }
               onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.6)")
+                ((e.currentTarget as HTMLElement).style.background =
+                  "rgba(0,0,0,0.6)")
               }
             >
               ›
@@ -144,7 +157,12 @@ export default function ImageGallery({ images, title = "Gallery", height = "360p
       )}
       {images.length > 1 && (
         <div
-          style={{ padding: "10px 16px", display: "flex", gap: 6, overflowX: "auto" }}
+          style={{
+            padding: "10px 16px",
+            display: "flex",
+            gap: 6,
+            overflowX: "auto",
+          }}
           role="tablist"
           aria-label="Gallery thumbnails"
         >
@@ -159,7 +177,10 @@ export default function ImageGallery({ images, title = "Gallery", height = "360p
                 width: i === idx ? 48 : 40,
                 height: i === idx ? 40 : 32,
                 borderRadius: 6,
-                border: i === idx ? "2px solid var(--accent)" : "2px solid transparent",
+                border:
+                  i === idx
+                    ? "2px solid var(--accent)"
+                    : "2px solid transparent",
                 padding: 0,
                 overflow: "hidden",
                 cursor: "pointer",

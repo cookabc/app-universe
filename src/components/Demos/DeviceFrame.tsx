@@ -9,21 +9,54 @@ interface Props {
   title?: string;
 }
 
-export default function DeviceFrame({ screenshots, title = "Device Preview" }: Props) {
+export default function DeviceFrame({
+  screenshots,
+  title = "Device Preview",
+}: Props) {
   if (!screenshots.length) return null;
 
   const frameStyle = (device: string) => {
     switch (device) {
       case "iphone-pro":
-        return { width: 270, height: 580, radius: 40, notch: true, color: "#1a1a1a" };
+        return {
+          width: 270,
+          height: 580,
+          radius: 40,
+          notch: true,
+          color: "#1a1a1a",
+        };
       case "iphone-pro-max":
-        return { width: 294, height: 630, radius: 44, notch: true, color: "#1a1a1a" };
+        return {
+          width: 294,
+          height: 630,
+          radius: 44,
+          notch: true,
+          color: "#1a1a1a",
+        };
       case "ipad-pro-11":
-        return { width: 500, height: 376, radius: 18, notch: false, color: "#1a1a1a" };
+        return {
+          width: 500,
+          height: 376,
+          radius: 18,
+          notch: false,
+          color: "#1a1a1a",
+        };
       case "ipad-pro-13":
-        return { width: 584, height: 438, radius: 20, notch: false, color: "#1a1a1a" };
+        return {
+          width: 584,
+          height: 438,
+          radius: 20,
+          notch: false,
+          color: "#1a1a1a",
+        };
       default:
-        return { width: 300, height: 400, radius: 24, notch: false, color: "#1a1a1a" };
+        return {
+          width: 300,
+          height: 400,
+          radius: 24,
+          notch: false,
+          color: "#1a1a1a",
+        };
     }
   };
 
@@ -37,8 +70,15 @@ export default function DeviceFrame({ screenshots, title = "Device Preview" }: P
       }}
     >
       {title && (
-        <div style={{ padding: "12px 16px", borderBottom: "1px solid var(--border)" }}>
-          <span style={{ fontSize: "13px", fontWeight: 600 }}>&#128241; {title}</span>
+        <div
+          style={{
+            padding: "12px 16px",
+            borderBottom: "1px solid var(--border)",
+          }}
+        >
+          <span style={{ fontSize: "13px", fontWeight: 600 }}>
+            &#128241; {title}
+          </span>
         </div>
       )}
       <div
@@ -55,7 +95,12 @@ export default function DeviceFrame({ screenshots, title = "Device Preview" }: P
           return (
             <div
               key={i}
-              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 8,
+              }}
             >
               <div
                 style={{
@@ -67,7 +112,7 @@ export default function DeviceFrame({ screenshots, title = "Device Preview" }: P
                   padding: f.notch ? 8 : 12,
                   position: "relative",
                   overflow: "hidden",
-                  boxShadow: "0 20px 60px rgba(0,0,0,0.4)",
+                  boxShadow: "var(--shadow-whisper)",
                 }}
               >
                 {f.notch && (
@@ -96,7 +141,11 @@ export default function DeviceFrame({ screenshots, title = "Device Preview" }: P
                   }}
                 />
               </div>
-              <span style={{ fontSize: "11px", color: "var(--text-secondary)" }}>{sc.label}</span>
+              <span
+                style={{ fontSize: "11px", color: "var(--text-secondary)" }}
+              >
+                {sc.label}
+              </span>
             </div>
           );
         })}
