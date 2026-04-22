@@ -1,5 +1,8 @@
 import { useState } from "react";
 import MarkdownRenderer from "../../common/MarkdownRenderer";
+import SkillPreview from "../../Demos/SkillPreview";
+import { stripLeadingH1 } from "../../../utils/markdownParser";
+import { header, preview, content } from "./layoutTokens";
 import type { SkillData } from "../../../data/skills";
 import { extractCodeBlocks } from "../../../utils/markdownParser";
 
@@ -19,307 +22,63 @@ export default function TutorialLayout({ skill }: Props) {
         padding: "24px 20px 48px",
       }}
     >
-      {/* Tutorial header */}
-      <header
-        style={{
-          marginBottom: "36px",
-          paddingBottom: "28px",
-          borderBottom: "3px double var(--border)",
-          background: "var(--ivory)",
-          padding: "28px 24px",
-          borderRadius: "12px",
-          border: "0.5px solid var(--border-warm)",
-          boxShadow: "var(--shadow-whisper)",
-        }}
-      >
-        {/* Breadcrumb-style category */}
-        <nav
-          style={{
-            fontSize: "11px",
-            color: "var(--stone)",
-            marginBottom: "12px",
-            fontFamily: "var(--font-sans)",
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-          }}
-        >
+      <header style={{ marginBottom: 28, paddingBottom: 20, ...header.borderStyle }}>
+        <nav style={{ fontSize: 11, color: "var(--stone)", marginBottom: 10, fontFamily: "var(--font-sans)", display: "flex", alignItems: "center", gap: 6 }}>
           <span style={{ color: "var(--brand)" }}>{skill.category.icon}</span>
           <span>{skill.category.label}</span>
           <span style={{ color: "var(--olive)" }}>›</span>
-          <span style={{ fontWeight: 500, color: "var(--text-primary)" }}>
-            Tutorial
-          </span>
+          <span style={{ fontWeight: 500, color: "var(--text-primary)" }}>Tutorial</span>
         </nav>
 
-        <h1
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: "clamp(30px, 5vw, 42px)",
-            fontWeight: 500,
-            lineHeight: 1.15,
-            color: "var(--text-primary)",
-            marginBottom: "14px",
-            textWrap: "balance",
-          }}
-        >
-          {skill.name}
-        </h1>
+        <h1 style={{ ...header.h1, marginBottom: 12, textWrap: "balance" as const }}>{skill.name}</h1>
 
-        {/* Quote block */}
-        <p
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: "17px",
-            fontWeight: 400,
-            lineHeight: 1.5,
-            color: "var(--olive)",
-            maxWidth: "60ch",
-            textWrap: "pretty",
-            borderLeft: "2px solid var(--brand)",
-            paddingLeft: "12px",
-          }}
-        >
-          {skill.description}
-        </p>
-
-        {/* Progress indicator - Metric cards */}
-        <div
-          style={{
-            marginTop: "20px",
-            display: "flex",
-            alignItems: "center",
-            gap: "20px",
-            fontSize: "11px",
-            color: "var(--stone)",
-            fontVariantNumeric: "tabular-nums",
-            fontFamily: "var(--font-sans)",
-          }}
-        >
-          <span>⏱ {skill.stats.readTime}</span>
-          <span style={{ color: "var(--border-warm)" }}>·</span>
-          <span>{skill.stats.lineCount} lines</span>
-          <span style={{ color: "var(--border-warm)" }}>·</span>
-          <span>{codeBlocks.length} examples</span>
-        </div>
+        <p style={{ ...header.desc, maxWidth: "60ch", borderLeft: "2px solid var(--brand)", paddingLeft: 12 }}>{skill.description}</p>
       </header>
 
-      {/* Two-column layout for tutorial content */}
+      <section style={preview.section}>
+        <div style={preview.label}>Generated Output</div>
+        <SkillPreview skill={skill} />
+      </section>
+
       <div
         style={{
           display: "grid",
           gridTemplateColumns: activeTab === "content" ? "1fr" : "1fr 400px",
-          gap: "32px",
+          gap: "28px",
           alignItems: "start",
         }}
       >
-        {/* Main content area */}
         <main>
           <section
             style={{
               background: "white",
-              padding: "28px 32px",
-              borderRadius: "8px",
+              padding: "24px 28px",
+              borderRadius: 8,
               border: "0.5px solid var(--border-warm)",
               boxShadow: "var(--shadow-whisper)",
             }}
           >
-            <MarkdownRenderer content={skill.content} />
+            <MarkdownRenderer content={stripLeadingH1(skill.content)} />
           </section>
-
-          {/* Use cases section */}
-          {skill.useCases.length > 0 && (
-            <section
-              style={{
-                marginTop: "36px",
-                paddingTop: "28px",
-                borderTop: "0.5px dashed var(--border-warm)",
-              }}
-            >
-              {/* Section Title - kami standard */}
-              <h2
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "18px",
-                  fontWeight: 500,
-                  marginBottom: "18px",
-                  color: "var(--text-primary)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  lineHeight: 1.2,
-                  textWrap: "balance",
-                }}
-              >
-                <span
-                  style={{
-                    width: "3px",
-                    height: "20px",
-                    background: "var(--brand)",
-                    display: "inline-block",
-                    flexShrink: 0,
-                  }}
-                />
-                Practical Applications
-              </h2>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
-                }}
-              >
-                {skill.useCases.map((uc, i) => (
-                  <article
-                    key={i}
-                    style={{
-                      padding: "14px 16px",
-                      borderRadius: "8px",
-                      background: "var(--ivory)",
-                      border: "0.5px solid var(--border-warm)",
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: "12px",
-                      boxShadow: "var(--shadow-whisper)",
-                      transition: "box-shadow .15s ease",
-                    }}
-                  >
-                    <span
-                      style={{
-                        flexShrink: 0,
-                        width: "28px",
-                        height: "28px",
-                        borderRadius: "50%",
-                        background: "var(--tag-bg-default)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontSize: "14px",
-                        border: "0.5px solid var(--border-warm)",
-                      }}
-                    >
-                      {uc.icon}
-                    </span>
-                    <div style={{ flex: 1 }}>
-                      <strong
-                        style={{
-                          fontSize: "13px",
-                          color: "var(--text-primary)",
-                          fontWeight: 600,
-                          display: "block",
-                          marginBottom: "3px",
-                        }}
-                      >
-                        {uc.title}
-                      </strong>
-                      {uc.description !== uc.title && (
-                        <p
-                          style={{
-                            fontSize: "12px",
-                            color: "var(--text-secondary)",
-                            lineHeight: 1.45,
-                            margin: 0,
-                          }}
-                        >
-                          {uc.description}
-                        </p>
-                      )}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
-          )}
         </main>
 
-        {/* Code examples panel (shown when tab is active) */}
         {activeTab === "examples" && codeBlocks.length > 0 && (
-          <aside
-            style={{
-              position: "sticky",
-              top: "24px",
-              maxHeight: "calc(100vh - 48px)",
-              overflowY: "auto",
-            }}
-          >
-            <div
-              style={{
-                padding: "20px",
-                borderRadius: "8px",
-                background: "var(--near-black)",
-                border: "0.5px solid var(--dark-surface)",
-                boxShadow: "var(--shadow-ring)",
-              }}
-            >
-              <h3
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "13px",
-                  fontWeight: 500,
-                  color: "#e5e5e5",
-                  marginBottom: "16px",
-                  paddingBottom: "10px",
-                  borderBottom: "0.5px solid #444",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  lineHeight: 1.3,
-                }}
-              >
+          <aside style={{ position: "sticky" as const, top: 24, maxHeight: "calc(100vh - 48px)", overflowY: "auto" }}>
+            <div style={{ padding: 20, borderRadius: 8, background: "var(--near-black)", border: "0.5px solid var(--dark-surface)", boxShadow: "var(--shadow-ring)" }}>
+              <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 13, fontWeight: 500, color: "#e5e5e5", marginBottom: 16, paddingBottom: 10, borderBottom: "0.5px solid #444", display: "flex", alignItems: "center", justifyContent: "space-between", lineHeight: 1.3 }}>
                 <span>💻 Code Examples ({codeBlocks.length})</span>
-                <button
-                  onClick={() => setActiveTab("content")}
-                  style={{
-                    background: "none",
-                    border: "0.5px solid #555",
-                    color: "#aaa",
-                    padding: "4px 10px",
-                    borderRadius: "3px",
-                    fontSize: "11px",
-                    cursor: "pointer",
-                    fontFamily: "var(--font-sans)",
-                  }}
-                >
+                <button onClick={() => setActiveTab("content")} style={{ background: "none", border: "0.5px solid #555", color: "#aaa", padding: "4px 10px", borderRadius: 3, fontSize: 11, cursor: "pointer", fontFamily: "var(--font-sans)" }}>
                   ✕ Close
                 </button>
               </h3>
 
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "16px",
-                }}
-              >
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 {codeBlocks.map((block, i) => (
                   <div key={i}>
-                    <div
-                      style={{
-                        fontSize: "10px",
-                        color: "#888",
-                        fontWeight: 600,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.5px",
-                        marginBottom: "6px",
-                        fontFamily: "var(--font-sans)",
-                      }}
-                    >
+                    <div style={{ fontSize: 10, color: "#888", fontWeight: 600, textTransform: "uppercase" as const, letterSpacing: "0.5px", marginBottom: 6, fontFamily: "var(--font-sans)" }}>
                       Example {i + 1} · {block.language || "code"}
                     </div>
-                    <pre
-                      style={{
-                        margin: 0,
-                        padding: "14px",
-                        borderRadius: "6px",
-                        background: "#252526",
-                        overflowX: "auto",
-                        fontSize: "11px",
-                        fontFamily: "var(--font-mono)",
-                        lineHeight: 1.6,
-                        border: "0.5px solid #333",
-                      }}
-                    >
+                    <pre style={{ margin: 0, padding: 14, borderRadius: 6, background: "#252526", overflowX: "auto", fontSize: 11, fontFamily: "var(--font-mono)", lineHeight: 1.6, border: "0.5px solid #333" }}>
                       <code style={{ color: "#d4d4d4" }}>{block.code}</code>
                     </pre>
                   </div>
@@ -330,20 +89,19 @@ export default function TutorialLayout({ skill }: Props) {
         )}
       </div>
 
-      {/* Floating action button to show/hide code examples - Ring shadow button */}
       {codeBlocks.length > 0 && activeTab !== "examples" && (
         <button
           onClick={() => setActiveTab("examples")}
           style={{
             position: "fixed",
-            bottom: "32px",
-            right: "32px",
+            bottom: 32,
+            right: 32,
             padding: "12px 20px",
-            borderRadius: "8px",
+            borderRadius: 8,
             background: "var(--brand)",
             color: "white",
             border: "none",
-            fontSize: "13px",
+            fontSize: 13,
             fontWeight: 600,
             cursor: "pointer",
             boxShadow: "var(--shadow-whisper)",
@@ -352,14 +110,10 @@ export default function TutorialLayout({ skill }: Props) {
             fontFamily: "var(--font-sans)",
             display: "flex",
             alignItems: "center",
-            gap: "8px",
+            gap: 8,
           }}
-          onMouseDown={(e) => {
-            (e.currentTarget as HTMLElement).style.transform = "scale(0.98)";
-          }}
-          onMouseUp={(e) => {
-            (e.currentTarget as HTMLElement).style.transform = "scale(1)";
-          }}
+          onMouseDown={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(0.98)"; }}
+          onMouseUp={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
         >
           💻 View Examples ({codeBlocks.length})
         </button>
