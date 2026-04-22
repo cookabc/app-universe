@@ -12,7 +12,10 @@ interface Props {
   title?: string;
 }
 
-export default function CodePlayground({ examples, title = "Live Examples" }: Props) {
+export default function CodePlayground({
+  examples,
+  title = "Live Examples",
+}: Props) {
   const [ei, setEi] = useState(0);
   const [copied, setCopied] = useState(false);
   if (!examples.length) return null;
@@ -47,8 +50,21 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
           flexWrap: "wrap",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-          <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--text-primary)" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            flexWrap: "wrap",
+          }}
+        >
+          <span
+            style={{
+              fontSize: "12px",
+              fontWeight: 600,
+              color: "var(--text-primary)",
+            }}
+          >
             {title}
           </span>
           <div style={{ display: "flex", gap: "4px" }}>
@@ -61,7 +77,10 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
                 style={{
                   padding: "4px 10px",
                   borderRadius: "3px",
-                  border: i === ei ? "1px solid var(--brand)" : "1px solid transparent",
+                  border:
+                    i === ei
+                      ? "1px solid var(--brand)"
+                      : "1px solid transparent",
                   background: i === ei ? "var(--tag-bg)" : "transparent",
                   color: i === ei ? "var(--brand)" : "var(--text-secondary)",
                   cursor: "pointer",
@@ -70,9 +89,16 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
                   fontFamily: "var(--font-mono)",
                   transition: "all .15s ease",
                 }}
-                onMouseDown={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(0.96)"; }}
-                onMouseUp={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
+                onMouseDown={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform =
+                    "scale(0.96)";
+                }}
+                onMouseUp={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+                }}
               >
                 {e.language?.toLowerCase()}
               </button>
@@ -85,29 +111,55 @@ export default function CodePlayground({ examples, title = "Live Examples" }: Pr
           style={{
             padding: "4px 10px",
             borderRadius: "3px",
-            border: copied ? "1px solid var(--success)" : "1px solid var(--border-soft)",
-            background: copied ? "rgba(34,197,94,0.08)" : "transparent",
+            border: copied
+              ? "1px solid var(--success)"
+              : "1px solid var(--border-soft)",
+            background: copied ? "#EEF2F7" : "transparent",
             color: copied ? "var(--success)" : "var(--text-secondary)",
             cursor: "pointer",
             fontSize: "12px",
             fontFamily: "var(--font-mono)",
             transition: "all .15s ease",
           }}
-          onMouseDown={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(0.96)"; }}
-          onMouseUp={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
+          onMouseDown={(e) => {
+            (e.currentTarget as HTMLElement).style.transform = "scale(0.96)";
+          }}
+          onMouseUp={(e) => {
+            (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+          }}
         >
           {copied ? "Copied" : "Copy"}
         </button>
       </div>
       {ex.description && (
-        <div style={{ padding: "8px 14px", fontSize: "13px", color: "var(--text-secondary)", lineHeight: 1.5, borderBottom: "1px solid var(--border-soft)" }}>
+        <div
+          style={{
+            padding: "8px 14px",
+            fontSize: "13px",
+            color: "var(--text-secondary)",
+            lineHeight: 1.5,
+            borderBottom: "1px solid var(--border-soft)",
+          }}
+        >
           {ex.description}
         </div>
       )}
       <div
         className="code-playground"
-        style={{ margin: 0, padding: "14px", fontSize: "12px", fontFamily: "var(--font-mono)", lineHeight: 1.6, whiteSpace: "pre-wrap", wordBreak: "break-word", color: "var(--text-primary)", overflowX: "auto" }}
+        style={{
+          margin: 0,
+          padding: "14px",
+          fontSize: "12px",
+          fontFamily: "var(--font-mono)",
+          lineHeight: 1.6,
+          whiteSpace: "pre-wrap",
+          wordBreak: "break-word",
+          color: "var(--text-primary)",
+          overflowX: "auto",
+        }}
       >
         <code>{ex.code}</code>
       </div>

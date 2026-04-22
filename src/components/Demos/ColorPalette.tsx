@@ -16,7 +16,10 @@ interface Props {
   title?: string;
 }
 
-export default function ColorPalette({ themes, title = "Design Systems" }: Props) {
+export default function ColorPalette({
+  themes,
+  title = "Design Systems",
+}: Props) {
   const [ti, setTi] = useState(0);
   if (!themes.length) return null;
   const t = themes[ti];
@@ -64,7 +67,9 @@ export default function ColorPalette({ themes, title = "Design Systems" }: Props
         </div>
       </div>
       <div style={{ padding: "16px" }}>
-        <div style={{ fontSize: "14px", fontWeight: 600, marginBottom: 12 }}>{t.name} Palette</div>
+        <div style={{ fontSize: "14px", fontWeight: 600, marginBottom: 12 }}>
+          {t.name} Palette
+        </div>
         <div
           style={{
             display: "grid",
@@ -83,13 +88,22 @@ export default function ColorPalette({ themes, title = "Design Systems" }: Props
                 transition: "transform .15s ease",
               }}
               onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.transform = "scale(1.03)")
+                ((e.currentTarget as HTMLElement).style.transform =
+                  "scale(1.03)")
               }
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1)")}
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLElement).style.transform = "scale(1)")
+              }
             >
               <div style={{ height: 48, background: c.hex }} />
               <div style={{ padding: "6px 8px" }}>
-                <div style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-primary)" }}>
+                <div
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 600,
+                    color: "var(--text-primary)",
+                  }}
+                >
                   {c.name}
                 </div>
                 <div
@@ -102,7 +116,13 @@ export default function ColorPalette({ themes, title = "Design Systems" }: Props
                   {c.hex}
                 </div>
                 {c.role && (
-                  <div style={{ fontSize: "10px", color: "var(--text-secondary)", opacity: 0.7 }}>
+                  <div
+                    style={{
+                      fontSize: "10px",
+                      color: "var(--text-secondary)",
+                      opacity: 0.7,
+                    }}
+                  >
                     {c.role}
                   </div>
                 )}
@@ -115,7 +135,9 @@ export default function ColorPalette({ themes, title = "Design Systems" }: Props
   );
 }
 
-export function extractThemeColors(systemJson: Record<string, any>): ThemeData[] {
+export function extractThemeColors(
+  systemJson: Record<string, any>,
+): ThemeData[] {
   if (!systemJson || !systemJson.defaultDesignSystems) return [];
   return systemJson.defaultDesignSystems.map((ds: any) => {
     const light = ds.themeConfig?.light || {};

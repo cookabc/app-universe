@@ -11,7 +11,9 @@ function parseGithubUrl(
 ): { owner: string; repo: string; branch: string; rawUrl: string } | null {
   const trimmed = input.trim();
   if (!trimmed) return null;
-  const m1 = trimmed.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)(?:\/tree\/([^/]+))?/);
+  const m1 = trimmed.match(
+    /^https?:\/\/github\.com\/([^/]+)\/([^/]+)(?:\/tree\/([^/]+))?/,
+  );
   if (m1)
     return {
       owner: m1[1],
@@ -26,7 +28,9 @@ function parseGithubUrl(
         (m1[3] || "main") +
         "/SKILL.md",
     };
-  const m2 = trimmed.match(/^https?:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)/);
+  const m2 = trimmed.match(
+    /^https?:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)\/([^/]+)/,
+  );
   if (m2) return { owner: m2[1], repo: m2[2], branch: m2[3], rawUrl: trimmed };
   const m3 = trimmed.match(/^([^/]+)\/([^/]+)$/);
   if (m3)
@@ -34,24 +38,39 @@ function parseGithubUrl(
       owner: m3[1],
       repo: m3[2],
       branch: "main",
-      rawUrl: "https://raw.githubusercontent.com/" + m3[1] + "/" + m3[2] + "/main/SKILL.md",
+      rawUrl:
+        "https://raw.githubusercontent.com/" +
+        m3[1] +
+        "/" +
+        m3[2] +
+        "/main/SKILL.md",
     };
   return null;
 }
 
 async function fetchSkillFromUrl(rawUrl: string): Promise<string> {
   const resp = await fetch(rawUrl, { headers: { Accept: "text/plain" } });
-  if (!resp.ok) throw new Error("Failed to fetch SKILL.md: " + resp.status + " " + resp.statusText);
+  if (!resp.ok)
+    throw new Error(
+      "Failed to fetch SKILL.md: " + resp.status + " " + resp.statusText,
+    );
   return resp.text();
 }
 
 function buildSkillId(owner: string, repo: string): string {
-  return "custom-" + owner.toLowerCase() + "-" + repo.toLowerCase().replace(/[^a-z0-9-]/g, "-");
+  return (
+    "custom-" +
+    owner.toLowerCase() +
+    "-" +
+    repo.toLowerCase().replace(/[^a-z0-9-]/g, "-")
+  );
 }
 
 export default function AddSkillDialog({ onAdd, onClose }: Props) {
   const [url, setUrl] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "error" | "preview">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "error" | "preview"
+  >("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [preview, setPreview] = useState<SkillData | null>(null);
 
@@ -59,7 +78,9 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
     const parsed = parseGithubUrl(url);
     if (!parsed) {
       setStatus("error");
-      setErrorMsg("Invalid GitHub URL. Use format: owner/repo or https://github.com/owner/repo");
+      setErrorMsg(
+        "Invalid GitHub URL. Use format: owner/repo or https://github.com/owner/repo",
+      );
       return;
     }
     setStatus("loading");
@@ -87,7 +108,11 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
         keyFeatures: extractFeatures(body),
         installCommand: extractInstall(body),
         content: body,
-        fileInfo: { totalFiles: 0, totalSizeStr: "Remote", tree: { name: "remote", type: "dir" } },
+        fileInfo: {
+          totalFiles: 0,
+          totalSizeStr: "Remote",
+          tree: { name: "remote", type: "dir" },
+        },
         lastUpdated: new Date().toISOString().split("T")[0],
         assets: { screenshots: [], samples: [] },
       };
@@ -145,7 +170,9 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
             justifyContent: "space-between",
           }}
         >
-          <span style={{ fontSize: "16px", fontWeight: 700 }}>➕ Add Skill from GitHub</span>
+          <span style={{ fontSize: "16px", fontWeight: 600 }}>
+            ➕ Add Skill from GitHub
+          </span>
           <button
             onClick={onClose}
             aria-label="Close dialog"
@@ -219,7 +246,10 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
                   padding: "10px 18px",
                   borderRadius: 8,
                   border: "none",
-                  background: status === "loading" ? "var(--text-secondary)" : "var(--accent)",
+                  background:
+                    status === "loading"
+                      ? "var(--text-secondary)"
+                      : "var(--accent)",
                   color: "#fff",
                   cursor: status === "loading" ? "not-allowed" : "pointer",
                   fontWeight: 600,
@@ -270,7 +300,9 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
                 📝 Preview
               </div>
               <div style={{ padding: "16px" }}>
-                <h3 style={{ fontSize: "18px", fontWeight: 700, marginBottom: 4 }}>
+                <h3
+                  style={{ fontSize: "18px", fontWeight: 600, marginBottom: 4 }}
+                >
                   {preview.name}
                 </h3>
                 <p
@@ -348,7 +380,13 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
             </div>
           )}
           {status === "idle" && !url && (
-            <div style={{ marginTop: 12, fontSize: "12px", color: "var(--text-secondary)" }}>
+            <div
+              style={{
+                marginTop: 12,
+                fontSize: "12px",
+                color: "var(--text-secondary)",
+              }}
+            >
               <div style={{ fontWeight: 600, marginBottom: 4 }}>Try these:</div>
               <div
                 style={{
@@ -377,7 +415,9 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setUrl("https://github.com/example/skill-repo")}
+                  onClick={() =>
+                    setUrl("https://github.com/example/skill-repo")
+                  }
                   style={{
                     background: "none",
                     border: "none",
@@ -411,7 +451,10 @@ function extractFrontmatter(raw: string): Record<string, string> {
     if (ci === -1) continue;
     const key = line.slice(0, ci).trim();
     let val = line.slice(ci + 1).trim();
-    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'")))
+    if (
+      (val.startsWith('"') && val.endsWith('"')) ||
+      (val.startsWith("'") && val.endsWith("'"))
+    )
       val = val.slice(1, -1);
     if (val.startsWith(">") || val.startsWith("|")) continue;
     fm[key] = val;
@@ -435,7 +478,8 @@ function extractTriggers(desc: string): string[] {
       const v = x.replace(/"/g, "").trim();
       if (v.length > 1 && v.length < 80) t.push(v);
     }
-  if (!t.length && desc.split(" ").length > 2) t.push(desc.split(" ").slice(0, 6).join(" "));
+  if (!t.length && desc.split(" ").length > 2)
+    t.push(desc.split(" ").slice(0, 6).join(" "));
   return t.slice(0, 8);
 }
 function analyzeStats(body: string): SkillData["stats"] {
@@ -443,7 +487,10 @@ function analyzeStats(body: string): SkillData["stats"] {
   const chars = body.length;
   const secs = (body.match(/^#{2,4}\s/gm) || []).length;
   const cbs = (body.match(/```/g) || []).length / 2;
-  const sc = Math.min(10, Math.max(1, Math.round((secs * 1.5 + cbs + lines / 100) / 10)));
+  const sc = Math.min(
+    10,
+    Math.max(1, Math.round((secs * 1.5 + cbs + lines / 100) / 10)),
+  );
   const lb: Record<number, string> = {
     1: "Trivial",
     2: "Simple",
