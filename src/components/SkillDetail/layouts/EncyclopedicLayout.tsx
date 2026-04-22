@@ -21,7 +21,7 @@ export default function EncyclopedicLayout({ skill }: Props) {
     const items: TOCItem[] = [];
     const lines = skill.content.split("\n");
 
-    lines.forEach((line) => {
+    lines.forEach((line, i) => {
       const match = line.match(/^(#{2,3})\s+(.+)$/);
       if (match) {
         const level = match[1].length;
@@ -70,7 +70,7 @@ export default function EncyclopedicLayout({ skill }: Props) {
     let currentSection = { heading: "", content: "", level: 0, id: "" };
     const lines = skill.content.split("\n");
 
-    lines.forEach((line) => {
+    lines.forEach((line, i) => {
       const match = line.match(/^(#{2,3})\s+(.+)$/);
       if (match && match[1].length <= 3) {
         if (currentSection.heading) {
