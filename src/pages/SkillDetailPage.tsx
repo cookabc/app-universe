@@ -3,13 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { getSkillById } from "../data/skills";
 import LiveDemoSection from "../components/Demos/LiveDemoSection";
 import RelatedSkills from "../components/SkillDetail/RelatedSkills";
-import CompactLayout from "../components/SkillDetail/layouts/CompactLayout";
-import StandardLayout from "../components/SkillDetail/layouts/StandardLayout";
-import TutorialLayout from "../components/SkillDetail/layouts/TutorialLayout";
-import EncyclopedicLayout from "../components/SkillDetail/layouts/EncyclopedicLayout";
-import {
-  determineLayoutMode,
-} from "../utils/SkillLayoutEngine";
+import UnifiedLayout from "../components/SkillDetail/layouts/UnifiedLayout";
 import type { SkillData } from "../data/skills";
 
 export default function SkillDetailPage() {
@@ -68,26 +62,16 @@ export default function SkillDetailPage() {
     );
   }
 
-  // Determine the best layout for this skill
-  const layoutConfig = determineLayoutMode(skill);
-
   return (
     <div>
-      {/* Dynamic layout based on skill characteristics */}
       <main>
-        {layoutConfig.mode === "compact" && <CompactLayout skill={skill} />}
-        {layoutConfig.mode === "standard" && <StandardLayout skill={skill} />}
-        {layoutConfig.mode === "tutorial" && <TutorialLayout skill={skill} />}
-        {layoutConfig.mode === "encyclopedic" && (
-          <EncyclopedicLayout skill={skill} />
-        )}
+        <UnifiedLayout skill={skill} />
       </main>
 
-      {/* Live demo section (if applicable) */}
-      {skill.installCommand && layoutConfig.mode !== "compact" && (
+      {skill.installCommand && (
         <section
           style={{
-            maxWidth: layoutConfig.maxWidth,
+            maxWidth: "72ch",
             margin: "40px auto 0",
             padding: "0 20px",
           }}
@@ -96,13 +80,9 @@ export default function SkillDetailPage() {
         </section>
       )}
 
-      {/* Related skills - shown for all */}
       <section
         style={{
-          maxWidth:
-            layoutConfig.mode === "encyclopedic"
-              ? "100ch"
-              : layoutConfig.maxWidth,
+          maxWidth: "72ch",
           margin: "48px auto 0",
           padding: "0 20px 60px",
         }}
