@@ -33,11 +33,85 @@ export const header = {
   } as React.CSSProperties,
 };
 
+export const metaSummary = {
+  container: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    gap: "6px 14px",
+    marginTop: 14,
+    paddingTop: 12,
+    borderTop: "0.5px solid var(--border-warm)",
+  } as React.CSSProperties,
+  item: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "4px",
+    fontSize: 11,
+    color: "var(--text-secondary)",
+    fontFamily: "var(--font-sans)",
+    fontVariantNumeric: "tabular-nums" as const,
+  } as React.CSSProperties,
+  itemValue: {
+    color: "var(--text-primary)",
+    fontWeight: 500,
+  } as React.CSSProperties,
+  separator: {
+    color: "var(--border-warm)",
+    fontSize: 10,
+  } as React.CSSProperties,
+};
+
+export const cta = {
+  group: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    gap: "8px",
+    marginTop: 18,
+  } as React.CSSProperties,
+  primary: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+    padding: "8px 18px",
+    borderRadius: "2px",
+    background: "var(--brand)",
+    color: "white",
+    fontSize: 12,
+    fontWeight: 600,
+    fontFamily: "var(--font-sans)",
+    border: "none",
+    cursor: "pointer",
+    letterSpacing: "0.3px",
+    transition: "all .15s ease",
+  } as React.CSSProperties,
+  secondary: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+    padding: "8px 18px",
+    borderRadius: "2px",
+    background: "transparent",
+    color: "var(--text-primary)",
+    fontSize: 12,
+    fontWeight: 500,
+    fontFamily: "var(--font-sans)",
+    border: "0.5px solid var(--border-warm)",
+    cursor: "pointer",
+    letterSpacing: "0.3px",
+    transition: "all .15s ease",
+  } as React.CSSProperties,
+};
+
 export const preview = {
-  section: {
+  card: {
+    padding: "20px 24px",
     marginBottom: 32,
-    paddingTop: 20,
-    borderTop: "0.5px dashed var(--border-warm)",
+    borderRadius: 6,
+    background: "var(--ivory)",
+    border: "0.5px solid var(--border-warm)",
+    boxShadow: "var(--shadow-ring)",
   } as React.CSSProperties,
   label: {
     fontSize: 11,
@@ -47,6 +121,9 @@ export const preview = {
     letterSpacing: "0.8px",
     marginBottom: 14,
     fontFamily: "var(--font-sans)",
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
   } as React.CSSProperties,
 };
 
@@ -84,5 +161,31 @@ export const sidebar = {
     paddingBottom: 8,
     borderBottom: "0.5px solid var(--border-warm)",
     lineHeight: 1.3,
+  } as React.CSSProperties,
+  metaRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "6px 0",
+    fontSize: 11,
+    borderBottom: "0.5px solid rgba(0,0,0,.04)",
+  } as React.CSSProperties,
+  metaLabel: {
+    color: "var(--text-secondary)",
+    fontFamily: "var(--font-sans)",
+    fontSize: 10,
+    textTransform: "uppercase" as const,
+    letterSpacing: "0.5px",
+  } as React.CSSProperties,
+  metaValue: {
+    color: "var(--text-primary)",
+    fontWeight: 500,
+    fontVariantNumeric: "tabular-nums" as const,
+    fontSize: 11,
+  } as React.CSSProperties,
+  sectionGap: {
+    marginTop: 14,
+    paddingTop: 10,
+    borderTop: "0.5px solid var(--border-warm)",
   } as React.CSSProperties,
 };
