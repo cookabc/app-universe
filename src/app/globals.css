@@ -106,6 +106,15 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  text-wrap: pretty;
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 
 /* ===== Terminal Page Layout ===== */
@@ -148,15 +157,16 @@ body {
   border-radius: 999px;
   transform: translateX(-50%);
   background: rgba(255, 255, 255, 0.08);
-  transition:
-    background 150ms ease,
-    box-shadow 150ms ease;
+  transition-property: background, box-shadow, width;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
 }
 
 .panel-splitter:hover::before,
 .panel-splitter:focus-visible::before {
   background: rgba(77, 141, 255, 0.7);
   box-shadow: 0 0 0 4px rgba(77, 141, 255, 0.12);
+  width: 3px;
 }
 
 /* ===== Panel Cards ===== */
@@ -311,11 +321,17 @@ body {
   border: 0;
   cursor: pointer;
   font: inherit;
-  transition: all 150ms ease;
+  transition-property: scale, filter, background, color;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
 }
 
 .timeframe:hover {
   filter: brightness(1.15);
+}
+
+.timeframe:active {
+  scale: 0.96;
 }
 
 .timeframe.active {
@@ -407,6 +423,17 @@ body {
   border: 0;
   cursor: pointer;
   font: inherit;
+  transition-property: scale, filter, background;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+
+.market-badge:hover {
+  filter: brightness(1.08);
+}
+
+.market-badge:active {
+  scale: 0.96;
 }
 
 .company-info-grid {
@@ -526,7 +553,9 @@ body {
   border: 0;
   cursor: pointer;
   font: inherit;
-  transition: all 150ms ease;
+  transition-property: scale, filter, background;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
 }
 
 .tiny-action.ghost {
@@ -535,6 +564,10 @@ body {
 
 .tiny-action:hover {
   filter: brightness(1.08);
+}
+
+.tiny-action:active {
+  scale: 0.96;
 }
 
 .watchlist-head {
@@ -567,12 +600,18 @@ body {
   padding: 8px 14px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.035);
   cursor: pointer;
-  transition: background 140ms ease;
+  transition-property: background, box-shadow, scale;
+  transition-duration: 140ms;
+  transition-timing-function: ease-out;
 }
 
 .watchlist-row:hover,
 .watchlist-row.menu-open {
   background: rgba(255, 255, 255, 0.025);
+}
+
+.watchlist-row:active {
+  scale: 0.99;
 }
 
 .watchlist-row.active {
@@ -606,6 +645,7 @@ body {
 .watchlist-change {
   font: 600 13px/1.15 var(--font-body);
   text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .watchlist-price {
@@ -658,6 +698,7 @@ body {
 .footer-index strong {
   color: var(--text-main);
   font-size: 13px;
+  font-variant-numeric: tabular-nums;
 }
 
 .footer-index em {
@@ -721,16 +762,36 @@ body {
   backdrop-filter: blur(18px);
   padding: 6px;
   animation: context-menu-in 0.1s ease-out;
+  transform-origin: top left;
+}
+
+.context-menu.is-closing {
+  animation: context-menu-out 0.15s ease-in forwards;
 }
 
 @keyframes context-menu-in {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.95) translateY(-4px);
+    filter: blur(2px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes context-menu-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.97) translateY(-4px);
+    filter: blur(2px);
   }
 }
 
@@ -752,11 +813,17 @@ body {
   cursor: pointer;
   width: 100%;
   text-align: left;
-  transition: background 140ms ease, color 140ms ease;
+  transition-property: background, color, scale;
+  transition-duration: 140ms;
+  transition-timing-function: ease-out;
 }
 
 .context-menu-item:hover {
   background: rgba(255, 255, 255, 0.06);
+}
+
+.context-menu-item:active {
+  scale: 0.96;
 }
 
 .context-menu-item.danger {

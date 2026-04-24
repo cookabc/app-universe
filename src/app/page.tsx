@@ -526,37 +526,37 @@ export default function Home() {
             <div className="company-info-grid">
               <div className="company-info-item">
                 <span className="company-info-label">最新价</span>
-                <span className="company-info-value">
+                <span className="company-info-value tabular-nums">
                   {stockInfo.close ? stockInfo.close.toFixed(2) : "--"}
                 </span>
               </div>
               <div className="company-info-item">
                 <span className="company-info-label">涨跌幅</span>
-                <span className={`company-info-value ${chartChangeTone}`}>
+                <span className={`company-info-value tabular-nums ${chartChangeTone}`}>
                   {formatPercent(chartSnapshot.changePercent)}
                 </span>
               </div>
               <div className="company-info-item">
                 <span className="company-info-label">开盘</span>
-                <span className="company-info-value">
+                <span className="company-info-value tabular-nums">
                   {stockInfo.open ? stockInfo.open.toFixed(2) : "--"}
                 </span>
               </div>
               <div className="company-info-item">
                 <span className="company-info-label">最高</span>
-                <span className="company-info-value">
+                <span className="company-info-value tabular-nums">
                   {stockInfo.high ? stockInfo.high.toFixed(2) : "--"}
                 </span>
               </div>
               <div className="company-info-item">
                 <span className="company-info-label">最低</span>
-                <span className="company-info-value">
+                <span className="company-info-value tabular-nums">
                   {stockInfo.low ? stockInfo.low.toFixed(2) : "--"}
                 </span>
               </div>
               <div className="company-info-item">
                 <span className="company-info-label">昨收</span>
-                <span className="company-info-value">
+                <span className="company-info-value tabular-nums">
                   {stockInfo.close && chartSnapshot.changePercent
                     ? (stockInfo.close * (1 - (chartSnapshot.changePercent / 100))).toFixed(2)
                     : "--"}
@@ -564,25 +564,25 @@ export default function Home() {
               </div>
               <div className="company-info-item">
                 <span className="company-info-label">成交量</span>
-                <span className="company-info-value">
+                <span className="company-info-value tabular-nums">
                   {formatLargeNumber(stockInfo.volume)}
                 </span>
               </div>
               <div className="company-info-item">
                 <span className="company-info-label">市值</span>
-                <span className="company-info-value">
+                <span className="company-info-value tabular-nums">
                   {formatLargeNumber(stockInfo.marketCap)}
                 </span>
               </div>
               <div className="company-info-item">
                 <span className="company-info-label">市盈率</span>
-                <span className="company-info-value">
+                <span className="company-info-value tabular-nums">
                   {formatStatValue(stockInfo.pe)}
                 </span>
               </div>
               <div className="company-info-item">
                 <span className="company-info-label">每股收益</span>
-                <span className="company-info-value">
+                <span className="company-info-value tabular-nums">
                   {formatStatValue(stockInfo.eps)}
                 </span>
               </div>
@@ -597,7 +597,7 @@ export default function Home() {
           {Object.values(indices).map((index) => (
             <article key={index.symbol} className="footer-index">
               <span>{index.name}</span>
-              <strong>{index.price ? index.price.toFixed(2) : "--"}</strong>
+              <strong className="tabular-nums">{index.price ? index.price.toFixed(2) : "--"}</strong>
               <em className={getTrendClass(index.changePercent)}>
                 {index.change >= 0 ? "+" : ""}
                 {index.change ? index.change.toFixed(2) : "0.00"} (
