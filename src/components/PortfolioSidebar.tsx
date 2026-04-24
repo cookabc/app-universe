@@ -1,0 +1,419 @@
+"use client";
+
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import ContextMenu from "./ContextMenu";
+
+interface TreeNode {
+  dentryId: number;
+  inodeId: number;
+  parentId: number | null;
+  name: string;
+  type: "folder" | "stock" | "markdown";
+  symbol?: string;
+  ticker?: string;
+  description?: string;
+  children?: TreeNode[];
+}
+
+interface QuoteData {
+  latestPrice: number | null;
+  changePercent: number | null;
+  trend: "up" | "down";
+}
+
+interface ContextMenuState {
+  visible: boolean;
+  x: number;
+  y: number;
+  node: TreeNode | null;
+  targetType: "folder" | "stock" | null;
+}
+
+interface PortfolioSidebarProps {
+  selectedStockDentryId?: number | null;
+  onSelectStock: (node: TreeNode) => void;
+}
+
+const quotePollingIntervalMs = 5000;
+
+function formatPrice(value: number | null): string {
+  return value != null && Number.isFinite(value) ? value.toFixed(3) : "--";
+}
+
+function formatPercent(value: number | null): string {
+  if (value == null || !Number.isFinite(value)) return "--";
+  const sign = value > 0 ? "+" : "";
+  return `${sign}${value.toFixed(2)}%`;
+}
+
+function toneOf(value: number | null): "up" | "down" {
+  return value != null && Number.isFinite(value) && value < 0 ? "down" : "up";
+}
+
+function flattenStocks(nodes: TreeNode[]): TreeNode[] {
+  const result: TreeNode[] = [];
+  for (const node of nodes) {
+    if (node.type === "stock" && node.symbol) {
+      result.push(node);
+    }
+    if (node.children?.length) {
+      result.push(...flattenStocks(node.children));
+    }
+  }
+  return result;
+}
+
+export default function PortfolioSidebar({
+  selectedStockDentryId,
+  onSelectStock,
+}: PortfolioSidebarProps) {
+  const [treeState, setTreeState] = useState<{
+    status: "loading" | "ready" | "error";
+    roots: TreeNode[];
+    error: string;
+  }>({
+    status: "loading",
+    roots: [],
+    error: "",
+  });
+
+  const [quoteSnapshots, setQuoteSnapshots] = useState<Record<string, QuoteData>>({});
+  const [contextMenu, setContextMenu] = useState<ContextMenuState>({
+    visible: false,
+    x: 0,
+    y: 0,
+    node: null,
+    targetType: null,
+  });
+
+  const loadTree = useCallback(async () => {
+    setTreeState((current) => ({
+      ...current,
+      status: current.status === "ready" ? "ready" : "loading",
+      error: "",
+    }));
+    try {
+      const response = await fetch("/api/portfolio/tree");
+      if (!response.ok) {
+        throw new Error(`Request failed: ${response.status}`);
+      }
+      const roots = await response.json();
+      setTreeState({
+        status: "ready",
+        roots: Array.isArray(roots) ? roots : [],
+        error: "",
+      });
+    } catch (error) {
+      console.error("[PortfolioSidebar] load tree failed", error);
+      setTreeState({
+        status: "error",
+        roots: [],
+        error: (error as Error).message || "加载自选树失败。",
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    loadTree();
+  }, [loadTree]);
+
+  // Get all stock symbols for quote polling
+  const allStocks = useMemo(() => flattenStocks(treeState.roots), [treeState.roots]);
+  const allSymbols = useMemo(
+    () => allStocks.map((s) => s.symbol).filter(Boolean) as string[],
+    [allStocks]
+  );
+
+  // Quote polling for all stocks
+  useEffect(() => {
+    if (!allSymbols.length) return undefined;
+    let cancelled = false;
+
+    async function loadQuotes() {
+      try {
+        const response = await fetch(`/api/quote?symbols=${allSymbols.join(",")}`);
+        if (!response.ok) {
+          throw new Error(`Request failed: ${response.status}`);
+        }
+        const quoteData = await response.json();
+
+        if (cancelled) return;
+        const entries = Object.entries(quoteData).map(([symbol, data]: [string, any]) => {
+          const latestPrice = data?.latestPrice ?? null;
+          const changePercent = data?.changePercent ?? null;
+          return [
+            symbol,
+            {
+              latestPrice: Number.isFinite(latestPrice) ? latestPrice : null,
+              changePercent: Number.isFinite(changePercent) ? changePercent : null,
+              trend: toneOf(changePercent),
+            } as QuoteData,
+          ];
+        });
+        setQuoteSnapshots((current) => ({
+          ...current,
+          ...Object.fromEntries(entries),
+        }));
+      } catch (error) {
+        console.error("Failed to load quotes:", error);
+      }
+    }
+
+    loadQuotes();
+    const timerId = window.setInterval(loadQuotes, quotePollingIntervalMs);
+    return () => {
+      cancelled = true;
+      window.clearInterval(timerId);
+    };
+  }, [allSymbols.join(",")]);
+
+  // Context menu handler
+  function handleContextMenu(node: TreeNode, e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    setContextMenu({
+      visible: true,
+      x: e.clientX,
+      y: e.clientY,
+      node: node,
+      targetType: node.type === "folder" ? "folder" : node.type === "stock" ? "stock" : null,
+    });
+  }
+
+  function handleCloseContextMenu() {
+    setContextMenu({ visible: false, x: 0, y: 0, node: null, targetType: null });
+  }
+
+  function handleAddFolder() {
+    console.log("Add folder to", contextMenu.node?.name || "root");
+    handleCloseContextMenu();
+  }
+
+  function handleAddStock() {
+    console.log("Add stock to", contextMenu.node?.name || "root");
+    handleCloseContextMenu();
+  }
+
+  function handleRename() {
+    console.log("Rename", contextMenu.node?.name);
+    handleCloseContextMenu();
+  }
+
+  function handleDelete() {
+    console.log("Delete", contextMenu.node?.name);
+    handleCloseContextMenu();
+  }
+
+  const totalStockCount = allStocks.length;
+
+  return (
+    <aside className="watchlist-panel">
+      <div className="watchlist-table">
+        {/* Header */}
+        <div className="panel-title-row">
+          <div>
+            <p className="panel-kicker">Portfolio</p>
+            <h1>自选树</h1>
+          </div>
+          <div className="panel-title-actions">
+            <button
+              type="button"
+              className="tiny-action ghost"
+              onClick={() => loadTree()}
+              title="刷新"
+            >
+              ↻
+            </button>
+          </div>
+        </div>
+
+        {/* Column Headers */}
+        <div className="watchlist-head">
+          <span>名称</span>
+          <span>价格</span>
+          <span>涨跌幅</span>
+        </div>
+
+        {/* Rows */}
+        <div className="watchlist-rows">
+          {treeState.status === "loading" ? (
+            <div className="p-4 text-center" style={{ color: "var(--text-dim)" }}>
+              加载中...
+            </div>
+          ) : treeState.status === "error" ? (
+            <div className="p-4 text-center" style={{ color: "var(--text-dim)" }}>
+              <strong style={{ color: "var(--text-main)", display: "block", marginBottom: "0.5rem" }}>
+                加载失败
+              </strong>
+              <span>{treeState.error}</span>
+              <button
+                type="button"
+                className="tiny-action ghost mt-2"
+                onClick={() => loadTree()}
+              >
+                重试
+              </button>
+            </div>
+          ) : treeState.roots.length === 0 ? (
+            <div className="p-4 text-center" style={{ color: "var(--text-dim)" }}>
+              <strong style={{ color: "var(--text-main)", display: "block", marginBottom: "0.5rem" }}>
+                还没有任何节点
+              </strong>
+              <span>请添加股票或文件夹。</span>
+            </div>
+          ) : (
+            <WatchlistRows
+              nodes={treeState.roots}
+              selectedDentryId={selectedStockDentryId}
+              onSelectStock={onSelectStock}
+              quoteSnapshots={quoteSnapshots}
+              onContextMenu={handleContextMenu}
+            />
+          )}
+        </div>
+
+        {/* Footnote */}
+        <p className="watchlist-footnote">
+          股票总数 {totalStockCount}
+        </p>
+      </div>
+
+      {contextMenu.visible && (
+        <ContextMenu
+          x={contextMenu.x}
+          y={contextMenu.y}
+          nodeType={contextMenu.targetType}
+          onAddFolder={handleAddFolder}
+          onAddStock={handleAddStock}
+          onRename={handleRename}
+          onDelete={handleDelete}
+          onClose={handleCloseContextMenu}
+        />
+      )}
+    </aside>
+  );
+}
+
+function WatchlistRows({
+  nodes,
+  selectedDentryId,
+  onSelectStock,
+  quoteSnapshots,
+  onContextMenu,
+  depth = 0,
+}: {
+  nodes: TreeNode[];
+  selectedDentryId?: number | null;
+  onSelectStock: (node: TreeNode) => void;
+  quoteSnapshots: Record<string, QuoteData>;
+  onContextMenu: (node: TreeNode, e: React.MouseEvent) => void;
+  depth?: number;
+}) {
+  const [expanded, setExpanded] = useState<Set<number>>(new Set());
+
+  // Auto-expand first level folders
+  useEffect(() => {
+    if (depth === 0) {
+      const firstFolders = nodes.filter((n) => n.type === "folder");
+      if (firstFolders.length > 0 && expanded.size === 0) {
+        setExpanded(new Set(firstFolders.map((n) => n.dentryId)));
+      }
+    }
+  }, [nodes, depth, expanded.size]);
+
+  function toggleExpand(dentryId: number, e: React.MouseEvent) {
+    e.stopPropagation();
+    setExpanded((current) => {
+      const next = new Set(current);
+      if (next.has(dentryId)) next.delete(dentryId);
+      else next.add(dentryId);
+      return next;
+    });
+  }
+
+  // Sort: folders first, then stocks
+  const sortedNodes = useMemo(() => {
+    return [...nodes].sort((a, b) => {
+      const aFolder = a.type === "folder" ? 0 : 1;
+      const bFolder = b.type === "folder" ? 0 : 1;
+      if (aFolder !== bFolder) return aFolder - bFolder;
+      return 0;
+    });
+  }, [nodes]);
+
+  return (
+    <>
+      {sortedNodes.map((node) => {
+        const isFolder = node.type === "folder";
+        const isStock = node.type === "stock";
+        const isExpanded = expanded.has(node.dentryId);
+        const isSelected = selectedDentryId === node.dentryId;
+        const quote = isStock && node.symbol ? quoteSnapshots[node.symbol] : null;
+        const hasChildren = (node.children?.length ?? 0) > 0;
+
+        if (isFolder && hasChildren) {
+          return (
+            <div key={node.dentryId}>
+              {/* Folder Header Row */}
+              <div
+                className="watchlist-row"
+                style={{
+                  paddingLeft: `${14 + depth * 12}px`,
+                  cursor: "pointer",
+                }}
+                onClick={(e) => toggleExpand(node.dentryId, e)}
+                onContextMenu={(e) => onContextMenu(node, e)}
+              >
+                <div className="watchlist-name" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                  <span style={{ fontSize: "10px", color: "var(--text-dim)" }}>
+                    {isExpanded ? "▾" : "▸"}
+                  </span>
+                  <strong>{node.name}</strong>
+                </div>
+                <span></span>
+                <span></span>
+              </div>
+
+              {/* Folder Children */}
+              {isExpanded && (
+                <WatchlistRows
+                  nodes={node.children || []}
+                  selectedDentryId={selectedDentryId}
+                  onSelectStock={onSelectStock}
+                  quoteSnapshots={quoteSnapshots}
+                  onContextMenu={onContextMenu}
+                  depth={depth + 1}
+                />
+              )}
+            </div>
+          );
+        }
+
+        // Stock row
+        return (
+          <div
+            key={node.dentryId}
+            className={`watchlist-row ${isSelected ? "active" : ""}`}
+            style={{
+              paddingLeft: `${14 + depth * 12}px`,
+            }}
+            onClick={() => isStock && onSelectStock(node)}
+            onContextMenu={(e) => onContextMenu(node, e)}
+            data-portfolio-symbol={node.symbol}
+          >
+            <div className="watchlist-name">
+              <strong>{node.ticker || node.symbol || "--"}</strong>
+              <span>{node.name || node.description || ""}</span>
+            </div>
+            <span className="watchlist-price">
+              {quote ? formatPrice(quote.latestPrice) : "--"}
+            </span>
+            <span className={`watchlist-change ${quote ? toneOf(quote.changePercent) : ""}`}>
+              {quote ? formatPercent(quote.changePercent) : "--"}
+            </span>
+          </div>
+        );
+      })}
+    </>
+  );
+}
