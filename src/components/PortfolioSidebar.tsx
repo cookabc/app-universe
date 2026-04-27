@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ContextMenu from "./ContextMenu";
 
 interface TreeNode {
@@ -12,6 +12,8 @@ interface TreeNode {
   symbol?: string;
   ticker?: string;
   description?: string;
+  exchange?: string;
+  stockType?: string;
   children?: TreeNode[];
 }
 
@@ -35,6 +37,20 @@ interface PortfolioSidebarProps {
 }
 
 const quotePollingIntervalMs = 5000;
+
+// 分类板块数据
+const categories = [
+  { id: "my", name: "我的自选", icon: "📌" },
+  { id: "etf", name: "ETF", icon: "📊" },
+  { id: "us", name: "美股", icon: "🇺🇸" },
+  { id: "hk", name: "港股", icon: "🇭🇰" },
+  { id: "cn", name: "A股", icon: "🇨🇳" },
+  { id: "crypto", name: "数字资产", icon: "💰" },
+  { id: "l2", name: "L2策略基金", icon: "📈" },
+  { id: "quantum", name: "量子", icon: "⚡" },
+  { id: "blockchain", name: "区块链", icon: "🔗" },
+  { id: "tech", name: "科技股票基本面", icon: "💻" },
+];
 
 function formatPrice(value: number | null): string {
   return value != null && Number.isFinite(value) ? value.toFixed(3) : "--";
@@ -67,6 +83,8 @@ export default function PortfolioSidebar({
   selectedStockDentryId,
   onSelectStock,
 }: PortfolioSidebarProps) {
+  const [activeTab, setActiveTab] = useState<"watchlist" | "monitor">("watchlist");
+  const [activeCategory, setActiveCategory] = useState<string>("my");
   const [treeState, setTreeState] = useState<{
     status: "loading" | "ready" | "error";
     roots: TreeNode[];
@@ -77,7 +95,9 @@ export default function PortfolioSidebar({
     error: "",
   });
 
-  const [quoteSnapshots, setQuoteSnapshots] = useState<Record<string, QuoteData>>({});
+  const [quoteSnapshots, setQuoteSnapshots] = useState<
+    Record<string, QuoteData>
+  >({});
   const [contextMenu, setContextMenu] = useState<ContextMenuState>({
     visible: false,
     x: 0,
@@ -118,10 +138,13 @@ export default function PortfolioSidebar({
   }, [loadTree]);
 
   // Get all stock symbols for quote polling
-  const allStocks = useMemo(() => flattenStocks(treeState.roots), [treeState.roots]);
+  const allStocks = useMemo(
+    () => flattenStocks(treeState.roots),
+    [treeState.roots],
+  );
   const allSymbols = useMemo(
     () => allStocks.map((s) => s.symbol).filter(Boolean) as string[],
-    [allStocks]
+    [allStocks],
   );
 
   // Quote polling for all stocks
@@ -131,31 +154,37 @@ export default function PortfolioSidebar({
 
     async function loadQuotes() {
       try {
-        const response = await fetch(`/api/quote?symbols=${allSymbols.join(",")}`);
+        const response = await fetch(
+          `/api/quote?symbols=${allSymbols.join(",")}`,
+        );
         if (!response.ok) {
           throw new Error(`Request failed: ${response.status}`);
         }
         const quoteData = await response.json();
 
         if (cancelled) return;
-        const entries = Object.entries(quoteData).map(([symbol, data]: [string, any]) => {
-          const latestPrice = data?.latestPrice ?? null;
-          const changePercent = data?.changePercent ?? null;
-          return [
-            symbol,
-            {
-              latestPrice: Number.isFinite(latestPrice) ? latestPrice : null,
-              changePercent: Number.isFinite(changePercent) ? changePercent : null,
-              trend: toneOf(changePercent),
-            } as QuoteData,
-          ];
-        });
+        const entries = Object.entries(quoteData).map(
+          ([symbol, data]: [string, any]) => {
+            const latestPrice = data?.latestPrice ?? null;
+            const changePercent = data?.changePercent ?? null;
+            return [
+              symbol,
+              {
+                latestPrice: Number.isFinite(latestPrice) ? latestPrice : null,
+                changePercent: Number.isFinite(changePercent)
+                  ? changePercent
+                  : null,
+                trend: toneOf(changePercent),
+              } as QuoteData,
+            ];
+          },
+        );
         setQuoteSnapshots((current) => ({
           ...current,
           ...Object.fromEntries(entries),
         }));
       } catch (error) {
-        console.error("Failed to load quotes:", error);
+        console.error("Failed to load quotes", error);
       }
     }
 
@@ -176,12 +205,23 @@ export default function PortfolioSidebar({
       x: e.clientX,
       y: e.clientY,
       node: node,
-      targetType: node.type === "folder" ? "folder" : node.type === "stock" ? "stock" : null,
+      targetType:
+        node.type === "folder"
+          ? "folder"
+          : node.type === "stock"
+            ? "stock"
+            : null,
     });
   }
 
   function handleCloseContextMenu() {
-    setContextMenu({ visible: false, x: 0, y: 0, node: null, targetType: null });
+    setContextMenu({
+      visible: false,
+      x: 0,
+      y: 0,
+      node: null,
+      targetType: null,
+    });
   }
 
   function handleAddFolder() {
@@ -209,6 +249,37 @@ export default function PortfolioSidebar({
   return (
     <aside className="watchlist-panel">
       <div className="watchlist-table">
+        {/* 标签页 */}
+        <div className="sidebar-tabs">
+          <button
+            className={`sidebar-tab ${activeTab === "watchlist" ? "active" : ""}`}
+            onClick={() => setActiveTab("watchlist")}
+          >
+            自选
+          </button>
+          <button
+            className={`sidebar-tab ${activeTab === "monitor" ? "active" : ""}`}
+            onClick={() => setActiveTab("monitor")}
+          >
+            监控
+          </button>
+        </div>
+
+        {/* 分类板块 */}
+        <div className="sidebar-categories">
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              className={`category-item ${activeCategory === category.id ? "active" : ""}`}
+              onClick={() => setActiveCategory(category.id)}
+              title={category.name}
+            >
+              <span className="category-icon">{category.icon}</span>
+              <span className="category-name">{category.name}</span>
+            </button>
+          ))}
+        </div>
+
         {/* Header */}
         <div className="panel-title-row">
           <div>
@@ -237,12 +308,24 @@ export default function PortfolioSidebar({
         {/* Rows */}
         <div className="watchlist-rows">
           {treeState.status === "loading" ? (
-            <div className="p-4 text-center" style={{ color: "var(--text-dim)" }}>
+            <div
+              className="p-4 text-center"
+              style={{ color: "var(--text-dim)" }}
+            >
               加载中...
             </div>
           ) : treeState.status === "error" ? (
-            <div className="p-4 text-center" style={{ color: "var(--text-dim)" }}>
-              <strong style={{ color: "var(--text-main)", display: "block", marginBottom: "0.5rem" }}>
+            <div
+              className="p-4 text-center"
+              style={{ color: "var(--text-dim)" }}
+            >
+              <strong
+                style={{
+                  color: "var(--text-main)",
+                  display: "block",
+                  marginBottom: "0.5rem",
+                }}
+              >
                 加载失败
               </strong>
               <span>{treeState.error}</span>
@@ -255,8 +338,17 @@ export default function PortfolioSidebar({
               </button>
             </div>
           ) : treeState.roots.length === 0 ? (
-            <div className="p-4 text-center" style={{ color: "var(--text-dim)" }}>
-              <strong style={{ color: "var(--text-main)", display: "block", marginBottom: "0.5rem" }}>
+            <div
+              className="p-4 text-center"
+              style={{ color: "var(--text-dim)" }}
+            >
+              <strong
+                style={{
+                  color: "var(--text-main)",
+                  display: "block",
+                  marginBottom: "0.5rem",
+                }}
+              >
                 还没有任何节点
               </strong>
               <span>请添加股票或文件夹。</span>
@@ -273,9 +365,7 @@ export default function PortfolioSidebar({
         </div>
 
         {/* Footnote */}
-        <p className="watchlist-footnote">
-          股票总数 {totalStockCount}
-        </p>
+        <p className="watchlist-footnote">股票总数 {totalStockCount}</p>
       </div>
 
       {contextMenu.visible && (
@@ -348,7 +438,8 @@ function WatchlistRows({
         const isStock = node.type === "stock";
         const isExpanded = expanded.has(node.dentryId);
         const isSelected = selectedDentryId === node.dentryId;
-        const quote = isStock && node.symbol ? quoteSnapshots[node.symbol] : null;
+        const quote =
+          isStock && node.symbol ? quoteSnapshots[node.symbol] : null;
         const hasChildren = (node.children?.length ?? 0) > 0;
 
         if (isFolder && hasChildren) {
@@ -364,7 +455,10 @@ function WatchlistRows({
                 onClick={(e) => toggleExpand(node.dentryId, e)}
                 onContextMenu={(e) => onContextMenu(node, e)}
               >
-                <div className="watchlist-name" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <div
+                  className="watchlist-name"
+                  style={{ display: "flex", alignItems: "center", gap: "6px" }}
+                >
                   <span style={{ fontSize: "10px", color: "var(--text-dim)" }}>
                     {isExpanded ? "▾" : "▸"}
                   </span>
@@ -408,7 +502,9 @@ function WatchlistRows({
             <span className="watchlist-price">
               {quote ? formatPrice(quote.latestPrice) : "--"}
             </span>
-            <span className={`watchlist-change ${quote ? toneOf(quote.changePercent) : ""}`}>
+            <span
+              className={`watchlist-change ${quote ? toneOf(quote.changePercent) : ""}`}
+            >
               {quote ? formatPercent(quote.changePercent) : "--"}
             </span>
           </div>
