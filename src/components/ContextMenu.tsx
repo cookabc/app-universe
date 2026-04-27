@@ -76,14 +76,20 @@ export default function ContextMenu({
       <div className="context-menu-section">
         <button
           className="context-menu-item"
-          onClick={() => { onAddFolder(); handleClose(); }}
+          onClick={() => {
+            onAddFolder();
+            handleClose();
+          }}
         >
           <span className="context-menu-icon">📁</span>
           <span className="context-menu-label">新建文件夹</span>
         </button>
         <button
           className="context-menu-item"
-          onClick={() => { onAddStock(); handleClose(); }}
+          onClick={() => {
+            onAddStock();
+            handleClose();
+          }}
         >
           <span className="context-menu-icon">📈</span>
           <span className="context-menu-label">添加股票</span>
@@ -96,14 +102,20 @@ export default function ContextMenu({
           <div className="context-menu-section">
             <button
               className="context-menu-item"
-              onClick={() => { onRename(); handleClose(); }}
+              onClick={() => {
+                onRename();
+                handleClose();
+              }}
             >
               <span className="context-menu-icon">✏️</span>
               <span className="context-menu-label">重命名</span>
             </button>
             <button
               className="context-menu-item danger"
-              onClick={() => { onDelete(); handleClose(); }}
+              onClick={() => {
+                onDelete();
+                handleClose();
+              }}
             >
               <span className="context-menu-icon">🗑️</span>
               <span className="context-menu-label">删除</span>
