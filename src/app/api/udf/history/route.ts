@@ -11,18 +11,15 @@ export async function GET(request: NextRequest) {
   const countback = parseInt(searchParams.get("countback") || "0", 10);
 
   if (!symbol) {
-    return NextResponse.json(
-      { error: "Symbol is required" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Symbol is required" }, { status: 400 });
   }
 
   try {
     let bars;
-    
+
     // Check if mock data is enabled
     const useMock = isMockEnabled();
-    
+
     if (useMock) {
       bars = getMockHistory(symbol, resolution, from, to);
     } else {
@@ -50,7 +47,7 @@ export async function GET(request: NextRequest) {
     console.error("History API error:", error);
     return NextResponse.json(
       { s: "error", errmsg: "Failed to fetch history data" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

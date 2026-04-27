@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const SYMBOLS_DB: Record<string, any> = {
-  "AAPL": {
+  AAPL: {
     name: "AAPL",
     ticker: "AAPL",
     full_name: "NASDAQ:AAPL",
@@ -16,9 +16,19 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
-  "GOOGL": {
+  GOOGL: {
     name: "GOOGL",
     ticker: "GOOGL",
     full_name: "NASDAQ:GOOGL",
@@ -33,9 +43,19 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
-  "MSFT": {
+  MSFT: {
     name: "MSFT",
     ticker: "MSFT",
     full_name: "NASDAQ:MSFT",
@@ -50,9 +70,19 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
-  "SPY": {
+  SPY: {
     name: "SPY",
     ticker: "SPY",
     full_name: "ARCA:SPY",
@@ -67,9 +97,19 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
-  "QQQ": {
+  QQQ: {
     name: "QQQ",
     ticker: "QQQ",
     full_name: "NASDAQ:QQQ",
@@ -84,9 +124,19 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
-  "NVDA": {
+  NVDA: {
     name: "NVDA",
     ticker: "NVDA",
     full_name: "NASDAQ:NVDA",
@@ -101,9 +151,19 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
-  "AMD": {
+  AMD: {
     name: "AMD",
     ticker: "AMD",
     full_name: "NASDAQ:AMD",
@@ -118,9 +178,19 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
-  "MU": {
+  MU: {
     name: "MU",
     ticker: "MU",
     full_name: "NASDAQ:MU",
@@ -135,9 +205,19 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
-  "ASML": {
+  ASML: {
     name: "ASML",
     ticker: "ASML",
     full_name: "NASDAQ:ASML",
@@ -152,9 +232,19 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
-  "META": {
+  META: {
     name: "META",
     ticker: "META",
     full_name: "NASDAQ:META",
@@ -169,9 +259,19 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
-  "AMZN": {
+  AMZN: {
     name: "AMZN",
     ticker: "AMZN",
     full_name: "NASDAQ:AMZN",
@@ -186,9 +286,19 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
-  "TSLA": {
+  TSLA: {
     name: "TSLA",
     ticker: "TSLA",
     full_name: "NASDAQ:TSLA",
@@ -203,9 +313,19 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
-  "MARA": {
+  MARA: {
     name: "MARA",
     ticker: "MARA",
     full_name: "NASDAQ:MARA",
@@ -220,9 +340,19 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
-  "RIOT": {
+  RIOT: {
     name: "RIOT",
     ticker: "RIOT",
     full_name: "NASDAQ:RIOT",
@@ -237,7 +367,17 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
   "BTC-USD": {
     name: "BTC-USD",
@@ -254,7 +394,17 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
   "ETH-USD": {
     name: "ETH-USD",
@@ -271,7 +421,17 @@ const SYMBOLS_DB: Record<string, any> = {
     minmov: 1,
     pricescale: 100,
     has_intraday: true,
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   },
   "^DJI": {
     name: "^DJI",
@@ -338,7 +498,7 @@ export async function GET(request: NextRequest) {
   }
 
   const symbolData = SYMBOLS_DB[symbol.toUpperCase()];
-  
+
   if (!symbolData) {
     // 如果找不到，返回一个默认结构
     return NextResponse.json({
@@ -356,7 +516,17 @@ export async function GET(request: NextRequest) {
       minmov: 1,
       pricescale: 100,
       has_intraday: true,
-      supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+      supported_resolutions: [
+        "1",
+        "5",
+        "15",
+        "30",
+        "60",
+        "240",
+        "1D",
+        "1W",
+        "1M",
+      ],
     });
   }
 
