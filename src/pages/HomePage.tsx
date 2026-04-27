@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSkills, useSearch } from "../hooks/useSkills";
 import HeroSection from "../components/Home/HeroSection";
 import SearchBar from "../components/Home/SearchBar";
@@ -43,6 +43,11 @@ export default function HomePage() {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("all");
   const { tweaks, setTweak } = useTweaks();
+
+  useEffect(() => {
+    applyTweaks(tweaks);
+  }, [tweaks]);
+
   const filtered = useSearch(skills, q, cat);
   const activeCategoryKeys = [...new Set(skills.map((s) => s.category.key))];
 

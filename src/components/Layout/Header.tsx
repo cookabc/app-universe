@@ -5,7 +5,7 @@ const headerStyles = {
     position: "sticky" as const,
     top: 0,
     zIndex: 100,
-    background: "rgba(15, 15, 14, .82)",
+    background: "color-mix(in srgb, var(--bg-primary) 82%, transparent)",
     backdropFilter: "blur(16px) saturate(1.2)",
     WebkitBackdropFilter: "blur(16px) saturate(1.2)",
     borderBottom: "1px solid var(--border-soft)",
