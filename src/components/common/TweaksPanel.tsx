@@ -15,6 +15,16 @@ interface TweakGroup {
 
 const GROUPS: TweakGroup[] = [
   {
+    key: "theme",
+    label: "Theme",
+    type: "select",
+    options: [
+      { label: "Dark", value: "dark" },
+      { label: "Light", value: "light" },
+    ],
+    default: "dark",
+  },
+  {
     key: "density",
     label: "Card Density",
     type: "select",
@@ -241,6 +251,7 @@ const panelStyles = {
 };
 
 export interface TweaksState {
+  theme: string;
   density: string;
   accent: string;
   radius: string;
@@ -249,10 +260,11 @@ export interface TweaksState {
 
 export function useTweaks() {
   const [state, setState] = useState<TweaksState>({
-    density: GROUPS[0].default as string,
-    accent: GROUPS[1].default as string,
-    radius: GROUPS[2].default as string,
-    animations: GROUPS[3].default as boolean,
+    theme: GROUPS[0].default as string,
+    density: GROUPS[1].default as string,
+    accent: GROUPS[2].default as string,
+    radius: GROUPS[3].default as string,
+    animations: GROUPS[4].default as boolean,
   });
 
   const set = useCallback((key: keyof TweaksState, val: string | boolean) => {
@@ -264,6 +276,13 @@ export function useTweaks() {
 
 export function applyTweaks(tweaks: TweaksState): void {
   const root = document.documentElement;
+
+  // Theme
+  if (tweaks.theme === "light") {
+    root.setAttribute("data-theme", "light");
+  } else {
+    root.removeAttribute("data-theme");
+  }
 
   if (tweaks.accent && ACCENT_MAP[tweaks.accent]) {
     const a = ACCENT_MAP[tweaks.accent];
