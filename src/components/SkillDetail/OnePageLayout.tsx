@@ -31,7 +31,7 @@ export default function OnePageLayout({ skill }: Props) {
         </div>
         <h2
           style={{
-            fontFamily: "var(--font-serif)",
+            fontFamily: "var(--font-display)",
             fontSize: "clamp(22px, 3vw, 28px)",
             fontWeight: 500,
             lineHeight: 1.2,
@@ -44,7 +44,7 @@ export default function OnePageLayout({ skill }: Props) {
         </h2>
         <p
           style={{
-            fontFamily: "var(--font-serif)",
+            fontFamily: "var(--font-display)",
             fontSize: "15px",
             lineHeight: 1.5,
             color: "var(--text-secondary)",
@@ -116,7 +116,7 @@ export default function OnePageLayout({ skill }: Props) {
           </div>
           <h3
             style={{
-              fontFamily: "var(--font-serif)",
+              fontFamily: "var(--font-display)",
               fontSize: "18px",
               fontWeight: 500,
               lineHeight: 1.25,
@@ -210,7 +210,7 @@ export default function OnePageLayout({ skill }: Props) {
           </div>
           <h3
             style={{
-              fontFamily: "var(--font-serif)",
+              fontFamily: "var(--font-display)",
               fontSize: "18px",
               fontWeight: 500,
               lineHeight: 1.25,

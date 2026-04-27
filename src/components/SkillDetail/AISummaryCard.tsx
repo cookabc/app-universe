@@ -17,14 +17,14 @@ export default function AISummaryCard({ skill }: Props) {
       style={{
         borderRadius: "var(--radius-md)",
         background: "var(--bg-card)",
-        border: "0.5px solid var(--border-cream)",
+        border: "0.5px solid var(--border-soft)",
         padding: "18px 20px",
         marginBottom: "24px",
         maxWidth: "65ch",
         margin: "0 auto 24px",
         borderRadius: "8px",
-        background: "var(--ivory)",
-        boxShadow: "var(--shadow-whisper)",
+        background: "var(--bg-surface)",
+        boxShadow: "var(--shadow-sm)",
         opacity: 1,
         transform: "translateY(0)",
         transition: "opacity .4s ease .1s, transform .4s ease .1s",
@@ -59,7 +59,7 @@ export default function AISummaryCard({ skill }: Props) {
             style={{
               marginTop: "6px",
               fontSize: "11px",
-              color: "var(--stone)",
+              color: "var(--text-muted)",
               fontVariantNumeric: "tabular-nums",
             }}
           >
