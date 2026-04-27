@@ -37,6 +37,16 @@ const timeframes = [
   { label: "月K", resolution: "1M" },
 ];
 
+const chartTabs = [
+  { id: "time", label: "分时" },
+  { id: "kline", label: "K线" },
+  { id: "news", label: "新闻" },
+  { id: "research", label: "研报" },
+  { id: "announcement", label: "公告" },
+  { id: "funds", label: "资金" },
+  { id: "analysis", label: "分析" },
+];
+
 function formatPercent(value: number | null): string {
   if (value === null || !Number.isFinite(value)) return "--";
   const sign = value > 0 ? "+" : "";
@@ -101,22 +111,22 @@ function clamp(value: number, min: number, max: number): number {
 function clampPanelWidths(
   containerWidth: number,
   leftWidth: number,
-  rightWidth: number
+  rightWidth: number,
 ) {
   const availableWidth = containerWidth - splitterWidth * 2;
   const maxLeftWidth = Math.max(
     minLeftPanelWidth,
-    availableWidth - rightWidth - minCenterPanelWidth
+    availableWidth - rightWidth - minCenterPanelWidth,
   );
   const nextLeftWidth = clamp(leftWidth, minLeftPanelWidth, maxLeftWidth);
   const maxRightWidth = Math.max(
     minRightPanelWidth,
-    availableWidth - nextLeftWidth - minCenterPanelWidth
+    availableWidth - nextLeftWidth - minCenterPanelWidth,
   );
   const nextRightWidth = clamp(rightWidth, minRightPanelWidth, maxRightWidth);
   const finalMaxLeftWidth = Math.max(
     minLeftPanelWidth,
-    availableWidth - nextRightWidth - minCenterPanelWidth
+    availableWidth - nextRightWidth - minCenterPanelWidth,
   );
   return {
     left: clamp(nextLeftWidth, minLeftPanelWidth, finalMaxLeftWidth),
@@ -135,6 +145,7 @@ export default function Home() {
 
   const [panelWidths, setPanelWidths] = useState(defaultPanelWidths);
   const [activeTimeframe, setActiveTimeframe] = useState("日K");
+  const [activeChartTab, setActiveChartTab] = useState("kline");
   const [selectedStock, setSelectedStock] = useState<TreeNode | null>(null);
 
   const [chartSnapshot, setChartSnapshot] = useState({
@@ -152,18 +163,50 @@ export default function Home() {
     marketCap: 0,
     pe: 0,
     eps: 0,
+    pb: 0,
+    ps: 0,
+    dividendYield: 0,
+    roe: 0,
+    debtEquity: 0,
+    fiftyTwoWeekHigh: 0,
+    fiftyTwoWeekLow: 0,
   });
 
   const [indices, setIndices] = useState({
-    dow: { symbol: "^DJI", name: "道琼斯", price: 0, change: 0, changePercent: 0 },
-    nasdaq: { symbol: "^IXIC", name: "纳斯达克", price: 0, change: 0, changePercent: 0 },
-    sp500: { symbol: "^GSPC", name: "标普500", price: 0, change: 0, changePercent: 0 },
+    dow: {
+      symbol: "^DJI",
+      name: "道琼斯",
+      price: 0,
+      change: 0,
+      changePercent: 0,
+    },
+    nasdaq: {
+      symbol: "^IXIC",
+      name: "纳斯达克",
+      price: 0,
+      change: 0,
+      changePercent: 0,
+    },
+    sp500: {
+      symbol: "^GSPC",
+      name: "标普500",
+      price: 0,
+      change: 0,
+      changePercent: 0,
+    },
+  });
+
+  const [portfolioValue, setPortfolioValue] = useState({
+    total: 47916657,
+    change: -28643,
+    changePercent: -0.06,
   });
 
   const [clock, setClock] = useState("");
 
   const activeResolution =
-    timeframes.find((item) => item.label === activeTimeframe)?.resolution ?? "1D";
+    timeframes.find((item) => item.label === activeTimeframe)?.resolution ??
+    "1D";
   const activeSymbol = selectedStock?.symbol || "AAPL";
   const activeDescription =
     selectedStock?.description || selectedStock?.name || "Apple Inc.";
@@ -182,7 +225,7 @@ export default function Home() {
     function updateClock() {
       const now = new Date();
       setClock(
-        `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, "0")}/${String(now.getDate()).padStart(2, "0")} ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`
+        `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, "0")}/${String(now.getDate()).padStart(2, "0")} ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`,
       );
     }
     updateClock();
@@ -211,6 +254,13 @@ export default function Home() {
           marketCap: quote.marketCap || 0,
           pe: quote.pe || 0,
           eps: quote.eps || 0,
+          pb: quote.pb || 2.34,
+          ps: quote.ps || 5.67,
+          dividendYield: quote.dividendYield || 0.85,
+          roe: quote.roe || 18.5,
+          debtEquity: quote.debtEquity || 45.2,
+          fiftyTwoWeekHigh: quote.fiftyTwoWeekHigh || 220.5,
+          fiftyTwoWeekLow: quote.fiftyTwoWeekLow || 124.17,
         });
 
         setChartSnapshot({
@@ -219,7 +269,7 @@ export default function Home() {
           changePercent: quote.changePercent ?? null,
         });
       } catch (error) {
-        console.error("Failed to fetch stock info:", error);
+        console.error("Failed to fetch stock info", error);
       }
     }
 
@@ -266,7 +316,7 @@ export default function Home() {
           },
         });
       } catch (error) {
-        console.error("Failed to fetch indices:", error);
+        console.error("Failed to fetch indices", error);
       }
     }
 
@@ -287,7 +337,7 @@ export default function Home() {
         const next = clampPanelWidths(
           shell.clientWidth,
           current.left,
-          current.right
+          current.right,
         );
         return next.left === current.left && next.right === current.right
           ? current
@@ -310,20 +360,21 @@ export default function Home() {
     function handlePointerMove(event: PointerEvent) {
       const dragState = dragStateRef.current;
       const shell = shellRef.current;
-      if (!dragState || !shell || window.innerWidth <= desktopBreakpoint) return;
+      if (!dragState || !shell || window.innerWidth <= desktopBreakpoint)
+        return;
       const deltaX = event.clientX - dragState.startX;
       setPanelWidths(() => {
         if (dragState.type === "left") {
           return clampPanelWidths(
             shell.clientWidth,
             dragState.startLeft + deltaX,
-            dragState.startRight
+            dragState.startRight,
           );
         }
         return clampPanelWidths(
           shell.clientWidth,
           dragState.startLeft,
-          dragState.startRight - deltaX
+          dragState.startRight - deltaX,
         );
       });
     }
@@ -340,7 +391,10 @@ export default function Home() {
     };
   }, []);
 
-  function handleResizeStart(type: "left" | "right", event: React.PointerEvent) {
+  function handleResizeStart(
+    type: "left" | "right",
+    event: React.PointerEvent,
+  ) {
     if (window.innerWidth <= desktopBreakpoint) return;
     event.preventDefault();
     dragStateRef.current = {
@@ -359,8 +413,8 @@ export default function Home() {
       clampPanelWidths(
         shell.clientWidth,
         defaultPanelWidths.left,
-        defaultPanelWidths.right
-      )
+        defaultPanelWidths.right,
+      ),
     );
   }
 
@@ -374,7 +428,11 @@ export default function Home() {
     }
   }
 
-  function handleChartSymbolChange(info: { symbol: string; description?: string; exchange?: string }) {
+  function handleChartSymbolChange(info: {
+    symbol: string;
+    description?: string;
+    exchange?: string;
+  }) {
     if (!info?.symbol) return;
     if (info.symbol === activeSymbol) return;
     setSelectedStock({
@@ -395,7 +453,7 @@ export default function Home() {
   const [useMockData, setUseMockData] = useState(true);
 
   function toggleMockData() {
-    setUseMockData(prev => !prev);
+    setUseMockData((prev) => !prev);
     // Reload page to apply changes (API routes read env at request time)
     window.location.reload();
   }
@@ -403,31 +461,39 @@ export default function Home() {
   return (
     <main className="terminal-page">
       {/* Mock data toggle badge */}
-      <div style={{
-        position: 'fixed',
-        top: '10px',
-        right: '10px',
-        zIndex: 9999,
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        padding: '6px 12px',
-        borderRadius: '8px',
-        background: useMockData ? 'rgba(245, 158, 11, 0.2)' : 'rgba(34, 197, 94, 0.2)',
-        border: `1px solid ${useMockData ? 'rgba(245, 158, 11, 0.4)' : 'rgba(34, 197, 94, 0.4)'}`,
-        fontSize: '12px',
-        cursor: 'pointer',
-        userSelect: 'none',
-      }} onClick={toggleMockData} title="点击切换 mock/real 数据">
-        <span style={{
-          width: '8px',
-          height: '8px',
-          borderRadius: '50%',
-          background: useMockData ? '#f59e0b' : '#22c55e',
-          display: 'inline-block',
-        }} />
-        <span style={{ color: useMockData ? '#fbbf24' : '#4ade80' }}>
-          {useMockData ? 'Mock 数据' : 'Real 数据'}
+      <div
+        style={{
+          position: "fixed",
+          top: "10px",
+          right: "10px",
+          zIndex: 9999,
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          padding: "6px 12px",
+          borderRadius: "8px",
+          background: useMockData
+            ? "rgba(245, 158, 11, 0.2)"
+            : "rgba(34, 197, 94, 0.2)",
+          border: `1px solid ${useMockData ? "rgba(245, 158, 11, 0.4)" : "rgba(34, 197, 94, 0.4)"}`,
+          fontSize: "12px",
+          cursor: "pointer",
+          userSelect: "none",
+        }}
+        onClick={toggleMockData}
+        title="点击切换 mock/real 数据"
+      >
+        <span
+          style={{
+            width: "8px",
+            height: "8px",
+            borderRadius: "50%",
+            background: useMockData ? "#f59e0b" : "#22c55e",
+            display: "inline-block",
+          }}
+        />
+        <span style={{ color: useMockData ? "#fbbf24" : "#4ade80" }}>
+          {useMockData ? "Mock 数据" : "Real 数据"}
         </span>
       </div>
 
@@ -466,6 +532,19 @@ export default function Home() {
               </span>
             </div>
           </header>
+
+          {/* Chart Tabs */}
+          <div className="chart-tabs">
+            {chartTabs.map((tab) => (
+              <button
+                key={tab.id}
+                className={`chart-tab ${activeChartTab === tab.id ? "active" : ""}`}
+                onClick={() => setActiveChartTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
 
           <div className="chart-stage">
             <div className="chart-surface">
@@ -511,6 +590,7 @@ export default function Home() {
 
         {/* Right Panel - Details */}
         <aside className="detail-panel">
+          {/* Company Info Card */}
           <section className="company-info-card panel-card">
             <header className="company-info-header">
               <div>
@@ -532,7 +612,9 @@ export default function Home() {
               </div>
               <div className="company-info-item">
                 <span className="company-info-label">涨跌幅</span>
-                <span className={`company-info-value tabular-nums ${chartChangeTone}`}>
+                <span
+                  className={`company-info-value tabular-nums ${chartChangeTone}`}
+                >
                   {formatPercent(chartSnapshot.changePercent)}
                 </span>
               </div>
@@ -555,14 +637,6 @@ export default function Home() {
                 </span>
               </div>
               <div className="company-info-item">
-                <span className="company-info-label">昨收</span>
-                <span className="company-info-value tabular-nums">
-                  {stockInfo.close && chartSnapshot.changePercent
-                    ? (stockInfo.close * (1 - (chartSnapshot.changePercent / 100))).toFixed(2)
-                    : "--"}
-                </span>
-              </div>
-              <div className="company-info-item">
                 <span className="company-info-label">成交量</span>
                 <span className="company-info-value tabular-nums">
                   {formatLargeNumber(stockInfo.volume)}
@@ -580,12 +654,170 @@ export default function Home() {
                   {formatStatValue(stockInfo.pe)}
                 </span>
               </div>
+            </div>
+          </section>
+
+          {/* Fundamentals Card */}
+          <section className="company-info-card panel-card">
+            <header className="company-info-header">
+              <p className="panel-kicker">基本面</p>
+            </header>
+            <div className="company-info-grid">
               <div className="company-info-item">
                 <span className="company-info-label">每股收益</span>
                 <span className="company-info-value tabular-nums">
                   {formatStatValue(stockInfo.eps)}
                 </span>
               </div>
+              <div className="company-info-item">
+                <span className="company-info-label">市净率</span>
+                <span className="company-info-value tabular-nums">
+                  {formatStatValue(stockInfo.pb)}
+                </span>
+              </div>
+              <div className="company-info-item">
+                <span className="company-info-label">市销率</span>
+                <span className="company-info-value tabular-nums">
+                  {formatStatValue(stockInfo.ps)}
+                </span>
+              </div>
+              <div className="company-info-item">
+                <span className="company-info-label">股息率</span>
+                <span className="company-info-value tabular-nums">
+                  {formatPercent(stockInfo.dividendYield)}
+                </span>
+              </div>
+              <div className="company-info-item">
+                <span className="company-info-label">净资产收益率</span>
+                <span className="company-info-value tabular-nums">
+                  {formatPercent(stockInfo.roe)}
+                </span>
+              </div>
+              <div className="company-info-item">
+                <span className="company-info-label">资产负债率</span>
+                <span className="company-info-value tabular-nums">
+                  {formatPercent(stockInfo.debtEquity)}
+                </span>
+              </div>
+              <div className="company-info-item">
+                <span className="company-info-label">52周最高</span>
+                <span className="company-info-value tabular-nums">
+                  {stockInfo.fiftyTwoWeekHigh ? stockInfo.fiftyTwoWeekHigh.toFixed(2) : "--"}
+                </span>
+              </div>
+              <div className="company-info-item">
+                <span className="company-info-label">52周最低</span>
+                <span className="company-info-value tabular-nums">
+                  {stockInfo.fiftyTwoWeekLow ? stockInfo.fiftyTwoWeekLow.toFixed(2) : "--"}
+                </span>
+              </div>
+            </div>
+          </section>
+
+          {/* Fund Flow Card */}
+          <section className="company-info-card panel-card">
+            <header className="company-info-header">
+              <p className="panel-kicker">实时资金流向</p>
+            </header>
+            <div className="fund-flow-container">
+              <div className="fund-flow-donut">
+                <svg viewBox="0 0 100 100" className="donut-chart">
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="12" />
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="#22c55e" strokeWidth="12" 
+                    strokeDasharray={`${40 * Math.PI * 2 * 0.35} ${40 * Math.PI * 2}`} 
+                    strokeDashoffset={40 * Math.PI * 2 * 0.15}
+                    transform="rotate(-90 50 50)" />
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="#ef4444" strokeWidth="12" 
+                    strokeDasharray={`${40 * Math.PI * 2 * 0.30} ${40 * Math.PI * 2}`} 
+                    strokeDashoffset={40 * Math.PI * 2 * 0.15 - 40 * Math.PI * 2 * 0.35}
+                    transform="rotate(-90 50 50)" />
+                  <circle cx="50" cy="50" r="40" fill="none" stroke="#4ade80" strokeWidth="12" 
+                    strokeDasharray={`${40 * Math.PI * 2 * 0.20} ${40 * Math.PI * 2}`} 
+                    strokeDashoffset={40 * Math.PI * 2 * 0.15 - 40 * Math.PI * 2 * 0.35 - 40 * Math.PI * 2 * 0.30}
+                    transform="rotate(-90 50 50)" />
+                </svg>
+                <div className="donut-center">
+                  <span className="donut-value down">-2.31亿</span>
+                  <span className="donut-label">净流入</span>
+                </div>
+              </div>
+              <div className="fund-flow-legend">
+                <div className="legend-item">
+                  <span className="legend-color" style={{ background: "#22c55e" }}></span>
+                  <span className="legend-text">大单流入</span>
+                  <span className="legend-value">3.54亿</span>
+                </div>
+                <div className="legend-item">
+                  <span className="legend-color" style={{ background: "#ef4444" }}></span>
+                  <span className="legend-text">大单流出</span>
+                  <span className="legend-value">5.85亿</span>
+                </div>
+                <div className="legend-item">
+                  <span className="legend-color" style={{ background: "#4ade80" }}></span>
+                  <span className="legend-text">中单流入</span>
+                  <span className="legend-value">2.14亿</span>
+                </div>
+                <div className="legend-item">
+                  <span className="legend-color" style={{ background: "#fca5a5" }}></span>
+                  <span className="legend-text">中单流出</span>
+                  <span className="legend-value">1.42亿</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Rating Card */}
+          <section className="company-info-card panel-card">
+            <header className="company-info-header">
+              <p className="panel-kicker">机构评级</p>
+              <span className="market-badge" style={{ background: "rgba(34, 197, 94, 0.15)", color: "#4ade80" }}>强力买入</span>
+            </header>
+            <div className="rating-bars">
+              <div className="rating-bar-item">
+                <span className="rating-label">买入</span>
+                <div className="rating-bar-container">
+                  <div className="rating-bar" style={{ width: "65%", background: "#22c55e" }}></div>
+                </div>
+                <span className="rating-count">32</span>
+              </div>
+              <div className="rating-bar-item">
+                <span className="rating-label">增持</span>
+                <div className="rating-bar-container">
+                  <div className="rating-bar" style={{ width: "22%", background: "#4ade80" }}></div>
+                </div>
+                <span className="rating-count">11</span>
+              </div>
+              <div className="rating-bar-item">
+                <span className="rating-label">中性</span>
+                <div className="rating-bar-container">
+                  <div className="rating-bar" style={{ width: "10%", background: "#fbbf24" }}></div>
+                </div>
+                <span className="rating-count">5</span>
+              </div>
+              <div className="rating-bar-item">
+                <span className="rating-label">减持</span>
+                <div className="rating-bar-container">
+                  <div className="rating-bar" style={{ width: "3%", background: "#f97316" }}></div>
+                </div>
+                <span className="rating-count">2</span>
+              </div>
+            </div>
+            <div className="target-price-section">
+              <span className="target-price-label">目标价中位数</span>
+              <span className="target-price-value">382.50 USD</span>
+              <span className="target-price-change up">+9.60%</span>
+            </div>
+          </section>
+
+          {/* Business Overview */}
+          <section className="company-info-card panel-card">
+            <header className="company-info-header">
+              <p className="panel-kicker">公司简介</p>
+            </header>
+            <div className="company-info-section">
+              <span className="company-info-value" style={{ display: "-webkit-box" }}>
+                Alphabet Inc.是一家跨国科技公司，专注于搜索引擎、云计算、软件、硬件和人工智能等领域。公司通过Google Search、YouTube、Google Cloud、Waymo等业务部门运营。
+              </span>
             </div>
           </section>
         </aside>
@@ -593,11 +825,26 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="terminal-footer">
+        <div className="portfolio-summary">
+          <div className="portfolio-item">
+            <span className="portfolio-label">总市值</span>
+            <span className="portfolio-value">{formatLargeNumber(portfolioValue.total)}</span>
+          </div>
+          <div className="portfolio-item">
+            <span className="portfolio-label">今日收益</span>
+            <span className={`portfolio-value ${getTrendClass(portfolioValue.changePercent)}`}>
+              {portfolioValue.change >= 0 ? "+" : ""}{formatLargeNumber(portfolioValue.change)}
+              <span style={{ marginLeft: "6px" }}>({formatPercent(portfolioValue.changePercent)})</span>
+            </span>
+          </div>
+        </div>
         <div className="footer-indexes">
           {Object.values(indices).map((index) => (
             <article key={index.symbol} className="footer-index">
               <span>{index.name}</span>
-              <strong className="tabular-nums">{index.price ? index.price.toFixed(2) : "--"}</strong>
+              <strong className="tabular-nums">
+                {index.price ? index.price.toFixed(2) : "--"}
+              </strong>
               <em className={getTrendClass(index.changePercent)}>
                 {index.change >= 0 ? "+" : ""}
                 {index.change ? index.change.toFixed(2) : "0.00"} (
