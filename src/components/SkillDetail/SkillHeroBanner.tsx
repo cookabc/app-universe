@@ -5,6 +5,117 @@ interface Props {
   skill: SkillData;
 }
 
+const bannerStyles = {
+  article: {
+    marginBottom: "40px",
+    paddingBottom: "32px",
+    borderBottom: "1px solid var(--border-soft)",
+  },
+  metaRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    marginBottom: "20px",
+    flexWrap: "wrap" as const,
+  },
+  categoryTag: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "6px",
+    padding: "4px 12px",
+    borderRadius: "var(--radius-full)",
+    background: "var(--brand-soft)",
+    color: "var(--brand)",
+    fontSize: "11px",
+    fontWeight: 600,
+    letterSpacing: "0.5px",
+    textTransform: "uppercase" as const,
+    fontFamily: "var(--font-sans)",
+  },
+  categoryDot: {
+    width: "6px",
+    height: "6px",
+    borderRadius: "50%",
+    background: "var(--brand)",
+  },
+  badge: {
+    padding: "4px 10px",
+    borderRadius: "var(--radius-xs)",
+    background: "var(--bg-elevated)",
+    fontSize: "10px",
+    fontWeight: 600,
+    color: "var(--text-muted)",
+    letterSpacing: "0.4px",
+    textTransform: "uppercase" as const,
+    fontFamily: "var(--font-mono)",
+  },
+  title: {
+    fontFamily: "var(--font-display)",
+    fontSize: "clamp(32px, 5vw, 48px)",
+    fontWeight: 400,
+    lineHeight: 1.1,
+    color: "var(--text-primary)",
+    marginBottom: "16px",
+    textWrap: "balance" as const,
+    letterSpacing: "-0.025em",
+  },
+  description: {
+    fontFamily: "var(--font-sans)",
+    fontSize: "16px",
+    fontWeight: 400,
+    lineHeight: 1.6,
+    color: "var(--text-secondary)",
+    maxWidth: "58ch",
+    marginTop: "0",
+    marginBottom: "28px",
+    textWrap: "pretty" as const,
+  },
+  metricsRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    flexWrap: "wrap" as const,
+  },
+  metricPill: {
+    display: "inline-flex",
+    alignItems: "baseline",
+    gap: "5px",
+    padding: "8px 14px",
+    borderRadius: "var(--radius-full)",
+    background: "var(--bg-surface)",
+    border: "1px solid var(--border)",
+  },
+  metricValue: {
+    fontFamily: "var(--font-sans)",
+    fontSize: "15px",
+    fontWeight: 600,
+    color: "var(--text-primary)",
+    fontVariantNumeric: "tabular-nums" as const,
+  },
+  metricLabel: {
+    fontSize: "10px",
+    color: "var(--text-muted)",
+    textTransform: "uppercase" as const,
+    letterSpacing: "0.5px",
+    fontWeight: 500,
+  },
+  copyBtn: {
+    marginLeft: "auto",
+    padding: "8px 18px",
+    borderRadius: "var(--radius-full)",
+    border: "1px solid var(--border-strong)",
+    background: "transparent",
+    color: "var(--text-secondary)",
+    fontSize: "12px",
+    fontWeight: 600,
+    fontFamily: "var(--font-sans)",
+    cursor: "pointer",
+    transition:
+      "background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out)",
+    letterSpacing: "0.2px",
+  },
+};
+
 export default function SkillHeroBanner({ skill }: Props) {
   const [copied, setCopied] = useState(false);
   const cat = skill.category;
@@ -18,175 +129,59 @@ export default function SkillHeroBanner({ skill }: Props) {
   };
 
   return (
-    <article
-      style={{
-        marginBottom: "36px",
-        paddingBottom: "28px",
-        borderBottom: "3px double var(--border)",
-        opacity: 1,
-        transform: "translateY(0)",
-        transition: "opacity .3s ease, transform .3s ease",
-      }}
-    >
-      {/* Top row: category tag + layout badge */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          marginBottom: "16px",
-          flexWrap: "wrap",
-        }}
-      >
-        {/* Category - kami tag solid hex */}
+    <article style={bannerStyles.article}>
+      <div style={bannerStyles.metaRow}>
         <span
           style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "4px",
-            padding: "3px 10px",
-            borderRadius: "2px",
-            background: "var(--brand)",
-            color: "white",
-            fontSize: "9px",
-            fontWeight: 600,
-            letterSpacing: "0.6px",
-            textTransform: "uppercase",
-            fontFamily: "var(--font-sans)",
+            ...bannerStyles.categoryTag,
+            color: `var(--cat-${cat.key})`,
+            background: `color-mix(in srgb, var(--cat-${cat.key}) 10%, transparent)`,
           }}
         >
-          {cat.icon} {cat.label}
+          <span
+            style={{
+              ...bannerStyles.categoryDot,
+              background: `var(--cat-${cat.key})`,
+            }}
+          />
+          {cat.label}
         </span>
-
-        {/* Layout type indicator */}
-        <span
-          style={{
-            padding: "2px 8px",
-            borderRadius: "2px",
-            background: "var(--tag-bg-light)",
-            fontSize: "9px",
-            fontWeight: 600,
-            color: "var(--olive)",
-            letterSpacing: "0.4px",
-            textTransform: "uppercase",
-            fontFamily: "var(--font-mono)",
-          }}
-        >
-          {skill.stats.complexityLabel}
-        </span>
+        <span style={bannerStyles.badge}>{skill.stats.complexityLabel}</span>
       </div>
 
-      {/* Title — H1 Section size */}
-      <h1
-        style={{
-          fontFamily: "var(--font-serif)",
-          fontSize: "clamp(28px, 5vw, 40px)",
-          fontWeight: 500,
-          lineHeight: 1.15,
-          color: "var(--text-primary)",
-          marginBottom: "12px",
-          textWrap: "balance",
-          letterSpacing: "-0.01em",
-        }}
-      >
-        {skill.name}
-      </h1>
+      <h1 style={bannerStyles.title}>{skill.name}</h1>
 
-      {/* Description — Quote block: olive + 2pt brand left */}
-      <p
-        style={{
-          fontFamily: "var(--font-serif)",
-          fontSize: "16px",
-          fontWeight: 400,
-          lineHeight: 1.5,
-          color: "var(--olive)",
-          maxWidth: "55ch",
-          marginTop: "14px",
-          marginBottom: "24px",
-          textWrap: "pretty",
-          borderLeft: "2px solid var(--brand)",
-          paddingLeft: "12px",
-          marginLeft: "2px",
-        }}
-      >
+      <p style={bannerStyles.description}>
         {skill.description || "No description available."}
       </p>
 
-      {/* Metric cards row + copy button */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "14px",
-          flexWrap: "wrap",
-        }}
-      >
-        {/* Metric cards */}
+      <div style={bannerStyles.metricsRow}>
         {[
           [String(skill.stats.lineCount), "Lines"],
           [String(skill.fileInfo.totalFiles), "Files"],
           [skill.stats.readTime, "Read"],
         ].map(([value, label], i) => (
-          <div
-            key={i}
-            style={{
-              display: "flex",
-              alignItems: "baseline",
-              gap: "5px",
-              padding: "7px 14px",
-              borderRadius: "6px",
-              background: "var(--ivory)",
-              border: "0.5px solid var(--border-cream)",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "17px",
-                fontWeight: 500,
-                color: "var(--brand)",
-                fontVariantNumeric: "tabular-nums",
-                lineHeight: 1.15,
-              }}
-            >
-              {value}
-            </span>
-            <span
-              style={{
-                fontSize: "10px",
-                color: "var(--olive)",
-                fontFamily: "var(--font-sans)",
-                fontWeight: 500,
-              }}
-            >
-              {label}
-            </span>
+          <div key={i} style={bannerStyles.metricPill}>
+            <span style={bannerStyles.metricValue}>{value}</span>
+            <span style={bannerStyles.metricLabel}>{label}</span>
           </div>
         ))}
 
-        {/* Copy button — kami Secondary button style */}
         {skill.installCommand && (
           <button
             onClick={handleCopy}
             style={{
-              marginLeft: "auto",
-              padding: "7px 16px",
-              borderRadius: "8px",
-              border: "none",
-              background: copied ? "var(--tag-bg-default)" : "var(--warm-sand)",
-              color: copied ? "var(--brand)" : "var(--charcoal)",
-              fontSize: "11px",
-              fontWeight: 600,
-              fontFamily: "var(--font-sans)",
-              cursor: "pointer",
-              boxShadow: copied ? "var(--shadow-ring)" : "var(--shadow-ring)",
-              transition:
-                "background .15s ease, color .15s ease, box-shadow .15s ease, transform .15s ease",
-              letterSpacing: "0.3px",
-              textTransform: "uppercase",
+              ...bannerStyles.copyBtn,
+              ...(copied
+                ? {
+                    background: "var(--brand-soft)",
+                    color: "var(--brand)",
+                    borderColor: `color-mix(in srgb, var(--brand) 30%, transparent)`,
+                  }
+                : {}),
             }}
             onMouseDown={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "scale(0.98)";
+              (e.currentTarget as HTMLElement).style.transform = "scale(0.97)";
             }}
             onMouseUp={(e) => {
               (e.currentTarget as HTMLElement).style.transform = "scale(1)";
@@ -195,7 +190,7 @@ export default function SkillHeroBanner({ skill }: Props) {
               (e.currentTarget as HTMLElement).style.transform = "scale(1)";
             }}
           >
-            {copied ? "✓ Copied" : "Copy Install"}
+            {copied ? "Copied" : "Copy Install Cmd"}
           </button>
         )}
       </div>

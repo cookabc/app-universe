@@ -20,7 +20,8 @@ export default function UnifiedLayout({ skill }: Props) {
 
   const scrollToPreview = () => {
     const el = document.getElementById("preview-section");
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (el) el.scrollTop = 0; // or window.scrollTo for parent
+    el?.scrollIntoView?.({ behavior: "smooth", block: "start" });
   };
 
   const anchorItems = useMemo(() => {
@@ -32,7 +33,10 @@ export default function UnifiedLayout({ skill }: Props) {
       if (match) {
         const title = match[2].trim();
         items.push({
-          id: `${title.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-")}-${i}`,
+          id: `${title
+            .toLowerCase()
+            .replace(/[^\w\s-]/g, "")
+            .replace(/\s+/g, "-")}-${i}`,
           title,
           level: 2,
         });
@@ -47,7 +51,9 @@ export default function UnifiedLayout({ skill }: Props) {
   }, [anchorItems.length]);
 
   return (
-    <div style={{ maxWidth: "72ch", margin: "0 auto", padding: "24px 20px 60px" }}>
+    <div
+      style={{ maxWidth: "72ch", margin: "0 auto", padding: "24px 20px 60px" }}
+    >
       {showAnchorNav && (
         <nav
           style={{
@@ -55,7 +61,7 @@ export default function UnifiedLayout({ skill }: Props) {
             top: 0,
             zIndex: 100,
             background: "var(--bg-primary)",
-            borderBottom: "0.5px solid var(--border-warm)",
+            borderBottom: "1px solid var(--border-soft)",
             padding: "8px 4px",
             marginBottom: 16,
             display: "flex",
@@ -73,29 +79,31 @@ export default function UnifiedLayout({ skill }: Props) {
               onClick={(e) => {
                 e.preventDefault();
                 const el = document.getElementById(item.id);
-                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                if (el)
+                  el.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
               style={{
                 whiteSpace: "nowrap",
                 fontSize: 10,
                 fontWeight: 500,
-                color: "var(--text-secondary)",
+                color: "var(--text-muted)",
                 fontFamily: "var(--font-sans)",
                 textTransform: "uppercase" as const,
                 letterSpacing: "0.5px",
                 padding: "4px 10px",
-                borderRadius: 3,
+                borderRadius: "var(--radius-xs)",
                 textDecoration: "none",
-                transition: "all .15s ease",
+                transition:
+                  "color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out)",
                 borderLeft: "2px solid transparent",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = "var(--brand)";
                 e.currentTarget.style.borderLeftColor = "var(--brand)";
-                e.currentTarget.style.background = "var(--tag-bg-light)";
+                e.currentTarget.style.background = "var(--brand-subtle)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.color = "var(--text-secondary)";
+                e.currentTarget.style.color = "var(--text-muted)";
                 e.currentTarget.style.borderLeftColor = "transparent";
                 e.currentTarget.style.background = "transparent";
               }}
@@ -106,12 +114,20 @@ export default function UnifiedLayout({ skill }: Props) {
         </nav>
       )}
 
-      <header style={{ marginBottom: 28, paddingBottom: 20, ...header.borderStyle }}>
+      <header
+        style={{ marginBottom: 28, paddingBottom: 20, ...header.borderStyle }}
+      >
         <div style={{ ...header.badge, marginBottom: 10 }}>
-          {skill.category.icon} {skill.category.label}
+          {skill.category.label}
         </div>
 
-        <h1 style={{ ...header.h1, marginBottom: 12, textWrap: "balance" as const }}>
+        <h1
+          style={{
+            ...header.h1,
+            marginBottom: 12,
+            textWrap: "balance" as const,
+          }}
+        >
           {skill.name}
         </h1>
 
@@ -119,9 +135,6 @@ export default function UnifiedLayout({ skill }: Props) {
           style={{
             ...header.desc,
             maxWidth: "55ch",
-            borderLeft: "2px solid var(--brand)",
-            paddingLeft: 12,
-            marginLeft: 4,
           }}
         >
           {skill.description}
@@ -129,34 +142,40 @@ export default function UnifiedLayout({ skill }: Props) {
 
         <div style={metaSummary.container}>
           <span style={metaSummary.item}>
-            ⏱ <span style={metaSummary.itemValue}>{skill.stats.readTime}</span>
+            <span style={metaSummary.itemValue}>{skill.stats.readTime}</span>
           </span>
-          <span style={metaSummary.separator}>·</span>
+          <span style={metaSummary.separator}>/</span>
           <span style={metaSummary.item}>
-            <span style={metaSummary.itemValue}>{skill.stats.lineCount}</span> lines
+            <span style={metaSummary.itemValue}>{skill.stats.lineCount}</span>{" "}
+            lines
           </span>
-          <span style={metaSummary.separator}>·</span>
+          <span style={metaSummary.separator}>/</span>
           <span style={metaSummary.item}>
-            <span style={metaSummary.itemValue}>{skill.stats.sectionCount}</span> sections
+            <span style={metaSummary.itemValue}>
+              {skill.stats.sectionCount}
+            </span>{" "}
+            sections
           </span>
-          <span style={metaSummary.separator}>·</span>
+          <span style={metaSummary.separator}>/</span>
           <span style={metaSummary.item}>
-            <span style={metaSummary.itemValue}>{skill.stats.complexityLabel}</span>
+            <span style={metaSummary.itemValue}>
+              {skill.stats.complexityLabel}
+            </span>
           </span>
         </div>
 
         <div style={cta.group}>
           <button style={cta.primary} onClick={scrollToPreview}>
-            ✦ 查看示例
+            View Preview
           </button>
           <button style={cta.secondary}>
-            📋 {skill.keyFeatures.length} Features
+            {skill.keyFeatures.length} Features
           </button>
         </div>
       </header>
 
       <section id="preview-section" style={preview.card}>
-        <div style={preview.label}>✦ Generated Output Preview</div>
+        <div style={preview.label}>Generated Output Preview</div>
         <SkillPreview skill={skill} />
       </section>
 
