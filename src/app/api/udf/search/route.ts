@@ -4,13 +4,43 @@ import { NextRequest, NextResponse } from "next/server";
 const ALL_SYMBOLS = [
   { symbol: "AAPL", name: "Apple Inc.", exchange: "NASDAQ", type: "stock" },
   { symbol: "GOOGL", name: "Alphabet Inc.", exchange: "NASDAQ", type: "stock" },
-  { symbol: "MSFT", name: "Microsoft Corporation", exchange: "NASDAQ", type: "stock" },
-  { symbol: "AMZN", name: "Amazon.com Inc.", exchange: "NASDAQ", type: "stock" },
+  {
+    symbol: "MSFT",
+    name: "Microsoft Corporation",
+    exchange: "NASDAQ",
+    type: "stock",
+  },
+  {
+    symbol: "AMZN",
+    name: "Amazon.com Inc.",
+    exchange: "NASDAQ",
+    type: "stock",
+  },
   { symbol: "TSLA", name: "Tesla Inc.", exchange: "NASDAQ", type: "stock" },
-  { symbol: "NVDA", name: "NVIDIA Corporation", exchange: "NASDAQ", type: "stock" },
-  { symbol: "META", name: "Meta Platforms Inc.", exchange: "NASDAQ", type: "stock" },
-  { symbol: "BTCUSDT", name: "Bitcoin/USDT", exchange: "BINANCE", type: "crypto" },
-  { symbol: "ETHUSDT", name: "Ethereum/USDT", exchange: "BINANCE", type: "crypto" },
+  {
+    symbol: "NVDA",
+    name: "NVIDIA Corporation",
+    exchange: "NASDAQ",
+    type: "stock",
+  },
+  {
+    symbol: "META",
+    name: "Meta Platforms Inc.",
+    exchange: "NASDAQ",
+    type: "stock",
+  },
+  {
+    symbol: "BTCUSDT",
+    name: "Bitcoin/USDT",
+    exchange: "BINANCE",
+    type: "crypto",
+  },
+  {
+    symbol: "ETHUSDT",
+    name: "Ethereum/USDT",
+    exchange: "BINANCE",
+    type: "crypto",
+  },
 ];
 
 export async function GET(request: NextRequest) {
@@ -28,7 +58,7 @@ export async function GET(request: NextRequest) {
     results = results.filter(
       (s) =>
         s.symbol.toLowerCase().includes(lowerQuery) ||
-        s.name.toLowerCase().includes(lowerQuery)
+        s.name.toLowerCase().includes(lowerQuery),
     );
   }
 

@@ -1,64 +1,65 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { isMockEnabled, getMockQuotes } from '@/lib/mock-data'
+import { NextRequest, NextResponse } from "next/server";
+import { isMockEnabled, getMockQuotes } from "@/lib/mock-data";
 
-const YF_BASE = 'https://query1.finance.yahoo.com'
+const YF_BASE = "https://query1.finance.yahoo.com";
 
-const cache = new Map<string, { data: unknown; expires: number }>()
-const CACHE_TTL = 5 * 60_000
+const cache = new Map<string, { data: unknown; expires: number }>();
+const CACHE_TTL = 5 * 60_000;
 
 function getYFHeaders() {
   return {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    'Accept': 'application/json',
-    'Accept-Language': 'en-US,en;q=0.9',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Referer': 'https://finance.yahoo.com',
-    'Origin': 'https://finance.yahoo.com',
-    'Connection': 'keep-alive',
-    'Sec-Fetch-Dest': 'empty',
-    'Sec-Fetch-Mode': 'cors',
-    'Sec-Fetch-Site': 'same-site',
-    'Cache-Control': 'no-cache',
-  }
+    "User-Agent":
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    Accept: "application/json",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Encoding": "gzip, deflate, br",
+    Referer: "https://finance.yahoo.com",
+    Origin: "https://finance.yahoo.com",
+    Connection: "keep-alive",
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Site": "same-site",
+    "Cache-Control": "no-cache",
+  };
 }
 
 async function fetchYF(url: string) {
-  const cached = cache.get(url)
+  const cached = cache.get(url);
   if (cached && cached.expires > Date.now()) {
-    return cached.data
+    return cached.data;
   }
 
   try {
     const response = await fetch(url, {
       headers: getYFHeaders(),
-    })
-    if (!response.ok) throw new Error('YF API error: ' + response.status)
-    const data = await response.json() as unknown
-    cache.set(url, { data, expires: Date.now() + CACHE_TTL })
-    return data
+    });
+    if (!response.ok) throw new Error("YF API error: " + response.status);
+    const data = (await response.json()) as unknown;
+    cache.set(url, { data, expires: Date.now() + CACHE_TTL });
+    return data;
   } catch (error) {
-    console.error('fetchYF error for ' + url + ':', error)
-    return null
+    console.error("fetchYF error for " + url + ":", error);
+    return null;
   }
 }
 
 export async function GET(request: NextRequest) {
   try {
-    const url = new URL(request.url)
-    const symbols = url.searchParams.get('symbols')?.split(',') || []
+    const url = new URL(request.url);
+    const symbols = url.searchParams.get("symbols")?.split(",") || [];
 
     if (symbols.length === 0) {
-      return NextResponse.json({}, { status: 200 })
+      return NextResponse.json({}, { status: 200 });
     }
 
-    const useMock = isMockEnabled()
+    const useMock = isMockEnabled();
 
     if (useMock) {
-      const mockQuotes = getMockQuotes(symbols)
-      const quoteMap: Record<string, unknown> = {}
-      
+      const mockQuotes = getMockQuotes(symbols);
+      const quoteMap: Record<string, unknown> = {};
+
       for (const sym of symbols) {
-        const mock = mockQuotes[sym]
+        const mock = mockQuotes[sym];
         if (mock) {
           quoteMap[sym] = {
             symbol: mock.symbol,
@@ -75,7 +76,7 @@ export async function GET(request: NextRequest) {
             low: mock.low || null,
             open: mock.open || null,
             _mock: true,
-          }
+          };
         } else {
           quoteMap[sym] = {
             symbol: sym,
@@ -83,7 +84,7 @@ export async function GET(request: NextRequest) {
             prevClose: null,
             change: null,
             changePercent: null,
-            trend: 'up',
+            trend: "up",
             marketCap: null,
             volume: null,
             pe: null,
@@ -91,34 +92,40 @@ export async function GET(request: NextRequest) {
             high: null,
             low: null,
             open: null,
-          }
+          };
         }
       }
-      
-      return NextResponse.json(quoteMap, { status: 200 })
+
+      return NextResponse.json(quoteMap, { status: 200 });
     }
 
-    const result = await fetchYF(YF_BASE + '/v7/finance/quote?symbols=' + symbols.join(','))
-    const quoteResponse = result as { quoteResponse?: { result?: Array<{
-      symbol: string
-      regularMarketPrice?: number
-      regularMarketPreviousClose?: number
-      marketCap?: number
-      regularMarketVolume?: number
-      trailingPE?: number
-      trailingEps?: number
-      regularMarketDayHigh?: number
-      regularMarketDayLow?: number
-      regularMarketOpen?: number
-    }> } }
-    const quotes = quoteResponse?.quoteResponse?.result || []
+    const result = await fetchYF(
+      YF_BASE + "/v7/finance/quote?symbols=" + symbols.join(","),
+    );
+    const quoteResponse = result as {
+      quoteResponse?: {
+        result?: Array<{
+          symbol: string;
+          regularMarketPrice?: number;
+          regularMarketPreviousClose?: number;
+          marketCap?: number;
+          regularMarketVolume?: number;
+          trailingPE?: number;
+          trailingEps?: number;
+          regularMarketDayHigh?: number;
+          regularMarketDayLow?: number;
+          regularMarketOpen?: number;
+        }>;
+      };
+    };
+    const quotes = quoteResponse?.quoteResponse?.result || [];
 
-    const quoteMap: Record<string, unknown> = {}
+    const quoteMap: Record<string, unknown> = {};
     for (const q of quotes) {
-      const latestPrice = q.regularMarketPrice || 0
-      const prevClose = q.regularMarketPreviousClose || 0
-      const change = latestPrice - prevClose
-      const changePercent = prevClose ? (change / prevClose) * 100 : 0
+      const latestPrice = q.regularMarketPrice || 0;
+      const prevClose = q.regularMarketPreviousClose || 0;
+      const change = latestPrice - prevClose;
+      const changePercent = prevClose ? (change / prevClose) * 100 : 0;
 
       quoteMap[q.symbol] = {
         symbol: q.symbol,
@@ -126,7 +133,7 @@ export async function GET(request: NextRequest) {
         prevClose,
         change,
         changePercent,
-        trend: changePercent >= 0 ? 'up' : 'down',
+        trend: changePercent >= 0 ? "up" : "down",
         marketCap: q.marketCap || null,
         volume: q.regularMarketVolume || null,
         pe: q.trailingPE || null,
@@ -134,7 +141,7 @@ export async function GET(request: NextRequest) {
         high: q.regularMarketDayHigh || null,
         low: q.regularMarketDayLow || null,
         open: q.regularMarketOpen || null,
-      }
+      };
     }
 
     for (const sym of symbols) {
@@ -145,7 +152,7 @@ export async function GET(request: NextRequest) {
           prevClose: null,
           change: null,
           changePercent: null,
-          trend: 'up',
+          trend: "up",
           marketCap: null,
           volume: null,
           pe: null,
@@ -153,13 +160,13 @@ export async function GET(request: NextRequest) {
           high: null,
           low: null,
           open: null,
-        }
+        };
       }
     }
 
-    return NextResponse.json(quoteMap, { status: 200 })
+    return NextResponse.json(quoteMap, { status: 200 });
   } catch (error) {
-    console.error('Error fetching quotes:', error)
-    return NextResponse.json({}, { status: 200 })
+    console.error("Error fetching quotes:", error);
+    return NextResponse.json({}, { status: 200 });
   }
 }

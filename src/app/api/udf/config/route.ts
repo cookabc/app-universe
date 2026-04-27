@@ -16,6 +16,16 @@ export async function GET() {
       { name: "股票", value: "stock" },
       { name: "加密货币", value: "crypto" },
     ],
-    supported_resolutions: ["1", "5", "15", "30", "60", "240", "1D", "1W", "1M"],
+    supported_resolutions: [
+      "1",
+      "5",
+      "15",
+      "30",
+      "60",
+      "240",
+      "1D",
+      "1W",
+      "1M",
+    ],
   });
 }
