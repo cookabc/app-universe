@@ -53,4 +53,16 @@ export interface SkillData {
     samples: string[];
     systemJson?: any;
   };
+
+  type?: "skill" | "collection";
+  sourceUrl?: string;
+  children?: CollectionChild[];
+}
+
+export interface CollectionChild {
+  id: string;
+  name: string;
+  description: string;
+  tag?: string;
+  icon?: string;
 }
