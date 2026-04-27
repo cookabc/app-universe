@@ -1,4 +1,4 @@
-const YF_BASE = 'https://query1.finance.yahoo.com';
+const YF_BASE = "https://query1.finance.yahoo.com";
 
 // Simple in-memory cache to avoid rate limiting
 const cache = new Map<string, { data: any; expires: number }>();
@@ -7,17 +7,18 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 // Common headers to mimic browser request
 function getYFHeaders() {
   return {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    'Accept': 'application/json',
-    'Accept-Language': 'en-US,en;q=0.9',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Referer': 'https://finance.yahoo.com',
-    'Origin': 'https://finance.yahoo.com',
-    'Connection': 'keep-alive',
-    'Sec-Fetch-Dest': 'empty',
-    'Sec-Fetch-Mode': 'cors',
-    'Sec-Fetch-Site': 'same-site',
-    'Cache-Control': 'no-cache',
+    "User-Agent":
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    Accept: "application/json",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Encoding": "gzip, deflate, br",
+    Referer: "https://finance.yahoo.com",
+    Origin: "https://finance.yahoo.com",
+    Connection: "keep-alive",
+    "Sec-Fetch-Dest": "empty",
+    "Sec-Fetch-Mode": "cors",
+    "Sec-Fetch-Site": "same-site",
+    "Cache-Control": "no-cache",
   };
 }
 
@@ -47,7 +48,7 @@ export interface Quote {
   prevClose: number;
   change: number;
   changePercent: number;
-  trend: 'up' | 'down';
+  trend: "up" | "down";
   marketCap?: number;
   volume?: number;
   pe?: number;
@@ -57,10 +58,14 @@ export interface Quote {
   open?: number;
 }
 
-export async function getQuote(symbols: string[]): Promise<Record<string, Quote>> {
+export async function getQuote(
+  symbols: string[],
+): Promise<Record<string, Quote>> {
   if (!symbols.length) return {};
 
-  const result = await fetchYF(YF_BASE + '/v7/finance/quote?symbols=' + symbols.join(','));
+  const result = await fetchYF(
+    YF_BASE + "/v7/finance/quote?symbols=" + symbols.join(","),
+  );
   const quotes = result?.quoteResponse?.result || [];
 
   const quoteMap: Record<string, Quote> = {};
@@ -77,7 +82,7 @@ export async function getQuote(symbols: string[]): Promise<Record<string, Quote>
       prevClose,
       change,
       changePercent,
-      trend: changePercent >= 0 ? 'up' as const : 'down' as const,
+      trend: changePercent >= 0 ? ("up" as const) : ("down" as const),
       marketCap: q.marketCap || undefined,
       volume: q.regularMarketVolume || undefined,
       pe: q.trailingPE || undefined,
@@ -97,7 +102,7 @@ export async function getQuote(symbols: string[]): Promise<Record<string, Quote>
         prevClose: 0,
         change: 0,
         changePercent: 0,
-        trend: 'up' as const,
+        trend: "up" as const,
       };
     }
   }
@@ -118,21 +123,21 @@ export async function getHistory(
   symbol: string,
   resolution: string,
   from: number,
-  to: number
+  to: number,
 ): Promise<HistoryBar[]> {
   const intervalMap: Record<string, string> = {
-    '1': '1m',
-    '5': '5m',
-    '15': '15m',
-    '30': '30m',
-    '60': '1h',
-    '240': '4h',
-    '1D': '1d',
-    '1W': '1wk',
-    '1M': '1mo',
+    "1": "1m",
+    "5": "5m",
+    "15": "15m",
+    "30": "30m",
+    "60": "1h",
+    "240": "4h",
+    "1D": "1d",
+    "1W": "1wk",
+    "1M": "1mo",
   };
 
-  const interval = intervalMap[resolution] || '1d';
+  const interval = intervalMap[resolution] || "1d";
 
   try {
     // Use Yahoo Finance v8 chart API directly
@@ -187,12 +192,17 @@ export async function searchSymbols(query: string, limit: number = 10) {
     const data = await fetchYF(url);
 
     return (data?.quotes || [])
-      .filter((q: any) => q.quoteType === 'EQUITY' || q.quoteType === 'ETF' || q.quoteType === 'CRYPTOCURRENCY')
+      .filter(
+        (q: any) =>
+          q.quoteType === "EQUITY" ||
+          q.quoteType === "ETF" ||
+          q.quoteType === "CRYPTOCURRENCY",
+      )
       .map((q: any) => ({
         symbol: q.symbol,
         name: q.shortname || q.longname || q.symbol,
         exchange: q.exchDisp || q.exchange,
-        type: q.quoteType === 'CRYPTOCURRENCY' ? 'crypto' : 'stock',
+        type: q.quoteType === "CRYPTOCURRENCY" ? "crypto" : "stock",
       }));
   } catch (error) {
     console.error(`search error for ${query}:`, error);
