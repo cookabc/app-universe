@@ -2255,6 +2255,135 @@
     "assets": {
       "screenshots": [],
       "samples": []
+    }]
+  },
+  {
+    "id": "kami",
+    "name": "Kami",
+    "description": "Professional document typesetting engine for AI. Transform any text into beautifully formatted PDFs, HTML pages, and PPTX slides. Supports 8 document templates (resume, letter, equity report, changelog, one-pager, portfolio, long-doc, slides) and 14 diagram types (flowchart, timeline, architecture, etc.) with warm parchment design system.",
+    "category": {
+      "key": "document",
+      "label": "Document",
+      "color": "#1B365D",
+      "gradient": "linear-gradient(135deg,#1B365D,#2D5A8A)",
+      "icon": "doc"
+    },
+    "stats": {
+      "lineCount": 1200,
+      "charCount": 45000,
+      "sectionCount": 12,
+      "codeBlockCount": 8,
+      "complexityScore": 4,
+      "complexityLabel": "Moderate",
+      "readTime": "15 min"
+    },
+    "triggerPhrases": [
+      "typeset document",
+      "create PDF",
+      "format report",
+      "generate slides",
+      "document template",
+      "kami"
+    ],
+    "useCases": [
+      {
+        "icon": "doc",
+        "title": "Professional resume generation",
+        "description": "Warm parchment design with serif typography, single-page or multi-page layouts"
+      },
+      {
+        "icon": "doc",
+        "title": "Investment equity reports",
+        "description": "2-3 page reports with OHLC candlestick charts and waterfall revenue bridges"
+      },
+      {
+        "icon": "doc",
+        "title": "Release changelogs",
+        "description": "Structured version history with categorized changes and migration guides"
+      },
+      {
+        "icon": "chart",
+        "title": "Technical diagrams",
+        "description": "14 diagram types including flowcharts, timelines, architecture diagrams, K-line charts"
+      },
+      {
+        "icon": "slide",
+        "title": "Presentation slides",
+        "description": "Python-generated PPTX with consistent branding and layout templates"
+      },
+      {
+        "icon": "doc",
+        "title": "Formal letters",
+        "description": "Business correspondence with proper typography and signature blocks"
+      }
+    ],
+    "keyFeatures": [
+      "8 document templates: resume, letter, equity report, changelog, one-pager, portfolio, long-doc, slides",
+      "14 SVG diagram types: flowchart, timeline, architecture, bar chart, line chart, donut, quadrant, etc.",
+      "Warm parchment design system with ink-blue accent and serif-led hierarchy",
+      "Full bilingual support: Chinese (TsangerJinKai02) and English (Charter/Newsreader)",
+      "PDF output via WeasyPrint with print-optimized CSS @page rules",
+      "HTML preview mode for instant visual feedback without building",
+      "Placeholder validation: detect unfilled {{variables}} before publishing",
+      "Orphan text detection: catch排版 issues with ≤2 word last lines",
+      "CDN distribution via jsdelivr for skill installation"
+    ],
+    "installCommand": "pip install weasyprint python-pptx && git clone https://github.com/tw93/Kami.git",
+    "content": "# Kami — Professional Document Typesetting\n\nTransform any text into beautifully formatted documents. Kami is a document engine designed for AI agents, providing structured templates, design tokens, and build pipelines for professional output.\n\n## Document Templates (8 types)\n\n| Template | Language | Pages | Use Case |\n|----------|----------|-------|----------|\n| resume | zh/en | 1-2 | Personal CV with project highlights |\n| letter | zh/en | 1 | Formal business correspondence |\n| equity-report | zh/en | 2-3 | Investment analysis with charts |\n| changelog | zh/en | 2 | Version release notes |\n| one-pager | zh/en | 1 | Executive summary / project brief |\n| portfolio | zh/en | 2-3 | Work showcase with case studies |\n| long-doc | zh/en | 3+ | Comprehensive documentation |\n| slides | zh/en | N/A | PPTX presentations via python-pptx |\n\n## Diagram Library (14 types)\n\nFlowchart, Timeline, Architecture, Bar Chart, Line Chart, Donut Chart, Quadrant, State Machine, Swimlane, Tree, Venn, Waterfall, Candlestick, Layer Stack.\n\n## Design System\n\n- **Colors**: Warm parchment canvas (#FDFBF6), ink-blue accent (#1B365D), olive secondary (#504E49)\n- **Typography**: Chinese serif (TsangerJinKai02) + English serif (Charter/Newsreader)\n- **Spacing**: Tight editorial spacing with baseline grid alignment\n- **Output**: Print-optimized CSS with @page rules for PDF generation\n\n## Build Pipeline\n\n```bash\n# Build specific target\npython scripts/build.py resume\n\n# Verify all targets\npython scripts/build.py --verify\n\n# Check for unfilled placeholders\npython scripts/build.py --check-placeholders\n\n# Detect orphan text lines\npython scripts/build.py --check-orphans\n```\n\n## Installation\n\n```bash\ngit clone https://github.com/tw93/Kami.git\ncd Kami\npip install -r requirements.txt  # weasyprint, python-pptx, pymupdf\n```\n\nOr install as a skill via CDN:\n```\nhttps://cdn.jsdelivr.net/gh/tw93/kami@main/dist/kami.zip\n```",
+    "fileInfo": {
+      "totalFiles": 28,
+      "totalSizeStr": "~2.1 MB",
+      "tree": {
+        "name": "kami",
+        "type": "dir",
+        "children": [
+          {
+            "name": "assets",
+            "type": "dir",
+            "children": [
+              { "name": "templates", "type": "dir" },
+              { "name": "diagrams", "type": "dir" },
+              { "name": "fonts", "type": "dir" },
+              { "name": "demos", "type": "dir" }
+            ]
+          },
+          {
+            "name": "scripts",
+            "type": "dir",
+            "children": [
+              { "name": "build.py", "type": "file", "size": 15000 },
+              { "name": "shared.py", "type": "file", "size": 8000 },
+              { "name": "stabilize.py", "type": "file", "size": 5000 }
+            ]
+          },
+          {
+            "name": "references",
+            "type": "dir",
+            "children": [
+              { "name": "design.md", "type": "file", "size": 12000 },
+              { "name": "writing.md", "type": "file", "size": 8000 },
+              { "name": "diagrams.md", "type": "file", "size": 6000 }
+            ]
+          },
+          {
+            "name": "styles.css",
+            "type": "file",
+            "size": 15000
+          },
+          {
+            "name": "SKILL.md",
+            "type": "file",
+            "size": 8000
+          }
+        ]
+      }
+    },
+    "lastUpdated": "2025-01-15",
+    "type": "skill",
+    "sourceUrl": "https://github.com/tw93/Kami",
+    "assets": {
+      "screenshots": [],
+      "samples": []
     }
   }
 ]
