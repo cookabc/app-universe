@@ -13,11 +13,17 @@ export default function SkillPreview({ skill }: Props) {
   if (id === "editorial-card-screenshot") return <EditorialCardPreview />;
   if (id === "infographic-creation") return <InfographicPreview />;
 
+  if (id === "opc-methodology") return <OpcCollectionPreview />;
+  if (id === "impeccable-style") return <ImpeccableCollectionPreview />;
+  if (id === "markdown-viewer-skills")
+    return <MarkdownViewerCollectionPreview />;
+  if (id === "khazix-skills") return <KhazixCollectionPreview />;
+
   return null;
 }
 
 /* ──────────────────────────────────────
-   1. App Icon Minimalist — 极简应用图标
+   1. App Icon Minimalist
    ────────────────────────────────────── */
 function AppIconPreview() {
   return (
@@ -28,57 +34,24 @@ function AppIconPreview() {
         alignItems: "center",
         gap: "20px",
         padding: "32px 24px",
-        background: "var(--ivory)",
-        borderRadius: "12px",
-        border: "0.5px solid var(--border-cream)",
+        background: "var(--bg-surface)",
+        borderRadius: "var(--radius-md)",
+        border: "1px solid var(--border-soft)",
       }}
     >
-      {/* Icon grid */}
-      <div style={{ display: "flex", gap: "24px", flexWrap: "wrap", justifyContent: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "24px",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
         {[
-          {
-            bg: "#1B365D",
-            shape: (
-              <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-                <rect width="56" height="56" rx="14" fill="#1B365D" />
-                <path
-                  d="M18 18h8v8h-8zM30 18h8v8h-8zM18 30h8v8h-8z"
-                  fill="white"
-                  opacity={0.9}
-                />
-                <rect x="30" y="30" width="8" height="8" rx="2" fill="white" opacity={0.5} />
-              </svg>
-            ),
-          },
-          {
-            bg: "#E74C3C",
-            shape: (
-              <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-                <circle cx="28" cy="28" r="28" fill="#E74C3C" />
-                <path d="M20 28c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="white" strokeWidth="4" strokeLinecap="round" />
-                <circle cx="36" cy="38" r="2.5" fill="white" />
-              </svg>
-            ),
-          },
-          {
-            bg: "#27AE60",
-            shape: (
-              <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-                <rect width="56" height="56" rx="16" fill="#27AE60" />
-                <path d="M16 32l8 8 16-16" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            ),
-          },
-          {
-            bg: "#F39C12",
-            shape: (
-              <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-                <rect width="56" height="56" rx="14" fill="#F39C12" />
-                <circle cx="28" cy="22" r="7" fill="white" opacity={0.9} />
-                <path d="M17 40c0-6 5-11 11-11s11 5 11 11" stroke="white" strokeWidth="3" strokeLinecap="round" fill="none" />
-              </svg>
-            ),
-          },
+          { bg: "#1B365D", svg: <SvgGridIcon /> },
+          { bg: "#E74C3C", svg: <SvgFaceIcon /> },
+          { bg: "#27AE60", svg: <SvgCheckIcon /> },
+          { bg: "#F39C12", svg: <SvgUserIcon /> },
         ].map((icon, i) => (
           <div
             key={i}
@@ -92,18 +65,23 @@ function AppIconPreview() {
             <div
               style={{
                 borderRadius: "14px",
-                boxShadow: "var(--shadow-whisper)",
+                boxShadow: "var(--shadow-sm)",
                 transition: "transform .15s ease",
               }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1.05)")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1)")}
+              onMouseEnter={(e) =>
+                ((e.currentTarget as HTMLElement).style.transform =
+                  "scale(1.05)")
+              }
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLElement).style.transform = "scale(1)")
+              }
             >
-              {icon.shape}
+              {icon.svg}
             </div>
             <span
               style={{
                 fontSize: "10px",
-                color: "var(--stone)",
+                color: "var(--text-muted)",
                 fontFamily: "var(--font-mono)",
               }}
             >
@@ -116,8 +94,8 @@ function AppIconPreview() {
       <div
         style={{
           fontSize: "11px",
-          color: "var(--olive)",
-          fontFamily: "var(--font-serif)",
+          color: "var(--text-secondary)",
+          fontFamily: "var(--font-display)",
           textAlign: "center",
           maxWidth: "40ch",
           lineHeight: 1.45,
@@ -125,86 +103,257 @@ function AppIconPreview() {
           paddingLeft: "10px",
         }}
       >
-        Minimalist icons generated from natural language prompts.
-        No design tools needed.
+        Minimalist icons generated from natural language prompts. No design
+        tools needed.
       </div>
     </div>
   );
 }
 
+function SvgGridIcon() {
+  return (
+    <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+      <rect width="56" height="56" rx="14" fill="#1B365D" />
+      <path
+        d="M18 18h8v8h-8zM30 18h8v8h-8zM18 30h8v8h-8z"
+        fill="white"
+        opacity={0.9}
+      />
+      <rect
+        x="30"
+        y="30"
+        width="8"
+        height="8"
+        rx="2"
+        fill="white"
+        opacity={0.5}
+      />
+    </svg>
+  );
+}
+
+function SvgFaceIcon() {
+  return (
+    <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+      <circle cx="28" cy="28" r="28" fill="#E74C3C" />
+      <path
+        d="M20 28c0-4.4 3.6-8 8-8s8 3.6 8 8"
+        stroke="white"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      <circle cx="36" cy="38" r="2.5" fill="white" />
+    </svg>
+  );
+}
+
+function SvgCheckIcon() {
+  return (
+    <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+      <rect width="56" height="56" rx="16" fill="#27AE60" />
+      <path
+        d="M16 32l8 8 16-16"
+        stroke="white"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function SvgUserIcon() {
+  return (
+    <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+      <rect width="56" height="56" rx="14" fill="#F39C12" />
+      <circle cx="28" cy="22" r="7" fill="white" opacity={0.9} />
+      <path
+        d="M17 40c0-6 5-11 11-11s11 5 11 11"
+        stroke="white"
+        strokeWidth="3"
+        strokeLinecap="round"
+        fill="none"
+      />
+    </svg>
+  );
+}
+
 /* ──────────────────────────────────────
-   2. Blueprinter — 技术蓝图
+   2. Blueprinter — dark adapted
    ────────────────────────────────────── */
 function BlueprintPreview() {
+  const cellBg = "var(--bg-card)";
+  const gridLine = "var(--border-strong)";
+  const textDim = "var(--text-muted)";
+  const textBody = "var(--text-secondary)";
+  const accent = "#7b9cf0";
+
   return (
     <div
       style={{
         padding: "28px",
-        background: "#fafafa",
-        borderRadius: "8px",
-        border: "1px solid #ddd",
+        background: "var(--bg-surface)",
+        borderRadius: "var(--radius-md)",
+        border: "1px solid var(--border-soft)",
         fontFamily: "var(--font-mono)",
         fontSize: "11px",
-        color: "#333",
+        color: "var(--text-primary)",
       }}
     >
-      {/* Title block */}
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "baseline",
-          borderBottom: "2px solid #1B365D",
+          borderBottom: `2px solid ${accent}`,
           paddingBottom: "10px",
           marginBottom: "16px",
         }}
       >
-        <span style={{ fontWeight: 600, color: "#1B365D", fontSize: "13px", fontFamily: "var(--font-serif)" }}>
+        <span
+          style={{
+            fontWeight: 600,
+            color: accent,
+            fontSize: "13px",
+            fontFamily: "var(--font-display)",
+          }}
+        >
           SYSTEM ARCHITECTURE
         </span>
-        <span style={{ color: "#999", fontSize: "9px" }}>REV 2.1 · 2026-04</span>
+        <span style={{ color: textDim, fontSize: "9px" }}>
+          REV 2.1 · 2026-04
+        </span>
       </div>
 
-      {/* Blueprint diagram */}
-      <div style={{ display: "grid", gridTemplateColumns: "200px 1fr 180px", gap: "1px", background: "#ccc", border: "1px solid #999" }}>
-        {/* Left column */}
-        <div style={{ background: "#fff", padding: "14px" }}>
-          <div style={{ fontWeight: 600, marginBottom: 10, color: "#1B365D", fontSize: "10px", letterSpacing: "0.5px" }}>MODULES</div>
-          {["Client Layer", "API Gateway", "Auth Service", "Data Store"].map((m, i) => (
-            <div key={i} style={{ padding: "5px 8px", margin: "2px 0", background: i % 2 ? "#f5f5f5" : "#fff", borderLeft: `2px solid ${i === 0 ? "#1B365D" : "#ccc"}` }}>
-              {m}
-            </div>
-          ))}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "200px 1fr 180px",
+          gap: "1px",
+          background: gridLine,
+          border: `1px solid ${gridLine}`,
+        }}
+      >
+        <div style={{ background: cellBg, padding: "14px" }}>
+          <div
+            style={{
+              fontWeight: 600,
+              marginBottom: 10,
+              color: accent,
+              fontSize: "10px",
+              letterSpacing: "0.5px",
+            }}
+          >
+            MODULES
+          </div>
+          {["Client Layer", "API Gateway", "Auth Service", "Data Store"].map(
+            (m, i) => (
+              <div
+                key={i}
+                style={{
+                  padding: "5px 8px",
+                  margin: "2px 0",
+                  background: i % 2 ? "var(--bg-elevated)" : cellBg,
+                  borderLeft: `2px solid ${i === 0 ? accent : gridLine}`,
+                }}
+              >
+                {m}
+              </div>
+            ),
+          )}
         </div>
 
-        {/* Center - connections */}
-        <div style={{ background: "#fff", padding: "14px", position: "relative" }}>
-          <div style={{ fontWeight: 600, marginBottom: 10, color: "#1B365D", fontSize: "10px", letterSpacing: "0.5px" }}>DATA FLOW</div>
-          
-          {/* Simplified flow lines using CSS */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        <div
+          style={{ background: cellBg, padding: "14px", position: "relative" }}
+        >
+          <div
+            style={{
+              fontWeight: 600,
+              marginBottom: 10,
+              color: accent,
+              fontSize: "10px",
+              letterSpacing: "0.5px",
+            }}
+          >
+            DATA FLOW
+          </div>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+          >
             {[1, 2, 3].map((n) => (
-              <div key={n} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <div style={{ width: "28px", height: "18px", borderRadius: "2px", background: "#E4ECF5", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "9", color: "#1B365D", fontWeight: 600 }}>
+              <div
+                key={n}
+                style={{ display: "flex", alignItems: "center", gap: "8px" }}
+              >
+                <div
+                  style={{
+                    width: "28px",
+                    height: "18px",
+                    borderRadius: "2px",
+                    background: `${accent}33`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "9",
+                    color: accent,
+                    fontWeight: 600,
+                  }}
+                >
                   REQ
                 </div>
-                <div style={{ flex: 1, height: "1px", background: "#ddd" }} />
-                <div style={{ width: "40px", height: "18px", borderRadius: "2px", background: "#f0f0f0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "9", color: "#888" }}>
+                <div style={{ flex: 1, height: "1px", background: gridLine }} />
+                <div
+                  style={{
+                    width: "40px",
+                    height: "18px",
+                    borderRadius: "2px",
+                    background: "var(--bg-elevated)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "9",
+                    color: textDim,
+                  }}
+                >
                   {n}ms
                 </div>
               </div>
             ))}
-            
-            {/* Response arrow */}
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginLeft: "auto", marginRight: "36px" }}>
-              <div style={{ width: "36px", height: "18px", borderRadius: "2px", background: "#EEF2F7", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "9", color: "#1B365D", fontWeight: 600 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                marginLeft: "auto",
+                marginRight: "36px",
+              }}
+            >
+              <div
+                style={{
+                  width: "36px",
+                  height: "18px",
+                  borderRadius: "2px",
+                  background: `${accent}22`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "9",
+                  color: accent,
+                  fontWeight: 600,
+                }}
+              >
                 RES
               </div>
-              <div style={{ flex: 1, height: "1px", background: "#1B365D", opacity: 0.3 }} />
+              <div
+                style={{
+                  flex: 1,
+                  height: "1px",
+                  background: accent,
+                  opacity: 0.3,
+                }}
+              />
             </div>
           </div>
-
-          {/* Center annotation */}
           <div
             style={{
               position: "absolute",
@@ -212,11 +361,11 @@ function BlueprintPreview() {
               left: "50%",
               transform: "translate(-50%, -50%)",
               padding: "4px 10px",
-              background: "#fff",
-              border: "1px solid #1B365D",
+              background: cellBg,
+              border: `1px solid ${accent}`,
               borderRadius: "3px",
               fontSize: "9px",
-              color: "#1B365D",
+              color: accent,
               fontWeight: 600,
             }}
           >
@@ -224,25 +373,53 @@ function BlueprintPreview() {
           </div>
         </div>
 
-        {/* Right column */}
-        <div style={{ background: "#fff", padding: "14px" }}>
-          <div style={{ fontWeight: 600, marginBottom: 10, color: "#1B365D", fontSize: "10px", letterSpacing: "0.5px" }}>SPECS</div>
+        <div style={{ background: cellBg, padding: "14px" }}>
+          <div
+            style={{
+              fontWeight: 600,
+              marginBottom: 10,
+              color: accent,
+              fontSize: "10px",
+              letterSpacing: "0.5px",
+            }}
+          >
+            SPECS
+          </div>
           {[
             ["Protocol", "HTTP/2"],
             ["Format", "JSON"],
             ["Cache", "Redis"],
             ["Status", "Active"],
           ].map(([k, v], i) => (
-            <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "4px 6px", margin: "2px 0", borderBottom: "1px solid #eee", fontSize: "10px" }}>
-              <span style={{ color: "#888" }}>{k}</span>
+            <div
+              key={i}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "4px 6px",
+                margin: "2px 0",
+                borderBottom: "1px solid var(--border)",
+                fontSize: "10px",
+              }}
+            >
+              <span style={{ color: textDim }}>{k}</span>
               <span style={{ fontWeight: 500 }}>{v}</span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Footer */}
-      <div style={{ marginTop: "12px", borderTop: "1px dashed #ccc", paddingTop: "8px", display: "flex", justifyContent: "space-between", fontSize: "9px", color: "#aaa" }}>
+      <div
+        style={{
+          marginTop: "12px",
+          borderTop: `1px dashed ${gridLine}`,
+          paddingTop: "8px",
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: "9px",
+          color: textDim,
+        }}
+      >
         <span>Generated by blueprinter</span>
         <span>Grid: 1px | No shadows | Monospace only</span>
       </div>
@@ -251,7 +428,7 @@ function BlueprintPreview() {
 }
 
 /* ──────────────────────────────────────
-   3. Design System — 设计系统预览
+   3. Design System — dark adapted
    ────────────────────────────────────── */
 function DesignSystemPreview() {
   const systems = [
@@ -279,20 +456,39 @@ function DesignSystemPreview() {
         flexDirection: "column",
         gap: "20px",
         padding: "24px",
-        background: "var(--ivory)",
-        borderRadius: "12px",
-        border: "0.5px solid var(--border-cream)",
+        background: "var(--bg-surface)",
+        borderRadius: "var(--radius-md)",
+        border: "1px solid var(--border-soft)",
       }}
     >
-      {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-        <span style={{ fontFamily: "var(--font-serif)", fontSize: "14px", fontWeight: 500, color: "var(--text-primary)" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "baseline",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "14px",
+            fontWeight: 500,
+            color: "var(--text-primary)",
+          }}
+        >
           Design System Tokens
         </span>
-        <span style={{ fontSize: "10px", color: "var(--stone)", fontFamily: "var(--font-mono)" }}>3 of 11 systems</span>
+        <span
+          style={{
+            fontSize: "10px",
+            color: "var(--text-muted)",
+            fontFamily: "var(--font-mono)",
+          }}
+        >
+          3 of 11 systems
+        </span>
       </div>
 
-      {/* System cards */}
       <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
         {systems.map((sys, i) => (
           <div
@@ -301,22 +497,42 @@ function DesignSystemPreview() {
               flex: "1 1 160px",
               padding: "16px",
               borderRadius: sys.radius as string,
-              background: "white",
-              border: "0.5px solid var(--border-cream)",
-              boxShadow: "var(--shadow-whisper)",
+              background: "var(--bg-card)",
+              border: "1px solid var(--border-soft)",
+              boxShadow: "var(--shadow-sm)",
             }}
           >
-            {/* Name + radius badge */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-              <span style={{ fontFamily: "var(--font-serif)", fontSize: "13px", fontWeight: 500, color: "var(--text-primary)" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "12px",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "13px",
+                  fontWeight: 500,
+                  color: "var(--text-primary)",
+                }}
+              >
                 {sys.name}
               </span>
-              <span style={{ fontSize: "9px", color: "var(--olive)", fontFamily: "var(--font-mono)", padding: "2px 6px", background: "var(--tag-bg-light)", borderRadius: "2px" }}>
+              <span
+                style={{
+                  fontSize: "9px",
+                  color: "var(--text-secondary)",
+                  fontFamily: "var(--font-mono)",
+                  padding: "2px 6px",
+                  background: "var(--brand-subtle)",
+                  borderRadius: "2px",
+                }}
+              >
                 r:{sys.radius}
               </span>
             </div>
-
-            {/* Color swatches */}
             <div style={{ display: "flex", gap: "4px", marginBottom: "12px" }}>
               {sys.colors.map((color, j) => (
                 <div
@@ -326,14 +542,12 @@ function DesignSystemPreview() {
                     aspectRatio: "1",
                     borderRadius: sys.radius === "0px" ? "0px" : "50%",
                     background: color,
-                    boxShadow: "inset 0 0 0 1px rgba(0,0,0,0.08)",
+                    boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)",
                   }}
                   title={color}
                 />
               ))}
             </div>
-
-            {/* Token preview */}
             <div
               style={{
                 padding: "10px 12px",
@@ -352,51 +566,49 @@ function DesignSystemPreview() {
         ))}
       </div>
 
-      {/* CSS output hint */}
       <div
         style={{
           fontSize: "10px",
-          color: "var(--olive)",
+          color: "var(--text-secondary)",
           fontFamily: "var(--font-mono)",
           padding: "8px 12px",
-          background: "white",
+          background: "var(--bg-card)",
           borderRadius: "4px",
-          border: "0.5px solid var(--border-cream)",
+          border: "1px solid var(--border-soft)",
         }}
       >
-        → Exports: CSS variables · Tailwind config · JSON tokens
+        &rarr; Exports: CSS variables · Tailwind config · JSON tokens
       </div>
     </div>
   );
 }
 
 /* ──────────────────────────────────────
-   4. Editorial Card Screenshot — 编辑信息卡
+   4. Editorial Card — dark adapted
    ────────────────────────────────────── */
 function EditorialCardPreview() {
   return (
     <div
       style={{
         maxWidth: "480px",
-        background: "white",
-        borderRadius: "8px",
+        background: "var(--bg-card)",
+        borderRadius: "var(--radius-lg)",
         overflow: "hidden",
-        boxShadow: "var(--shadow-whisper)",
-        border: "0.5px solid var(--border-cream)",
+        boxShadow: "var(--shadow-md)",
+        border: "1px solid var(--border-soft)",
         fontVariantNumeric: "tabular-nums",
       }}
     >
-      {/* Card header bar */}
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           padding: "8px 16px",
-          background: "#f8f8f6",
-          borderBottom: "0.5px solid var(--border-cream)",
+          background: "var(--bg-secondary)",
+          borderBottom: "1px solid var(--border-soft)",
           fontSize: "9px",
-          color: "var(--stone)",
+          color: "var(--text-muted)",
           fontFamily: "var(--font-mono)",
         }}
       >
@@ -404,14 +616,12 @@ function EditorialCardPreview() {
         <span>680 × 340</span>
       </div>
 
-      {/* Card body - Swiss International Style */}
       <div style={{ padding: "24px 28px 20px" }}>
-        {/* Eyebrow */}
         <div
           style={{
             fontSize: "9px",
             fontWeight: 600,
-            color: "#1B365D",
+            color: "var(--brand)",
             letterSpacing: "1.5px",
             textTransform: "uppercase",
             marginBottom: "10px",
@@ -421,12 +631,11 @@ function EditorialCardPreview() {
           Design System · Q1 2026
         </div>
 
-        {/* Headline */}
         <h3
           style={{
-            fontFamily: "var(--font-serif)",
+            fontFamily: "var(--font-display)",
             fontSize: "22px",
-            fontWeight: 500,
+            fontWeight: 400,
             lineHeight: 1.15,
             color: "var(--text-primary)",
             marginBottom: "6px",
@@ -436,30 +645,29 @@ function EditorialCardPreview() {
           Building Design Tokens That Scale Across 11 Themes
         </h3>
 
-        {/* Subheadline / deck */}
         <p
           style={{
-            fontFamily: "var(--font-serif)",
+            fontFamily: "var(--font-display)",
             fontSize: "13px",
-            lineHeight: 1.50,
-            color: "var(--charcoal)",
+            lineHeight: 1.5,
+            color: "var(--text-secondary)",
             marginBottom: "18px",
             textWrap: "pretty",
             paddingLeft: "12px",
-            borderLeft: "2px solid #1B365D",
+            borderLeft: "2px solid var(--brand)",
           }}
         >
-          A unified approach to color, spacing, and typography that maintains editorial rhythm at any viewport.
+          A unified approach to color, spacing, and typography that maintains
+          editorial rhythm at any viewport.
         </p>
 
-        {/* Metrics row */}
         <div
           style={{
             display: "flex",
             gap: "16px",
             marginBottom: "18px",
             paddingBottom: "16px",
-            borderBottom: "2px double var(--border-warm)",
+            borderBottom: "2px double var(--border)",
           }}
         >
           {[
@@ -468,23 +676,46 @@ function EditorialCardPreview() {
             ["99.8%", "Coverage"],
           ].map(([value, label], i) => (
             <div key={i}>
-              <div style={{ fontFamily: "var(--font-serif)", fontSize: "20px", fontWeight: 500, color: "#1B365D", lineHeight: 1.15 }}>
+              <div
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "20px",
+                  fontWeight: 400,
+                  color: "var(--brand)",
+                  lineHeight: 1.15,
+                }}
+              >
                 {value}
               </div>
-              <div style={{ fontSize: "9px", color: "var(--stone)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              <div
+                style={{
+                  fontSize: "9px",
+                  color: "var(--text-muted)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.5px",
+                }}
+              >
                 {label}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Key points - dash list */}
-        <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "6px" }}>
+        <ul
+          style={{
+            listStyle: "none",
+            padding: 0,
+            margin: 0,
+            display: "flex",
+            flexDirection: "column",
+            gap: "6px",
+          }}
+        >
           {[
-            "Warm parchment canvas with ink-blue accent",
-            "Serif headlines at weight 500, never bold",
+            "Dark ink surface with amber-gold accent",
+            "Serif headlines at weight 400, never bold",
             "Three line-height bands: tight / dense / reading",
-            "Solid hex tags for print compatibility",
+            "CSS custom properties for full theming",
           ].map((item, i) => (
             <li
               key={i}
@@ -494,31 +725,32 @@ function EditorialCardPreview() {
                 gap: "8px",
                 fontSize: "11px",
                 lineHeight: 1.45,
-                color: "var(--charcoal)",
+                color: "var(--text-secondary)",
                 fontFamily: "var(--font-sans)",
               }}
             >
-              <span style={{ color: "#1B365D", flexShrink: 0 }}>—</span>
+              <span style={{ color: "var(--brand)", flexShrink: 0 }}>—</span>
               {item}
             </li>
           ))}
         </ul>
       </div>
 
-      {/* Card footer */}
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           padding: "10px 20px",
-          background: "var(--ivory)",
-          borderTop: "0.5px solid var(--border-cream)",
+          background: "var(--bg-surface)",
+          borderTop: "1px solid var(--border-soft)",
           fontSize: "9px",
-          color: "var(--stone)",
+          color: "var(--text-muted)",
         }}
       >
-        <span style={{ fontFamily: "var(--font-mono)" }}>Swiss International Style</span>
+        <span style={{ fontFamily: "var(--font-mono)" }}>
+          Midnight Atelier Style
+        </span>
         <span>High density · 65ch max</span>
       </div>
     </div>
@@ -526,7 +758,7 @@ function EditorialCardPreview() {
 }
 
 /* ──────────────────────────────────────
-   5. Infographic Creation — 信息图表
+   5. Infographic — dark adapted
    ────────────────────────────────────── */
 function InfographicPreview() {
   return (
@@ -534,21 +766,21 @@ function InfographicPreview() {
       style={{
         maxWidth: "520px",
         padding: "24px",
-        background: "linear-gradient(135deg, #f5f4ed 0%, #eef2f7 100%)",
-        borderRadius: "12px",
-        border: "0.5px solid var(--border-cream)",
-        boxShadow: "var(--shadow-whisper)",
+        background:
+          "linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-secondary) 100%)",
+        borderRadius: "var(--radius-lg)",
+        border: "1px solid var(--border-soft)",
+        boxShadow: "var(--shadow-md)",
       }}
     >
-      {/* Header */}
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
         <div
           style={{
             display: "inline-block",
             padding: "4px 14px",
-            borderRadius: "20px",
-            background: "#1B365D",
-            color: "white",
+            borderRadius: "var(--radius-full)",
+            background: "var(--brand)",
+            color: "var(--bg-primary)",
             fontSize: "10px",
             fontWeight: 600,
             letterSpacing: "0.5px",
@@ -556,13 +788,13 @@ function InfographicPreview() {
             marginBottom: "10px",
           }}
         >
-          📊 INFOGRAPHIC PREVIEW
+          INFOGRAPHIC PREVIEW
         </div>
         <h3
           style={{
-            fontFamily: "var(--font-serif)",
+            fontFamily: "var(--font-display)",
             fontSize: "20px",
-            fontWeight: 500,
+            fontWeight: 400,
             color: "var(--text-primary)",
             margin: 0,
             lineHeight: 1.2,
@@ -572,7 +804,6 @@ function InfographicPreview() {
         </h3>
       </div>
 
-      {/* Chart area - Bar chart simulation */}
       <div
         style={{
           display: "flex",
@@ -582,18 +813,39 @@ function InfographicPreview() {
         }}
       >
         {[
-          { label: "Visual Design", value: 92, color: "#1B365D" },
-          { label: "Code Generation", value: 78, color: "#2D5A8A" },
-          { label: "Documentation", value: 85, color: "#457B9D" },
-          { label: "Testing", value: 64, color: "#A8DADC" },
-          { label: "Deployment", value: 71, color: "#E94560" },
+          { label: "Visual Design", value: 92, color: "#7b9cf0" },
+          { label: "Code Generation", value: 78, color: "#5ecf8a" },
+          { label: "Documentation", value: 85, color: "#d4a853" },
+          { label: "Testing", value: 64, color: "#e87d7d" },
+          { label: "Deployment", value: 71, color: "#c99ff2" },
         ].map((bar, i) => (
           <div key={i}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
-              <span style={{ fontSize: "11px", fontWeight: 500, color: "var(--text-primary)", fontFamily: "var(--font-sans)" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: "4px",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "11px",
+                  fontWeight: 500,
+                  color: "var(--text-primary)",
+                  fontFamily: "var(--font-sans)",
+                }}
+              >
                 {bar.label}
               </span>
-              <span style={{ fontSize: "11px", fontWeight: 600, color: bar.color, fontFamily: "var(--font-mono)", fontVariantNumeric: "tabular-nums" }}>
+              <span
+                style={{
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  color: bar.color,
+                  fontFamily: "var(--font-mono)",
+                  fontVariantNumeric: "tabular-nums",
+                }}
+              >
                 {bar.value}%
               </span>
             </div>
@@ -601,7 +853,7 @@ function InfographicPreview() {
               style={{
                 height: "8px",
                 borderRadius: "4px",
-                background: "var(--tag-bg-light)",
+                background: "var(--bg-elevated)",
                 overflow: "hidden",
               }}
             >
@@ -619,7 +871,6 @@ function InfographicPreview() {
         ))}
       </div>
 
-      {/* Stats row */}
       <div
         style={{
           display: "flex",
@@ -627,46 +878,456 @@ function InfographicPreview() {
           gap: "20px",
           marginTop: "20px",
           paddingTop: "16px",
-          borderTop: "0.5px dashed var(--border-warm)",
+          borderTop: "0.5px dashed var(--border)",
         }}
       >
         {[
-          ["5", "Skills", "📄"],
-          ["19", "Categories", "🏷️"],
-          ["2026", "Year", "📅"],
-        ].map(([v, l, icon], i) => (
+          ["5", "Skills"],
+          ["19", "Categories"],
+          ["2026", "Year"],
+        ].map(([v, l], i) => (
           <div
             key={i}
             style={{
               textAlign: "center",
               padding: "8px 14px",
               borderRadius: "6px",
-              background: "white",
-              border: "0.5px solid var(--border-cream)",
+              background: "var(--bg-card)",
+              border: "1px solid var(--border-soft)",
             }}
           >
-            <div style={{ fontSize: "16px", marginBottom: "2px" }}>{icon}</div>
-            <div style={{ fontFamily: "var(--font-serif)", fontSize: "18px", fontWeight: 500, color: "#1B365D", lineHeight: 1.15 }}>
+            <div
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "18px",
+                fontWeight: 400,
+                color: "var(--brand)",
+                lineHeight: 1.15,
+              }}
+            >
               {v}
             </div>
-            <div style={{ fontSize: "9px", color: "var(--stone)", textTransform: "uppercase" }}>
+            <div
+              style={{
+                fontSize: "9px",
+                color: "var(--text-muted)",
+                textTransform: "uppercase",
+              }}
+            >
               {l}
             </div>
           </div>
         ))}
       </div>
 
-      {/* Footer note */}
       <div
         style={{
           textAlign: "center",
           marginTop: "14px",
           fontSize: "9px",
-          color: "var(--olive)",
+          color: "var(--text-secondary)",
           fontFamily: "var(--font-sans)",
         }}
       >
         Generated by AntV Infographic · Data-driven visual storytelling
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────
+   6. OPC Collection — dark adapted
+   ────────────────────────────────────── */
+function OpcCollectionPreview() {
+  const stages = [
+    { n: "00", name: "总编排", tag: "编排层" },
+    { n: "01", name: "资源盘点", tag: "线性阶段" },
+    { n: "02", name: "利基定位", tag: "线性阶段" },
+    { n: "03", name: "价值主张", tag: "线性阶段" },
+    { n: "04", name: "商业模式", tag: "线性阶段" },
+    { n: "06", name: "MVP 设计", tag: "线性阶段" },
+    { n: "07", name: "转化闭环", tag: "线性阶段" },
+    { n: "08", name: "资产沉淀", tag: "条件触发" },
+    { n: "09", name: "经营复盘", tag: "条件触发" },
+  ];
+  return (
+    <div
+      style={{
+        padding: "24px",
+        background: "var(--bg-surface)",
+        borderRadius: "var(--radius-md)",
+        border: "1px solid var(--border-soft)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          marginBottom: 16,
+        }}
+      >
+        <span
+          style={{
+            width: "24px",
+            height: "24px",
+            borderRadius: "6px",
+            background: "var(--brand)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "12px",
+            fontWeight: 700,
+            color: "var(--bg-primary)",
+          }}
+        >
+          OPC
+        </span>
+        <span
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "15px",
+            fontWeight: 400,
+            color: "var(--text-primary)",
+          }}
+        >
+          OPC Methodology — 9 Skills
+        </span>
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3,1fr)",
+          gap: 8,
+        }}
+      >
+        {stages.map((s) => (
+          <div
+            key={s.n}
+            style={{
+              padding: "8px 12px",
+              background: "var(--bg-card)",
+              borderRadius: "var(--radius-xs)",
+              border: "1px solid var(--border-soft)",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "12px",
+                fontWeight: 700,
+                color: "var(--brand)",
+                minWidth: 22,
+              }}
+            >
+              {s.n}
+            </span>
+            <span
+              style={{
+                fontSize: "11px",
+                color: "var(--text-primary)",
+                flex: 1,
+              }}
+            >
+              {s.name}
+            </span>
+          </div>
+        ))}
+      </div>
+      <div
+        style={{
+          marginTop: 14,
+          textAlign: "center",
+          fontSize: "10px",
+          color: "var(--text-secondary)",
+          fontFamily: "var(--font-mono)",
+        }}
+      >
+        01 → 07 Linear execution · 08/09 On-demand trigger
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────
+   7. Impeccable Collection — already dark OK
+   ────────────────────────────────────── */
+function ImpeccableCollectionPreview() {
+  const cmds = [
+    "/create",
+    "/evaluate",
+    "/refine",
+    "/simplify",
+    "/harden",
+    "/system",
+    "/audit",
+    "/polish",
+    "/bolder",
+    "/distill",
+    "/critique",
+    "/typeset",
+    "/layout",
+    "/shape",
+    "/craft",
+    "/teach",
+    "/extract",
+    "/impeccable",
+  ];
+  return (
+    <div
+      style={{
+        padding: "24px",
+        background: "linear-gradient(135deg,#1a1a2e 0%,#16213e 100%)",
+        borderRadius: "var(--radius-md)",
+        color: "#fff",
+      }}
+    >
+      <div style={{ textAlign: "center", marginBottom: 16 }}>
+        <span
+          style={{ fontSize: "20px", letterSpacing: "3px", color: "#D4AF37" }}
+        >
+          &#9670; IMPECCABLE
+        </span>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 6,
+          justifyContent: "center",
+        }}
+      >
+        {cmds.map((c, i) => (
+          <span
+            key={i}
+            style={{
+              padding: "4px 10px",
+              borderRadius: "4px",
+              background: "rgba(255,255,255,0.08)",
+              fontSize: "11px",
+              fontFamily: "var(--font-mono)",
+              fontWeight: 600,
+              color: i === cmds.length - 1 ? "#D4AF37" : "#cbd5e1",
+              border:
+                i === cmds.length - 1
+                  ? "1px solid rgba(212,175,55,0.3)"
+                  : "1px solid transparent",
+            }}
+          >
+            {c}
+          </span>
+        ))}
+      </div>
+      <div
+        style={{
+          marginTop: 14,
+          textAlign: "center",
+          fontSize: "10px",
+          color: "rgba(212,175,55,0.7)",
+        }}
+      >
+        18 Commands · 7 Dimensions · 25 Anti-pattern Rules
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────
+   8. Markdown Viewer — dark adapted
+   ────────────────────────────────────── */
+function MarkdownViewerCollectionPreview() {
+  return (
+    <div
+      style={{
+        padding: "24px",
+        background:
+          "linear-gradient(135deg,var(--bg-surface) 0%,var(--bg-secondary) 100%)",
+        borderRadius: "var(--radius-md)",
+        border: "1px solid var(--border-soft)",
+      }}
+    >
+      <div style={{ textAlign: "center", marginBottom: 16 }}>
+        <span
+          style={{
+            fontSize: "13px",
+            fontWeight: 600,
+            color: "#9b8af2",
+            letterSpacing: "0.5px",
+          }}
+        >
+          14 SKILLS · 5 ENGINES
+        </span>
+      </div>
+      <div
+        style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}
+      >
+        {[
+          {
+            label: "Standalone",
+            items: ["vega", "infographic", "canvas"],
+            bg: "color-mix(in srgb, #6366f1 12%, transparent)",
+            color: "#9b8af2",
+          },
+          {
+            label: "HTML/CSS",
+            items: ["architecture", "infocard"],
+            bg: "color-mix(in srgb, #ec4899 12%, transparent)",
+            color: "#e88e8e",
+          },
+          {
+            label: "PlantUML (9)",
+            items: ["uml", "cloud", "network", "..."],
+            bg: "color-mix(in srgb, #14b8a6 12%, transparent)",
+            color: "#5ecf8a",
+          },
+        ].map((g, gi) => (
+          <div
+            key={gi}
+            style={{
+              padding: "12px",
+              background: g.bg,
+              borderRadius: "8px",
+              textAlign: "center",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "11px",
+                fontWeight: 700,
+                color: g.color,
+                marginBottom: 8,
+              }}
+            >
+              {g.label}
+            </div>
+            {g.items.map((item, ii) => (
+              <div
+                key={ii}
+                style={{
+                  fontSize: "11px",
+                  color: "var(--text-secondary)",
+                  padding: "2px 0",
+                }}
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div
+        style={{
+          marginTop: 14,
+          textAlign: "center",
+          fontSize: "10px",
+          color: "var(--text-secondary)",
+          fontFamily: "var(--font-mono)",
+        }}
+      >
+        npx skills add markdown-viewer/skills
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────
+   9. Khazix — dark adapted
+   ────────────────────────────────────── */
+function KhazixCollectionPreview() {
+  return (
+    <div
+      style={{
+        padding: "24px",
+        background:
+          "linear-gradient(135deg,var(--bg-elevated) 0%,color-mix(in srgb, #d4a853 8%, var(--bg-surface)) 100%)",
+        borderRadius: "var(--radius-md)",
+        border: "1px solid color-mix(in srgb, #d4a853 25%, transparent)",
+      }}
+    >
+      <div style={{ textAlign: "center", marginBottom: 16 }}>
+        <span
+          style={{
+            fontSize: "13px",
+            fontWeight: 700,
+            color: "var(--brand)",
+            letterSpacing: "0.5px",
+          }}
+        >
+          Khazix Skills
+        </span>
+      </div>
+      <div style={{ display: "flex", gap: 14 }}>
+        {[
+          {
+            abbr: "HV",
+            name: "hv-analysis",
+            desc: "横纵分析法深度研究",
+            gradient: "linear-gradient(135deg,#667eea,#764ba2)",
+          },
+          {
+            abbr: "KW",
+            name: "khazix-writer",
+            desc: "公众号长文写作",
+            gradient: "linear-gradient(135deg,#d4a853,#e88e8e)",
+          },
+        ].map((tool, i) => (
+          <div
+            key={i}
+            style={{
+              flex: 1,
+              padding: "16px",
+              background: "var(--bg-card)",
+              borderRadius: "10px",
+              border: "1px solid var(--border-soft)",
+              textAlign: "center",
+            }}
+          >
+            <div
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 12,
+                background: tool.gradient,
+                margin: "0 auto 10px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "14px",
+                fontWeight: 800,
+                color: "#fff",
+              }}
+            >
+              {tool.abbr}
+            </div>
+            <div
+              style={{
+                fontSize: "12px",
+                fontWeight: 600,
+                color: "var(--text-primary)",
+                marginBottom: 4,
+              }}
+            >
+              {tool.name}
+            </div>
+            <div style={{ fontSize: "10px", color: "var(--text-muted)" }}>
+              {tool.desc}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div
+        style={{
+          marginTop: 14,
+          textAlign: "center",
+          fontSize: "10px",
+          color: "var(--text-muted)",
+          fontFamily: "var(--font-mono)",
+        }}
+      >
+        MIT License · Open Source
       </div>
     </div>
   );

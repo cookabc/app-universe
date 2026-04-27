@@ -4,7 +4,37 @@ import { getSkillById } from "../data/skills";
 import LiveDemoSection from "../components/Demos/LiveDemoSection";
 import RelatedSkills from "../components/SkillDetail/RelatedSkills";
 import UnifiedLayout from "../components/SkillDetail/layouts/UnifiedLayout";
+import CollectionLayout from "../components/SkillDetail/layouts/CollectionLayout";
 import type { SkillData } from "../data/skills";
+
+const pageStyles = {
+  loading: {
+    textAlign: "center" as const,
+    padding: "80px 24px",
+  },
+  notFound: {
+    textAlign: "center" as const,
+    padding: "80px 24px",
+  },
+  notFoundTitle: {
+    fontFamily: "var(--font-display)",
+    fontSize: "26px",
+    fontWeight: 400,
+    marginBottom: "8px",
+    letterSpacing: "-0.02em",
+  },
+  notFoundDesc: {
+    color: "var(--text-secondary)",
+    marginBottom: "20px",
+    fontSize: "14px",
+  },
+  backLink: {
+    color: "var(--brand)",
+    textDecoration: "none",
+    fontSize: "14px",
+    fontWeight: 500,
+  },
+};
 
 export default function SkillDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -26,49 +56,49 @@ export default function SkillDetailPage() {
 
   if (loading) {
     return (
-      <div style={{ textAlign: "center", padding: "80px 24px" }}>
-        <p style={{ color: "var(--text-secondary)" }}>Loading skill...</p>
+      <div style={pageStyles.loading}>
+        <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>
+          Loading skill...
+        </p>
       </div>
     );
   }
 
   if (!skill) {
     return (
-      <div style={{ textAlign: "center", padding: "80px 24px" }}>
-        <h2
-          style={{
-            fontSize: "24px",
-            fontFamily: "var(--font-serif)",
-            fontWeight: 500,
-            marginBottom: "8px",
-          }}
-        >
-          Skill not found
-        </h2>
-        <p style={{ color: "var(--text-secondary)", marginBottom: "16px" }}>
-          No skill found with ID: "{id}"
+      <div style={pageStyles.notFound}>
+        <h2 style={pageStyles.notFoundTitle}>Skill not found</h2>
+        <p style={pageStyles.notFoundDesc}>
+          No skill found with ID: &quot;{id}&quot;
         </p>
-        <Link
-          to="/"
-          style={{
-            color: "var(--brand)",
-            textDecoration: "none",
-            fontSize: "14px",
-          }}
-        >
-          ← Back to gallery
+        <Link to="/" style={pageStyles.backLink}>
+          Back to gallery
         </Link>
       </div>
     );
   }
 
+  const isCollection =
+    skill.type === "collection" ||
+    [
+      "app-icon-minimalist",
+      "blueprinter",
+      "design-system",
+      "editorial-card-screenshot",
+      "infographic-creation",
+    ].includes(skill.id);
+
   return (
     <div>
       <main>
-        <UnifiedLayout skill={skill} />
+        {isCollection ? (
+          <CollectionLayout skill={skill} />
+        ) : (
+          <UnifiedLayout skill={skill} />
+        )}
       </main>
 
-      {skill.installCommand && (
+      {!isCollection && skill.installCommand && (
         <section
           style={{
             maxWidth: "72ch",
@@ -82,7 +112,7 @@ export default function SkillDetailPage() {
 
       <section
         style={{
-          maxWidth: "72ch",
+          maxWidth: isCollection ? "960px" : "72ch",
           margin: "48px auto 0",
           padding: "0 20px 60px",
         }}
