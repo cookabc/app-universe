@@ -1,94 +1,100 @@
-/* === Kami + OPC Design Tokens === */
-/* Warm parchment canvas, ink-blue accent, serif-led hierarchy, tight editorial rhythm */
+/* === Midnight Atelier Design System === */
+/* Deep ink background, amber-gold accent, serif display + geometric sans */
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
-  /* Surfaces - Kami parchment */
-  --bg-primary: var(--parchment);
-  --bg-secondary: var(--sand);
-  --bg-card: var(--ivory);
-  --bg-card-hover: var(--white);
-  --bg-primary-rgb: 245, 244, 237;
-  --bg-secondary-rgb: 232, 230, 220;
+  /* Surfaces - Midnight depth */
+  --bg-primary: #0f0f0e;
+  --bg-secondary: #161614;
+  --bg-surface: #1a1918;
+  --bg-card: #232220;
+  --bg-card-hover: #2a2927;
+  --bg-elevated: #302e2c;
+  --bg-primary-rgb: 15, 15, 14;
+  --bg-secondary-rgb: 22, 22, 20;
 
-  /* Text - Near black for body, charcoal for secondary */
-  --text-primary: var(--near-black);
-  --text-secondary: var(--charcoal);
-  --text-muted: var(--stone);
+  /* Text - Warm white hierarchy */
+  --text-primary: #e8e6e3;
+  --text-secondary: #9a9590;
+  --text-muted: #5c5a56;
+  --text-dim: #3a3836;
 
-  /* Accent - Ink blue (kami) + terracotta (opc) */
-  --brand: #1b365d; /* ink blue */
-  --brand-deep: #a64f33; /* terracotta deep */
-  --accent: var(--terracotta);
-  --accent-hover: var(--coral);
+  /* Accent - Amber gold primary, mint secondary */
+  --brand: #d4a853;
+  --brand-soft: rgba(212, 168, 83, 0.12);
+  --brand-subtle: rgba(212, 168, 83, 0.06);
+  --brand-glow: rgba(212, 168, 83, 0.2);
+  --accent: #5ecf8a;
+  --accent-soft: rgba(94, 207, 138, 0.12);
+  --accent-glow: rgba(94, 207, 138, 0.18);
 
-  /* Border - Warm cream */
-  --border: var(--border-warm);
-  --border-strong: var(--border-dark);
-  --border-soft: var(--border-cream);
+  /* Border - Warm dark */
+  --border: #2e2c2a;
+  --border-strong: #3d3b38;
+  --border-soft: #1f1e1c;
+  --border-subtle: #181816;
 
-  /* Ring / Focus */
-  --glow: #e4ecf5; /* Tag default: solid hex, NOT rgba */
-  --tag-bg-light: #eef2f7; /* Tag light 0.08 equivalent */
-  --tag-bg-default: #e4ecf5; /* Tag standard 0.14-0.18 equivalent */
-  --tag-bg-medium: #d0dce9; /* Tag medium 0.22 equivalent */
-  --tag-bg-strong: #d6e1ee; /* Tag strong 0.30 equivalent */
-  --success: #22c55e;
+  /* Tag backgrounds */
+  --tag-bg-light: rgba(212, 168, 83, 0.08);
+  --tag-bg-default: rgba(212, 168, 83, 0.14);
+  --tag-bg-medium: rgba(212, 168, 83, 0.2);
+  --tag-bg-strong: rgba(212, 168, 83, 0.28);
 
-  /* Shadows - Kami compliant (Ring / Whisper only) */
-  --shadow-ring: 0 0 0 1px var(--ring-warm);
-  --shadow-whisper: 0 4px 24px rgba(0, 0, 0, 0.05);
+  /* Status colors */
+  --success: #5ecf8a;
+  --warning: #d4a853;
+  --error: #e85c4a;
 
-  /* Category colors — mapped to OPC palette */
-  --cat-diagram: #c96442;
-  --cat-design: #d97757;
-  --cat-screenshot: #e8854a;
-  --cat-course: #87867f;
-  --cat-devtools: #5e5d59;
-  --cat-security: #c96442;
-  --cat-workflow: #4d4c48;
-  --cat-macos: #30302e;
-  --cat-web: #b0aea5;
+  /* Category palette — mapped to midnight tones */
+  --cat-diagram: #9b8af2;
+  --cat-design: #e88e8e;
+  --cat-screenshot: #e8a84c;
+  --cat-course: #6eb9e8;
+  --cat-devtools: #5ecf8a;
+  --cat-security: #e86a6a;
+  --cat-workflow: #c99ff2;
+  --cat-macos: #6eb9e8;
+  --cat-web: #e8c46a;
 
-  /* Radius - Concentric: outer = inner + padding */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 16px;
+  /* Shadows - Depth layers */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.38), 0 2px 8px rgba(0, 0, 0, 0.28);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.45), 0 4px 16px rgba(0, 0, 0, 0.32);
+  --shadow-glow:
+    0 0 20px rgba(212, 168, 83, 0.08), 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-ring: inset 0 0 0 1px var(--border-strong);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.25);
 
-  /* Typography - Kami serif-led hierarchy */
-  --font-mono: "SF Mono", "Fira Code", monospace;
+  /* Radius - Concentric scale */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Typography */
+  --font-display: "DM Serif Display", Georgia, "Noto Serif SC", serif;
   --font-sans:
-    -apple-system, "PingFang SC", "Noto Sans SC", "Source Han Sans SC",
+    "Plus Jakarta Sans", -apple-system, "PingFang SC", "Noto Sans SC",
     system-ui, sans-serif;
-  --font-serif: Georgia, "Noto Serif SC", "Source Han Serif SC", serif;
+  --font-mono: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
 
-  /* Focus - WDG compliant */
+  /* Focus ring */
   --focus-ring: 0 0 0 2px var(--brand);
   --focus-ring-offset: 2px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-entry: 600ms;
 }
 
-/* Base color tokens */
-:root {
-  --parchment: #f5f4ed;
-  --ivory: #faf9f5;
-  --white: #ffffff;
-  --sand: #e8e6dc;
-  --near-black: #141413;
-  --dark-surface: #30302e;
-  --dark-warm: #3d3d3a;
-  --terracotta: #a84830;
-  --coral: #b8563e;
-  --charcoal: #4d4c48;
-  --olive: #5e5d59;
-  --stone: #87867f;
-  --silver: #b0aea5;
-  --border-cream: #f0eee6;
-  --border-warm: #e8e6dc;
-  --border-dark: #30302e;
-  --ring-warm: #d1cfc5;
-  --ring-deep: #c2c0b6;
-}
 *,
 *::before,
 *::after {
@@ -96,26 +102,29 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 html {
   font-size: 16px;
   scroll-behavior: smooth;
 }
+
 body {
   font-family: var(--font-sans);
   background: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.45;
+  line-height: 1.5;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
+
 #root {
   min-height: 100vh;
 }
 
-/* Focus Visible - WDG Rule */
+/* Focus Visible */
 :focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
@@ -124,28 +133,25 @@ body {
   outline: none;
 }
 
-/* Links — kami: brand color, underline on hover only */
+/* Links */
 a {
   color: var(--brand);
   text-decoration: none;
-  transition:
-    color 0.15s ease,
-    text-decoration-color 0.15s ease;
+  transition: color var(--duration-fast) var(--ease-out);
 }
 a:hover {
-  color: var(--brand);
+  color: #e6bc6a;
   text-decoration: underline;
-  text-decoration-color: var(--brand-light);
   text-decoration-thickness: 0.5px;
   text-underline-offset: 3px;
 }
 a:focus-visible {
-  outline: 0.5px solid var(--ring-warm);
+  outline: 0.5px solid var(--brand);
   outline-offset: 2px;
   border-radius: 2px;
 }
 
-/* Scrollbar */
+/* Scrollbar - slim, dark */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -154,22 +160,25 @@ a:focus-visible {
   background: var(--bg-secondary);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: var(--border-strong);
   border-radius: 3px;
 }
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
 
-/* Typography - WDG Rules */
+/* Typography scale */
 h1,
 h2,
 h3 {
   text-wrap: balance;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 h4,
 h5,
 h6 {
   text-wrap: balance;
-  line-height: 1.3;
+  line-height: 1.25;
 }
 p {
   text-wrap: pretty;
@@ -181,11 +190,11 @@ pre,
   font-variant-numeric: tabular-nums;
 }
 
-/* Animations - WDG: prefers-reduced-motion */
+/* Animations with reduced-motion support */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -193,14 +202,34 @@ pre,
   }
 }
 
-@keyframes blink {
+@keyframes fadeIn {
   from {
-    opacity: 1;
-  }
-  to {
     opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
 }
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -212,25 +241,26 @@ pre,
   }
 }
 
-/* Skip to content - WDG: skip link */
+/* Skip link */
 .skip-link {
   position: absolute;
   top: -40px;
   left: 0;
-  background: var(--terracotta);
-  color: var(--white);
+  background: var(--brand);
+  color: var(--bg-primary);
   padding: 8px 16px;
   z-index: 9999;
   text-decoration: none;
   font-size: 14px;
-  border-radius: 0 0 4px 0;
-  transition: top 0.2s;
+  font-weight: 500;
+  border-radius: 0 0 var(--radius-sm) 0;
+  transition: top 0.2s var(--ease-out);
 }
 .skip-link:focus {
   top: 0;
 }
 
-/* === Strip highlight.js dark theme === */
+/* === Code block theming (dark) === */
 .hljs,
 pre .hljs,
 code .hljs {
@@ -238,46 +268,44 @@ code .hljs {
   color: var(--text-primary) !important;
   padding: 0 !important;
 }
-/* Override all highlight.js token colors with OPC palette */
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-literal,
 .hljs-section,
 .hljs-name {
-  color: var(--terracotta) !important;
+  color: var(--brand) !important;
 }
 .hljs-string,
 .hljs-attr,
 .hljs-value,
 .hljs-attribute,
 .hljs-addition {
-  color: #b8563e !important;
+  color: #e8a84c !important;
 }
 .hljs-number,
 .hljs-symbol,
 .hljs-bullet,
 .hljs-regexp {
-  color: var(--charcoal) !important;
+  color: var(--accent) !important;
 }
 .hljs-comment,
 .hljs-quote,
 .hljs-doctag {
-  color: var(--stone) !important;
+  color: var(--text-muted) !important;
 }
 .hljs-type,
 .hljs-class .hljs-title,
 .hljs-built_in {
-  color: var(--charcoal) !important;
+  color: var(--text-secondary) !important;
 }
 .hljs-subst,
 .hljs-formula,
 .hljs-meta {
-  color: var(--text-secondary) !important;
+  color: var(--text-muted) !important;
 }
 
-/* Reset all code blocks to light theme */
 pre {
-  background: var(--bg-primary) !important;
+  background: var(--bg-surface) !important;
   border: 1px solid var(--border) !important;
   border-radius: var(--radius-sm) !important;
   overflow-x: auto;
@@ -285,26 +313,23 @@ pre {
 pre code {
   background: transparent !important;
   padding: 16px 20px !important;
-  display: block;
+  display: block !important;
   text-align: left !important;
   color: var(--text-primary) !important;
 }
-/* Kill inline dark backgrounds from rehype-highlight */
 pre[style*="background"],
 pre > div[style*="background"],
 pre > span[style*="background"] {
-  background: var(--bg-primary) !important;
+  background: var(--bg-surface) !important;
 }
 pre code[style*="background"],
 pre code span[style*="background"] {
   background: transparent !important;
 }
-/* Kill centered text from rehype-highlight */
 pre code div[style*="text-align"],
 pre code span[style*="text-align"] {
   text-align: left !important;
 }
-/* Kill inline dark text colors */
 pre code span[style*="color: #c9d1d9"],
 pre code span[style*="color:#c9d1d9"],
 pre code span[style*="color: rgb(201"],
