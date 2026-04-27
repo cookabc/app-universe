@@ -1659,5 +1659,602 @@
       "screenshots": [],
       "samples": []
     }
+  },
+  {
+    "id": "opc-methodology",
+    "name": "OPC 一人企业方法论",
+    "description": "9 个 Agent Skill 组成的完整方法论，从资源盘点到转化闭环，帮你把已有能力重新组织成一个轻资产、可验证、可复用的个人业务系统。",
+    "category": {
+      "key": "business",
+      "label": "Business",
+      "color": "#1B365D",
+      "gradient": "linear-gradient(135deg,#1B365D,#2D5A8A)",
+      "icon": "💼"
+    },
+    "stats": {
+      "lineCount": 0,
+      "charCount": 0,
+      "sectionCount": 9,
+      "codeBlockCount": 0,
+      "complexityScore": 7,
+      "complexityLabel": "Complex",
+      "readTime": "15 min"
+    },
+    "triggerPhrases": [
+      "一人企业",
+      "OPC",
+      "方法论",
+      "资源盘点",
+      "利基定位",
+      "MVP"
+    ],
+    "useCases": [
+      {
+        "icon": "🎯",
+        "title": "想从副业开始搭建一人企业",
+        "description": "有全职工作，想用业余时间验证商业想法"
+      },
+      {
+        "icon": "📊",
+        "title": "需要系统化的创业方法论",
+        "description": "不靠直觉拍脑袋，要可执行的框架"
+      },
+      {
+        "icon": "🔄",
+        "title": "已有能力但不知道如何组织",
+        "description": "技能/经验/资源都有，缺的是结构化方法"
+      },
+      {
+        "icon": "🚀",
+        "title": "想做 MVP 验证而非大而全产品",
+        "description": "追求最小可行验证，快速迭代"
+      }
+    ],
+    "keyFeatures": [
+      "00 总编排 — 判断当前阶段与用户模式，组织整体流程",
+      "01 资源盘点 — 8 类资源全面扫描（经验/人群/能力/关系/渠道/资产/约束）",
+      "02 利基定位 — 三环合一框架：新杠杆 × 边界变动 × 资源匹配",
+      "03 价值主张 — Jobs/Pains/Gains 拆解，多版本对比选择",
+      "04 商业模式 — Lean Canvas 核心模块，识别最高风险假设",
+      "06 MVP 设计 — 混合版验证路径：1 单校准 + 2 单真实验证",
+      "07 转化闭环 — 私域主路径 + 小红书辅路径的完整触达→成交链路",
+      "08 资产沉淀 — 识别运营中可沉淀的可复用成果",
+      "09 经营复盘 — 判断最真实瓶颈，确认下一周期唯一优先重点"
+    ],
+    "installCommand": "npx skills add https://github.com/easychen/opc-methodology/skills/opc-orchestrator",
+    "content": "# OPC 一人企业方法论\n\n> 9 个 Agent Skill 组成的完整方法论，从资源盘点到转化闭环。\n\n## 方法论概览\n\nOPC（One-Person Company）是一套面向独立创作者和个体经营者的**可执行方法论**。它不是理论框架，而是通过 9 个 Agent Skill 组成的完整流程，帮助你把已有能力重新组织成一个轻资产、可验证、可复用的个人业务系统。\n\n## 执行流\n\n```\n00 总编排 → 01 资源盘点 → 02 利基定位 → 03 价值主张 → 04 商业模式 → 06 MVP 设计 → 07 转化闭环\n```\n\n- **01 → 07 线性顺序执行**：按阶段依次推进\n- **08 / 09 条件触发**：在实际运营中按需触发（资产沉淀 / 经营复盘）\n\n## 适用场景\n\n- 想从副业开始搭建一人企业的职场人\n- 自由职业者需要系统化业务方法的\n- 有能力/经验/资源但不知道如何组织成商业体系的\n- 想做 MVP 验证而非大而全产品的创业者\n\n## 安装方式\n\n```bash\n# 全部安装\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-orchestrator\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-resource-audit\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-niche-positioning\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-value-proposition\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-business-model-design\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-mvp-designer\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-conversion-loop\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-asset-ops\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-dashboard-review\n```\n\n启动后使用 `/opc-orchestrator` 开始建盘流程。",
+    "fileInfo": {
+      "totalFiles": 9,
+      "totalSizeStr": "~120 KB",
+      "tree": {
+        "name": "opc-methodology",
+        "type": "collection",
+        "children": []
+      }
+    },
+    "lastUpdated": "",
+    "type": "collection",
+    "sourceUrl": "https://opc-skills.ft07.com/",
+    "children": [
+      {
+        "id": "opc-orchestrator",
+        "name": "总编排",
+        "description": "判断当前阶段与用户模式，组织整体流程，管控阶段边界。每次新会话自动恢复上次进度。",
+        "tag": "编排层"
+      },
+      {
+        "id": "opc-resource-audit",
+        "name": "资源盘点",
+        "description": "按经验、人群、能力、关系、渠道、资产、约束、硬性边界 8 个类别，确认你手上到底有什么。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-niche-positioning",
+        "name": "利基定位",
+        "description": "通过「三环合一」框架发现细分市场：新杠杆 × 边界变动 × 资源匹配，用 6 维机会评分筛选。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-value-proposition",
+        "name": "价值主张",
+        "description": "拆解目标客群的 Jobs / Pains / Gains，生成多个价值主张版本供对比选择。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-business-model-design",
+        "name": "商业模式设计",
+        "description": "拆解 Lean Canvas 核心模块，确定收费结构与收入路径，识别最高风险假设。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-mvp-designer",
+        "name": "MVP 设计",
+        "description": "确定最优先验证的假设、最小验证形式、成功标准与交付边界。不追求产品完整度，只追求假设验证。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-conversion-loop",
+        "name": "转化闭环",
+        "description": "设计从触达到承接到成交的完整路径，包括渠道策略、内容触达方式和承接机制。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-asset-ops",
+        "name": "资产沉淀",
+        "description": "识别运营中可沉淀的可复用成果，规划资产优先级。支持多次触发，每次带日期标记。",
+        "tag": "条件触发"
+      },
+      {
+        "id": "opc-dashboard-review",
+        "name": "经营复盘",
+        "description": "判断当前最真实的瓶颈，确认下一周期唯一优先重点。运营卡住或需要定期回顾时触发。",
+        "tag": "条件触发"
+      }
+    ],
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    }
+  },
+  {
+    "id": "impeccable-style",
+    "name": "Impeccable Design Quality",
+    "description": "Before commands, before detection, Impeccable teaches your AI real design. Deep reference knowledge across 7 dimensions, loaded every time your AI writes code. 18 commands form a shared vocabulary between you and your AI.",
+    "category": {
+      "key": "design",
+      "label": "Design",
+      "color": "#1a1a2e",
+      "gradient": "linear-gradient(135deg,#1a1a2e,#D4AF37)",
+      "icon": "◆"
+    },
+    "stats": {
+      "lineCount": 0,
+      "charCount": 0,
+      "sectionCount": 18,
+      "codeBlockCount": 0,
+      "complexityScore": 6,
+      "complexityLabel": "Complex",
+      "readTime": "10 min"
+    },
+    "triggerPhrases": [
+      "/impeccable",
+      "/audit",
+      "/polish",
+      "/critique",
+      "设计质量",
+      "UI打磨"
+    ],
+    "useCases": [
+      {
+        "icon": "🎨",
+        "title": "AI 生成的 UI 看起来千篇一律",
+        "description": "所有模型产出同样的紫色渐变、圆角卡片"
+      },
+      {
+        "icon": "🔍",
+        "title": "需要自动检测 UI 反模式",
+        "description": "渐变文字、嵌套卡片、低对比度等 25+ 规则"
+      },
+      {
+        "icon": "⚡",
+        "title": "想要精确的设计指令词表",
+        "description": "18 条命令覆盖创建/评估/精简/打磨全流程"
+      },
+      {
+        "icon": "🌐",
+        "title": "需要在任意网页上检查设计问题",
+        "description": "Chrome 扩展一键高亮反模式元素"
+      }
+    ],
+    "keyFeatures": [
+      "7 维设计质量体系：Visual Expression · Design Systems · Spatial Layout · Responsive · Interaction · Motion · Content",
+      "18 条命令词表：/create /evaluate /refine /simplify /harden /system /audit /polish /bolder /distill /critique /typeset /layout /shape /craft /teach /extract /impeccable",
+      "25 条确定性检测规则：无需 LLM，纯模式匹配捕获反模式",
+      "支持 oklch/oklab/lch/lab 颜色格式，CSS 变量内 border shorthand 检测",
+      "三种使用方式：Chrome 扩展 · CLI (npx impeccable detect) · /critique 内嵌审查",
+      "Nielsen 启发式评分 + Persona 子代理并行评审"
+    ],
+    "installCommand": "npx skills add pbakaus/impeccable",
+    "content": "# Impeccable Design Quality\n\n> Before commands, before detection, Impeccable teaches your AI real design.\n\n## 核心理念\n\nEvery AI model learned from the same templates. Without intervention, they all produce the same predictable mistakes. Impeccable names them, detects them, and teaches the AI to avoid them.\n\n## 7 Dimensions of Design Quality\n\n| 维度 | 关注点 |\n|------|--------|\n| Visual Expression | Scale, rhythm, hierarchy, expression |\n| Design Systems | Accessibility, systems, theming |\n| Spatial Layout | Layout, spacing, composition |\n| Responsive Design | Fluid layouts, touch targets |\n| Interaction Design | States, feedback, affordances |\n| Motion & Polish | Micro-interactions, transitions |\n| Content Quality | Clarity, voice, error messages |\n\n## 18 Commands\n\n### Creation\n- `/create` — Generate designed UI from requirements\n- `/shape` — Structured discovery interview → design brief\n- `/craft` — Brief → full implementation flow\n\n### Evaluation\n- `/evaluate` — Review against design principles\n- `/audit` — Score 5 dimensions with P0-P3 severity\n- `/critique` — Nielsen heuristics + persona review\n\n### Refinement\n- `/refine` — Iterative improvement pass\n- `/polish` — Final visual refinement\n- `/bolder` — Strengthen typographic hierarchy\n- `/simplify` — Reduce complexity while keeping intent\n- `/distill` — Remove unnecessary elements\n- `/typeset` — Fix typography scale and rhythm\n- `/layout` — Fix layout & spacing issues\n\n### Production\n- `/harden` — Production readiness: edge cases, errors\n- `/system` — Align to design system tokens\n\n### Context\n- `/teach` — Set project design context (.impeccable.md)\n- `/extract` — Extract design context from codebase\n- `/impeccable` — Master command: teach/craft/extract modes\n\n## Detection Engine\n\n25 deterministic checks across typography, color, layout, motion, and quality:\n- Gradient text detection\n- Purple palette identification\n- Nested card detection\n- Low contrast measurement\n- Tiny body text flagging\n- Emoji-only node detection\n- And 19 more rules...\n\nSupports: HTML, CSS, JSX/TSX, Vue, Svelte, CSS-in-JS\nColor formats: oklch, oklab, lch, lab, hex, rgb\n\n## Installation\n\n```bash\n# Skills Add (Recommended)\nnpx skills add pbakaus/impeccable\n\n# CLI Global Install\nnpm i -g impeccable\n\n# Claude Code Plugin\n/plugin marketplace add pbakaus/impeccable\n```\n\n## Stay Updated\n\n```bash\nnpx impeccable skills update\n```",
+    "fileInfo": {
+      "totalFiles": 11,
+      "totalSizeStr": "~200 KB",
+      "tree": {
+        "name": "impeccable-style",
+        "type": "collection",
+        "children": []
+      }
+    },
+    "lastUpdated": "",
+    "type": "collection",
+    "sourceUrl": "https://impeccable.style/",
+    "children": [
+      {
+        "id": "impeccable-create",
+        "name": "/create",
+        "description": "Generate designed UI from requirements with full design thinking applied.",
+        "icon": "🎨"
+      },
+      {
+        "id": "impeccable-evaluate",
+        "name": "/evaluate",
+        "description": "Review output against the 7 dimensions of design quality.",
+        "icon": "🔍"
+      },
+      {
+        "id": "impeccable-refine",
+        "name": "/refine",
+        "description": "Iterative improvement pass that preserves intent while elevating quality.",
+        "icon": "✨"
+      },
+      {
+        "id": "impeccable-simplify",
+        "name": "/simplify",
+        "description": "Reduce complexity while keeping core intent intact.",
+        "icon": "✂️"
+      },
+      {
+        "id": "impeccable-harden",
+        "name": "/harden",
+        "description": "Production readiness: edge cases, empty states, error handling.",
+        "icon": "🛡️"
+      },
+      {
+        "id": "impeccable-system",
+        "name": "/system",
+        "description": "Align all components to design system tokens and conventions.",
+        "icon": "⚙️"
+      },
+      {
+        "id": "impeccable-audit",
+        "name": "/audit",
+        "description": "Score 5 dimensions with P0-P3 severity ratings and action plans.",
+        "icon": "📋"
+      },
+      {
+        "id": "impeccable-polish",
+        "name": "/polish",
+        "description": "Final visual refinement pass for production-ready output.",
+        "icon": "💎"
+      },
+      {
+        "id": "impeccable-bolder",
+        "name": "/bolder",
+        "description": "Strengthen typographic hierarchy for better readability.",
+        "icon": "Aa"
+      },
+      {
+        "id": "impeccable-distill",
+        "name": "/distill",
+        "description": "Remove unnecessary elements without losing meaning.",
+        "icon": "💧"
+      },
+      {
+        "id": "impeccable-critique",
+        "name": "/critique",
+        "description": "Full review: Nielsen heuristics + persona agents + live overlay.",
+        "icon": "🔬"
+      },
+      {
+        "id": "impeccable-typeset",
+        "name": "/typeset",
+        "description": "Fix typography scale, rhythm, and font choices.",
+        "icon": "T"
+      },
+      {
+        "id": "impeccable-layout",
+        "name": "/layout",
+        "description": "Fix layout & spacing issues across all viewports.",
+        "icon": "▦"
+      },
+      {
+        "id": "impeccable-shape",
+        "name": "/shape",
+        "description": "Structured discovery interview about purpose, audience, goals.",
+        "icon": "❓"
+      },
+      {
+        "id": "impeccable-craft",
+        "name": "/craft",
+        "description": "Chain brief into full implementation flow, ship designed features.",
+        "icon": "⚒️"
+      },
+      {
+        "id": "impeccable-teach",
+        "name": "/teach",
+        "description": "Set project's design context via .impeccable.md file.",
+        "icon": "📖"
+      },
+      {
+        "id": "impeccable-extract",
+        "name": "/extract",
+        "description": "Extract design context from existing codebase.",
+        "icon": "📤"
+      },
+      {
+        "id": "impeccable-master",
+        "name": "/impeccable",
+        "description": "Master command: teach/craft/extract sub-modes.",
+        "icon": "◆"
+      }
+    ],
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    }
+  },
+  {
+    "id": "markdown-viewer-skills",
+    "name": "Markdown Viewer Skills",
+    "description": "14 skills covering 5 rendering engines — from software modeling to enterprise architecture, data analytics, and editorial-quality content cards. Opinionated skills for AI coding agents to create stunning diagrams and visualizations directly in Markdown.",
+    "category": {
+      "key": "diagram",
+      "label": "Diagram",
+      "color": "#6366f1",
+      "gradient": "linear-gradient(135deg,#6366f1,#8b5cf6)",
+      "icon": "🧭"
+    },
+    "stats": {
+      "lineCount": 0,
+      "charCount": 0,
+      "sectionCount": 14,
+      "codeBlockCount": 0,
+      "complexityScore": 8,
+      "complexityLabel": "Complex+",
+      "readTime": "20 min"
+    },
+    "triggerPhrases": [
+      "画图",
+      "图表",
+      "UML",
+      "PlantUML",
+      "架构图",
+      "流程图",
+      "vega",
+      "infographic"
+    ],
+    "useCases": [
+      {
+        "icon": "📊",
+        "title": "需要在 Markdown 中渲染图表",
+        "description": "数据可视化、架构图、流程图等直接在文档中生成"
+      },
+      {
+        "icon": "🏗️",
+        "title": "软件建模与技术文档",
+        "description": "UML 图、类图、时序图、部署图等软件工程图表"
+      },
+      {
+        "icon": "☁️",
+        "title": "云架构和网络拓扑",
+        "description": "AWS/Azure/GCP 架构图、网络设备拓扑"
+      },
+      {
+        "icon": "📰",
+        "title": "信息图和编辑卡片",
+        "description": "KPI 卡片、时间线、SWOT、杂志风格信息卡"
+      }
+    ],
+    "keyFeatures": [
+      "5 大渲染引擎：Standalone (Vega/Infographic/Canvas) · HTML/CSS (Architecture/InfoCard) · PlantUML (9 种领域图)",
+      "Vega-Lite 数据驱动可视化：柱状图/折线图/散点图/热力图/雷达图/词云",
+      "Infographic 70+ 模板：YAML 语法的预设计信息图模板",
+      "Canvas JSON 思维导图：自由空间布局的知识图谱和概念图",
+      "Architecture 13×12 布局网格：色彩编码的分层架构图",
+      "InfoCard 14×13 样式卡片：杂志级排版的信息卡片",
+      "PlantUML 9500+ mxgraph 图标：UML/云/网络/安全/ArchiMate/BPMN/数据分析/IoT/思维导图"
+    ],
+    "installCommand": "npx skills add markdown-viewer/skills",
+    "content": "# Markdown Viewer Skills\n\n> 14 skills covering 5 rendering engines for stunning diagrams and visualizations in Markdown.\n\n## Overview\n\nOpinionated skills for AI coding agents to create stunning diagrams and visualizations directly in Markdown. These skills extend agent capabilities across diagram generation, data visualization, and technical documentation.\n\n## Rendering Engines\n\n### 🧩 Standalone Skills (Independent rendering engines)\n\n| Skill | Code Fence | Output | Best For |\n|-------|-----------|--------|----------|\n| **vega** | `\\`\\`\\`vega-lite` / `\\`\\`\\`vega` | SVG/Canvas | Bar, line, scatter, heatmap, area charts, radar, word cloud |\n| **infographic** | `\\`\\`\\`infographic` | HTML | KPI cards, timelines, roadmaps, SWOT, funnels, org trees |\n| **canvas** | `\\`\\`\\`canvas` | SVG | Mind maps, knowledge graphs, concept maps, planning boards |\n\n### 🎨 HTML/CSS Embedded (Direct HTML embedding)\n\n| Skill | Templates | Best For |\n|-------|-----------|----------|\n| **architecture** | 13 layouts × 12 styles | System layers, microservices, enterprise apps |\n| **infocard** | 13 layouts × 14 styles | Knowledge summaries, data highlights, event announcements |\n\n### 📐 PlantUML-Based (Domain-specific icons)\n\n| Skill | Description | Best For |\n|-------|-------------|----------|\n| **uml** | 14 UML types + 9500+ stencils | Software modeling, design patterns, API flows |\n| **cloud** | AWS, Azure, GCP, Alibaba, IBM, OpenStack, K8s | Cloud infrastructure, serverless, multi-cloud |\n| **network** | Cisco/Citrix/industry device icons | LAN/WAN, enterprise networks, data center |\n| **security** | IAM, encryption, firewall, threat detection | Threat models, zero-trust, compliance |\n| **archimate** | Enterprise ArchiMate layered modeling | Business/application/technology layers |\n| **bpmn** | Business process + EIP + Lean Mapping | Workflow automation, value stream mapping |\n| **data-analytics** | Data pipeline and analytics workflows | ETL/ELT, warehouses, ML pipelines |\n| **iot** | IoT device, sensor, edge computing diagrams | Smart home/factory, fleet management, digital twins |\n| **mindmap** | Native PlantUML mind map syntax | Brainstorming trees, study outlines, decision maps |\n\n## Quick Install\n\n```bash\nnpx skills add markdown-viewer/skills\n```\n\nWorks with: Claude Code, Codex, Cursor, GitHub Copilot, VS Code\n\n## License\n\nGPL-3.0",
+    "fileInfo": {
+      "totalFiles": 14,
+      "totalSizeStr": "~500 KB",
+      "tree": {
+        "name": "markdown-viewer-skills",
+        "type": "collection",
+        "children": []
+      }
+    },
+    "lastUpdated": "",
+    "type": "collection",
+    "sourceUrl": "https://github.com/markdown-viewer/skills",
+    "children": [
+      {
+        "id": "vega",
+        "name": "Vega",
+        "description": "Data-driven charts with Vega-Lite and Vega. Bar, line, scatter, heatmap, area charts, radar, word cloud.",
+        "icon": "📊",
+        "tag": "Standalone"
+      },
+      {
+        "id": "infographic",
+        "name": "Infographic",
+        "description": "70+ pre-designed templates with YAML syntax. KPI cards, timelines, roadmaps, SWOT, funnels, org trees.",
+        "icon": "📈",
+        "tag": "Standalone"
+      },
+      {
+        "id": "canvas",
+        "name": "Canvas",
+        "description": "Spatial node-based diagrams with JSON Canvas format. Mind maps, knowledge graphs, concept maps.",
+        "icon": "🎨",
+        "tag": "Standalone"
+      },
+      {
+        "id": "architecture",
+        "name": "Architecture",
+        "description": "13 layouts × 12 styles. Color-coded layer diagrams with grid-based component layout.",
+        "icon": "🏛️",
+        "tag": "HTML/CSS"
+      },
+      {
+        "id": "infocard",
+        "name": "InfoCard",
+        "description": "13 layouts × 14 styles. Editorial-style information cards with magazine-quality typography.",
+        "icon": "🃏",
+        "tag": "HTML/CSS"
+      },
+      {
+        "id": "uml",
+        "name": "UML",
+        "description": "14 UML diagram types with 9500+ mxgraph stencil icons. Software modeling, design patterns.",
+        "icon": "📐",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "cloud",
+        "name": "Cloud",
+        "description": "AWS, Azure, GCP, Alibaba, IBM, OpenStack, Kubernetes icons. Cloud infrastructure.",
+        "icon": "☁️",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "network",
+        "name": "Network",
+        "description": "Network diagrams with Cisco/Citrix/industry device icons. LAN/WAN, data center.",
+        "icon": "🌐",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "security",
+        "name": "Security",
+        "description": "IAM, encryption, firewall, threat detection, compliance icons. Threat models.",
+        "icon": "🔒",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "archimate",
+        "name": "ArchiMate",
+        "description": "Enterprise architecture with ArchiMate layered modeling notation.",
+        "icon": "🏢",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "bpmn",
+        "name": "BPMN",
+        "description": "Business process modeling, EIP, and Lean Mapping stencils. Workflow automation.",
+        "icon": "📋",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "data-analytics",
+        "name": "Data Analytics",
+        "description": "Data pipeline and analytics workflow diagrams. ETL/ELT, warehouses, ML.",
+        "icon": "📊",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "iot",
+        "name": "IoT",
+        "description": "IoT device, sensor, and edge computing diagrams. Smart home/factory, digital twins.",
+        "icon": "📡",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "mindmap",
+        "name": "MindMap",
+        "description": "Native PlantUML mind map syntax with directional branches and rich text.",
+        "icon": "🧠",
+        "tag": "PlantUML"
+      }
+    ],
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    }
+  },
+  {
+    "id": "khazix-skills",
+    "name": "Khazix Skills 工具箱",
+    "description": "数字生命卡兹克的 AI 工具箱。经过长期打磨的 Prompts 和 Skills，把积累的方法论变成可复用的工具。包含横纵分析法深度研究和公众号长文写作两大核心能力。",
+    "category": {
+      "key": "methodology",
+      "label": "Methodology",
+      "color": "#92400E",
+      "gradient": "linear-gradient(135deg,#92400E,#B45309)",
+      "icon": "🗡"
+    },
+    "stats": {
+      "lineCount": 0,
+      "charCount": 0,
+      "sectionCount": 4,
+      "codeBlockCount": 0,
+      "complexityScore": 4,
+      "complexityLabel": "Moderate",
+      "readTime": "8 min"
+    },
+    "triggerPhrases": [
+      "横纵分析",
+      "深度研究",
+      "公众号写作",
+      "长文写作",
+      "khazix",
+      "卡兹克"
+    ],
+    "useCases": [
+      {
+        "icon": "🔬",
+        "title": "需要对一个主题做深度研究",
+        "description": "半小时出一份万字级研究报告，历时+共时双维度"
+      },
+      {
+        "icon": "✍️",
+        "title": "写公众号长文",
+        "description": "完整的写作风格规则、四层自检体系和风格示例库"
+      },
+      {
+        "icon": "📋",
+        "title": "快速了解一个新领域",
+        "description": "纵向追时间深度 + 横向追竞争广度的研究框架"
+      },
+      {
+        "icon": "🎯",
+        "title": "输出排版精美的 PDF 报告",
+        "description": "自动联网收集信息，最终输出结构化研究报告"
+      }
+    ],
+    "keyFeatures": [
+      "hv-analysis — 横纵分析法深度研究 Skill，自动联网收集信息",
+      "纵向追时间深度：追踪主题的历史演变脉络和发展趋势",
+      "横向追竞争广度：对标竞品和替代方案的全面比较",
+      "khazix-writer — 公众号长文写作 Skill",
+      "完整写作风格规则 + 四层自检体系",
+      "内容方法论库 + 风格示例库",
+      "Prompt 轻量版：复制粘贴即用，无需安装"
+    ],
+    "installCommand": null,
+    "content": "# Khazix Skills 工具箱\n\n> 数字生命卡兹克的 AI 工具箱。两种东西，一个目的：把我积累的方法论变成可复用的工具。\n\n## 关于\n\n这里是我自己在用的、经过长期打磨的 Prompts 和 Skills，现在决定把它们完整地、一字不改地开源出来。\n\n## 包含内容\n\n### Prompts（轻量级）\n\n复制粘贴到任何 AI 对话或 Deep Research 里就能用。\n\n**横纵分析法 Prompt** — 通用深度研究框架，融合历时-共时分析与竞争战略视角，半小时出一份万字级研究报告。\n\n### Skills（重量级）\n\n遵循 Agent Skills 开放标准的结构化指令集，安装后 Agent 会自动加载。\n\n#### hv-analysis — 横纵分析法深度研究\n\n自动联网收集信息，纵向追时间深度 + 横向追竞争广度，最终输出排版精美的 PDF 研究报告。\n\n#### khazix-writer — 公众号长文写作\n\n包含完整的写作风格规则、四层自检体系、内容方法论和风格示例库。\n\n## 安装方式\n\n### 通过 Agent 安装\n\n在 Claude Code、Codex、OpenClaw 等 Agent 中对话：\n\n```\n安装这个 skill：https://github.com/KKKKhazix/khazix-skills\n```\n\n### 手动安装\n\n```bash\ngit clone https://github.com/KKKKhazix/khazix-skills.git\ncp -r khazix-skills/hv-analysis ~/.claude/skills/\ncp -r khazix-skills/khazix-writer ~/.claude/skills/\n```\n\n### 各工具安装路径\n\n| 工具 | 路径 |\n|------|------|\n| Claude Code | ~/.claude/skills/ |\n| OpenClaw | ~/.openclaw/skills/ |\n| Codex | ~/.agents/skills/ |\n\n---\n\n*MIT License · Open Source*",
+    "fileInfo": {
+      "totalFiles": 2,
+      "totalSizeStr": "~40 KB",
+      "tree": {
+        "name": "khazix-skills",
+        "type": "collection",
+        "children": []
+      }
+    },
+    "lastUpdated": "",
+    "type": "collection",
+    "sourceUrl": "https://github.com/KKKKhazix/khazix-skills",
+    "children": [
+      {
+        "id": "hv-analysis",
+        "name": "hv-analysis 横纵分析法",
+        "description": "横纵分析法深度研究 Skill，自动联网收集信息，纵向追时间深度 + 横向追竞争广度，最终输出排版精美的 PDF 研究报告。",
+        "icon": "🔬",
+        "tag": "深度研究 · 自动联网 · PDF输出"
+      },
+      {
+        "id": "khazix-writer",
+        "name": "khazix-writer 公众号写作",
+        "description": "卡兹克公众号长文写作 Skill，包含完整的写作风格规则、四层自检体系、内容方法论和风格示例库。",
+        "icon": "✍️",
+        "tag": "长文写作 · 四层自检 · 风格示例"
+      }
+    ],
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    }
   }
 ]

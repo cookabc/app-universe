@@ -57,7 +57,7 @@ const GRILL_LINES = [
     type: "input" as const,
   },
   { text: "", type: "output" as const },
-  { text: "\u{1F525} Let us grill this plan!", type: "error" as const },
+  { text: "[HOT] Let us grill this plan!", type: "error" as const },
   { text: "", type: "output" as const },
   {
     text: "Q1: What happens if WebSocket connection drops?",
@@ -125,7 +125,7 @@ const BUILDER_LINES = [
     type: "info" as const,
   },
   { text: "", type: "output" as const },
-  { text: "\u{1F386} This Week's Builder Digest:", type: "success" as const },
+  { text: "[DIGEST] This Week's Builder Digest:", type: "success" as const },
   { text: "", type: "output" as const },
   {
     text: "[Evan You] What is next for Vite+ and Rolldown",
@@ -163,15 +163,26 @@ export default function LiveDemoSection({ skill }: Props) {
     <div style={{ marginTop: "32px", maxWidth: "65ch", padding: "12px 16px" }}>
       <h3
         style={{
+          fontFamily: "var(--font-display)",
           fontSize: "18px",
-          fontWeight: 600,
+          fontWeight: 400,
           marginBottom: "16px",
           display: "flex",
           alignItems: "center",
           gap: "8px",
+          color: "var(--text-primary)",
         }}
       >
-        &#9889; Live Demo
+        <span
+          style={{
+            width: "3px",
+            height: "18px",
+            background: "var(--brand)",
+            borderRadius: "1.5px",
+            display: "inline-block",
+          }}
+        />
+        Live Demo
       </h3>
       <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
         {demos.map((demo, i) => (

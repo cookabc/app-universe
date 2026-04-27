@@ -112,7 +112,7 @@ export default function DeviceFrame({
                   padding: f.notch ? 8 : 12,
                   position: "relative",
                   overflow: "hidden",
-                  boxShadow: "var(--shadow-whisper)",
+                  boxShadow: "var(--shadow-sm)",
                 }}
               >
                 {f.notch && (
