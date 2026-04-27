@@ -22,7 +22,7 @@ const GROUPS: TweakGroup[] = [
       { label: "Dark", value: "dark" },
       { label: "Light", value: "light" },
     ],
-    default: "dark",
+    default: "light",
   },
   {
     key: "density",
