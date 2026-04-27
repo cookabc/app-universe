@@ -1,7 +1,7 @@
 /* === Midnight Atelier Design System === */
 /* Deep ink background, amber-gold accent, serif display + geometric sans */
 :root {
-  color-scheme: dark;
+  color-scheme: dark light;
 
   /* Surfaces - Midnight depth */
   --bg-primary: #0f0f0e;
@@ -93,6 +93,65 @@
   --duration-normal: 250ms;
   --duration-slow: 400ms;
   --duration-entry: 600ms;
+}
+
+/* === Light Mode Override === */
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Surfaces - Warm paper */
+  --bg-primary: #faf9f7;
+  --bg-secondary: #f5f4f2;
+  --bg-surface: #f0eeeb;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f5f4f2;
+  --bg-elevated: #ffffff;
+  --bg-primary-rgb: 250, 249, 247;
+  --bg-secondary-rgb: 245, 244, 242;
+
+  /* Text - Warm ink hierarchy */
+  --text-primary: #1a1a18;
+  --text-secondary: #5c5a56;
+  --text-muted: #8a8884;
+  --text-dim: #b5b3af;
+
+  /* Accent - Amber gold (same, slightly adjusted for light bg) */
+  --brand: #b8932f;
+  --brand-soft: rgba(184, 147, 47, 0.1);
+  --brand-subtle: rgba(184, 147, 47, 0.05);
+  --brand-glow: rgba(184, 147, 47, 0.15);
+
+  /* Border - Warm light */
+  --border: #e5e3df;
+  --border-strong: #d5d3cf;
+  --border-soft: #f0eeeb;
+  --border-subtle: #f5f4f2;
+
+  /* Tag backgrounds */
+  --tag-bg-light: rgba(184, 147, 47, 0.06);
+  --tag-bg-default: rgba(184, 147, 47, 0.1);
+  --tag-bg-medium: rgba(184, 147, 47, 0.16);
+  --tag-bg-strong: rgba(184, 147, 47, 0.24);
+
+  /* Shadows - Soft depth for light bg */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-glow: 0 0 20px rgba(184, 147, 47, 0.06), 0 8px 32px rgba(0, 0, 0, 0.06);
+  --shadow-ring: inset 0 0 0 1px var(--border-strong);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] a:hover {
+  color: #9a7b24;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
 }
 
 *,
