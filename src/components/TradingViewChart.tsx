@@ -19,15 +19,13 @@ export default function TradingViewChart({
 }: TradingViewChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetRef = useRef<any>(null);
+  const scriptLoadedRef = useRef(false);
 
+  // Initialize chart
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Load TradingView Charting Library
-    const script = document.createElement("script");
-    script.src = "/charting_library/charting_library.js";
-    script.async = true;
-    script.onload = () => {
+    const initChart = () => {
       if (!window.TradingView?.widget || !containerRef.current) {
         console.error("TradingView widget not found or container is null");
         return;
@@ -217,22 +215,50 @@ export default function TradingViewChart({
       }
     };
 
+    // Check if script is already loaded
+    if (window.TradingView?.widget && scriptLoadedRef.current) {
+      initChart();
+      return;
+    }
+
+    // Load TradingView Charting Library
+    const script = document.createElement("script");
+    script.src = "/charting_library/charting_library.js";
+    script.async = true;
+    script.onload = () => {
+      scriptLoadedRef.current = true;
+      initChart();
+    };
+
     document.head.appendChild(script);
 
     return () => {
       if (widgetRef.current) {
         widgetRef.current.remove();
+        widgetRef.current = null;
       }
-      script.remove();
+      if (script.parentNode) {
+        script.remove();
+      }
     };
   }, []);
 
-  // Update symbol when it changes
+  // Update symbol/resolution when they change
   useEffect(() => {
     if (widgetRef.current) {
-      widgetRef.current.setSymbol(symbol, resolution, () => {});
+      try {
+        widgetRef.current.setSymbol(symbol, resolution, () => {});
+      } catch (error) {
+        console.error("Failed to set symbol:", error);
+      }
     }
   }, [symbol, resolution]);
 
-  return <div ref={containerRef} className="tv-chart-container" />;
+  return (
+    <div
+      ref={containerRef}
+      className="tv-chart-container"
+      style={{ width: "100%", height: "100%" }}
+    />
+  );
 }
