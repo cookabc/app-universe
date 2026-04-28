@@ -51,9 +51,7 @@ export function removeCustomSkill(id: string): void {
   }
 }
 
-export function subscribeToSkillsChange(
-  cb: (skills: SkillData[]) => void,
-): () => void {
+export function subscribeToSkillsChange(cb: (skills: SkillData[]) => void): () => void {
   _customListeners.push(cb);
   return () => {
     const idx = _customListeners.indexOf(cb);

@@ -10,10 +10,7 @@ export interface AnalysisResult {
   keyFeatures: string[];
 }
 
-export function analyzeContent(
-  description: string,
-  content: string,
-): AnalysisResult {
+export function analyzeContent(description: string, content: string): AnalysisResult {
   const triggerPhrases: string[] = [];
   const quoted = description.match(/"([^"]+)"/g);
   if (quoted) {

@@ -151,9 +151,7 @@ export default function SkillHeroBanner({ skill }: Props) {
 
       <h1 style={bannerStyles.title}>{skill.name}</h1>
 
-      <p style={bannerStyles.description}>
-        {skill.description || "No description available."}
-      </p>
+      <p style={bannerStyles.description}>{skill.description || "No description available."}</p>
 
       <div style={bannerStyles.metricsRow}>
         {[

@@ -61,8 +61,7 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.25);
   --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.38), 0 2px 8px rgba(0, 0, 0, 0.28);
   --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.45), 0 4px 16px rgba(0, 0, 0, 0.32);
-  --shadow-glow:
-    0 0 20px rgba(212, 168, 83, 0.08), 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 20px rgba(212, 168, 83, 0.08), 0 8px 32px rgba(0, 0, 0, 0.3);
   --shadow-ring: inset 0 0 0 1px var(--border-strong);
   --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.25);
 
@@ -77,8 +76,7 @@
   /* Typography */
   --font-display: "DM Serif Display", Georgia, "Noto Serif SC", serif;
   --font-sans:
-    "Plus Jakarta Sans", -apple-system, "PingFang SC", "Noto Sans SC",
-    system-ui, sans-serif;
+    "Plus Jakarta Sans", -apple-system, "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
 
   /* Focus ring */

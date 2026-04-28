@@ -206,9 +206,7 @@ function getDemosForSkill(skill: SkillData): React.ReactNode[] {
         themes = extractThemeColors(assets.systemJson);
       }
       if (themes.length)
-        el.push(
-          <ColorPalette key="cp" themes={themes} title="11 Design Systems" />,
-        );
+        el.push(<ColorPalette key="cp" themes={themes} title="11 Design Systems" />);
       const screenshots = (assets?.screenshots || []).map((s: string) => ({
         url: `${ASSETS_BASE}/${id}/${s}`,
         title: s.replace(".png", ""),
@@ -216,12 +214,7 @@ function getDemosForSkill(skill: SkillData): React.ReactNode[] {
       }));
       if (screenshots.length)
         el.push(
-          <ImageGallery
-            key="ig"
-            images={screenshots}
-            title="Theme Screenshots"
-            height="300px"
-          />,
+          <ImageGallery key="ig" images={screenshots} title="Theme Screenshots" height="300px" />,
         );
       break;
     }
@@ -229,28 +222,14 @@ function getDemosForSkill(skill: SkillData): React.ReactNode[] {
       const samples = (assets?.samples || []).map((s: string) => ({
         url: `${ASSETS_BASE}/${id}/${s}`,
         title: s.replace("sample-", "").replace(".png", ""),
-        caption: s
-          .replace("sample-", "")
-          .replace(".png", "")
-          .replace(/-/g, " "),
+        caption: s.replace("sample-", "").replace(".png", "").replace(/-/g, " "),
       }));
       if (samples.length)
-        el.push(
-          <ImageGallery
-            key="ig"
-            images={samples}
-            title="Diagram Styles"
-            height="340px"
-          />,
-        );
+        el.push(<ImageGallery key="ig" images={samples} title="Diagram Styles" height="340px" />);
       const codeExamples = extractCodeBlocksLimited(content, 3);
       if (codeExamples.length)
         el.push(
-          <CodePlayground
-            key="cp"
-            examples={codeExamples}
-            title="SVG Generation Examples"
-          />,
+          <CodePlayground key="cp" examples={codeExamples} title="SVG Generation Examples" />,
         );
       break;
     }
@@ -262,58 +241,30 @@ function getDemosForSkill(skill: SkillData): React.ReactNode[] {
         label: makeLabel(s),
       }));
       if (devices.length)
-        el.push(
-          <DeviceFrame
-            key="df"
-            screenshots={devices}
-            title="App Store Screenshots"
-          />,
-        );
+        el.push(<DeviceFrame key="df" screenshots={devices} title="App Store Screenshots" />);
       break;
     }
     case "editorial-card-screenshot": {
       const codeExamples = extractCodeBlocksLimited(content, 4);
       if (codeExamples.length)
-        el.push(
-          <CodePlayground
-            key="cp"
-            examples={codeExamples}
-            title="Card Template Examples"
-          />,
-        );
+        el.push(<CodePlayground key="cp" examples={codeExamples} title="Card Template Examples" />);
       break;
     }
     case "ink":
-      el.push(
-        <TerminalWindow
-          key="tw"
-          lines={INK_LINES}
-          title="Ink Terminal UI"
-          height="200px"
-        />,
-      );
+      el.push(<TerminalWindow key="tw" lines={INK_LINES} title="Ink Terminal UI" height="200px" />);
       break;
     case "blueprinter":
     case "infographic-creation": {
       const codeExamples = extractCodeBlocksLimited(content, 3);
       if (codeExamples.length)
         el.push(
-          <CodePlayground
-            key="cp"
-            examples={codeExamples}
-            title={`${skill.name} Examples`}
-          />,
+          <CodePlayground key="cp" examples={codeExamples} title={`${skill.name} Examples`} />,
         );
       break;
     }
     case "git-author-replacement":
       el.push(
-        <TerminalWindow
-          key="tw"
-          lines={GIT_LINES}
-          title="Git Author Replacement"
-          height="220px"
-        />,
+        <TerminalWindow key="tw" lines={GIT_LINES} title="Git Author Replacement" height="220px" />,
       );
       break;
     case "slowmist-agent-security":
@@ -368,11 +319,7 @@ function getDemosForSkill(skill: SkillData): React.ReactNode[] {
       const codeExamples = extractCodeBlocksLimited(content, 4);
       if (codeExamples.length)
         el.push(
-          <CodePlayground
-            key="cp"
-            examples={codeExamples}
-            title={`${skill.name} Examples`}
-          />,
+          <CodePlayground key="cp" examples={codeExamples} title={`${skill.name} Examples`} />,
         );
       break;
     }
@@ -389,8 +336,7 @@ function makeLabel(s: string): string {
 
 function inferDevice(filename: string): string {
   const lower = filename.toLowerCase();
-  if (lower.includes("iphone") && lower.includes("pro-max"))
-    return "iphone-pro-max";
+  if (lower.includes("iphone") && lower.includes("pro-max")) return "iphone-pro-max";
   if (lower.includes("iphone")) return "iphone-pro";
   if (lower.includes("ipad-pro-13")) return "ipad-pro-13";
   if (lower.includes("ipad")) return "ipad-pro-11";

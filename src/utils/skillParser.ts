@@ -37,18 +37,10 @@ export function parseGithubUrl(input: string): ParsedGitHubUrl | null {
 
 export async function fetchSkillFromUrl(rawUrl: string): Promise<string> {
   const resp = await fetch(rawUrl, { headers: { Accept: "text/plain" } });
-  if (!resp.ok)
-    throw new Error(
-      "Failed to fetch SKILL.md: " + resp.status + " " + resp.statusText,
-    );
+  if (!resp.ok) throw new Error("Failed to fetch SKILL.md: " + resp.status + " " + resp.statusText);
   return resp.text();
 }
 
 export function buildSkillId(owner: string, repo: string): string {
-  return (
-    "custom-" +
-    owner.toLowerCase() +
-    "-" +
-    repo.toLowerCase().replace(/[^a-z0-9-]/g, "-")
-  );
+  return "custom-" + owner.toLowerCase() + "-" + repo.toLowerCase().replace(/[^a-z0-9-]/g, "-");
 }

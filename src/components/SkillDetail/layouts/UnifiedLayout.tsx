@@ -51,9 +51,7 @@ export default function UnifiedLayout({ skill }: Props) {
   }, [anchorItems.length]);
 
   return (
-    <div
-      style={{ maxWidth: "72ch", margin: "0 auto", padding: "24px 20px 60px" }}
-    >
+    <div style={{ maxWidth: "72ch", margin: "0 auto", padding: "24px 20px 60px" }}>
       {showAnchorNav && (
         <nav
           style={{
@@ -79,8 +77,7 @@ export default function UnifiedLayout({ skill }: Props) {
               onClick={(e) => {
                 e.preventDefault();
                 const el = document.getElementById(item.id);
-                if (el)
-                  el.scrollIntoView({ behavior: "smooth", block: "start" });
+                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
               style={{
                 whiteSpace: "nowrap",
@@ -114,12 +111,8 @@ export default function UnifiedLayout({ skill }: Props) {
         </nav>
       )}
 
-      <header
-        style={{ marginBottom: 28, paddingBottom: 20, ...header.borderStyle }}
-      >
-        <div style={{ ...header.badge, marginBottom: 10 }}>
-          {skill.category.label}
-        </div>
+      <header style={{ marginBottom: 28, paddingBottom: 20, ...header.borderStyle }}>
+        <div style={{ ...header.badge, marginBottom: 10 }}>{skill.category.label}</div>
 
         <h1
           style={{
@@ -146,21 +139,15 @@ export default function UnifiedLayout({ skill }: Props) {
           </span>
           <span style={metaSummary.separator}>/</span>
           <span style={metaSummary.item}>
-            <span style={metaSummary.itemValue}>{skill.stats.lineCount}</span>{" "}
-            lines
+            <span style={metaSummary.itemValue}>{skill.stats.lineCount}</span> lines
           </span>
           <span style={metaSummary.separator}>/</span>
           <span style={metaSummary.item}>
-            <span style={metaSummary.itemValue}>
-              {skill.stats.sectionCount}
-            </span>{" "}
-            sections
+            <span style={metaSummary.itemValue}>{skill.stats.sectionCount}</span> sections
           </span>
           <span style={metaSummary.separator}>/</span>
           <span style={metaSummary.item}>
-            <span style={metaSummary.itemValue}>
-              {skill.stats.complexityLabel}
-            </span>
+            <span style={metaSummary.itemValue}>{skill.stats.complexityLabel}</span>
           </span>
         </div>
 
@@ -168,9 +155,7 @@ export default function UnifiedLayout({ skill }: Props) {
           <button style={cta.primary} onClick={scrollToPreview}>
             View Preview
           </button>
-          <button style={cta.secondary}>
-            {skill.keyFeatures.length} Features
-          </button>
+          <button style={cta.secondary}>{skill.keyFeatures.length} Features</button>
         </div>
       </header>
 

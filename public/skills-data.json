@@ -1680,14 +1680,7 @@
       "complexityLabel": "Complex",
       "readTime": "15 min"
     },
-    "triggerPhrases": [
-      "一人企业",
-      "OPC",
-      "方法论",
-      "资源盘点",
-      "利基定位",
-      "MVP"
-    ],
+    "triggerPhrases": ["一人企业", "OPC", "方法论", "资源盘点", "利基定位", "MVP"],
     "useCases": [
       {
         "icon": "🎯",
@@ -1816,14 +1809,7 @@
       "complexityLabel": "Complex",
       "readTime": "10 min"
     },
-    "triggerPhrases": [
-      "/impeccable",
-      "/audit",
-      "/polish",
-      "/critique",
-      "设计质量",
-      "UI打磨"
-    ],
+    "triggerPhrases": ["/impeccable", "/audit", "/polish", "/critique", "设计质量", "UI打磨"],
     "useCases": [
       {
         "icon": "🎨",
@@ -2183,14 +2169,7 @@
       "complexityLabel": "Moderate",
       "readTime": "8 min"
     },
-    "triggerPhrases": [
-      "横纵分析",
-      "深度研究",
-      "公众号写作",
-      "长文写作",
-      "khazix",
-      "卡兹克"
-    ],
+    "triggerPhrases": ["横纵分析", "深度研究", "公众号写作", "长文写作", "khazix", "卡兹克"],
     "useCases": [
       {
         "icon": "🔬",
