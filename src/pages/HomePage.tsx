@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useSkills, useSearch } from "../hooks/useSkills";
 import HeroSection from "../components/Home/HeroSection";
 import SearchBar from "../components/Home/SearchBar";
 import CategoryFilter from "../components/Home/CategoryFilter";
 import SkillGrid from "../components/Home/SkillGrid";
-import TweaksPanel, {
-  useTweaks,
-  applyTweaks,
-} from "../components/common/TweaksPanel";
+import AddSkillDialog from "../components/AddSkillDialog";
+import TweaksPanel, { useTweaks, applyTweaks } from "../components/common/TweaksPanel";
 
 const pageStyles = {
   container: {
@@ -36,17 +35,51 @@ const pageStyles = {
     marginTop: "8px",
     letterSpacing: "-0.02em",
   },
+  toolbarActions: {
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    flexWrap: "wrap" as const,
+  },
+  addButton: {
+    padding: "10px 16px",
+    borderRadius: "var(--radius-md)",
+    border: "1px solid var(--border-strong)",
+    background: "var(--accent)",
+    color: "var(--bg-primary)",
+    cursor: "pointer",
+    fontSize: "13px",
+    fontWeight: 700,
+    fontFamily: "var(--font-sans)",
+    transition:
+      "background-color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out)",
+  },
 };
 
 export default function HomePage() {
-  const { skills, loading } = useSkills();
-  const [q, setQ] = useState("");
-  const [cat, setCat] = useState("all");
+  const { skills, loading, addSkill } = useSkills();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [showAddDialog, setShowAddDialog] = useState(false);
   const { tweaks, setTweak } = useTweaks();
+  const q = searchParams.get("q") || "";
+  const cat = searchParams.get("cat") || "all";
 
   useEffect(() => {
     applyTweaks(tweaks);
   }, [tweaks]);
+
+  const updateQueryState = (next: { q?: string; cat?: string }) => {
+    const params = new URLSearchParams(searchParams);
+    if (next.q !== undefined) {
+      if (next.q.trim()) params.set("q", next.q);
+      else params.delete("q");
+    }
+    if (next.cat !== undefined) {
+      if (next.cat && next.cat !== "all") params.set("cat", next.cat);
+      else params.delete("cat");
+    }
+    setSearchParams(params, { replace: true });
+  };
 
   const filtered = useSearch(skills, q, cat);
   const activeCategoryKeys = [...new Set(skills.map((s) => s.category.key))];
@@ -61,9 +94,7 @@ export default function HomePage() {
           height: "60vh",
         }}
       >
-        <span style={{ color: "var(--text-muted)", fontSize: "14px" }}>
-          Loading skills…
-        </span>
+        <span style={{ color: "var(--text-muted)", fontSize: "14px" }}>Loading skills…</span>
       </div>
     );
   }
@@ -73,12 +104,30 @@ export default function HomePage() {
       <HeroSection />
       <div style={pageStyles.container}>
         <div style={pageStyles.toolbar}>
-          <SearchBar value={q} onChange={setQ} />
-          <span style={pageStyles.resultCount}>{filtered.length} results</span>
+          <SearchBar value={q} onChange={(value) => updateQueryState({ q: value })} />
+          <div style={pageStyles.toolbarActions}>
+            <span style={pageStyles.resultCount}>{filtered.length} results</span>
+            <button
+              type="button"
+              onClick={() => setShowAddDialog(true)}
+              style={pageStyles.addButton}
+              onMouseDown={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = "scale(0.96)";
+              }}
+              onMouseUp={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+              }}
+            >
+              Add Skill
+            </button>
+          </div>
         </div>
         <CategoryFilter
           active={cat}
-          onChange={setCat}
+          onChange={(value) => updateQueryState({ cat: value })}
           availableKeys={activeCategoryKeys}
         />
         <h2 style={pageStyles.sectionTitle}>Available Skills</h2>
@@ -86,6 +135,14 @@ export default function HomePage() {
       </div>
 
       <TweaksPanel tweaks={tweaks} onChange={setTweak} />
+      {showAddDialog && (
+        <AddSkillDialog
+          onAdd={addSkill}
+          onClose={() => {
+            setShowAddDialog(false);
+          }}
+        />
+      )}
     </>
   );
 }
