@@ -39,7 +39,7 @@ export default function ColorPalette({ themes, title = "Design Systems" }: Props
           gap: 12,
         }}
       >
-        <span style={{ fontSize: "13px", fontWeight: 600 }}>🎨 {title}</span>
+        <span style={{ fontSize: "13px", fontWeight: 600 }}>{title}</span>
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
           {themes.map((th, i) => (
             <button
@@ -48,6 +48,7 @@ export default function ColorPalette({ themes, title = "Design Systems" }: Props
               aria-pressed={i === ti}
               style={{
                 padding: "4px 12px",
+                minHeight: 40,
                 borderRadius: 20,
                 border: "none",
                 cursor: "pointer",

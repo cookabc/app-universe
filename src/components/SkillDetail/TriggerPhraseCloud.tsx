@@ -20,7 +20,7 @@ export default function TriggerPhraseCloud({ phrases }: Props) {
           color: "var(--text-secondary)",
         }}
       >
-        🏷️ Trigger Phrases
+        Trigger Phrases
       </h3>
       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
         {phrases.map((p, i) => (

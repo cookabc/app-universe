@@ -187,9 +187,9 @@ export default function UnifiedLayout({ skill }: Props) {
                 <h2 id="skill-use-cases-heading">Best Use Cases</h2>
               </div>
               <div className="skill-use-case-grid">
-                {skill.useCases.slice(0, 6).map((useCase) => (
+                {skill.useCases.slice(0, 6).map((useCase, index) => (
                   <article key={useCase.title} className="skill-use-case-card">
-                    <span aria-hidden="true">{useCase.icon}</span>
+                    <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                     <h3>{useCase.title}</h3>
                     <p>{useCase.description}</p>
                   </article>
