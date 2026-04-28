@@ -29,6 +29,7 @@ const PREVIEW_SKILL_IDS = new Set([
 export default function UnifiedLayout({ skill }: Props) {
   const body = stripLeadingH1(skill.content);
   const hasPreview = PREVIEW_SKILL_IDS.has(skill.id);
+  const children = skill.children || [];
   const anchorItems = useMemo<AnchorItem[]>(() => {
     return body
       .split("\n")
@@ -44,7 +45,7 @@ export default function UnifiedLayout({ skill }: Props) {
       className="skill-detail"
       style={
         {
-          "--detail-color": `var(--cat-${skill.category.key})`,
+          "--detail-color": skill.category.color || "var(--brand)",
         } as CSSProperties
       }
     >
@@ -78,7 +79,12 @@ export default function UnifiedLayout({ skill }: Props) {
           </div>
         </div>
 
-        <aside className="skill-command-panel" aria-label="Skill quick facts">
+        <aside
+          className={
+            skill.installCommand ? "skill-command-panel has-install" : "skill-command-panel"
+          }
+          aria-label="Skill quick facts"
+        >
           <div className="skill-command-panel-header">
             <span>Activation</span>
             <span>Ready</span>
@@ -93,8 +99,8 @@ export default function UnifiedLayout({ skill }: Props) {
               <small>Features</small>
             </div>
             <div>
-              <span>{skill.triggerPhrases.length}</span>
-              <small>Triggers</small>
+              <span>{children.length || skill.triggerPhrases.length}</span>
+              <small>{children.length ? "Modules" : "Triggers"}</small>
             </div>
           </div>
           {skill.installCommand && (
@@ -131,6 +137,13 @@ export default function UnifiedLayout({ skill }: Props) {
               ))}
             </ul>
           </div>
+
+          {children.length > 0 && (
+            <div className="skill-sidebar-section">
+              <h2>Collection</h2>
+              <p>{children.length} coordinated modules in this skill bundle.</p>
+            </div>
+          )}
         </aside>
 
         <main className="skill-detail-main">
@@ -140,7 +153,48 @@ export default function UnifiedLayout({ skill }: Props) {
                 <span>Generated Output</span>
                 <h2 id="skill-preview-heading">Preview</h2>
               </div>
-              <SkillPreview skill={skill} />
+              <div className="skill-preview-frame">
+                <SkillPreview skill={skill} />
+              </div>
+            </section>
+          )}
+
+          {children.length > 0 && (
+            <section className="skill-modules-panel" aria-labelledby="skill-modules-heading">
+              <div className="skill-section-heading">
+                <span>Collection</span>
+                <h2 id="skill-modules-heading">Included Modules</h2>
+              </div>
+              <div className="skill-module-grid">
+                {children.map((child, index) => (
+                  <article key={child.id} className="skill-module-card">
+                    <span className="skill-module-index">{String(index + 1).padStart(2, "0")}</span>
+                    <div>
+                      <h3>{child.name}</h3>
+                      <p>{child.description}</p>
+                      {child.tag && <span>{child.tag}</span>}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {skill.useCases.length > 0 && (
+            <section className="skill-use-cases-panel" aria-labelledby="skill-use-cases-heading">
+              <div className="skill-section-heading">
+                <span>Operator Playbook</span>
+                <h2 id="skill-use-cases-heading">Best Use Cases</h2>
+              </div>
+              <div className="skill-use-case-grid">
+                {skill.useCases.slice(0, 6).map((useCase) => (
+                  <article key={useCase.title} className="skill-use-case-card">
+                    <span aria-hidden="true">{useCase.icon}</span>
+                    <h3>{useCase.title}</h3>
+                    <p>{useCase.description}</p>
+                  </article>
+                ))}
+              </div>
             </section>
           )}
 

@@ -4,7 +4,6 @@ import { getSkillById } from "../data/skills";
 import LiveDemoSection from "../components/Demos/LiveDemoSection";
 import RelatedSkills from "../components/SkillDetail/RelatedSkills";
 import UnifiedLayout from "../components/SkillDetail/layouts/UnifiedLayout";
-import CollectionLayout from "../components/SkillDetail/layouts/CollectionLayout";
 import type { SkillData } from "../data/skills";
 
 const pageStyles = {
@@ -73,29 +72,19 @@ export default function SkillDetailPage() {
     );
   }
 
-  const isCollection =
-    skill.type === "collection" ||
-    [
-      "app-icon-minimalist",
-      "blueprinter",
-      "design-system",
-      "editorial-card-screenshot",
-      "infographic-creation",
-    ].includes(skill.id);
-
   return (
     <div className="skill-page-shell">
       <main className="skill-page-main">
-        {isCollection ? <CollectionLayout skill={skill} /> : <UnifiedLayout skill={skill} />}
+        <UnifiedLayout skill={skill} />
       </main>
 
-      {!isCollection && skill.installCommand && (
+      {skill.installCommand && (
         <section className="skill-live-demo-section">
           <LiveDemoSection skill={skill} />
         </section>
       )}
 
-      <section className={isCollection ? "skill-related-section wide" : "skill-related-section"}>
+      <section className="skill-related-section">
         <RelatedSkills currentId={skill.id} />
       </section>
     </div>
