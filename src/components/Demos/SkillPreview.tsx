@@ -15,8 +15,7 @@ export default function SkillPreview({ skill }: Props) {
 
   if (id === "opc-methodology") return <OpcCollectionPreview />;
   if (id === "impeccable-style") return <ImpeccableCollectionPreview />;
-  if (id === "markdown-viewer-skills")
-    return <MarkdownViewerCollectionPreview />;
+  if (id === "markdown-viewer-skills") return <MarkdownViewerCollectionPreview />;
   if (id === "khazix-skills") return <KhazixCollectionPreview />;
 
   return null;
@@ -69,12 +68,9 @@ function AppIconPreview() {
                 transition: "transform .15s ease",
               }}
               onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.transform =
-                  "scale(1.05)")
+                ((e.currentTarget as HTMLElement).style.transform = "scale(1.05)")
               }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.transform = "scale(1)")
-              }
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1)")}
             >
               {icon.svg}
             </div>
@@ -103,8 +99,7 @@ function AppIconPreview() {
           paddingLeft: "10px",
         }}
       >
-        Minimalist icons generated from natural language prompts. No design
-        tools needed.
+        Minimalist icons generated from natural language prompts. No design tools needed.
       </div>
     </div>
   );
@@ -114,20 +109,8 @@ function SvgGridIcon() {
   return (
     <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
       <rect width="56" height="56" rx="14" fill="#1B365D" />
-      <path
-        d="M18 18h8v8h-8zM30 18h8v8h-8zM18 30h8v8h-8z"
-        fill="white"
-        opacity={0.9}
-      />
-      <rect
-        x="30"
-        y="30"
-        width="8"
-        height="8"
-        rx="2"
-        fill="white"
-        opacity={0.5}
-      />
+      <path d="M18 18h8v8h-8zM30 18h8v8h-8zM18 30h8v8h-8z" fill="white" opacity={0.9} />
+      <rect x="30" y="30" width="8" height="8" rx="2" fill="white" opacity={0.5} />
     </svg>
   );
 }
@@ -185,7 +168,6 @@ function BlueprintPreview() {
   const cellBg = "var(--bg-card)";
   const gridLine = "var(--border-strong)";
   const textDim = "var(--text-muted)";
-  const textBody = "var(--text-secondary)";
   const accent = "#7b9cf0";
 
   return (
@@ -220,9 +202,7 @@ function BlueprintPreview() {
         >
           SYSTEM ARCHITECTURE
         </span>
-        <span style={{ color: textDim, fontSize: "9px" }}>
-          REV 2.1 · 2026-04
-        </span>
+        <span style={{ color: textDim, fontSize: "9px" }}>REV 2.1 · 2026-04</span>
       </div>
 
       <div
@@ -246,26 +226,22 @@ function BlueprintPreview() {
           >
             MODULES
           </div>
-          {["Client Layer", "API Gateway", "Auth Service", "Data Store"].map(
-            (m, i) => (
-              <div
-                key={i}
-                style={{
-                  padding: "5px 8px",
-                  margin: "2px 0",
-                  background: i % 2 ? "var(--bg-elevated)" : cellBg,
-                  borderLeft: `2px solid ${i === 0 ? accent : gridLine}`,
-                }}
-              >
-                {m}
-              </div>
-            ),
-          )}
+          {["Client Layer", "API Gateway", "Auth Service", "Data Store"].map((m, i) => (
+            <div
+              key={i}
+              style={{
+                padding: "5px 8px",
+                margin: "2px 0",
+                background: i % 2 ? "var(--bg-elevated)" : cellBg,
+                borderLeft: `2px solid ${i === 0 ? accent : gridLine}`,
+              }}
+            >
+              {m}
+            </div>
+          ))}
         </div>
 
-        <div
-          style={{ background: cellBg, padding: "14px", position: "relative" }}
-        >
+        <div style={{ background: cellBg, padding: "14px", position: "relative" }}>
           <div
             style={{
               fontWeight: 600,
@@ -277,14 +253,9 @@ function BlueprintPreview() {
           >
             DATA FLOW
           </div>
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "12px" }}
-          >
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             {[1, 2, 3].map((n) => (
-              <div
-                key={n}
-                style={{ display: "flex", alignItems: "center", gap: "8px" }}
-              >
+              <div key={n} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 <div
                   style={{
                     width: "28px",
@@ -657,8 +628,8 @@ function EditorialCardPreview() {
             borderLeft: "2px solid var(--brand)",
           }}
         >
-          A unified approach to color, spacing, and typography that maintains
-          editorial rhythm at any viewport.
+          A unified approach to color, spacing, and typography that maintains editorial rhythm at
+          any viewport.
         </p>
 
         <div
@@ -748,9 +719,7 @@ function EditorialCardPreview() {
           color: "var(--text-muted)",
         }}
       >
-        <span style={{ fontFamily: "var(--font-mono)" }}>
-          Midnight Atelier Style
-        </span>
+        <span style={{ fontFamily: "var(--font-mono)" }}>Midnight Atelier Style</span>
         <span>High density · 65ch max</span>
       </div>
     </div>
@@ -766,8 +735,7 @@ function InfographicPreview() {
       style={{
         maxWidth: "520px",
         padding: "24px",
-        background:
-          "linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-secondary) 100%)",
+        background: "linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-secondary) 100%)",
         borderRadius: "var(--radius-lg)",
         border: "1px solid var(--border-soft)",
         boxShadow: "var(--shadow-md)",
@@ -1086,9 +1054,7 @@ function ImpeccableCollectionPreview() {
       }}
     >
       <div style={{ textAlign: "center", marginBottom: 16 }}>
-        <span
-          style={{ fontSize: "20px", letterSpacing: "3px", color: "#D4AF37" }}
-        >
+        <span style={{ fontSize: "20px", letterSpacing: "3px", color: "#D4AF37" }}>
           &#9670; IMPECCABLE
         </span>
       </div>
@@ -1112,9 +1078,7 @@ function ImpeccableCollectionPreview() {
               fontWeight: 600,
               color: i === cmds.length - 1 ? "#D4AF37" : "#cbd5e1",
               border:
-                i === cmds.length - 1
-                  ? "1px solid rgba(212,175,55,0.3)"
-                  : "1px solid transparent",
+                i === cmds.length - 1 ? "1px solid rgba(212,175,55,0.3)" : "1px solid transparent",
             }}
           >
             {c}
@@ -1143,8 +1107,7 @@ function MarkdownViewerCollectionPreview() {
     <div
       style={{
         padding: "24px",
-        background:
-          "linear-gradient(135deg,var(--bg-surface) 0%,var(--bg-secondary) 100%)",
+        background: "linear-gradient(135deg,var(--bg-surface) 0%,var(--bg-secondary) 100%)",
         borderRadius: "var(--radius-md)",
         border: "1px solid var(--border-soft)",
       }}
@@ -1161,9 +1124,7 @@ function MarkdownViewerCollectionPreview() {
           14 SKILLS · 5 ENGINES
         </span>
       </div>
-      <div
-        style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}
-      >
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
         {[
           {
             label: "Standalone",
@@ -1312,9 +1273,7 @@ function KhazixCollectionPreview() {
             >
               {tool.name}
             </div>
-            <div style={{ fontSize: "10px", color: "var(--text-muted)" }}>
-              {tool.desc}
-            </div>
+            <div style={{ fontSize: "10px", color: "var(--text-muted)" }}>{tool.desc}</div>
           </div>
         ))}
       </div>
