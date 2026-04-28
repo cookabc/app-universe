@@ -1,32 +1,60 @@
 import type { SkillData } from "../../../data/skills";
+import type { CSSProperties, ReactNode } from "react";
 
 interface Props {
   skill: SkillData;
 }
 
 export default function CollectionLayout({ skill }: Props) {
+  let view: ReactNode = null;
+
   switch (skill.id) {
     case "opc-methodology":
-      return <OpcLayout skill={skill} />;
+      view = <OpcLayout skill={skill} />;
+      break;
     case "impeccable-style":
-      return <ImpeccableLayout skill={skill} />;
+      view = <ImpeccableLayout skill={skill} />;
+      break;
     case "markdown-viewer-skills":
-      return <MarkdownViewerLayout skill={skill} />;
+      view = <MarkdownViewerLayout skill={skill} />;
+      break;
     case "khazix-skills":
-      return <KhazixLayout skill={skill} />;
+      view = <KhazixLayout skill={skill} />;
+      break;
     case "app-icon-minimalist":
-      return <AppIconLayout skill={skill} />;
+      view = <AppIconLayout skill={skill} />;
+      break;
     case "blueprinter":
-      return <BlueprinterLayout skill={skill} />;
+      view = <BlueprinterLayout skill={skill} />;
+      break;
     case "design-system":
-      return <DesignSystemLayout skill={skill} />;
+      view = <DesignSystemLayout skill={skill} />;
+      break;
     case "editorial-card-screenshot":
-      return <EditorialCardLayout skill={skill} />;
+      view = <EditorialCardLayout skill={skill} />;
+      break;
     case "infographic-creation":
-      return <InfographicLayout skill={skill} />;
-    default:
-      return null;
+      view = <InfographicLayout skill={skill} />;
+      break;
   }
+
+  return (
+    <div
+      className="collection-detail-stage"
+      style={
+        {
+          "--detail-color": `var(--cat-${skill.category.key})`,
+        } as CSSProperties
+      }
+    >
+      <div className="collection-stage-header">
+        <span>{skill.category.label}</span>
+        <h1>{skill.name}</h1>
+        <p>{skill.description}</p>
+      </div>
+      <div className="collection-stage-content">{view}</div>
+    </div>
+  );
 }
 
 /* ═══════════════════════════════════════════

@@ -24,7 +24,6 @@ export const header = {
     color: "var(--brand)",
     fontSize: 10,
     fontWeight: 600,
-    letterSpacing: "0.8px",
     textTransform: "uppercase" as const,
     fontFamily: "var(--font-sans)",
   } as React.CSSProperties,
@@ -83,8 +82,8 @@ export const cta = {
     fontFamily: "var(--font-sans)",
     border: "none",
     cursor: "pointer",
-    letterSpacing: "0.3px",
-    transition: "all .15s ease",
+    transition:
+      "background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out)",
   } as React.CSSProperties,
   secondary: {
     display: "inline-flex",
@@ -99,8 +98,8 @@ export const cta = {
     fontFamily: "var(--font-sans)",
     border: "1px solid var(--border-strong)",
     cursor: "pointer",
-    letterSpacing: "0.3px",
-    transition: "all .15s ease",
+    transition:
+      "border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out)",
   } as React.CSSProperties,
 };
 
@@ -118,7 +117,6 @@ export const preview = {
     fontWeight: 600,
     color: "var(--brand)",
     textTransform: "uppercase" as const,
-    letterSpacing: "0.8px",
     marginBottom: 14,
     fontFamily: "var(--font-sans)",
     display: "flex",
@@ -156,7 +154,6 @@ export const sidebar = {
     fontWeight: 400,
     color: "var(--brand)",
     textTransform: "uppercase" as const,
-    letterSpacing: "0.8px",
     marginBottom: 12,
     paddingBottom: 8,
     borderBottom: "0.5px solid var(--border-soft)",
@@ -175,7 +172,6 @@ export const sidebar = {
     fontFamily: "var(--font-sans)",
     fontSize: 10,
     textTransform: "uppercase" as const,
-    letterSpacing: "0.5px",
   } as React.CSSProperties,
   metaValue: {
     color: "var(--text-primary)",

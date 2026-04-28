@@ -84,30 +84,18 @@ export default function SkillDetailPage() {
     ].includes(skill.id);
 
   return (
-    <div>
-      <main>
+    <div className="skill-page-shell">
+      <main className="skill-page-main">
         {isCollection ? <CollectionLayout skill={skill} /> : <UnifiedLayout skill={skill} />}
       </main>
 
       {!isCollection && skill.installCommand && (
-        <section
-          style={{
-            maxWidth: "72ch",
-            margin: "40px auto 0",
-            padding: "0 20px",
-          }}
-        >
+        <section className="skill-live-demo-section">
           <LiveDemoSection skill={skill} />
         </section>
       )}
 
-      <section
-        style={{
-          maxWidth: isCollection ? "960px" : "72ch",
-          margin: "48px auto 0",
-          padding: "0 20px 60px",
-        }}
-      >
+      <section className={isCollection ? "skill-related-section wide" : "skill-related-section"}>
         <RelatedSkills currentId={skill.id} />
       </section>
     </div>
