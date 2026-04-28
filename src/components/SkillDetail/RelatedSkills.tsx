@@ -35,7 +35,7 @@ const rsStyles = {
   row: {
     display: "flex",
     gap: "12px",
-    overflowX: "auto",
+    overflowX: "auto" as const,
     paddingBottom: "8px",
   },
   card: {
@@ -75,9 +75,7 @@ export default function RelatedSkills({ currentId }: Props) {
       if (!cur) return;
       setCl(cur.category.label);
       const f = all
-        .filter(
-          (s) => s.id !== currentId && s.category.key === cur.category.key,
-        )
+        .filter((s) => s.id !== currentId && s.category.key === cur.category.key)
         .slice(0, 4);
       setRel(f);
     });

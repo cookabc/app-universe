@@ -66,10 +66,7 @@ const GROUPS: TweakGroup[] = [
   },
 ];
 
-const ACCENT_MAP: Record<
-  string,
-  { brand: string; soft: string; subtle: string; glow: string }
-> = {
+const ACCENT_MAP: Record<string, { brand: string; soft: string; subtle: string; glow: string }> = {
   amber: {
     brand: "#d4a853",
     soft: "rgba(212,168,83,.12)",
@@ -96,25 +93,10 @@ const ACCENT_MAP: Record<
   },
 };
 
-const RADIUS_MAP: Record<
-  string,
-  { lg: string; md: string; sm: string; full: string }
-> = {
+const RADIUS_MAP: Record<string, { lg: string; md: string; sm: string; full: string }> = {
   rounded: { lg: "16px", md: "12px", sm: "8px", full: "9999px" },
   sharp: { lg: "6px", md: "4px", sm: "2px", full: "4px" },
   pill: { lg: "20px", md: "16px", sm: "12px", full: "9999px" },
-};
-
-const DENSITY_GAP: Record<string, string> = {
-  comfortable: "20px",
-  compact: "12px",
-  spacious: "28px",
-};
-
-const DENSITY_PADDING: Record<string, string> = {
-  comfortable: "24px",
-  compact: "16px",
-  spacious: "32px",
 };
 
 const panelStyles = {
@@ -350,11 +332,7 @@ export default function TweaksPanel({
         </svg>
       </button>
 
-      <div
-        style={panelStyles.panel(open)}
-        role="dialog"
-        aria-label="Design Tweaks"
-      >
+      <div style={panelStyles.panel(open)} role="dialog" aria-label="Design Tweaks">
         <div style={panelStyles.header}>
           <span style={panelStyles.title}>Tweaks</span>
           <button
@@ -374,12 +352,9 @@ export default function TweaksPanel({
                   {g.options.map((opt) => (
                     <button
                       key={opt.value}
-                      onClick={() =>
-                        onChange(g.key as keyof TweaksState, opt.value)
-                      }
+                      onClick={() => onChange(g.key as keyof TweaksState, opt.value)}
                       style={panelStyles.optionChip(
-                        String(tweaks[g.key as keyof TweaksState]) ===
-                          opt.value,
+                        String(tweaks[g.key as keyof TweaksState]) === opt.value,
                       )}
                     >
                       {opt.label}
@@ -393,20 +368,11 @@ export default function TweaksPanel({
                     role="switch"
                     aria-checked={!!tweaks[g.key as keyof TweaksState]}
                     onClick={() =>
-                      onChange(
-                        g.key as keyof TweaksState,
-                        !tweaks[g.key as keyof TweaksState],
-                      )
+                      onChange(g.key as keyof TweaksState, !tweaks[g.key as keyof TweaksState])
                     }
-                    style={panelStyles.toggleTrack(
-                      !!tweaks[g.key as keyof TweaksState],
-                    )}
+                    style={panelStyles.toggleTrack(!!tweaks[g.key as keyof TweaksState])}
                   >
-                    <span
-                      style={panelStyles.toggleThumb(
-                        !!tweaks[g.key as keyof TweaksState],
-                      )}
-                    />
+                    <span style={panelStyles.toggleThumb(!!tweaks[g.key as keyof TweaksState])} />
                   </button>
                 </div>
               ) : null}

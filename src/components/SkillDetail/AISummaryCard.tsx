@@ -15,8 +15,6 @@ export default function AISummaryCard({ skill }: Props) {
   return (
     <div
       style={{
-        borderRadius: "var(--radius-md)",
-        background: "var(--bg-card)",
         border: "0.5px solid var(--border-soft)",
         padding: "18px 20px",
         marginBottom: "24px",
