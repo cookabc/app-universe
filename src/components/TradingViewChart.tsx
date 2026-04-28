@@ -39,24 +39,26 @@ export default function TradingViewChart({
         interval: resolution,
         datafeed: {
           onReady: (callback: any) => {
-            callback({
-              supported_resolutions: [
-                "1",
-                "5",
-                "15",
-                "30",
-                "60",
-                "240",
-                "1D",
-                "1W",
-                "1M",
-              ],
-              supports_group_request: false,
-              supports_marks: false,
-              supports_search: true,
-              supports_time: true,
-              supports_timescale_marks: false,
-            });
+            setTimeout(() => {
+              callback({
+                supported_resolutions: [
+                  "1",
+                  "5",
+                  "15",
+                  "30",
+                  "60",
+                  "240",
+                  "1D",
+                  "1W",
+                  "1M",
+                ],
+                supports_group_request: false,
+                supports_marks: false,
+                supports_search: true,
+                supports_time: true,
+                supports_timescale_marks: false,
+              });
+            }, 0);
           },
           searchSymbols: (
             userInput: string,
