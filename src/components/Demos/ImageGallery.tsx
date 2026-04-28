@@ -12,11 +12,7 @@ interface Props {
   height?: string;
 }
 
-export default function ImageGallery({
-  images,
-  title = "Gallery",
-  height = "360px",
-}: Props) {
+export default function ImageGallery({ images, title = "Gallery", height = "360px" }: Props) {
   const [idx, setIdx] = useState(0);
   if (!images.length) return null;
 
@@ -83,8 +79,8 @@ export default function ImageGallery({
                 left: 8,
                 top: "50%",
                 transform: "translateY(-50%)",
-                width: 32,
-                height: 32,
+                width: 40,
+                height: 40,
                 borderRadius: "50%",
                 background: "rgba(0,0,0,0.6)",
                 border: "none",
@@ -97,12 +93,10 @@ export default function ImageGallery({
                 transition: "background-color .15s ease",
               }}
               onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.background =
-                  "rgba(0,0,0,0.8)")
+                ((e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.8)")
               }
               onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.background =
-                  "rgba(0,0,0,0.6)")
+                ((e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.6)")
               }
             >
               ‹
@@ -115,8 +109,8 @@ export default function ImageGallery({
                 right: 8,
                 top: "50%",
                 transform: "translateY(-50%)",
-                width: 32,
-                height: 32,
+                width: 40,
+                height: 40,
                 borderRadius: "50%",
                 background: "rgba(0,0,0,0.6)",
                 border: "none",
@@ -129,12 +123,10 @@ export default function ImageGallery({
                 transition: "background-color .15s ease",
               }}
               onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.background =
-                  "rgba(0,0,0,0.8)")
+                ((e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.8)")
               }
               onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.background =
-                  "rgba(0,0,0,0.6)")
+                ((e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.6)")
               }
             >
               ›
@@ -177,10 +169,7 @@ export default function ImageGallery({
                 width: i === idx ? 48 : 40,
                 height: i === idx ? 40 : 32,
                 borderRadius: 6,
-                border:
-                  i === idx
-                    ? "2px solid var(--accent)"
-                    : "2px solid transparent",
+                border: i === idx ? "2px solid var(--accent)" : "2px solid transparent",
                 padding: 0,
                 overflow: "hidden",
                 cursor: "pointer",

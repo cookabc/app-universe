@@ -22,7 +22,7 @@ const tabStyles = {
     display: "flex",
     gap: "0",
     borderBottom: "1px solid var(--border-soft)",
-    overflowX: "auto",
+    overflowX: "auto" as const,
     marginBottom: "24px",
   },
   tabBtn: {
@@ -39,7 +39,6 @@ const tabStyles = {
     whiteSpace: "nowrap" as const,
     letterSpacing: "0.3px",
     fontFamily: "var(--font-sans)",
-    outline: "none",
   },
   contentArea: {
     opacity: 1,
@@ -143,7 +142,7 @@ const tabStyles = {
   codePre: {
     margin: 0,
     padding: "16px",
-    overflowX: "auto",
+    overflowX: "auto" as const,
     fontSize: "12px",
     fontFamily: "var(--font-mono)",
     lineHeight: 1.65,
@@ -229,9 +228,7 @@ function Overview({ skill }: Props) {
   return (
     <div style={{ padding: "8px 0" }}>
       <h3 style={tabStyles.sectionTitle}>What is this?</h3>
-      <p style={tabStyles.bodyText}>
-        {skill.description || "No description provided."}
-      </p>
+      <p style={tabStyles.bodyText}>{skill.description || "No description provided."}</p>
       {skill.keyFeatures.length > 0 && (
         <>
           <h3 style={tabStyles.subTitle}>Key Features</h3>
@@ -316,9 +313,7 @@ function Files({ skill }: Props) {
               fontFamily: "var(--font-mono)",
             }}
           >
-            <span style={{ color: "var(--text-muted)" }}>
-              {open ? "\u25BE" : "\u25B8"}
-            </span>
+            <span style={{ color: "var(--text-muted)" }}>{open ? "\u25BE" : "\u25B8"}</span>
             <span>{node.name}/</span>
           </button>
           {open &&
@@ -362,9 +357,7 @@ function Files({ skill }: Props) {
   return (
     <div style={tabStyles.fileTree}>
       <div style={tabStyles.fileTreeHeader}>{tree?.name || skill.id}/</div>
-      {tree?.children?.map((c: any, i: number) => (
-        <FileNode key={i} node={c} depth={0} />
-      )) || (
+      {tree?.children?.map((c: any, i: number) => <FileNode key={i} node={c} depth={0} />) || (
         <div style={{ color: "var(--text-secondary)" }}>No files found</div>
       )}
     </div>
