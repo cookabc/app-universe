@@ -28,7 +28,6 @@ const bannerStyles = {
     color: "var(--brand)",
     fontSize: "11px",
     fontWeight: 600,
-    letterSpacing: "0.5px",
     textTransform: "uppercase" as const,
     fontFamily: "var(--font-sans)",
   },
@@ -45,7 +44,6 @@ const bannerStyles = {
     fontSize: "10px",
     fontWeight: 600,
     color: "var(--text-muted)",
-    letterSpacing: "0.4px",
     textTransform: "uppercase" as const,
     fontFamily: "var(--font-mono)",
   },
@@ -57,7 +55,6 @@ const bannerStyles = {
     color: "var(--text-primary)",
     marginBottom: "16px",
     textWrap: "balance" as const,
-    letterSpacing: "-0.025em",
   },
   description: {
     fontFamily: "var(--font-sans)",
@@ -96,7 +93,6 @@ const bannerStyles = {
     fontSize: "10px",
     color: "var(--text-muted)",
     textTransform: "uppercase" as const,
-    letterSpacing: "0.5px",
     fontWeight: 500,
   },
   copyBtn: {
@@ -112,7 +108,6 @@ const bannerStyles = {
     cursor: "pointer",
     transition:
       "background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out)",
-    letterSpacing: "0.2px",
   },
 };
 

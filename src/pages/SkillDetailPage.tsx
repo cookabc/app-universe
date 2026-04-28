@@ -21,7 +21,6 @@ const pageStyles = {
     fontSize: "26px",
     fontWeight: 400,
     marginBottom: "8px",
-    letterSpacing: "-0.02em",
   },
   notFoundDesc: {
     color: "var(--text-secondary)",
@@ -57,7 +56,7 @@ export default function SkillDetailPage() {
   if (loading) {
     return (
       <div style={pageStyles.loading}>
-        <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>Loading skill...</p>
+        <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>Loading skill…</p>
       </div>
     );
   }
