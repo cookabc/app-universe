@@ -1,8 +1,8 @@
-import { useState, useEffect, useMemo } from "react";
-import MarkdownRenderer from "../../common/MarkdownRenderer";
+import { useMemo } from "react";
+import type { CSSProperties } from "react";
+import MarkdownRenderer, { slugHeading } from "../../common/MarkdownRenderer";
 import SkillPreview from "../../Demos/SkillPreview";
 import { stripLeadingH1 } from "../../../utils/markdownParser";
-import { header, metaSummary, cta, preview, content } from "./layoutTokens";
 import type { SkillData } from "../../../data/skills";
 
 interface Props {
@@ -12,161 +12,147 @@ interface Props {
 interface AnchorItem {
   id: string;
   title: string;
-  level: number;
 }
 
+const PREVIEW_SKILL_IDS = new Set([
+  "app-icon-minimalist",
+  "blueprinter",
+  "design-system",
+  "editorial-card-screenshot",
+  "infographic-creation",
+  "opc-methodology",
+  "impeccable-style",
+  "markdown-viewer-skills",
+  "khazix-skills",
+]);
+
 export default function UnifiedLayout({ skill }: Props) {
-  const [showAnchorNav, setShowAnchorNav] = useState(false);
-
-  const scrollToPreview = () => {
-    const el = document.getElementById("preview-section");
-    if (el) el.scrollTop = 0; // or window.scrollTo for parent
-    el?.scrollIntoView?.({ behavior: "smooth", block: "start" });
-  };
-
-  const anchorItems = useMemo(() => {
-    const items: AnchorItem[] = [];
-    const lines = stripLeadingH1(skill.content).split("\n");
-
-    lines.forEach((line, i) => {
-      const match = line.match(/^(#{2})\s+(.+)$/);
-      if (match) {
-        const title = match[2].trim();
-        items.push({
-          id: `${title
-            .toLowerCase()
-            .replace(/[^\w\s-]/g, "")
-            .replace(/\s+/g, "-")}-${i}`,
-          title,
-          level: 2,
-        });
-      }
-    });
-
-    return items;
-  }, [skill.content]);
-
-  useEffect(() => {
-    setShowAnchorNav(anchorItems.length >= 5);
-  }, [anchorItems.length]);
+  const body = stripLeadingH1(skill.content);
+  const hasPreview = PREVIEW_SKILL_IDS.has(skill.id);
+  const anchorItems = useMemo<AnchorItem[]>(() => {
+    return body
+      .split("\n")
+      .map((line) => line.match(/^##\s+(.+)$/)?.[1]?.trim())
+      .filter((title): title is string => Boolean(title))
+      .slice(0, 8)
+      .map((title) => ({ id: slugHeading(title), title }));
+  }, [body]);
+  const firstTrigger = skill.triggerPhrases[0] || skill.id;
 
   return (
-    <div style={{ maxWidth: "72ch", margin: "0 auto", padding: "24px 20px 60px" }}>
-      {showAnchorNav && (
-        <nav
-          style={{
-            position: "sticky" as const,
-            top: 0,
-            zIndex: 100,
-            background: "var(--bg-primary)",
-            borderBottom: "1px solid var(--border-soft)",
-            padding: "8px 4px",
-            marginBottom: 16,
-            display: "flex",
-            alignItems: "center",
-            gap: 4,
-            overflowX: "auto",
-            msOverflowStyle: "none" as const,
-            scrollbarWidth: "none",
-          }}
-        >
-          {anchorItems.map((item) => (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                const el = document.getElementById(item.id);
-                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-              }}
-              style={{
-                whiteSpace: "nowrap",
-                fontSize: 10,
-                fontWeight: 500,
-                color: "var(--text-muted)",
-                fontFamily: "var(--font-sans)",
-                textTransform: "uppercase" as const,
-                letterSpacing: "0.5px",
-                padding: "4px 10px",
-                borderRadius: "var(--radius-xs)",
-                textDecoration: "none",
-                transition:
-                  "color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out)",
-                borderLeft: "2px solid transparent",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "var(--brand)";
-                e.currentTarget.style.borderLeftColor = "var(--brand)";
-                e.currentTarget.style.background = "var(--brand-subtle)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "var(--text-muted)";
-                e.currentTarget.style.borderLeftColor = "transparent";
-                e.currentTarget.style.background = "transparent";
-              }}
-            >
-              {item.title}
-            </a>
-          ))}
-        </nav>
-      )}
+    <article
+      className="skill-detail"
+      style={
+        {
+          "--detail-color": `var(--cat-${skill.category.key})`,
+        } as CSSProperties
+      }
+    >
+      <header className="skill-detail-hero">
+        <div className="skill-detail-hero-copy">
+          <div className="skill-detail-meta-line">
+            <span className="skill-detail-category">
+              <span aria-hidden="true" />
+              {skill.category.label}
+            </span>
+            <span className="skill-detail-id">{skill.id}</span>
+          </div>
 
-      <header style={{ marginBottom: 28, paddingBottom: 20, ...header.borderStyle }}>
-        <div style={{ ...header.badge, marginBottom: 10 }}>{skill.category.label}</div>
+          <h1 className="skill-detail-title">{skill.name}</h1>
+          <p className="skill-detail-description">
+            {skill.description || "No description available."}
+          </p>
 
-        <h1
-          style={{
-            ...header.h1,
-            marginBottom: 12,
-            textWrap: "balance" as const,
-          }}
-        >
-          {skill.name}
-        </h1>
-
-        <p
-          style={{
-            ...header.desc,
-            maxWidth: "55ch",
-          }}
-        >
-          {skill.description}
-        </p>
-
-        <div style={metaSummary.container}>
-          <span style={metaSummary.item}>
-            <span style={metaSummary.itemValue}>{skill.stats.readTime}</span>
-          </span>
-          <span style={metaSummary.separator}>/</span>
-          <span style={metaSummary.item}>
-            <span style={metaSummary.itemValue}>{skill.stats.lineCount}</span> lines
-          </span>
-          <span style={metaSummary.separator}>/</span>
-          <span style={metaSummary.item}>
-            <span style={metaSummary.itemValue}>{skill.stats.sectionCount}</span> sections
-          </span>
-          <span style={metaSummary.separator}>/</span>
-          <span style={metaSummary.item}>
-            <span style={metaSummary.itemValue}>{skill.stats.complexityLabel}</span>
-          </span>
+          <div className="skill-detail-metrics" aria-label="Skill metrics">
+            {[
+              [skill.stats.readTime, "Read"],
+              [String(skill.stats.lineCount), "Lines"],
+              [String(skill.fileInfo.totalFiles), "Files"],
+              [skill.stats.complexityLabel, "Complexity"],
+            ].map(([value, label]) => (
+              <div key={label} className="skill-detail-metric">
+                <span>{value}</span>
+                <small>{label}</small>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div style={cta.group}>
-          <button style={cta.primary} onClick={scrollToPreview}>
-            View Preview
-          </button>
-          <button style={cta.secondary}>{skill.keyFeatures.length} Features</button>
-        </div>
+        <aside className="skill-command-panel" aria-label="Skill quick facts">
+          <div className="skill-command-panel-header">
+            <span>Activation</span>
+            <span>Ready</span>
+          </div>
+          <div className="skill-command-trigger">
+            <span>Trigger Phrase</span>
+            <code>{firstTrigger}</code>
+          </div>
+          <div className="skill-command-grid">
+            <div>
+              <span>{skill.keyFeatures.length}</span>
+              <small>Features</small>
+            </div>
+            <div>
+              <span>{skill.triggerPhrases.length}</span>
+              <small>Triggers</small>
+            </div>
+          </div>
+          {skill.installCommand && (
+            <div className="skill-install-snippet">
+              <span>Install Command</span>
+              <code>{skill.installCommand}</code>
+            </div>
+          )}
+        </aside>
       </header>
 
-      <section id="preview-section" style={preview.card}>
-        <div style={preview.label}>Generated Output Preview</div>
-        <SkillPreview skill={skill} />
-      </section>
+      <div className="skill-detail-body">
+        <aside className="skill-detail-sidebar" aria-label="Skill page navigation">
+          <div className="skill-sidebar-section">
+            <h2>Contents</h2>
+            {anchorItems.length ? (
+              <nav className="skill-anchor-list">
+                {anchorItems.map((item) => (
+                  <a key={item.id} href={`#${item.id}`}>
+                    {item.title}
+                  </a>
+                ))}
+              </nav>
+            ) : (
+              <p>No document sections detected.</p>
+            )}
+          </div>
 
-      <section style={content.section}>
-        <MarkdownRenderer content={stripLeadingH1(skill.content)} />
-      </section>
-    </div>
+          <div className="skill-sidebar-section">
+            <h2>Features</h2>
+            <ul className="skill-feature-list">
+              {skill.keyFeatures.slice(0, 5).map((feature) => (
+                <li key={feature}>{feature}</li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+
+        <main className="skill-detail-main">
+          {hasPreview && (
+            <section className="skill-preview-panel" aria-labelledby="skill-preview-heading">
+              <div className="skill-section-heading">
+                <span>Generated Output</span>
+                <h2 id="skill-preview-heading">Preview</h2>
+              </div>
+              <SkillPreview skill={skill} />
+            </section>
+          )}
+
+          <section className="skill-doc-panel" aria-labelledby="skill-doc-heading">
+            <div className="skill-section-heading">
+              <span>Documentation</span>
+              <h2 id="skill-doc-heading">Skill Manual</h2>
+            </div>
+            <MarkdownRenderer content={body} />
+          </section>
+        </main>
+      </div>
+    </article>
   );
 }
