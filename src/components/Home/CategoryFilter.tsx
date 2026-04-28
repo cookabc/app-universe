@@ -26,30 +26,15 @@ const filterStyles = {
     whiteSpace: "nowrap" as const,
     transition:
       "background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out)",
-    outline: "none",
   },
 };
 
-export default function CategoryFilter({
-  active,
-  onChange,
-  availableKeys,
-}: Props) {
-  const cats = availableKeys
-    ? CATEGORIES.filter((c) => availableKeys.includes(c.key))
-    : CATEGORIES;
+export default function CategoryFilter({ active, onChange, availableKeys }: Props) {
+  const cats = availableKeys ? CATEGORIES.filter((c) => availableKeys.includes(c.key)) : CATEGORIES;
 
   return (
-    <div
-      style={filterStyles.row}
-      role="tablist"
-      aria-label="Filter by category"
-    >
-      <Chip
-        label="All"
-        active={active === "all"}
-        onClick={() => onChange("all")}
-      />
+    <div style={filterStyles.row} role="tablist" aria-label="Filter by category">
+      <Chip label="All" active={active === "all"} onClick={() => onChange("all")} />
       {cats.map((c) => (
         <Chip
           key={c.key}

@@ -12,10 +12,7 @@ interface Props {
   title?: string;
 }
 
-export default function CodePlayground({
-  examples,
-  title = "Live Examples",
-}: Props) {
+export default function CodePlayground({ examples, title = "Live Examples" }: Props) {
   const [ei, setEi] = useState(0);
   const [copied, setCopied] = useState(false);
   if (!examples.length) return null;
@@ -77,21 +74,18 @@ export default function CodePlayground({
                 style={{
                   padding: "4px 10px",
                   borderRadius: "3px",
-                  border:
-                    i === ei
-                      ? "1px solid var(--brand)"
-                      : "1px solid transparent",
+                  border: i === ei ? "1px solid var(--brand)" : "1px solid transparent",
                   background: i === ei ? "var(--tag-bg)" : "transparent",
                   color: i === ei ? "var(--brand)" : "var(--text-secondary)",
                   cursor: "pointer",
                   fontSize: "12px",
                   fontWeight: 500,
                   fontFamily: "var(--font-mono)",
-                  transition: "all .15s ease",
+                  transition:
+                    "background-color .15s ease, border-color .15s ease, color .15s ease, transform .15s ease",
                 }}
                 onMouseDown={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform =
-                    "scale(0.96)";
+                  (e.currentTarget as HTMLElement).style.transform = "scale(0.96)";
                 }}
                 onMouseUp={(e) => {
                   (e.currentTarget as HTMLElement).style.transform = "scale(1)";
@@ -111,15 +105,14 @@ export default function CodePlayground({
           style={{
             padding: "4px 10px",
             borderRadius: "3px",
-            border: copied
-              ? "1px solid var(--success)"
-              : "1px solid var(--border-soft)",
+            border: copied ? "1px solid var(--success)" : "1px solid var(--border-soft)",
             background: copied ? "#EEF2F7" : "transparent",
             color: copied ? "var(--success)" : "var(--text-secondary)",
             cursor: "pointer",
             fontSize: "12px",
             fontFamily: "var(--font-mono)",
-            transition: "all .15s ease",
+            transition:
+              "background-color .15s ease, border-color .15s ease, color .15s ease, transform .15s ease",
           }}
           onMouseDown={(e) => {
             (e.currentTarget as HTMLElement).style.transform = "scale(0.96)";
