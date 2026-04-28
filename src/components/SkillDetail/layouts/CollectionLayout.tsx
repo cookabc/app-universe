@@ -36,9 +36,7 @@ export default function CollectionLayout({ skill }: Props) {
 function OpcLayout({ skill }: Props) {
   const children = skill.children || [];
   return (
-    <div
-      style={{ maxWidth: "900px", margin: "0 auto", padding: "32px 20px 60px" }}
-    >
+    <div style={{ maxWidth: "900px", margin: "0 auto", padding: "32px 20px 60px" }}>
       {/* Hero */}
       <header style={{ textAlign: "center", marginBottom: 48 }}>
         <div
@@ -326,9 +324,8 @@ function OpcLayout({ skill }: Props) {
                   lineHeight: 1.55,
                 }}
               >
-                在某二线省会城市的传统装饰企业上班。房地产下行后，公司派单从每月
-                5-8 个骤降到 1-2 个。我决定用下班后的 3
-                小时，搭建自己的一人企业。
+                在某二线省会城市的传统装饰企业上班。房地产下行后，公司派单从每月 5-8 个骤降到 1-2
+                个。我决定用下班后的 3 小时，搭建自己的一人企业。
               </div>
             </div>
             {/* AI response */}
@@ -430,8 +427,7 @@ function OpcLayout({ skill }: Props) {
                   lineHeight: 1.55,
                 }}
               >
-                已设为直通模式，术语按需解释。进入 <strong>01 资源盘点</strong>
-                。
+                已设为直通模式，术语按需解释。进入 <strong>01 资源盘点</strong>。
               </div>
             </div>
           </div>
@@ -697,9 +693,7 @@ function ImpeccableLayout({ skill }: Props) {
   ];
 
   return (
-    <div
-      style={{ maxWidth: "960px", margin: "0 auto", padding: "32px 20px 60px" }}
-    >
+    <div style={{ maxWidth: "960px", margin: "0 auto", padding: "32px 20px 60px" }}>
       {/* Hero */}
       <header style={{ textAlign: "center", marginBottom: 48 }}>
         <div
@@ -742,8 +736,7 @@ function ImpeccableLayout({ skill }: Props) {
             fontStyle: "italic",
           }}
         >
-          Before commands, before detection, Impeccable teaches your AI real
-          design.
+          Before commands, before detection, Impeccable teaches your AI real design.
         </p>
         <p
           style={{
@@ -754,8 +747,7 @@ function ImpeccableLayout({ skill }: Props) {
             lineHeight: 1.55,
           }}
         >
-          Deep reference knowledge across 7 dimensions, loaded every time your
-          AI writes code.
+          Deep reference knowledge across 7 dimensions, loaded every time your AI writes code.
         </p>
       </header>
 
@@ -792,12 +784,9 @@ function ImpeccableLayout({ skill }: Props) {
                 transition: "transform .15s ease",
               }}
               onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.transform =
-                  "translateY(-2px)")
+                ((e.currentTarget as HTMLElement).style.transform = "translateY(-2px)")
               }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.transform = "none")
-              }
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "none")}
             >
               <div style={{ fontSize: "28px", marginBottom: 8 }}>{d.icon}</div>
               <div
@@ -869,12 +858,9 @@ function ImpeccableLayout({ skill }: Props) {
                 transition: "transform .15s ease",
               }}
               onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.transform =
-                  "translateY(-2px)")
+                ((e.currentTarget as HTMLElement).style.transform = "translateY(-2px)")
               }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.transform = "none")
-              }
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "none")}
             >
               <div
                 style={{
@@ -936,10 +922,7 @@ function ImpeccableLayout({ skill }: Props) {
               }}
             >
               <li>
-                <strong style={{ color: "#fff" }}>
-                  25 deterministic checks
-                </strong>{" "}
-                — No LLM needed
+                <strong style={{ color: "#fff" }}>25 deterministic checks</strong> — No LLM needed
               </li>
               <li>Catches gradient text, purple palettes, nested cards</li>
               <li>Low contrast, overused fonts, emoji-only nodes</li>
@@ -968,8 +951,7 @@ function ImpeccableLayout({ skill }: Props) {
               }}
             >
               <li>
-                <strong style={{ color: "#fff" }}>Chrome Extension</strong> —
-                Any page, live overlay
+                <strong style={{ color: "#fff" }}>Chrome Extension</strong> — Any page, live overlay
               </li>
               <li>
                 <strong style={{ color: "#fff" }}>CLI</strong> —{" "}
@@ -985,8 +967,7 @@ function ImpeccableLayout({ skill }: Props) {
                 </code>
               </li>
               <li>
-                <strong style={{ color: "#fff" }}>/critique</strong> — During AI
-                design review
+                <strong style={{ color: "#fff" }}>/critique</strong> — During AI design review
               </li>
             </ul>
           </div>
@@ -1082,9 +1063,7 @@ function ImpeccableLayout({ skill }: Props) {
               >
                 {method.cmd}
               </code>
-              <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>
-                {method.note}
-              </div>
+              <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>{method.note}</div>
             </div>
           ))}
         </div>
@@ -1137,9 +1116,7 @@ function MarkdownViewerLayout({ skill }: Props) {
       icon: "SA",
       color: "#6366f1",
       bg: "#EEEDFF",
-      skills: children.filter((c) =>
-        ["vega", "infographic", "canvas"].includes(c.id),
-      ),
+      skills: children.filter((c) => ["vega", "infographic", "canvas"].includes(c.id)),
     },
     {
       name: "HTML/CSS Embedded",
@@ -1147,9 +1124,7 @@ function MarkdownViewerLayout({ skill }: Props) {
       icon: "VG",
       color: "#ec4899",
       bg: "#FCE7F3",
-      skills: children.filter((c) =>
-        ["architecture", "infocard"].includes(c.id),
-      ),
+      skills: children.filter((c) => ["architecture", "infocard"].includes(c.id)),
     },
     {
       name: "PlantUML-Based",
@@ -1158,14 +1133,7 @@ function MarkdownViewerLayout({ skill }: Props) {
       color: "#14b8a6",
       bg: "#CCFBF1",
       skills: children.filter(
-        (c) =>
-          ![
-            "vega",
-            "infographic",
-            "canvas",
-            "architecture",
-            "infocard",
-          ].includes(c.id),
+        (c) => !["vega", "infographic", "canvas", "architecture", "infocard"].includes(c.id),
       ),
     },
   ];
@@ -1180,9 +1148,7 @@ function MarkdownViewerLayout({ skill }: Props) {
   ];
 
   return (
-    <div
-      style={{ maxWidth: "980px", margin: "0 auto", padding: "32px 20px 60px" }}
-    >
+    <div style={{ maxWidth: "980px", margin: "0 auto", padding: "32px 20px 60px" }}>
       {/* Hero */}
       <header style={{ textAlign: "center", marginBottom: 44 }}>
         <div
@@ -1297,9 +1263,7 @@ function MarkdownViewerLayout({ skill }: Props) {
                   >
                     {group.name}
                   </div>
-                  <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>
-                    {group.desc}
-                  </div>
+                  <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>{group.desc}</div>
                 </div>
               </div>
               {/* Skills list */}
@@ -1320,15 +1284,12 @@ function MarkdownViewerLayout({ skill }: Props) {
                       gap: 10,
                       padding: "8px 12px",
                       borderRadius: 6,
-                      background:
-                        si % 2 === 0 ? "var(--bg-surface)" : "transparent",
+                      background: si % 2 === 0 ? "var(--bg-surface)" : "transparent",
                       fontSize: "13px",
                       transition: "background .15s",
                     }}
                   >
-                    <span style={{ fontSize: "15px", flexShrink: 0 }}>
-                      {s.icon || "[doc]"}
-                    </span>
+                    <span style={{ fontSize: "15px", flexShrink: 0 }}>{s.icon || "[doc]"}</span>
                     <span
                       style={{
                         fontWeight: 500,
@@ -1387,8 +1348,7 @@ function MarkdownViewerLayout({ skill }: Props) {
         <div
           style={{
             padding: "28px",
-            background:
-              "linear-gradient(135deg,var(--bg-surface) 0%,var(--bg-card) 100%)",
+            background: "linear-gradient(135deg,var(--bg-surface) 0%,var(--bg-card) 100%)",
             borderRadius: 12,
             border: "0.5px solid var(--border-soft)",
             fontFamily: "var(--font-mono)",
@@ -1565,10 +1525,7 @@ function MarkdownViewerLayout({ skill }: Props) {
             </thead>
             <tbody>
               {codeFences.map(([skill, fence, output], i) => (
-                <tr
-                  key={i}
-                  style={{ borderBottom: "0.5px solid var(--border-soft)" }}
-                >
+                <tr key={i} style={{ borderBottom: "0.5px solid var(--border-soft)" }}>
                   <td
                     style={{
                       padding: "10px 16px",
@@ -1644,9 +1601,7 @@ function MarkdownViewerLayout({ skill }: Props) {
               fontSize: "11px",
             }}
           >{`# 一键安装全部 14 个渲染引擎 Skill`}</div>
-          <div style={{ color: "#7DD3FC" }}>
-            npx skills add markdown-viewer/skills
-          </div>
+          <div style={{ color: "#7DD3FC" }}>npx skills add markdown-viewer/skills</div>
         </div>
         <div
           style={{
@@ -1671,9 +1626,7 @@ function KhazixLayout({ skill }: Props) {
   const children = skill.children || [];
 
   return (
-    <div
-      style={{ maxWidth: "800px", margin: "0 auto", padding: "32px 20px 60px" }}
-    >
+    <div style={{ maxWidth: "800px", margin: "0 auto", padding: "32px 20px 60px" }}>
       {/* Hero — personal/indie vibe */}
       <header style={{ textAlign: "center", marginBottom: 44 }}>
         <div
@@ -1756,8 +1709,7 @@ function KhazixLayout({ skill }: Props) {
               key={child.id}
               style={{
                 display: "grid",
-                gridTemplateColumns:
-                  i === 0 ? "72px 1fr auto" : "72px 1fr auto",
+                gridTemplateColumns: i === 0 ? "72px 1fr auto" : "72px 1fr auto",
                 gap: 20,
                 padding: "24px 28px",
                 background: "var(--bg-card)",
@@ -1879,8 +1831,7 @@ function KhazixLayout({ skill }: Props) {
         <div
           style={{
             padding: "20px 24px",
-            background:
-              "linear-gradient(135deg,var(--bg-surface) 0%,var(--bg-secondary) 100%)",
+            background: "linear-gradient(135deg,var(--bg-surface) 0%,var(--bg-secondary) 100%)",
             borderRadius: 12,
             border: "0.5px solid #fcd34d",
           }}
@@ -1940,9 +1891,7 @@ function KhazixLayout({ skill }: Props) {
         >
           安装方式
         </h2>
-        <div
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}
-        >
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
           {/* Agent install */}
           <div
             style={{
@@ -2076,10 +2025,7 @@ function KhazixLayout({ skill }: Props) {
                 ["OpenClaw", "~/.openclaw/skills/"],
                 ["Codex", "~/.agents/skills/"],
               ].map(([tool, path], i) => (
-                <tr
-                  key={i}
-                  style={{ borderBottom: "0.5px solid var(--border-soft)" }}
-                >
+                <tr key={i} style={{ borderBottom: "0.5px solid var(--border-soft)" }}>
                   <td
                     style={{
                       padding: "8px 16px",
@@ -2139,9 +2085,7 @@ function AppIconLayout({ skill }: Props) {
     { bg: "#D35400", shape: "CT" },
   ];
   return (
-    <div
-      style={{ maxWidth: "720px", margin: "0 auto", padding: "40px 20px 48px" }}
-    >
+    <div style={{ maxWidth: "720px", margin: "0 auto", padding: "40px 20px 48px" }}>
       <header style={{ textAlign: "center", marginBottom: 36 }}>
         <div style={{ fontSize: "36px", marginBottom: 12 }}>[CAM]</div>
         <h1
@@ -2244,9 +2188,7 @@ function AppIconLayout({ skill }: Props) {
               >
                 {s.t}
               </div>
-              <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>
-                {s.d}
-              </div>
+              <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>{s.d}</div>
             </div>
           ))}
         </div>
@@ -2305,8 +2247,7 @@ function AppIconLayout({ skill }: Props) {
                 <tr
                   key={ri}
                   style={{
-                    borderBottom:
-                      ri < 2 ? "0.5px solid var(--border-soft)" : "none",
+                    borderBottom: ri < 2 ? "0.5px solid var(--border-soft)" : "none",
                   }}
                 >
                   {row.map((cell, ci) => (
@@ -2314,10 +2255,7 @@ function AppIconLayout({ skill }: Props) {
                       key={ci}
                       style={{
                         padding: "7px 14px",
-                        color:
-                          ci === 0
-                            ? "var(--text-primary)"
-                            : "var(--text-secondary)",
+                        color: ci === 0 ? "var(--text-primary)" : "var(--text-secondary)",
                         fontWeight: ci === 0 ? 600 : 400,
                       }}
                     >
@@ -2345,9 +2283,7 @@ function AppIconLayout({ skill }: Props) {
         >
           Key Principles
         </div>
-        <div
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}
-        >
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
           {[
             {
               icon: "○",
@@ -2515,9 +2451,8 @@ function BlueprinterLayout({ skill }: Props) {
             marginBottom: 24,
           }}
         >
-          <strong>Precise, Objective, High Data-Ink Ratio.</strong> Output looks
-          like a technical spec sheet or architectural diagram, NOT a marketing
-          page.
+          <strong>Precise, Objective, High Data-Ink Ratio.</strong> Output looks like a technical
+          spec sheet or architectural diagram, NOT a marketing page.
         </div>
 
         <div
@@ -2555,12 +2490,8 @@ function BlueprinterLayout({ skill }: Props) {
                   borderBottom: "1px solid var(--border-soft)",
                 }}
               >
-                <span style={{ color: "var(--error)", fontWeight: 700 }}>
-                  [x]
-                </span>
-                <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>
-                  {r.r}
-                </span>
+                <span style={{ color: "var(--error)", fontWeight: 700 }}>[x]</span>
+                <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>{r.r}</span>
               </div>
             ))}
           </section>
@@ -2660,9 +2591,7 @@ function BlueprinterLayout({ skill }: Props) {
               <span style={{ fontWeight: 700, color: "var(--text-primary)" }}>
                 SYSTEM ARCHITECTURE
               </span>
-              <span style={{ color: "var(--text-muted)", fontSize: "9px" }}>
-                EXAMPLE OUTPUT
-              </span>
+              <span style={{ color: "var(--text-muted)", fontSize: "9px" }}>EXAMPLE OUTPUT</span>
             </div>
             <div style={{ display: "flex", gap: 8, alignItems: "stretch" }}>
               {[
@@ -2677,9 +2606,7 @@ function BlueprinterLayout({ skill }: Props) {
                     flex: 1,
                     padding: "6px 8px",
                     fontSize: "9px",
-                    background: active
-                      ? "var(--bg-elevated)"
-                      : "var(--bg-card)",
+                    background: active ? "var(--bg-elevated)" : "var(--bg-card)",
                     borderLeft: `2px solid ${active ? "var(--brand)" : "var(--border)"}`,
                     borderRadius: "2px 0 0 2px",
                     color: active ? "var(--brand)" : "var(--text-muted)",
@@ -2699,10 +2626,7 @@ function BlueprinterLayout({ skill }: Props) {
                 }}
               >
                 {[1, 2].map((n) => (
-                  <div
-                    key={n}
-                    style={{ display: "flex", alignItems: "center", gap: 6 }}
-                  >
+                  <div key={n} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                     <div
                       style={{
                         width: 20,
@@ -2774,9 +2698,7 @@ function BlueprinterLayout({ skill }: Props) {
           >
             § Features
           </div>
-          <div
-            style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}
-          >
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
             {skill.keyFeatures.slice(0, 8).map((f, i) => (
               <div
                 key={i}
@@ -2787,15 +2709,12 @@ function BlueprinterLayout({ skill }: Props) {
                   padding: "6px 10px",
                   fontSize: "11px",
                   fontFamily: "var(--font-mono)",
-                  background:
-                    i % 2 === 0 ? "var(--bg-elevated)" : "var(--bg-card)",
+                  background: i % 2 === 0 ? "var(--bg-elevated)" : "var(--bg-card)",
                   border: "1px solid var(--border-soft)",
                   borderRadius: 2,
                 }}
               >
-                <span style={{ color: "var(--brand)", fontWeight: 700 }}>
-                  [x]
-                </span>
+                <span style={{ color: "var(--brand)", fontWeight: 700 }}>[x]</span>
                 <span>{f}</span>
               </div>
             ))}
@@ -2852,9 +2771,7 @@ function DesignSystemLayout({ skill }: Props) {
     },
   ];
   return (
-    <div
-      style={{ maxWidth: "840px", margin: "0 auto", padding: "32px 20px 44px" }}
-    >
+    <div style={{ maxWidth: "840px", margin: "0 auto", padding: "32px 20px 44px" }}>
       <header style={{ textAlign: "center", marginBottom: 32 }}>
         <div
           style={{
@@ -2951,8 +2868,7 @@ function DesignSystemLayout({ skill }: Props) {
                         flex: 1,
                         aspectRatio: "1",
                         borderRadius:
-                          typeof sys.radius === "string" &&
-                          sys.radius.includes(" ")
+                          typeof sys.radius === "string" && sys.radius.includes(" ")
                             ? "50%"
                             : parseInt(sys.radius) || 4,
                         background: sys.accent,
@@ -2961,9 +2877,7 @@ function DesignSystemLayout({ skill }: Props) {
                     />
                   ))}
                 </div>
-                <div style={{ fontSize: "10px", color: "var(--text-muted)" }}>
-                  {sys.feel}
-                </div>
+                <div style={{ fontSize: "10px", color: "var(--text-muted)" }}>{sys.feel}</div>
               </div>
             </div>
           ))}
@@ -3012,9 +2926,7 @@ function DesignSystemLayout({ skill }: Props) {
             >
               [doc]
             </span>
-            <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>
-              CSS Variables
-            </span>
+            <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>CSS Variables</span>
           </div>
           <pre
             style={{
@@ -3034,9 +2946,7 @@ function DesignSystemLayout({ skill }: Props) {
         </div>
       </section>
 
-      <section
-        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}
-      >
+      <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
         <div>
           <div
             style={{
@@ -3126,9 +3036,7 @@ function EditorialCardLayout({ skill }: Props) {
     { label: "3:1", w: 3, h: 1, use: "Ultra-wide banner" },
   ];
   return (
-    <div
-      style={{ maxWidth: "760px", margin: "0 auto", padding: "32px 20px 44px" }}
-    >
+    <div style={{ maxWidth: "760px", margin: "0 auto", padding: "32px 20px 44px" }}>
       <header style={{ marginBottom: 28 }}>
         <div
           style={{
@@ -3271,9 +3179,7 @@ function EditorialCardLayout({ skill }: Props) {
         </div>
       </section>
 
-      <section
-        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}
-      >
+      <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
         <div>
           <div
             style={{
@@ -3373,10 +3279,7 @@ function EditorialCardLayout({ skill }: Props) {
               "Three line-height bands: tight / dense / reading",
               "Solid hex tags for print compatibility",
             ].map((rule) => (
-              <div
-                key={rule}
-                style={{ marginBottom: 4, display: "flex", gap: 6 }}
-              >
+              <div key={rule} style={{ marginBottom: 4, display: "flex", gap: 6 }}>
                 <span style={{ color: "var(--text-primary)" }}>—</span>
                 <span>{rule}</span>
               </div>
@@ -3423,9 +3326,7 @@ function InfographicLayout({ skill }: Props) {
     },
   ];
   return (
-    <div
-      style={{ maxWidth: "840px", margin: "0 auto", padding: "32px 20px 44px" }}
-    >
+    <div style={{ maxWidth: "840px", margin: "0 auto", padding: "32px 20px 44px" }}>
       <header style={{ textAlign: "center", marginBottom: 28 }}>
         <div
           style={{
@@ -3503,11 +3404,7 @@ function InfographicLayout({ skill }: Props) {
                   marginBottom: 2,
                 }}
               >
-                <span
-                  style={{ fontSize: "11px", color: "var(--text-primary)" }}
-                >
-                  {bar.label}
-                </span>
+                <span style={{ fontSize: "11px", color: "var(--text-primary)" }}>{bar.label}</span>
                 <span
                   style={{
                     fontSize: "11px",
@@ -3643,22 +3540,20 @@ function InfographicLayout({ skill }: Props) {
       </section>
 
       <section style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-        {["70+ Templates", "Iconify Icons", "Dark Mode", "Custom Themes"].map(
-          (tag) => (
-            <span
-              key={tag}
-              style={{
-                padding: "5px 12px",
-                background: "linear-gradient(135deg,#eef2ff,#fae8ff)",
-                borderRadius: 12,
-                fontSize: "11px",
-                color: "#6366f1",
-              }}
-            >
-              ✦ {tag}
-            </span>
-          ),
-        )}
+        {["70+ Templates", "Iconify Icons", "Dark Mode", "Custom Themes"].map((tag) => (
+          <span
+            key={tag}
+            style={{
+              padding: "5px 12px",
+              background: "linear-gradient(135deg,#eef2ff,#fae8ff)",
+              borderRadius: 12,
+              fontSize: "11px",
+              color: "#6366f1",
+            }}
+          >
+            ✦ {tag}
+          </span>
+        ))}
       </section>
     </div>
   );

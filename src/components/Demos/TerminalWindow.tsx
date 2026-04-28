@@ -82,9 +82,7 @@ export default function TerminalWindow({
             background: "#28c840",
           }}
         />
-        <span style={{ marginLeft: 12, fontSize: "12px", color: "#888" }}>
-          {title}
-        </span>
+        <span style={{ marginLeft: 12, fontSize: "12px", color: "#888" }}>{title}</span>
       </div>
       <div
         style={{
@@ -96,10 +94,7 @@ export default function TerminalWindow({
         }}
       >
         {lines.slice(0, visible).map((line, i) => (
-          <div
-            key={i}
-            style={{ color: lineColor(line.type), whiteSpace: "pre-wrap" }}
-          >
+          <div key={i} style={{ color: lineColor(line.type), whiteSpace: "pre-wrap" }}>
             {line.type === "input" ? (
               <>
                 <span style={{ color: "#86efac" }}>{prompt}</span>
@@ -111,9 +106,7 @@ export default function TerminalWindow({
           </div>
         ))}
         {visible < lines.length && (
-          <span style={{ animation: "blink 1s step-end infinite" }}>
-            &#9608;
-          </span>
+          <span style={{ animation: "blink 1s step-end infinite" }}>&#9608;</span>
         )}
       </div>
       {autoPlay && visible < lines.length && (

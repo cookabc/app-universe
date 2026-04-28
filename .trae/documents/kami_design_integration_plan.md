@@ -37,10 +37,9 @@
 **颜色映射**:
 
 ```css
---bg-primary: #faf9f5 (ivory) -> 替代 #ffffff --bg-card: #f5f4ed (parchment) ->
-  替代当前卡片背景 --accent: #1b365d (brand) 或保留 #aa3bff
-  --terracotta: #a64f33 (brand-deep) --border: #e8e6dc (border)
-  --text-primary: #141413 (near-black) --text-secondary: #4d4c48 (charcoal);
+--bg-primary: #faf9f5 (ivory) -> 替代 #ffffff --bg-card: #f5f4ed (parchment) -> 替代当前卡片背景
+  --accent: #1b365d (brand) 或保留 #aa3bff --terracotta: #a64f33 (brand-deep) --border: #e8e6dc
+  (border) --text-primary: #141413 (near-black) --text-secondary: #4d4c48 (charcoal);
 ```
 
 ### 阶段 2: 优化首页（Portfolio 风格）

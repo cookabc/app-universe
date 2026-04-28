@@ -102,8 +102,8 @@ export default function HeroSection() {
       </h1>
 
       <p style={heroStyles.description}>
-        A curated collection of agent skills — from diagram generation and
-        design systems to security review and workflow automation.
+        A curated collection of agent skills — from diagram generation and design systems to
+        security review and workflow automation.
       </p>
 
       <div style={heroStyles.metricsRow}>

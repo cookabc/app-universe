@@ -57,9 +57,7 @@ export default function SkillDetailPage() {
   if (loading) {
     return (
       <div style={pageStyles.loading}>
-        <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>
-          Loading skill...
-        </p>
+        <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>Loading skill...</p>
       </div>
     );
   }
@@ -68,9 +66,7 @@ export default function SkillDetailPage() {
     return (
       <div style={pageStyles.notFound}>
         <h2 style={pageStyles.notFoundTitle}>Skill not found</h2>
-        <p style={pageStyles.notFoundDesc}>
-          No skill found with ID: &quot;{id}&quot;
-        </p>
+        <p style={pageStyles.notFoundDesc}>No skill found with ID: &quot;{id}&quot;</p>
         <Link to="/" style={pageStyles.backLink}>
           Back to gallery
         </Link>
@@ -91,11 +87,7 @@ export default function SkillDetailPage() {
   return (
     <div>
       <main>
-        {isCollection ? (
-          <CollectionLayout skill={skill} />
-        ) : (
-          <UnifiedLayout skill={skill} />
-        )}
+        {isCollection ? <CollectionLayout skill={skill} /> : <UnifiedLayout skill={skill} />}
       </main>
 
       {!isCollection && skill.installCommand && (

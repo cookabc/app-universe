@@ -24,10 +24,7 @@ export function parseSkillMarkdown(raw: string): ParsedSkill {
     if (ci === -1) return;
     const key = line.slice(0, ci).trim();
     let val = line.slice(ci + 1).trim();
-    if (
-      (val.startsWith('"') && val.endsWith('"')) ||
-      (val.startsWith("'") && val.endsWith("'"))
-    )
+    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'")))
       val = val.slice(1, -1);
     frontmatter[key] = val;
   });
@@ -46,9 +43,7 @@ export function extractInstallCommand(content: string): string | null {
   return m ? m[0] : null;
 }
 
-export function extractHeadings(
-  content: string,
-): { level: number; text: string; id: string }[] {
+export function extractHeadings(content: string): { level: number; text: string; id: string }[] {
   const heads: { level: number; text: string; id: string }[] = [];
   const re = /^(#{1,4})\s+(.+)$/gm;
   let m: RegExpExecArray | null;
@@ -64,14 +59,11 @@ export function extractHeadings(
   return heads;
 }
 
-export function extractCodeBlocks(
-  content: string,
-): { language: string; code: string }[] {
+export function extractCodeBlocks(content: string): { language: string; code: string }[] {
   const blocks: { language: string; code: string }[] = [];
   const re = /\x60\x60\x60(\w*)\n([\s\S]*?)\x60\x60\x60/g;
   let m: RegExpExecArray | null;
-  while ((m = re.exec(content)) !== null)
-    blocks.push({ language: m[1] || "text", code: m[2] });
+  while ((m = re.exec(content)) !== null) blocks.push({ language: m[1] || "text", code: m[2] });
   return blocks;
 }
 

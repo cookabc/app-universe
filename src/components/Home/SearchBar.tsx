@@ -37,10 +37,7 @@ const searchStyles = {
 export default function SearchBar({ value, onChange }: Props) {
   return (
     <div style={searchStyles.wrapper}>
-      <label
-        htmlFor="skill-search"
-        style={{ position: "absolute", left: "-9999px" }}
-      >
+      <label htmlFor="skill-search" style={{ position: "absolute", left: "-9999px" }}>
         Search skills
       </label>
       <svg

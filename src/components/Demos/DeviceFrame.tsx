@@ -9,10 +9,7 @@ interface Props {
   title?: string;
 }
 
-export default function DeviceFrame({
-  screenshots,
-  title = "Device Preview",
-}: Props) {
+export default function DeviceFrame({ screenshots, title = "Device Preview" }: Props) {
   if (!screenshots.length) return null;
 
   const frameStyle = (device: string) => {
@@ -76,9 +73,7 @@ export default function DeviceFrame({
             borderBottom: "1px solid var(--border)",
           }}
         >
-          <span style={{ fontSize: "13px", fontWeight: 600 }}>
-            &#128241; {title}
-          </span>
+          <span style={{ fontSize: "13px", fontWeight: 600 }}>&#128241; {title}</span>
         </div>
       )}
       <div
@@ -141,11 +136,7 @@ export default function DeviceFrame({
                   }}
                 />
               </div>
-              <span
-                style={{ fontSize: "11px", color: "var(--text-secondary)" }}
-              >
-                {sc.label}
-              </span>
+              <span style={{ fontSize: "11px", color: "var(--text-secondary)" }}>{sc.label}</span>
             </div>
           );
         })}

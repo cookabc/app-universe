@@ -44,9 +44,7 @@ export default function Footer() {
           <span style={footerStyles.brand}>Skill Gallery</span>
           <span style={footerStyles.meta}>Agent Skills Showcase</span>
         </div>
-        <span style={footerStyles.right}>
-          Midnight Atelier Design System v1.0
-        </span>
+        <span style={footerStyles.right}>Midnight Atelier Design System v1.0</span>
       </div>
     </footer>
   );

@@ -148,9 +148,7 @@ export default function SkillCard({ skill, index, visible = false }: Props) {
           el.style.transform = "translateY(-3px)";
           el.style.background = "var(--bg-card-hover)";
           const bar = el.querySelector("[data-top-bar]") as HTMLElement;
-          if (bar)
-            bar.style.background =
-              "linear-gradient(90deg, var(--brand), transparent)";
+          if (bar) bar.style.background = "linear-gradient(90deg, var(--brand), transparent)";
         }}
         onMouseDown={(e) => {
           (e.currentTarget as HTMLElement).style.transform = "scale(0.98)";
@@ -191,9 +189,7 @@ export default function SkillCard({ skill, index, visible = false }: Props) {
 
         <h3 style={cardStyles.title}>{skill.name}</h3>
 
-        <p style={cardStyles.description}>
-          {skill.description || "No description available"}
-        </p>
+        <p style={cardStyles.description}>{skill.description || "No description available"}</p>
 
         <div style={cardStyles.divider} />
 
@@ -203,14 +199,10 @@ export default function SkillCard({ skill, index, visible = false }: Props) {
             <span style={cardStyles.metaLabel}>lines</span>
           </div>
           <div style={cardStyles.metaItem}>
-            <span style={cardStyles.metaValue}>
-              {skill.fileInfo.totalFiles}
-            </span>
+            <span style={cardStyles.metaValue}>{skill.fileInfo.totalFiles}</span>
             <span style={cardStyles.metaLabel}>files</span>
           </div>
-          <span style={cardStyles.complexityBadge}>
-            {skill.stats.complexityLabel}
-          </span>
+          <span style={cardStyles.complexityBadge}>{skill.stats.complexityLabel}</span>
         </div>
       </article>
     </Link>
