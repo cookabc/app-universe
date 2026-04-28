@@ -39,6 +39,11 @@ export default function UnifiedLayout({ skill }: Props) {
       .map((title) => ({ id: slugHeading(title), title }));
   }, [body]);
   const firstTrigger = skill.triggerPhrases[0] || skill.id;
+  const resultSummary = hasPreview
+    ? "See the preview below for the expected output shape."
+    : children.length
+      ? `${children.length} modules are ready to apply from this bundle.`
+      : "Use the manual below as the operating workflow.";
 
   return (
     <article
@@ -63,6 +68,21 @@ export default function UnifiedLayout({ skill }: Props) {
           <p className="skill-detail-description">
             {skill.description || "No description available."}
           </p>
+
+          <div className="skill-usage-steps" aria-label="How to use this skill">
+            <div>
+              <span>1. Invoke</span>
+              <code>{firstTrigger}</code>
+            </div>
+            <div>
+              <span>{skill.installCommand ? "2. Add" : "2. Read"}</span>
+              <code>{skill.installCommand || "Use the manual below"}</code>
+            </div>
+            <div>
+              <span>3. Result</span>
+              <p>{resultSummary}</p>
+            </div>
+          </div>
 
           <div className="skill-detail-metrics" aria-label="Skill metrics">
             {[
@@ -155,6 +175,23 @@ export default function UnifiedLayout({ skill }: Props) {
               </div>
               <div className="skill-preview-frame">
                 <SkillPreview skill={skill} />
+              </div>
+            </section>
+          )}
+
+          {!hasPreview && (
+            <section className="skill-output-summary-panel" aria-labelledby="skill-output-heading">
+              <div className="skill-section-heading">
+                <span>Expected Result</span>
+                <h2 id="skill-output-heading">What This Skill Produces</h2>
+              </div>
+              <div className="skill-output-summary">
+                <p>{skill.description}</p>
+                <ul>
+                  {skill.keyFeatures.slice(0, 3).map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
+                </ul>
               </div>
             </section>
           )}
