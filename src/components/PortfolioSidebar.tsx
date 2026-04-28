@@ -38,18 +38,13 @@ interface PortfolioSidebarProps {
 
 const quotePollingIntervalMs = 5000;
 
-// 分类板块数据
 const categories = [
-  { id: "my", name: "我的自选", icon: "📌" },
-  { id: "etf", name: "ETF", icon: "📊" },
-  { id: "us", name: "美股", icon: "🇺🇸" },
-  { id: "hk", name: "港股", icon: "🇭🇰" },
-  { id: "cn", name: "A股", icon: "🇨🇳" },
-  { id: "crypto", name: "数字资产", icon: "💰" },
-  { id: "l2", name: "L2策略基金", icon: "📈" },
-  { id: "quantum", name: "量子", icon: "⚡" },
-  { id: "blockchain", name: "区块链", icon: "🔗" },
-  { id: "tech", name: "科技股票基本面", icon: "💻" },
+  { id: "my", name: "我的组合" },
+  { id: "mag7", name: "MAG7" },
+  { id: "etf", name: "ETF" },
+  { id: "ai", name: "AI 应用" },
+  { id: "data", name: "数据中心" },
+  { id: "l2", name: "L2 策略" },
 ];
 
 function formatPrice(value: number | null): string {
@@ -265,8 +260,20 @@ export default function PortfolioSidebar({
           </button>
         </div>
 
-        {/* 分类板块 */}
-        <div className="sidebar-categories">
+        <div className="watchlist-create-row">
+          <button type="button" className="create-group-button">
+            + 新建分组
+          </button>
+          <button type="button" className="icon-button" title="搜索自选">
+            ⌕
+          </button>
+          <button type="button" className="icon-button" title="同步">
+            ↻
+          </button>
+        </div>
+
+        {/* 分组快捷入口 */}
+        <div className="sidebar-categories" aria-label="自选分组">
           {categories.map((category) => (
             <button
               key={category.id}
@@ -274,7 +281,7 @@ export default function PortfolioSidebar({
               onClick={() => setActiveCategory(category.id)}
               title={category.name}
             >
-              <span className="category-icon">{category.icon}</span>
+              <span className="category-caret">⌄</span>
               <span className="category-name">{category.name}</span>
             </button>
           ))}
@@ -283,7 +290,6 @@ export default function PortfolioSidebar({
         {/* Header */}
         <div className="panel-title-row">
           <div>
-            <p className="panel-kicker">Portfolio</p>
             <h1>自选树</h1>
           </div>
           <div className="panel-title-actions">

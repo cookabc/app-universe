@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import TradingViewChart from "@/components/TradingViewChart";
 import PortfolioSidebar from "@/components/PortfolioSidebar";
 
@@ -18,12 +18,12 @@ interface TreeNode {
   children?: TreeNode[];
 }
 
-const desktopBreakpoint = 1200;
+const desktopBreakpoint = 980;
 const splitterWidth = 12;
-const defaultPanelWidths = { left: 332, right: 368 };
-const minLeftPanelWidth = 260;
-const minCenterPanelWidth = 520;
-const minRightPanelWidth = 300;
+const defaultPanelWidths = { left: 168, right: 292 };
+const minLeftPanelWidth = 156;
+const minCenterPanelWidth = 500;
+const minRightPanelWidth = 280;
 
 const timeframes = [
   { label: "1分", resolution: "1" },
@@ -38,14 +38,19 @@ const timeframes = [
 ];
 
 const chartTabs = [
-  { id: "time", label: "分时" },
   { id: "kline", label: "K线" },
-  { id: "news", label: "新闻" },
-  { id: "research", label: "研报" },
-  { id: "announcement", label: "公告" },
-  { id: "funds", label: "资金" },
+  { id: "time", label: "分时" },
+  { id: "options", label: "期权" },
+  { id: "finance", label: "财务" },
   { id: "analysis", label: "分析" },
+  { id: "news", label: "新闻" },
+  { id: "announcement", label: "公告" },
+  { id: "profile", label: "简介" },
 ];
+
+const railItems = ["自", "交", "资", "图", "告", "账"];
+
+const quickTools = ["MA", "EMA", "BOLL", "VOL", "MACD", "RSI", "KDJ", "WR"];
 
 function formatPercent(value: number | null): string {
   if (value === null || !Number.isFinite(value)) return "--";
@@ -211,6 +216,10 @@ export default function Home() {
   const activeDescription =
     selectedStock?.description || selectedStock?.name || "Apple Inc.";
   const activeShortSymbol = getShortSymbol(selectedStock);
+  const activeDisplaySymbol =
+    activeShortSymbol.includes(".") || activeShortSymbol.includes("-")
+      ? activeShortSymbol
+      : `${activeShortSymbol}.US`;
   const activeExchange = selectedStock?.exchange || "NASDAQ";
   const activeMarketLabel = inferMarketLabel(selectedStock);
   const chartChangeTone = getTrendClass(chartSnapshot.changePercent);
@@ -460,44 +469,58 @@ export default function Home() {
 
   return (
     <main className="terminal-page">
-      {/* Mock data toggle badge */}
-      <div
-        style={{
-          position: "fixed",
-          top: "10px",
-          right: "10px",
-          zIndex: 9999,
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          padding: "6px 12px",
-          borderRadius: "8px",
-          background: useMockData
-            ? "rgba(245, 158, 11, 0.2)"
-            : "rgba(34, 197, 94, 0.2)",
-          border: `1px solid ${useMockData ? "rgba(245, 158, 11, 0.4)" : "rgba(34, 197, 94, 0.4)"}`,
-          fontSize: "12px",
-          cursor: "pointer",
-          userSelect: "none",
-        }}
-        onClick={toggleMockData}
-        title="点击切换 mock/real 数据"
-      >
-        <span
-          style={{
-            width: "8px",
-            height: "8px",
-            borderRadius: "50%",
-            background: useMockData ? "#f59e0b" : "#22c55e",
-            display: "inline-block",
-          }}
-        />
-        <span style={{ color: useMockData ? "#fbbf24" : "#4ade80" }}>
-          {useMockData ? "Mock 数据" : "Real 数据"}
-        </span>
-      </div>
+      <aside className="terminal-rail" aria-label="主导航">
+        <div className="rail-logo">V</div>
+        <nav className="rail-nav">
+          {railItems.map((item, index) => (
+            <button
+              key={item}
+              type="button"
+              className={`rail-button ${index === 0 ? "active" : ""}`}
+              title={item}
+            >
+              {item}
+            </button>
+          ))}
+        </nav>
+        <button type="button" className="rail-button rail-bottom" title="设置">
+          ⚙
+        </button>
+      </aside>
 
-      <section ref={shellRef} className="terminal-shell" style={shellStyle}>
+      <section className="terminal-workspace">
+        <header className="terminal-topbar">
+          <div className="search-box">
+            <span>⌕</span>
+            <input
+              aria-label="搜索股票、ETF、指数、新闻、功能"
+              placeholder="搜索股票、ETF、指数、新闻、功能..."
+            />
+          </div>
+          <div className="topbar-markets">
+            {Object.values(indices).map((index) => (
+              <article key={index.symbol} className="topbar-index">
+                <span>{index.name}</span>
+                <strong className="tabular-nums">
+                  {index.price ? index.price.toFixed(2) : "--"}
+                </strong>
+                <em className={getTrendClass(index.changePercent)}>
+                  {formatPercent(index.changePercent)}
+                </em>
+              </article>
+            ))}
+          </div>
+          <button
+            type="button"
+            className={`data-mode-toggle ${useMockData ? "mock" : "real"}`}
+            onClick={toggleMockData}
+            title="点击切换 mock/real 数据"
+          >
+            {useMockData ? "Mock" : "Real"}
+          </button>
+        </header>
+
+        <section ref={shellRef} className="terminal-shell" style={shellStyle}>
         {/* Left Panel - Watchlist */}
         <PortfolioSidebar
           selectedStockDentryId={selectedStock?.dentryId ?? null}
@@ -518,18 +541,32 @@ export default function Home() {
         {/* Center Panel - Chart */}
         <section className="chart-panel">
           <header className="chart-header">
-            <div className="symbol-line">
-              <strong>{activeShortSymbol}</strong>
-              <span className="after-hours">{activeExchange} · UDF</span>
-              <span className={chartChangeTone}>
-                {formatPercent(chartSnapshot.changePercent)}
-              </span>
-              <span
-                className="chart-subline"
-                title={`${activeDescription} · ${activeMarketLabel} · ${activeTimeframe}`}
-              >
-                {activeDescription} · {activeMarketLabel} · {activeTimeframe}
-              </span>
+            <div className="symbol-stack">
+              <div className="symbol-line">
+                <strong>{activeDisplaySymbol}</strong>
+                <span className="after-hours">
+                  {activeDescription} · {activeMarketLabel}
+                </span>
+              </div>
+              <div className="quote-line">
+                <span className={`quote-price tabular-nums ${chartChangeTone}`}>
+                  {stockInfo.close ? stockInfo.close.toFixed(2) : "--"}
+                </span>
+                <span className={`quote-change tabular-nums ${chartChangeTone}`}>
+                  {chartSnapshot.changePercent != null &&
+                    `${chartSnapshot.changePercent >= 0 ? "+" : ""}${((stockInfo.close || 0) * chartSnapshot.changePercent / 100).toFixed(2)} `}
+                  ({formatPercent(chartSnapshot.changePercent)})
+                </span>
+                <span className="chart-subline">
+                  最后 {stockInfo.close ? stockInfo.close.toFixed(2) : "--"} ·{" "}
+                  {clock || "同步中"}
+                </span>
+              </div>
+            </div>
+            <div className="chart-actions">
+              <button type="button" className="trade-action watched">已关注</button>
+              <button type="button" className="trade-action ghost">提醒</button>
+              <button type="button" className="trade-action primary">交易</button>
             </div>
           </header>
 
@@ -546,6 +583,27 @@ export default function Home() {
             ))}
           </div>
 
+          <div className="chart-toolbar">
+            <div className="timeframes">
+              {timeframes.map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  className={`timeframe ${item.label === activeTimeframe ? "active" : ""}`}
+                  onClick={() => setActiveTimeframe(item.label)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+            <div className="chart-tool-icons" aria-label="图表工具">
+              <button type="button" title="指标">ƒx</button>
+              <button type="button" title="画线">⌁</button>
+              <button type="button" title="设置">⚙</button>
+              <button type="button" title="全屏">□</button>
+            </div>
+          </div>
+
           <div className="chart-stage">
             <div className="chart-surface">
               <div className="price-chart">
@@ -559,15 +617,14 @@ export default function Home() {
           </div>
 
           <footer className="chart-footer">
-            <div className="timeframes">
-              {timeframes.map((item) => (
+            <div className="indicator-tabs">
+              {quickTools.map((tool) => (
                 <button
-                  key={item.label}
+                  key={tool}
                   type="button"
-                  className={`timeframe ${item.label === activeTimeframe ? "active" : ""}`}
-                  onClick={() => setActiveTimeframe(item.label)}
+                  className={tool === "RSI" ? "active" : ""}
                 >
-                  {item.label}
+                  {tool}
                 </button>
               ))}
             </div>
@@ -821,7 +878,7 @@ export default function Home() {
             </div>
           </section>
         </aside>
-      </section>
+        </section>
 
       {/* Footer */}
       <footer className="terminal-footer">
@@ -855,6 +912,7 @@ export default function Home() {
         </div>
         <div className="system-clock">{clock}</div>
       </footer>
+      </section>
     </main>
   );
 }
