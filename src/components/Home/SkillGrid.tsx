@@ -6,32 +6,6 @@ interface Props {
   skills: SkillData[];
 }
 
-const gridStyles = {
-  empty: {
-    textAlign: "center" as const,
-    padding: "80px 24px",
-    display: "flex",
-    flexDirection: "column" as const,
-    alignItems: "center",
-    gap: "12px",
-  },
-  emptyTitle: {
-    fontFamily: "var(--font-display)",
-    fontSize: "20px",
-    fontWeight: 400,
-    color: "var(--text-secondary)",
-  },
-  emptyDesc: {
-    fontSize: "14px",
-    color: "var(--text-muted)",
-  },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-    gap: "20px",
-  },
-};
-
 export default function SkillGrid({ skills }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -50,14 +24,14 @@ export default function SkillGrid({ skills }: Props) {
 
   if (!skills.length)
     return (
-      <div style={gridStyles.empty}>
-        <p style={gridStyles.emptyTitle}>No skills found</p>
-        <p style={gridStyles.emptyDesc}>Try adjusting your search or filters</p>
+      <div className="skill-empty-state">
+        <p className="skill-empty-title">No Skills Found</p>
+        <p className="skill-empty-desc">Try a broader search or clear the active category.</p>
       </div>
     );
 
   return (
-    <div ref={ref} style={gridStyles.grid}>
+    <div ref={ref} className="skill-grid">
       {skills.map((s, i) => (
         <SkillCard key={s.id} skill={s} index={i} visible={visible} />
       ))}

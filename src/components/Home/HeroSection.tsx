@@ -1,121 +1,87 @@
+import type { CSSProperties } from "react";
 import { useSkills } from "../../hooks/useSkills";
-
-const heroStyles = {
-  section: {
-    padding: "96px 24px 72px",
-    maxWidth: "90ch",
-    margin: "0 auto",
-    position: "relative" as const,
-  },
-  eyebrowRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "baseline",
-    marginBottom: "36px",
-  },
-  eyebrow: {
-    fontSize: "11px",
-    fontWeight: 600,
-    color: "var(--brand)",
-    letterSpacing: "1.5px",
-    textTransform: "uppercase" as const,
-    fontFamily: "var(--font-sans)",
-  },
-  version: {
-    fontSize: "11px",
-    color: "var(--text-dim)",
-    fontFamily: "var(--font-mono)",
-    fontVariantNumeric: "tabular-nums" as const,
-  },
-  title: {
-    fontFamily: "var(--font-display)",
-    fontSize: "clamp(48px, 8vw, 80px)",
-    fontWeight: 400,
-    lineHeight: 1.02,
-    color: "var(--text-primary)",
-    marginBottom: "12px",
-    textWrap: "balance" as const,
-    letterSpacing: "-0.03em",
-  },
-  titleAccent: {
-    color: "var(--brand)",
-    fontStyle: "italic",
-  },
-  description: {
-    fontFamily: "var(--font-sans)",
-    fontSize: "17px",
-    fontWeight: 400,
-    lineHeight: 1.6,
-    color: "var(--text-secondary)",
-    maxWidth: "52ch",
-    marginTop: "24px",
-    marginBottom: "48px",
-    textWrap: "pretty" as const,
-  },
-  metricsRow: {
-    display: "flex",
-    gap: "16px",
-    flexWrap: "wrap" as const,
-  },
-  metricPill: {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "10px",
-    padding: "14px 22px",
-    borderRadius: "var(--radius-full)",
-    background: "var(--bg-surface)",
-    border: "1px solid var(--border)",
-    transition:
-      "border-color var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out)",
-  },
-  metricValue: {
-    fontFamily: "var(--font-display)",
-    fontSize: "24px",
-    fontWeight: 400,
-    color: "var(--brand)",
-    fontVariantNumeric: "tabular-nums" as const,
-    lineHeight: 1.1,
-  },
-  metricLabel: {
-    fontSize: "11px",
-    color: "var(--text-muted)",
-    fontFamily: "var(--font-sans)",
-    fontWeight: 500,
-    textTransform: "uppercase" as const,
-    letterSpacing: "0.8px",
-  },
-};
 
 export default function HeroSection() {
   const { total, skills } = useSkills();
-  const catCount = new Set(skills.map((s) => s.category.key)).size;
+  const categoryCounts = skills.reduce<Record<string, { label: string; count: number }>>(
+    (acc, skill) => {
+      const key = skill.category.key;
+      acc[key] = acc[key] || { label: skill.category.label, count: 0 };
+      acc[key].count += 1;
+      return acc;
+    },
+    {},
+  );
+  const topCategories = Object.entries(categoryCounts)
+    .sort((a, b) => b[1].count - a[1].count)
+    .slice(0, 5);
+  const catCount = Object.keys(categoryCounts).length;
+  const installable = skills.filter((skill) => skill.installCommand).length;
+  const codeBlocks = skills.reduce((sum, skill) => sum + skill.stats.codeBlockCount, 0);
 
   return (
-    <section style={heroStyles.section}>
-      <div style={heroStyles.eyebrowRow}>
-        <span style={heroStyles.eyebrow}>Agent Skills Collection</span>
-        <span style={heroStyles.version}>v1.0</span>
+    <section className="home-hero" aria-labelledby="home-hero-title">
+      <div className="home-hero-copy">
+        <div className="home-hero-eyebrow-row">
+          <span className="home-hero-eyebrow">Agent Capability Library</span>
+          <span className="home-hero-version">v2.0</span>
+        </div>
+
+        <h1 id="home-hero-title" className="home-hero-title">
+          Find the right skill for the next agent move.
+        </h1>
+
+        <p className="home-hero-description">
+          A curated command surface for local agent skills: design systems, security review,
+          diagrams, workflows, screenshots, and learning tools arranged for fast inspection.
+        </p>
+
+        <div className="home-hero-actions" aria-label="Library metrics">
+          {[
+            [String(total), "Skills"],
+            [String(catCount), "Categories"],
+            [String(installable), "Installable"],
+            [String(codeBlocks), "Code Blocks"],
+          ].map(([value, label]) => (
+            <div key={label} className="metric-tile">
+              <span className="metric-value">{value}</span>
+              <span className="metric-label">{label}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <h1 style={heroStyles.title}>
-        Skill <span style={heroStyles.titleAccent}>Gallery</span>
-      </h1>
-
-      <p style={heroStyles.description}>
-        A curated collection of agent skills — from diagram generation and design systems to
-        security review and workflow automation.
-      </p>
-
-      <div style={heroStyles.metricsRow}>
-        {[
-          [String(total), "Skills"],
-          [String(catCount), "Categories"],
-        ].map(([value, label], i) => (
-          <div key={i} style={heroStyles.metricPill}>
-            <span style={heroStyles.metricValue}>{value}</span>
-            <span style={heroStyles.metricLabel}>{label}</span>
-          </div>
-        ))}
+      <div className="capability-console" aria-label="Capability distribution">
+        <div className="console-header">
+          <span className="console-kicker">Live Index</span>
+          <span className="console-status">Ready</span>
+        </div>
+        <div className="console-radar" aria-hidden="true">
+          <div className="console-radar-ring" />
+          <div className="console-radar-ring console-radar-ring-inner" />
+          {topCategories.map(([key], index) => (
+            <span key={key} className={`console-node console-node-${index + 1}`} />
+          ))}
+        </div>
+        <div className="console-category-list">
+          {topCategories.map(([key, item]) => (
+            <div key={key} className="console-category-row">
+              <span className="console-category-name">{item.label}</span>
+              <span className="console-category-track">
+                <span
+                  className="console-category-fill"
+                  style={
+                    {
+                      "--category-color": `var(--cat-${key})`,
+                      "--category-share": `${Math.max((item.count / Math.max(total, 1)) * 100, 8)}%`,
+                    } as CSSProperties
+                  }
+                />
+              </span>
+              <span className="console-category-count">{item.count}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

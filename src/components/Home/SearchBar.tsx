@@ -3,45 +3,14 @@ interface Props {
   onChange: (v: string) => void;
 }
 
-const searchStyles = {
-  wrapper: {
-    position: "relative" as const,
-    maxWidth: "380px",
-    width: "100%",
-  },
-  input: {
-    width: "100%",
-    padding: "10px 16px 10px 40px",
-    borderRadius: "var(--radius-md)",
-    background: "var(--bg-surface)",
-    border: "1px solid var(--border)",
-    color: "var(--text-primary)",
-    fontSize: "14px",
-    fontFamily: "var(--font-sans)",
-    transition:
-      "border-color var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out)",
-    outline: "none",
-  },
-  icon: {
-    position: "absolute" as const,
-    left: "14px",
-    top: "50%",
-    transform: "translateY(-50%)",
-    width: "15px",
-    height: "15px",
-    color: "var(--text-muted)",
-    pointerEvents: "none" as const,
-  },
-};
-
 export default function SearchBar({ value, onChange }: Props) {
   return (
-    <div style={searchStyles.wrapper}>
-      <label htmlFor="skill-search" style={{ position: "absolute", left: "-9999px" }}>
-        Search skills
+    <div className="search-field">
+      <label htmlFor="skill-search" className="sr-only">
+        Search Skills
       </label>
       <svg
-        style={searchStyles.icon}
+        className="search-field-icon"
         aria-hidden="true"
         viewBox="0 0 24 24"
         fill="none"
@@ -57,21 +26,23 @@ export default function SearchBar({ value, onChange }: Props) {
         id="skill-search"
         type="search"
         name="q"
-        placeholder="Search skills…"
+        placeholder="Search by name, category, or workflow…"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         autoComplete="off"
         spellCheck={false}
-        style={searchStyles.input}
-        onFocus={(e) => {
-          e.currentTarget.style.borderColor = "var(--brand)";
-          e.currentTarget.style.boxShadow = "0 0 0 3px var(--brand-subtle)";
-        }}
-        onBlur={(e) => {
-          e.currentTarget.style.borderColor = "var(--border)";
-          e.currentTarget.style.boxShadow = "none";
-        }}
+        className="search-field-input"
       />
+      {value && (
+        <button
+          type="button"
+          className="search-clear-button"
+          aria-label="Clear Search"
+          onClick={() => onChange("")}
+        >
+          ×
+        </button>
+      )}
     </div>
   );
 }

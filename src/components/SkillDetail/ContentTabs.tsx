@@ -37,7 +37,6 @@ const tabStyles = {
     transition:
       "color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out)",
     whiteSpace: "nowrap" as const,
-    letterSpacing: "0.3px",
     fontFamily: "var(--font-sans)",
   },
   contentArea: {
@@ -53,7 +52,6 @@ const tabStyles = {
     fontWeight: 400,
     marginBottom: "16px",
     textWrap: "balance" as const,
-    letterSpacing: "-0.01em",
   },
   subTitle: {
     fontFamily: "var(--font-display)",
@@ -137,7 +135,6 @@ const tabStyles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    letterSpacing: "0.3px",
   },
   codePre: {
     margin: 0,
@@ -208,7 +205,6 @@ export default function ContentTabs({ skill }: Props) {
                 marginBottom: "12px",
                 color: "var(--text-primary)",
                 textWrap: "balance",
-                letterSpacing: "-0.02em",
               }}
             >
               {skill.name}

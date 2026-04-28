@@ -8,54 +8,6 @@ import SkillGrid from "../components/Home/SkillGrid";
 import AddSkillDialog from "../components/AddSkillDialog";
 import TweaksPanel, { useTweaks, applyTweaks } from "../components/common/TweaksPanel";
 
-const pageStyles = {
-  container: {
-    display: "flex",
-    flexDirection: "column" as const,
-    gap: "24px",
-  },
-  toolbar: {
-    display: "flex",
-    alignItems: "center",
-    gap: "16px",
-    flexWrap: "wrap" as const,
-    justifyContent: "space-between",
-  },
-  resultCount: {
-    fontSize: "12px",
-    color: "var(--text-muted)",
-    fontFamily: "var(--font-mono)",
-    fontVariantNumeric: "tabular-nums" as const,
-  },
-  sectionTitle: {
-    fontFamily: "var(--font-display)",
-    fontSize: "22px",
-    fontWeight: 400,
-    color: "var(--text-primary)",
-    marginTop: "8px",
-    letterSpacing: "-0.02em",
-  },
-  toolbarActions: {
-    display: "flex",
-    alignItems: "center",
-    gap: "12px",
-    flexWrap: "wrap" as const,
-  },
-  addButton: {
-    padding: "10px 16px",
-    borderRadius: "var(--radius-md)",
-    border: "1px solid var(--border-strong)",
-    background: "var(--accent)",
-    color: "var(--bg-primary)",
-    cursor: "pointer",
-    fontSize: "13px",
-    fontWeight: 700,
-    fontFamily: "var(--font-sans)",
-    transition:
-      "background-color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out)",
-  },
-};
-
 export default function HomePage() {
   const { skills, loading, addSkill } = useSkills();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -86,15 +38,8 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "60vh",
-        }}
-      >
-        <span style={{ color: "var(--text-muted)", fontSize: "14px" }}>Loading skills…</span>
+      <div className="home-loading" role="status" aria-live="polite">
+        <span>Loading skills…</span>
       </div>
     );
   }
@@ -102,37 +47,40 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <div style={pageStyles.container}>
-        <div style={pageStyles.toolbar}>
-          <SearchBar value={q} onChange={(value) => updateQueryState({ q: value })} />
-          <div style={pageStyles.toolbarActions}>
-            <span style={pageStyles.resultCount}>{filtered.length} results</span>
+      <section id="skills" className="skills-workbench" aria-labelledby="skills-heading">
+        <div className="workbench-header">
+          <div>
+            <p className="workbench-kicker">Explore</p>
+            <h2 id="skills-heading" className="workbench-title">
+              Available Skills
+            </h2>
+          </div>
+          <div className="workbench-actions">
+            <span className="result-count" aria-live="polite">
+              {filtered.length} results
+            </span>
             <button
               type="button"
               onClick={() => setShowAddDialog(true)}
-              style={pageStyles.addButton}
-              onMouseDown={(e) => {
-                (e.currentTarget as HTMLElement).style.transform = "scale(0.96)";
-              }}
-              onMouseUp={(e) => {
-                (e.currentTarget as HTMLElement).style.transform = "scale(1)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.transform = "scale(1)";
-              }}
+              className="add-skill-button"
             >
-              Add Skill
+              <span aria-hidden="true">+</span>
+              <span>Add Skill</span>
             </button>
           </div>
         </div>
-        <CategoryFilter
-          active={cat}
-          onChange={(value) => updateQueryState({ cat: value })}
-          availableKeys={activeCategoryKeys}
-        />
-        <h2 style={pageStyles.sectionTitle}>Available Skills</h2>
+
+        <div className="workbench-controls">
+          <SearchBar value={q} onChange={(value) => updateQueryState({ q: value })} />
+          <CategoryFilter
+            active={cat}
+            onChange={(value) => updateQueryState({ cat: value })}
+            availableKeys={activeCategoryKeys}
+          />
+        </div>
+
         <SkillGrid skills={filtered} />
-      </div>
+      </section>
 
       <TweaksPanel tweaks={tweaks} onChange={setTweak} />
       {showAddDialog && (
