@@ -94,7 +94,7 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
     const parsed = parseGithubUrl(url);
     if (!parsed) {
       setStatus("error");
-      setErrorMsg("Invalid GitHub URL. Use format: owner/repo or https://github.com/owner/repo");
+      setErrorMsg("Invalid GitHub URL. Use format: owner/repo or https://github.com/owner/repo.");
       return;
     }
     setStatus("loading");
@@ -116,7 +116,7 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
           label: "Custom",
           color: "#8b5cf6",
           gradient: "linear-gradient(135deg,#8b5cf6,#6366f1)",
-          icon: "✨",
+          icon: "custom",
         },
         stats: analyzeStats(body),
         triggerPhrases: extractTriggers(desc),
@@ -188,7 +188,7 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
             justifyContent: "space-between",
           }}
         >
-          <span style={{ fontSize: "16px", fontWeight: 600 }}>➕ Add Skill from GitHub</span>
+          <span style={{ fontSize: "16px", fontWeight: 600 }}>Add Skill from GitHub</span>
           <button
             onClick={onClose}
             aria-label="Close dialog"
@@ -197,11 +197,13 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
               border: "none",
               color: "var(--text-secondary)",
               cursor: "pointer",
+              width: 40,
+              height: 40,
               fontSize: 20,
-              padding: 4,
+              padding: 0,
             }}
           >
-            ✕
+            ×
           </button>
         </div>
         <form
@@ -240,7 +242,7 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
                     setSecurityReview(null);
                   }
                 }}
-                placeholder="owner/repo or https://github.com/owner/repo"
+                placeholder="owner/repo or https://github.com/owner/repo…"
                 autoComplete="off"
                 spellCheck={false}
                 style={{
@@ -259,6 +261,7 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
                 disabled={status === "loading" || !url.trim()}
                 style={{
                   padding: "10px 18px",
+                  minHeight: 40,
                   borderRadius: 8,
                   border: "none",
                   background: status === "loading" ? "var(--text-secondary)" : "var(--accent)",
@@ -309,7 +312,7 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
                   color: "var(--text-secondary)",
                 }}
               >
-                📝 Preview
+                Preview
               </div>
               <div style={{ padding: "16px" }}>
                 <h3 style={{ fontSize: "18px", fontWeight: 600, marginBottom: 4 }}>
@@ -334,10 +337,10 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
                     color: "var(--text-secondary)",
                   }}
                 >
-                  <span>📄 {preview.stats.lineCount} lines</span>
-                  <span>📑 {preview.stats.sectionCount} sections</span>
-                  <span>⚡ {preview.stats.complexityLabel}</span>
-                  <span>⏱️ {preview.stats.readTime}</span>
+                  <span>{preview.stats.lineCount} lines</span>
+                  <span>{preview.stats.sectionCount} sections</span>
+                  <span>{preview.stats.complexityLabel}</span>
+                  <span>{preview.stats.readTime}</span>
                 </div>
                 {securityReview && (
                   <div
@@ -397,6 +400,7 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
                   }}
                   style={{
                     padding: "8px 16px",
+                    minHeight: 40,
                     borderRadius: 8,
                     border: "1px solid var(--border)",
                     background: "transparent",
@@ -413,6 +417,7 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
                   onClick={handleAdd}
                   style={{
                     padding: "8px 20px",
+                    minHeight: 40,
                     borderRadius: 8,
                     border: "none",
                     background: "var(--accent)",
@@ -423,7 +428,7 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
                     transition: "background-color .15s ease",
                   }}
                 >
-                  ✅ Add to Gallery
+                  Add to Gallery
                 </button>
               </div>
             </div>
@@ -456,6 +461,7 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
                     textAlign: "left",
                     font: "inherit",
                     padding: "2px 0",
+                    minHeight: 40,
                     opacity: 0.7,
                     transition: "opacity .15s ease",
                   }}
@@ -473,6 +479,7 @@ export default function AddSkillDialog({ onAdd, onClose }: Props) {
                     textAlign: "left",
                     font: "inherit",
                     padding: "2px 0",
+                    minHeight: 40,
                     opacity: 0.7,
                     transition: "opacity .15s ease",
                   }}

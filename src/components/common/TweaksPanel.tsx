@@ -116,7 +116,8 @@ const panelStyles = {
     alignItems: "center",
     justifyContent: "center",
     boxShadow: "var(--shadow-lg)",
-    transition: "all var(--duration-normal) var(--ease-out)",
+    transition:
+      "bottom var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out), background-color var(--duration-normal) var(--ease-out), border-color var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out)",
     transform: open ? "rotate(180deg) scale(.88)" : "rotate(0deg) scale(1)",
   }),
   panel: (open: boolean) => ({
@@ -157,9 +158,14 @@ const panelStyles = {
     border: "none",
     color: "var(--text-muted)",
     cursor: "pointer",
-    padding: "2px",
+    width: "40px",
+    height: "40px",
+    padding: 0,
     fontSize: "14px",
     lineHeight: 1,
+    borderRadius: "var(--radius-sm)",
+    transition:
+      "background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out)",
   },
   body: {
     padding: "12px 16px 16px",
@@ -187,6 +193,7 @@ const panelStyles = {
   optionChip: (active: boolean) => ({
     flex: 1,
     padding: "6px 8px",
+    minHeight: "40px",
     borderRadius: "var(--radius-sm)",
     border: "1px solid transparent",
     background: active ? "var(--brand-soft)" : "transparent",
@@ -196,8 +203,8 @@ const panelStyles = {
     cursor: "pointer",
     textAlign: "center" as const,
     fontFamily: "var(--font-sans)",
-    transition: "all var(--duration-fast) var(--ease-out)",
-    outline: "none",
+    transition:
+      "background-color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out)",
   }),
   toggleRow: {
     display: "flex",
@@ -205,21 +212,22 @@ const panelStyles = {
     justifyContent: "space-between",
   },
   toggleTrack: (on: boolean) => ({
-    width: "36px",
-    height: "20px",
-    borderRadius: "10px",
+    width: "52px",
+    height: "40px",
+    borderRadius: "20px",
     background: on ? "var(--brand)" : "var(--bg-elevated)",
     border: `1px solid ${on ? "var(--brand)" : "var(--border)"}`,
     position: "relative" as const,
     cursor: "pointer",
-    transition: "all var(--duration-fast) var(--ease-out)",
+    transition:
+      "background-color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out)",
   }),
   toggleThumb: (on: boolean) => ({
     position: "absolute" as const,
-    top: "2px",
-    left: on ? "16px" : "2px",
-    width: "14px",
-    height: "14px",
+    top: "10px",
+    left: on ? "28px" : "4px",
+    width: "18px",
+    height: "18px",
     borderRadius: "50%",
     background: "var(--bg-elevated)",
     transition: "left var(--duration-fast) var(--ease-out)",
@@ -340,7 +348,7 @@ export default function TweaksPanel({
             style={panelStyles.closeBtn}
             aria-label="Close Tweaks"
           >
-            ✕
+            ×
           </button>
         </div>
         <div style={panelStyles.body}>

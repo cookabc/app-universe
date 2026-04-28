@@ -29,7 +29,7 @@ export function analyzeContent(description: string, content: string): AnalysisRe
     for (const line of whenM[1].trim().split("\n")) {
       const l = line.trim().replace(/^[-*]\s*/, "");
       if (l.length > 3 && l.length < 200)
-        useCases.push({ icon: "✅", title: l.slice(0, 60), description: l });
+        useCases.push({ icon: "check", title: l.slice(0, 60), description: l });
     }
   }
   if (!useCases.length) {
@@ -55,7 +55,7 @@ export function analyzeContent(description: string, content: string): AnalysisRe
     keywords.forEach((k) => {
       if (description.toLowerCase().includes(k) && useCases.length < 6) {
         useCases.push({
-          icon: "✅",
+          icon: "check",
           title: k[0].toUpperCase() + k.slice(1),
           description: `Supports ${k} operations`,
         });
