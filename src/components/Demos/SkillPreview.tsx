@@ -937,16 +937,21 @@ function OpcCollectionPreview() {
       >
         <span
           style={{
-            width: "24px",
+            minWidth: "34px",
             height: "24px",
+            padding: "0 6px",
             borderRadius: "6px",
             background: "var(--brand)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: "12px",
+            fontFamily: "var(--font-mono)",
+            fontSize: "10px",
             fontWeight: 700,
             color: "var(--bg-primary)",
+            lineHeight: 1,
+            whiteSpace: "nowrap",
+            flexShrink: 0,
           }}
         >
           OPC
