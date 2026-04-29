@@ -20,10 +20,10 @@ interface TreeNode {
 
 const desktopBreakpoint = 980;
 const splitterWidth = 12;
-const defaultPanelWidths = { left: 168, right: 292 };
-const minLeftPanelWidth = 156;
+const defaultPanelWidths = { left: 280, right: 390 };
+const minLeftPanelWidth = 220;
 const minCenterPanelWidth = 500;
-const minRightPanelWidth = 280;
+const minRightPanelWidth = 320;
 
 const timeframes = [
   { label: "1分", resolution: "1" },
@@ -38,7 +38,7 @@ const timeframes = [
 ];
 
 const chartTabs = [
-  { id: "kline", label: "K线" },
+  { id: "kline", label: "图表" },
   { id: "time", label: "分时" },
   { id: "options", label: "期权" },
   { id: "finance", label: "财务" },
@@ -52,6 +52,19 @@ const railItems = ["自", "交", "资", "图", "告", "账"];
 
 const quickTools = ["MA", "EMA", "BOLL", "VOL", "MACD", "RSI", "KDJ", "WR"];
 
+const defaultStock: TreeNode = {
+  dentryId: 0,
+  inodeId: 0,
+  parentId: null,
+  name: "Alphabet Inc - Class C",
+  type: "stock",
+  symbol: "GOOGL",
+  ticker: "GOOG",
+  description: "Alphabet Inc - Class C",
+  exchange: "NASDAQ",
+  stockType: "stocks-us",
+};
+
 function formatPercent(value: number | null): string {
   if (value === null || !Number.isFinite(value)) return "--";
   const sign = value > 0 ? "+" : "";
@@ -63,7 +76,7 @@ function getTrendClass(value: number | null): string {
 }
 
 function getShortSymbol(item: TreeNode | null): string {
-  if (!item) return "AAPL";
+  if (!item) return defaultStock.ticker || "GOOG";
   const ticker = item.ticker || item.symbol || "";
   return ticker.split(":").pop()?.split(".")[0] || ticker || "--";
 }
@@ -212,16 +225,17 @@ export default function Home() {
   const activeResolution =
     timeframes.find((item) => item.label === activeTimeframe)?.resolution ??
     "1D";
-  const activeSymbol = selectedStock?.symbol || "AAPL";
+  const currentStock = selectedStock || defaultStock;
+  const activeSymbol = currentStock.symbol || defaultStock.symbol || "GOOGL";
   const activeDescription =
-    selectedStock?.description || selectedStock?.name || "Apple Inc.";
-  const activeShortSymbol = getShortSymbol(selectedStock);
+    currentStock.description || currentStock.name || "Alphabet Inc - Class C";
+  const activeShortSymbol = getShortSymbol(currentStock);
   const activeDisplaySymbol =
     activeShortSymbol.includes(".") || activeShortSymbol.includes("-")
       ? activeShortSymbol
       : `${activeShortSymbol}.US`;
-  const activeExchange = selectedStock?.exchange || "NASDAQ";
-  const activeMarketLabel = inferMarketLabel(selectedStock);
+  const activeExchange = currentStock.exchange || "NASDAQ";
+  const activeMarketLabel = inferMarketLabel(currentStock);
   const chartChangeTone = getTrendClass(chartSnapshot.changePercent);
 
   const shellStyle = {
@@ -523,7 +537,8 @@ export default function Home() {
         <section ref={shellRef} className="terminal-shell" style={shellStyle}>
         {/* Left Panel - Watchlist */}
         <PortfolioSidebar
-          selectedStockDentryId={selectedStock?.dentryId ?? null}
+          selectedStockDentryId={selectedStock?.dentryId ?? defaultStock.dentryId}
+          selectedStockSymbol={activeSymbol}
           onSelectStock={handleSelectStockNode}
         />
 
@@ -561,6 +576,12 @@ export default function Home() {
                   最后 {stockInfo.close ? stockInfo.close.toFixed(2) : "--"} ·{" "}
                   {clock || "同步中"}
                 </span>
+              </div>
+              <div className="ohlc-line">
+                <span>开 <b>{stockInfo.open ? stockInfo.open.toFixed(2) : "--"}</b></span>
+                <span>高 <b>{stockInfo.high ? stockInfo.high.toFixed(2) : "--"}</b></span>
+                <span>低 <b>{stockInfo.low ? stockInfo.low.toFixed(2) : "--"}</b></span>
+                <span>收 <b>{stockInfo.close ? stockInfo.close.toFixed(2) : "--"}</b></span>
               </div>
             </div>
             <div className="chart-actions">
@@ -651,11 +672,10 @@ export default function Home() {
           <section className="company-info-card panel-card">
             <header className="company-info-header">
               <div>
-                <p className="panel-kicker">股票信息</p>
-                <h2>{activeShortSymbol}</h2>
+                <p className="panel-kicker">{activeExchange} · 证券代码</p>
+                <h2>{activeDescription} ({activeDisplaySymbol})</h2>
                 <span className="company-info-sub">
-                  {activeDescription}
-                  {activeExchange ? ` · ${activeExchange}` : ""}
+                  {activeMarketLabel} · USD
                 </span>
               </div>
               <span className="market-badge">USD</span>
@@ -711,6 +731,18 @@ export default function Home() {
                   {formatStatValue(stockInfo.pe)}
                 </span>
               </div>
+            </div>
+            <div className="company-tags">
+              <span>互联网服务</span>
+              <span>大盘股</span>
+              <span>科技</span>
+              <span>FAANG</span>
+              <span>纳斯达克100</span>
+            </div>
+            <div className="company-info-section compact">
+              <span className="company-info-value">
+                Alphabet 公司在美国、欧洲、中东、非洲、亚太地区、加拿大和拉丁美洲提供搜索、广告、云计算、软件、硬件和人工智能服务。
+              </span>
             </div>
           </section>
 

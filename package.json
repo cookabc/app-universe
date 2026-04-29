@@ -2,11 +2,13 @@
   "name": "stock-platform",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "bun@1.3.12",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "dev": "bunx --bun next dev",
+    "build": "bunx --bun next build",
+    "start": "bunx --bun next start",
+    "lint": "bunx --bun eslint",
+    "deploy": "bunx vercel --prod"
   },
   "dependencies": {
     "better-sqlite3": "^12.9.0",

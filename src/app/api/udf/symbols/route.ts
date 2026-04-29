@@ -32,7 +32,7 @@ const SYMBOLS_DB: Record<string, any> = {
     name: "GOOGL",
     ticker: "GOOGL",
     full_name: "NASDAQ:GOOGL",
-    description: "Alphabet Inc.",
+    description: "Alphabet - C",
     exchange: "NASDAQ",
     listed_exchange: "NASDAQ",
     type: "stock",

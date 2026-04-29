@@ -43,18 +43,18 @@ const MOCK_QUOTES: Record<string, MockQuote> = {
   },
   GOOGL: {
     symbol: "GOOGL",
-    latestPrice: 175.23,
-    prevClose: 173.45,
-    change: 1.78,
-    changePercent: 1.03,
-    trend: "up",
-    marketCap: 2180000000000,
-    volume: 23456700,
-    pe: 25.3,
-    eps: 6.93,
-    high: 176.1,
-    low: 174.2,
-    open: 174.5,
+    latestPrice: 330.47,
+    prevClose: 335.4,
+    change: -4.93,
+    changePercent: -1.47,
+    trend: "down",
+    marketCap: 4000000000000,
+    volume: 14620000,
+    pe: 10.926,
+    eps: 10.926,
+    high: 337.17,
+    low: 329.63,
+    open: 335.59,
   },
   MSFT: {
     symbol: "MSFT",
@@ -405,5 +405,15 @@ export function getMockHistory(
     currentPrice = close;
   }
 
-  return bars;
+  const lastClose = bars.at(-1)?.close;
+  if (!lastClose) return bars;
+
+  const scale = basePrice / lastClose;
+  return bars.map((bar) => ({
+    ...bar,
+    open: Number((bar.open * scale).toFixed(2)),
+    high: Number((bar.high * scale).toFixed(2)),
+    low: Number((bar.low * scale).toFixed(2)),
+    close: Number((bar.close * scale).toFixed(2)),
+  }));
 }
