@@ -14,35 +14,33 @@ A web-based gallery for browsing, exploring, and demonstrating Agent Skills. Sea
 
 ## Tech Stack
 
-| Layer               | Technology                                                |
-| ------------------- | --------------------------------------------------------- |
-| Framework           | React 19 + TypeScript                                     |
-| Build               | Vite 8                                                    |
-| Routing             | React Router v7                                           |
-| State               | React hooks (no external state library)                   |
-| Markdown            | react-markdown + remark-gfm + rehype-highlight            |
-| Syntax Highlighting | highlight.js                                              |
-| Virtualization      | @tanstack/react-virtual                                   |
-| Data Fetching       | @tanstack/react-query                                     |
-| Linting             | ESLint with typescript-eslint, react-hooks, react-refresh |
+| Layer      | Technology                              |
+| ---------- | --------------------------------------- |
+| Framework  | React 19 + TypeScript                   |
+| Build      | Vite 8                                  |
+| Routing    | React Router v7                         |
+| State      | React hooks (no external state library) |
+| Markdown   | react-markdown + remark-gfm             |
+| Runtime    | Bun                                     |
+| Linting    | oxlint                                  |
+| Formatting | oxfmt                                   |
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
-- npm
+- Bun 1.3.12+
 
 ### Install
 
 ```bash
-npm install
+bun install
 ```
 
 ### Development
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 The app starts at `http://localhost:5173` with hot module replacement.
@@ -50,21 +48,45 @@ The app starts at `http://localhost:5173` with hot module replacement.
 ### Build
 
 ```bash
-npm run build
+bun run build
 ```
 
 Outputs to `dist/` for production deployment.
 
+### Check
+
+```bash
+bun run check
+```
+
+Runs TypeScript, oxlint, and oxfmt in check mode.
+
+### Deploy
+
+```bash
+bun run deploy
+```
+
+This verifies the project, builds `dist/`, and pushes `main`. GitHub Pages then deploys the latest `main` build through `.github/workflows/deploy.yml`.
+
+For the usual end-of-task flow, use:
+
+```bash
+bun run ship
+```
+
+That runs the same checks, builds, stages all changes, opens `git commit`, and pushes `main`. The default branch model is intentionally simple: keep production-ready work on `main`, commit at the end of each task, push immediately, and let the deploy workflow publish from `main`. Use temporary feature branches only for risky experiments or long-running work, and delete them after merge.
+
 ### Preview Production Build
 
 ```bash
-npm run preview
+bun run preview
 ```
 
 ### Lint
 
 ```bash
-npm run lint
+bun run lint
 ```
 
 ## Project Structure

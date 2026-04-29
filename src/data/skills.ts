@@ -5,12 +5,13 @@ export type { SkillData };
 let _cache: SkillData[] | null = null;
 let _promise: Promise<SkillData[]> | null = null;
 const _customListeners: Array<(skills: SkillData[]) => void> = [];
+const skillsDataUrl = `${import.meta.env.BASE_URL}skills-data.json`;
 
 export async function loadSkillsData(): Promise<SkillData[]> {
   if (_cache) return _cache;
   if (_promise) return _promise;
 
-  _promise = fetch("/skills-data.json")
+  _promise = fetch(skillsDataUrl)
     .then((r) => {
       if (!r.ok) throw new Error("Failed to load skills data: " + r.status);
       return r.json();
