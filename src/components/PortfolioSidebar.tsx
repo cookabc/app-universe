@@ -33,6 +33,7 @@ interface ContextMenuState {
 
 interface PortfolioSidebarProps {
   selectedStockDentryId?: number | null;
+  selectedStockSymbol?: string | null;
   onSelectStock: (node: TreeNode) => void;
 }
 
@@ -47,6 +48,8 @@ const categories = [
   { id: "l2", name: "L2 策略" },
 ];
 
+const symbolGlyphs = ["G", "✦", "⌁", "◆", "▣", "◩", "△", "◇"];
+
 function formatPrice(value: number | null): string {
   return value != null && Number.isFinite(value) ? value.toFixed(3) : "--";
 }
@@ -59,6 +62,21 @@ function formatPercent(value: number | null): string {
 
 function toneOf(value: number | null): "up" | "down" {
   return value != null && Number.isFinite(value) && value < 0 ? "down" : "up";
+}
+
+function displayTicker(node: TreeNode): string {
+  const ticker = node.ticker || node.symbol || "--";
+  if (ticker === "GOOGL") return "GOOG.US";
+  if (ticker.includes("-")) return ticker;
+  if (ticker.includes(".")) return ticker;
+  return `${ticker}.US`;
+}
+
+function glyphForSymbol(symbol: string | undefined): string {
+  if (!symbol) return "•";
+  if (symbol === "GOOGL") return "G";
+  const seed = Array.from(symbol).reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  return symbolGlyphs[seed % symbolGlyphs.length];
 }
 
 function flattenStocks(nodes: TreeNode[]): TreeNode[] {
@@ -76,6 +94,7 @@ function flattenStocks(nodes: TreeNode[]): TreeNode[] {
 
 export default function PortfolioSidebar({
   selectedStockDentryId,
+  selectedStockSymbol,
   onSelectStock,
 }: PortfolioSidebarProps) {
   const [activeTab, setActiveTab] = useState<"watchlist" | "monitor">("watchlist");
@@ -363,6 +382,7 @@ export default function PortfolioSidebar({
             <WatchlistRows
               nodes={treeState.roots}
               selectedDentryId={selectedStockDentryId}
+              selectedSymbol={selectedStockSymbol}
               onSelectStock={onSelectStock}
               quoteSnapshots={quoteSnapshots}
               onContextMenu={handleContextMenu}
@@ -393,6 +413,7 @@ export default function PortfolioSidebar({
 function WatchlistRows({
   nodes,
   selectedDentryId,
+  selectedSymbol,
   onSelectStock,
   quoteSnapshots,
   onContextMenu,
@@ -400,6 +421,7 @@ function WatchlistRows({
 }: {
   nodes: TreeNode[];
   selectedDentryId?: number | null;
+  selectedSymbol?: string | null;
   onSelectStock: (node: TreeNode) => void;
   quoteSnapshots: Record<string, QuoteData>;
   onContextMenu: (node: TreeNode, e: React.MouseEvent) => void;
@@ -443,7 +465,9 @@ function WatchlistRows({
         const isFolder = node.type === "folder";
         const isStock = node.type === "stock";
         const isExpanded = expanded.has(node.dentryId);
-        const isSelected = selectedDentryId === node.dentryId;
+        const isSelected =
+          selectedDentryId === node.dentryId ||
+          (!!selectedSymbol && isStock && node.symbol === selectedSymbol);
         const quote =
           isStock && node.symbol ? quoteSnapshots[node.symbol] : null;
         const hasChildren = (node.children?.length ?? 0) > 0;
@@ -453,7 +477,7 @@ function WatchlistRows({
             <div key={node.dentryId}>
               {/* Folder Header Row */}
               <div
-                className="watchlist-row"
+                className="watchlist-row folder-row"
                 style={{
                   paddingLeft: `${14 + depth * 12}px`,
                   cursor: "pointer",
@@ -465,7 +489,7 @@ function WatchlistRows({
                   className="watchlist-name"
                   style={{ display: "flex", alignItems: "center", gap: "6px" }}
                 >
-                  <span style={{ fontSize: "10px", color: "var(--text-dim)" }}>
+              <span style={{ fontSize: "10px", color: "var(--text-dim)" }}>
                     {isExpanded ? "▾" : "▸"}
                   </span>
                   <strong>{node.name}</strong>
@@ -479,6 +503,7 @@ function WatchlistRows({
                 <WatchlistRows
                   nodes={node.children || []}
                   selectedDentryId={selectedDentryId}
+                  selectedSymbol={selectedSymbol}
                   onSelectStock={onSelectStock}
                   quoteSnapshots={quoteSnapshots}
                   onContextMenu={onContextMenu}
@@ -501,17 +526,23 @@ function WatchlistRows({
             onContextMenu={(e) => onContextMenu(node, e)}
             data-portfolio-symbol={node.symbol}
           >
+            <span className="watchlist-symbol-icon">
+              {glyphForSymbol(node.symbol)}
+            </span>
             <div className="watchlist-name">
-              <strong>{node.ticker || node.symbol || "--"}</strong>
+              <strong>{displayTicker(node)}</strong>
               <span>{node.name || node.description || ""}</span>
             </div>
-            <span className="watchlist-price">
-              {quote ? formatPrice(quote.latestPrice) : "--"}
-            </span>
-            <span
-              className={`watchlist-change ${quote ? toneOf(quote.changePercent) : ""}`}
-            >
-              {quote ? formatPercent(quote.changePercent) : "--"}
+            <span className="watchlist-spark" aria-hidden="true" />
+            <span className="watchlist-quote-stack">
+              <span className="watchlist-price">
+                {quote ? formatPrice(quote.latestPrice) : "--"}
+              </span>
+              <span
+                className={`watchlist-change ${quote ? toneOf(quote.changePercent) : ""}`}
+              >
+                {quote ? formatPercent(quote.changePercent) : "--"}
+              </span>
             </span>
           </div>
         );
