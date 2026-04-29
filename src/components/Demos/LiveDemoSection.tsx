@@ -10,7 +10,7 @@ interface Props {
   skill: SkillData;
 }
 
-const ASSETS_BASE = "/skills-assets";
+const ASSETS_BASE = `${import.meta.env.BASE_URL}skills-assets`;
 
 const INK_LINES = [
   { text: "$ ink init my-app", type: "input" as const },
