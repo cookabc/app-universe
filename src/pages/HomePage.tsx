@@ -5,6 +5,7 @@ import HeroSection from "../components/Home/HeroSection";
 import SearchBar from "../components/Home/SearchBar";
 import CategoryFilter from "../components/Home/CategoryFilter";
 import SkillGrid from "../components/Home/SkillGrid";
+import FeaturedResources from "../components/Home/FeaturedResources";
 import TweaksPanel, { useTweaks, applyTweaks } from "../components/common/TweaksPanel";
 
 export default function HomePage() {
@@ -45,6 +46,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <FeaturedResources />
       <section id="skills" className="skills-workbench" aria-labelledby="skills-heading">
         <div className="workbench-header">
           <div>
