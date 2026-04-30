@@ -6,9 +6,9 @@ export default function Header() {
     <header className="site-header">
       <Link to="/" className="site-logo" aria-label="Skill Gallery home">
         <span className="site-logo-mark" aria-hidden="true">
-          SG
+          <img src="/logo.svg" alt="" className="site-logo-icon" />
         </span>
-        <span className="site-logo-text">Skill Gallery</span>
+        <span className="site-logo-text">Skill Showcase</span>
       </Link>
       <nav className="site-nav" aria-label="Primary">
         {loc.pathname === "/" && (
