@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import type { CSSProperties } from "react";
 
 interface TweakOption {
   label: string;
@@ -132,7 +133,7 @@ const panelStyles = {
     bottom: "20px",
     right: "20px",
     zIndex: 9998,
-    width: "280px",
+    width: "min(320px, calc(100vw - 32px))",
     borderRadius: "var(--radius-lg)",
     background: "var(--bg-card)",
     border: "1px solid var(--border-strong)",
@@ -194,11 +195,12 @@ const panelStyles = {
     fontFamily: "var(--font-sans)",
   },
   selectRow: {
-    display: "flex",
-    gap: "4px",
+    display: "grid",
+    gap: "6px",
   },
   optionChip: (active: boolean) => ({
-    flex: 1,
+    boxSizing: "border-box" as const,
+    width: "100%",
     padding: "6px 8px",
     minHeight: "40px",
     borderRadius: "var(--radius-sm)",
@@ -209,6 +211,9 @@ const panelStyles = {
     fontWeight: 500,
     cursor: "pointer",
     textAlign: "center" as const,
+    lineHeight: 1.15,
+    whiteSpace: "normal" as const,
+    overflowWrap: "anywhere" as const,
     fontFamily: "var(--font-sans)",
     transition:
       "background-color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out)",
@@ -246,6 +251,16 @@ const panelStyles = {
     fontFamily: "var(--font-sans)",
   },
 };
+
+function getSelectRowStyle(group: TweakGroup): CSSProperties {
+  const count = group.options?.length || 1;
+  const columns = group.key === "accent" ? 2 : count;
+
+  return {
+    ...panelStyles.selectRow,
+    gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+  };
+}
 
 export interface TweaksState {
   theme: string;
@@ -363,7 +378,7 @@ export default function TweaksPanel({
             <div key={g.key} style={panelStyles.group}>
               <span style={panelStyles.groupLabel}>{g.label}</span>
               {g.type === "select" && g.options ? (
-                <div style={panelStyles.selectRow}>
+                <div style={getSelectRowStyle(g)}>
                   {g.options.map((opt) => (
                     <button
                       key={opt.value}
