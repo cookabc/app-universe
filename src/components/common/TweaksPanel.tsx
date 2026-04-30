@@ -42,10 +42,11 @@ const GROUPS: TweakGroup[] = [
     options: [
       { label: "Amber Gold", value: "amber" },
       { label: "Mint Green", value: "mint" },
+      { label: "Blue Green", value: "bluegreen" },
       { label: "Rose", value: "rose" },
       { label: "Lavender", value: "lavender" },
     ],
-    default: "amber",
+    default: "bluegreen",
   },
   {
     key: "radius",
@@ -78,6 +79,12 @@ const ACCENT_MAP: Record<string, { brand: string; soft: string; subtle: string; 
     soft: "rgba(94,207,138,.12)",
     subtle: "rgba(94,207,138,.06)",
     glow: "rgba(94,207,138,.18)",
+  },
+  bluegreen: {
+    brand: "#256f73",
+    soft: "rgba(37,111,115,.12)",
+    subtle: "rgba(37,111,115,.06)",
+    glow: "rgba(37,111,115,.16)",
   },
   rose: {
     brand: "#e87d7d",
@@ -271,7 +278,7 @@ export function applyTweaks(tweaks: TweaksState): void {
   if (tweaks.theme === "light") {
     root.setAttribute("data-theme", "light");
   } else {
-    root.removeAttribute("data-theme");
+    root.setAttribute("data-theme", "dark");
   }
 
   if (tweaks.accent && ACCENT_MAP[tweaks.accent]) {

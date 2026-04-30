@@ -1,17 +1,15 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useSkills, useSearch } from "../hooks/useSkills";
 import HeroSection from "../components/Home/HeroSection";
 import SearchBar from "../components/Home/SearchBar";
 import CategoryFilter from "../components/Home/CategoryFilter";
 import SkillGrid from "../components/Home/SkillGrid";
-import AddSkillDialog from "../components/AddSkillDialog";
 import TweaksPanel, { useTweaks, applyTweaks } from "../components/common/TweaksPanel";
 
 export default function HomePage() {
-  const { skills, loading, addSkill } = useSkills();
+  const { skills, loading } = useSkills();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [showAddDialog, setShowAddDialog] = useState(false);
   const { tweaks, setTweak } = useTweaks();
   const q = searchParams.get("q") || "";
   const cat = searchParams.get("cat") || "all";
@@ -59,14 +57,6 @@ export default function HomePage() {
             <span className="result-count" aria-live="polite">
               {filtered.length} results
             </span>
-            <button
-              type="button"
-              onClick={() => setShowAddDialog(true)}
-              className="add-skill-button"
-            >
-              <span aria-hidden="true">+</span>
-              <span>Add Skill</span>
-            </button>
           </div>
         </div>
 
@@ -83,14 +73,6 @@ export default function HomePage() {
       </section>
 
       <TweaksPanel tweaks={tweaks} onChange={setTweak} />
-      {showAddDialog && (
-        <AddSkillDialog
-          onAdd={addSkill}
-          onClose={() => {
-            setShowAddDialog(false);
-          }}
-        />
-      )}
     </>
   );
 }

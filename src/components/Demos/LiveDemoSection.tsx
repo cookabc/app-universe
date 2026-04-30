@@ -253,8 +253,7 @@ function getDemosForSkill(skill: SkillData): React.ReactNode[] {
     case "ink":
       el.push(<TerminalWindow key="tw" lines={INK_LINES} title="Ink Terminal UI" height="200px" />);
       break;
-    case "blueprinter":
-    case "infographic-creation": {
+    case "blueprinter": {
       const codeExamples = extractCodeBlocksLimited(content, 3);
       if (codeExamples.length)
         el.push(

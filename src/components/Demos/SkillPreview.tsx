@@ -1,4 +1,5 @@
 import type { SkillData } from "../../data/skills";
+import { buildSkillShowcaseModel } from "../../utils/skillShowcase";
 
 interface Props {
   skill: SkillData;
@@ -6,19 +7,82 @@ interface Props {
 
 export default function SkillPreview({ skill }: Props) {
   const id = skill.id;
+  const model = buildSkillShowcaseModel(skill);
+
+  if (model.assetUrls.length > 0) return <AssetPreview skill={skill} urls={model.assetUrls} />;
 
   if (id === "app-icon-minimalist") return <AppIconPreview />;
   if (id === "blueprinter") return <BlueprintPreview />;
   if (id === "design-system") return <DesignSystemPreview />;
   if (id === "editorial-card-screenshot") return <EditorialCardPreview />;
-  if (id === "infographic-creation") return <InfographicPreview />;
 
   if (id === "opc-methodology") return <OpcCollectionPreview />;
   if (id === "impeccable-style") return <ImpeccableCollectionPreview />;
   if (id === "markdown-viewer-skills") return <MarkdownViewerCollectionPreview />;
   if (id === "khazix-skills") return <KhazixCollectionPreview />;
 
-  return null;
+  return <GeneratedShowcase skill={skill} />;
+}
+
+function AssetPreview({ skill, urls }: { skill: SkillData; urls: string[] }) {
+  return (
+    <div className="asset-preview-board">
+      <div className="asset-preview-header">
+        <span>{skill.category.label}</span>
+        <strong>{skill.name}</strong>
+      </div>
+      <div className="asset-preview-grid">
+        {urls.slice(0, 6).map((url, index) => (
+          <figure key={url} className="asset-preview-tile">
+            <img src={url} alt={`${skill.name} example ${index + 1}`} loading="lazy" />
+          </figure>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function GeneratedShowcase({ skill }: { skill: SkillData }) {
+  const model = buildSkillShowcaseModel(skill);
+  const title =
+    model.kind === "generated-flow"
+      ? "Workflow board"
+      : model.kind === "generated-prompt"
+        ? "Prompt board"
+        : "Output board";
+
+  return (
+    <div className="generated-preview-board">
+      <div className="generated-preview-top">
+        <span>{title}</span>
+        <code>{model.primaryTrigger}</code>
+      </div>
+      <div className="generated-preview-main">
+        <div className="generated-preview-card generated-preview-card-large">
+          <span>Intent</span>
+          <p>{skill.description || model.outputSummary}</p>
+        </div>
+        <div className="generated-flow-row">
+          {model.workflowSteps.map((step, index) => (
+            <div key={step} className="generated-flow-node">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <p>{step}</p>
+            </div>
+          ))}
+        </div>
+        <div className="generated-output-row">
+          {(skill.keyFeatures.length ? skill.keyFeatures : model.workflowSteps)
+            .slice(0, 3)
+            .map((item) => (
+              <div key={item} className="generated-preview-card">
+                <span>Output</span>
+                <p>{item.replace(/^#+\s*/, "")}</p>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 /* ──────────────────────────────────────
@@ -727,184 +791,7 @@ function EditorialCardPreview() {
 }
 
 /* ──────────────────────────────────────
-   5. Infographic — dark adapted
-   ────────────────────────────────────── */
-function InfographicPreview() {
-  return (
-    <div
-      style={{
-        maxWidth: "520px",
-        padding: "24px",
-        background: "linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-secondary) 100%)",
-        borderRadius: "var(--radius-lg)",
-        border: "1px solid var(--border-soft)",
-        boxShadow: "var(--shadow-md)",
-      }}
-    >
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <div
-          style={{
-            display: "inline-block",
-            padding: "4px 14px",
-            borderRadius: "var(--radius-full)",
-            background: "var(--brand)",
-            color: "var(--bg-primary)",
-            fontSize: "10px",
-            fontWeight: 600,
-            letterSpacing: "0.5px",
-            fontFamily: "var(--font-sans)",
-            marginBottom: "10px",
-          }}
-        >
-          INFOGRAPHIC PREVIEW
-        </div>
-        <h3
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "20px",
-            fontWeight: 400,
-            color: "var(--text-primary)",
-            margin: 0,
-            lineHeight: 1.2,
-          }}
-        >
-          The State of AI Skills in 2026
-        </h3>
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-          padding: "0 8px",
-        }}
-      >
-        {[
-          { label: "Visual Design", value: 92, color: "#7b9cf0" },
-          { label: "Code Generation", value: 78, color: "#5ecf8a" },
-          { label: "Documentation", value: 85, color: "#d4a853" },
-          { label: "Testing", value: 64, color: "#e87d7d" },
-          { label: "Deployment", value: 71, color: "#c99ff2" },
-        ].map((bar, i) => (
-          <div key={i}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "4px",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 500,
-                  color: "var(--text-primary)",
-                  fontFamily: "var(--font-sans)",
-                }}
-              >
-                {bar.label}
-              </span>
-              <span
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 600,
-                  color: bar.color,
-                  fontFamily: "var(--font-mono)",
-                  fontVariantNumeric: "tabular-nums",
-                }}
-              >
-                {bar.value}%
-              </span>
-            </div>
-            <div
-              style={{
-                height: "8px",
-                borderRadius: "4px",
-                background: "var(--bg-elevated)",
-                overflow: "hidden",
-              }}
-            >
-              <div
-                style={{
-                  height: "100%",
-                  width: `${bar.value}%`,
-                  borderRadius: "4px",
-                  background: bar.color,
-                  transition: "width .6s ease",
-                }}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "20px",
-          marginTop: "20px",
-          paddingTop: "16px",
-          borderTop: "0.5px dashed var(--border)",
-        }}
-      >
-        {[
-          ["5", "Skills"],
-          ["19", "Categories"],
-          ["2026", "Year"],
-        ].map(([v, l], i) => (
-          <div
-            key={i}
-            style={{
-              textAlign: "center",
-              padding: "8px 14px",
-              borderRadius: "6px",
-              background: "var(--bg-card)",
-              border: "1px solid var(--border-soft)",
-            }}
-          >
-            <div
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "18px",
-                fontWeight: 400,
-                color: "var(--brand)",
-                lineHeight: 1.15,
-              }}
-            >
-              {v}
-            </div>
-            <div
-              style={{
-                fontSize: "9px",
-                color: "var(--text-muted)",
-                textTransform: "uppercase",
-              }}
-            >
-              {l}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div
-        style={{
-          textAlign: "center",
-          marginTop: "14px",
-          fontSize: "9px",
-          color: "var(--text-secondary)",
-          fontFamily: "var(--font-sans)",
-        }}
-      >
-        Generated by AntV Infographic · Data-driven visual storytelling
-      </div>
-    </div>
-  );
-}
-
-/* ──────────────────────────────────────
-   6. OPC Collection — dark adapted
+   5. OPC Collection — dark adapted
    ────────────────────────────────────── */
 function OpcCollectionPreview() {
   const stages = [

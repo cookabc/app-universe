@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import type { CSSProperties } from "react";
 import type { SkillData } from "../../data/skills";
+import { buildSkillShowcaseModel } from "../../utils/skillShowcase";
 
 interface Props {
   skill: SkillData;
@@ -12,7 +13,15 @@ export default function SkillCard({ skill, index, visible = false }: Props) {
   const cat = skill.category;
   const num = String(index + 1).padStart(2, "0");
   const delay = Math.min(index * 60, 420);
-  const firstTrigger = skill.triggerPhrases[0] || skill.id;
+  const model = buildSkillShowcaseModel(skill);
+  const previewLabel =
+    model.kind === "image"
+      ? `${model.assetUrls.length} visual reference${model.assetUrls.length === 1 ? "" : "s"}`
+      : model.kind === "generated-flow"
+        ? "Generated workflow board"
+        : model.kind === "generated-prompt"
+          ? "Generated prompt board"
+          : "Generated output board";
 
   return (
     <Link
@@ -20,14 +29,12 @@ export default function SkillCard({ skill, index, visible = false }: Props) {
       className="skill-card-link"
       style={
         {
-          "--card-color": `var(--cat-${cat.key})`,
+          "--card-color": `var(--cat-${cat.key}, ${cat.color || "var(--brand)"})`,
           "--card-delay": `${delay}ms`,
         } as CSSProperties
       }
     >
       <article className="skill-card" data-visible={visible ? "true" : "false"}>
-        <div className="skill-card-topline" aria-hidden="true" />
-
         <div className="skill-card-header">
           <span className="skill-card-index">{num}</span>
           <span className="skill-card-category">
@@ -40,16 +47,21 @@ export default function SkillCard({ skill, index, visible = false }: Props) {
 
         <p className="skill-card-description">{skill.description || "No description available"}</p>
 
+        <div className="skill-card-preview-hint" aria-hidden="true">
+          <span>{previewLabel}</span>
+          <div>
+            {model.workflowSteps.slice(0, 3).map((step) => (
+              <i key={step} />
+            ))}
+          </div>
+        </div>
+
         <div className="skill-card-trigger">
           <span className="skill-card-trigger-label">Trigger</span>
-          <code>{firstTrigger}</code>
+          <code>{model.primaryTrigger}</code>
         </div>
 
         <div className="skill-card-meta">
-          <div className="skill-card-meta-item">
-            <span className="skill-card-meta-value">{skill.stats.lineCount}</span>
-            <span className="skill-card-meta-label">lines</span>
-          </div>
           <div className="skill-card-meta-item">
             <span className="skill-card-meta-value">{skill.fileInfo.totalFiles}</span>
             <span className="skill-card-meta-label">files</span>
@@ -58,7 +70,7 @@ export default function SkillCard({ skill, index, visible = false }: Props) {
             <span className="skill-card-meta-value">{skill.keyFeatures.length}</span>
             <span className="skill-card-meta-label">features</span>
           </div>
-          <span className="skill-card-complexity">{skill.stats.complexityLabel}</span>
+          <span className="skill-card-complexity">{skill.stats.readTime}</span>
         </div>
       </article>
     </Link>

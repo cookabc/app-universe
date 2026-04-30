@@ -1,47 +1,54 @@
-import type { CSSProperties } from "react";
+import { Link } from "react-router-dom";
 import { useSkills } from "../../hooks/useSkills";
+import { buildSkillShowcaseModel } from "../../utils/skillShowcase";
 
 export default function HeroSection() {
   const { total, skills } = useSkills();
-  const categoryCounts = skills.reduce<Record<string, { label: string; count: number }>>(
-    (acc, skill) => {
-      const key = skill.category.key;
-      acc[key] = acc[key] || { label: skill.category.label, count: 0 };
-      acc[key].count += 1;
-      return acc;
-    },
-    {},
-  );
-  const topCategories = Object.entries(categoryCounts)
-    .sort((a, b) => b[1].count - a[1].count)
-    .slice(0, 5);
-  const catCount = Object.keys(categoryCounts).length;
+  const featuredIds = ["opc-methodology", "khazix-skills", "gpt-image-2", "kami"];
+  const featured = featuredIds
+    .map((id) => skills.find((skill) => skill.id === id))
+    .filter((skill): skill is NonNullable<typeof skill> => Boolean(skill))
+    .concat(skills)
+    .filter((skill, index, all) => all.findIndex((item) => item.id === skill.id) === index)
+    .slice(0, 4);
+  const catCount = new Set(skills.map((skill) => skill.category.key)).size;
   const installable = skills.filter((skill) => skill.installCommand).length;
-  const codeBlocks = skills.reduce((sum, skill) => sum + skill.stats.codeBlockCount, 0);
+  const visualCases = skills.filter(
+    (skill) => skill.assets.screenshots.length || skill.assets.samples.length,
+  ).length;
 
   return (
     <section className="home-hero" aria-labelledby="home-hero-title">
       <div className="home-hero-copy">
         <div className="home-hero-eyebrow-row">
-          <span className="home-hero-eyebrow">Agent Capability Library</span>
+          <span className="home-hero-eyebrow">Capability Case Gallery</span>
           <span className="home-hero-version">v2.0</span>
         </div>
 
         <h1 id="home-hero-title" className="home-hero-title">
-          Find the right skill for the next agent move.
+          Pick the right skill by seeing what it makes.
         </h1>
 
         <p className="home-hero-description">
-          A curated command surface for local agent skills: design systems, security review,
-          diagrams, workflows, screenshots, and learning tools arranged for fast inspection.
+          A light-first gallery for agent skills, arranged around outcomes, triggers, and example
+          cases so each capability is easier to inspect before you use it.
         </p>
+
+        <div className="home-hero-cta-row">
+          <a href="#skills" className="home-primary-link">
+            Browse cases
+          </a>
+          <a href="#skills" className="home-secondary-link">
+            Search skills
+          </a>
+        </div>
 
         <div className="home-hero-actions" aria-label="Library metrics">
           {[
             [String(total), "Skills"],
             [String(catCount), "Categories"],
             [String(installable), "Installable"],
-            [String(codeBlocks), "Code Blocks"],
+            [String(visualCases), "Visual cases"],
           ].map(([value, label]) => (
             <div key={label} className="metric-tile">
               <span className="metric-value">{value}</span>
@@ -51,37 +58,25 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="capability-console" aria-label="Capability distribution">
-        <div className="console-header">
-          <span className="console-kicker">Live Index</span>
-          <span className="console-status">Ready</span>
+      <div className="hero-case-stack" aria-label="Featured skill cases">
+        <div className="hero-case-stack-header">
+          <span>Featured cases</span>
+          <span>{featured.length} selected</span>
         </div>
-        <div className="console-radar" aria-hidden="true">
-          <div className="console-radar-ring" />
-          <div className="console-radar-ring console-radar-ring-inner" />
-          {topCategories.map(([key], index) => (
-            <span key={key} className={`console-node console-node-${index + 1}`} />
-          ))}
-        </div>
-        <div className="console-category-list">
-          {topCategories.map(([key, item]) => (
-            <div key={key} className="console-category-row">
-              <span className="console-category-name">{item.label}</span>
-              <span className="console-category-track">
-                <span
-                  className="console-category-fill"
-                  style={
-                    {
-                      "--category-color": `var(--cat-${key})`,
-                      "--category-share": `${Math.max((item.count / Math.max(total, 1)) * 100, 8)}%`,
-                    } as CSSProperties
-                  }
-                />
-              </span>
-              <span className="console-category-count">{item.count}</span>
-            </div>
-          ))}
-        </div>
+        {featured.map((skill, index) => {
+          const model = buildSkillShowcaseModel(skill);
+          return (
+            <Link key={skill.id} to={`/skill/${skill.id}`} className="hero-case-card">
+              <span className="hero-case-number">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <span className="hero-case-category">{skill.category.label}</span>
+                <h2>{skill.name}</h2>
+                <p>{model.outputSummary}</p>
+              </div>
+              <code>{model.primaryTrigger}</code>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );
