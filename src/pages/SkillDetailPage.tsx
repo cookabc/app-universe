@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { getSkillById } from "../data/skills";
 import LiveDemoSection from "../components/Demos/LiveDemoSection";
 import RelatedSkills from "../components/SkillDetail/RelatedSkills";
+import RelatedResources from "../components/SkillDetail/RelatedResources";
 import UnifiedLayout from "../components/SkillDetail/layouts/UnifiedLayout";
 import type { SkillData } from "../data/skills";
 
@@ -83,6 +84,10 @@ export default function SkillDetailPage() {
           <LiveDemoSection skill={skill} />
         </section>
       )}
+
+      <section className="skill-related-section">
+        <RelatedResources skillId={skill.id} />
+      </section>
 
       <section className="skill-related-section">
         <RelatedSkills currentId={skill.id} />
