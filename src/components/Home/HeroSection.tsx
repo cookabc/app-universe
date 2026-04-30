@@ -21,17 +21,17 @@ export default function HeroSection() {
     <section className="home-hero" aria-labelledby="home-hero-title">
       <div className="home-hero-copy">
         <div className="home-hero-eyebrow-row">
-          <span className="home-hero-eyebrow">Capability Case Gallery</span>
+          <span className="home-hero-eyebrow">Agent Capability Atlas</span>
           <span className="home-hero-version">v2.0</span>
         </div>
 
         <h1 id="home-hero-title" className="home-hero-title">
-          Pick the right skill by seeing what it makes.
+          Map the right capability before you use it.
         </h1>
 
         <p className="home-hero-description">
-          A light-first gallery for agent skills, arranged around outcomes, triggers, and example
-          cases so each capability is easier to inspect before you use it.
+          A light-first atlas for agent skills and design resources, arranged around outcomes,
+          triggers, references, and example cases so each capability is easier to inspect.
         </p>
 
         <div className="home-hero-cta-row">

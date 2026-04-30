@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
-  <title id="title">Skill Showcase logo</title>
-  <desc id="desc">A minimal case gallery logo with layered cards and a trigger mark.</desc>
+  <title id="title">Capability Atlas logo</title>
+  <desc id="desc">A minimal capability atlas logo with layered cards and a trigger mark.</desc>
   <rect width="64" height="64" rx="14" fill="#232321" />
   <path fill="#fbfaf7" d="M17 17.5h22.5a7.5 7.5 0 0 1 7.5 7.5v21.5H24.5A7.5 7.5 0 0 1 17 39V17.5Z" />
   <path fill="#dfe9e4" d="M25 25h22v21.5H32.5A7.5 7.5 0 0 1 25 39V25Z" />
