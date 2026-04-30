@@ -1,6 +1,6 @@
-# Skill Showcase
+# Capability Atlas
 
-A light-first case gallery for browsing, exploring, and demonstrating Agent Skills. Search, filter by category, inspect skill detail pages, copy update commands, and jump to each skill's source links.
+A light-first atlas for browsing agent skills and the design resources that make them easier to apply. Search by capability, inspect case-style skill pages, copy update commands, and jump to source links or external design references.
 
 ## Features
 
@@ -91,9 +91,10 @@ bun run lint
 ## Project Structure
 
 ```
-skill-showcase/
+capability-atlas/
 ├── public/
 │   ├── skills-data.json          # Skill metadata (name, category, stats, triggers)
+│   ├── resources-data.json       # Featured external design resources
 │   ├── skills-assets/            # Per-skill screenshots and images
 │   ├── icons.svg                 # Sprite icons
 │   ├── logo.svg                  # Header logo
@@ -168,3 +169,13 @@ Add skills directly in `public/skills-data.json`. Keep each page useful as a sho
 7. Run `bun run format`, `bun run check`, and `bun run build`.
 
 When removing a skill, delete its data entry and clean up any dedicated preview, category mapping, ordering entry, and asset folder references.
+
+## Adding a Resource
+
+Resources are external references that improve design judgment, product framing, or prompt quality. Keep them separate from skills: skills are installable or executable capabilities; resources are curated sources that guide how skills are used.
+
+1. Add the entry to `public/resources-data.json` with `id`, `name`, `url`, `kind`, `eyebrow`, `description`, `bestFor`, `tags`, `relatedSkillIds`, `featured`, and `accent`.
+2. Use `featured: true` only for resources that should be visibly promoted on the homepage.
+3. Set `relatedSkillIds` to control which skill detail pages show the resource in `Related Design Resources`.
+4. Keep descriptions short and link out to the original site. Do not copy full external content into this repo.
+5. Run `bun run format`, `bun run check`, and `bun run build`.

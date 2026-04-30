@@ -3,10 +3,10 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="site-footer-inner">
         <div className="site-footer-left">
-          <span className="site-footer-brand">Skill Gallery</span>
-          <span className="site-footer-meta">Agent Skills Showcase</span>
+          <span className="site-footer-brand">Capability Atlas</span>
+          <span className="site-footer-meta">Agent Skills & Design Resources</span>
         </div>
-        <span className="site-footer-right">Capability Map Design System v2.0</span>
+        <span className="site-footer-right">Capability Atlas Design System v2.0</span>
       </div>
     </footer>
   );
