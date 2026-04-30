@@ -1,92 +1,1234 @@
 [
   {
-    "id": "app-icon-minimalist",
-    "name": "App Icon Minimalist",
-    "description": "Help users create app icons using a minimalist, non-designer-friendly approach. Use when user mentions creating an app icon, designing app icons, needs help with app icon design, expresses difficulty with design software, or wants a simple/minimalist icon approach for iOS, Android, or web apps.",
+    "id": "opc-methodology",
+    "name": "OPC 一人企业方法论",
+    "description": "9 个 Agent Skill 组成的完整方法论，从资源盘点到转化闭环，帮你把已有能力重新组织成一个轻资产、可验证、可复用的个人业务系统。",
     "category": {
-      "key": "screenshot",
-      "label": "Screenshot",
-      "color": "#f97316",
-      "gradient": "linear-gradient(135deg,#f97316,#eab308)",
-      "icon": "📷"
+      "key": "business",
+      "label": "Business",
+      "color": "#1B365D",
+      "gradient": "linear-gradient(135deg,#1B365D,#2D5A8A)",
+      "icon": "💼"
     },
     "stats": {
-      "lineCount": 82,
-      "charCount": 3225,
-      "sectionCount": 8,
-      "codeBlockCount": 1,
-      "complexityScore": 1,
-      "complexityLabel": "Trivial",
-      "readTime": "2 min"
+      "lineCount": 0,
+      "charCount": 0,
+      "sectionCount": 9,
+      "codeBlockCount": 0,
+      "complexityScore": 7,
+      "complexityLabel": "Complex",
+      "readTime": "15 min"
     },
-    "triggerPhrases": ["Help users create app icons using"],
+    "triggerPhrases": ["一人企业", "OPC", "方法论", "资源盘点", "利基定位", "MVP"],
     "useCases": [
       {
-        "icon": "📌",
-        "title": "User needs an app icon but isn't a designer",
-        "description": "User needs an app icon but isn't a designer"
+        "icon": "🎯",
+        "title": "想从副业开始搭建一人企业",
+        "description": "有全职工作，想用业余时间验证商业想法"
       },
       {
-        "icon": "📌",
-        "title": "Design software feels overwhelming",
-        "description": "Design software feels overwhelming"
+        "icon": "📊",
+        "title": "需要系统化的创业方法论",
+        "description": "不靠直觉拍脑袋，要可执行的框架"
       },
       {
-        "icon": "📌",
-        "title": "User wants to ship quickly without perfecting the icon",
-        "description": "User wants to ship quickly without perfecting the icon"
+        "icon": "🔄",
+        "title": "已有能力但不知道如何组织",
+        "description": "技能/经验/资源都有，缺的是结构化方法"
       },
       {
-        "icon": "📌",
-        "title": "Building a prototype or MVP",
-        "description": "Building a prototype or MVP"
-      },
-      {
-        "icon": "📌",
-        "title": "The icon is blocking app launch",
-        "description": "The icon is blocking app launch"
-      },
-      {
-        "icon": "📌",
-        "title": "[ ] Symbol centered",
-        "description": "[ ] Symbol centered"
+        "icon": "🚀",
+        "title": "想做 MVP 验证而非大而全产品",
+        "description": "追求最小可行验证，快速迭代"
       }
     ],
     "keyFeatures": [
-      "Use When",
-      "The 3-Step Method",
-      "Step 1: Abstract Core Function into Symbol",
-      "Step 2: Place in Frame, Adjust Until \"Not Ugly\"",
-      "Step 3: Iterate Later (Optional)",
-      "Platform Specs",
-      "Response Format",
-      "Key Principles"
+      "00 总编排 — 判断当前阶段与用户模式，组织整体流程",
+      "01 资源盘点 — 8 类资源全面扫描（经验/人群/能力/关系/渠道/资产/约束）",
+      "02 利基定位 — 三环合一框架：新杠杆 × 边界变动 × 资源匹配",
+      "03 价值主张 — Jobs/Pains/Gains 拆解，多版本对比选择",
+      "04 商业模式 — Lean Canvas 核心模块，识别最高风险假设",
+      "06 MVP 设计 — 混合版验证路径：1 单校准 + 2 单真实验证",
+      "07 转化闭环 — 私域主路径 + 小红书辅路径的完整触达→成交链路",
+      "08 资产沉淀 — 识别运营中可沉淀的可复用成果",
+      "09 经营复盘 — 判断最真实瓶颈，确认下一周期唯一优先重点"
     ],
-    "installCommand": null,
-    "content": "# App Icon Minimalist\n\nCreate app icons using a simple, practical approach for non-designers. Get to \"good enough\" quickly without spending hours in design software.\n\n## Use When\n\n- User needs an app icon but isn't a designer\n- Design software feels overwhelming\n- User wants to ship quickly without perfecting the icon\n- Building a prototype or MVP\n- The icon is blocking app launch\n\n## The 3-Step Method\n\n### Step 1: Abstract Core Function into Symbol\n\nThink about what the app **does** at its most essential level, then translate to a simple visual element.\n\n| App Type          | Core Function       | Symbol Ideas                          |\n| ----------------- | ------------------- | ------------------------------------- |\n| Communication     | Messaging           | Chat bubble, envelope, speech marks   |\n| Task/Productivity | Getting things done | Checkmark, checkbox, clipboard        |\n| Media             | Playing content     | Play triangle, music note, film strip |\n| Finance           | Money management    | Coin, wallet, chart line              |\n| Navigation        | Getting places      | Pin, compass, arrow                   |\n| Health            | Body/wellness       | Heart, pulse line, leaf               |\n| Social            | Connecting          | People icon, network dots             |\n| Tools             | Utility             | Wrench, hammer, gear                  |\n| Shopping          | Buying              | Bag, cart, tag                        |\n| Learning          | Knowledge           | Book, lightbulb, mortarboard          |\n\n**Tips**: Start with one core function, avoid combining concepts, think in shapes not illustrations.\n\n### Step 2: Place in Frame, Adjust Until \"Not Ugly\"\n\n**Canvas**: iOS (square with rounded corners), Android (square with rounded corners, safe zone ~66%), Web (square is most versatile)\n\n**Layout**: Center symbol, give breathing room, keep large enough for 64px recognition\n\n**Color**: 1-2 colors from app palette, high contrast, avoid gradients initially\n\n**\"Not Ugly\" Checklist**:\n\n- [ ] Symbol centered\n- [ ] Padding around symbol\n- [ ] Colors have contrast\n- [ ] Reads clearly at 64px\n- [ ] Nothing misaligned\n\n### Step 3: Iterate Later (Optional)\n\nShip the \"good enough\" version. Refine when app has users, you have time, or you're bored.\n\n## Platform Specs\n\n| Platform | Base Size   | Safe Area   | Export Formats        |\n| -------- | ----------- | ----------- | --------------------- |\n| iOS      | 1024x1024px | ~80% center | PNG (all sizes)       |\n| Android  | 512x512px   | ~66% center | PNG + adaptive layers |\n| Web/PWA  | 512x512px   | ~90% center | PNG, ICO, WebP        |\n\n## Response Format\n\n```\n1. Core function: [what the app does]\n2. Suggested symbol: [simple shape/concept]\n3. Color suggestions: [hex codes if available]\n4. Layout: [positioning and sizing guidance]\n5. Quick preview description: [what it will look like]\n\nNext steps:\n- Export sizes for [platform]\n- Test on device\n- (Optional) Iterate later\n```\n\n## Key Principles\n\n- Get to **done**, not perfect\n- Flat design makes simple symbols look professional\n- Users care more about what your app does than a perfect icon\n- \"Boring but clear\" beats \"creative but confusing\"",
+    "installCommand": "npx skills add https://github.com/easychen/opc-methodology/skills/opc-orchestrator",
+    "content": "# OPC 一人企业方法论\n\nA 9-skill operating system for turning personal expertise, assets, and channels into a lightweight one-person business loop.\n\n## Method Overview\n\n| Stage | Goal |\n| --- | --- |\n| Resource Audit | 盘点可复用资源与能力 |\n| Niche Positioning | 找到更清晰的定位切口 |\n| Value Proposition | 把能力翻译成可购买价值 |\n| Business Model | 设计轻资产交付方式 |\n| Funnel Design | 建立获客到转化路径 |\n| Productization | 将服务产品化 |\n| Pricing | 形成价格与套餐结构 |\n| Content Engine | 用内容驱动信任与线索 |\n| Iteration | 根据反馈优化闭环 |\n\n## Workflow\n\n1. Start with resource audit instead of jumping directly to product ideas.\n2. Narrow positioning before designing offers.\n3. Build the funnel and product package together.\n4. Use content and iteration skills to keep the business loop improving.\n\n## Best For\n\n- Solo builders, consultants, educators, and creators.\n- People with existing expertise but unclear packaging.\n- Lightweight business design before hiring, fundraising, or building heavy software.",
+    "fileInfo": {
+      "totalFiles": 9,
+      "totalSizeStr": "~120 KB",
+      "tree": {
+        "name": "opc-methodology",
+        "type": "collection",
+        "children": []
+      }
+    },
+    "lastUpdated": "",
+    "type": "collection",
+    "sourceUrl": "https://opc-skills.ft07.com/",
+    "children": [
+      {
+        "id": "opc-orchestrator",
+        "name": "总编排",
+        "description": "判断当前阶段与用户模式，组织整体流程，管控阶段边界。每次新会话自动恢复上次进度。",
+        "tag": "编排层"
+      },
+      {
+        "id": "opc-resource-audit",
+        "name": "资源盘点",
+        "description": "按经验、人群、能力、关系、渠道、资产、约束、硬性边界 8 个类别，确认你手上到底有什么。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-niche-positioning",
+        "name": "利基定位",
+        "description": "通过「三环合一」框架发现细分市场：新杠杆 × 边界变动 × 资源匹配，用 6 维机会评分筛选。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-value-proposition",
+        "name": "价值主张",
+        "description": "拆解目标客群的 Jobs / Pains / Gains，生成多个价值主张版本供对比选择。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-business-model-design",
+        "name": "商业模式设计",
+        "description": "拆解 Lean Canvas 核心模块，确定收费结构与收入路径，识别最高风险假设。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-mvp-designer",
+        "name": "MVP 设计",
+        "description": "确定最优先验证的假设、最小验证形式、成功标准与交付边界。不追求产品完整度，只追求假设验证。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-conversion-loop",
+        "name": "转化闭环",
+        "description": "设计从触达到承接到成交的完整路径，包括渠道策略、内容触达方式和承接机制。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-asset-ops",
+        "name": "资产沉淀",
+        "description": "识别运营中可沉淀的可复用成果，规划资产优先级。支持多次触发，每次带日期标记。",
+        "tag": "条件触发"
+      },
+      {
+        "id": "opc-dashboard-review",
+        "name": "经营复盘",
+        "description": "判断当前最真实的瓶颈，确认下一周期唯一优先重点。运营卡住或需要定期回顾时触发。",
+        "tag": "条件触发"
+      }
+    ],
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    },
+    "skillsShUrl": "https://skills.sh/easychen/opc-methodology/opc-orchestrator",
+    "githubUrl": "https://github.com/easychen/opc-methodology",
+    "websiteUrl": "https://opc-skills.ft07.com/",
+    "updateCommand": "npx skills add https://github.com/easychen/opc-methodology --skill opc-orchestrator"
+  },
+  {
+    "id": "khazix-skills",
+    "name": "Khazix Skills 工具箱",
+    "description": "数字生命卡兹克的 AI 工具箱。经过长期打磨的 Prompts 和 Skills，把积累的方法论变成可复用的工具。包含横纵分析法深度研究和公众号长文写作两大核心能力。",
+    "category": {
+      "key": "methodology",
+      "label": "Methodology",
+      "color": "#92400E",
+      "gradient": "linear-gradient(135deg,#92400E,#B45309)",
+      "icon": "🗡"
+    },
+    "stats": {
+      "lineCount": 0,
+      "charCount": 0,
+      "sectionCount": 4,
+      "codeBlockCount": 0,
+      "complexityScore": 4,
+      "complexityLabel": "Moderate",
+      "readTime": "8 min"
+    },
+    "triggerPhrases": ["横纵分析", "深度研究", "公众号写作", "长文写作", "khazix", "卡兹克"],
+    "useCases": [
+      {
+        "icon": "🔬",
+        "title": "需要对一个主题做深度研究",
+        "description": "半小时出一份万字级研究报告，历时+共时双维度"
+      },
+      {
+        "icon": "✍️",
+        "title": "写公众号长文",
+        "description": "完整的写作风格规则、四层自检体系和风格示例库"
+      },
+      {
+        "icon": "📋",
+        "title": "快速了解一个新领域",
+        "description": "纵向追时间深度 + 横向追竞争广度的研究框架"
+      },
+      {
+        "icon": "🎯",
+        "title": "输出排版精美的 PDF 报告",
+        "description": "自动联网收集信息，最终输出结构化研究报告"
+      }
+    ],
+    "keyFeatures": [
+      "hv-analysis — 横纵分析法深度研究 Skill，自动联网收集信息",
+      "纵向追时间深度：追踪主题的历史演变脉络和发展趋势",
+      "横向追竞争广度：对标竞品和替代方案的全面比较",
+      "khazix-writer — 公众号长文写作 Skill",
+      "完整写作风格规则 + 四层自检体系",
+      "内容方法论库 + 风格示例库",
+      "Prompt 轻量版：复制粘贴即用，无需安装"
+    ],
+    "installCommand": "npx skills add https://github.com/KKKKhazix/khazix-skills",
+    "content": "# Khazix Skills 工具箱\n\nA personal AI toolkit that turns accumulated research and writing methods into reusable prompts and agent skills.\n\n## Included Capabilities\n\n| Capability | Purpose |\n| --- | --- |\n| 横纵分析法 Prompt | 用纵向历史与横向对比做深度研究 |\n| hv-analysis Skill | 自动组织研究、分析、报告输出 |\n| khazix-writer Skill | 公众号长文写作、风格复用、自检 |\n\n## Best For\n\n- 深度研究一个产品、公司、概念或技术。\n- 将素材整理成有结构、有观点的中文长文。\n- 把个人方法论封装成可复用的 AI 工作流。\n\n## Workflow\n\n1. 先判断任务是研究、写作，还是方法论复用。\n2. 选择 Prompt 或 Skill 的轻重模式。\n3. 用结构化步骤推进，而不是只做一次性回答。\n4. 在输出前做观点、证据、结构和风格自检。",
     "fileInfo": {
       "totalFiles": 2,
-      "totalSizeStr": "4.6 KB",
+      "totalSizeStr": "~40 KB",
       "tree": {
-        "name": "app-icon-minimalist",
+        "name": "khazix-skills",
+        "type": "collection",
+        "children": []
+      }
+    },
+    "lastUpdated": "",
+    "type": "collection",
+    "sourceUrl": "https://github.com/KKKKhazix/khazix-skills",
+    "children": [
+      {
+        "id": "hv-analysis",
+        "name": "hv-analysis 横纵分析法",
+        "description": "横纵分析法深度研究 Skill，自动联网收集信息，纵向追时间深度 + 横向追竞争广度，最终输出排版精美的 PDF 研究报告。",
+        "icon": "🔬",
+        "tag": "深度研究 · 自动联网 · PDF输出"
+      },
+      {
+        "id": "khazix-writer",
+        "name": "khazix-writer 公众号写作",
+        "description": "卡兹克公众号长文写作 Skill，包含完整的写作风格规则、四层自检体系、内容方法论和风格示例库。",
+        "icon": "✍️",
+        "tag": "长文写作 · 四层自检 · 风格示例"
+      }
+    ],
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    },
+    "skillsShUrl": "https://skills.sh/kkkkhazix/khazix-skills",
+    "githubUrl": "https://github.com/KKKKhazix/khazix-skills",
+    "updateCommand": "npx skills add https://github.com/KKKKhazix/khazix-skills"
+  },
+  {
+    "id": "gpt-image-2",
+    "name": "GPT Image 2",
+    "description": "面向 GPT Image 2 的图像生成 / 编辑技能。可在 Garden 本地模式、Host-Native 委托模式、Advisor 纯提示词顾问模式下使用，覆盖海报、UI、产品、信息图、漫画、头像、流程板、电影分镜等结构化模板。",
+    "category": {
+      "key": "design",
+      "label": "Design",
+      "color": "#b85f76",
+      "gradient": "linear-gradient(135deg,#b85f76,#d7653d)",
+      "icon": "design"
+    },
+    "stats": {
+      "lineCount": 420,
+      "charCount": 26641,
+      "sectionCount": 32,
+      "codeBlockCount": 18,
+      "complexityScore": 8,
+      "complexityLabel": "Advanced",
+      "readTime": "9 min"
+    },
+    "triggerPhrases": [
+      "生成图片",
+      "编辑图片",
+      "GPT Image 2 prompt",
+      "用宿主图像工具出图",
+      "写好图像提示词"
+    ],
+    "useCases": [
+      {
+        "icon": "image",
+        "title": "Text-to-image generation",
+        "description": "Select a structured template, render the final prompt, and generate an image through Garden or the host image tool."
+      },
+      {
+        "icon": "edit",
+        "title": "Image editing",
+        "description": "Prepare edit prompts for existing images or masked regions when the runtime supports image edits."
+      },
+      {
+        "icon": "prompt",
+        "title": "Prompt advisory mode",
+        "description": "When no image tool is available, produce a reusable high-quality prompt and usage guidance."
+      },
+      {
+        "icon": "mode",
+        "title": "Runtime mode detection",
+        "description": "Start by deciding whether the environment is Garden Mode A, Host-Native Mode B, or Advisor Mode C."
+      }
+    ],
+    "keyFeatures": [
+      "Mode A Garden local image generation with OpenAI-compatible image APIs",
+      "Mode B host-native delegation for clients with built-in image tools",
+      "Mode C advisor workflow for prompt-only environments",
+      "Prompt and image output naming rules with timestamped task slugs",
+      "Template index across posters, UI, products, infographics, comics, avatars, flow boards, storyboards, and editing workflows",
+      "Clear rules for when scripts should and should not be called"
+    ],
+    "installCommand": "npx skills add https://github.com/conardli/garden-skills --skill gpt-image-2",
+    "updateCommand": "npx skills add https://github.com/conardli/garden-skills --skill gpt-image-2",
+    "content": "# GPT Image 2\n\nA focused image generation and editing skill for GPT Image 2 workflows. It supports direct Garden execution, host-native image tools, or prompt-only advisory mode.\n\n## Runtime Modes\n\n| Mode | Use When |\n| --- | --- |\n| Garden Local | The environment can call an OpenAI-compatible image API directly |\n| Host-Native | The host app provides its own image generation or editing tool |\n| Advisor | No image tool is available, so the skill produces a reusable prompt |\n\n## Best For\n\n- Posters, UI concepts, product visuals, information graphics, technical diagrams, avatars, comics, storyboards, and image editing prompts.\n- Turning vague visual goals into structured prompts.\n- Choosing the right template before asking an image model to render.\n\n## Workflow\n\n1. Detect the runtime mode.\n2. Decide whether the task is generation, editing, or prompt advisory.\n3. Pick the closest visual template.\n4. Render a complete prompt with format, subject, style, constraints, and output notes.\n5. Save or hand off the result according to the active mode.\n\n## Output Shape\n\nPrompt files, generated images when tools are available, or advisor-ready prompt packages when generation cannot run locally.",
+    "fileInfo": {
+      "totalFiles": 80,
+      "totalSizeStr": "~120 KB",
+      "tree": {
+        "name": "gpt-image-2",
         "type": "dir",
         "children": [
           {
-            "name": "evals",
+            "name": "scripts",
             "type": "dir",
             "children": [
               {
-                "name": "evals.json",
+                "name": "check-mode.js",
                 "type": "file",
-                "size": 1187,
-                "ext": ".json"
+                "size": 2400,
+                "ext": ".js"
+              },
+              {
+                "name": "generate.js",
+                "type": "file",
+                "size": 5200,
+                "ext": ".js"
+              },
+              {
+                "name": "edit.js",
+                "type": "file",
+                "size": 5200,
+                "ext": ".js"
+              },
+              {
+                "name": "shared.js",
+                "type": "file",
+                "size": 5000,
+                "ext": ".js"
+              }
+            ]
+          },
+          {
+            "name": "references",
+            "type": "dir",
+            "children": [
+              {
+                "name": "posters",
+                "type": "dir"
+              },
+              {
+                "name": "ui",
+                "type": "dir"
+              },
+              {
+                "name": "products",
+                "type": "dir"
+              },
+              {
+                "name": "storyboards",
+                "type": "dir"
               }
             ]
           },
           {
             "name": "SKILL.md",
             "type": "file",
-            "size": 3570,
+            "size": 26641,
+            "ext": ".md"
+          }
+        ]
+      }
+    },
+    "lastUpdated": "2026-04-30",
+    "type": "skill",
+    "sourceUrl": "https://skills.sh/conardli/garden-skills/gpt-image-2",
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    }
+  },
+  {
+    "id": "kami",
+    "name": "Kami",
+    "description": "Professional document typesetting engine for AI. Transform any text into beautifully formatted PDFs, HTML pages, and PPTX slides. Supports 8 document templates (resume, letter, equity report, changelog, one-pager, portfolio, long-doc, slides) and 14 diagram types (flowchart, timeline, architecture, etc.) with warm parchment design system.",
+    "category": {
+      "key": "document",
+      "label": "Document",
+      "color": "#1B365D",
+      "gradient": "linear-gradient(135deg,#1B365D,#2D5A8A)",
+      "icon": "doc"
+    },
+    "stats": {
+      "lineCount": 1200,
+      "charCount": 45000,
+      "sectionCount": 12,
+      "codeBlockCount": 8,
+      "complexityScore": 4,
+      "complexityLabel": "Moderate",
+      "readTime": "15 min"
+    },
+    "triggerPhrases": [
+      "typeset document",
+      "create PDF",
+      "format report",
+      "generate slides",
+      "document template",
+      "kami"
+    ],
+    "useCases": [
+      {
+        "icon": "doc",
+        "title": "Professional resume generation",
+        "description": "Warm parchment design with serif typography, single-page or multi-page layouts"
+      },
+      {
+        "icon": "doc",
+        "title": "Investment equity reports",
+        "description": "2-3 page reports with OHLC candlestick charts and waterfall revenue bridges"
+      },
+      {
+        "icon": "doc",
+        "title": "Release changelogs",
+        "description": "Structured version history with categorized changes and migration guides"
+      },
+      {
+        "icon": "chart",
+        "title": "Technical diagrams",
+        "description": "14 diagram types including flowcharts, timelines, architecture diagrams, K-line charts"
+      },
+      {
+        "icon": "slide",
+        "title": "Presentation slides",
+        "description": "Python-generated PPTX with consistent branding and layout templates"
+      },
+      {
+        "icon": "doc",
+        "title": "Formal letters",
+        "description": "Business correspondence with proper typography and signature blocks"
+      }
+    ],
+    "keyFeatures": [
+      "8 document templates: resume, letter, equity report, changelog, one-pager, portfolio, long-doc, slides",
+      "14 SVG diagram types: flowchart, timeline, architecture, bar chart, line chart, donut, quadrant, etc.",
+      "Warm parchment design system with ink-blue accent and serif-led hierarchy",
+      "Full bilingual support: Chinese (TsangerJinKai02) and English (Charter/Newsreader)",
+      "PDF output via WeasyPrint with print-optimized CSS @page rules",
+      "HTML preview mode for instant visual feedback without building",
+      "Placeholder validation: detect unfilled {{variables}} before publishing",
+      "Orphan text detection: catch排版 issues with ≤2 word last lines",
+      "CDN distribution via jsdelivr for skill installation"
+    ],
+    "installCommand": "pip install weasyprint python-pptx && git clone https://github.com/tw93/Kami.git",
+    "content": "# Kami — Professional Document Typesetting\n\nTypeset professional documents such as resumes, one-pagers, white papers, letters, portfolios, and slide decks.\n\n## Best For\n\n- Turning plain text into polished PDFs, HTML pages, or PPTX-style decks.\n- Documents that need a warm editorial tone and strong typography.\n- Workflows that require rendering and visual verification before delivery.\n\n## Document Templates\n\n| Template | Use |\n| --- | --- |\n| Resume | Career profile and applications |\n| One-pager | Compact product or service summary |\n| White paper | Long-form technical or business document |\n| Letter | Formal correspondence |\n| Portfolio | Project and case presentation |\n| Slide deck | Presentation-ready narrative |\n\n## Design Direction\n\nWarm parchment surfaces, ink-blue accents, serif-led hierarchy, and careful spacing. Chinese, English, and Japanese typography use best-effort font choices when available.\n\n## Workflow\n\n1. Choose the document target and audience.\n2. Structure the content into sections and hierarchy.\n3. Render the output artifact.\n4. Visually verify pages for placeholders, overflow, orphan lines, and layout issues.",
+    "fileInfo": {
+      "totalFiles": 28,
+      "totalSizeStr": "~2.1 MB",
+      "tree": {
+        "name": "kami",
+        "type": "dir",
+        "children": [
+          {
+            "name": "assets",
+            "type": "dir",
+            "children": [
+              {
+                "name": "templates",
+                "type": "dir"
+              },
+              {
+                "name": "diagrams",
+                "type": "dir"
+              },
+              {
+                "name": "fonts",
+                "type": "dir"
+              },
+              {
+                "name": "demos",
+                "type": "dir"
+              }
+            ]
+          },
+          {
+            "name": "scripts",
+            "type": "dir",
+            "children": [
+              {
+                "name": "build.py",
+                "type": "file",
+                "size": 15000
+              },
+              {
+                "name": "shared.py",
+                "type": "file",
+                "size": 8000
+              },
+              {
+                "name": "stabilize.py",
+                "type": "file",
+                "size": 5000
+              }
+            ]
+          },
+          {
+            "name": "references",
+            "type": "dir",
+            "children": [
+              {
+                "name": "design.md",
+                "type": "file",
+                "size": 12000
+              },
+              {
+                "name": "writing.md",
+                "type": "file",
+                "size": 8000
+              },
+              {
+                "name": "diagrams.md",
+                "type": "file",
+                "size": 6000
+              }
+            ]
+          },
+          {
+            "name": "styles.css",
+            "type": "file",
+            "size": 15000
+          },
+          {
+            "name": "SKILL.md",
+            "type": "file",
+            "size": 8000
+          }
+        ]
+      }
+    },
+    "lastUpdated": "2025-01-15",
+    "type": "skill",
+    "sourceUrl": "https://github.com/tw93/Kami",
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    },
+    "skillsShUrl": "https://skills.sh/tw93/kami/kami",
+    "githubUrl": "https://github.com/tw93/Kami",
+    "updateCommand": "npx skills add https://github.com/tw93/Kami --skill kami"
+  },
+  {
+    "id": "impeccable-style",
+    "name": "Impeccable Design Quality",
+    "description": "Before commands, before detection, Impeccable teaches your AI real design. Deep reference knowledge across 7 dimensions, loaded every time your AI writes code. 18 commands form a shared vocabulary between you and your AI.",
+    "category": {
+      "key": "design",
+      "label": "Design",
+      "color": "#1a1a2e",
+      "gradient": "linear-gradient(135deg,#1a1a2e,#D4AF37)",
+      "icon": "◆"
+    },
+    "stats": {
+      "lineCount": 0,
+      "charCount": 0,
+      "sectionCount": 18,
+      "codeBlockCount": 0,
+      "complexityScore": 6,
+      "complexityLabel": "Complex",
+      "readTime": "10 min"
+    },
+    "triggerPhrases": ["/impeccable", "/audit", "/polish", "/critique", "设计质量", "UI打磨"],
+    "useCases": [
+      {
+        "icon": "🎨",
+        "title": "AI 生成的 UI 看起来千篇一律",
+        "description": "所有模型产出同样的紫色渐变、圆角卡片"
+      },
+      {
+        "icon": "🔍",
+        "title": "需要自动检测 UI 反模式",
+        "description": "渐变文字、嵌套卡片、低对比度等 25+ 规则"
+      },
+      {
+        "icon": "⚡",
+        "title": "想要精确的设计指令词表",
+        "description": "18 条命令覆盖创建/评估/精简/打磨全流程"
+      },
+      {
+        "icon": "🌐",
+        "title": "需要在任意网页上检查设计问题",
+        "description": "Chrome 扩展一键高亮反模式元素"
+      }
+    ],
+    "keyFeatures": [
+      "7 维设计质量体系：Visual Expression · Design Systems · Spatial Layout · Responsive · Interaction · Motion · Content",
+      "18 条命令词表：/create /evaluate /refine /simplify /harden /system /audit /polish /bolder /distill /critique /typeset /layout /shape /craft /teach /extract /impeccable",
+      "25 条确定性检测规则：无需 LLM，纯模式匹配捕获反模式",
+      "支持 oklch/oklab/lch/lab 颜色格式，CSS 变量内 border shorthand 检测",
+      "三种使用方式：Chrome 扩展 · CLI (npx impeccable detect) · /critique 内嵌审查",
+      "Nielsen 启发式评分 + Persona 子代理并行评审"
+    ],
+    "installCommand": "npx skills add pbakaus/impeccable",
+    "skillsShUrl": "https://skills.sh/pbakaus/impeccable/impeccable",
+    "githubUrl": "https://github.com/pbakaus/impeccable",
+    "websiteUrl": "https://impeccable.style/",
+    "content": "# Impeccable Design Quality\n\nA design-quality system that teaches AI agents to avoid common interface mistakes before they generate or review UI.\n\n## Core Idea\n\nMost AI-generated interfaces fail in predictable ways: weak hierarchy, decorative gradients, poor spacing, nested cards, tiny type, low contrast, and generic copy. Impeccable names these patterns and turns them into repeatable checks.\n\n## Quality Dimensions\n\n| Dimension | Focus |\n| --- | --- |\n| Visual Expression | Scale, rhythm, hierarchy |\n| Design Systems | Tokens, accessibility, consistency |\n| Spatial Layout | Composition, spacing, alignment |\n| Responsive Design | Fluid layouts and touch targets |\n| Interaction Design | States, feedback, affordance |\n| Motion & Polish | Transitions and micro-interactions |\n| Content Quality | Clarity, voice, error text |\n\n## Command Families\n\n- Creation: /create, /shape, /craft.\n- Evaluation: /evaluate, /audit, /critique.\n- Refinement: /refine, /polish, /bolder, /simplify, /distill.\n- Production: /harden, /system.\n- Context: /teach, /extract, /impeccable.\n\n## Best For\n\nUse it before or after UI generation when the page needs stronger taste, clearer hierarchy, and fewer generic AI design patterns.",
+    "fileInfo": {
+      "totalFiles": 11,
+      "totalSizeStr": "~200 KB",
+      "tree": {
+        "name": "impeccable-style",
+        "type": "collection",
+        "children": []
+      }
+    },
+    "lastUpdated": "",
+    "type": "collection",
+    "sourceUrl": "https://impeccable.style/",
+    "children": [
+      {
+        "id": "impeccable-create",
+        "name": "/create",
+        "description": "Generate designed UI from requirements with full design thinking applied.",
+        "icon": "🎨"
+      },
+      {
+        "id": "impeccable-evaluate",
+        "name": "/evaluate",
+        "description": "Review output against the 7 dimensions of design quality.",
+        "icon": "🔍"
+      },
+      {
+        "id": "impeccable-refine",
+        "name": "/refine",
+        "description": "Iterative improvement pass that preserves intent while elevating quality.",
+        "icon": "✨"
+      },
+      {
+        "id": "impeccable-simplify",
+        "name": "/simplify",
+        "description": "Reduce complexity while keeping core intent intact.",
+        "icon": "✂️"
+      },
+      {
+        "id": "impeccable-harden",
+        "name": "/harden",
+        "description": "Production readiness: edge cases, empty states, error handling.",
+        "icon": "🛡️"
+      },
+      {
+        "id": "impeccable-system",
+        "name": "/system",
+        "description": "Align all components to design system tokens and conventions.",
+        "icon": "⚙️"
+      },
+      {
+        "id": "impeccable-audit",
+        "name": "/audit",
+        "description": "Score 5 dimensions with P0-P3 severity ratings and action plans.",
+        "icon": "📋"
+      },
+      {
+        "id": "impeccable-polish",
+        "name": "/polish",
+        "description": "Final visual refinement pass for production-ready output.",
+        "icon": "💎"
+      },
+      {
+        "id": "impeccable-bolder",
+        "name": "/bolder",
+        "description": "Strengthen typographic hierarchy for better readability.",
+        "icon": "Aa"
+      },
+      {
+        "id": "impeccable-distill",
+        "name": "/distill",
+        "description": "Remove unnecessary elements without losing meaning.",
+        "icon": "💧"
+      },
+      {
+        "id": "impeccable-critique",
+        "name": "/critique",
+        "description": "Full review: Nielsen heuristics + persona agents + live overlay.",
+        "icon": "🔬"
+      },
+      {
+        "id": "impeccable-typeset",
+        "name": "/typeset",
+        "description": "Fix typography scale, rhythm, and font choices.",
+        "icon": "T"
+      },
+      {
+        "id": "impeccable-layout",
+        "name": "/layout",
+        "description": "Fix layout & spacing issues across all viewports.",
+        "icon": "▦"
+      },
+      {
+        "id": "impeccable-shape",
+        "name": "/shape",
+        "description": "Structured discovery interview about purpose, audience, goals.",
+        "icon": "❓"
+      },
+      {
+        "id": "impeccable-craft",
+        "name": "/craft",
+        "description": "Chain brief into full implementation flow, ship designed features.",
+        "icon": "⚒️"
+      },
+      {
+        "id": "impeccable-teach",
+        "name": "/teach",
+        "description": "Set project's design context via .impeccable.md file.",
+        "icon": "📖"
+      },
+      {
+        "id": "impeccable-extract",
+        "name": "/extract",
+        "description": "Extract design context from existing codebase.",
+        "icon": "📤"
+      },
+      {
+        "id": "impeccable-master",
+        "name": "/impeccable",
+        "description": "Master command: teach/craft/extract sub-modes.",
+        "icon": "◆"
+      }
+    ],
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    }
+  },
+  {
+    "id": "ui-ux-pro-max",
+    "name": "UI UX Pro Max",
+    "description": "AI design intelligence for professional UI/UX across web, mobile, dashboards, landing pages, components, and multi-platform product interfaces. Combines design system generation, UX rules, accessibility checks, style guidance, charts, and stack-aware implementation advice.",
+    "category": {
+      "key": "design",
+      "label": "Design",
+      "color": "#2b7a78",
+      "gradient": "linear-gradient(135deg,#2b7a78,#6f5ea8)",
+      "icon": "design"
+    },
+    "stats": {
+      "lineCount": 620,
+      "charCount": 38000,
+      "sectionCount": 34,
+      "codeBlockCount": 12,
+      "complexityScore": 9,
+      "complexityLabel": "Advanced",
+      "readTime": "14 min"
+    },
+    "triggerPhrases": [
+      "Build a landing page",
+      "Build a dashboard",
+      "Recommend a design system",
+      "Review this UI for UX issues",
+      "Improve mobile experience"
+    ],
+    "useCases": [
+      {
+        "icon": "system",
+        "title": "Design system generation",
+        "description": "Generate a tailored UI direction with pattern, style, color, typography, effects, and anti-patterns for a product category."
+      },
+      {
+        "icon": "review",
+        "title": "UX and accessibility review",
+        "description": "Use structured rules for forms, navigation, charts, feedback states, and WCAG-aware interaction quality."
+      },
+      {
+        "icon": "platform",
+        "title": "Multi-platform interface guidance",
+        "description": "Apply UI recommendations across web, React, mobile, dashboard, and landing-page work without drifting into generic styling."
+      },
+      {
+        "icon": "chart",
+        "title": "Data and dashboard guidance",
+        "description": "Choose chart types, interaction states, loading patterns, and accessible legends for analytics interfaces."
+      }
+    ],
+    "keyFeatures": [
+      "Design system generator with product, style, color, landing-page, and typography reasoning",
+      "67 UI styles and 161 industry-specific reasoning rules",
+      "99 UX guidelines across forms, navigation, feedback, charts, accessibility, and responsive behavior",
+      "Stack-aware guidance for React, Next.js, Vue, SwiftUI, React Native, Flutter, and more",
+      "Anti-pattern checks for generic AI UI choices, weak contrast, poor motion, and layout issues",
+      "Useful for new builds, component work, UI review, mobile improvement, dark mode, and dashboard design"
+    ],
+    "installCommand": "npx skills add nextlevelbuilder/ui-ux-pro-max-skill",
+    "updateCommand": "npx skills add nextlevelbuilder/ui-ux-pro-max-skill",
+    "skillsShUrl": "https://skills.sh/nextlevelbuilder/ui-ux-pro-max-skill/ui-ux-pro-max",
+    "githubUrl": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+    "websiteUrl": "https://uupm.cc/",
+    "content": "# UI UX Pro Max\n\nAI design intelligence for building professional UI/UX across multiple platforms, product types, and implementation stacks.\n\n## Best For\n\n- New product pages, landing pages, dashboards, and mobile/web app screens.\n- Choosing a design system direction before implementation begins.\n- Reviewing existing UI for UX, accessibility, interaction, navigation, forms, and data visualization issues.\n- Matching product category, audience, style, color, typography, and stack constraints.\n\n## Core Capabilities\n\n| Capability | Purpose |\n| --- | --- |\n| Design system generation | Produce pattern, style, color, typography, effects, and anti-pattern guidance |\n| Industry reasoning rules | Match recommendations to SaaS, finance, healthcare, e-commerce, services, creative, and emerging tech products |\n| UX checklist library | Review forms, navigation, feedback, accessibility, charts, and responsive behavior |\n| Stack-aware guidance | Adapt recommendations for React, Next.js, Vue, SwiftUI, React Native, Flutter, and related stacks |\n\n## Workflow\n\n1. Analyze the product type, audience, platform, and requested interface.\n2. Generate or retrieve a design system before writing UI.\n3. Supplement with domain searches for style, color, typography, charts, UX rules, or stack-specific details.\n4. Implement with the chosen design vocabulary and avoid category-specific anti-patterns.\n5. Review the result against contrast, focus, motion, navigation, layout, and responsive checks.\n\n## Output Shape\n\nA structured UI direction, implementation checklist, and review rubric that can guide a build or critique a finished screen.\n\n## Boundaries\n\nThis skill is a design intelligence layer. It does not replace visual QA in the browser, and it should be paired with actual screenshots or rendered pages when judging final polish.",
+    "fileInfo": {
+      "totalFiles": 7,
+      "totalSizeStr": "203 KB",
+      "tree": {
+        "name": "ui-ux-pro-max-skill",
+        "type": "dir",
+        "children": [
+          {
+            "name": "ui-ux-pro-max",
+            "type": "dir"
+          },
+          {
+            "name": "ckm-design-system",
+            "type": "dir"
+          },
+          {
+            "name": "ckm-ui-styling",
+            "type": "dir"
+          },
+          {
+            "name": "README.md",
+            "type": "file",
+            "ext": ".md"
+          }
+        ]
+      }
+    },
+    "lastUpdated": "2026-04-30",
+    "type": "skill",
+    "sourceUrl": "https://skills.sh/nextlevelbuilder/ui-ux-pro-max-skill",
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    }
+  },
+  {
+    "id": "web-design-engineer",
+    "name": "Web Design Engineer",
+    "description": "Build high-quality visual Web artifacts using HTML/CSS/JavaScript/React: pages, landing pages, dashboards, interactive prototypes, HTML slide decks, animated demos, UI mockups, data visualizations, and design system explorations.",
+    "category": {
+      "key": "web",
+      "label": "Web",
+      "color": "#9b762e",
+      "gradient": "linear-gradient(135deg,#9b762e,#256f73)",
+      "icon": "web"
+    },
+    "stats": {
+      "lineCount": 360,
+      "charCount": 22623,
+      "sectionCount": 28,
+      "codeBlockCount": 12,
+      "complexityScore": 8,
+      "complexityLabel": "Advanced",
+      "readTime": "8 min"
+    },
+    "triggerPhrases": [
+      "Build high-quality visual Web artifacts",
+      "Create a web page",
+      "Build an interactive prototype",
+      "Make an HTML slide deck",
+      "Design a dashboard"
+    ],
+    "useCases": [
+      {
+        "icon": "page",
+        "title": "Web pages and landing pages",
+        "description": "Create polished, responsive pages with a strong visual system and real interaction states."
+      },
+      {
+        "icon": "prototype",
+        "title": "Interactive prototypes",
+        "description": "Turn screenshots, PRDs, and product ideas into usable HTML/CSS/React prototypes."
+      },
+      {
+        "icon": "slides",
+        "title": "HTML presentations",
+        "description": "Build web-native slide decks, animated demos, and data visualization artifacts."
+      },
+      {
+        "icon": "system",
+        "title": "Design system exploration",
+        "description": "Extract design tokens, declare UI decisions, and match an existing product vocabulary."
+      }
+    ],
+    "keyFeatures": [
+      "Requirement discovery tuned to how much context is already available",
+      "Design context gathering from screenshots, code, UI kits, and product conventions",
+      "Explicit design system declaration before implementation",
+      "Early v0 draft workflow for fast course correction",
+      "React + inline JSX implementation notes and CSS best practices",
+      "Pre-delivery verification and responsive polish checklist"
+    ],
+    "installCommand": "npx skills add https://github.com/conardli/garden-skills --skill web-design-engineer",
+    "updateCommand": "npx skills add https://github.com/conardli/garden-skills --skill web-design-engineer",
+    "content": "# Web Design Engineer\n\nBuild high-quality visual web artifacts using HTML, CSS, JavaScript, and React: pages, dashboards, prototypes, slide decks, UI mockups, data visualizations, and animated demos.\n\n## Best For\n\n- Visual front-end deliverables where taste, layout, motion, and responsive behavior matter.\n- Turning product ideas, screenshots, PRDs, or existing code into usable web artifacts.\n- Creating polished prototypes that can be inspected in a browser.\n\n## Workflow\n\n1. Understand the product context, audience, output type, constraints, and fidelity target.\n2. Gather design context from screenshots, code, references, or an existing design system.\n3. Declare the color, type, spacing, radius, shadow, and motion direction before building.\n4. Produce an early visible draft when direction is uncertain.\n5. Implement complete components, states, accessibility, and responsive behavior.\n6. Verify text fit, focus states, interactions, and layout across viewports.\n\n## Technical Notes\n\n- Prefer CSS Grid, Flexbox, custom properties, and responsive constraints.\n- Use real visual assets where the domain calls for inspection or specificity.\n- Keep controls complete and keyboard-accessible.\n- Avoid generic AI visual clichés, meaningless fake metrics, and decorative clutter.",
+    "fileInfo": {
+      "totalFiles": 8,
+      "totalSizeStr": "~48 KB",
+      "tree": {
+        "name": "web-design-engineer",
+        "type": "dir",
+        "children": [
+          {
+            "name": "SKILL.md",
+            "type": "file",
+            "size": 22623,
+            "ext": ".md"
+          },
+          {
+            "name": "references",
+            "type": "dir",
+            "children": [
+              {
+                "name": "advanced-patterns.md",
+                "type": "file",
+                "size": 18000,
+                "ext": ".md"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "lastUpdated": "2026-04-30",
+    "type": "skill",
+    "sourceUrl": "https://skills.sh/conardli/garden-skills/web-design-engineer",
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    }
+  },
+  {
+    "id": "markdown-viewer-skills",
+    "name": "Markdown Viewer Skills",
+    "description": "14 skills covering 5 rendering engines — from software modeling to enterprise architecture, data analytics, and editorial-quality content cards. Opinionated skills for AI coding agents to create stunning diagrams and visualizations directly in Markdown.",
+    "category": {
+      "key": "diagram",
+      "label": "Diagram",
+      "color": "#6366f1",
+      "gradient": "linear-gradient(135deg,#6366f1,#8b5cf6)",
+      "icon": "🧭"
+    },
+    "stats": {
+      "lineCount": 0,
+      "charCount": 0,
+      "sectionCount": 14,
+      "codeBlockCount": 0,
+      "complexityScore": 8,
+      "complexityLabel": "Complex+",
+      "readTime": "20 min"
+    },
+    "triggerPhrases": [
+      "画图",
+      "图表",
+      "UML",
+      "PlantUML",
+      "架构图",
+      "流程图",
+      "vega",
+      "infographic"
+    ],
+    "useCases": [
+      {
+        "icon": "📊",
+        "title": "需要在 Markdown 中渲染图表",
+        "description": "数据可视化、架构图、流程图等直接在文档中生成"
+      },
+      {
+        "icon": "🏗️",
+        "title": "软件建模与技术文档",
+        "description": "UML 图、类图、时序图、部署图等软件工程图表"
+      },
+      {
+        "icon": "☁️",
+        "title": "云架构和网络拓扑",
+        "description": "AWS/Azure/GCP 架构图、网络设备拓扑"
+      },
+      {
+        "icon": "📰",
+        "title": "信息图和编辑卡片",
+        "description": "KPI 卡片、时间线、SWOT、杂志风格信息卡"
+      }
+    ],
+    "keyFeatures": [
+      "5 大渲染引擎：Standalone (Vega/Infographic/Canvas) · HTML/CSS (Architecture/InfoCard) · PlantUML (9 种领域图)",
+      "Vega-Lite 数据驱动可视化：柱状图/折线图/散点图/热力图/雷达图/词云",
+      "Infographic 70+ 模板：YAML 语法的预设计信息图模板",
+      "Canvas JSON 思维导图：自由空间布局的知识图谱和概念图",
+      "Architecture 13×12 布局网格：色彩编码的分层架构图",
+      "InfoCard 14×13 样式卡片：杂志级排版的信息卡片",
+      "PlantUML 9500+ mxgraph 图标：UML/云/网络/安全/ArchiMate/BPMN/数据分析/IoT/思维导图"
+    ],
+    "installCommand": "npx skills add markdown-viewer/skills",
+    "githubUrl": "https://github.com/markdown-viewer/skills",
+    "websiteUrl": "https://xicilion.gitbook.io/markdown-viewer-extension/",
+    "content": "# Markdown Viewer Skills\n\nA collection of 14 skills for creating diagrams and visualizations directly from Markdown-oriented workflows.\n\n## Rendering Engines\n\n| Engine | Best For |\n| --- | --- |\n| Vega / Vega-Lite | Charts, heatmaps, scatter plots, radar charts, word clouds |\n| Infographic | KPI cards, timelines, roadmaps, SWOT, funnels, org trees |\n| Canvas | Mind maps, knowledge graphs, concept maps |\n| Architecture | System layers, microservices, enterprise architecture |\n| InfoCard | Knowledge summaries and event announcements |\n| PlantUML families | UML, cloud, network, security, ArchiMate, BPMN, IoT |\n\n## Best For\n\n- Technical documentation that needs diagrams without leaving Markdown.\n- AI agents that need a consistent diagram vocabulary.\n- Reusable visualization skills across architecture, data, process, and security work.\n\n## Output Shape\n\nMarkdown code fences, generated diagram syntax, or standalone visual artifacts depending on the selected child skill.",
+    "fileInfo": {
+      "totalFiles": 14,
+      "totalSizeStr": "~500 KB",
+      "tree": {
+        "name": "markdown-viewer-skills",
+        "type": "collection",
+        "children": []
+      }
+    },
+    "lastUpdated": "",
+    "type": "collection",
+    "sourceUrl": "https://github.com/markdown-viewer/skills",
+    "children": [
+      {
+        "id": "vega",
+        "name": "Vega",
+        "description": "Data-driven charts with Vega-Lite and Vega. Bar, line, scatter, heatmap, area charts, radar, word cloud.",
+        "icon": "📊",
+        "tag": "Standalone"
+      },
+      {
+        "id": "infographic",
+        "name": "Infographic",
+        "description": "70+ pre-designed templates with YAML syntax. KPI cards, timelines, roadmaps, SWOT, funnels, org trees.",
+        "icon": "📈",
+        "tag": "Standalone"
+      },
+      {
+        "id": "canvas",
+        "name": "Canvas",
+        "description": "Spatial node-based diagrams with JSON Canvas format. Mind maps, knowledge graphs, concept maps.",
+        "icon": "🎨",
+        "tag": "Standalone"
+      },
+      {
+        "id": "architecture",
+        "name": "Architecture",
+        "description": "13 layouts × 12 styles. Color-coded layer diagrams with grid-based component layout.",
+        "icon": "🏛️",
+        "tag": "HTML/CSS"
+      },
+      {
+        "id": "infocard",
+        "name": "InfoCard",
+        "description": "13 layouts × 14 styles. Editorial-style information cards with magazine-quality typography.",
+        "icon": "🃏",
+        "tag": "HTML/CSS"
+      },
+      {
+        "id": "uml",
+        "name": "UML",
+        "description": "14 UML diagram types with 9500+ mxgraph stencil icons. Software modeling, design patterns.",
+        "icon": "📐",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "cloud",
+        "name": "Cloud",
+        "description": "AWS, Azure, GCP, Alibaba, IBM, OpenStack, Kubernetes icons. Cloud infrastructure.",
+        "icon": "☁️",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "network",
+        "name": "Network",
+        "description": "Network diagrams with Cisco/Citrix/industry device icons. LAN/WAN, data center.",
+        "icon": "🌐",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "security",
+        "name": "Security",
+        "description": "IAM, encryption, firewall, threat detection, compliance icons. Threat models.",
+        "icon": "🔒",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "archimate",
+        "name": "ArchiMate",
+        "description": "Enterprise architecture with ArchiMate layered modeling notation.",
+        "icon": "🏢",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "bpmn",
+        "name": "BPMN",
+        "description": "Business process modeling, EIP, and Lean Mapping stencils. Workflow automation.",
+        "icon": "📋",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "data-analytics",
+        "name": "Data Analytics",
+        "description": "Data pipeline and analytics workflow diagrams. ETL/ELT, warehouses, ML.",
+        "icon": "📊",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "iot",
+        "name": "IoT",
+        "description": "IoT device, sensor, and edge computing diagrams. Smart home/factory, digital twins.",
+        "icon": "📡",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "mindmap",
+        "name": "MindMap",
+        "description": "Native PlantUML mind map syntax with directional branches and rich text.",
+        "icon": "🧠",
+        "tag": "PlantUML"
+      }
+    ],
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    },
+    "skillsShUrl": "https://skills.sh/markdown-viewer/skills",
+    "updateCommand": "npx skills add markdown-viewer/skills"
+  },
+  {
+    "id": "editorial-card-screenshot",
+    "name": "Editorial Card Screenshot",
+    "description": "\"Generate high-density editorial HTML info cards in a modern magazine and Swiss-international style, then capture them as ratio-specific screenshots. Use when the user provides text or core information and wants: (1) a complete responsive HTML info card, (2) the design to follow the stored editorial",
+    "category": {
+      "key": "design",
+      "label": "Design",
+      "color": "#ec4899",
+      "gradient": "linear-gradient(135deg,#ec4899,#f97316)",
+      "icon": "🎨"
+    },
+    "stats": {
+      "lineCount": 195,
+      "charCount": 8324,
+      "sectionCount": 19,
+      "codeBlockCount": 3,
+      "complexityScore": 3,
+      "complexityLabel": "Basic",
+      "readTime": "4 min"
+    },
+    "triggerPhrases": ["\"Generate high-density editorial HTML info cards"],
+    "useCases": [
+      {
+        "icon": "📌",
+        "title": "Use \"big-character\" composition when content is sparse and a",
+        "description": "Use \"big-character\" composition when content is sparse and a single phrase, number, or hook can carry the page."
+      },
+      {
+        "icon": "📌",
+        "title": "Use a two-column or three-column editorial grid when content",
+        "description": "Use a two-column or three-column editorial grid when content is dense and needs stronger hierarchy."
+      },
+      {
+        "icon": "📌",
+        "title": "Use oversized numbers, heavy rules, tinted blocks, and pull-",
+        "description": "Use oversized numbers, heavy rules, tinted blocks, and pull-quote scale to avoid dead space."
+      },
+      {
+        "icon": "📌",
+        "title": "Do not force dense content into evenly weighted tiles. Build",
+        "description": "Do not force dense content into evenly weighted tiles. Build primary blocks, secondary blocks, and lighter supporting blocks."
+      },
+      {
+        "icon": "📌",
+        "title": "Match structure to content type:",
+        "description": "Match structure to content type:"
+      },
+      {
+        "icon": "📌",
+        "title": "Ratio changes should primarily change reading path, hierarch",
+        "description": "Ratio changes should primarily change reading path, hierarchy, and module arrangement."
+      }
+    ],
+    "keyFeatures": [
+      "Overview",
+      "Workflow",
+      "1. Analyze Content Density",
+      "2. Apply the Stored Editorial Rules",
+      "3. Choose the Right Layout Skeleton",
+      "4. Build HTML for Rendering",
+      "5. Capture the Screenshot",
+      "6. Ratio Policy",
+      "Output Contract",
+      "Resources",
+      "`references/ratios.md`",
+      "`references/editorial-card-prompt.md`",
+      "`scripts/capture_card.sh`",
+      "`assets/card-template.html`",
+      "Failure Checks"
+    ],
+    "installCommand": "npx skills add https://github.com/shaom/infocard-skills --skill editorial-card-screenshot",
+    "content": "# Editorial Card Screenshot\n\nTurn dense source text into a screenshot-ready editorial information card with strong hierarchy, compact spacing, and a magazine-like reading path.\n\n## Best For\n\n- High-density summary cards for articles, rankings, analysis, or social sharing.\n- Fixed-ratio compositions such as 3:4, 4:3, 1:1, 16:9, and 9:16.\n- Cases where text clarity matters more than decorative illustration.\n\n## Workflow\n\n1. Judge whether the source content is sparse, medium-density, or dense.\n2. Choose a layout skeleton that matches the target ratio.\n3. Group content into primary insight, supporting modules, and footer/meta details.\n4. Write screenshot-ready HTML with fixed canvas dimensions.\n5. Check for overlaps, dead space, unreadable type, and monotonous equal-weight blocks.\n\n## Output Shape\n\n- One density judgment sentence.\n- Complete HTML with embedded CSS.\n- Optional screenshot command when an image export is requested.\n\n## Boundaries\n\nThis skill is optimized for static editorial cards. It should not be used for long scrolling pages, interactive dashboards, or generic landing pages.",
+    "fileInfo": {
+      "totalFiles": 6,
+      "totalSizeStr": "21.6 KB",
+      "tree": {
+        "name": "editorial-card-screenshot",
+        "type": "dir",
+        "children": [
+          {
+            "name": "agents",
+            "type": "dir",
+            "children": [
+              {
+                "name": "openai.yaml",
+                "type": "file",
+                "size": 244,
+                "ext": ".yaml"
+              }
+            ]
+          },
+          {
+            "name": "assets",
+            "type": "dir",
+            "children": [
+              {
+                "name": "card-template.html",
+                "type": "file",
+                "size": 4223,
+                "ext": ".html"
+              }
+            ]
+          },
+          {
+            "name": "output",
+            "type": "dir",
+            "children": []
+          },
+          {
+            "name": "references",
+            "type": "dir",
+            "children": [
+              {
+                "name": "editorial-card-prompt.md",
+                "type": "file",
+                "size": 5593,
+                "ext": ".md"
+              },
+              {
+                "name": "ratios.md",
+                "type": "file",
+                "size": 1527,
+                "ext": ".md"
+              }
+            ]
+          },
+          {
+            "name": "scripts",
+            "type": "dir",
+            "children": [
+              {
+                "name": "capture_card.sh",
+                "type": "file",
+                "size": 1558,
+                "ext": ".sh"
+              }
+            ]
+          },
+          {
+            "name": "SKILL.md",
+            "type": "file",
+            "size": 8958,
             "ext": ".md"
           }
         ]
@@ -96,7 +1238,10 @@
     "assets": {
       "screenshots": [],
       "samples": []
-    }
+    },
+    "githubUrl": "https://github.com/shaom/infocard-skills",
+    "skillsShUrl": "https://skills.sh/shaom/infocard-skills/editorial-card-screenshot",
+    "updateCommand": "npx skills add https://github.com/shaom/infocard-skills --skill editorial-card-screenshot"
   },
   {
     "id": "blueprinter",
@@ -165,8 +1310,8 @@
       "Usage Guidelines",
       "Example: Simple System Diagram"
     ],
-    "installCommand": null,
-    "content": "# Blueprinter\n\nGenerate technical diagrams using HTML/CSS following the \"Flat Engineering Blueprint\" style guidelines.\n\n## Core Philosophy\n\nPrecise, Objective, High Data-Ink Ratio. The output should look like a technical specification sheet or an architectural diagram, NOT a marketing landing page.\n\n## Visual Rules\n\n### 1. No Decorations\n\n- NO drop shadows\n- NO gradients\n- NO glassmorphism/blur\n- NO rounded buttons\n\n### 2. Flat & Outlined\n\n- Use 1px or 2px solid borders for structure\n- Use white backgrounds for content blocks\n\n### 3. Monochrome Base\n\n| Element     | Color                                                           |\n| ----------- | --------------------------------------------------------------- |\n| Background  | Light Gray (#f8fafc)                                            |\n| Canvas      | White (#ffffff) with Slate Border (#cbd5e1)                     |\n| Text (Main) | High contrast Black (#0f172a)                                   |\n| Text (Sub)  | Slate Gray (#64748b)                                            |\n| Accent      | Use BLACK or ONE semantic color (e.g., Red for Error) sparingly |\n\n### 4. Typography\n\n- Headings/Labels: Sans-serif (Inter/Helvetica)\n- Data/Paths/Code: Monospace (JetBrains Mono/Consolas)\n\n### 5. Layout Structure\n\n- The diagram must be contained within a `diagram-canvas` (a bordered box with padding)\n- Header: Title + Uppercase Subtitle, separated by a solid bottom border\n- Grid/Flexbox alignment: Everything must be strictly aligned\n\n### 6. Elements\n\n- **Connectors**: Thin, straight or orthogonal lines. Dashed lines for abstract relationships.\n- **Icons**: Simple stroke SVG icons (no fill or complex details)\n- **Badges**: Outlined or solid black/gray blocks. Small font size.\n\n## CSS Variable Reference\n\n```css\n:root {\n  --c-bg: #f8fafc; /* Outer Background */\n  --c-canvas: #ffffff; /* Diagram Background */\n  --c-border: #cbd5e1; /* Slate-300 */\n  --c-text-main: #0f172a; /* Slate-900 */\n  --c-text-sub: #64748b; /* Slate-500 */\n  --font-ui: \"Inter\", sans-serif;\n  --font-mono: \"JetBrains Mono\", monospace;\n}\n```\n\n## HTML Structure Template\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>[Diagram Title]</title>\n    <link\n      href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap\"\n      rel=\"stylesheet\"\n    />\n    <style>\n      :root {\n        --c-bg: #f8fafc;\n        --c-canvas: #ffffff;\n        --c-border: #cbd5e1;\n        --c-text-main: #0f172a;\n        --c-text-sub: #64748b;\n        --c-accent: #dc2626; /* Optional: for errors/warnings only */\n        --font-ui: \"Inter\", sans-serif;\n        --font-mono: \"JetBrains Mono\", monospace;\n      }\n\n      * {\n        margin: 0;\n        padding: 0;\n        box-sizing: border-box;\n      }\n\n      body {\n        font-family: var(--font-ui);\n        background: var(--c-bg);\n        padding: 40px;\n        min-height: 100vh;\n      }\n\n      .diagram-container {\n        max-width: 1200px;\n        margin: 0 auto;\n      }\n\n      .diagram-canvas {\n        background: var(--c-canvas);\n        border: 1px solid var(--c-border);\n        padding: 32px;\n      }\n\n      .diagram-header {\n        border-bottom: 1px solid var(--c-border);\n        padding-bottom: 16px;\n        margin-bottom: 24px;\n      }\n\n      .diagram-title {\n        font-size: 20px;\n        font-weight: 600;\n        color: var(--c-text-main);\n        margin-bottom: 4px;\n      }\n\n      .diagram-subtitle {\n        font-size: 11px;\n        font-weight: 500;\n        color: var(--c-text-sub);\n        text-transform: uppercase;\n        letter-spacing: 0.05em;\n      }\n\n      /* Component styles */\n      .component {\n        border: 1px solid var(--c-border);\n        padding: 16px;\n        background: var(--c-canvas);\n      }\n\n      .component-label {\n        font-family: var(--font-mono);\n        font-size: 12px;\n        color: var(--c-text-sub);\n        text-transform: uppercase;\n        letter-spacing: 0.05em;\n      }\n\n      .component-value {\n        font-family: var(--font-mono);\n        font-size: 14px;\n        color: var(--c-text-main);\n        font-weight: 500;\n      }\n\n      /* Connector lines */\n      .connector {\n        stroke: var(--c-border);\n        stroke-width: 1;\n      }\n\n      .connector-dashed {\n        stroke: var(--c-border);\n        stroke-width: 1;\n        stroke-dasharray: 4 4;\n      }\n\n      /* Badges */\n      .badge {\n        display: inline-block;\n        font-family: var(--font-mono);\n        font-size: 10px;\n        padding: 2px 6px;\n        border: 1px solid var(--c-border);\n        color: var(--c-text-sub);\n      }\n\n      .badge-solid {\n        background: var(--c-text-main);\n        color: var(--c-canvas);\n        border-color: var(--c-text-main);\n      }\n    </style>\n  </head>\n  <body>\n    <div class=\"diagram-container\">\n      <div class=\"diagram-canvas\">\n        <div class=\"diagram-header\">\n          <div class=\"diagram-title\">[Diagram Title]</div>\n          <div class=\"diagram-subtitle\">[Diagram Type / Version]</div>\n        </div>\n        <!-- Diagram content goes here -->\n      </div>\n    </div>\n  </body>\n</html>\n```\n\n## Usage Guidelines\n\n1. **Always use the CSS variables** - never hardcode colors\n2. **Keep it flat** - no shadows, no gradients, no blur effects\n3. **Use monospace for data** - any technical values, paths, codes should use `--font-mono`\n4. **Align strictly** - use CSS Grid or Flexbox with consistent gaps\n5. **Connect with lines** - use SVG for connectors between components\n6. **Minimal icons** - if icons are needed, use simple stroke-only SVGs\n\n## Example: Simple System Diagram\n\n```html\n<div class=\"diagram-canvas\">\n  <div class=\"diagram-header\">\n    <div class=\"diagram-title\">System Architecture</div>\n    <div class=\"diagram-subtitle\">v1.0 / Overview</div>\n  </div>\n\n  <div style=\"display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;\">\n    <div class=\"component\">\n      <div class=\"component-label\">Client</div>\n      <div class=\"component-value\">Web App</div>\n    </div>\n    <div class=\"component\">\n      <div class=\"component-label\">API</div>\n      <div class=\"component-value\">REST Gateway</div>\n    </div>\n    <div class=\"component\">\n      <div class=\"component-label\">Database</div>\n      <div class=\"component-value\">PostgreSQL</div>\n    </div>\n  </div>\n</div>\n```",
+    "installCommand": "npx skills add https://github.com/yofine/skills --skill blueprinter",
+    "content": "# Blueprinter\n\nGenerate technical diagrams with a flat engineering blueprint style: precise borders, aligned grids, restrained typography, and high data density.\n\n## Best For\n\n- Architecture diagrams, system flows, infrastructure maps, and technical specification sheets.\n- Cases where the diagram should feel objective and inspectable rather than decorative.\n- HTML/CSS diagrams that need to be easy to edit after generation.\n\n## Visual Rules\n\n- Use white or very light canvases with thin slate borders.\n- Keep components rectangular, aligned, and labelled with clear hierarchy.\n- Use monospace for paths, IDs, protocol names, and implementation details.\n- Prefer straight or orthogonal connector lines.\n- Avoid shadows, blur, gradients, decorative backgrounds, and marketing-style composition.\n\n## Workflow\n\n1. Identify the system components and their relationships.\n2. Group components into layers or zones.\n3. Choose a grid before drawing individual nodes.\n4. Add labels, badges, and connectors only where they clarify the system.\n5. Verify alignment, spacing, and text fit at the target viewport.\n\n## Output Shape\n\nA standalone HTML/CSS diagram or diagram section with reusable CSS variables, component boxes, connector lines, and compact technical labels.",
     "fileInfo": {
       "totalFiles": 1,
       "totalSizeStr": "6.7 KB",
@@ -187,7 +1332,10 @@
     "assets": {
       "screenshots": [],
       "samples": []
-    }
+    },
+    "skillsShUrl": "https://skills.sh/yofine/skills/blueprinter",
+    "githubUrl": "https://github.com/yofine/skills",
+    "updateCommand": "npx skills add https://github.com/yofine/skills --skill blueprinter"
   },
   {
     "id": "design-system",
@@ -249,7 +1397,7 @@
     ],
     "keyFeatures": ["Design Systems"],
     "installCommand": null,
-    "content": "# Design System Browser\n\nBrowse 11 curated design themes with complete color palettes, typography, and visual effects.\n\n## Design Systems\n\n| Name        | Style                | Accent         |\n| ----------- | -------------------- | -------------- |\n| Bauhaus     | Minimalist, Bold     | Red #D02020    |\n| Beam        | Clean, Modern        | Orange #ffaa40 |\n| Hand-draw   | Handwritten, Playful | Red #ff6b6b    |\n| Kinetic     | Edgy, Bold           | Yellow #DFE104 |\n| Luxury      | Elegant, Premium     | Gold #D4AF37   |\n| Motion      | Smooth, Fluid        | Blue #3b82f6   |\n| Neumorphism | Soft, 3D             | Orange #FF8800 |\n| Newsprint   | Editorial, Classic   | Red #CC0000    |\n| Playful     | Colorful, Fun        | Purple #8B5CF6 |\n| Uber        | Professional         | Blue #276EF1   |\n| Win98       | Retro, Nostalgic     | Blue #0000FF   |\n\n## When to Use\n\n- List, browse, or view available design systems\n- Get colors, color palettes, themes, design tokens, or style configurations\n- Generate CSS variables or Tailwind config from a design system\n- Create globals.css or theme file using a specific design system\n- Compare design systems or view their screenshots\n- Query \"what colors\", \"what theme\", \"what styling\" for a design system\n\n**Do NOT use for:** Creating new design systems, modifying existing system data, generating UI components (only provides tokens/config), or general CSS questions unrelated to these design systems.\n\n## Usage Examples\n\n```\n# List all systems\n\"Show me all design systems\"\n\n# Get colors/theme\n\"What colors does Bauhaus use?\"\n\"Show me the Luxury theme\"\n\n# Generate CSS\n\"Generate CSS variables for Kinetic\"\n\"Create a globals.css using Playful design system\"\n\n# Generate Tailwind config\n\"Create a tailwind config for Uber\"\n```\n\n## Data Source\n\n```\n/Users/someone/.claude/skills/design-system/system.json\n```\n\n## Screenshots\n\n```\n/Users/someone/.claude/skills/design-system/screenshots/[Name].png\n```",
+    "content": "# Design System Browser\n\nBrowse 11 curated design themes with complete color palettes, typography direction, and visual effects.\n\n## Design Systems\n\n| Name | Style | Accent |\n| --- | --- | --- |\n| Bauhaus | Minimalist, bold | Red |\n| Beam | Clean, modern | Orange |\n| Hand-draw | Handwritten, playful | Red |\n| Kinetic | Edgy, bold | Yellow |\n| Luxury | Elegant, premium | Gold |\n| Motion | Smooth, fluid | Blue |\n| Neumorphism | Soft, dimensional | Orange |\n| Newsprint | Editorial, classic | Red |\n| Playful | Colorful, fun | Purple |\n| Uber | Professional | Blue |\n| Win98 | Retro interface | Blue |\n\n## Best For\n\n- Browsing available design directions.\n- Extracting color palettes, tokens, and theme choices.\n- Generating CSS variables or Tailwind theme configuration from a known system.\n\n## Boundaries\n\nUse this as a theme reference library. It does not create a new design system from scratch or decide product strategy on its own.",
     "fileInfo": {
       "totalFiles": 13,
       "totalSizeStr": "9.6 MB",
@@ -1411,958 +2559,107 @@
           }
         ]
       }
-    }
+    },
+    "localOnly": true
   },
   {
-    "id": "editorial-card-screenshot",
-    "name": "Editorial Card Screenshot",
-    "description": "\"Generate high-density editorial HTML info cards in a modern magazine and Swiss-international style, then capture them as ratio-specific screenshots. Use when the user provides text or core information and wants: (1) a complete responsive HTML info card, (2) the design to follow the stored editorial",
+    "id": "app-icon-minimalist",
+    "name": "App Icon Minimalist",
+    "description": "Help users create app icons using a minimalist, non-designer-friendly approach. Use when user mentions creating an app icon, designing app icons, needs help with app icon design, expresses difficulty with design software, or wants a simple/minimalist icon approach for iOS, Android, or web apps.",
     "category": {
-      "key": "design",
-      "label": "Design",
-      "color": "#ec4899",
-      "gradient": "linear-gradient(135deg,#ec4899,#f97316)",
-      "icon": "🎨"
+      "key": "screenshot",
+      "label": "Screenshot",
+      "color": "#f97316",
+      "gradient": "linear-gradient(135deg,#f97316,#eab308)",
+      "icon": "📷"
     },
     "stats": {
-      "lineCount": 195,
-      "charCount": 8324,
-      "sectionCount": 19,
-      "codeBlockCount": 3,
-      "complexityScore": 3,
-      "complexityLabel": "Basic",
-      "readTime": "4 min"
+      "lineCount": 82,
+      "charCount": 3225,
+      "sectionCount": 8,
+      "codeBlockCount": 1,
+      "complexityScore": 1,
+      "complexityLabel": "Trivial",
+      "readTime": "2 min"
     },
-    "triggerPhrases": ["\"Generate high-density editorial HTML info cards"],
+    "triggerPhrases": ["Help users create app icons using"],
     "useCases": [
       {
         "icon": "📌",
-        "title": "Use \"big-character\" composition when content is sparse and a",
-        "description": "Use \"big-character\" composition when content is sparse and a single phrase, number, or hook can carry the page."
+        "title": "User needs an app icon but isn't a designer",
+        "description": "User needs an app icon but isn't a designer"
       },
       {
         "icon": "📌",
-        "title": "Use a two-column or three-column editorial grid when content",
-        "description": "Use a two-column or three-column editorial grid when content is dense and needs stronger hierarchy."
+        "title": "Design software feels overwhelming",
+        "description": "Design software feels overwhelming"
       },
       {
         "icon": "📌",
-        "title": "Use oversized numbers, heavy rules, tinted blocks, and pull-",
-        "description": "Use oversized numbers, heavy rules, tinted blocks, and pull-quote scale to avoid dead space."
+        "title": "User wants to ship quickly without perfecting the icon",
+        "description": "User wants to ship quickly without perfecting the icon"
       },
       {
         "icon": "📌",
-        "title": "Do not force dense content into evenly weighted tiles. Build",
-        "description": "Do not force dense content into evenly weighted tiles. Build primary blocks, secondary blocks, and lighter supporting blocks."
+        "title": "Building a prototype or MVP",
+        "description": "Building a prototype or MVP"
       },
       {
         "icon": "📌",
-        "title": "Match structure to content type:",
-        "description": "Match structure to content type:"
+        "title": "The icon is blocking app launch",
+        "description": "The icon is blocking app launch"
       },
       {
         "icon": "📌",
-        "title": "Ratio changes should primarily change reading path, hierarch",
-        "description": "Ratio changes should primarily change reading path, hierarchy, and module arrangement."
+        "title": "[ ] Symbol centered",
+        "description": "[ ] Symbol centered"
       }
     ],
     "keyFeatures": [
-      "Overview",
-      "Workflow",
-      "1. Analyze Content Density",
-      "2. Apply the Stored Editorial Rules",
-      "3. Choose the Right Layout Skeleton",
-      "4. Build HTML for Rendering",
-      "5. Capture the Screenshot",
-      "6. Ratio Policy",
-      "Output Contract",
-      "Resources",
-      "`references/ratios.md`",
-      "`references/editorial-card-prompt.md`",
-      "`scripts/capture_card.sh`",
-      "`assets/card-template.html`",
-      "Failure Checks"
+      "Use When",
+      "The 3-Step Method",
+      "Step 1: Abstract Core Function into Symbol",
+      "Step 2: Place in Frame, Adjust Until \"Not Ugly\"",
+      "Step 3: Iterate Later (Optional)",
+      "Platform Specs",
+      "Response Format",
+      "Key Principles"
     ],
     "installCommand": null,
-    "content": "# Editorial Card Screenshot\n\n## Overview\n\nTurn source text into a compact, high-contrast HTML information card that follows the user's editorial prompt, then render a screenshot in one of the supported aspect ratios.\n\nAlways preserve three output stages unless the user explicitly asks to skip one:\n\n1. Write one sentence judging the information density as high, medium, or low.\n2. Output the complete HTML with embedded CSS.\n3. Self-check that body text remains readable on mobile.\n\n## Workflow\n\n### 1. Analyze Content Density\n\nChoose layout strategy from the content itself:\n\n- Use \"big-character\" composition when content is sparse and a single phrase, number, or hook can carry the page.\n- Use a two-column or three-column editorial grid when content is dense and needs stronger hierarchy.\n- Use oversized numbers, heavy rules, tinted blocks, and pull-quote scale to avoid dead space.\n- Do not force dense content into evenly weighted tiles. Build primary blocks, secondary blocks, and lighter supporting blocks.\n- Match structure to content type:\n  - Ranking / recommendation content: allow asymmetric hero + structured list.\n  - Tutorial / analysis / interpretation content: group into overview, core judgment, interpretation, boundary, and conclusion.\n\nBefore compressing content, first change the layout skeleton.\n\n- Ratio changes should primarily change reading path, hierarchy, and module arrangement.\n- Do not treat ratio changes as a reason to delete content by default.\n- Only compress, group, or summarize when the current ratio cannot hold the content clearly after layout has already been restructured.\n\n### 2. Apply the Stored Editorial Rules\n\nUse these defaults unless the user overrides them:\n\n- Import Google Fonts:\n  ```html\n  <link\n    href=\"https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&family=Oswald:wght@500;700&family=Inter:wght@400;600;700&display=swap\"\n    rel=\"stylesheet\"\n  />\n  ```\n- Keep body text at `18px` to `20px` on a 900px-wide composition.\n- Keep meta/tag text at `13px` minimum.\n- Use compact spacing: container padding `40px` to `50px`, component gaps `30px` to `40px`, line-height `1.5` to `1.6`.\n- Add visual weight with `4px` to `6px` accent rules, subtle gray planes, and `4%` noise overlays.\n- Favor `#f5f3ed` or similar warm-paper backgrounds unless the user supplies another palette.\n- Preserve breathing room. Do not shrink outer margins so much that the card loses composure.\n- For title zones, prefer larger line-height and clearer separation from subtitle / summary blocks.\n- In dense right-side modules, reduce font weight slightly so the page stays clear without feeling heavy.\n- Use stronger internal structure inside blocks: subheads, bullets, numbered lines, compare rows, or secondary labels.\n- Avoid equal-weight boxes when the card is dense. At least one module should feel visually heavier than the others.\n\n### 3. Choose the Right Layout Skeleton\n\nPick ratio-specific structure before writing final copy.\n\n#### `4:3`\n\n- Best for full analytical spread or ranked lists.\n- Prefer: hero + summary band + dense two-column list + stronger footer.\n- Use one main judgment block before the list so the page does not become a flat wall of 10 equal items.\n\n#### `3:4`\n\n- Keep the same information ambition, but change the reading path.\n- Prefer: title band + insight row + mixed large/small body modules.\n- Use mixed scales: one heavy primary block, one or two medium blocks, and smaller support blocks.\n- Do not let the whole portrait card collapse into a long single column.\n\n#### `1:1`\n\n- Best for ability map, grouped comparison, or balanced editorial overview.\n- Prefer: strong hero + one heavier quadrant + three supporting quadrants + dense footer strip.\n- Square layouts should feel centered and modular, not evenly tiled.\n\n#### Wide covers (`3:1`, `5:2`, `2.35:1`)\n\n- Reduce paragraph length aggressively.\n- Use fewer but larger blocks, stronger headlines, and short support lines.\n\n### 4. Build HTML for Rendering\n\nWhen HTML will be screenshotted, design the page as a fixed-size canvas instead of a responsive webpage:\n\n- Match the exact pixel dimensions of the selected ratio preset from `references/ratios.md`.\n- Treat the card as a design board with explicit `width` and `height`, not as a fluid `100vw / 100vh` layout.\n- Remove browser-default margins with `html, body { margin: 0; }`.\n- Make the card itself fill the screenshot viewport exactly.\n- Avoid interactions, sticky headers, or long scrolling sections.\n- Use fixed pixel wrappers, for example:\n\n  ```css\n  .frame {\n    width: 2000px;\n    height: 1500px;\n  }\n\n  .card {\n    width: 100%;\n    height: 100%;\n    padding: 48px;\n    background: #f5f3ed;\n  }\n  ```\n\nDo not rely on `100vw`, `100vh`, or responsive container widths as the primary design size for screenshot output.\n\nIf the user asks only for HTML, still make the layout screenshot-ready.\n\nUse these structural heuristics when composing the card:\n\n- Fill the proportion intentionally. Rebalance layout according to width / height instead of scaling one static template.\n- In `4:3` landscape, asymmetric left-right layouts often work best for dense analytical content.\n- In `3:4` portrait, use portrait-friendly mixed grids rather than a single narrow column.\n- Keep title, subtitle, summary, and modules separated by explicit rows or bands so they do not collide.\n- If using numbered modules, keep numbers visually weak enough that they never collide with titles.\n- If a section becomes visually monotonous, introduce contrast through hierarchy changes rather than decorative clutter.\n- Let big modules carry richer copy than small modules. Do not give every block the same amount of text.\n\n### 5. Capture the Screenshot\n\nUse the bundled shell script when the user wants a PNG output:\n\n```bash\n./scripts/capture_card.sh input.html output.png 3:4\n```\n\nSupported ratios and render sizes live in [references/ratios.md](references/ratios.md).\n\nThe rendering helper requires a local Chrome or Chromium binary.\nIt first respects `CHROME_BIN` when set, then falls back to common binary names and a macOS Chrome app path.\n\nBefore running the script:\n\n- Save the generated HTML to a local file.\n- Ensure the page is self-contained except for fonts.\n- If you keep the default font imports, rendering will request Google Fonts over the network.\n- Ensure the HTML uses a fixed-size design canvas that matches the chosen ratio preset.\n- Ensure the viewport composition already matches the requested ratio.\n\n### 6. Ratio Policy\n\nAccept only these ratio presets:\n\n- `3:4`\n- `4:3`\n- `1:1`\n- `16:9`\n- `9:16`\n- `2.35:1`\n- `3:1`\n- `5:2`\n\nIf the user gives a ratio outside this set, ask them to map it to the nearest supported preset rather than inventing a new one.\n\n## Output Contract\n\nWhen responding to a card-generation request:\n\n- Start with exactly one sentence describing information density.\n- Then output complete HTML in one code block.\n- If the user also requested an image, state the ratio used and the screenshot command after the HTML.\n- Keep prose short; the HTML is the deliverable.\n\n## Resources\n\n### `references/ratios.md`\n\nOpen this when you need the exact preset names or capture dimensions.\n\n### `references/editorial-card-prompt.md`\n\nUse this as the canonical prompt spec when the user wants the latest validated editorial-card behavior.\n\n### `scripts/capture_card.sh`\n\nRun this to capture a PNG from a local HTML file using a supported ratio preset.\nIt requires a local Chrome or Chromium binary or an explicit `CHROME_BIN` override.\n\n### `assets/card-template.html`\n\nUse this as a starting shell when you want a minimal ratio-ready HTML canvas before filling in real content.\n\n## Failure Checks\n\nBefore finalizing HTML or PNG, explicitly reject the result if any of these happen:\n\n- The title overlaps, visually collides with, or blocks summary/body content.\n- The title becomes a narrow vertical strip when more horizontal width is available.\n- Dense cards are split into too many equal-weight boxes.\n- Large blocks contain too little copy and read like empty containers.\n- The canvas shows large areas of dead space that could be filled by stronger hierarchy, richer block content, or a heavier main module.\n- The PNG feels meaningfully emptier than the HTML layout intent.",
-    "fileInfo": {
-      "totalFiles": 6,
-      "totalSizeStr": "21.6 KB",
-      "tree": {
-        "name": "editorial-card-screenshot",
-        "type": "dir",
-        "children": [
-          {
-            "name": "agents",
-            "type": "dir",
-            "children": [
-              {
-                "name": "openai.yaml",
-                "type": "file",
-                "size": 244,
-                "ext": ".yaml"
-              }
-            ]
-          },
-          {
-            "name": "assets",
-            "type": "dir",
-            "children": [
-              {
-                "name": "card-template.html",
-                "type": "file",
-                "size": 4223,
-                "ext": ".html"
-              }
-            ]
-          },
-          {
-            "name": "output",
-            "type": "dir",
-            "children": []
-          },
-          {
-            "name": "references",
-            "type": "dir",
-            "children": [
-              {
-                "name": "editorial-card-prompt.md",
-                "type": "file",
-                "size": 5593,
-                "ext": ".md"
-              },
-              {
-                "name": "ratios.md",
-                "type": "file",
-                "size": 1527,
-                "ext": ".md"
-              }
-            ]
-          },
-          {
-            "name": "scripts",
-            "type": "dir",
-            "children": [
-              {
-                "name": "capture_card.sh",
-                "type": "file",
-                "size": 1558,
-                "ext": ".sh"
-              }
-            ]
-          },
-          {
-            "name": "SKILL.md",
-            "type": "file",
-            "size": 8958,
-            "ext": ".md"
-          }
-        ]
-      }
-    },
-    "lastUpdated": "",
-    "assets": {
-      "screenshots": [],
-      "samples": []
-    }
-  },
-  {
-    "id": "infographic-creation",
-    "name": "infographic-creation",
-    "description": "Create beautiful infographics using AntV Infographic. Transforms text content into visual data representations with icons, illustrations, and customizable themes.",
-    "category": {
-      "key": "diagram",
-      "label": "Diagram",
-      "color": "#6366f1",
-      "gradient": "linear-gradient(135deg,#6366f1,#8b5cf6)",
-      "icon": "📊"
-    },
-    "stats": {
-      "lineCount": 585,
-      "charCount": 17638,
-      "sectionCount": 44,
-      "codeBlockCount": 10,
-      "complexityScore": 8,
-      "complexityLabel": "Complex+",
-      "readTime": "12 min"
-    },
-    "triggerPhrases": ["Create beautiful infographics using AntV Infographic."],
-    "useCases": [
-      {
-        "icon": "📌",
-        "title": "Create an infographic, information chart, or visualization",
-        "description": "Create an infographic, information chart, or visualization"
-      },
-      {
-        "icon": "📌",
-        "title": "Visualize data, processes, timelines, or comparisons",
-        "description": "Visualize data, processes, timelines, or comparisons"
-      },
-      {
-        "icon": "📌",
-        "title": "Transform text content into visual formats",
-        "description": "Transform text content into visual formats"
-      },
-      {
-        "icon": "📌",
-        "title": "Create diagrams, flowcharts, or structured visual content",
-        "description": "Create diagrams, flowcharts, or structured visual content"
-      },
-      {
-        "icon": "📌",
-        "title": "Generate charts, lists, or hierarchical trees from informati",
-        "description": "Generate charts, lists, or hierarchical trees from information"
-      },
-      {
-        "icon": "📌",
-        "title": "Sequential data (timelines, roadmaps, steps)",
-        "description": "Sequential data (timelines, roadmaps, steps)"
-      }
-    ],
-    "keyFeatures": [
-      "When to Use This Skill",
-      "What This Skill Does",
-      "Inputs",
-      "Outputs",
-      "Quick Reference: Template Selection",
-      "Syntax Reference",
-      "Basic Structure",
-      "Key Rules",
-      "TypeScript Interface",
-      "Icon & Illustration Resources",
-      "Icons (Iconify)",
-      "Common Icons by Category",
-      "Illustrations (unDraw)",
-      "Theme Customization",
-      "Dark Theme"
-    ],
-    "installCommand": null,
-    "content": "## When to Use This Skill\n\nUse this skill when the user asks to:\n\n- Create an infographic, information chart, or visualization\n- Visualize data, processes, timelines, or comparisons\n- Transform text content into visual formats\n- Create diagrams, flowcharts, or structured visual content\n- Generate charts, lists, or hierarchical trees from information\n\n**Trigger phrases:** \"create infographic\", \"make a visual\", \"data visualization\", \"flow chart\", \"timeline\", \"comparison chart\", \"process diagram\"\n\n---\n\n## What This Skill Does\n\nThis skill generates publication-ready infographic HTML files using [AntV Infographic](https://infographic.antv.vision/). It:\n\n1. Analyzes user content to extract structure (title, description, items, relationships)\n2. Selects the appropriate template based on content type\n3. Generates AntV Infographic Syntax (a DSL for describing infographics)\n4. Creates a standalone HTML file that renders the infographic\n5. Enables SVG export for sharing and editing\n\n---\n\n## Inputs\n\n| Input               | Description                                    | Required |\n| ------------------- | ---------------------------------------------- | -------- |\n| Content text        | The information to visualize                   | Yes      |\n| Content language    | Language of user's input (affects output text) | Detected |\n| Template preference | Specific template name, if known               | Optional |\n\n**Content can include:**\n\n- Sequential data (timelines, roadmaps, steps)\n- Comparison data (pros/cons, A/B analysis)\n- Hierarchical data (tree structures, org charts)\n- Statistical data (charts, graphs)\n- Lists (bullet points, key takeaways)\n\n---\n\n## Outputs\n\n| Output                  | Description                                                           |\n| ----------------------- | --------------------------------------------------------------------- |\n| AntV Infographic Syntax | DSL code describing the infographic structure                         |\n| HTML file               | Standalone file at `<title>-infographic.html` that renders in browser |\n| SVG export              | Downloadable SVG from the HTML viewer                                 |\n\n---\n\n## Quick Reference: Template Selection\n\n| Content Type          | Use Template Series | Examples                                      |\n| --------------------- | ------------------- | --------------------------------------------- |\n| Sequential/Process    | `sequence-*`        | Timelines, roadmaps, steps                    |\n| Comparisons (2 items) | `compare-binary-*`  | Pros/cons, A/B analysis                       |\n| SWOT Analysis         | `compare-swot`      | Strengths, Weaknesses, Opportunities, Threats |\n| Hierarchies           | `hierarchy-tree-*`  | Org charts, tree structures                   |\n| Data Charts           | `chart-*`           | Bar, line, pie, word cloud                    |\n| Lists                 | `list-*`            | Bullet points, key items                      |\n| Grids                 | `list-grid-*`       | Badge cards, compact grids                    |\n| Quadrants             | `quadrant-*`        | Four-quadrant analysis                        |\n| Relationships         | `relation-circle-*` | Circular relationships                        |\n\n---\n\n## Syntax Reference\n\n### Basic Structure\n\n```\ninfographic <template-name>\ndata\n  title <title text>\n  desc <description text>\n  items\n    - label <item label>\n      value <number>\n      desc <item description>\n      icon <collection/icon-name>\ntheme\n  palette <color1> <color2> <color3>\n```\n\n### Key Rules\n\n1. **First line**: `infographic <template-name>` (must match available templates)\n2. **Indentation**: 2 spaces for nested blocks\n3. **Arrays**: Use `-` prefix for array items\n4. **Icons**: Format as `<collection>/<name>` (e.g., `mdi/rocket-launch`)\n5. **Language**: Match user's input language in output text\n6. **Comparison templates**: Create exactly 2 root nodes with children\n\n### TypeScript Interface\n\n```ts\ninterface Data {\n  title?: string;\n  desc?: string;\n  items: ItemDatum[];\n}\n\ninterface ItemDatum {\n  icon?: string;\n  label?: string;\n  desc?: string;\n  value?: number;\n  illus?: string;\n  children?: ItemDatum[];\n}\n```\n\n---\n\n## Icon & Illustration Resources\n\n### Icons (Iconify)\n\nFormat: `<collection>/<icon-name>`\n\n| Collection      | Prefix       | Example             |\n| --------------- | ------------ | ------------------- |\n| Material Design | `mdi/`       | `mdi/rocket-launch` |\n| Font Awesome    | `fa/`        | `fa/arrow-right`    |\n| Bootstrap Icons | `bi/`        | `bi/check-circle`   |\n| Heroicons       | `heroicons/` | `heroicons/cog`     |\n\nBrowse: https://icon-sets.iconify.design/\n\n### Common Icons by Category\n\n- **Tech**: `mdi/code-tags`, `mdi/database`, `mdi/api`, `mdi/cloud`, `mdi/brain`\n- **Business**: `mdi/chart-line`, `mdi/briefcase`, `mdi/currency-usd`, `mdi/trending-up`\n- **Process**: `mdi/check-circle`, `mdi/arrow-right`, `mdi/cog`, `mdi/progress-clock`\n- **People**: `mdi/account`, `mdi/account-group`, `mdi/shield-account`\n\n### Illustrations (unDraw)\n\nFormat: Use filename without `.svg` (e.g., `coding`, `team-work`)\n\nBrowse: https://undraw.co/illustrations/\n\n| Category | Examples                                       |\n| -------- | ---------------------------------------------- |\n| Tech     | `coding`, `programmer`, `server`, `cloud-sync` |\n| Business | `business-plan`, `team-work`, `analytics`      |\n| Abstract | `abstract`, `building-blocks`, `connection`    |\n\n**Note**: Use `illus` field for illustrations, `icon` field for icons. Not all templates support both.\n\n---\n\n## Theme Customization\n\n### Dark Theme\n\n```\ntheme dark\n  palette\n    - #61DDAA\n    - #F6BD16\n    - #F08BB4\n```\n\n### Hand-drawn Style\n\n```\ntheme\n  stylize rough\n  base\n    text\n      font-family 851tegakizatsu\n```\n\n### Gradient Fill\n\n```\ntheme\n  stylize linear-gradient\n```\n\n---\n\n## Available Templates\n\n### Sequence Templates (Sequential/Process)\n\n- `sequence-timeline-simple` - Simple timeline\n- `sequence-timeline-rounded-rect-node` - Timeline with rounded nodes\n- `sequence-timeline-simple-illus` - Timeline with illustrations\n- `sequence-roadmap-vertical-simple` - Vertical roadmap\n- `sequence-roadmap-vertical-plain-text` - Plain text roadmap\n- `sequence-zigzag-steps-underline-text` - Zigzag steps\n- `sequence-zigzag-pucks-3d-simple` - 3D zigzag\n- `sequence-stairs-front-compact-card` - Staircase with cards\n- `sequence-stairs-front-pill-badge` - Staircase with badges\n- `sequence-snake-steps-compact-card` - Snake steps compact\n- `sequence-snake-steps-simple` - Snake steps simple\n- `sequence-circular-simple` - Circular progression\n- `sequence-pyramid-simple` - Pyramid diagram\n- `sequence-color-snake-steps-horizontal-icon-line` - Color snake\n- `sequence-ascending-stairs-3d-underline-text` - 3D ascending stairs\n- `sequence-cylinders-3d-simple` - 3D cylinders\n- `sequence-mountain-underline-text` - Mountain progression\n- `sequence-filter-mesh-simple` - Filter mesh\n- `sequence-horizontal-zigzag-simple-illus` - Zigzag with illustrations\n- `sequence-horizontal-zigzag-underline-text` - Zigzag underline\n- `sequence-ascending-steps` - Ascending steps\n\n### Compare Templates (Comparisons)\n\n- `compare-binary-horizontal-simple-fold` - Binary comparison fold\n- `compare-binary-horizontal-badge-card-arrow` - Binary with badges\n- `compare-binary-horizontal-underline-text-vs` - Binary with VS\n- `compare-hierarchy-left-right-circle-node-pill-badge` - Hierarchy comparison\n- `compare-swot` - SWOT analysis\n\n### Hierarchy Templates (Tree Structures)\n\n- `hierarchy-tree-tech-style-capsule-item` - Tech-style tree\n- `hierarchy-tree-curved-line-rounded-rect-node` - Curved line tree\n- `hierarchy-tree-tech-style-badge-card` - Tree with badge cards\n\n### Chart Templates (Data Visualization)\n\n- `chart-column-simple` - Column chart\n- `chart-bar-plain-text` - Bar chart\n- `chart-line-plain-text` - Line chart\n- `chart-pie-plain-text` - Pie chart\n- `chart-pie-compact-card` - Pie chart with cards\n- `chart-pie-donut-plain-text` - Donut chart\n- `chart-pie-donut-pill-badge` - Donut with badges\n- `chart-wordcloud` - Word cloud\n\n### List Templates (Lists/Grids)\n\n- `list-grid-badge-card` - Grid with badge cards\n- `list-grid-candy-card-lite` - Grid with candy cards\n- `list-grid-ribbon-card` - Grid with ribbon cards\n- `list-row-horizontal-icon-arrow` - Horizontal row with icons\n- `list-row-simple-illus` - Horizontal row with illustrations\n- `list-column-vertical-icon-arrow` - Vertical column with icons\n- `list-column-simple-vertical-arrow` - Simple vertical arrows\n- `list-column-done-list` - Done list (checkboxes)\n- `list-sector-plain-text` - Sector list\n\n### Quadrant Templates\n\n- `quadrant-quarter-simple-card` - Four quadrants with cards\n- `quadrant-quarter-circular` - Circular quadrants\n- `quadrant-simple-illus` - Quadrants with illustrations\n\n### Relation Templates\n\n- `relation-circle-icon-badge` - Circular relationship with icons\n- `relation-circle-circular-progress` - Circular progress relation\n\n---\n\n## Creation Process\n\n### Step 1: Understand Requirements\n\nExtract from user input:\n\n- **Title**: Main heading\n- **Description**: Subtitle or summary\n- **Items**: Data points with labels, values, descriptions\n- **Structure**: Sequential, comparative, hierarchical, or list-based\n- **Language**: Must match user's input language\n\nIf unclear, ask:\n\n- \"What is the main title for this infographic?\"\n- \"What type of visualization works best? (timeline, comparison, chart, list)\"\n- \"What are the key data points to include?\"\n\n### Step 2: Generate AntV Infographic Syntax\n\nCreate the syntax using the template and data structure.\n\n### Step 3: Create HTML File\n\nUse the template below to create a standalone HTML file:\n\n```html\n<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>{title} - Infographic</title>\n    <style>\n      body,\n      html {\n        margin: 0;\n        padding: 0;\n        width: 100%;\n        height: 100%;\n      }\n      #container {\n        width: 100%;\n        height: 100vh;\n      }\n    </style>\n  </head>\n  <body>\n    <div id=\"container\"></div>\n    <script src=\"https://unpkg.com/@antv/infographic@latest/dist/infographic.min.js\"></script>\n    <script>\n      // Resource Loader for Icons and Illustrations\n      const svgTextCache = new Map();\n      const pendingRequests = new Map();\n\n      AntVInfographic.registerResourceLoader(async (config) => {\n        const { data, scene } = config;\n\n        try {\n          const key = `${scene}::${data}`;\n          let svgText;\n\n          // Check cache\n          if (svgTextCache.has(key)) {\n            svgText = svgTextCache.get(key);\n          }\n          // Check pending request\n          else if (pendingRequests.has(key)) {\n            svgText = await pendingRequests.get(key);\n          }\n          // Fetch new resource\n          else {\n            const fetchPromise = (async () => {\n              try {\n                let url;\n\n                if (scene === \"icon\") {\n                  url = `https://api.iconify.design/${data}.svg`;\n                } else if (scene === \"illus\") {\n                  url = `https://raw.githubusercontent.com/balazser-undraw-svg-collection/refs/heads/main/svgs/${data}.svg`;\n                } else return null;\n\n                if (!url) return null;\n\n                const response = await fetch(url, {\n                  referrerPolicy: \"no-referrer\",\n                });\n\n                if (!response.ok) {\n                  console.error(\n                    `HTTP ${response.status}: Failed to load ${url}`,\n                  );\n                  return null;\n                }\n\n                const text = await response.text();\n\n                if (!text || !text.trim().startsWith(\"<svg\")) {\n                  console.error(`Invalid SVG content from ${url}`);\n                  return null;\n                }\n\n                svgTextCache.set(key, text);\n                return text;\n              } catch (fetchError) {\n                console.error(`Failed to fetch resource ${key}:`, fetchError);\n                return null;\n              }\n            })();\n\n            pendingRequests.set(key, fetchPromise);\n\n            try {\n              svgText = await fetchPromise;\n            } finally {\n              pendingRequests.delete(key);\n            }\n          }\n\n          if (!svgText) return null;\n\n          const resource = AntVInfographic.loadSVGResource(svgText);\n          if (!resource) {\n            svgTextCache.delete(key);\n            return null;\n          }\n\n          return resource;\n        } catch (error) {\n          console.error(\"Resource loader error:\", error);\n          return null;\n        }\n      });\n    </script>\n    <script>\n      const infographic = new AntVInfographic.Infographic({\n        container: \"#container\",\n        width: \"100%\",\n        height: \"100%\",\n      });\n      infographic.render(`{syntax}`);\n    </script>\n  </body>\n</html>\n```\n\n### Step 4: Output to User\n\n1. Write HTML file as `<title>-infographic.html`\n2. Inform user: \"Open `<title>-infographic.html` in a browser to view and export as SVG\"\n3. Offer adjustments: \"If you want to change the template, colors, or content, let me know\"\n\n---\n\n## Examples\n\n### Example 1: Timeline (Sequence)\n\n**Input:** \"Create a timeline of internet technology evolution\"\n\n**Syntax:**\n\n```\ninfographic list-row-horizontal-icon-arrow\ndata\n  title Internet Technology Evolution\n  desc From Web 1.0 to AI era, key milestones\n  items\n    - time 1991\n      label Web 1.0\n      desc Tim Berners-Lee published the first website\n      icon mdi/web\n    - time 2004\n      label Web 2.0\n      desc Social media becomes mainstream\n      icon mdi/account-multiple\n    - time 2007\n      label Mobile\n      desc iPhone changes the world\n      icon mdi/cellphone\n    - time 2023\n      label AI Large Model\n      desc ChatGPT ignites generative AI\n      icon mdi/brain\n```\n\n### Example 2: Process with Illustrations\n\n**Input:** \"Visualize our product development phases\"\n\n**Syntax:**\n\n```\ninfographic sequence-horizontal-zigzag-simple-illus\ndata\n  title Product Development Phases\n  desc Key stages in our development process\n  items\n    - label Research\n      desc Understanding user needs\n      illus user-research\n    - label Design\n      desc Creating user experience\n      illus design-thinking\n    - label Development\n      desc Building the product\n      illus coding\n    - label Launch\n      desc Going to market\n      illus launch-day\n```\n\n### Example 3: Comparison\n\n**Input:** \"Compare Python vs JavaScript for backend development\"\n\n**Syntax:**\n\n```\ninfographic compare-binary-horizontal-underline-text-vs\ndata\n  title Backend Development Comparison\n  desc Python vs JavaScript\n  items\n    - label Python\n      desc Mature ecosystem, great for data science\n      icon mdi/language-python\n      children\n        - label Pros\n          desc Django, FastAPI, extensive libraries\n        - label Cons\n          desc Slower execution speed\n    - label JavaScript\n      desc Full-stack, ubiquitous on web\n      icon mdi/language-javascript\n      children\n        - label Pros\n          desc Node.js, async-first, huge community\n        - label Cons\n          desc Callback complexity, fragmentation\n```\n\n### Example 4: Hand-drawn Style with Custom Font\n\n**Syntax:**\n\n```\ninfographic list-row-simple-horizontal-arrow\ntheme\n  stylize rough\n  base\n    text\n      font-family 851tegakizatsu\ndata\n  title Project Steps\n  desc Our development workflow\n  items\n    - label Plan\n      desc Define requirements\n    - label Build\n      desc Develop features\n    - label Test\n      desc Quality assurance\n    - label Deploy\n      desc Release to production\n```\n\n---\n\n## Error Handling\n\n### When User Input is Unclear\n\n- Ask: \"Could you provide more details about what you'd like to visualize?\"\n- Request: \"What type of chart would work best? (timeline, comparison, chart, list)\"\n- Clarify: \"What are the key data points or steps to include?\"\n\n### When Template Selection Fails\n\n- Default to `list-row-horizontal-icon-arrow` for general lists\n- Use `sequence-timeline-simple` for time-based content\n- Use `compare-binary-horizontal-simple-fold` for comparisons\n\n### When Icons Fail to Load\n\n- The resource loader handles failures gracefully\n- Console logs indicate which resources failed\n- Try alternative icon names from the same collection\n\n### Language Handling\n\n**CRITICAL**: Always preserve the language of the user's input. If user provides Chinese content, the infographic text must be in Chinese. This includes title, descriptions, labels, and all text fields.\n\n---\n\n## Boundaries\n\n### What This Skill DOES\n\n- Generate infographic HTML files using AntV Infographic\n- Provide template selection guidance\n- Create properly formatted AntV Infographic Syntax\n- Handle icon and illustration resources from Iconify and unDraw\n\n### What This Skill Does NOT DO\n\n- Edit existing infographics (generate new ones instead)\n- Create custom graphics outside of AntV templates\n- Generate animated infographics\n- Export to formats other than HTML/SVG\n- Modify the AntV Infographic library itself\n- Create interactive data visualizations beyond what templates support\n\n---\n\n## Quick Tips\n\n1. **Keep it simple**: Start with basic templates, add styling later\n2. **Respect language**: Match user's input language in output\n3. **Test in browser**: Always verify HTML renders correctly\n4. **Offer iteration**: Ask if user wants template/color changes\n5. **Use icons wisely**: Icons improve readability, don't overuse",
-    "fileInfo": {
-      "totalFiles": 1,
-      "totalSizeStr": "17.4 KB",
-      "tree": {
-        "name": "infographic-creation",
-        "type": "dir",
-        "children": [
-          {
-            "name": "SKILL.md",
-            "type": "file",
-            "size": 17851,
-            "ext": ".md"
-          }
-        ]
-      }
-    },
-    "lastUpdated": "",
-    "assets": {
-      "screenshots": [],
-      "samples": []
-    }
-  },
-  {
-    "id": "opc-methodology",
-    "name": "OPC 一人企业方法论",
-    "description": "9 个 Agent Skill 组成的完整方法论，从资源盘点到转化闭环，帮你把已有能力重新组织成一个轻资产、可验证、可复用的个人业务系统。",
-    "category": {
-      "key": "business",
-      "label": "Business",
-      "color": "#1B365D",
-      "gradient": "linear-gradient(135deg,#1B365D,#2D5A8A)",
-      "icon": "💼"
-    },
-    "stats": {
-      "lineCount": 0,
-      "charCount": 0,
-      "sectionCount": 9,
-      "codeBlockCount": 0,
-      "complexityScore": 7,
-      "complexityLabel": "Complex",
-      "readTime": "15 min"
-    },
-    "triggerPhrases": ["一人企业", "OPC", "方法论", "资源盘点", "利基定位", "MVP"],
-    "useCases": [
-      {
-        "icon": "🎯",
-        "title": "想从副业开始搭建一人企业",
-        "description": "有全职工作，想用业余时间验证商业想法"
-      },
-      {
-        "icon": "📊",
-        "title": "需要系统化的创业方法论",
-        "description": "不靠直觉拍脑袋，要可执行的框架"
-      },
-      {
-        "icon": "🔄",
-        "title": "已有能力但不知道如何组织",
-        "description": "技能/经验/资源都有，缺的是结构化方法"
-      },
-      {
-        "icon": "🚀",
-        "title": "想做 MVP 验证而非大而全产品",
-        "description": "追求最小可行验证，快速迭代"
-      }
-    ],
-    "keyFeatures": [
-      "00 总编排 — 判断当前阶段与用户模式，组织整体流程",
-      "01 资源盘点 — 8 类资源全面扫描（经验/人群/能力/关系/渠道/资产/约束）",
-      "02 利基定位 — 三环合一框架：新杠杆 × 边界变动 × 资源匹配",
-      "03 价值主张 — Jobs/Pains/Gains 拆解，多版本对比选择",
-      "04 商业模式 — Lean Canvas 核心模块，识别最高风险假设",
-      "06 MVP 设计 — 混合版验证路径：1 单校准 + 2 单真实验证",
-      "07 转化闭环 — 私域主路径 + 小红书辅路径的完整触达→成交链路",
-      "08 资产沉淀 — 识别运营中可沉淀的可复用成果",
-      "09 经营复盘 — 判断最真实瓶颈，确认下一周期唯一优先重点"
-    ],
-    "installCommand": "npx skills add https://github.com/easychen/opc-methodology/skills/opc-orchestrator",
-    "content": "# OPC 一人企业方法论\n\n> 9 个 Agent Skill 组成的完整方法论，从资源盘点到转化闭环。\n\n## 方法论概览\n\nOPC（One-Person Company）是一套面向独立创作者和个体经营者的**可执行方法论**。它不是理论框架，而是通过 9 个 Agent Skill 组成的完整流程，帮助你把已有能力重新组织成一个轻资产、可验证、可复用的个人业务系统。\n\n## 执行流\n\n```\n00 总编排 → 01 资源盘点 → 02 利基定位 → 03 价值主张 → 04 商业模式 → 06 MVP 设计 → 07 转化闭环\n```\n\n- **01 → 07 线性顺序执行**：按阶段依次推进\n- **08 / 09 条件触发**：在实际运营中按需触发（资产沉淀 / 经营复盘）\n\n## 适用场景\n\n- 想从副业开始搭建一人企业的职场人\n- 自由职业者需要系统化业务方法的\n- 有能力/经验/资源但不知道如何组织成商业体系的\n- 想做 MVP 验证而非大而全产品的创业者\n\n## 安装方式\n\n```bash\n# 全部安装\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-orchestrator\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-resource-audit\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-niche-positioning\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-value-proposition\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-business-model-design\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-mvp-designer\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-conversion-loop\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-asset-ops\nnpx skills add https://github.com/easychen/opc-methodology/skills/opc-dashboard-review\n```\n\n启动后使用 `/opc-orchestrator` 开始建盘流程。",
-    "fileInfo": {
-      "totalFiles": 9,
-      "totalSizeStr": "~120 KB",
-      "tree": {
-        "name": "opc-methodology",
-        "type": "collection",
-        "children": []
-      }
-    },
-    "lastUpdated": "",
-    "type": "collection",
-    "sourceUrl": "https://opc-skills.ft07.com/",
-    "children": [
-      {
-        "id": "opc-orchestrator",
-        "name": "总编排",
-        "description": "判断当前阶段与用户模式，组织整体流程，管控阶段边界。每次新会话自动恢复上次进度。",
-        "tag": "编排层"
-      },
-      {
-        "id": "opc-resource-audit",
-        "name": "资源盘点",
-        "description": "按经验、人群、能力、关系、渠道、资产、约束、硬性边界 8 个类别，确认你手上到底有什么。",
-        "tag": "线性阶段"
-      },
-      {
-        "id": "opc-niche-positioning",
-        "name": "利基定位",
-        "description": "通过「三环合一」框架发现细分市场：新杠杆 × 边界变动 × 资源匹配，用 6 维机会评分筛选。",
-        "tag": "线性阶段"
-      },
-      {
-        "id": "opc-value-proposition",
-        "name": "价值主张",
-        "description": "拆解目标客群的 Jobs / Pains / Gains，生成多个价值主张版本供对比选择。",
-        "tag": "线性阶段"
-      },
-      {
-        "id": "opc-business-model-design",
-        "name": "商业模式设计",
-        "description": "拆解 Lean Canvas 核心模块，确定收费结构与收入路径，识别最高风险假设。",
-        "tag": "线性阶段"
-      },
-      {
-        "id": "opc-mvp-designer",
-        "name": "MVP 设计",
-        "description": "确定最优先验证的假设、最小验证形式、成功标准与交付边界。不追求产品完整度，只追求假设验证。",
-        "tag": "线性阶段"
-      },
-      {
-        "id": "opc-conversion-loop",
-        "name": "转化闭环",
-        "description": "设计从触达到承接到成交的完整路径，包括渠道策略、内容触达方式和承接机制。",
-        "tag": "线性阶段"
-      },
-      {
-        "id": "opc-asset-ops",
-        "name": "资产沉淀",
-        "description": "识别运营中可沉淀的可复用成果，规划资产优先级。支持多次触发，每次带日期标记。",
-        "tag": "条件触发"
-      },
-      {
-        "id": "opc-dashboard-review",
-        "name": "经营复盘",
-        "description": "判断当前最真实的瓶颈，确认下一周期唯一优先重点。运营卡住或需要定期回顾时触发。",
-        "tag": "条件触发"
-      }
-    ],
-    "assets": {
-      "screenshots": [],
-      "samples": []
-    }
-  },
-  {
-    "id": "impeccable-style",
-    "name": "Impeccable Design Quality",
-    "description": "Before commands, before detection, Impeccable teaches your AI real design. Deep reference knowledge across 7 dimensions, loaded every time your AI writes code. 18 commands form a shared vocabulary between you and your AI.",
-    "category": {
-      "key": "design",
-      "label": "Design",
-      "color": "#1a1a2e",
-      "gradient": "linear-gradient(135deg,#1a1a2e,#D4AF37)",
-      "icon": "◆"
-    },
-    "stats": {
-      "lineCount": 0,
-      "charCount": 0,
-      "sectionCount": 18,
-      "codeBlockCount": 0,
-      "complexityScore": 6,
-      "complexityLabel": "Complex",
-      "readTime": "10 min"
-    },
-    "triggerPhrases": ["/impeccable", "/audit", "/polish", "/critique", "设计质量", "UI打磨"],
-    "useCases": [
-      {
-        "icon": "🎨",
-        "title": "AI 生成的 UI 看起来千篇一律",
-        "description": "所有模型产出同样的紫色渐变、圆角卡片"
-      },
-      {
-        "icon": "🔍",
-        "title": "需要自动检测 UI 反模式",
-        "description": "渐变文字、嵌套卡片、低对比度等 25+ 规则"
-      },
-      {
-        "icon": "⚡",
-        "title": "想要精确的设计指令词表",
-        "description": "18 条命令覆盖创建/评估/精简/打磨全流程"
-      },
-      {
-        "icon": "🌐",
-        "title": "需要在任意网页上检查设计问题",
-        "description": "Chrome 扩展一键高亮反模式元素"
-      }
-    ],
-    "keyFeatures": [
-      "7 维设计质量体系：Visual Expression · Design Systems · Spatial Layout · Responsive · Interaction · Motion · Content",
-      "18 条命令词表：/create /evaluate /refine /simplify /harden /system /audit /polish /bolder /distill /critique /typeset /layout /shape /craft /teach /extract /impeccable",
-      "25 条确定性检测规则：无需 LLM，纯模式匹配捕获反模式",
-      "支持 oklch/oklab/lch/lab 颜色格式，CSS 变量内 border shorthand 检测",
-      "三种使用方式：Chrome 扩展 · CLI (npx impeccable detect) · /critique 内嵌审查",
-      "Nielsen 启发式评分 + Persona 子代理并行评审"
-    ],
-    "installCommand": "npx skills add pbakaus/impeccable",
-    "content": "# Impeccable Design Quality\n\n> Before commands, before detection, Impeccable teaches your AI real design.\n\n## 核心理念\n\nEvery AI model learned from the same templates. Without intervention, they all produce the same predictable mistakes. Impeccable names them, detects them, and teaches the AI to avoid them.\n\n## 7 Dimensions of Design Quality\n\n| 维度 | 关注点 |\n|------|--------|\n| Visual Expression | Scale, rhythm, hierarchy, expression |\n| Design Systems | Accessibility, systems, theming |\n| Spatial Layout | Layout, spacing, composition |\n| Responsive Design | Fluid layouts, touch targets |\n| Interaction Design | States, feedback, affordances |\n| Motion & Polish | Micro-interactions, transitions |\n| Content Quality | Clarity, voice, error messages |\n\n## 18 Commands\n\n### Creation\n- `/create` — Generate designed UI from requirements\n- `/shape` — Structured discovery interview → design brief\n- `/craft` — Brief → full implementation flow\n\n### Evaluation\n- `/evaluate` — Review against design principles\n- `/audit` — Score 5 dimensions with P0-P3 severity\n- `/critique` — Nielsen heuristics + persona review\n\n### Refinement\n- `/refine` — Iterative improvement pass\n- `/polish` — Final visual refinement\n- `/bolder` — Strengthen typographic hierarchy\n- `/simplify` — Reduce complexity while keeping intent\n- `/distill` — Remove unnecessary elements\n- `/typeset` — Fix typography scale and rhythm\n- `/layout` — Fix layout & spacing issues\n\n### Production\n- `/harden` — Production readiness: edge cases, errors\n- `/system` — Align to design system tokens\n\n### Context\n- `/teach` — Set project design context (.impeccable.md)\n- `/extract` — Extract design context from codebase\n- `/impeccable` — Master command: teach/craft/extract modes\n\n## Detection Engine\n\n25 deterministic checks across typography, color, layout, motion, and quality:\n- Gradient text detection\n- Purple palette identification\n- Nested card detection\n- Low contrast measurement\n- Tiny body text flagging\n- Emoji-only node detection\n- And 19 more rules...\n\nSupports: HTML, CSS, JSX/TSX, Vue, Svelte, CSS-in-JS\nColor formats: oklch, oklab, lch, lab, hex, rgb\n\n## Installation\n\n```bash\n# Skills Add (Recommended)\nnpx skills add pbakaus/impeccable\n\n# CLI Global Install\nnpm i -g impeccable\n\n# Claude Code Plugin\n/plugin marketplace add pbakaus/impeccable\n```\n\n## Stay Updated\n\n```bash\nnpx impeccable skills update\n```",
-    "fileInfo": {
-      "totalFiles": 11,
-      "totalSizeStr": "~200 KB",
-      "tree": {
-        "name": "impeccable-style",
-        "type": "collection",
-        "children": []
-      }
-    },
-    "lastUpdated": "",
-    "type": "collection",
-    "sourceUrl": "https://impeccable.style/",
-    "children": [
-      {
-        "id": "impeccable-create",
-        "name": "/create",
-        "description": "Generate designed UI from requirements with full design thinking applied.",
-        "icon": "🎨"
-      },
-      {
-        "id": "impeccable-evaluate",
-        "name": "/evaluate",
-        "description": "Review output against the 7 dimensions of design quality.",
-        "icon": "🔍"
-      },
-      {
-        "id": "impeccable-refine",
-        "name": "/refine",
-        "description": "Iterative improvement pass that preserves intent while elevating quality.",
-        "icon": "✨"
-      },
-      {
-        "id": "impeccable-simplify",
-        "name": "/simplify",
-        "description": "Reduce complexity while keeping core intent intact.",
-        "icon": "✂️"
-      },
-      {
-        "id": "impeccable-harden",
-        "name": "/harden",
-        "description": "Production readiness: edge cases, empty states, error handling.",
-        "icon": "🛡️"
-      },
-      {
-        "id": "impeccable-system",
-        "name": "/system",
-        "description": "Align all components to design system tokens and conventions.",
-        "icon": "⚙️"
-      },
-      {
-        "id": "impeccable-audit",
-        "name": "/audit",
-        "description": "Score 5 dimensions with P0-P3 severity ratings and action plans.",
-        "icon": "📋"
-      },
-      {
-        "id": "impeccable-polish",
-        "name": "/polish",
-        "description": "Final visual refinement pass for production-ready output.",
-        "icon": "💎"
-      },
-      {
-        "id": "impeccable-bolder",
-        "name": "/bolder",
-        "description": "Strengthen typographic hierarchy for better readability.",
-        "icon": "Aa"
-      },
-      {
-        "id": "impeccable-distill",
-        "name": "/distill",
-        "description": "Remove unnecessary elements without losing meaning.",
-        "icon": "💧"
-      },
-      {
-        "id": "impeccable-critique",
-        "name": "/critique",
-        "description": "Full review: Nielsen heuristics + persona agents + live overlay.",
-        "icon": "🔬"
-      },
-      {
-        "id": "impeccable-typeset",
-        "name": "/typeset",
-        "description": "Fix typography scale, rhythm, and font choices.",
-        "icon": "T"
-      },
-      {
-        "id": "impeccable-layout",
-        "name": "/layout",
-        "description": "Fix layout & spacing issues across all viewports.",
-        "icon": "▦"
-      },
-      {
-        "id": "impeccable-shape",
-        "name": "/shape",
-        "description": "Structured discovery interview about purpose, audience, goals.",
-        "icon": "❓"
-      },
-      {
-        "id": "impeccable-craft",
-        "name": "/craft",
-        "description": "Chain brief into full implementation flow, ship designed features.",
-        "icon": "⚒️"
-      },
-      {
-        "id": "impeccable-teach",
-        "name": "/teach",
-        "description": "Set project's design context via .impeccable.md file.",
-        "icon": "📖"
-      },
-      {
-        "id": "impeccable-extract",
-        "name": "/extract",
-        "description": "Extract design context from existing codebase.",
-        "icon": "📤"
-      },
-      {
-        "id": "impeccable-master",
-        "name": "/impeccable",
-        "description": "Master command: teach/craft/extract sub-modes.",
-        "icon": "◆"
-      }
-    ],
-    "assets": {
-      "screenshots": [],
-      "samples": []
-    }
-  },
-  {
-    "id": "markdown-viewer-skills",
-    "name": "Markdown Viewer Skills",
-    "description": "14 skills covering 5 rendering engines — from software modeling to enterprise architecture, data analytics, and editorial-quality content cards. Opinionated skills for AI coding agents to create stunning diagrams and visualizations directly in Markdown.",
-    "category": {
-      "key": "diagram",
-      "label": "Diagram",
-      "color": "#6366f1",
-      "gradient": "linear-gradient(135deg,#6366f1,#8b5cf6)",
-      "icon": "🧭"
-    },
-    "stats": {
-      "lineCount": 0,
-      "charCount": 0,
-      "sectionCount": 14,
-      "codeBlockCount": 0,
-      "complexityScore": 8,
-      "complexityLabel": "Complex+",
-      "readTime": "20 min"
-    },
-    "triggerPhrases": [
-      "画图",
-      "图表",
-      "UML",
-      "PlantUML",
-      "架构图",
-      "流程图",
-      "vega",
-      "infographic"
-    ],
-    "useCases": [
-      {
-        "icon": "📊",
-        "title": "需要在 Markdown 中渲染图表",
-        "description": "数据可视化、架构图、流程图等直接在文档中生成"
-      },
-      {
-        "icon": "🏗️",
-        "title": "软件建模与技术文档",
-        "description": "UML 图、类图、时序图、部署图等软件工程图表"
-      },
-      {
-        "icon": "☁️",
-        "title": "云架构和网络拓扑",
-        "description": "AWS/Azure/GCP 架构图、网络设备拓扑"
-      },
-      {
-        "icon": "📰",
-        "title": "信息图和编辑卡片",
-        "description": "KPI 卡片、时间线、SWOT、杂志风格信息卡"
-      }
-    ],
-    "keyFeatures": [
-      "5 大渲染引擎：Standalone (Vega/Infographic/Canvas) · HTML/CSS (Architecture/InfoCard) · PlantUML (9 种领域图)",
-      "Vega-Lite 数据驱动可视化：柱状图/折线图/散点图/热力图/雷达图/词云",
-      "Infographic 70+ 模板：YAML 语法的预设计信息图模板",
-      "Canvas JSON 思维导图：自由空间布局的知识图谱和概念图",
-      "Architecture 13×12 布局网格：色彩编码的分层架构图",
-      "InfoCard 14×13 样式卡片：杂志级排版的信息卡片",
-      "PlantUML 9500+ mxgraph 图标：UML/云/网络/安全/ArchiMate/BPMN/数据分析/IoT/思维导图"
-    ],
-    "installCommand": "npx skills add markdown-viewer/skills",
-    "content": "# Markdown Viewer Skills\n\n> 14 skills covering 5 rendering engines for stunning diagrams and visualizations in Markdown.\n\n## Overview\n\nOpinionated skills for AI coding agents to create stunning diagrams and visualizations directly in Markdown. These skills extend agent capabilities across diagram generation, data visualization, and technical documentation.\n\n## Rendering Engines\n\n### 🧩 Standalone Skills (Independent rendering engines)\n\n| Skill | Code Fence | Output | Best For |\n|-------|-----------|--------|----------|\n| **vega** | `\\`\\`\\`vega-lite` / `\\`\\`\\`vega` | SVG/Canvas | Bar, line, scatter, heatmap, area charts, radar, word cloud |\n| **infographic** | `\\`\\`\\`infographic` | HTML | KPI cards, timelines, roadmaps, SWOT, funnels, org trees |\n| **canvas** | `\\`\\`\\`canvas` | SVG | Mind maps, knowledge graphs, concept maps, planning boards |\n\n### 🎨 HTML/CSS Embedded (Direct HTML embedding)\n\n| Skill | Templates | Best For |\n|-------|-----------|----------|\n| **architecture** | 13 layouts × 12 styles | System layers, microservices, enterprise apps |\n| **infocard** | 13 layouts × 14 styles | Knowledge summaries, data highlights, event announcements |\n\n### 📐 PlantUML-Based (Domain-specific icons)\n\n| Skill | Description | Best For |\n|-------|-------------|----------|\n| **uml** | 14 UML types + 9500+ stencils | Software modeling, design patterns, API flows |\n| **cloud** | AWS, Azure, GCP, Alibaba, IBM, OpenStack, K8s | Cloud infrastructure, serverless, multi-cloud |\n| **network** | Cisco/Citrix/industry device icons | LAN/WAN, enterprise networks, data center |\n| **security** | IAM, encryption, firewall, threat detection | Threat models, zero-trust, compliance |\n| **archimate** | Enterprise ArchiMate layered modeling | Business/application/technology layers |\n| **bpmn** | Business process + EIP + Lean Mapping | Workflow automation, value stream mapping |\n| **data-analytics** | Data pipeline and analytics workflows | ETL/ELT, warehouses, ML pipelines |\n| **iot** | IoT device, sensor, edge computing diagrams | Smart home/factory, fleet management, digital twins |\n| **mindmap** | Native PlantUML mind map syntax | Brainstorming trees, study outlines, decision maps |\n\n## Quick Install\n\n```bash\nnpx skills add markdown-viewer/skills\n```\n\nWorks with: Claude Code, Codex, Cursor, GitHub Copilot, VS Code\n\n## License\n\nGPL-3.0",
-    "fileInfo": {
-      "totalFiles": 14,
-      "totalSizeStr": "~500 KB",
-      "tree": {
-        "name": "markdown-viewer-skills",
-        "type": "collection",
-        "children": []
-      }
-    },
-    "lastUpdated": "",
-    "type": "collection",
-    "sourceUrl": "https://github.com/markdown-viewer/skills",
-    "children": [
-      {
-        "id": "vega",
-        "name": "Vega",
-        "description": "Data-driven charts with Vega-Lite and Vega. Bar, line, scatter, heatmap, area charts, radar, word cloud.",
-        "icon": "📊",
-        "tag": "Standalone"
-      },
-      {
-        "id": "infographic",
-        "name": "Infographic",
-        "description": "70+ pre-designed templates with YAML syntax. KPI cards, timelines, roadmaps, SWOT, funnels, org trees.",
-        "icon": "📈",
-        "tag": "Standalone"
-      },
-      {
-        "id": "canvas",
-        "name": "Canvas",
-        "description": "Spatial node-based diagrams with JSON Canvas format. Mind maps, knowledge graphs, concept maps.",
-        "icon": "🎨",
-        "tag": "Standalone"
-      },
-      {
-        "id": "architecture",
-        "name": "Architecture",
-        "description": "13 layouts × 12 styles. Color-coded layer diagrams with grid-based component layout.",
-        "icon": "🏛️",
-        "tag": "HTML/CSS"
-      },
-      {
-        "id": "infocard",
-        "name": "InfoCard",
-        "description": "13 layouts × 14 styles. Editorial-style information cards with magazine-quality typography.",
-        "icon": "🃏",
-        "tag": "HTML/CSS"
-      },
-      {
-        "id": "uml",
-        "name": "UML",
-        "description": "14 UML diagram types with 9500+ mxgraph stencil icons. Software modeling, design patterns.",
-        "icon": "📐",
-        "tag": "PlantUML"
-      },
-      {
-        "id": "cloud",
-        "name": "Cloud",
-        "description": "AWS, Azure, GCP, Alibaba, IBM, OpenStack, Kubernetes icons. Cloud infrastructure.",
-        "icon": "☁️",
-        "tag": "PlantUML"
-      },
-      {
-        "id": "network",
-        "name": "Network",
-        "description": "Network diagrams with Cisco/Citrix/industry device icons. LAN/WAN, data center.",
-        "icon": "🌐",
-        "tag": "PlantUML"
-      },
-      {
-        "id": "security",
-        "name": "Security",
-        "description": "IAM, encryption, firewall, threat detection, compliance icons. Threat models.",
-        "icon": "🔒",
-        "tag": "PlantUML"
-      },
-      {
-        "id": "archimate",
-        "name": "ArchiMate",
-        "description": "Enterprise architecture with ArchiMate layered modeling notation.",
-        "icon": "🏢",
-        "tag": "PlantUML"
-      },
-      {
-        "id": "bpmn",
-        "name": "BPMN",
-        "description": "Business process modeling, EIP, and Lean Mapping stencils. Workflow automation.",
-        "icon": "📋",
-        "tag": "PlantUML"
-      },
-      {
-        "id": "data-analytics",
-        "name": "Data Analytics",
-        "description": "Data pipeline and analytics workflow diagrams. ETL/ELT, warehouses, ML.",
-        "icon": "📊",
-        "tag": "PlantUML"
-      },
-      {
-        "id": "iot",
-        "name": "IoT",
-        "description": "IoT device, sensor, and edge computing diagrams. Smart home/factory, digital twins.",
-        "icon": "📡",
-        "tag": "PlantUML"
-      },
-      {
-        "id": "mindmap",
-        "name": "MindMap",
-        "description": "Native PlantUML mind map syntax with directional branches and rich text.",
-        "icon": "🧠",
-        "tag": "PlantUML"
-      }
-    ],
-    "assets": {
-      "screenshots": [],
-      "samples": []
-    }
-  },
-  {
-    "id": "khazix-skills",
-    "name": "Khazix Skills 工具箱",
-    "description": "数字生命卡兹克的 AI 工具箱。经过长期打磨的 Prompts 和 Skills，把积累的方法论变成可复用的工具。包含横纵分析法深度研究和公众号长文写作两大核心能力。",
-    "category": {
-      "key": "methodology",
-      "label": "Methodology",
-      "color": "#92400E",
-      "gradient": "linear-gradient(135deg,#92400E,#B45309)",
-      "icon": "🗡"
-    },
-    "stats": {
-      "lineCount": 0,
-      "charCount": 0,
-      "sectionCount": 4,
-      "codeBlockCount": 0,
-      "complexityScore": 4,
-      "complexityLabel": "Moderate",
-      "readTime": "8 min"
-    },
-    "triggerPhrases": ["横纵分析", "深度研究", "公众号写作", "长文写作", "khazix", "卡兹克"],
-    "useCases": [
-      {
-        "icon": "🔬",
-        "title": "需要对一个主题做深度研究",
-        "description": "半小时出一份万字级研究报告，历时+共时双维度"
-      },
-      {
-        "icon": "✍️",
-        "title": "写公众号长文",
-        "description": "完整的写作风格规则、四层自检体系和风格示例库"
-      },
-      {
-        "icon": "📋",
-        "title": "快速了解一个新领域",
-        "description": "纵向追时间深度 + 横向追竞争广度的研究框架"
-      },
-      {
-        "icon": "🎯",
-        "title": "输出排版精美的 PDF 报告",
-        "description": "自动联网收集信息，最终输出结构化研究报告"
-      }
-    ],
-    "keyFeatures": [
-      "hv-analysis — 横纵分析法深度研究 Skill，自动联网收集信息",
-      "纵向追时间深度：追踪主题的历史演变脉络和发展趋势",
-      "横向追竞争广度：对标竞品和替代方案的全面比较",
-      "khazix-writer — 公众号长文写作 Skill",
-      "完整写作风格规则 + 四层自检体系",
-      "内容方法论库 + 风格示例库",
-      "Prompt 轻量版：复制粘贴即用，无需安装"
-    ],
-    "installCommand": null,
-    "content": "# Khazix Skills 工具箱\n\n> 数字生命卡兹克的 AI 工具箱。两种东西，一个目的：把我积累的方法论变成可复用的工具。\n\n## 关于\n\n这里是我自己在用的、经过长期打磨的 Prompts 和 Skills，现在决定把它们完整地、一字不改地开源出来。\n\n## 包含内容\n\n### Prompts（轻量级）\n\n复制粘贴到任何 AI 对话或 Deep Research 里就能用。\n\n**横纵分析法 Prompt** — 通用深度研究框架，融合历时-共时分析与竞争战略视角，半小时出一份万字级研究报告。\n\n### Skills（重量级）\n\n遵循 Agent Skills 开放标准的结构化指令集，安装后 Agent 会自动加载。\n\n#### hv-analysis — 横纵分析法深度研究\n\n自动联网收集信息，纵向追时间深度 + 横向追竞争广度，最终输出排版精美的 PDF 研究报告。\n\n#### khazix-writer — 公众号长文写作\n\n包含完整的写作风格规则、四层自检体系、内容方法论和风格示例库。\n\n## 安装方式\n\n### 通过 Agent 安装\n\n在 Claude Code、Codex、OpenClaw 等 Agent 中对话：\n\n```\n安装这个 skill：https://github.com/KKKKhazix/khazix-skills\n```\n\n### 手动安装\n\n```bash\ngit clone https://github.com/KKKKhazix/khazix-skills.git\ncp -r khazix-skills/hv-analysis ~/.claude/skills/\ncp -r khazix-skills/khazix-writer ~/.claude/skills/\n```\n\n### 各工具安装路径\n\n| 工具 | 路径 |\n|------|------|\n| Claude Code | ~/.claude/skills/ |\n| OpenClaw | ~/.openclaw/skills/ |\n| Codex | ~/.agents/skills/ |\n\n---\n\n*MIT License · Open Source*",
+    "content": "# App Icon Minimalist\n\nCreate clear app icons with a practical three-step method for non-designers. The goal is to reach a shippable icon quickly, then refine only when the product needs it.\n\n## Best For\n\n- MVP or side-project icons where clarity matters more than ornament.\n- iOS, Android, web, or PWA launch assets.\n- Users who have an app concept but no design tool workflow.\n\n## Workflow\n\n1. Reduce the app to one core function.\n2. Translate that function into one simple symbol.\n3. Place it in a platform-safe frame and test at small sizes.\n\n## Output Shape\n\n- Core function summary.\n- Suggested symbol and visual metaphor.\n- Color and layout guidance.\n- Export-size reminders for the target platform.\n\n## Boundaries\n\nThis skill is for icon direction and iteration guidance. It does not replace a full brand identity system or produce final raster exports by itself.",
     "fileInfo": {
       "totalFiles": 2,
-      "totalSizeStr": "~40 KB",
+      "totalSizeStr": "4.6 KB",
       "tree": {
-        "name": "khazix-skills",
-        "type": "collection",
-        "children": []
-      }
-    },
-    "lastUpdated": "",
-    "type": "collection",
-    "sourceUrl": "https://github.com/KKKKhazix/khazix-skills",
-    "children": [
-      {
-        "id": "hv-analysis",
-        "name": "hv-analysis 横纵分析法",
-        "description": "横纵分析法深度研究 Skill，自动联网收集信息，纵向追时间深度 + 横向追竞争广度，最终输出排版精美的 PDF 研究报告。",
-        "icon": "🔬",
-        "tag": "深度研究 · 自动联网 · PDF输出"
-      },
-      {
-        "id": "khazix-writer",
-        "name": "khazix-writer 公众号写作",
-        "description": "卡兹克公众号长文写作 Skill，包含完整的写作风格规则、四层自检体系、内容方法论和风格示例库。",
-        "icon": "✍️",
-        "tag": "长文写作 · 四层自检 · 风格示例"
-      }
-    ],
-    "assets": {
-      "screenshots": [],
-      "samples": []
-    }
-  },
-  {
-    "id": "kami",
-    "name": "Kami",
-    "description": "Professional document typesetting engine for AI. Transform any text into beautifully formatted PDFs, HTML pages, and PPTX slides. Supports 8 document templates (resume, letter, equity report, changelog, one-pager, portfolio, long-doc, slides) and 14 diagram types (flowchart, timeline, architecture, etc.) with warm parchment design system.",
-    "category": {
-      "key": "document",
-      "label": "Document",
-      "color": "#1B365D",
-      "gradient": "linear-gradient(135deg,#1B365D,#2D5A8A)",
-      "icon": "doc"
-    },
-    "stats": {
-      "lineCount": 1200,
-      "charCount": 45000,
-      "sectionCount": 12,
-      "codeBlockCount": 8,
-      "complexityScore": 4,
-      "complexityLabel": "Moderate",
-      "readTime": "15 min"
-    },
-    "triggerPhrases": [
-      "typeset document",
-      "create PDF",
-      "format report",
-      "generate slides",
-      "document template",
-      "kami"
-    ],
-    "useCases": [
-      {
-        "icon": "doc",
-        "title": "Professional resume generation",
-        "description": "Warm parchment design with serif typography, single-page or multi-page layouts"
-      },
-      {
-        "icon": "doc",
-        "title": "Investment equity reports",
-        "description": "2-3 page reports with OHLC candlestick charts and waterfall revenue bridges"
-      },
-      {
-        "icon": "doc",
-        "title": "Release changelogs",
-        "description": "Structured version history with categorized changes and migration guides"
-      },
-      {
-        "icon": "chart",
-        "title": "Technical diagrams",
-        "description": "14 diagram types including flowcharts, timelines, architecture diagrams, K-line charts"
-      },
-      {
-        "icon": "slide",
-        "title": "Presentation slides",
-        "description": "Python-generated PPTX with consistent branding and layout templates"
-      },
-      {
-        "icon": "doc",
-        "title": "Formal letters",
-        "description": "Business correspondence with proper typography and signature blocks"
-      }
-    ],
-    "keyFeatures": [
-      "8 document templates: resume, letter, equity report, changelog, one-pager, portfolio, long-doc, slides",
-      "14 SVG diagram types: flowchart, timeline, architecture, bar chart, line chart, donut, quadrant, etc.",
-      "Warm parchment design system with ink-blue accent and serif-led hierarchy",
-      "Full bilingual support: Chinese (TsangerJinKai02) and English (Charter/Newsreader)",
-      "PDF output via WeasyPrint with print-optimized CSS @page rules",
-      "HTML preview mode for instant visual feedback without building",
-      "Placeholder validation: detect unfilled {{variables}} before publishing",
-      "Orphan text detection: catch排版 issues with ≤2 word last lines",
-      "CDN distribution via jsdelivr for skill installation"
-    ],
-    "installCommand": "pip install weasyprint python-pptx && git clone https://github.com/tw93/Kami.git",
-    "content": "# Kami — Professional Document Typesetting\n\nTransform any text into beautifully formatted documents. Kami is a document engine designed for AI agents, providing structured templates, design tokens, and build pipelines for professional output.\n\n## Document Templates (8 types)\n\n| Template | Language | Pages | Use Case |\n|----------|----------|-------|----------|\n| resume | zh/en | 1-2 | Personal CV with project highlights |\n| letter | zh/en | 1 | Formal business correspondence |\n| equity-report | zh/en | 2-3 | Investment analysis with charts |\n| changelog | zh/en | 2 | Version release notes |\n| one-pager | zh/en | 1 | Executive summary / project brief |\n| portfolio | zh/en | 2-3 | Work showcase with case studies |\n| long-doc | zh/en | 3+ | Comprehensive documentation |\n| slides | zh/en | N/A | PPTX presentations via python-pptx |\n\n## Diagram Library (14 types)\n\nFlowchart, Timeline, Architecture, Bar Chart, Line Chart, Donut Chart, Quadrant, State Machine, Swimlane, Tree, Venn, Waterfall, Candlestick, Layer Stack.\n\n## Design System\n\n- **Colors**: Warm parchment canvas (#FDFBF6), ink-blue accent (#1B365D), olive secondary (#504E49)\n- **Typography**: Chinese serif (TsangerJinKai02) + English serif (Charter/Newsreader)\n- **Spacing**: Tight editorial spacing with baseline grid alignment\n- **Output**: Print-optimized CSS with @page rules for PDF generation\n\n## Build Pipeline\n\n```bash\n# Build specific target\npython scripts/build.py resume\n\n# Verify all targets\npython scripts/build.py --verify\n\n# Check for unfilled placeholders\npython scripts/build.py --check-placeholders\n\n# Detect orphan text lines\npython scripts/build.py --check-orphans\n```\n\n## Installation\n\n```bash\ngit clone https://github.com/tw93/Kami.git\ncd Kami\npip install -r requirements.txt  # weasyprint, python-pptx, pymupdf\n```\n\nOr install as a skill via CDN:\n```\nhttps://cdn.jsdelivr.net/gh/tw93/kami@main/dist/kami.zip\n```",
-    "fileInfo": {
-      "totalFiles": 28,
-      "totalSizeStr": "~2.1 MB",
-      "tree": {
-        "name": "kami",
+        "name": "app-icon-minimalist",
         "type": "dir",
         "children": [
           {
-            "name": "assets",
+            "name": "evals",
             "type": "dir",
             "children": [
-              { "name": "templates", "type": "dir" },
-              { "name": "diagrams", "type": "dir" },
-              { "name": "fonts", "type": "dir" },
-              { "name": "demos", "type": "dir" }
+              {
+                "name": "evals.json",
+                "type": "file",
+                "size": 1187,
+                "ext": ".json"
+              }
             ]
-          },
-          {
-            "name": "scripts",
-            "type": "dir",
-            "children": [
-              { "name": "build.py", "type": "file", "size": 15000 },
-              { "name": "shared.py", "type": "file", "size": 8000 },
-              { "name": "stabilize.py", "type": "file", "size": 5000 }
-            ]
-          },
-          {
-            "name": "references",
-            "type": "dir",
-            "children": [
-              { "name": "design.md", "type": "file", "size": 12000 },
-              { "name": "writing.md", "type": "file", "size": 8000 },
-              { "name": "diagrams.md", "type": "file", "size": 6000 }
-            ]
-          },
-          {
-            "name": "styles.css",
-            "type": "file",
-            "size": 15000
           },
           {
             "name": "SKILL.md",
             "type": "file",
-            "size": 8000
+            "size": 3570,
+            "ext": ".md"
           }
         ]
       }
     },
-    "lastUpdated": "2025-01-15",
-    "type": "skill",
-    "sourceUrl": "https://github.com/tw93/Kami",
+    "lastUpdated": "",
     "assets": {
       "screenshots": [],
       "samples": []
-    }
+    },
+    "localOnly": true
   }
 ]
