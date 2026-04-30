@@ -7,6 +7,32 @@ import {
 } from "../data/skills";
 import { CATEGORIES } from "../data/categories";
 
+const SKILL_DISPLAY_ORDER = [
+  "opc-methodology",
+  "khazix-skills",
+  "gpt-image-2",
+  "kami",
+  "impeccable-style",
+  "ui-ux-pro-max",
+  "web-design-engineer",
+  "markdown-viewer-skills",
+  "editorial-card-screenshot",
+  "blueprinter",
+  "design-system",
+  "app-icon-minimalist",
+];
+
+function sortSkillsForGallery(skills: SkillData[]): SkillData[] {
+  return [...skills].sort((a, b) => {
+    const ai = SKILL_DISPLAY_ORDER.indexOf(a.id);
+    const bi = SKILL_DISPLAY_ORDER.indexOf(b.id);
+    const ar = ai === -1 ? Number.MAX_SAFE_INTEGER : ai;
+    const br = bi === -1 ? Number.MAX_SAFE_INTEGER : bi;
+    if (ar !== br) return ar - br;
+    return a.name.localeCompare(b.name);
+  });
+}
+
 export function useSkills() {
   const [s, setS] = useState<SkillData[]>([]);
   const [l, setL] = useState(true);
@@ -16,7 +42,7 @@ export function useSkills() {
     getAllSkills()
       .then((data) => {
         if (mounted) {
-          setS(data);
+          setS(sortSkillsForGallery(data));
           setL(false);
         }
       })
@@ -25,7 +51,7 @@ export function useSkills() {
       });
 
     const unsub = subscribeToSkillsChange((data) => {
-      if (mounted) setS([...data]);
+      if (mounted) setS(sortSkillsForGallery(data));
     });
 
     return () => {
@@ -54,7 +80,7 @@ export function useSearch(sk: SkillData[], q: string, cf: string) {
           s.id.toLowerCase().includes(ql),
       );
     }
-    return r;
+    return sortSkillsForGallery(r);
   }, [sk, q, cf]);
 }
 

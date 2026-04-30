@@ -69,17 +69,39 @@ export const CATEGORIES: Category[] = [
     gradient: "linear-gradient(135deg,#eab308,#f97316)",
     icon: "web",
   },
+  {
+    key: "business",
+    label: "Business",
+    color: "#2f6f62",
+    gradient: "linear-gradient(135deg,#2f6f62,#9b762e)",
+    icon: "business",
+  },
+  {
+    key: "methodology",
+    label: "Methodology",
+    color: "#5d6f8f",
+    gradient: "linear-gradient(135deg,#5d6f8f,#7660aa)",
+    icon: "methodology",
+  },
+  {
+    key: "document",
+    label: "Document",
+    color: "#8b6f47",
+    gradient: "linear-gradient(135deg,#8b6f47,#9b762e)",
+    icon: "document",
+  },
 ];
 export const MAP: Record<string, string> = {
   "fireworks-tech-graph": "diagram",
   blueprinter: "diagram",
-  "infographic-creation": "diagram",
   "design-system": "design",
+  "ui-ux-pro-max": "design",
   "ai-style-copycat": "design",
   "editorial-card-screenshot": "design",
   "app-store-screenshots": "screenshot",
   "asc-screenshots": "screenshot",
   "app-icon-minimalist": "screenshot",
+  "gpt-image-2": "design",
   "codebase-to-course": "course",
   "deep-domain-learning": "course",
   ink: "devtools",
@@ -93,6 +115,7 @@ export const MAP: Record<string, string> = {
   "macos-menubar-tuist-app": "macos",
   "macos-design-guidelines": "macos",
   "web-design-guidelines": "web",
+  "web-design-engineer": "web",
 };
 export function getCategory(id: string) {
   const k = MAP[id] || "devtools";

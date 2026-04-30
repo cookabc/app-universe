@@ -1,15 +1,14 @@
 # Skill Showcase
 
-A web-based gallery for browsing, exploring, and demonstrating Agent Skills. Search, filter by category, view interactive demos, and add new skills directly from GitHub repositories.
+A light-first case gallery for browsing, exploring, and demonstrating Agent Skills. Search, filter by category, inspect skill detail pages, copy update commands, and jump to each skill's source links.
 
 ## Features
 
 - **Browse & Search** — Grid view with real-time search across skill name, description, and ID
 - **Category Filtering** — Filter skills by category (Design, Dev Tools, Communication, etc.)
-- **Skill Detail Pages** — Markdown rendering with syntax highlighting, file tree explorer, and trigger phrase clouds
-- **Interactive Demos** — Code playgrounds, color palettes, image galleries, and terminal windows
-- **Add Skills from GitHub** — Paste a GitHub URL to parse and add new skills to the gallery
-- **Dark Theme** — Full dark mode with `color-scheme: dark`
+- **Skill Detail Pages** — Case-style pages with showcase previews, workflows, outputs, manual content, update commands, and source links
+- **Generated Showcases** — Skills without static screenshots still get generated preview boards from their metadata
+- **Light-First Theme** — Warm white surfaces, fine borders, restrained accents, and optional dark mode through Tweaks
 - **Accessibility** — ARIA roles, focus-visible styles, skip-to-content link, and `prefers-reduced-motion` support
 
 ## Tech Stack
@@ -97,7 +96,8 @@ skill-showcase/
 │   ├── skills-data.json          # Skill metadata (name, category, stats, triggers)
 │   ├── skills-assets/            # Per-skill screenshots and images
 │   ├── icons.svg                 # Sprite icons
-│   └── favicon.svg
+│   ├── logo.svg                  # Header logo
+│   └── favicon.svg               # Browser favicon
 ├── src/
 │   ├── components/
 │   │   ├── Home/                 # Homepage: hero, search, filter, grid, card
@@ -157,9 +157,14 @@ Skills are defined in `public/skills-data.json`. Each skill entry:
 
 ## Adding a Skill
 
-1. Click the **Add Skill** button on the homepage
-2. Paste a GitHub repository URL or `owner/repo` format
-3. Preview the parsed skill metadata
-4. Confirm to add it to the gallery
+Add skills directly in `public/skills-data.json`. Keep each page useful as a showcase, not a raw dump of the source `SKILL.md`.
 
-Custom skills are registered at runtime and persist for the current session.
+1. Add one `SkillData` entry with a stable `id`, display `name`, concise `description`, `category`, `stats`, `triggerPhrases`, `useCases`, `keyFeatures`, `fileInfo`, `lastUpdated`, `type`, and empty `assets` arrays when no screenshots exist.
+2. Add source metadata when available: `skillsShUrl`, `githubUrl`, `websiteUrl`, `sourceUrl`, `installCommand`, and `updateCommand`. For local-only skills, set `localOnly: true` and omit external links.
+3. Write `content` as a curated manual for the detail page. Prefer sections like `Best For`, `Workflow`, `Output Shape`, and `Boundaries`. Remove local paths, install noise, duplicated source links, huge templates, and implementation details that do not help someone evaluate the skill.
+4. If the skill introduces a new category, update `src/data/categories.ts`. If it uses an existing category, add the id to `MAP` only when useful for parser fallback consistency.
+5. Add the id to `SKILL_DISPLAY_ORDER` in `src/hooks/useSkills.ts` so the gallery order stays intentional.
+6. Add a custom preview in `src/components/Demos/SkillPreview.tsx` only when the generic generated showcase is not good enough.
+7. Run `bun run format`, `bun run check`, and `bun run build`.
+
+When removing a skill, delete its data entry and clean up any dedicated preview, category mapping, ordering entry, and asset folder references.
