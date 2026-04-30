@@ -26,6 +26,7 @@ export interface SkillData {
   }[];
   keyFeatures: string[];
   installCommand: string | null;
+  updateCommand?: string | null;
   content: string;
   fileInfo: {
     totalFiles: number;
@@ -56,6 +57,10 @@ export interface SkillData {
 
   type?: "skill" | "collection";
   sourceUrl?: string;
+  skillsShUrl?: string;
+  githubUrl?: string;
+  websiteUrl?: string;
+  localOnly?: boolean;
   children?: CollectionChild[];
 }
 

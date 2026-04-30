@@ -1,8 +1,9 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import MarkdownRenderer, { slugHeading } from "../../common/MarkdownRenderer";
 import SkillPreview from "../../Demos/SkillPreview";
 import { stripLeadingH1 } from "../../../utils/markdownParser";
+import { buildSkillShowcaseModel } from "../../../utils/skillShowcase";
 import type { SkillData } from "../../../data/skills";
 
 interface Props {
@@ -14,202 +15,202 @@ interface AnchorItem {
   title: string;
 }
 
-const PREVIEW_SKILL_IDS = new Set([
-  "app-icon-minimalist",
-  "blueprinter",
-  "design-system",
-  "editorial-card-screenshot",
-  "infographic-creation",
-  "opc-methodology",
-  "impeccable-style",
-  "markdown-viewer-skills",
-  "khazix-skills",
-]);
+function CopyButton({ value, label }: { value: string; label: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1400);
+    } catch {
+      setCopied(false);
+    }
+  };
+
+  return (
+    <button type="button" className="skill-copy-button" onClick={copy}>
+      <span>{copied ? "Copied" : label}</span>
+    </button>
+  );
+}
 
 export default function UnifiedLayout({ skill }: Props) {
   const body = stripLeadingH1(skill.content);
-  const hasPreview = PREVIEW_SKILL_IDS.has(skill.id);
+  const model = buildSkillShowcaseModel(skill);
   const children = skill.children || [];
   const anchorItems = useMemo<AnchorItem[]>(() => {
-    return body
+    const generated = [
+      { id: "case-showcase", title: "Showcase" },
+      { id: "case-workflow", title: "Workflow" },
+      { id: "case-outputs", title: "Outputs" },
+      { id: "skill-doc-heading", title: "Manual" },
+    ];
+    const manual = body
       .split("\n")
       .map((line) => line.match(/^##\s+(.+)$/)?.[1]?.trim())
       .filter((title): title is string => Boolean(title))
-      .slice(0, 8)
+      .slice(0, 4)
       .map((title) => ({ id: slugHeading(title), title }));
+    return [...generated, ...manual].slice(0, 8);
   }, [body]);
-  const firstTrigger = skill.triggerPhrases[0] || skill.id;
-  const resultSummary = hasPreview
-    ? "See the preview below for the expected output shape."
-    : children.length
-      ? `${children.length} modules are ready to apply from this bundle.`
-      : "Use the manual below as the operating workflow.";
+
+  const useCases = model.topUseCases.length
+    ? model.topUseCases
+    : [
+        {
+          icon: "case",
+          title: "Primary Use Case",
+          description:
+            skill.description || "Apply this skill when its operating workflow matches the task.",
+        },
+      ];
 
   return (
     <article
-      className="skill-detail"
+      className="skill-detail case-layout"
       style={
         {
           "--detail-color": skill.category.color || "var(--brand)",
         } as CSSProperties
       }
     >
-      <header className="skill-detail-hero">
-        <div className="skill-detail-hero-copy">
-          <div className="skill-detail-meta-line">
-            <span className="skill-detail-category">
-              <span aria-hidden="true" />
-              {skill.category.label}
-            </span>
-            <span className="skill-detail-id">{skill.id}</span>
+      <header className="case-hero">
+        <div className="case-hero-copy">
+          <div className="case-kicker-row">
+            <span className="case-category">{skill.category.label}</span>
+            <span className="case-id">{skill.id}</span>
           </div>
-
-          <h1 className="skill-detail-title">{skill.name}</h1>
-          <p className="skill-detail-description">
-            {skill.description || "No description available."}
-          </p>
-
-          <div className="skill-usage-steps" aria-label="How to use this skill">
-            <div>
-              <span>1. Invoke</span>
-              <code>{firstTrigger}</code>
-            </div>
-            <div>
-              <span>{skill.installCommand ? "2. Add" : "2. Read"}</span>
-              <code>{skill.installCommand || "Use the manual below"}</code>
-            </div>
-            <div>
-              <span>3. Result</span>
-              <p>{resultSummary}</p>
-            </div>
-          </div>
-
-          <div className="skill-detail-metrics" aria-label="Skill metrics">
-            {[
-              [skill.stats.readTime, "Read"],
-              [String(skill.stats.lineCount), "Lines"],
-              [String(skill.fileInfo.totalFiles), "Files"],
-              [skill.stats.complexityLabel, "Complexity"],
-            ].map(([value, label]) => (
-              <div key={label} className="skill-detail-metric">
-                <span>{value}</span>
-                <small>{label}</small>
-              </div>
-            ))}
+          <h1 className="case-title">{skill.name}</h1>
+          <p className="case-description">{skill.description || "No description available."}</p>
+          <div className="case-trigger-strip" aria-label="Primary trigger">
+            <span>Trigger</span>
+            <code>{model.primaryTrigger}</code>
+            <CopyButton value={model.primaryTrigger} label="Copy" />
           </div>
         </div>
 
-        <aside
-          className={
-            skill.installCommand ? "skill-command-panel has-install" : "skill-command-panel"
-          }
-          aria-label="Skill quick facts"
-        >
-          <div className="skill-command-panel-header">
-            <span>Activation</span>
-            <span>Ready</span>
+        <aside className="case-quick-rail" aria-label="Skill quick actions">
+          <div className="case-rail-card">
+            <span className="case-rail-label">Case Type</span>
+            <strong>{model.kind.replace("generated-", "Generated ")}</strong>
           </div>
-          <div className="skill-command-trigger">
-            <span>Trigger Phrase</span>
-            <code>{firstTrigger}</code>
-          </div>
-          <div className="skill-command-grid">
+          <div className="case-rail-grid">
             <div>
-              <span>{skill.keyFeatures.length}</span>
-              <small>Features</small>
+              <strong>{skill.stats.readTime}</strong>
+              <span>Read</span>
             </div>
             <div>
-              <span>{children.length || skill.triggerPhrases.length}</span>
-              <small>{children.length ? "Modules" : "Triggers"}</small>
+              <strong>{skill.fileInfo.totalFiles}</strong>
+              <span>Files</span>
+            </div>
+            <div>
+              <strong>{skill.keyFeatures.length}</strong>
+              <span>Features</span>
+            </div>
+            <div>
+              <strong>{children.length || skill.triggerPhrases.length}</strong>
+              <span>{children.length ? "Modules" : "Triggers"}</span>
             </div>
           </div>
-          {skill.installCommand && (
-            <div className="skill-install-snippet">
-              <span>Install Command</span>
-              <code>{skill.installCommand}</code>
+          {model.updateCommand && (
+            <div className="case-install-card case-update-card">
+              <span className="case-rail-label">Keep Updated</span>
+              <code>{model.updateCommand}</code>
+              <CopyButton value={model.updateCommand} label="Copy update" />
+            </div>
+          )}
+          {model.resourceLinks.length > 0 && (
+            <div className="case-resource-card">
+              <span className="case-rail-label">Links</span>
+              <div className="case-resource-links">
+                {model.resourceLinks.map((link) => (
+                  <a
+                    key={`${link.kind}-${link.url}`}
+                    href={link.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
             </div>
           )}
         </aside>
       </header>
 
-      <div className="skill-detail-body">
-        <aside className="skill-detail-sidebar" aria-label="Skill page navigation">
-          <div className="skill-sidebar-section">
-            <h2>Contents</h2>
-            {anchorItems.length ? (
-              <nav className="skill-anchor-list">
-                {anchorItems.map((item) => (
-                  <a key={item.id} href={`#${item.id}`}>
-                    {item.title}
-                  </a>
-                ))}
-              </nav>
-            ) : (
-              <p>No document sections detected.</p>
-            )}
-          </div>
-
-          <div className="skill-sidebar-section">
-            <h2>Features</h2>
-            <ul className="skill-feature-list">
-              {skill.keyFeatures.slice(0, 5).map((feature) => (
-                <li key={feature}>{feature}</li>
-              ))}
-            </ul>
-          </div>
-
-          {children.length > 0 && (
-            <div className="skill-sidebar-section">
-              <h2>Collection</h2>
-              <p>{children.length} coordinated modules in this skill bundle.</p>
-            </div>
-          )}
+      <div className="case-page-grid">
+        <aside className="case-sidebar" aria-label="Skill page navigation">
+          <span>On this page</span>
+          <nav>
+            {anchorItems.map((item) => (
+              <a key={item.id} href={`#${item.id}`}>
+                {item.title}
+              </a>
+            ))}
+          </nav>
         </aside>
 
-        <main className="skill-detail-main">
-          {hasPreview && (
-            <section className="skill-preview-panel" aria-labelledby="skill-preview-heading">
-              <div className="skill-section-heading">
-                <span>Generated Output</span>
-                <h2 id="skill-preview-heading">Preview</h2>
-              </div>
-              <div className="skill-preview-frame">
-                <SkillPreview skill={skill} />
-              </div>
-            </section>
-          )}
+        <main className="case-main">
+          <section id="case-showcase" className="case-section case-showcase-section">
+            <div className="case-section-heading">
+              <span>Showcase</span>
+              <h2>What this skill can make</h2>
+            </div>
+            <div className="case-preview-stage">
+              <SkillPreview skill={skill} />
+            </div>
+          </section>
 
-          {!hasPreview && (
-            <section className="skill-output-summary-panel" aria-labelledby="skill-output-heading">
-              <div className="skill-section-heading">
-                <span>Expected Result</span>
-                <h2 id="skill-output-heading">What This Skill Produces</h2>
+          <section id="case-workflow" className="case-section">
+            <div className="case-section-heading">
+              <span>Recipe</span>
+              <h2>How the workflow moves</h2>
+            </div>
+            <div className="case-workflow-list">
+              {model.workflowSteps.map((step, index) => (
+                <article key={step} className="case-workflow-step">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <p>{step}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section id="case-outputs" className="case-section">
+            <div className="case-section-heading">
+              <span>Outputs</span>
+              <h2>Expected result</h2>
+            </div>
+            <div className="case-output-panel">
+              <p>{model.outputSummary}</p>
+              <div className="case-use-case-grid">
+                {useCases.map((useCase, index) => (
+                  <article key={`${useCase.title}-${index}`} className="case-use-card">
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <h3>{useCase.title}</h3>
+                    <p>{useCase.description}</p>
+                  </article>
+                ))}
               </div>
-              <div className="skill-output-summary">
-                <p>{skill.description}</p>
-                <ul>
-                  {skill.keyFeatures.slice(0, 3).map((feature) => (
-                    <li key={feature}>{feature}</li>
-                  ))}
-                </ul>
-              </div>
-            </section>
-          )}
+            </div>
+          </section>
 
           {children.length > 0 && (
-            <section className="skill-modules-panel" aria-labelledby="skill-modules-heading">
-              <div className="skill-section-heading">
+            <section className="case-section">
+              <div className="case-section-heading">
                 <span>Collection</span>
-                <h2 id="skill-modules-heading">Included Modules</h2>
+                <h2>Included modules</h2>
               </div>
-              <div className="skill-module-grid">
+              <div className="case-module-grid">
                 {children.map((child, index) => (
-                  <article key={child.id} className="skill-module-card">
-                    <span className="skill-module-index">{String(index + 1).padStart(2, "0")}</span>
+                  <article key={child.id} className="case-module-card">
+                    <span>{String(index + 1).padStart(2, "0")}</span>
                     <div>
                       <h3>{child.name}</h3>
                       <p>{child.description}</p>
-                      {child.tag && <span>{child.tag}</span>}
+                      {child.tag && <small>{child.tag}</small>}
                     </div>
                   </article>
                 ))}
@@ -217,28 +218,10 @@ export default function UnifiedLayout({ skill }: Props) {
             </section>
           )}
 
-          {skill.useCases.length > 0 && (
-            <section className="skill-use-cases-panel" aria-labelledby="skill-use-cases-heading">
-              <div className="skill-section-heading">
-                <span>Operator Playbook</span>
-                <h2 id="skill-use-cases-heading">Best Use Cases</h2>
-              </div>
-              <div className="skill-use-case-grid">
-                {skill.useCases.slice(0, 6).map((useCase, index) => (
-                  <article key={useCase.title} className="skill-use-case-card">
-                    <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                    <h3>{useCase.title}</h3>
-                    <p>{useCase.description}</p>
-                  </article>
-                ))}
-              </div>
-            </section>
-          )}
-
-          <section className="skill-doc-panel" aria-labelledby="skill-doc-heading">
-            <div className="skill-section-heading">
-              <span>Documentation</span>
-              <h2 id="skill-doc-heading">Skill Manual</h2>
+          <section className="case-section case-manual-section" aria-labelledby="skill-doc-heading">
+            <div className="case-section-heading">
+              <span>Manual</span>
+              <h2 id="skill-doc-heading">Full skill documentation</h2>
             </div>
             <MarkdownRenderer content={body} />
           </section>

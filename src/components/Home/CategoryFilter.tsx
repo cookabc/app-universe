@@ -48,7 +48,7 @@ function Chip({
       style={
         catKey
           ? ({
-              "--chip-color": `var(--cat-${catKey})`,
+              "--chip-color": `var(--cat-${catKey}, var(--brand))`,
             } as CSSProperties)
           : undefined
       }
