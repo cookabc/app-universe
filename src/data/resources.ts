@@ -16,8 +16,13 @@ export async function loadResourcesData(): Promise<DesignResource[]> {
       return response.json();
     })
     .then((data: DesignResource[]) => {
+      if (!Array.isArray(data)) throw new Error("Resources data is not a valid array.");
       _cache = data;
       return data;
+    })
+    .catch((error) => {
+      _promise = null;
+      throw error;
     });
 
   return _promise;

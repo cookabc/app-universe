@@ -17,8 +17,13 @@ export async function loadSkillsData(): Promise<SkillData[]> {
       return r.json();
     })
     .then((data: SkillData[]) => {
+      if (!Array.isArray(data)) throw new Error("Skills data is not a valid array.");
       _cache = data;
       return data;
+    })
+    .catch((error) => {
+      _promise = null;
+      throw error;
     });
 
   return _promise;

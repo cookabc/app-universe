@@ -36,6 +36,7 @@ function sortSkillsForGallery(skills: SkillData[]): SkillData[] {
 export function useSkills() {
   const [s, setS] = useState<SkillData[]>([]);
   const [l, setL] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -43,15 +44,22 @@ export function useSkills() {
       .then((data) => {
         if (mounted) {
           setS(sortSkillsForGallery(data));
+          setError(null);
           setL(false);
         }
       })
-      .catch(() => {
-        if (mounted) setL(false);
+      .catch((e: unknown) => {
+        if (mounted) {
+          setError(e instanceof Error ? e.message : "Failed to load skills.");
+          setL(false);
+        }
       });
 
     const unsub = subscribeToSkillsChange((data) => {
-      if (mounted) setS(sortSkillsForGallery(data));
+      if (mounted) {
+        setS(sortSkillsForGallery(data));
+        setError(null);
+      }
     });
 
     return () => {
@@ -64,7 +72,7 @@ export function useSkills() {
     registerCustomSkill(skill);
   }, []);
 
-  return { skills: s, loading: l, total: s.length, addSkill };
+  return { skills: s, loading: l, error, total: s.length, addSkill };
 }
 
 export function useSearch(sk: SkillData[], q: string, cf: string) {

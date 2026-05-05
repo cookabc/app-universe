@@ -39,6 +39,7 @@ export default function SkillDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [skill, setSkill] = useState<SkillData | undefined>(undefined);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) {
@@ -48,9 +49,13 @@ export default function SkillDetailPage() {
     getSkillById(decodeURIComponent(id))
       .then((s) => {
         setSkill(s);
+        setError(null);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((e: unknown) => {
+        setError(e instanceof Error ? e.message : "Failed to load skill.");
+        setLoading(false);
+      });
   }, [id]);
 
   if (loading) {
@@ -64,8 +69,10 @@ export default function SkillDetailPage() {
   if (!skill) {
     return (
       <div style={pageStyles.notFound}>
-        <h2 style={pageStyles.notFoundTitle}>Skill not found</h2>
-        <p style={pageStyles.notFoundDesc}>No skill found with ID: &quot;{id}&quot;</p>
+        <h1 style={pageStyles.notFoundTitle}>
+          {error ? "Skill data unavailable" : "Skill not found"}
+        </h1>
+        <p style={pageStyles.notFoundDesc}>{error || `No skill found with ID: "${id}".`}</p>
         <Link to="/" style={pageStyles.backLink}>
           Back to gallery
         </Link>
@@ -75,9 +82,9 @@ export default function SkillDetailPage() {
 
   return (
     <div className="skill-page-shell">
-      <main className="skill-page-main">
+      <div className="skill-page-main">
         <UnifiedLayout skill={skill} />
-      </main>
+      </div>
 
       {skill.installCommand && (
         <section className="skill-live-demo-section">
