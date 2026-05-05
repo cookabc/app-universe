@@ -1494,19 +1494,7 @@
     },
     "lastUpdated": "",
     "assets": {
-      "screenshots": [
-        "screenshots/Bauhaus.png",
-        "screenshots/Beam.png",
-        "screenshots/Hand-draw.png",
-        "screenshots/Kinetic.png",
-        "screenshots/Luxury.png",
-        "screenshots/Motion.png",
-        "screenshots/Neumorphism.png",
-        "screenshots/Newsprint.png",
-        "screenshots/Playful.png",
-        "screenshots/Uber-Design-System.png",
-        "screenshots/Win98.png"
-      ],
+      "screenshots": [],
       "samples": [],
       "systemJson": {
         "teamDesignSystems": [],
