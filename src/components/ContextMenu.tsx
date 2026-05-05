@@ -61,8 +61,12 @@ export default function ContextMenu({
     return () => clearTimeout(timer);
   }, [isClosing, onClose]);
 
-  const adjustedX = Math.min(x, window.innerWidth - 200);
-  const adjustedY = Math.min(y, window.innerHeight - 250);
+  const viewportWidth =
+    typeof window === "undefined" ? x + 220 : window.innerWidth;
+  const viewportHeight =
+    typeof window === "undefined" ? y + 270 : window.innerHeight;
+  const adjustedX = Math.max(8, Math.min(x, viewportWidth - 200));
+  const adjustedY = Math.max(8, Math.min(y, viewportHeight - 250));
 
   return (
     <div
@@ -81,7 +85,7 @@ export default function ContextMenu({
             handleClose();
           }}
         >
-          <span className="context-menu-icon">📁</span>
+          <span className="context-menu-icon">□</span>
           <span className="context-menu-label">新建文件夹</span>
         </button>
         <button
@@ -91,7 +95,7 @@ export default function ContextMenu({
             handleClose();
           }}
         >
-          <span className="context-menu-icon">📈</span>
+          <span className="context-menu-icon">+</span>
           <span className="context-menu-label">添加股票</span>
         </button>
       </div>
@@ -107,7 +111,7 @@ export default function ContextMenu({
                 handleClose();
               }}
             >
-              <span className="context-menu-icon">✏️</span>
+              <span className="context-menu-icon">✎</span>
               <span className="context-menu-label">重命名</span>
             </button>
             <button
@@ -117,7 +121,7 @@ export default function ContextMenu({
                 handleClose();
               }}
             >
-              <span className="context-menu-icon">🗑️</span>
+              <span className="context-menu-icon">−</span>
               <span className="context-menu-label">删除</span>
             </button>
           </div>
