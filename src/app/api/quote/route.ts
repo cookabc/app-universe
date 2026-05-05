@@ -5,6 +5,32 @@ const YF_BASE = "https://query1.finance.yahoo.com";
 
 const cache = new Map<string, { data: unknown; expires: number }>();
 const CACHE_TTL = 5 * 60_000;
+const MAX_SYMBOLS_PER_REQUEST = 50;
+const SYMBOL_PATTERN = /^[A-Z0-9.^=:_-]{1,24}$/i;
+
+interface YahooQuote {
+  symbol: string;
+  regularMarketPrice?: number;
+  regularMarketPreviousClose?: number;
+  marketCap?: number;
+  regularMarketVolume?: number;
+  trailingPE?: number;
+  trailingEps?: number;
+  regularMarketDayHigh?: number;
+  regularMarketDayLow?: number;
+  regularMarketOpen?: number;
+  priceToBook?: number;
+  priceToSalesTrailing12Months?: number;
+  dividendYield?: number;
+  fiftyTwoWeekHigh?: number;
+  fiftyTwoWeekLow?: number;
+}
+
+interface YahooQuoteResponse {
+  quoteResponse?: {
+    result?: YahooQuote[];
+  };
+}
 
 function getYFHeaders() {
   return {
@@ -46,13 +72,24 @@ async function fetchYF(url: string) {
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
-    const symbols = url.searchParams.get("symbols")?.split(",") || [];
+    const symbols = (url.searchParams.get("symbols")?.split(",") || [])
+      .map((symbol) => symbol.trim())
+      .filter((symbol, index, list) => symbol && list.indexOf(symbol) === index)
+      .slice(0, MAX_SYMBOLS_PER_REQUEST);
 
     if (symbols.length === 0) {
       return NextResponse.json({}, { status: 200 });
     }
 
-    const useMock = isMockEnabled();
+    const invalidSymbols = symbols.filter((symbol) => !SYMBOL_PATTERN.test(symbol));
+    if (invalidSymbols.length > 0) {
+      return NextResponse.json(
+        { error: "Invalid symbol format", invalidSymbols },
+        { status: 400 },
+      );
+    }
+
+    const useMock = isMockEnabled(url.searchParams);
 
     if (useMock) {
       const mockQuotes = getMockQuotes(symbols);
@@ -100,24 +137,11 @@ export async function GET(request: NextRequest) {
     }
 
     const result = await fetchYF(
-      YF_BASE + "/v7/finance/quote?symbols=" + symbols.join(","),
+      YF_BASE +
+        "/v7/finance/quote?symbols=" +
+        encodeURIComponent(symbols.join(",")),
     );
-    const quoteResponse = result as {
-      quoteResponse?: {
-        result?: Array<{
-          symbol: string;
-          regularMarketPrice?: number;
-          regularMarketPreviousClose?: number;
-          marketCap?: number;
-          regularMarketVolume?: number;
-          trailingPE?: number;
-          trailingEps?: number;
-          regularMarketDayHigh?: number;
-          regularMarketDayLow?: number;
-          regularMarketOpen?: number;
-        }>;
-      };
-    };
+    const quoteResponse = result as YahooQuoteResponse;
     const quotes = quoteResponse?.quoteResponse?.result || [];
 
     const quoteMap: Record<string, unknown> = {};
@@ -138,6 +162,11 @@ export async function GET(request: NextRequest) {
         volume: q.regularMarketVolume || null,
         pe: q.trailingPE || null,
         eps: q.trailingEps || null,
+        pb: q.priceToBook || null,
+        ps: q.priceToSalesTrailing12Months || null,
+        dividendYield: q.dividendYield || null,
+        fiftyTwoWeekHigh: q.fiftyTwoWeekHigh || null,
+        fiftyTwoWeekLow: q.fiftyTwoWeekLow || null,
         high: q.regularMarketDayHigh || null,
         low: q.regularMarketDayLow || null,
         open: q.regularMarketOpen || null,
@@ -157,6 +186,11 @@ export async function GET(request: NextRequest) {
           volume: null,
           pe: null,
           eps: null,
+          pb: null,
+          ps: null,
+          dividendYield: null,
+          fiftyTwoWeekHigh: null,
+          fiftyTwoWeekLow: null,
           high: null,
           low: null,
           open: null,

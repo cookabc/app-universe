@@ -2,6 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { getHistory } from "@/lib/yahoo-finance";
 import { isMockEnabled, getMockHistory } from "@/lib/mock-data";
 
+const ALLOWED_RESOLUTIONS = new Set([
+  "1",
+  "5",
+  "15",
+  "30",
+  "60",
+  "240",
+  "1D",
+  "1W",
+  "1M",
+]);
+const SYMBOL_PATTERN = /^[A-Z0-9.^=:_-]{1,24}$/i;
+
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const symbol = searchParams.get("symbol");
@@ -14,11 +27,23 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Symbol is required" }, { status: 400 });
   }
 
+  if (!SYMBOL_PATTERN.test(symbol)) {
+    return NextResponse.json({ error: "Invalid symbol format" }, { status: 400 });
+  }
+
+  if (!ALLOWED_RESOLUTIONS.has(resolution)) {
+    return NextResponse.json({ error: "Unsupported resolution" }, { status: 400 });
+  }
+
+  if (!Number.isFinite(from) || !Number.isFinite(to) || from < 0 || to < 0) {
+    return NextResponse.json({ error: "Invalid time range" }, { status: 400 });
+  }
+
   try {
     let bars;
 
     // Check if mock data is enabled
-    const useMock = isMockEnabled();
+    const useMock = isMockEnabled(searchParams);
 
     if (useMock) {
       bars = getMockHistory(symbol, resolution, from, to);

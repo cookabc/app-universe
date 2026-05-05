@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+const SYMBOL_PATTERN = /^[A-Z0-9.^=:_-]{1,24}$/i;
+
 const SYMBOLS_DB: Record<string, any> = {
   AAPL: {
     name: "AAPL",
@@ -495,6 +497,10 @@ export async function GET(request: NextRequest) {
 
   if (!symbol) {
     return NextResponse.json({ error: "Symbol is required" }, { status: 400 });
+  }
+
+  if (!SYMBOL_PATTERN.test(symbol)) {
+    return NextResponse.json({ error: "Invalid symbol format" }, { status: 400 });
   }
 
   const symbolData = SYMBOLS_DB[symbol.toUpperCase()];

@@ -1,7 +1,11 @@
 // Mock data for development when Yahoo Finance API is unavailable
 // Toggle via ?mock=true query param or MOCK_DATA env variable
 
-export const isMockEnabled = (): boolean => {
+export const isMockEnabled = (searchParams?: URLSearchParams): boolean => {
+  const mockParam = searchParams?.get("mock");
+  if (mockParam === "true") return true;
+  if (mockParam === "false") return false;
+
   // Check env var (for server-side)
   if (process.env.MOCK_DATA === "true") return true;
   // Default to true for local dev to avoid rate limiting
