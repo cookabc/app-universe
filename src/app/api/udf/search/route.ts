@@ -45,8 +45,11 @@ const ALL_SYMBOLS = [
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const query = searchParams.get("query") || "";
-  const limit = parseInt(searchParams.get("limit") || "10", 10);
+  const query = (searchParams.get("query") || "").trim().slice(0, 64);
+  const limit = Math.min(
+    Math.max(parseInt(searchParams.get("limit") || "10", 10) || 10, 1),
+    25,
+  );
   const type = searchParams.get("type");
   const exchange = searchParams.get("exchange");
 
@@ -63,13 +66,13 @@ export async function GET(request: NextRequest) {
   }
 
   // 按类型过滤
-  if (type) {
+  if (type && /^[a-z_-]{1,24}$/i.test(type)) {
     results = results.filter((s) => s.type === type);
   }
 
   // 按交易所过滤
-  if (exchange) {
-    results = results.filter((s) => s.exchange === exchange);
+  if (exchange && /^[A-Z0-9:_-]{1,24}$/i.test(exchange)) {
+    results = results.filter((s) => s.exchange === exchange.toUpperCase());
   }
 
   // 限制数量

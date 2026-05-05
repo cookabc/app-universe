@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 // 模拟树形结构数据
 const mockTreeData = [
@@ -236,7 +236,7 @@ const mockTreeData = [
   },
 ];
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // 模拟数据库查询延迟
     await new Promise((resolve) => setTimeout(resolve, 200));
