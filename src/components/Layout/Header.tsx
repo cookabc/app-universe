@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { publicAsset } from "../../utils/assets";
 
 export default function Header() {
   const loc = useLocation();
@@ -6,7 +7,7 @@ export default function Header() {
     <header className="site-header">
       <Link to="/" className="site-logo" aria-label="Capability Atlas home">
         <span className="site-logo-mark" aria-hidden="true">
-          <img src="/logo.svg" alt="" className="site-logo-icon" />
+          <img src={publicAsset("logo.svg")} alt="" className="site-logo-icon" />
         </span>
         <span className="site-logo-text">Capability Atlas</span>
       </Link>
