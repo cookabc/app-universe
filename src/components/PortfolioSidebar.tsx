@@ -34,6 +34,7 @@ interface ContextMenuState {
 interface PortfolioSidebarProps {
   selectedStockDentryId?: number | null;
   selectedStockSymbol?: string | null;
+  quoteApiSuffix?: string;
   onSelectStock: (node: TreeNode) => void;
 }
 
@@ -95,6 +96,7 @@ function flattenStocks(nodes: TreeNode[]): TreeNode[] {
 export default function PortfolioSidebar({
   selectedStockDentryId,
   selectedStockSymbol,
+  quoteApiSuffix = "",
   onSelectStock,
 }: PortfolioSidebarProps) {
   const [activeTab, setActiveTab] = useState<"watchlist" | "monitor">("watchlist");
@@ -160,16 +162,19 @@ export default function PortfolioSidebar({
     () => allStocks.map((s) => s.symbol).filter(Boolean) as string[],
     [allStocks],
   );
+  const allSymbolsKey = allSymbols.join(",");
 
   // Quote polling for all stocks
   useEffect(() => {
-    if (!allSymbols.length) return undefined;
+    if (!allSymbolsKey) return undefined;
     let cancelled = false;
 
     async function loadQuotes() {
       try {
         const response = await fetch(
-          `/api/quote?symbols=${allSymbols.join(",")}`,
+          `/api/quote?symbols=${encodeURIComponent(allSymbolsKey)}${
+            quoteApiSuffix ? `&${quoteApiSuffix}` : ""
+          }`,
         );
         if (!response.ok) {
           throw new Error(`Request failed: ${response.status}`);
@@ -208,7 +213,7 @@ export default function PortfolioSidebar({
       cancelled = true;
       window.clearInterval(timerId);
     };
-  }, [allSymbols.join(",")]);
+  }, [allSymbolsKey, quoteApiSuffix]);
 
   // Context menu handler
   function handleContextMenu(node: TreeNode, e: React.MouseEvent) {

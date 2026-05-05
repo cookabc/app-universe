@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import TradingViewChart from "@/components/TradingViewChart";
 import PortfolioSidebar from "@/components/PortfolioSidebar";
 
@@ -122,6 +122,10 @@ function formatStatValue(value: number | string | null): string {
   return num.toFixed(4);
 }
 
+function formatNullablePrice(value: number | null): string {
+  return value != null && Number.isFinite(value) ? value.toFixed(2) : "--";
+}
+
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
 }
@@ -172,22 +176,38 @@ export default function Home() {
     changePercent: null as number | null,
   });
 
-  const [stockInfo, setStockInfo] = useState({
-    open: 0,
-    high: 0,
-    low: 0,
-    close: 0,
-    volume: 0,
-    marketCap: 0,
-    pe: 0,
-    eps: 0,
-    pb: 0,
-    ps: 0,
-    dividendYield: 0,
-    roe: 0,
-    debtEquity: 0,
-    fiftyTwoWeekHigh: 0,
-    fiftyTwoWeekLow: 0,
+  const [stockInfo, setStockInfo] = useState<{
+    open: number | null;
+    high: number | null;
+    low: number | null;
+    close: number | null;
+    volume: number | null;
+    marketCap: number | null;
+    pe: number | null;
+    eps: number | null;
+    pb: number | null;
+    ps: number | null;
+    dividendYield: number | null;
+    roe: number | null;
+    debtEquity: number | null;
+    fiftyTwoWeekHigh: number | null;
+    fiftyTwoWeekLow: number | null;
+  }>({
+    open: null,
+    high: null,
+    low: null,
+    close: null,
+    volume: null,
+    marketCap: null,
+    pe: null,
+    eps: null,
+    pb: null,
+    ps: null,
+    dividendYield: null,
+    roe: null,
+    debtEquity: null,
+    fiftyTwoWeekHigh: null,
+    fiftyTwoWeekLow: null,
   });
 
   const [indices, setIndices] = useState({
@@ -214,13 +234,14 @@ export default function Home() {
     },
   });
 
-  const [portfolioValue, setPortfolioValue] = useState({
+  const [portfolioValue] = useState({
     total: 47916657,
     change: -28643,
     changePercent: -0.06,
   });
 
   const [clock, setClock] = useState("");
+  const [dataMode, setDataMode] = useState<"mock" | "real">("mock");
 
   const activeResolution =
     timeframes.find((item) => item.label === activeTimeframe)?.resolution ??
@@ -237,6 +258,7 @@ export default function Home() {
   const activeExchange = currentStock.exchange || "NASDAQ";
   const activeMarketLabel = inferMarketLabel(currentStock);
   const chartChangeTone = getTrendClass(chartSnapshot.changePercent);
+  const quoteApiSuffix = `mock=${dataMode === "mock" ? "true" : "false"}`;
 
   const shellStyle = {
     "--left-panel-width": `${panelWidths.left}px`,
@@ -256,43 +278,56 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const mockParam = params.get("mock");
+    if (mockParam === "false") setDataMode("real");
+    if (mockParam === "true") setDataMode("mock");
+  }, []);
+
   // Fetch stock quote info
   useEffect(() => {
     let cancelled = false;
 
     async function fetchStockInfo() {
       try {
-        const response = await fetch(`/api/quote?symbols=${activeSymbol}`);
+        setChartSnapshot((current) => ({ ...current, status: "loading" }));
+        const response = await fetch(
+          `/api/quote?symbols=${encodeURIComponent(activeSymbol)}&${quoteApiSuffix}`,
+        );
         if (!response.ok) return;
         const data = await response.json();
         const quote = data[activeSymbol];
         if (!quote || cancelled) return;
 
         setStockInfo({
-          open: quote.open || 0,
-          high: quote.high || 0,
-          low: quote.low || 0,
-          close: quote.latestPrice || 0,
-          volume: quote.volume || 0,
-          marketCap: quote.marketCap || 0,
-          pe: quote.pe || 0,
-          eps: quote.eps || 0,
-          pb: quote.pb || 2.34,
-          ps: quote.ps || 5.67,
-          dividendYield: quote.dividendYield || 0.85,
-          roe: quote.roe || 18.5,
-          debtEquity: quote.debtEquity || 45.2,
-          fiftyTwoWeekHigh: quote.fiftyTwoWeekHigh || 220.5,
-          fiftyTwoWeekLow: quote.fiftyTwoWeekLow || 124.17,
+          open: quote.open ?? null,
+          high: quote.high ?? null,
+          low: quote.low ?? null,
+          close: quote.latestPrice ?? null,
+          volume: quote.volume ?? null,
+          marketCap: quote.marketCap ?? null,
+          pe: quote.pe ?? null,
+          eps: quote.eps ?? null,
+          pb: quote.pb ?? null,
+          ps: quote.ps ?? null,
+          dividendYield: quote.dividendYield ?? null,
+          roe: quote.roe ?? null,
+          debtEquity: quote.debtEquity ?? null,
+          fiftyTwoWeekHigh: quote.fiftyTwoWeekHigh ?? null,
+          fiftyTwoWeekLow: quote.fiftyTwoWeekLow ?? null,
         });
 
         setChartSnapshot({
           status: "ready",
-          latest: { close: quote.latestPrice || 0 },
+          latest: quote.latestPrice != null ? { close: quote.latestPrice } : null,
           changePercent: quote.changePercent ?? null,
         });
       } catch (error) {
         console.error("Failed to fetch stock info", error);
+        if (!cancelled) {
+          setChartSnapshot((current) => ({ ...current, status: "error" }));
+        }
       }
     }
 
@@ -302,7 +337,7 @@ export default function Home() {
       cancelled = true;
       clearInterval(interval);
     };
-  }, [activeSymbol]);
+  }, [activeSymbol, quoteApiSuffix]);
 
   // Fetch indices
   useEffect(() => {
@@ -310,7 +345,7 @@ export default function Home() {
 
     async function fetchIndices() {
       try {
-        const response = await fetch(`/api/quote?symbols=^DJI,^IXIC,^GSPC`);
+        const response = await fetch(`/api/quote?symbols=^DJI,^IXIC,^GSPC&${quoteApiSuffix}`);
         if (!response.ok) return;
         const data = await response.json();
         if (cancelled) return;
@@ -349,7 +384,7 @@ export default function Home() {
       cancelled = true;
       clearInterval(interval);
     };
-  }, []);
+  }, [quoteApiSuffix]);
 
   // Panel resize sync
   useEffect(() => {
@@ -451,11 +486,11 @@ export default function Home() {
     }
   }
 
-  function handleChartSymbolChange(info: {
+  const handleChartSymbolChange = useCallback((info: {
     symbol: string;
     description?: string;
     exchange?: string;
-  }) {
+  }) => {
     if (!info?.symbol) return;
     if (info.symbol === activeSymbol) return;
     setSelectedStock({
@@ -470,15 +505,16 @@ export default function Home() {
       exchange: info.exchange || "NASDAQ",
       stockType: "",
     });
-  }
-
-  // Mock data toggle
-  const [useMockData, setUseMockData] = useState(true);
+  }, [activeSymbol]);
 
   function toggleMockData() {
-    setUseMockData((prev) => !prev);
-    // Reload page to apply changes (API routes read env at request time)
-    window.location.reload();
+    setDataMode((current) => {
+      const next = current === "mock" ? "real" : "mock";
+      const url = new URL(window.location.href);
+      url.searchParams.set("mock", next === "mock" ? "true" : "false");
+      window.history.replaceState(null, "", url);
+      return next;
+    });
   }
 
   return (
@@ -526,11 +562,11 @@ export default function Home() {
           </div>
           <button
             type="button"
-            className={`data-mode-toggle ${useMockData ? "mock" : "real"}`}
+            className={`data-mode-toggle ${dataMode}`}
             onClick={toggleMockData}
             title="点击切换 mock/real 数据"
           >
-            {useMockData ? "Mock" : "Real"}
+            {dataMode === "mock" ? "Mock" : "Real"}
           </button>
         </header>
 
@@ -539,6 +575,7 @@ export default function Home() {
         <PortfolioSidebar
           selectedStockDentryId={selectedStock?.dentryId ?? defaultStock.dentryId}
           selectedStockSymbol={activeSymbol}
+          quoteApiSuffix={quoteApiSuffix}
           onSelectStock={handleSelectStockNode}
         />
 
@@ -565,23 +602,23 @@ export default function Home() {
               </div>
               <div className="quote-line">
                 <span className={`quote-price tabular-nums ${chartChangeTone}`}>
-                  {stockInfo.close ? stockInfo.close.toFixed(2) : "--"}
+                  {formatNullablePrice(stockInfo.close)}
                 </span>
                 <span className={`quote-change tabular-nums ${chartChangeTone}`}>
-                  {chartSnapshot.changePercent != null &&
-                    `${chartSnapshot.changePercent >= 0 ? "+" : ""}${((stockInfo.close || 0) * chartSnapshot.changePercent / 100).toFixed(2)} `}
+                  {chartSnapshot.changePercent != null && stockInfo.close != null &&
+                    `${chartSnapshot.changePercent >= 0 ? "+" : ""}${(stockInfo.close * chartSnapshot.changePercent / 100).toFixed(2)} `}
                   ({formatPercent(chartSnapshot.changePercent)})
                 </span>
                 <span className="chart-subline">
-                  最后 {stockInfo.close ? stockInfo.close.toFixed(2) : "--"} ·{" "}
+                  最后 {formatNullablePrice(stockInfo.close)} ·{" "}
                   {clock || "同步中"}
                 </span>
               </div>
               <div className="ohlc-line">
-                <span>开 <b>{stockInfo.open ? stockInfo.open.toFixed(2) : "--"}</b></span>
-                <span>高 <b>{stockInfo.high ? stockInfo.high.toFixed(2) : "--"}</b></span>
-                <span>低 <b>{stockInfo.low ? stockInfo.low.toFixed(2) : "--"}</b></span>
-                <span>收 <b>{stockInfo.close ? stockInfo.close.toFixed(2) : "--"}</b></span>
+                <span>开 <b>{formatNullablePrice(stockInfo.open)}</b></span>
+                <span>高 <b>{formatNullablePrice(stockInfo.high)}</b></span>
+                <span>低 <b>{formatNullablePrice(stockInfo.low)}</b></span>
+                <span>收 <b>{formatNullablePrice(stockInfo.close)}</b></span>
               </div>
             </div>
             <div className="chart-actions">
@@ -631,6 +668,7 @@ export default function Home() {
                 <TradingViewChart
                   symbol={activeSymbol}
                   resolution={activeResolution}
+                  dataApiSuffix={quoteApiSuffix}
                   onSymbolChange={handleChartSymbolChange}
                 />
               </div>
@@ -684,7 +722,7 @@ export default function Home() {
               <div className="company-info-item">
                 <span className="company-info-label">最新价</span>
                 <span className="company-info-value tabular-nums">
-                  {stockInfo.close ? stockInfo.close.toFixed(2) : "--"}
+                  {formatNullablePrice(stockInfo.close)}
                 </span>
               </div>
               <div className="company-info-item">
@@ -698,19 +736,19 @@ export default function Home() {
               <div className="company-info-item">
                 <span className="company-info-label">开盘</span>
                 <span className="company-info-value tabular-nums">
-                  {stockInfo.open ? stockInfo.open.toFixed(2) : "--"}
+                  {formatNullablePrice(stockInfo.open)}
                 </span>
               </div>
               <div className="company-info-item">
                 <span className="company-info-label">最高</span>
                 <span className="company-info-value tabular-nums">
-                  {stockInfo.high ? stockInfo.high.toFixed(2) : "--"}
+                  {formatNullablePrice(stockInfo.high)}
                 </span>
               </div>
               <div className="company-info-item">
                 <span className="company-info-label">最低</span>
                 <span className="company-info-value tabular-nums">
-                  {stockInfo.low ? stockInfo.low.toFixed(2) : "--"}
+                  {formatNullablePrice(stockInfo.low)}
                 </span>
               </div>
               <div className="company-info-item">
@@ -791,13 +829,13 @@ export default function Home() {
               <div className="company-info-item">
                 <span className="company-info-label">52周最高</span>
                 <span className="company-info-value tabular-nums">
-                  {stockInfo.fiftyTwoWeekHigh ? stockInfo.fiftyTwoWeekHigh.toFixed(2) : "--"}
+                  {formatNullablePrice(stockInfo.fiftyTwoWeekHigh)}
                 </span>
               </div>
               <div className="company-info-item">
                 <span className="company-info-label">52周最低</span>
                 <span className="company-info-value tabular-nums">
-                  {stockInfo.fiftyTwoWeekLow ? stockInfo.fiftyTwoWeekLow.toFixed(2) : "--"}
+                  {formatNullablePrice(stockInfo.fiftyTwoWeekLow)}
                 </span>
               </div>
             </div>
