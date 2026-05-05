@@ -360,6 +360,58 @@ body {
   font-size: 14px;
 }
 
+.app-error-state {
+  width: min(100%, 720px);
+  margin: clamp(48px, 10vw, 120px) auto;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid color-mix(in srgb, var(--error) 26%, var(--border));
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--error) 7%, transparent), transparent 46%),
+    var(--bg-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.app-error-kicker {
+  color: var(--error);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.app-error-state h1 {
+  margin-top: 10px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.app-error-state p:not(.app-error-kicker) {
+  margin-top: 12px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.app-error-state a {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  margin-top: 18px;
+  padding: 0 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 850;
+  text-decoration: none;
+}
+
 .home-hero {
   min-height: min(720px, calc(100vh - 140px));
   display: grid;

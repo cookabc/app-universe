@@ -9,7 +9,7 @@ import FeaturedResources from "../components/Home/FeaturedResources";
 import TweaksPanel, { useTweaks, applyTweaks } from "../components/common/TweaksPanel";
 
 export default function HomePage() {
-  const { skills, loading } = useSkills();
+  const { skills, loading, error } = useSkills();
   const [searchParams, setSearchParams] = useSearchParams();
   const { tweaks, setTweak } = useTweaks();
   const q = searchParams.get("q") || "";
@@ -40,6 +40,16 @@ export default function HomePage() {
       <div className="home-loading" role="status" aria-live="polite">
         <span>Loading skills…</span>
       </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="app-error-state" aria-labelledby="skills-load-error">
+        <p className="app-error-kicker">Data unavailable</p>
+        <h1 id="skills-load-error">Skill data could not be loaded.</h1>
+        <p>{error}</p>
+      </section>
     );
   }
 
