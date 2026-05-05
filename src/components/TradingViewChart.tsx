@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 interface TradingViewChartProps {
   symbol: string;
   resolution?: string;
+  dataApiSuffix?: string;
   onSymbolChange?: (info: {
     symbol: string;
     description?: string;
@@ -15,11 +16,23 @@ interface TradingViewChartProps {
 export default function TradingViewChart({
   symbol,
   resolution = "1D",
+  dataApiSuffix = "",
   onSymbolChange,
 }: TradingViewChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetRef = useRef<any>(null);
-  const scriptLoadedRef = useRef(false);
+  const initialSymbolRef = useRef(symbol);
+  const initialResolutionRef = useRef(resolution);
+  const dataApiSuffixRef = useRef(dataApiSuffix);
+  const onSymbolChangeRef = useRef(onSymbolChange);
+
+  useEffect(() => {
+    onSymbolChangeRef.current = onSymbolChange;
+  }, [onSymbolChange]);
+
+  useEffect(() => {
+    dataApiSuffixRef.current = dataApiSuffix;
+  }, [dataApiSuffix]);
 
   // Initialize chart
   useEffect(() => {
@@ -35,8 +48,8 @@ export default function TradingViewChart({
       const widgetOptions: any = {
         container: containerRef.current,
         autosize: true,
-        symbol: symbol,
-        interval: resolution,
+        symbol: initialSymbolRef.current,
+        interval: initialResolutionRef.current,
         datafeed: {
           onReady: (callback: any) => {
             setTimeout(() => {
@@ -66,7 +79,7 @@ export default function TradingViewChart({
             symbolType: string,
             onResult: any,
           ) => {
-            fetch(`/api/udf/search?query=${userInput}&limit=10`)
+            fetch(`/api/udf/search?query=${encodeURIComponent(userInput)}&limit=10`)
               .then((response) => response.json())
               .then((data) => {
                 onResult(
@@ -83,7 +96,7 @@ export default function TradingViewChart({
               .catch(() => onResult([]));
           },
           resolveSymbol: (symbolName: string, onResolve: any, onError: any) => {
-            fetch(`/api/udf/symbols?symbol=${symbolName}`)
+            fetch(`/api/udf/symbols?symbol=${encodeURIComponent(symbolName)}`)
               .then((response) => response.json())
               .then((data) => {
                 onResolve({
@@ -136,6 +149,13 @@ export default function TradingViewChart({
             url.searchParams.set("to", String(to));
             if (countBack) {
               url.searchParams.set("countback", String(countBack));
+            }
+            const suffix = dataApiSuffixRef.current;
+            if (suffix) {
+              const suffixParams = new URLSearchParams(suffix);
+              suffixParams.forEach((value, key) => {
+                url.searchParams.set(key, value);
+              });
             }
 
             fetch(url.toString())
@@ -204,10 +224,10 @@ export default function TradingViewChart({
       widgetRef.current = widget;
 
       // Subscribe to symbol change events if callback provided
-      if (onSymbolChange) {
+      if (onSymbolChangeRef.current) {
         (widget as any).onChartReady(() => {
           (widget as any).subscribe("onSymbolChange", (event: any) => {
-            onSymbolChange({
+            onSymbolChangeRef.current?.({
               symbol: event.symbol || event.ticker || "",
               description: event.description,
               exchange: event.exchange,
@@ -218,19 +238,26 @@ export default function TradingViewChart({
     };
 
     // Check if script is already loaded
-    if (window.TradingView?.widget && scriptLoadedRef.current) {
+    if (window.TradingView?.widget) {
       initChart();
       return;
+    }
+
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      'script[src="/charting_library/charting_library.js"]',
+    );
+    if (existingScript) {
+      existingScript.addEventListener("load", initChart, { once: true });
+      return () => {
+        existingScript.removeEventListener("load", initChart);
+      };
     }
 
     // Load TradingView Charting Library
     const script = document.createElement("script");
     script.src = "/charting_library/charting_library.js";
     script.async = true;
-    script.onload = () => {
-      scriptLoadedRef.current = true;
-      initChart();
-    };
+    script.onload = initChart;
 
     document.head.appendChild(script);
 
@@ -238,9 +265,6 @@ export default function TradingViewChart({
       if (widgetRef.current) {
         widgetRef.current.remove();
         widgetRef.current = null;
-      }
-      if (script.parentNode) {
-        script.remove();
       }
     };
   }, []);
