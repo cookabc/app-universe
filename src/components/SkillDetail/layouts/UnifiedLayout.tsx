@@ -152,7 +152,7 @@ export default function UnifiedLayout({ skill }: Props) {
           </nav>
         </aside>
 
-        <main className="case-main">
+        <div className="case-main">
           <section id="case-showcase" className="case-section case-showcase-section">
             <div className="case-section-heading">
               <span>Showcase</span>
@@ -225,7 +225,7 @@ export default function UnifiedLayout({ skill }: Props) {
             </div>
             <MarkdownRenderer content={body} />
           </section>
-        </main>
+        </div>
       </div>
     </article>
   );
