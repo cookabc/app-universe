@@ -1,5 +1,5 @@
-import LangConverterClient from "./client";
+import LangConverterClient from './client'
 
 export default function LangConverterPage() {
-  return <LangConverterClient />;
+    return <LangConverterClient />
 }
