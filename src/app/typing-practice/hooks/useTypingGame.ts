@@ -1,126 +1,128 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UseTypingGameProps {
-    text: string
-    onFinish?: () => void
+  text: string;
+  onFinish?: () => void;
 }
 
 export function useTypingGame({ text, onFinish }: UseTypingGameProps) {
-    const [userInput, setUserInput] = useState('')
-    const [startTime, setStartTime] = useState<number | null>(null)
-    const [endTime, setEndTime] = useState<number | null>(null)
-    const [currentIndex, setCurrentIndex] = useState(-1)
-    const [mistakes, setMistakes] = useState(0)
-    const [isFinished, setIsFinished] = useState(false)
-    const [wpm, setWpm] = useState(0)
-    const [accuracy, setAccuracy] = useState(100)
+  const [userInput, setUserInput] = useState("");
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [endTime, setEndTime] = useState<number | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [mistakes, setMistakes] = useState(0);
+  const [isFinished, setIsFinished] = useState(false);
+  const [wpm, setWpm] = useState(0);
+  const [accuracy, setAccuracy] = useState(100);
 
-    const userInputRef = useRef(userInput)
-    userInputRef.current = userInput
+  const userInputRef = useRef(userInput);
+  userInputRef.current = userInput;
 
-    const startTimeRef = useRef(startTime)
-    startTimeRef.current = startTime
+  const startTimeRef = useRef(startTime);
+  startTimeRef.current = startTime;
 
-    const isFinishedRef = useRef(isFinished)
-    isFinishedRef.current = isFinished
+  const isFinishedRef = useRef(isFinished);
+  isFinishedRef.current = isFinished;
 
-    const onFinishRef = useRef(onFinish)
-    onFinishRef.current = onFinish
+  const onFinishRef = useRef(onFinish);
+  onFinishRef.current = onFinish;
 
-    const calculateStats = useCallback(() => {
-        if (startTimeRef.current) {
-            const timeElapsed = (endTime || Date.now()) - startTimeRef.current
-            const timeInMinutes = timeElapsed / 60000
-            const wordsTyped = userInputRef.current.trim().split(/\s+/).length
-            const newWpm = Math.round(wordsTyped / timeInMinutes) || 0
-            const totalCharacters = currentIndex + 1
-            const newAccuracy =
-                totalCharacters > 0 ? Math.round(((totalCharacters - mistakes) / totalCharacters) * 100) : 100
-            setWpm(newWpm)
-            setAccuracy(newAccuracy)
-        }
-    }, [endTime, currentIndex, mistakes])
-
-    const calculateStatsRef = useRef(calculateStats)
-    useEffect(() => {
-        calculateStatsRef.current = calculateStats
-        calculateStats()
-    }, [calculateStats])
-
-    useEffect(() => {
-        if (!startTime || isFinished) return
-
-        const timer = setInterval(() => {
-            calculateStatsRef.current()
-        }, 1000)
-
-        return () => clearInterval(timer)
-    }, [startTime, isFinished])
-
-    const handleInput = useCallback(
-        (key: string) => {
-            if (isFinishedRef.current) return
-
-            if (!startTimeRef.current) {
-                setStartTime(Date.now())
-            }
-
-            if (key === 'Backspace') {
-                setUserInput((prev) => prev.slice(0, -1))
-                setCurrentIndex((prev) => prev - 1)
-                return { type: 'backspace' as const }
-            }
-
-            if (key.length === 1) {
-                const currentInput = userInputRef.current
-                const newInput = currentInput + key
-                setUserInput(newInput)
-                setCurrentIndex(newInput.length - 1)
-
-                const isCorrect = key === text[newInput.length - 1]
-                if (!isCorrect) {
-                    setMistakes((prev) => prev + 1)
-                }
-
-                if (newInput.length === text.length) {
-                    setEndTime(Date.now())
-                    setIsFinished(true)
-                    onFinishRef.current?.()
-                }
-
-                return {
-                    type: 'character' as const,
-                    isCorrect,
-                    isFinished: newInput.length === text.length,
-                }
-            }
-
-            return null
-        },
-        [text],
-    )
-
-    const reset = useCallback(() => {
-        setUserInput('')
-        setStartTime(null)
-        setEndTime(null)
-        setCurrentIndex(-1)
-        setMistakes(0)
-        setIsFinished(false)
-        setWpm(0)
-        setAccuracy(100)
-    }, [])
-
-    return {
-        userInput,
-        currentIndex,
-        isFinished,
-        wpm,
-        accuracy,
-        mistakes,
-        startTime,
-        endTime,
-        handleInput,
-        reset,
+  const calculateStats = useCallback(() => {
+    if (startTimeRef.current) {
+      const timeElapsed = (endTime || Date.now()) - startTimeRef.current;
+      const timeInMinutes = timeElapsed / 60000;
+      const wordsTyped = userInputRef.current.trim().split(/\s+/).length;
+      const newWpm = Math.round(wordsTyped / timeInMinutes) || 0;
+      const totalCharacters = currentIndex + 1;
+      const newAccuracy =
+        totalCharacters > 0
+          ? Math.round(((totalCharacters - mistakes) / totalCharacters) * 100)
+          : 100;
+      setWpm(newWpm);
+      setAccuracy(newAccuracy);
     }
+  }, [endTime, currentIndex, mistakes]);
+
+  const calculateStatsRef = useRef(calculateStats);
+  useEffect(() => {
+    calculateStatsRef.current = calculateStats;
+    calculateStats();
+  }, [calculateStats]);
+
+  useEffect(() => {
+    if (!startTime || isFinished) return;
+
+    const timer = setInterval(() => {
+      calculateStatsRef.current();
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [startTime, isFinished]);
+
+  const handleInput = useCallback(
+    (key: string) => {
+      if (isFinishedRef.current) return;
+
+      if (!startTimeRef.current) {
+        setStartTime(Date.now());
+      }
+
+      if (key === "Backspace") {
+        setUserInput((prev) => prev.slice(0, -1));
+        setCurrentIndex((prev) => prev - 1);
+        return { type: "backspace" as const };
+      }
+
+      if (key.length === 1) {
+        const currentInput = userInputRef.current;
+        const newInput = currentInput + key;
+        setUserInput(newInput);
+        setCurrentIndex(newInput.length - 1);
+
+        const isCorrect = key === text[newInput.length - 1];
+        if (!isCorrect) {
+          setMistakes((prev) => prev + 1);
+        }
+
+        if (newInput.length === text.length) {
+          setEndTime(Date.now());
+          setIsFinished(true);
+          onFinishRef.current?.();
+        }
+
+        return {
+          type: "character" as const,
+          isCorrect,
+          isFinished: newInput.length === text.length,
+        };
+      }
+
+      return null;
+    },
+    [text],
+  );
+
+  const reset = useCallback(() => {
+    setUserInput("");
+    setStartTime(null);
+    setEndTime(null);
+    setCurrentIndex(-1);
+    setMistakes(0);
+    setIsFinished(false);
+    setWpm(0);
+    setAccuracy(100);
+  }, []);
+
+  return {
+    userInput,
+    currentIndex,
+    isFinished,
+    wpm,
+    accuracy,
+    mistakes,
+    startTime,
+    endTime,
+    handleInput,
+    reset,
+  };
 }
