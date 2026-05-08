@@ -1,0 +1,2653 @@
+[
+  {
+    "id": "opc-methodology",
+    "name": "OPC 一人企业方法论",
+    "description": "9 个 Agent Skill 组成的完整方法论，从资源盘点到转化闭环，帮你把已有能力重新组织成一个轻资产、可验证、可复用的个人业务系统。",
+    "category": {
+      "key": "business",
+      "label": "Business",
+      "color": "#1B365D",
+      "gradient": "linear-gradient(135deg,#1B365D,#2D5A8A)",
+      "icon": "💼"
+    },
+    "stats": {
+      "lineCount": 0,
+      "charCount": 0,
+      "sectionCount": 9,
+      "codeBlockCount": 0,
+      "complexityScore": 7,
+      "complexityLabel": "Complex",
+      "readTime": "15 min"
+    },
+    "triggerPhrases": ["一人企业", "OPC", "方法论", "资源盘点", "利基定位", "MVP"],
+    "useCases": [
+      {
+        "icon": "🎯",
+        "title": "想从副业开始搭建一人企业",
+        "description": "有全职工作，想用业余时间验证商业想法"
+      },
+      {
+        "icon": "📊",
+        "title": "需要系统化的创业方法论",
+        "description": "不靠直觉拍脑袋，要可执行的框架"
+      },
+      {
+        "icon": "🔄",
+        "title": "已有能力但不知道如何组织",
+        "description": "技能/经验/资源都有，缺的是结构化方法"
+      },
+      {
+        "icon": "🚀",
+        "title": "想做 MVP 验证而非大而全产品",
+        "description": "追求最小可行验证，快速迭代"
+      }
+    ],
+    "keyFeatures": [
+      "00 总编排 — 判断当前阶段与用户模式，组织整体流程",
+      "01 资源盘点 — 8 类资源全面扫描（经验/人群/能力/关系/渠道/资产/约束）",
+      "02 利基定位 — 三环合一框架：新杠杆 × 边界变动 × 资源匹配",
+      "03 价值主张 — Jobs/Pains/Gains 拆解，多版本对比选择",
+      "04 商业模式 — Lean Canvas 核心模块，识别最高风险假设",
+      "06 MVP 设计 — 混合版验证路径：1 单校准 + 2 单真实验证",
+      "07 转化闭环 — 私域主路径 + 小红书辅路径的完整触达→成交链路",
+      "08 资产沉淀 — 识别运营中可沉淀的可复用成果",
+      "09 经营复盘 — 判断最真实瓶颈，确认下一周期唯一优先重点"
+    ],
+    "installCommand": "npx skills add https://github.com/easychen/opc-methodology/skills/opc-orchestrator",
+    "content": "# OPC 一人企业方法论\n\nA 9-skill operating system for turning personal expertise, assets, and channels into a lightweight one-person business loop.\n\n## Method Overview\n\n| Stage | Goal |\n| --- | --- |\n| Resource Audit | 盘点可复用资源与能力 |\n| Niche Positioning | 找到更清晰的定位切口 |\n| Value Proposition | 把能力翻译成可购买价值 |\n| Business Model | 设计轻资产交付方式 |\n| Funnel Design | 建立获客到转化路径 |\n| Productization | 将服务产品化 |\n| Pricing | 形成价格与套餐结构 |\n| Content Engine | 用内容驱动信任与线索 |\n| Iteration | 根据反馈优化闭环 |\n\n## Workflow\n\n1. Start with resource audit instead of jumping directly to product ideas.\n2. Narrow positioning before designing offers.\n3. Build the funnel and product package together.\n4. Use content and iteration skills to keep the business loop improving.\n\n## Best For\n\n- Solo builders, consultants, educators, and creators.\n- People with existing expertise but unclear packaging.\n- Lightweight business design before hiring, fundraising, or building heavy software.",
+    "fileInfo": {
+      "totalFiles": 9,
+      "totalSizeStr": "~120 KB",
+      "tree": {
+        "name": "opc-methodology",
+        "type": "collection",
+        "children": []
+      }
+    },
+    "lastUpdated": "",
+    "type": "collection",
+    "sourceUrl": "https://opc-skills.ft07.com/",
+    "children": [
+      {
+        "id": "opc-orchestrator",
+        "name": "总编排",
+        "description": "判断当前阶段与用户模式，组织整体流程，管控阶段边界。每次新会话自动恢复上次进度。",
+        "tag": "编排层"
+      },
+      {
+        "id": "opc-resource-audit",
+        "name": "资源盘点",
+        "description": "按经验、人群、能力、关系、渠道、资产、约束、硬性边界 8 个类别，确认你手上到底有什么。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-niche-positioning",
+        "name": "利基定位",
+        "description": "通过「三环合一」框架发现细分市场：新杠杆 × 边界变动 × 资源匹配，用 6 维机会评分筛选。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-value-proposition",
+        "name": "价值主张",
+        "description": "拆解目标客群的 Jobs / Pains / Gains，生成多个价值主张版本供对比选择。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-business-model-design",
+        "name": "商业模式设计",
+        "description": "拆解 Lean Canvas 核心模块，确定收费结构与收入路径，识别最高风险假设。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-mvp-designer",
+        "name": "MVP 设计",
+        "description": "确定最优先验证的假设、最小验证形式、成功标准与交付边界。不追求产品完整度，只追求假设验证。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-conversion-loop",
+        "name": "转化闭环",
+        "description": "设计从触达到承接到成交的完整路径，包括渠道策略、内容触达方式和承接机制。",
+        "tag": "线性阶段"
+      },
+      {
+        "id": "opc-asset-ops",
+        "name": "资产沉淀",
+        "description": "识别运营中可沉淀的可复用成果，规划资产优先级。支持多次触发，每次带日期标记。",
+        "tag": "条件触发"
+      },
+      {
+        "id": "opc-dashboard-review",
+        "name": "经营复盘",
+        "description": "判断当前最真实的瓶颈，确认下一周期唯一优先重点。运营卡住或需要定期回顾时触发。",
+        "tag": "条件触发"
+      }
+    ],
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    },
+    "skillsShUrl": "https://skills.sh/easychen/opc-methodology/opc-orchestrator",
+    "githubUrl": "https://github.com/easychen/opc-methodology",
+    "websiteUrl": "https://opc-skills.ft07.com/",
+    "updateCommand": "npx skills add https://github.com/easychen/opc-methodology --skill opc-orchestrator"
+  },
+  {
+    "id": "khazix-skills",
+    "name": "Khazix Skills 工具箱",
+    "description": "数字生命卡兹克的 AI 工具箱。经过长期打磨的 Prompts 和 Skills，把积累的方法论变成可复用的工具。包含横纵分析法深度研究和公众号长文写作两大核心能力。",
+    "category": {
+      "key": "methodology",
+      "label": "Methodology",
+      "color": "#92400E",
+      "gradient": "linear-gradient(135deg,#92400E,#B45309)",
+      "icon": "🗡"
+    },
+    "stats": {
+      "lineCount": 0,
+      "charCount": 0,
+      "sectionCount": 4,
+      "codeBlockCount": 0,
+      "complexityScore": 4,
+      "complexityLabel": "Moderate",
+      "readTime": "8 min"
+    },
+    "triggerPhrases": ["横纵分析", "深度研究", "公众号写作", "长文写作", "khazix", "卡兹克"],
+    "useCases": [
+      {
+        "icon": "🔬",
+        "title": "需要对一个主题做深度研究",
+        "description": "半小时出一份万字级研究报告，历时+共时双维度"
+      },
+      {
+        "icon": "✍️",
+        "title": "写公众号长文",
+        "description": "完整的写作风格规则、四层自检体系和风格示例库"
+      },
+      {
+        "icon": "📋",
+        "title": "快速了解一个新领域",
+        "description": "纵向追时间深度 + 横向追竞争广度的研究框架"
+      },
+      {
+        "icon": "🎯",
+        "title": "输出排版精美的 PDF 报告",
+        "description": "自动联网收集信息，最终输出结构化研究报告"
+      }
+    ],
+    "keyFeatures": [
+      "hv-analysis — 横纵分析法深度研究 Skill，自动联网收集信息",
+      "纵向追时间深度：追踪主题的历史演变脉络和发展趋势",
+      "横向追竞争广度：对标竞品和替代方案的全面比较",
+      "khazix-writer — 公众号长文写作 Skill",
+      "完整写作风格规则 + 四层自检体系",
+      "内容方法论库 + 风格示例库",
+      "Prompt 轻量版：复制粘贴即用，无需安装"
+    ],
+    "installCommand": "npx skills add https://github.com/KKKKhazix/khazix-skills",
+    "content": "# Khazix Skills 工具箱\n\nA personal AI toolkit that turns accumulated research and writing methods into reusable prompts and agent skills.\n\n## Included Capabilities\n\n| Capability | Purpose |\n| --- | --- |\n| 横纵分析法 Prompt | 用纵向历史与横向对比做深度研究 |\n| hv-analysis Skill | 自动组织研究、分析、报告输出 |\n| khazix-writer Skill | 公众号长文写作、风格复用、自检 |\n\n## Best For\n\n- 深度研究一个产品、公司、概念或技术。\n- 将素材整理成有结构、有观点的中文长文。\n- 把个人方法论封装成可复用的 AI 工作流。\n\n## Workflow\n\n1. 先判断任务是研究、写作，还是方法论复用。\n2. 选择 Prompt 或 Skill 的轻重模式。\n3. 用结构化步骤推进，而不是只做一次性回答。\n4. 在输出前做观点、证据、结构和风格自检。",
+    "fileInfo": {
+      "totalFiles": 2,
+      "totalSizeStr": "~40 KB",
+      "tree": {
+        "name": "khazix-skills",
+        "type": "collection",
+        "children": []
+      }
+    },
+    "lastUpdated": "",
+    "type": "collection",
+    "sourceUrl": "https://github.com/KKKKhazix/khazix-skills",
+    "children": [
+      {
+        "id": "hv-analysis",
+        "name": "hv-analysis 横纵分析法",
+        "description": "横纵分析法深度研究 Skill，自动联网收集信息，纵向追时间深度 + 横向追竞争广度，最终输出排版精美的 PDF 研究报告。",
+        "icon": "🔬",
+        "tag": "深度研究 · 自动联网 · PDF输出"
+      },
+      {
+        "id": "khazix-writer",
+        "name": "khazix-writer 公众号写作",
+        "description": "卡兹克公众号长文写作 Skill，包含完整的写作风格规则、四层自检体系、内容方法论和风格示例库。",
+        "icon": "✍️",
+        "tag": "长文写作 · 四层自检 · 风格示例"
+      }
+    ],
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    },
+    "skillsShUrl": "https://skills.sh/kkkkhazix/khazix-skills",
+    "githubUrl": "https://github.com/KKKKhazix/khazix-skills",
+    "updateCommand": "npx skills add https://github.com/KKKKhazix/khazix-skills"
+  },
+  {
+    "id": "gpt-image-2",
+    "name": "GPT Image 2",
+    "description": "面向 GPT Image 2 的图像生成 / 编辑技能。可在 Garden 本地模式、Host-Native 委托模式、Advisor 纯提示词顾问模式下使用，覆盖海报、UI、产品、信息图、漫画、头像、流程板、电影分镜等结构化模板。",
+    "category": {
+      "key": "design",
+      "label": "Design",
+      "color": "#b85f76",
+      "gradient": "linear-gradient(135deg,#b85f76,#d7653d)",
+      "icon": "design"
+    },
+    "stats": {
+      "lineCount": 420,
+      "charCount": 26641,
+      "sectionCount": 32,
+      "codeBlockCount": 18,
+      "complexityScore": 8,
+      "complexityLabel": "Advanced",
+      "readTime": "9 min"
+    },
+    "triggerPhrases": [
+      "生成图片",
+      "编辑图片",
+      "GPT Image 2 prompt",
+      "用宿主图像工具出图",
+      "写好图像提示词"
+    ],
+    "useCases": [
+      {
+        "icon": "image",
+        "title": "Text-to-image generation",
+        "description": "Select a structured template, render the final prompt, and generate an image through Garden or the host image tool."
+      },
+      {
+        "icon": "edit",
+        "title": "Image editing",
+        "description": "Prepare edit prompts for existing images or masked regions when the runtime supports image edits."
+      },
+      {
+        "icon": "prompt",
+        "title": "Prompt advisory mode",
+        "description": "When no image tool is available, produce a reusable high-quality prompt and usage guidance."
+      },
+      {
+        "icon": "mode",
+        "title": "Runtime mode detection",
+        "description": "Start by deciding whether the environment is Garden Mode A, Host-Native Mode B, or Advisor Mode C."
+      }
+    ],
+    "keyFeatures": [
+      "Mode A Garden local image generation with OpenAI-compatible image APIs",
+      "Mode B host-native delegation for clients with built-in image tools",
+      "Mode C advisor workflow for prompt-only environments",
+      "Prompt and image output naming rules with timestamped task slugs",
+      "Template index across posters, UI, products, infographics, comics, avatars, flow boards, storyboards, and editing workflows",
+      "Clear rules for when scripts should and should not be called"
+    ],
+    "installCommand": "npx skills add https://github.com/conardli/garden-skills --skill gpt-image-2",
+    "updateCommand": "npx skills add https://github.com/conardli/garden-skills --skill gpt-image-2",
+    "content": "# GPT Image 2\n\nA focused image generation and editing skill for GPT Image 2 workflows. It supports direct Garden execution, host-native image tools, or prompt-only advisory mode.\n\n## Runtime Modes\n\n| Mode | Use When |\n| --- | --- |\n| Garden Local | The environment can call an OpenAI-compatible image API directly |\n| Host-Native | The host app provides its own image generation or editing tool |\n| Advisor | No image tool is available, so the skill produces a reusable prompt |\n\n## Best For\n\n- Posters, UI concepts, product visuals, information graphics, technical diagrams, avatars, comics, storyboards, and image editing prompts.\n- Turning vague visual goals into structured prompts.\n- Choosing the right template before asking an image model to render.\n\n## Workflow\n\n1. Detect the runtime mode.\n2. Decide whether the task is generation, editing, or prompt advisory.\n3. Pick the closest visual template.\n4. Render a complete prompt with format, subject, style, constraints, and output notes.\n5. Save or hand off the result according to the active mode.\n\n## Output Shape\n\nPrompt files, generated images when tools are available, or advisor-ready prompt packages when generation cannot run locally.",
+    "fileInfo": {
+      "totalFiles": 80,
+      "totalSizeStr": "~120 KB",
+      "tree": {
+        "name": "gpt-image-2",
+        "type": "dir",
+        "children": [
+          {
+            "name": "scripts",
+            "type": "dir",
+            "children": [
+              {
+                "name": "check-mode.js",
+                "type": "file",
+                "size": 2400,
+                "ext": ".js"
+              },
+              {
+                "name": "generate.js",
+                "type": "file",
+                "size": 5200,
+                "ext": ".js"
+              },
+              {
+                "name": "edit.js",
+                "type": "file",
+                "size": 5200,
+                "ext": ".js"
+              },
+              {
+                "name": "shared.js",
+                "type": "file",
+                "size": 5000,
+                "ext": ".js"
+              }
+            ]
+          },
+          {
+            "name": "references",
+            "type": "dir",
+            "children": [
+              {
+                "name": "posters",
+                "type": "dir"
+              },
+              {
+                "name": "ui",
+                "type": "dir"
+              },
+              {
+                "name": "products",
+                "type": "dir"
+              },
+              {
+                "name": "storyboards",
+                "type": "dir"
+              }
+            ]
+          },
+          {
+            "name": "SKILL.md",
+            "type": "file",
+            "size": 26641,
+            "ext": ".md"
+          }
+        ]
+      }
+    },
+    "lastUpdated": "2026-04-30",
+    "type": "skill",
+    "sourceUrl": "https://skills.sh/conardli/garden-skills/gpt-image-2",
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    }
+  },
+  {
+    "id": "kami",
+    "name": "Kami",
+    "description": "Professional document typesetting engine for AI. Transform any text into beautifully formatted PDFs, HTML pages, and PPTX slides. Supports 8 document templates (resume, letter, equity report, changelog, one-pager, portfolio, long-doc, slides) and 14 diagram types (flowchart, timeline, architecture, etc.) with warm parchment design system.",
+    "category": {
+      "key": "document",
+      "label": "Document",
+      "color": "#1B365D",
+      "gradient": "linear-gradient(135deg,#1B365D,#2D5A8A)",
+      "icon": "doc"
+    },
+    "stats": {
+      "lineCount": 1200,
+      "charCount": 45000,
+      "sectionCount": 12,
+      "codeBlockCount": 8,
+      "complexityScore": 4,
+      "complexityLabel": "Moderate",
+      "readTime": "15 min"
+    },
+    "triggerPhrases": [
+      "typeset document",
+      "create PDF",
+      "format report",
+      "generate slides",
+      "document template",
+      "kami"
+    ],
+    "useCases": [
+      {
+        "icon": "doc",
+        "title": "Professional resume generation",
+        "description": "Warm parchment design with serif typography, single-page or multi-page layouts"
+      },
+      {
+        "icon": "doc",
+        "title": "Investment equity reports",
+        "description": "2-3 page reports with OHLC candlestick charts and waterfall revenue bridges"
+      },
+      {
+        "icon": "doc",
+        "title": "Release changelogs",
+        "description": "Structured version history with categorized changes and migration guides"
+      },
+      {
+        "icon": "chart",
+        "title": "Technical diagrams",
+        "description": "14 diagram types including flowcharts, timelines, architecture diagrams, K-line charts"
+      },
+      {
+        "icon": "slide",
+        "title": "Presentation slides",
+        "description": "Python-generated PPTX with consistent branding and layout templates"
+      },
+      {
+        "icon": "doc",
+        "title": "Formal letters",
+        "description": "Business correspondence with proper typography and signature blocks"
+      }
+    ],
+    "keyFeatures": [
+      "8 document templates: resume, letter, equity report, changelog, one-pager, portfolio, long-doc, slides",
+      "14 SVG diagram types: flowchart, timeline, architecture, bar chart, line chart, donut, quadrant, etc.",
+      "Warm parchment design system with ink-blue accent and serif-led hierarchy",
+      "Full bilingual support: Chinese (TsangerJinKai02) and English (Charter/Newsreader)",
+      "PDF output via WeasyPrint with print-optimized CSS @page rules",
+      "HTML preview mode for instant visual feedback without building",
+      "Placeholder validation: detect unfilled {{variables}} before publishing",
+      "Orphan text detection: catch排版 issues with ≤2 word last lines",
+      "CDN distribution via jsdelivr for skill installation"
+    ],
+    "installCommand": "pip install weasyprint python-pptx && git clone https://github.com/tw93/Kami.git",
+    "content": "# Kami — Professional Document Typesetting\n\nTypeset professional documents such as resumes, one-pagers, white papers, letters, portfolios, and slide decks.\n\n## Best For\n\n- Turning plain text into polished PDFs, HTML pages, or PPTX-style decks.\n- Documents that need a warm editorial tone and strong typography.\n- Workflows that require rendering and visual verification before delivery.\n\n## Document Templates\n\n| Template | Use |\n| --- | --- |\n| Resume | Career profile and applications |\n| One-pager | Compact product or service summary |\n| White paper | Long-form technical or business document |\n| Letter | Formal correspondence |\n| Portfolio | Project and case presentation |\n| Slide deck | Presentation-ready narrative |\n\n## Design Direction\n\nWarm parchment surfaces, ink-blue accents, serif-led hierarchy, and careful spacing. Chinese, English, and Japanese typography use best-effort font choices when available.\n\n## Workflow\n\n1. Choose the document target and audience.\n2. Structure the content into sections and hierarchy.\n3. Render the output artifact.\n4. Visually verify pages for placeholders, overflow, orphan lines, and layout issues.",
+    "fileInfo": {
+      "totalFiles": 28,
+      "totalSizeStr": "~2.1 MB",
+      "tree": {
+        "name": "kami",
+        "type": "dir",
+        "children": [
+          {
+            "name": "assets",
+            "type": "dir",
+            "children": [
+              {
+                "name": "templates",
+                "type": "dir"
+              },
+              {
+                "name": "diagrams",
+                "type": "dir"
+              },
+              {
+                "name": "fonts",
+                "type": "dir"
+              },
+              {
+                "name": "demos",
+                "type": "dir"
+              }
+            ]
+          },
+          {
+            "name": "scripts",
+            "type": "dir",
+            "children": [
+              {
+                "name": "build.py",
+                "type": "file",
+                "size": 15000
+              },
+              {
+                "name": "shared.py",
+                "type": "file",
+                "size": 8000
+              },
+              {
+                "name": "stabilize.py",
+                "type": "file",
+                "size": 5000
+              }
+            ]
+          },
+          {
+            "name": "references",
+            "type": "dir",
+            "children": [
+              {
+                "name": "design.md",
+                "type": "file",
+                "size": 12000
+              },
+              {
+                "name": "writing.md",
+                "type": "file",
+                "size": 8000
+              },
+              {
+                "name": "diagrams.md",
+                "type": "file",
+                "size": 6000
+              }
+            ]
+          },
+          {
+            "name": "styles.css",
+            "type": "file",
+            "size": 15000
+          },
+          {
+            "name": "SKILL.md",
+            "type": "file",
+            "size": 8000
+          }
+        ]
+      }
+    },
+    "lastUpdated": "2025-01-15",
+    "type": "skill",
+    "sourceUrl": "https://github.com/tw93/Kami",
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    },
+    "skillsShUrl": "https://skills.sh/tw93/kami/kami",
+    "githubUrl": "https://github.com/tw93/Kami",
+    "updateCommand": "npx skills add https://github.com/tw93/Kami --skill kami"
+  },
+  {
+    "id": "impeccable-style",
+    "name": "Impeccable Design Quality",
+    "description": "Before commands, before detection, Impeccable teaches your AI real design. Deep reference knowledge across 7 dimensions, loaded every time your AI writes code. 18 commands form a shared vocabulary between you and your AI.",
+    "category": {
+      "key": "design",
+      "label": "Design",
+      "color": "#1a1a2e",
+      "gradient": "linear-gradient(135deg,#1a1a2e,#D4AF37)",
+      "icon": "◆"
+    },
+    "stats": {
+      "lineCount": 0,
+      "charCount": 0,
+      "sectionCount": 18,
+      "codeBlockCount": 0,
+      "complexityScore": 6,
+      "complexityLabel": "Complex",
+      "readTime": "10 min"
+    },
+    "triggerPhrases": ["/impeccable", "/audit", "/polish", "/critique", "设计质量", "UI打磨"],
+    "useCases": [
+      {
+        "icon": "🎨",
+        "title": "AI 生成的 UI 看起来千篇一律",
+        "description": "所有模型产出同样的紫色渐变、圆角卡片"
+      },
+      {
+        "icon": "🔍",
+        "title": "需要自动检测 UI 反模式",
+        "description": "渐变文字、嵌套卡片、低对比度等 25+ 规则"
+      },
+      {
+        "icon": "⚡",
+        "title": "想要精确的设计指令词表",
+        "description": "18 条命令覆盖创建/评估/精简/打磨全流程"
+      },
+      {
+        "icon": "🌐",
+        "title": "需要在任意网页上检查设计问题",
+        "description": "Chrome 扩展一键高亮反模式元素"
+      }
+    ],
+    "keyFeatures": [
+      "7 维设计质量体系：Visual Expression · Design Systems · Spatial Layout · Responsive · Interaction · Motion · Content",
+      "18 条命令词表：/create /evaluate /refine /simplify /harden /system /audit /polish /bolder /distill /critique /typeset /layout /shape /craft /teach /extract /impeccable",
+      "25 条确定性检测规则：无需 LLM，纯模式匹配捕获反模式",
+      "支持 oklch/oklab/lch/lab 颜色格式，CSS 变量内 border shorthand 检测",
+      "三种使用方式：Chrome 扩展 · CLI (npx impeccable detect) · /critique 内嵌审查",
+      "Nielsen 启发式评分 + Persona 子代理并行评审"
+    ],
+    "installCommand": "npx skills add pbakaus/impeccable",
+    "skillsShUrl": "https://skills.sh/pbakaus/impeccable/impeccable",
+    "githubUrl": "https://github.com/pbakaus/impeccable",
+    "websiteUrl": "https://impeccable.style/",
+    "content": "# Impeccable Design Quality\n\nA design-quality system that teaches AI agents to avoid common interface mistakes before they generate or review UI.\n\n## Core Idea\n\nMost AI-generated interfaces fail in predictable ways: weak hierarchy, decorative gradients, poor spacing, nested cards, tiny type, low contrast, and generic copy. Impeccable names these patterns and turns them into repeatable checks.\n\n## Quality Dimensions\n\n| Dimension | Focus |\n| --- | --- |\n| Visual Expression | Scale, rhythm, hierarchy |\n| Design Systems | Tokens, accessibility, consistency |\n| Spatial Layout | Composition, spacing, alignment |\n| Responsive Design | Fluid layouts and touch targets |\n| Interaction Design | States, feedback, affordance |\n| Motion & Polish | Transitions and micro-interactions |\n| Content Quality | Clarity, voice, error text |\n\n## Command Families\n\n- Creation: /create, /shape, /craft.\n- Evaluation: /evaluate, /audit, /critique.\n- Refinement: /refine, /polish, /bolder, /simplify, /distill.\n- Production: /harden, /system.\n- Context: /teach, /extract, /impeccable.\n\n## Best For\n\nUse it before or after UI generation when the page needs stronger taste, clearer hierarchy, and fewer generic AI design patterns.",
+    "fileInfo": {
+      "totalFiles": 11,
+      "totalSizeStr": "~200 KB",
+      "tree": {
+        "name": "impeccable-style",
+        "type": "collection",
+        "children": []
+      }
+    },
+    "lastUpdated": "",
+    "type": "collection",
+    "sourceUrl": "https://impeccable.style/",
+    "children": [
+      {
+        "id": "impeccable-create",
+        "name": "/create",
+        "description": "Generate designed UI from requirements with full design thinking applied.",
+        "icon": "🎨"
+      },
+      {
+        "id": "impeccable-evaluate",
+        "name": "/evaluate",
+        "description": "Review output against the 7 dimensions of design quality.",
+        "icon": "🔍"
+      },
+      {
+        "id": "impeccable-refine",
+        "name": "/refine",
+        "description": "Iterative improvement pass that preserves intent while elevating quality.",
+        "icon": "✨"
+      },
+      {
+        "id": "impeccable-simplify",
+        "name": "/simplify",
+        "description": "Reduce complexity while keeping core intent intact.",
+        "icon": "✂️"
+      },
+      {
+        "id": "impeccable-harden",
+        "name": "/harden",
+        "description": "Production readiness: edge cases, empty states, error handling.",
+        "icon": "🛡️"
+      },
+      {
+        "id": "impeccable-system",
+        "name": "/system",
+        "description": "Align all components to design system tokens and conventions.",
+        "icon": "⚙️"
+      },
+      {
+        "id": "impeccable-audit",
+        "name": "/audit",
+        "description": "Score 5 dimensions with P0-P3 severity ratings and action plans.",
+        "icon": "📋"
+      },
+      {
+        "id": "impeccable-polish",
+        "name": "/polish",
+        "description": "Final visual refinement pass for production-ready output.",
+        "icon": "💎"
+      },
+      {
+        "id": "impeccable-bolder",
+        "name": "/bolder",
+        "description": "Strengthen typographic hierarchy for better readability.",
+        "icon": "Aa"
+      },
+      {
+        "id": "impeccable-distill",
+        "name": "/distill",
+        "description": "Remove unnecessary elements without losing meaning.",
+        "icon": "💧"
+      },
+      {
+        "id": "impeccable-critique",
+        "name": "/critique",
+        "description": "Full review: Nielsen heuristics + persona agents + live overlay.",
+        "icon": "🔬"
+      },
+      {
+        "id": "impeccable-typeset",
+        "name": "/typeset",
+        "description": "Fix typography scale, rhythm, and font choices.",
+        "icon": "T"
+      },
+      {
+        "id": "impeccable-layout",
+        "name": "/layout",
+        "description": "Fix layout & spacing issues across all viewports.",
+        "icon": "▦"
+      },
+      {
+        "id": "impeccable-shape",
+        "name": "/shape",
+        "description": "Structured discovery interview about purpose, audience, goals.",
+        "icon": "❓"
+      },
+      {
+        "id": "impeccable-craft",
+        "name": "/craft",
+        "description": "Chain brief into full implementation flow, ship designed features.",
+        "icon": "⚒️"
+      },
+      {
+        "id": "impeccable-teach",
+        "name": "/teach",
+        "description": "Set project's design context via .impeccable.md file.",
+        "icon": "📖"
+      },
+      {
+        "id": "impeccable-extract",
+        "name": "/extract",
+        "description": "Extract design context from existing codebase.",
+        "icon": "📤"
+      },
+      {
+        "id": "impeccable-master",
+        "name": "/impeccable",
+        "description": "Master command: teach/craft/extract sub-modes.",
+        "icon": "◆"
+      }
+    ],
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    }
+  },
+  {
+    "id": "ui-ux-pro-max",
+    "name": "UI UX Pro Max",
+    "description": "AI design intelligence for professional UI/UX across web, mobile, dashboards, landing pages, components, and multi-platform product interfaces. Combines design system generation, UX rules, accessibility checks, style guidance, charts, and stack-aware implementation advice.",
+    "category": {
+      "key": "design",
+      "label": "Design",
+      "color": "#2b7a78",
+      "gradient": "linear-gradient(135deg,#2b7a78,#6f5ea8)",
+      "icon": "design"
+    },
+    "stats": {
+      "lineCount": 620,
+      "charCount": 38000,
+      "sectionCount": 34,
+      "codeBlockCount": 12,
+      "complexityScore": 9,
+      "complexityLabel": "Advanced",
+      "readTime": "14 min"
+    },
+    "triggerPhrases": [
+      "Build a landing page",
+      "Build a dashboard",
+      "Recommend a design system",
+      "Review this UI for UX issues",
+      "Improve mobile experience"
+    ],
+    "useCases": [
+      {
+        "icon": "system",
+        "title": "Design system generation",
+        "description": "Generate a tailored UI direction with pattern, style, color, typography, effects, and anti-patterns for a product category."
+      },
+      {
+        "icon": "review",
+        "title": "UX and accessibility review",
+        "description": "Use structured rules for forms, navigation, charts, feedback states, and WCAG-aware interaction quality."
+      },
+      {
+        "icon": "platform",
+        "title": "Multi-platform interface guidance",
+        "description": "Apply UI recommendations across web, React, mobile, dashboard, and landing-page work without drifting into generic styling."
+      },
+      {
+        "icon": "chart",
+        "title": "Data and dashboard guidance",
+        "description": "Choose chart types, interaction states, loading patterns, and accessible legends for analytics interfaces."
+      }
+    ],
+    "keyFeatures": [
+      "Design system generator with product, style, color, landing-page, and typography reasoning",
+      "67 UI styles and 161 industry-specific reasoning rules",
+      "99 UX guidelines across forms, navigation, feedback, charts, accessibility, and responsive behavior",
+      "Stack-aware guidance for React, Next.js, Vue, SwiftUI, React Native, Flutter, and more",
+      "Anti-pattern checks for generic AI UI choices, weak contrast, poor motion, and layout issues",
+      "Useful for new builds, component work, UI review, mobile improvement, dark mode, and dashboard design"
+    ],
+    "installCommand": "npx skills add nextlevelbuilder/ui-ux-pro-max-skill",
+    "updateCommand": "npx skills add nextlevelbuilder/ui-ux-pro-max-skill",
+    "skillsShUrl": "https://skills.sh/nextlevelbuilder/ui-ux-pro-max-skill/ui-ux-pro-max",
+    "githubUrl": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+    "websiteUrl": "https://uupm.cc/",
+    "content": "# UI UX Pro Max\n\nAI design intelligence for building professional UI/UX across multiple platforms, product types, and implementation stacks.\n\n## Best For\n\n- New product pages, landing pages, dashboards, and mobile/web app screens.\n- Choosing a design system direction before implementation begins.\n- Reviewing existing UI for UX, accessibility, interaction, navigation, forms, and data visualization issues.\n- Matching product category, audience, style, color, typography, and stack constraints.\n\n## Core Capabilities\n\n| Capability | Purpose |\n| --- | --- |\n| Design system generation | Produce pattern, style, color, typography, effects, and anti-pattern guidance |\n| Industry reasoning rules | Match recommendations to SaaS, finance, healthcare, e-commerce, services, creative, and emerging tech products |\n| UX checklist library | Review forms, navigation, feedback, accessibility, charts, and responsive behavior |\n| Stack-aware guidance | Adapt recommendations for React, Next.js, Vue, SwiftUI, React Native, Flutter, and related stacks |\n\n## Workflow\n\n1. Analyze the product type, audience, platform, and requested interface.\n2. Generate or retrieve a design system before writing UI.\n3. Supplement with domain searches for style, color, typography, charts, UX rules, or stack-specific details.\n4. Implement with the chosen design vocabulary and avoid category-specific anti-patterns.\n5. Review the result against contrast, focus, motion, navigation, layout, and responsive checks.\n\n## Output Shape\n\nA structured UI direction, implementation checklist, and review rubric that can guide a build or critique a finished screen.\n\n## Boundaries\n\nThis skill is a design intelligence layer. It does not replace visual QA in the browser, and it should be paired with actual screenshots or rendered pages when judging final polish.",
+    "fileInfo": {
+      "totalFiles": 7,
+      "totalSizeStr": "203 KB",
+      "tree": {
+        "name": "ui-ux-pro-max-skill",
+        "type": "dir",
+        "children": [
+          {
+            "name": "ui-ux-pro-max",
+            "type": "dir"
+          },
+          {
+            "name": "ckm-design-system",
+            "type": "dir"
+          },
+          {
+            "name": "ckm-ui-styling",
+            "type": "dir"
+          },
+          {
+            "name": "README.md",
+            "type": "file",
+            "ext": ".md"
+          }
+        ]
+      }
+    },
+    "lastUpdated": "2026-04-30",
+    "type": "skill",
+    "sourceUrl": "https://skills.sh/nextlevelbuilder/ui-ux-pro-max-skill",
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    }
+  },
+  {
+    "id": "web-design-engineer",
+    "name": "Web Design Engineer",
+    "description": "Build high-quality visual Web artifacts using HTML/CSS/JavaScript/React: pages, landing pages, dashboards, interactive prototypes, HTML slide decks, animated demos, UI mockups, data visualizations, and design system explorations.",
+    "category": {
+      "key": "web",
+      "label": "Web",
+      "color": "#9b762e",
+      "gradient": "linear-gradient(135deg,#9b762e,#256f73)",
+      "icon": "web"
+    },
+    "stats": {
+      "lineCount": 360,
+      "charCount": 22623,
+      "sectionCount": 28,
+      "codeBlockCount": 12,
+      "complexityScore": 8,
+      "complexityLabel": "Advanced",
+      "readTime": "8 min"
+    },
+    "triggerPhrases": [
+      "Build high-quality visual Web artifacts",
+      "Create a web page",
+      "Build an interactive prototype",
+      "Make an HTML slide deck",
+      "Design a dashboard"
+    ],
+    "useCases": [
+      {
+        "icon": "page",
+        "title": "Web pages and landing pages",
+        "description": "Create polished, responsive pages with a strong visual system and real interaction states."
+      },
+      {
+        "icon": "prototype",
+        "title": "Interactive prototypes",
+        "description": "Turn screenshots, PRDs, and product ideas into usable HTML/CSS/React prototypes."
+      },
+      {
+        "icon": "slides",
+        "title": "HTML presentations",
+        "description": "Build web-native slide decks, animated demos, and data visualization artifacts."
+      },
+      {
+        "icon": "system",
+        "title": "Design system exploration",
+        "description": "Extract design tokens, declare UI decisions, and match an existing product vocabulary."
+      }
+    ],
+    "keyFeatures": [
+      "Requirement discovery tuned to how much context is already available",
+      "Design context gathering from screenshots, code, UI kits, and product conventions",
+      "Explicit design system declaration before implementation",
+      "Early v0 draft workflow for fast course correction",
+      "React + inline JSX implementation notes and CSS best practices",
+      "Pre-delivery verification and responsive polish checklist"
+    ],
+    "installCommand": "npx skills add https://github.com/conardli/garden-skills --skill web-design-engineer",
+    "updateCommand": "npx skills add https://github.com/conardli/garden-skills --skill web-design-engineer",
+    "content": "# Web Design Engineer\n\nBuild high-quality visual web artifacts using HTML, CSS, JavaScript, and React: pages, dashboards, prototypes, slide decks, UI mockups, data visualizations, and animated demos.\n\n## Best For\n\n- Visual front-end deliverables where taste, layout, motion, and responsive behavior matter.\n- Turning product ideas, screenshots, PRDs, or existing code into usable web artifacts.\n- Creating polished prototypes that can be inspected in a browser.\n\n## Workflow\n\n1. Understand the product context, audience, output type, constraints, and fidelity target.\n2. Gather design context from screenshots, code, references, or an existing design system.\n3. Declare the color, type, spacing, radius, shadow, and motion direction before building.\n4. Produce an early visible draft when direction is uncertain.\n5. Implement complete components, states, accessibility, and responsive behavior.\n6. Verify text fit, focus states, interactions, and layout across viewports.\n\n## Technical Notes\n\n- Prefer CSS Grid, Flexbox, custom properties, and responsive constraints.\n- Use real visual assets where the domain calls for inspection or specificity.\n- Keep controls complete and keyboard-accessible.\n- Avoid generic AI visual clichés, meaningless fake metrics, and decorative clutter.",
+    "fileInfo": {
+      "totalFiles": 8,
+      "totalSizeStr": "~48 KB",
+      "tree": {
+        "name": "web-design-engineer",
+        "type": "dir",
+        "children": [
+          {
+            "name": "SKILL.md",
+            "type": "file",
+            "size": 22623,
+            "ext": ".md"
+          },
+          {
+            "name": "references",
+            "type": "dir",
+            "children": [
+              {
+                "name": "advanced-patterns.md",
+                "type": "file",
+                "size": 18000,
+                "ext": ".md"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "lastUpdated": "2026-04-30",
+    "type": "skill",
+    "sourceUrl": "https://skills.sh/conardli/garden-skills/web-design-engineer",
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    }
+  },
+  {
+    "id": "markdown-viewer-skills",
+    "name": "Markdown Viewer Skills",
+    "description": "14 skills covering 5 rendering engines — from software modeling to enterprise architecture, data analytics, and editorial-quality content cards. Opinionated skills for AI coding agents to create stunning diagrams and visualizations directly in Markdown.",
+    "category": {
+      "key": "diagram",
+      "label": "Diagram",
+      "color": "#6366f1",
+      "gradient": "linear-gradient(135deg,#6366f1,#8b5cf6)",
+      "icon": "🧭"
+    },
+    "stats": {
+      "lineCount": 0,
+      "charCount": 0,
+      "sectionCount": 14,
+      "codeBlockCount": 0,
+      "complexityScore": 8,
+      "complexityLabel": "Complex+",
+      "readTime": "20 min"
+    },
+    "triggerPhrases": [
+      "画图",
+      "图表",
+      "UML",
+      "PlantUML",
+      "架构图",
+      "流程图",
+      "vega",
+      "infographic"
+    ],
+    "useCases": [
+      {
+        "icon": "📊",
+        "title": "需要在 Markdown 中渲染图表",
+        "description": "数据可视化、架构图、流程图等直接在文档中生成"
+      },
+      {
+        "icon": "🏗️",
+        "title": "软件建模与技术文档",
+        "description": "UML 图、类图、时序图、部署图等软件工程图表"
+      },
+      {
+        "icon": "☁️",
+        "title": "云架构和网络拓扑",
+        "description": "AWS/Azure/GCP 架构图、网络设备拓扑"
+      },
+      {
+        "icon": "📰",
+        "title": "信息图和编辑卡片",
+        "description": "KPI 卡片、时间线、SWOT、杂志风格信息卡"
+      }
+    ],
+    "keyFeatures": [
+      "5 大渲染引擎：Standalone (Vega/Infographic/Canvas) · HTML/CSS (Architecture/InfoCard) · PlantUML (9 种领域图)",
+      "Vega-Lite 数据驱动可视化：柱状图/折线图/散点图/热力图/雷达图/词云",
+      "Infographic 70+ 模板：YAML 语法的预设计信息图模板",
+      "Canvas JSON 思维导图：自由空间布局的知识图谱和概念图",
+      "Architecture 13×12 布局网格：色彩编码的分层架构图",
+      "InfoCard 14×13 样式卡片：杂志级排版的信息卡片",
+      "PlantUML 9500+ mxgraph 图标：UML/云/网络/安全/ArchiMate/BPMN/数据分析/IoT/思维导图"
+    ],
+    "installCommand": "npx skills add markdown-viewer/skills",
+    "githubUrl": "https://github.com/markdown-viewer/skills",
+    "websiteUrl": "https://xicilion.gitbook.io/markdown-viewer-extension/",
+    "content": "# Markdown Viewer Skills\n\nA collection of 14 skills for creating diagrams and visualizations directly from Markdown-oriented workflows.\n\n## Rendering Engines\n\n| Engine | Best For |\n| --- | --- |\n| Vega / Vega-Lite | Charts, heatmaps, scatter plots, radar charts, word clouds |\n| Infographic | KPI cards, timelines, roadmaps, SWOT, funnels, org trees |\n| Canvas | Mind maps, knowledge graphs, concept maps |\n| Architecture | System layers, microservices, enterprise architecture |\n| InfoCard | Knowledge summaries and event announcements |\n| PlantUML families | UML, cloud, network, security, ArchiMate, BPMN, IoT |\n\n## Best For\n\n- Technical documentation that needs diagrams without leaving Markdown.\n- AI agents that need a consistent diagram vocabulary.\n- Reusable visualization skills across architecture, data, process, and security work.\n\n## Output Shape\n\nMarkdown code fences, generated diagram syntax, or standalone visual artifacts depending on the selected child skill.",
+    "fileInfo": {
+      "totalFiles": 14,
+      "totalSizeStr": "~500 KB",
+      "tree": {
+        "name": "markdown-viewer-skills",
+        "type": "collection",
+        "children": []
+      }
+    },
+    "lastUpdated": "",
+    "type": "collection",
+    "sourceUrl": "https://github.com/markdown-viewer/skills",
+    "children": [
+      {
+        "id": "vega",
+        "name": "Vega",
+        "description": "Data-driven charts with Vega-Lite and Vega. Bar, line, scatter, heatmap, area charts, radar, word cloud.",
+        "icon": "📊",
+        "tag": "Standalone"
+      },
+      {
+        "id": "infographic",
+        "name": "Infographic",
+        "description": "70+ pre-designed templates with YAML syntax. KPI cards, timelines, roadmaps, SWOT, funnels, org trees.",
+        "icon": "📈",
+        "tag": "Standalone"
+      },
+      {
+        "id": "canvas",
+        "name": "Canvas",
+        "description": "Spatial node-based diagrams with JSON Canvas format. Mind maps, knowledge graphs, concept maps.",
+        "icon": "🎨",
+        "tag": "Standalone"
+      },
+      {
+        "id": "architecture",
+        "name": "Architecture",
+        "description": "13 layouts × 12 styles. Color-coded layer diagrams with grid-based component layout.",
+        "icon": "🏛️",
+        "tag": "HTML/CSS"
+      },
+      {
+        "id": "infocard",
+        "name": "InfoCard",
+        "description": "13 layouts × 14 styles. Editorial-style information cards with magazine-quality typography.",
+        "icon": "🃏",
+        "tag": "HTML/CSS"
+      },
+      {
+        "id": "uml",
+        "name": "UML",
+        "description": "14 UML diagram types with 9500+ mxgraph stencil icons. Software modeling, design patterns.",
+        "icon": "📐",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "cloud",
+        "name": "Cloud",
+        "description": "AWS, Azure, GCP, Alibaba, IBM, OpenStack, Kubernetes icons. Cloud infrastructure.",
+        "icon": "☁️",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "network",
+        "name": "Network",
+        "description": "Network diagrams with Cisco/Citrix/industry device icons. LAN/WAN, data center.",
+        "icon": "🌐",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "security",
+        "name": "Security",
+        "description": "IAM, encryption, firewall, threat detection, compliance icons. Threat models.",
+        "icon": "🔒",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "archimate",
+        "name": "ArchiMate",
+        "description": "Enterprise architecture with ArchiMate layered modeling notation.",
+        "icon": "🏢",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "bpmn",
+        "name": "BPMN",
+        "description": "Business process modeling, EIP, and Lean Mapping stencils. Workflow automation.",
+        "icon": "📋",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "data-analytics",
+        "name": "Data Analytics",
+        "description": "Data pipeline and analytics workflow diagrams. ETL/ELT, warehouses, ML.",
+        "icon": "📊",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "iot",
+        "name": "IoT",
+        "description": "IoT device, sensor, and edge computing diagrams. Smart home/factory, digital twins.",
+        "icon": "📡",
+        "tag": "PlantUML"
+      },
+      {
+        "id": "mindmap",
+        "name": "MindMap",
+        "description": "Native PlantUML mind map syntax with directional branches and rich text.",
+        "icon": "🧠",
+        "tag": "PlantUML"
+      }
+    ],
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    },
+    "skillsShUrl": "https://skills.sh/markdown-viewer/skills",
+    "updateCommand": "npx skills add markdown-viewer/skills"
+  },
+  {
+    "id": "editorial-card-screenshot",
+    "name": "Editorial Card Screenshot",
+    "description": "\"Generate high-density editorial HTML info cards in a modern magazine and Swiss-international style, then capture them as ratio-specific screenshots. Use when the user provides text or core information and wants: (1) a complete responsive HTML info card, (2) the design to follow the stored editorial",
+    "category": {
+      "key": "design",
+      "label": "Design",
+      "color": "#ec4899",
+      "gradient": "linear-gradient(135deg,#ec4899,#f97316)",
+      "icon": "🎨"
+    },
+    "stats": {
+      "lineCount": 195,
+      "charCount": 8324,
+      "sectionCount": 19,
+      "codeBlockCount": 3,
+      "complexityScore": 3,
+      "complexityLabel": "Basic",
+      "readTime": "4 min"
+    },
+    "triggerPhrases": ["\"Generate high-density editorial HTML info cards"],
+    "useCases": [
+      {
+        "icon": "📌",
+        "title": "Use \"big-character\" composition when content is sparse and a",
+        "description": "Use \"big-character\" composition when content is sparse and a single phrase, number, or hook can carry the page."
+      },
+      {
+        "icon": "📌",
+        "title": "Use a two-column or three-column editorial grid when content",
+        "description": "Use a two-column or three-column editorial grid when content is dense and needs stronger hierarchy."
+      },
+      {
+        "icon": "📌",
+        "title": "Use oversized numbers, heavy rules, tinted blocks, and pull-",
+        "description": "Use oversized numbers, heavy rules, tinted blocks, and pull-quote scale to avoid dead space."
+      },
+      {
+        "icon": "📌",
+        "title": "Do not force dense content into evenly weighted tiles. Build",
+        "description": "Do not force dense content into evenly weighted tiles. Build primary blocks, secondary blocks, and lighter supporting blocks."
+      },
+      {
+        "icon": "📌",
+        "title": "Match structure to content type:",
+        "description": "Match structure to content type:"
+      },
+      {
+        "icon": "📌",
+        "title": "Ratio changes should primarily change reading path, hierarch",
+        "description": "Ratio changes should primarily change reading path, hierarchy, and module arrangement."
+      }
+    ],
+    "keyFeatures": [
+      "Overview",
+      "Workflow",
+      "1. Analyze Content Density",
+      "2. Apply the Stored Editorial Rules",
+      "3. Choose the Right Layout Skeleton",
+      "4. Build HTML for Rendering",
+      "5. Capture the Screenshot",
+      "6. Ratio Policy",
+      "Output Contract",
+      "Resources",
+      "`references/ratios.md`",
+      "`references/editorial-card-prompt.md`",
+      "`scripts/capture_card.sh`",
+      "`assets/card-template.html`",
+      "Failure Checks"
+    ],
+    "installCommand": "npx skills add https://github.com/shaom/infocard-skills --skill editorial-card-screenshot",
+    "content": "# Editorial Card Screenshot\n\nTurn dense source text into a screenshot-ready editorial information card with strong hierarchy, compact spacing, and a magazine-like reading path.\n\n## Best For\n\n- High-density summary cards for articles, rankings, analysis, or social sharing.\n- Fixed-ratio compositions such as 3:4, 4:3, 1:1, 16:9, and 9:16.\n- Cases where text clarity matters more than decorative illustration.\n\n## Workflow\n\n1. Judge whether the source content is sparse, medium-density, or dense.\n2. Choose a layout skeleton that matches the target ratio.\n3. Group content into primary insight, supporting modules, and footer/meta details.\n4. Write screenshot-ready HTML with fixed canvas dimensions.\n5. Check for overlaps, dead space, unreadable type, and monotonous equal-weight blocks.\n\n## Output Shape\n\n- One density judgment sentence.\n- Complete HTML with embedded CSS.\n- Optional screenshot command when an image export is requested.\n\n## Boundaries\n\nThis skill is optimized for static editorial cards. It should not be used for long scrolling pages, interactive dashboards, or generic landing pages.",
+    "fileInfo": {
+      "totalFiles": 6,
+      "totalSizeStr": "21.6 KB",
+      "tree": {
+        "name": "editorial-card-screenshot",
+        "type": "dir",
+        "children": [
+          {
+            "name": "agents",
+            "type": "dir",
+            "children": [
+              {
+                "name": "openai.yaml",
+                "type": "file",
+                "size": 244,
+                "ext": ".yaml"
+              }
+            ]
+          },
+          {
+            "name": "assets",
+            "type": "dir",
+            "children": [
+              {
+                "name": "card-template.html",
+                "type": "file",
+                "size": 4223,
+                "ext": ".html"
+              }
+            ]
+          },
+          {
+            "name": "output",
+            "type": "dir",
+            "children": []
+          },
+          {
+            "name": "references",
+            "type": "dir",
+            "children": [
+              {
+                "name": "editorial-card-prompt.md",
+                "type": "file",
+                "size": 5593,
+                "ext": ".md"
+              },
+              {
+                "name": "ratios.md",
+                "type": "file",
+                "size": 1527,
+                "ext": ".md"
+              }
+            ]
+          },
+          {
+            "name": "scripts",
+            "type": "dir",
+            "children": [
+              {
+                "name": "capture_card.sh",
+                "type": "file",
+                "size": 1558,
+                "ext": ".sh"
+              }
+            ]
+          },
+          {
+            "name": "SKILL.md",
+            "type": "file",
+            "size": 8958,
+            "ext": ".md"
+          }
+        ]
+      }
+    },
+    "lastUpdated": "",
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    },
+    "githubUrl": "https://github.com/shaom/infocard-skills",
+    "skillsShUrl": "https://skills.sh/shaom/infocard-skills/editorial-card-screenshot",
+    "updateCommand": "npx skills add https://github.com/shaom/infocard-skills --skill editorial-card-screenshot"
+  },
+  {
+    "id": "blueprinter",
+    "name": "Blueprinter",
+    "description": "Generate technical diagrams using HTML/CSS in Flat Engineering Blueprint style. Use when the user wants to create architecture diagrams, system diagrams, flowcharts, or technical specification sheets that look like engineering blueprints. Triggers on requests for flat diagrams, blueprint-style visua",
+    "category": {
+      "key": "diagram",
+      "label": "Diagram",
+      "color": "#6366f1",
+      "gradient": "linear-gradient(135deg,#6366f1,#8b5cf6)",
+      "icon": "📊"
+    },
+    "stats": {
+      "lineCount": 232,
+      "charCount": 6447,
+      "sectionCount": 12,
+      "codeBlockCount": 3,
+      "complexityScore": 2,
+      "complexityLabel": "Simple",
+      "readTime": "5 min"
+    },
+    "triggerPhrases": ["Generate technical diagrams using HTML/CSS in"],
+    "useCases": [
+      {
+        "icon": "📌",
+        "title": "NO drop shadows",
+        "description": "NO drop shadows"
+      },
+      {
+        "icon": "📌",
+        "title": "NO gradients",
+        "description": "NO gradients"
+      },
+      {
+        "icon": "📌",
+        "title": "NO glassmorphism/blur",
+        "description": "NO glassmorphism/blur"
+      },
+      {
+        "icon": "📌",
+        "title": "NO rounded buttons",
+        "description": "NO rounded buttons"
+      },
+      {
+        "icon": "📌",
+        "title": "Use 1px or 2px solid borders for structure",
+        "description": "Use 1px or 2px solid borders for structure"
+      },
+      {
+        "icon": "📌",
+        "title": "Use white backgrounds for content blocks",
+        "description": "Use white backgrounds for content blocks"
+      }
+    ],
+    "keyFeatures": [
+      "Core Philosophy",
+      "Visual Rules",
+      "1. No Decorations",
+      "2. Flat & Outlined",
+      "3. Monochrome Base",
+      "4. Typography",
+      "5. Layout Structure",
+      "6. Elements",
+      "CSS Variable Reference",
+      "HTML Structure Template",
+      "Usage Guidelines",
+      "Example: Simple System Diagram"
+    ],
+    "installCommand": "npx skills add https://github.com/yofine/skills --skill blueprinter",
+    "content": "# Blueprinter\n\nGenerate technical diagrams with a flat engineering blueprint style: precise borders, aligned grids, restrained typography, and high data density.\n\n## Best For\n\n- Architecture diagrams, system flows, infrastructure maps, and technical specification sheets.\n- Cases where the diagram should feel objective and inspectable rather than decorative.\n- HTML/CSS diagrams that need to be easy to edit after generation.\n\n## Visual Rules\n\n- Use white or very light canvases with thin slate borders.\n- Keep components rectangular, aligned, and labelled with clear hierarchy.\n- Use monospace for paths, IDs, protocol names, and implementation details.\n- Prefer straight or orthogonal connector lines.\n- Avoid shadows, blur, gradients, decorative backgrounds, and marketing-style composition.\n\n## Workflow\n\n1. Identify the system components and their relationships.\n2. Group components into layers or zones.\n3. Choose a grid before drawing individual nodes.\n4. Add labels, badges, and connectors only where they clarify the system.\n5. Verify alignment, spacing, and text fit at the target viewport.\n\n## Output Shape\n\nA standalone HTML/CSS diagram or diagram section with reusable CSS variables, component boxes, connector lines, and compact technical labels.",
+    "fileInfo": {
+      "totalFiles": 1,
+      "totalSizeStr": "6.7 KB",
+      "tree": {
+        "name": "blueprinter",
+        "type": "dir",
+        "children": [
+          {
+            "name": "SKILL.md",
+            "type": "file",
+            "size": 6822,
+            "ext": ".md"
+          }
+        ]
+      }
+    },
+    "lastUpdated": "",
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    },
+    "skillsShUrl": "https://skills.sh/yofine/skills/blueprinter",
+    "githubUrl": "https://github.com/yofine/skills",
+    "updateCommand": "npx skills add https://github.com/yofine/skills --skill blueprinter"
+  },
+  {
+    "id": "design-system",
+    "name": "Design System Browser",
+    "description": "Browse and use 11 design systems: Bauhaus, Beam, Hand-draw, Kinetic, Luxury, Motion, Neumorphism, Newsprint, Playful, Uber, Win98. Get colors/palettes, generate CSS variables & Tailwind configs, create globals.css theme files. Answers \"what colors/style/theme\" queries.",
+    "category": {
+      "key": "design",
+      "label": "Design",
+      "color": "#ec4899",
+      "gradient": "linear-gradient(135deg,#ec4899,#f97316)",
+      "icon": "🎨"
+    },
+    "stats": {
+      "lineCount": 60,
+      "charCount": 1957,
+      "sectionCount": 5,
+      "codeBlockCount": 3,
+      "complexityScore": 1,
+      "complexityLabel": "Trivial",
+      "readTime": "1 min"
+    },
+    "triggerPhrases": ["what colors/style/theme"],
+    "useCases": [
+      {
+        "icon": "✅",
+        "title": "List, browse, or view available design systems",
+        "description": "List, browse, or view available design systems"
+      },
+      {
+        "icon": "✅",
+        "title": "Get colors, color palettes, themes, design tokens, or style ",
+        "description": "Get colors, color palettes, themes, design tokens, or style configurations"
+      },
+      {
+        "icon": "✅",
+        "title": "Generate CSS variables or Tailwind config from a design syst",
+        "description": "Generate CSS variables or Tailwind config from a design system"
+      },
+      {
+        "icon": "✅",
+        "title": "Create globals.css or theme file using a specific design sys",
+        "description": "Create globals.css or theme file using a specific design system"
+      },
+      {
+        "icon": "✅",
+        "title": "Compare design systems or view their screenshots",
+        "description": "Compare design systems or view their screenshots"
+      },
+      {
+        "icon": "✅",
+        "title": "Query \"what colors\", \"what theme\", \"what styling\" for a desi",
+        "description": "Query \"what colors\", \"what theme\", \"what styling\" for a design system"
+      },
+      {
+        "icon": "✅",
+        "title": "Do NOT use for:** Creating new design systems, modifying exi",
+        "description": "Do NOT use for:** Creating new design systems, modifying existing system data, generating UI components (only provides tokens/config), or general CSS questions unrelated to these design systems."
+      }
+    ],
+    "keyFeatures": ["Design Systems"],
+    "installCommand": null,
+    "content": "# Design System Browser\n\nBrowse 11 curated design themes with complete color palettes, typography direction, and visual effects.\n\n## Design Systems\n\n| Name | Style | Accent |\n| --- | --- | --- |\n| Bauhaus | Minimalist, bold | Red |\n| Beam | Clean, modern | Orange |\n| Hand-draw | Handwritten, playful | Red |\n| Kinetic | Edgy, bold | Yellow |\n| Luxury | Elegant, premium | Gold |\n| Motion | Smooth, fluid | Blue |\n| Neumorphism | Soft, dimensional | Orange |\n| Newsprint | Editorial, classic | Red |\n| Playful | Colorful, fun | Purple |\n| Uber | Professional | Blue |\n| Win98 | Retro interface | Blue |\n\n## Best For\n\n- Browsing available design directions.\n- Extracting color palettes, tokens, and theme choices.\n- Generating CSS variables or Tailwind theme configuration from a known system.\n\n## Boundaries\n\nUse this as a theme reference library. It does not create a new design system from scratch or decide product strategy on its own.",
+    "fileInfo": {
+      "totalFiles": 13,
+      "totalSizeStr": "9.6 MB",
+      "tree": {
+        "name": "design-system",
+        "type": "dir",
+        "children": [
+          {
+            "name": "screenshots",
+            "type": "dir",
+            "children": [
+              {
+                "name": "Bauhaus.png",
+                "type": "file",
+                "size": 449152,
+                "ext": ".png"
+              },
+              {
+                "name": "Beam.png",
+                "type": "file",
+                "size": 188967,
+                "ext": ".png"
+              },
+              {
+                "name": "Hand-draw.png",
+                "type": "file",
+                "size": 813719,
+                "ext": ".png"
+              },
+              {
+                "name": "Kinetic.png",
+                "type": "file",
+                "size": 590734,
+                "ext": ".png"
+              },
+              {
+                "name": "Luxury.png",
+                "type": "file",
+                "size": 764108,
+                "ext": ".png"
+              },
+              {
+                "name": "Motion.png",
+                "type": "file",
+                "size": 3360572,
+                "ext": ".png"
+              },
+              {
+                "name": "Neumorphism.png",
+                "type": "file",
+                "size": 1013070,
+                "ext": ".png"
+              },
+              {
+                "name": "Newsprint.png",
+                "type": "file",
+                "size": 247972,
+                "ext": ".png"
+              },
+              {
+                "name": "Playful.png",
+                "type": "file",
+                "size": 418938,
+                "ext": ".png"
+              },
+              {
+                "name": "Uber-Design-System.png",
+                "type": "file",
+                "size": 1998501,
+                "ext": ".png"
+              },
+              {
+                "name": "Win98.png",
+                "type": "file",
+                "size": 229967,
+                "ext": ".png"
+              }
+            ]
+          },
+          {
+            "name": "SKILL.md",
+            "type": "file",
+            "size": 2270,
+            "ext": ".md"
+          },
+          {
+            "name": "system.json",
+            "type": "file",
+            "size": 38342,
+            "ext": ".json"
+          }
+        ]
+      }
+    },
+    "lastUpdated": "",
+    "assets": {
+      "screenshots": [],
+      "samples": [],
+      "systemJson": {
+        "teamDesignSystems": [],
+        "defaultDesignSystems": [
+          {
+            "id": "69e1542e-e5e4-4289-9faa-a65fa3f6cea1",
+            "name": "Bauhaus",
+            "description": "New project",
+            "screenshot": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/screenshots/projects/69e1542e-e5e4-4289-9faa-a65fa3f6cea1/1766719805503.png",
+            "themeConfig": {
+              "dark": {
+                "card": "#09090b",
+                "ring": "#d4d4d8",
+                "input": "#27272a",
+                "muted": "#27272a",
+                "accent": "#27272a",
+                "border": "#27272a",
+                "chart1": "#2662d9",
+                "chart2": "#2eb88a",
+                "chart3": "#e88c30",
+                "chart4": "#af57db",
+                "chart5": "#e23670",
+                "popover": "#09090b",
+                "primary": "#fafafa",
+                "sidebar": "#18181b",
+                "secondary": "#27272a",
+                "background": "#09090b",
+                "foreground": "#fafafa",
+                "destructive": "#7f1d1d",
+                "sidebarRing": "#3f3f46",
+                "sidebarAccent": "#27272a",
+                "sidebarBorder": "#27272a",
+                "cardForeground": "#fafafa",
+                "sidebarPrimary": "#2563eb",
+                "mutedForeground": "#a1a1aa",
+                "accentForeground": "#fafafa",
+                "popoverForeground": "#fafafa",
+                "primaryForeground": "#18181b",
+                "sidebarForeground": "#a1a1aa",
+                "secondaryForeground": "#fafafa",
+                "destructiveForeground": "#fafafa",
+                "sidebarAccentForeground": "#fafafa",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "light": {
+                "card": "#FFFFFF",
+                "ring": "#121212",
+                "input": "#121212",
+                "muted": "#E0E0E0",
+                "accent": "#F0C020",
+                "border": "#121212",
+                "chart1": "#e76e50",
+                "chart2": "#2a9d90",
+                "chart3": "#274754",
+                "chart4": "#e8c468",
+                "chart5": "#f4a462",
+                "popover": "#ffffff",
+                "primary": "#D02020",
+                "sidebar": "#ffffff",
+                "secondary": "#1040C0",
+                "background": "#F0F0F0",
+                "foreground": "#121212",
+                "destructive": "#D02020",
+                "sidebarRing": "#a1a1aa",
+                "sidebarAccent": "#f4f4f5",
+                "sidebarBorder": "#e4e4e7",
+                "cardForeground": "#121212",
+                "sidebarPrimary": "#18181b",
+                "mutedForeground": "#121212",
+                "accentForeground": "#121212",
+                "popoverForeground": "#09090b",
+                "primaryForeground": "#FFFFFF",
+                "sidebarForeground": "#3f3f46",
+                "secondaryForeground": "#FFFFFF",
+                "destructiveForeground": "#FFFFFF",
+                "sidebarAccentForeground": "#18181b",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "effects": {
+                "boxShadow": "4px 4px 0px 0px #121212",
+                "borderRadius": "0px"
+              },
+              "typography": {
+                "fontSize": "16",
+                "fontFamily": "\"Outfit\", sans-serif",
+                "lineHeight": "1.1",
+                "letterSpacing": "0",
+                "fontFamilyMono": "var(--font-geist-mono), monospace",
+                "fontWeightBold": "900",
+                "fontFamilySerif": "Georgia, Times New Roman, serif",
+                "fontWeightRegular": "500",
+                "headingLetterSpacing": "-0.02em"
+              }
+            },
+            "isDefault": true,
+            "teamId": "7d97ebb3-363d-49d3-a029-fa9a23815e3f",
+            "shareToken": "d8c658e2950dfe54683ca8034ed3a79a26ae108a8495db3e95cb3d930d7625fc"
+          },
+          {
+            "id": "e5fdd65d-8c90-4834-bfdd-a5f4b23b1ca8",
+            "name": "Beam",
+            "description": "Project created at 26/12/2025, 11:58:01",
+            "screenshot": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/screenshots/projects/e5fdd65d-8c90-4834-bfdd-a5f4b23b1ca8/1766720005413.png",
+            "themeConfig": {
+              "dark": {
+                "card": "#171717",
+                "ring": "#ffaa40",
+                "input": "#262626",
+                "muted": "#262626",
+                "accent": "#ffaa40",
+                "border": "#262626",
+                "chart1": "#2662d9",
+                "chart2": "#2eb88a",
+                "chart3": "#e88c30",
+                "chart4": "#af57db",
+                "chart5": "#e23670",
+                "popover": "#09090b",
+                "primary": "#fafafa",
+                "sidebar": "#18181b",
+                "secondary": "#262626",
+                "background": "#0a0a0a",
+                "foreground": "#fafafa",
+                "destructive": "#f43f5e",
+                "sidebarRing": "#3f3f46",
+                "sidebarAccent": "#27272a",
+                "sidebarBorder": "#27272a",
+                "cardForeground": "#fafafa",
+                "sidebarPrimary": "#2563eb",
+                "mutedForeground": "#a3a3a3",
+                "accentForeground": "#171717",
+                "popoverForeground": "#fafafa",
+                "primaryForeground": "#171717",
+                "sidebarForeground": "#a1a1aa",
+                "secondaryForeground": "#fafafa",
+                "destructiveForeground": "#fafafa",
+                "sidebarAccentForeground": "#fafafa",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "light": {
+                "card": "#ffffff",
+                "ring": "#0a0a0a",
+                "input": "#e5e5e5",
+                "muted": "#f5f5f5",
+                "accent": "#ffaa40",
+                "border": "#e5e5e5",
+                "chart1": "#e76e50",
+                "chart2": "#2a9d90",
+                "chart3": "#274754",
+                "chart4": "#e8c468",
+                "chart5": "#f4a462",
+                "popover": "#ffffff",
+                "primary": "#171717",
+                "sidebar": "#ffffff",
+                "secondary": "#f5f5f5",
+                "background": "#ffffff",
+                "foreground": "#0a0a0a",
+                "destructive": "#ef4444",
+                "sidebarRing": "#a1a1aa",
+                "sidebarAccent": "#f4f4f5",
+                "sidebarBorder": "#e4e4e7",
+                "cardForeground": "#0a0a0a",
+                "sidebarPrimary": "#18181b",
+                "mutedForeground": "#737373",
+                "accentForeground": "#171717",
+                "popoverForeground": "#09090b",
+                "primaryForeground": "#ffffff",
+                "sidebarForeground": "#3f3f46",
+                "secondaryForeground": "#171717",
+                "destructiveForeground": "#ffffff",
+                "sidebarAccentForeground": "#18181b",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "effects": {
+                "boxShadow": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+                "borderRadius": "0.625rem"
+              },
+              "typography": {
+                "fontSize": "16",
+                "fontFamily": "Inter, sans-serif",
+                "lineHeight": "1.5",
+                "letterSpacing": "0",
+                "fontFamilyMono": "var(--font-geist-mono), monospace",
+                "fontWeightBold": "700",
+                "fontFamilySerif": "Georgia, Times New Roman, serif",
+                "fontWeightRegular": "400",
+                "headingLetterSpacing": "-0.02em"
+              }
+            },
+            "isDefault": true,
+            "teamId": "7d97ebb3-363d-49d3-a029-fa9a23815e3f",
+            "shareToken": "d0e6445f9f05a802ec26705a105471be5ae1038da215766e51490248e4bfbd6c"
+          },
+          {
+            "id": "413631b7-1e07-4e57-8582-8c0bce9da88b",
+            "name": "Hand-draw",
+            "description": "Project created at 25/12/2025, 22:39:07",
+            "screenshot": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/screenshots/projects/413631b7-1e07-4e57-8582-8c0bce9da88b/1766719863564.png",
+            "themeConfig": {
+              "dark": {
+                "card": "#2d2d2d",
+                "ring": "#4d94ff",
+                "input": "#fdfbf7",
+                "muted": "#2d2d2d",
+                "accent": "#ff6b6b",
+                "border": "#fdfbf7",
+                "chart1": "#2662d9",
+                "chart2": "#2eb88a",
+                "chart3": "#e88c30",
+                "chart4": "#af57db",
+                "chart5": "#e23670",
+                "popover": "#09090b",
+                "primary": "#ff6b6b",
+                "sidebar": "#18181b",
+                "secondary": "#4d94ff",
+                "background": "#1a1a1a",
+                "foreground": "#fdfbf7",
+                "destructive": "#ff6b6b",
+                "sidebarRing": "#3f3f46",
+                "sidebarAccent": "#27272a",
+                "sidebarBorder": "#27272a",
+                "cardForeground": "#fdfbf7",
+                "sidebarPrimary": "#2563eb",
+                "mutedForeground": "#a0a0a0",
+                "accentForeground": "#1a1a1a",
+                "popoverForeground": "#fafafa",
+                "primaryForeground": "#1a1a1a",
+                "sidebarForeground": "#a1a1aa",
+                "secondaryForeground": "#ffffff",
+                "destructiveForeground": "#ffffff",
+                "sidebarAccentForeground": "#fafafa",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "light": {
+                "card": "#ffffff",
+                "ring": "#2d5da1",
+                "input": "#2d2d2d",
+                "muted": "#e5e0d8",
+                "accent": "#ff4d4d",
+                "border": "#2d2d2d",
+                "chart1": "#e76e50",
+                "chart2": "#2a9d90",
+                "chart3": "#274754",
+                "chart4": "#e8c468",
+                "chart5": "#f4a462",
+                "popover": "#ffffff",
+                "primary": "#ff4d4d",
+                "sidebar": "#ffffff",
+                "secondary": "#2d5da1",
+                "background": "#fdfbf7",
+                "foreground": "#2d2d2d",
+                "destructive": "#ff4d4d",
+                "sidebarRing": "#a1a1aa",
+                "sidebarAccent": "#f4f4f5",
+                "sidebarBorder": "#e4e4e7",
+                "cardForeground": "#2d2d2d",
+                "sidebarPrimary": "#18181b",
+                "mutedForeground": "#2d2d2d",
+                "accentForeground": "#ffffff",
+                "popoverForeground": "#09090b",
+                "primaryForeground": "#ffffff",
+                "sidebarForeground": "#3f3f46",
+                "secondaryForeground": "#ffffff",
+                "destructiveForeground": "#ffffff",
+                "sidebarAccentForeground": "#18181b",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "effects": {
+                "boxShadow": "4px 4px 0px 0px #2d2d2d",
+                "borderRadius": "255px 15px 225px 15px / 15px 225px 15px 255px"
+              },
+              "typography": {
+                "fontSize": "18",
+                "fontFamily": "\"Patrick Hand\", cursive",
+                "lineHeight": "1.6",
+                "letterSpacing": "0",
+                "fontFamilyMono": "var(--font-geist-mono), monospace",
+                "fontWeightBold": "700",
+                "fontFamilySerif": "\"Kalam\", cursive",
+                "fontWeightRegular": "400",
+                "headingLetterSpacing": "-0.02em"
+              }
+            },
+            "isDefault": true,
+            "teamId": "7d97ebb3-363d-49d3-a029-fa9a23815e3f",
+            "shareToken": "fa15ca2662d06052bdb86d321f8eb3593fe774bf3b4916b8276c7ef68719b827"
+          },
+          {
+            "id": "e9b91892-5934-400f-9356-e5fe80054172",
+            "name": "Kinetic",
+            "description": "Project created at 26/12/2025, 09:18:27",
+            "screenshot": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/screenshots/projects/e9b91892-5934-400f-9356-e5fe80054172/1766719833099.png",
+            "themeConfig": {
+              "dark": {
+                "card": "#09090B",
+                "ring": "#DFE104",
+                "input": "#3F3F46",
+                "muted": "#27272A",
+                "accent": "#DFE104",
+                "border": "#3F3F46",
+                "chart1": "#2662d9",
+                "chart2": "#2eb88a",
+                "chart3": "#e88c30",
+                "chart4": "#af57db",
+                "chart5": "#e23670",
+                "popover": "#09090b",
+                "primary": "#DFE104",
+                "sidebar": "#18181b",
+                "secondary": "#27272A",
+                "background": "#09090B",
+                "foreground": "#FAFAFA",
+                "destructive": "#EF4444",
+                "sidebarRing": "#3f3f46",
+                "sidebarAccent": "#27272a",
+                "sidebarBorder": "#27272a",
+                "cardForeground": "#FAFAFA",
+                "sidebarPrimary": "#2563eb",
+                "mutedForeground": "#A1A1AA",
+                "accentForeground": "#000000",
+                "popoverForeground": "#fafafa",
+                "primaryForeground": "#000000",
+                "sidebarForeground": "#a1a1aa",
+                "secondaryForeground": "#FAFAFA",
+                "destructiveForeground": "#FAFAFA",
+                "sidebarAccentForeground": "#fafafa",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "light": {
+                "card": "#09090B",
+                "ring": "#DFE104",
+                "input": "#3F3F46",
+                "muted": "#27272A",
+                "accent": "#DFE104",
+                "border": "#3F3F46",
+                "chart1": "#e76e50",
+                "chart2": "#2a9d90",
+                "chart3": "#274754",
+                "chart4": "#e8c468",
+                "chart5": "#f4a462",
+                "popover": "#ffffff",
+                "primary": "#DFE104",
+                "sidebar": "#ffffff",
+                "secondary": "#27272A",
+                "background": "#09090B",
+                "foreground": "#FAFAFA",
+                "destructive": "#EF4444",
+                "sidebarRing": "#a1a1aa",
+                "sidebarAccent": "#f4f4f5",
+                "sidebarBorder": "#e4e4e7",
+                "cardForeground": "#FAFAFA",
+                "sidebarPrimary": "#18181b",
+                "mutedForeground": "#A1A1AA",
+                "accentForeground": "#000000",
+                "popoverForeground": "#09090b",
+                "primaryForeground": "#000000",
+                "sidebarForeground": "#3f3f46",
+                "secondaryForeground": "#FAFAFA",
+                "destructiveForeground": "#FAFAFA",
+                "sidebarAccentForeground": "#18181b",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "effects": {
+                "boxShadow": "none",
+                "borderRadius": "0px"
+              },
+              "typography": {
+                "fontSize": "16",
+                "fontFamily": "\"Space Grotesk\", \"Inter\", sans-serif",
+                "lineHeight": "1.2",
+                "letterSpacing": "-0.02em",
+                "fontFamilyMono": "var(--font-geist-mono), monospace",
+                "fontWeightBold": "700",
+                "fontFamilySerif": "Georgia, Times New Roman, serif",
+                "fontWeightRegular": "400",
+                "headingLetterSpacing": "-0.02em"
+              }
+            },
+            "isDefault": true,
+            "teamId": "7d97ebb3-363d-49d3-a029-fa9a23815e3f",
+            "shareToken": "db7b08e1cb01af2de43c66bd431bb27e35c62eea54ea9062486d4d791d121c7d"
+          },
+          {
+            "id": "150ccb6a-09f1-428b-a43c-46e34dd0e51b",
+            "name": "Luxury",
+            "description": "Project created at 26/12/2025, 09:40:31",
+            "screenshot": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/screenshots/projects/150ccb6a-09f1-428b-a43c-46e34dd0e51b/1766720220051.png",
+            "themeConfig": {
+              "dark": {
+                "card": "#09090b",
+                "ring": "#d4d4d8",
+                "input": "#27272a",
+                "muted": "#27272a",
+                "accent": "#27272a",
+                "border": "#27272a",
+                "chart1": "#2662d9",
+                "chart2": "#2eb88a",
+                "chart3": "#e88c30",
+                "chart4": "#af57db",
+                "chart5": "#e23670",
+                "popover": "#09090b",
+                "primary": "#fafafa",
+                "sidebar": "#18181b",
+                "secondary": "#27272a",
+                "background": "#09090b",
+                "foreground": "#fafafa",
+                "destructive": "#7f1d1d",
+                "sidebarRing": "#3f3f46",
+                "sidebarAccent": "#27272a",
+                "sidebarBorder": "#27272a",
+                "cardForeground": "#fafafa",
+                "sidebarPrimary": "#2563eb",
+                "mutedForeground": "#a1a1aa",
+                "accentForeground": "#fafafa",
+                "popoverForeground": "#fafafa",
+                "primaryForeground": "#18181b",
+                "sidebarForeground": "#a1a1aa",
+                "secondaryForeground": "#fafafa",
+                "destructiveForeground": "#fafafa",
+                "sidebarAccentForeground": "#fafafa",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "light": {
+                "card": "#F9F8F6",
+                "ring": "#D4AF37",
+                "input": "#1A1A1A",
+                "muted": "#EBE5DE",
+                "accent": "#D4AF37",
+                "border": "#1A1A1A",
+                "chart1": "#e76e50",
+                "chart2": "#2a9d90",
+                "chart3": "#274754",
+                "chart4": "#e8c468",
+                "chart5": "#f4a462",
+                "popover": "#ffffff",
+                "primary": "#1A1A1A",
+                "sidebar": "#ffffff",
+                "secondary": "#EBE5DE",
+                "background": "#F9F8F6",
+                "foreground": "#1A1A1A",
+                "destructive": "#ef4444",
+                "sidebarRing": "#a1a1aa",
+                "sidebarAccent": "#f4f4f5",
+                "sidebarBorder": "#e4e4e7",
+                "cardForeground": "#1A1A1A",
+                "sidebarPrimary": "#18181b",
+                "mutedForeground": "#6C6863",
+                "accentForeground": "#FFFFFF",
+                "popoverForeground": "#09090b",
+                "primaryForeground": "#FFFFFF",
+                "sidebarForeground": "#3f3f46",
+                "secondaryForeground": "#1A1A1A",
+                "destructiveForeground": "#FFFFFF",
+                "sidebarAccentForeground": "#18181b",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "effects": {
+                "boxShadow": "0 4px 16px rgba(0,0,0,0.08)",
+                "borderRadius": "0px"
+              },
+              "typography": {
+                "fontSize": "16px",
+                "fontFamily": "\"Inter\", sans-serif",
+                "lineHeight": "1.625",
+                "letterSpacing": "0em",
+                "fontFamilyMono": "\"Fira Code\", monospace",
+                "fontWeightBold": "700",
+                "fontFamilySerif": "\"Playfair Display\", serif",
+                "fontWeightRegular": "400",
+                "headingLetterSpacing": "-0.02em"
+              }
+            },
+            "isDefault": true,
+            "teamId": "7d97ebb3-363d-49d3-a029-fa9a23815e3f",
+            "shareToken": "5b9b1ab4f6c9f39aaebcfeeab9ed84d69b1bd92ee4fda716808bd6a49eb741b2"
+          },
+          {
+            "id": "f4de1e08-cc28-4295-a1f1-7da52f126b06",
+            "name": "Motion",
+            "description": "Project created at 26/12/2025, 11:56:23",
+            "screenshot": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/screenshots/projects/f4de1e08-cc28-4295-a1f1-7da52f126b06/1766720248529.png",
+            "themeConfig": {
+              "dark": {
+                "card": "#18181b",
+                "ring": "#3b82f6",
+                "input": "#27272a",
+                "muted": "#27272a",
+                "accent": "#3b82f6",
+                "border": "#27272a",
+                "chart1": "#2662d9",
+                "chart2": "#2eb88a",
+                "chart3": "#e88c30",
+                "chart4": "#af57db",
+                "chart5": "#e23670",
+                "popover": "#09090b",
+                "primary": "#fafafa",
+                "sidebar": "#18181b",
+                "secondary": "#27272a",
+                "background": "#09090b",
+                "foreground": "#fafafa",
+                "destructive": "#ef4444",
+                "sidebarRing": "#3f3f46",
+                "sidebarAccent": "#27272a",
+                "sidebarBorder": "#27272a",
+                "cardForeground": "#fafafa",
+                "sidebarPrimary": "#2563eb",
+                "mutedForeground": "#a1a1aa",
+                "accentForeground": "#ffffff",
+                "popoverForeground": "#fafafa",
+                "primaryForeground": "#18181b",
+                "sidebarForeground": "#a1a1aa",
+                "secondaryForeground": "#fafafa",
+                "destructiveForeground": "#fafafa",
+                "sidebarAccentForeground": "#fafafa",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "light": {
+                "card": "#ffffff",
+                "ring": "#3b82f6",
+                "input": "#e4e4e7",
+                "muted": "#f4f4f5",
+                "accent": "#3b82f6",
+                "border": "#e4e4e7",
+                "chart1": "#e76e50",
+                "chart2": "#2a9d90",
+                "chart3": "#274754",
+                "chart4": "#e8c468",
+                "chart5": "#f4a462",
+                "popover": "#ffffff",
+                "primary": "#18181b",
+                "sidebar": "#ffffff",
+                "secondary": "#f4f4f5",
+                "background": "#eff6ff",
+                "foreground": "#18181b",
+                "destructive": "#ef4444",
+                "sidebarRing": "#a1a1aa",
+                "sidebarAccent": "#f4f4f5",
+                "sidebarBorder": "#e4e4e7",
+                "cardForeground": "#18181b",
+                "sidebarPrimary": "#18181b",
+                "mutedForeground": "#71717a",
+                "accentForeground": "#ffffff",
+                "popoverForeground": "#09090b",
+                "primaryForeground": "#ffffff",
+                "sidebarForeground": "#3f3f46",
+                "secondaryForeground": "#18181b",
+                "destructiveForeground": "#fafafa",
+                "sidebarAccentForeground": "#18181b",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "effects": {
+                "boxShadow": "0 8px 30px rgba(0,0,0,0.04)",
+                "borderRadius": "1.5rem"
+              },
+              "typography": {
+                "fontSize": "16",
+                "fontFamily": "Manrope, sans-serif",
+                "lineHeight": "1.5",
+                "letterSpacing": "0",
+                "fontFamilyMono": "var(--font-geist-mono), monospace",
+                "fontWeightBold": "800",
+                "fontFamilySerif": "Archivo, sans-serif",
+                "fontWeightRegular": "400",
+                "headingLetterSpacing": "-0.02em"
+              }
+            },
+            "isDefault": true,
+            "teamId": "7d97ebb3-363d-49d3-a029-fa9a23815e3f",
+            "shareToken": "ad7646c8b6467395599238dcd57eb3773677e6699e8d38aa2d14ce4a81b3ad97"
+          },
+          {
+            "id": "5f89e132-cd45-4bf7-829b-b2e39ecffa22",
+            "name": "Neumorphism",
+            "description": "Project created at 26/12/2025, 11:12:11",
+            "screenshot": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/screenshots/projects/5f89e132-cd45-4bf7-829b-b2e39ecffa22/1766720168131.png",
+            "themeConfig": {
+              "dark": {
+                "card": "#09090b",
+                "ring": "#d4d4d8",
+                "input": "#27272a",
+                "muted": "#27272a",
+                "accent": "#27272a",
+                "border": "#27272a",
+                "chart1": "#2662d9",
+                "chart2": "#2eb88a",
+                "chart3": "#e88c30",
+                "chart4": "#af57db",
+                "chart5": "#e23670",
+                "popover": "#09090b",
+                "primary": "#FF8800",
+                "sidebar": "#18181b",
+                "secondary": "#E2E6EA",
+                "background": "#EBECF0",
+                "foreground": "#4A5568",
+                "destructive": "#7f1d1d",
+                "sidebarRing": "#3f3f46",
+                "sidebarAccent": "#27272a",
+                "sidebarBorder": "#27272a",
+                "cardForeground": "#fafafa",
+                "sidebarPrimary": "#2563eb",
+                "mutedForeground": "#a1a1aa",
+                "accentForeground": "#fafafa",
+                "popoverForeground": "#fafafa",
+                "primaryForeground": "#FFFFFF",
+                "sidebarForeground": "#a1a1aa",
+                "secondaryForeground": "#4A5568",
+                "destructiveForeground": "#fafafa",
+                "sidebarAccentForeground": "#fafafa",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "light": {
+                "card": "#ffffff",
+                "ring": "#18181b",
+                "input": "#e4e4e7",
+                "muted": "#D1D9E6",
+                "accent": "#FF8800",
+                "border": "#e4e4e7",
+                "chart1": "#e76e50",
+                "chart2": "#2a9d90",
+                "chart3": "#274754",
+                "chart4": "#e8c468",
+                "chart5": "#f4a462",
+                "popover": "#ffffff",
+                "primary": "#FF8800",
+                "sidebar": "#ffffff",
+                "secondary": "#E2E6EA",
+                "background": "#EBECF0",
+                "foreground": "#4A5568",
+                "destructive": "#ef4444",
+                "sidebarRing": "#a1a1aa",
+                "sidebarAccent": "#f4f4f5",
+                "sidebarBorder": "#e4e4e7",
+                "cardForeground": "#09090b",
+                "sidebarPrimary": "#18181b",
+                "mutedForeground": "#718096",
+                "accentForeground": "#FFFFFF",
+                "popoverForeground": "#09090b",
+                "primaryForeground": "#FFFFFF",
+                "sidebarForeground": "#3f3f46",
+                "secondaryForeground": "#4A5568",
+                "destructiveForeground": "#fafafa",
+                "sidebarAccentForeground": "#18181b",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "effects": {
+                "boxShadow": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+                "borderRadius": "0.625rem"
+              },
+              "typography": {
+                "fontSize": "16",
+                "fontFamily": "var(--font-geist-sans), system-ui, sans-serif",
+                "lineHeight": "1.5",
+                "letterSpacing": "0",
+                "fontFamilyMono": "var(--font-geist-mono), monospace",
+                "fontWeightBold": "700",
+                "fontFamilySerif": "Georgia, Times New Roman, serif",
+                "fontWeightRegular": "400",
+                "headingLetterSpacing": "-0.02em"
+              }
+            },
+            "isDefault": true,
+            "teamId": "7d97ebb3-363d-49d3-a029-fa9a23815e3f",
+            "shareToken": "ceb6cbde2f959ab251e44171c988e48c41839949d0c482fe1e48caec1d9d3384"
+          },
+          {
+            "id": "5ca7c2aa-7d65-46b9-98d6-75d821b786ac",
+            "name": "Newsprint",
+            "description": "Project created at 25/12/2025, 22:38:36",
+            "screenshot": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/screenshots/projects/5ca7c2aa-7d65-46b9-98d6-75d821b786ac/1766700758382.png",
+            "themeConfig": {
+              "dark": {
+                "card": "#111111",
+                "ring": "#F9F9F7",
+                "input": "#F9F9F7",
+                "muted": "#262626",
+                "accent": "#CC0000",
+                "border": "#F9F9F7",
+                "chart1": "#2662d9",
+                "chart2": "#2eb88a",
+                "chart3": "#e88c30",
+                "chart4": "#af57db",
+                "chart5": "#e23670",
+                "popover": "#09090b",
+                "primary": "#F9F9F7",
+                "sidebar": "#18181b",
+                "secondary": "#262626",
+                "background": "#111111",
+                "foreground": "#F9F9F7",
+                "destructive": "#CC0000",
+                "sidebarRing": "#3f3f46",
+                "sidebarAccent": "#27272a",
+                "sidebarBorder": "#27272a",
+                "cardForeground": "#F9F9F7",
+                "sidebarPrimary": "#2563eb",
+                "mutedForeground": "#A3A3A3",
+                "accentForeground": "#F9F9F7",
+                "popoverForeground": "#fafafa",
+                "primaryForeground": "#111111",
+                "sidebarForeground": "#a1a1aa",
+                "secondaryForeground": "#F9F9F7",
+                "destructiveForeground": "#F9F9F7",
+                "sidebarAccentForeground": "#fafafa",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "light": {
+                "card": "#F9F9F7",
+                "ring": "#111111",
+                "input": "#111111",
+                "muted": "#E5E5E0",
+                "accent": "#CC0000",
+                "border": "#111111",
+                "chart1": "#e76e50",
+                "chart2": "#2a9d90",
+                "chart3": "#274754",
+                "chart4": "#e8c468",
+                "chart5": "#f4a462",
+                "popover": "#ffffff",
+                "primary": "#111111",
+                "sidebar": "#ffffff",
+                "secondary": "#E5E5E0",
+                "background": "#F9F9F7",
+                "foreground": "#111111",
+                "destructive": "#CC0000",
+                "sidebarRing": "#a1a1aa",
+                "sidebarAccent": "#f4f4f5",
+                "sidebarBorder": "#e4e4e7",
+                "cardForeground": "#111111",
+                "sidebarPrimary": "#18181b",
+                "mutedForeground": "#737373",
+                "accentForeground": "#F9F9F7",
+                "popoverForeground": "#09090b",
+                "primaryForeground": "#F9F9F7",
+                "sidebarForeground": "#3f3f46",
+                "secondaryForeground": "#111111",
+                "destructiveForeground": "#F9F9F7",
+                "sidebarAccentForeground": "#18181b",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "effects": {
+                "boxShadow": "4px 4px 0px 0px #111111",
+                "borderRadius": "0px"
+              },
+              "typography": {
+                "fontSize": "16",
+                "fontFamily": "Lora",
+                "lineHeight": "1.5",
+                "letterSpacing": "0",
+                "fontFamilyMono": "'JetBrains Mono', monospace",
+                "fontWeightBold": "700",
+                "fontFamilySerif": "Playfair Display",
+                "fontWeightRegular": "400",
+                "headingLetterSpacing": "-0.02em"
+              }
+            },
+            "isDefault": true,
+            "teamId": "7d97ebb3-363d-49d3-a029-fa9a23815e3f",
+            "shareToken": "526384b6321fbcff3e493e3c19dd5b2848621d83f5ffd55853ead7ead395de0b"
+          },
+          {
+            "id": "cd6c1e8b-4548-4f32-8850-8f671353780c",
+            "name": "Playful",
+            "description": "Project created at 26/12/2025, 09:15:53",
+            "screenshot": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/screenshots/projects/cd6c1e8b-4548-4f32-8850-8f671353780c/1766718348866.png",
+            "themeConfig": {
+              "dark": {
+                "card": "#09090b",
+                "ring": "#d4d4d8",
+                "input": "#27272a",
+                "muted": "#27272a",
+                "accent": "#27272a",
+                "border": "#27272a",
+                "chart1": "#2662d9",
+                "chart2": "#2eb88a",
+                "chart3": "#e88c30",
+                "chart4": "#af57db",
+                "chart5": "#e23670",
+                "popover": "#09090b",
+                "primary": "#fafafa",
+                "sidebar": "#18181b",
+                "secondary": "#27272a",
+                "background": "#09090b",
+                "foreground": "#fafafa",
+                "destructive": "#7f1d1d",
+                "sidebarRing": "#3f3f46",
+                "sidebarAccent": "#27272a",
+                "sidebarBorder": "#27272a",
+                "cardForeground": "#fafafa",
+                "sidebarPrimary": "#2563eb",
+                "mutedForeground": "#a1a1aa",
+                "accentForeground": "#fafafa",
+                "popoverForeground": "#fafafa",
+                "primaryForeground": "#18181b",
+                "sidebarForeground": "#a1a1aa",
+                "secondaryForeground": "#fafafa",
+                "destructiveForeground": "#fafafa",
+                "sidebarAccentForeground": "#fafafa",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "light": {
+                "card": "#FFFFFF",
+                "ring": "#8B5CF6",
+                "input": "#FFFFFF",
+                "muted": "#F1F5F9",
+                "accent": "#FBBF24",
+                "border": "#E2E8F0",
+                "chart1": "#e76e50",
+                "chart2": "#2a9d90",
+                "chart3": "#274754",
+                "chart4": "#e8c468",
+                "chart5": "#f4a462",
+                "popover": "#ffffff",
+                "primary": "#8B5CF6",
+                "sidebar": "#ffffff",
+                "secondary": "#F472B6",
+                "background": "#FFFDF5",
+                "foreground": "#1E293B",
+                "destructive": "#ef4444",
+                "sidebarRing": "#a1a1aa",
+                "sidebarAccent": "#f4f4f5",
+                "sidebarBorder": "#e4e4e7",
+                "cardForeground": "#1E293B",
+                "sidebarPrimary": "#18181b",
+                "mutedForeground": "#64748B",
+                "accentForeground": "#1E293B",
+                "popoverForeground": "#09090b",
+                "primaryForeground": "#FFFFFF",
+                "sidebarForeground": "#3f3f46",
+                "secondaryForeground": "#FFFFFF",
+                "destructiveForeground": "#fafafa",
+                "sidebarAccentForeground": "#18181b",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "effects": {
+                "boxShadow": "4px 4px 0px 0px #1E293B",
+                "borderRadius": "1rem"
+              },
+              "typography": {
+                "fontSize": "16",
+                "fontFamily": "\"Plus Jakarta Sans\", system-ui, sans-serif",
+                "lineHeight": "1.5",
+                "letterSpacing": "0",
+                "fontFamilyMono": "var(--font-geist-mono), monospace",
+                "fontWeightBold": "700",
+                "fontFamilySerif": "\"Outfit\", system-ui, sans-serif",
+                "fontWeightRegular": "400",
+                "headingLetterSpacing": "-0.02em"
+              }
+            },
+            "isDefault": true,
+            "teamId": "7d97ebb3-363d-49d3-a029-fa9a23815e3f",
+            "shareToken": "7c51d2b3eac9e670d59fa1795cbf6af1fd9c2af753782ffed9aaef21b0075b89"
+          },
+          {
+            "id": "2644b2e2-1570-455e-8d77-da03f74c48b6",
+            "name": "Uber Design System",
+            "description": "Design system project",
+            "screenshot": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/screenshots/projects/2644b2e2-1570-455e-8d77-da03f74c48b6/1766721348937.png",
+            "themeConfig": {
+              "dark": {
+                "card": "#121212",
+                "ring": "#FFFFFF",
+                "input": "#333333",
+                "muted": "#262626",
+                "accent": "#276EF1",
+                "border": "#333333",
+                "chart1": "#2662d9",
+                "chart2": "#2eb88a",
+                "chart3": "#e88c30",
+                "chart4": "#af57db",
+                "chart5": "#e23670",
+                "popover": "#09090b",
+                "primary": "#FFFFFF",
+                "sidebar": "#18181b",
+                "secondary": "#333333",
+                "background": "#000000",
+                "foreground": "#FFFFFF",
+                "destructive": "#EF4444",
+                "sidebarRing": "#3f3f46",
+                "sidebarAccent": "#27272a",
+                "sidebarBorder": "#27272a",
+                "cardForeground": "#FFFFFF",
+                "sidebarPrimary": "#2563eb",
+                "mutedForeground": "#A3A3A3",
+                "accentForeground": "#FFFFFF",
+                "popoverForeground": "#fafafa",
+                "primaryForeground": "#000000",
+                "sidebarForeground": "#a1a1aa",
+                "secondaryForeground": "#FFFFFF",
+                "destructiveForeground": "#FFFFFF",
+                "sidebarAccentForeground": "#fafafa",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "light": {
+                "card": "#FFFFFF",
+                "ring": "#000000",
+                "input": "#E5E5E5",
+                "muted": "#F3F3F3",
+                "accent": "#276EF1",
+                "border": "#E5E5E5",
+                "chart1": "#e76e50",
+                "chart2": "#2a9d90",
+                "chart3": "#274754",
+                "chart4": "#e8c468",
+                "chart5": "#f4a462",
+                "popover": "#ffffff",
+                "primary": "#000000",
+                "sidebar": "#ffffff",
+                "secondary": "#F3F3F3",
+                "background": "#FFFFFF",
+                "foreground": "#000000",
+                "destructive": "#EF4444",
+                "sidebarRing": "#a1a1aa",
+                "sidebarAccent": "#f4f4f5",
+                "sidebarBorder": "#e4e4e7",
+                "cardForeground": "#000000",
+                "sidebarPrimary": "#18181b",
+                "mutedForeground": "#525252",
+                "accentForeground": "#FFFFFF",
+                "popoverForeground": "#09090b",
+                "primaryForeground": "#FFFFFF",
+                "sidebarForeground": "#3f3f46",
+                "secondaryForeground": "#000000",
+                "destructiveForeground": "#FFFFFF",
+                "sidebarAccentForeground": "#18181b",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "effects": {
+                "boxShadow": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                "borderRadius": "0.5rem"
+              },
+              "typography": {
+                "fontSize": "16",
+                "fontFamily": "Inter, sans-serif",
+                "lineHeight": "1.5",
+                "letterSpacing": "0",
+                "fontFamilyMono": "var(--font-geist-mono), monospace",
+                "fontWeightBold": "700",
+                "fontFamilySerif": "Georgia, Times New Roman, serif",
+                "fontWeightRegular": "400",
+                "headingLetterSpacing": "-0.02em"
+              }
+            },
+            "isDefault": true,
+            "teamId": "7d97ebb3-363d-49d3-a029-fa9a23815e3f",
+            "shareToken": "4da3ef236a1bc97e1af14e11c6bc70a659ba7742173501326ef00256cd8892f2"
+          },
+          {
+            "id": "b3a5050d-dd44-4738-b9d2-afb27980c69a",
+            "name": "Win98",
+            "description": "New project",
+            "screenshot": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/screenshots/projects/b3a5050d-dd44-4738-b9d2-afb27980c69a/1766709867715.png",
+            "themeConfig": {
+              "dark": {
+                "card": "#404040",
+                "ring": "#000000",
+                "input": "#808080",
+                "muted": "#404040",
+                "accent": "#0000FF",
+                "border": "#808080",
+                "chart1": "#2662d9",
+                "chart2": "#2eb88a",
+                "chart3": "#e88c30",
+                "chart4": "#af57db",
+                "chart5": "#e23670",
+                "popover": "#09090b",
+                "primary": "#C0C0C0",
+                "sidebar": "#18181b",
+                "secondary": "#000080",
+                "background": "#000000",
+                "foreground": "#FFFFFF",
+                "destructive": "#FF0000",
+                "sidebarRing": "#3f3f46",
+                "sidebarAccent": "#27272a",
+                "sidebarBorder": "#27272a",
+                "cardForeground": "#FFFFFF",
+                "sidebarPrimary": "#2563eb",
+                "mutedForeground": "#C0C0C0",
+                "accentForeground": "#FFFFFF",
+                "popoverForeground": "#fafafa",
+                "primaryForeground": "#000000",
+                "sidebarForeground": "#a1a1aa",
+                "secondaryForeground": "#FFFFFF",
+                "destructiveForeground": "#FFFFFF",
+                "sidebarAccentForeground": "#fafafa",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "light": {
+                "card": "#C0C0C0",
+                "ring": "#000000",
+                "input": "#FFFFFF",
+                "muted": "#808080",
+                "accent": "#0000FF",
+                "border": "#000000",
+                "chart1": "#e76e50",
+                "chart2": "#2a9d90",
+                "chart3": "#274754",
+                "chart4": "#e8c468",
+                "chart5": "#f4a462",
+                "popover": "#ffffff",
+                "primary": "#000080",
+                "sidebar": "#ffffff",
+                "secondary": "#FF0000",
+                "background": "#C0C0C0",
+                "foreground": "#000000",
+                "destructive": "#FF0000",
+                "sidebarRing": "#a1a1aa",
+                "sidebarAccent": "#f4f4f5",
+                "sidebarBorder": "#e4e4e7",
+                "cardForeground": "#000000",
+                "sidebarPrimary": "#18181b",
+                "mutedForeground": "#FFFFFF",
+                "accentForeground": "#FFFFFF",
+                "popoverForeground": "#09090b",
+                "primaryForeground": "#FFFFFF",
+                "sidebarForeground": "#3f3f46",
+                "secondaryForeground": "#FFFFFF",
+                "destructiveForeground": "#FFFFFF",
+                "sidebarAccentForeground": "#18181b",
+                "sidebarPrimaryForeground": "#fafafa"
+              },
+              "effects": {
+                "boxShadow": "inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf",
+                "borderRadius": "0px"
+              },
+              "typography": {
+                "fontSize": "16px",
+                "fontFamily": "\"MS Sans Serif\", \"Segoe UI\", Tahoma, Geneva, Verdana, sans-serif",
+                "lineHeight": "1.5",
+                "letterSpacing": "0em",
+                "fontFamilyMono": "\"Courier New\", Courier, monospace",
+                "fontWeightBold": "700",
+                "fontFamilySerif": "\"Arial Black\", Impact, Haettenschweiler, sans-serif",
+                "fontWeightRegular": "400",
+                "headingLetterSpacing": "0em"
+              }
+            },
+            "isDefault": true,
+            "teamId": "7d97ebb3-363d-49d3-a029-fa9a23815e3f",
+            "shareToken": "85169a58379a997350e5bb3c693f983adc80bffa512aea80f716233176837768"
+          }
+        ],
+        "otherProjects": [
+          {
+            "id": "4c7bc7e5-88ac-46a9-8119-ed5c91d5e835",
+            "name": "Untitled",
+            "description": "New project",
+            "screenshot": null,
+            "themeConfig": null,
+            "isDefault": false,
+            "teamId": "4b19dd91-f30e-467d-b902-18b15f3a3669",
+            "shareToken": null
+          }
+        ]
+      }
+    },
+    "localOnly": true
+  },
+  {
+    "id": "app-icon-minimalist",
+    "name": "App Icon Minimalist",
+    "description": "Help users create app icons using a minimalist, non-designer-friendly approach. Use when user mentions creating an app icon, designing app icons, needs help with app icon design, expresses difficulty with design software, or wants a simple/minimalist icon approach for iOS, Android, or web apps.",
+    "category": {
+      "key": "screenshot",
+      "label": "Screenshot",
+      "color": "#f97316",
+      "gradient": "linear-gradient(135deg,#f97316,#eab308)",
+      "icon": "📷"
+    },
+    "stats": {
+      "lineCount": 82,
+      "charCount": 3225,
+      "sectionCount": 8,
+      "codeBlockCount": 1,
+      "complexityScore": 1,
+      "complexityLabel": "Trivial",
+      "readTime": "2 min"
+    },
+    "triggerPhrases": ["Help users create app icons using"],
+    "useCases": [
+      {
+        "icon": "📌",
+        "title": "User needs an app icon but isn't a designer",
+        "description": "User needs an app icon but isn't a designer"
+      },
+      {
+        "icon": "📌",
+        "title": "Design software feels overwhelming",
+        "description": "Design software feels overwhelming"
+      },
+      {
+        "icon": "📌",
+        "title": "User wants to ship quickly without perfecting the icon",
+        "description": "User wants to ship quickly without perfecting the icon"
+      },
+      {
+        "icon": "📌",
+        "title": "Building a prototype or MVP",
+        "description": "Building a prototype or MVP"
+      },
+      {
+        "icon": "📌",
+        "title": "The icon is blocking app launch",
+        "description": "The icon is blocking app launch"
+      },
+      {
+        "icon": "📌",
+        "title": "[ ] Symbol centered",
+        "description": "[ ] Symbol centered"
+      }
+    ],
+    "keyFeatures": [
+      "Use When",
+      "The 3-Step Method",
+      "Step 1: Abstract Core Function into Symbol",
+      "Step 2: Place in Frame, Adjust Until \"Not Ugly\"",
+      "Step 3: Iterate Later (Optional)",
+      "Platform Specs",
+      "Response Format",
+      "Key Principles"
+    ],
+    "installCommand": null,
+    "content": "# App Icon Minimalist\n\nCreate clear app icons with a practical three-step method for non-designers. The goal is to reach a shippable icon quickly, then refine only when the product needs it.\n\n## Best For\n\n- MVP or side-project icons where clarity matters more than ornament.\n- iOS, Android, web, or PWA launch assets.\n- Users who have an app concept but no design tool workflow.\n\n## Workflow\n\n1. Reduce the app to one core function.\n2. Translate that function into one simple symbol.\n3. Place it in a platform-safe frame and test at small sizes.\n\n## Output Shape\n\n- Core function summary.\n- Suggested symbol and visual metaphor.\n- Color and layout guidance.\n- Export-size reminders for the target platform.\n\n## Boundaries\n\nThis skill is for icon direction and iteration guidance. It does not replace a full brand identity system or produce final raster exports by itself.",
+    "fileInfo": {
+      "totalFiles": 2,
+      "totalSizeStr": "4.6 KB",
+      "tree": {
+        "name": "app-icon-minimalist",
+        "type": "dir",
+        "children": [
+          {
+            "name": "evals",
+            "type": "dir",
+            "children": [
+              {
+                "name": "evals.json",
+                "type": "file",
+                "size": 1187,
+                "ext": ".json"
+              }
+            ]
+          },
+          {
+            "name": "SKILL.md",
+            "type": "file",
+            "size": 3570,
+            "ext": ".md"
+          }
+        ]
+      }
+    },
+    "lastUpdated": "",
+    "assets": {
+      "screenshots": [],
+      "samples": []
+    },
+    "localOnly": true
+  }
+]

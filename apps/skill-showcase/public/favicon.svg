@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Capability Atlas icon</title>
+  <desc id="desc">A graphite capability atlas icon with layered cards and a teal trigger mark.</desc>
+  <rect width="64" height="64" rx="14" fill="#232321" />
+  <path fill="#fbfaf7" d="M17 17.5h22.5a7.5 7.5 0 0 1 7.5 7.5v21.5H24.5A7.5 7.5 0 0 1 17 39V17.5Z" />
+  <path fill="#dfe9e4" d="M25 25h22v21.5H32.5A7.5 7.5 0 0 1 25 39V25Z" />
+  <path fill="#2b7a78" d="M25 25h22v8H25z" />
+  <circle cx="47" cy="20" r="6" fill="#f2c078" />
+  <path stroke="#232321" stroke-linecap="round" stroke-width="3" d="M31 39.5h10M31 33.5h7" />
+</svg>
