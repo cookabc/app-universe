@@ -16,6 +16,7 @@ export default function TradingViewChart({
     onSymbolChange,
 }: TradingViewChartProps) {
     const containerRef = useRef<HTMLDivElement>(null)
+    // biome-ignore lint/suspicious/noExplicitAny: TradingView widget lacks type definitions
     const widgetRef = useRef<any>(null)
     const initialSymbolRef = useRef(symbol)
     const initialResolutionRef = useRef(resolution)
@@ -40,13 +41,14 @@ export default function TradingViewChart({
                 return
             }
 
-            // Use any type to bypass TypeScript strict checking
+            // biome-ignore lint/suspicious/noExplicitAny: TradingView widget options lack type definitions
             const widgetOptions: any = {
                 container: containerRef.current,
                 autosize: true,
                 symbol: initialSymbolRef.current,
                 interval: initialResolutionRef.current,
                 datafeed: {
+                    // biome-ignore lint/suspicious/noExplicitAny: TV datafeed callbacks are untyped
                     onReady: (callback: any) => {
                         setTimeout(() => {
                             callback({
@@ -59,12 +61,23 @@ export default function TradingViewChart({
                             })
                         }, 0)
                     },
-                    searchSymbols: (userInput: string, exchange: string, symbolType: string, onResult: any) => {
+                    // biome-ignore lint/suspicious/noExplicitAny: TV datafeed callbacks are untyped
+                    searchSymbols: (userInput: string, _exchange: string, _symbolType: string, onResult: any) => {
                         fetch(`/api/udf/search?query=${encodeURIComponent(userInput)}&limit=10`)
                             .then((response) => response.json())
                             .then((data) => {
                                 onResult(
-                                    data.map((item: any) => ({
+                                    (
+                                        data as {
+                                            symbol: string
+                                            name: string
+                                            full_name?: string
+                                            description?: string
+                                            exchange?: string
+                                            ticker?: string
+                                            type?: string
+                                        }[]
+                                    ).map((item) => ({
                                         symbol: item.symbol || item.name,
                                         full_name: item.full_name || item.symbol || item.name,
                                         description: item.description || item.symbol || item.name,
@@ -76,6 +89,7 @@ export default function TradingViewChart({
                             })
                             .catch(() => onResult([]))
                     },
+                    // biome-ignore lint/suspicious/noExplicitAny: TV datafeed callbacks are untyped
                     resolveSymbol: (symbolName: string, onResolve: any, onError: any) => {
                         fetch(`/api/udf/symbols?symbol=${encodeURIComponent(symbolName)}`)
                             .then((response) => response.json())
@@ -102,10 +116,16 @@ export default function TradingViewChart({
                             })
                             .catch(() => onError('Cannot resolve symbol'))
                     },
+                    // biome-ignore lint/suspicious/noExplicitAny: TV datafeed callbacks are untyped
                     getBars: (symbolInfo: any, resolution: string, periodParams: any, onResult: any, onError: any) => {
-                        const { from, to, countBack } = periodParams
+                        const { from, to, countBack } = periodParams as {
+                            from: number
+                            to: number
+                            countBack: number
+                        }
                         const url = new URL('/api/udf/history', window.location.origin)
-                        url.searchParams.set('symbol', symbolInfo.name || symbolInfo.symbol)
+                        const info = symbolInfo as { name?: string; symbol?: string }
+                        url.searchParams.set('symbol', info.name || info.symbol || '')
                         url.searchParams.set('resolution', resolution)
                         url.searchParams.set('from', String(from))
                         url.searchParams.set('to', String(to))
@@ -148,6 +168,7 @@ export default function TradingViewChart({
                     },
                     subscribeBars: () => {},
                     unsubscribeBars: () => {},
+                    // biome-ignore lint/suspicious/noExplicitAny: TV datafeed callbacks are untyped
                     getServerTime: (callback: any) => {
                         callback(Math.floor(Date.now() / 1000))
                     },
@@ -187,14 +208,19 @@ export default function TradingViewChart({
 
             // Subscribe to symbol change events if callback provided
             if (onSymbolChangeRef.current) {
+                // biome-ignore lint/suspicious/noExplicitAny: TV widget API is untyped
                 ;(widget as any).onChartReady(() => {
-                    ;(widget as any).subscribe('onSymbolChange', (event: any) => {
-                        onSymbolChangeRef.current?.({
-                            symbol: event.symbol || event.ticker || '',
-                            description: event.description,
-                            exchange: event.exchange,
-                        })
-                    })
+                    // biome-ignore lint/suspicious/noExplicitAny: TV widget API is untyped
+                    ;(widget as any).subscribe(
+                        'onSymbolChange',
+                        (event: { symbol?: string; ticker?: string; description?: string; exchange?: string }) => {
+                            onSymbolChangeRef.current?.({
+                                symbol: event.symbol || event.ticker || '',
+                                description: event.description,
+                                exchange: event.exchange,
+                            })
+                        },
+                    )
                 })
             }
         }

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { isMockEnabled, getMockQuotes } from '@/lib/mock-data'
+import { type NextRequest, NextResponse } from 'next/server'
+import { getMockQuotes, isMockEnabled } from '@/lib/mock-data'
 
 const YF_BASE = 'https://query1.finance.yahoo.com'
 
@@ -59,12 +59,12 @@ async function fetchYF(url: string) {
         const response = await fetch(url, {
             headers: getYFHeaders(),
         })
-        if (!response.ok) throw new Error('YF API error: ' + response.status)
+        if (!response.ok) throw new Error(`YF API error: ${response.status}`)
         const data = (await response.json()) as unknown
         cache.set(url, { data, expires: Date.now() + CACHE_TTL })
         return data
     } catch (error) {
-        console.error('fetchYF error for ' + url + ':', error)
+        console.error(`fetchYF error for ${url}:`, error)
         return null
     }
 }
@@ -133,7 +133,7 @@ export async function GET(request: NextRequest) {
             return NextResponse.json(quoteMap, { status: 200 })
         }
 
-        const result = await fetchYF(YF_BASE + '/v7/finance/quote?symbols=' + encodeURIComponent(symbols.join(',')))
+        const result = await fetchYF(`${YF_BASE}/v7/finance/quote?symbols=${encodeURIComponent(symbols.join(','))}`)
         const quoteResponse = result as YahooQuoteResponse
         const quotes = quoteResponse?.quoteResponse?.result || []
 

@@ -1,7 +1,7 @@
 const YF_BASE = 'https://query1.finance.yahoo.com'
 
 // Simple in-memory cache to avoid rate limiting
-const cache = new Map<string, { data: any; expires: number }>()
+const cache = new Map<string, { data: unknown; expires: number }>()
 const CACHE_TTL = 5 * 60 * 1000 // 5 minutes
 
 // Common headers to mimic browser request
@@ -61,7 +61,7 @@ export interface Quote {
 export async function getQuote(symbols: string[]): Promise<Record<string, Quote>> {
     if (!symbols.length) return {}
 
-    const result = await fetchYF(YF_BASE + '/v7/finance/quote?symbols=' + symbols.join(','))
+    const result = await fetchYF(`${YF_BASE}/v7/finance/quote?symbols=${symbols.join(',')}`)
     const quotes = result?.quoteResponse?.result || []
 
     const quoteMap: Record<string, Quote> = {}
@@ -182,9 +182,18 @@ export async function searchSymbols(query: string, limit: number = 10) {
         const url = `${YF_BASE}/v1/finance/search?q=${encodeURIComponent(query)}&quotesCount=${limit}&newsCount=0`
         const data = await fetchYF(url)
 
-        return (data?.quotes || [])
-            .filter((q: any) => q.quoteType === 'EQUITY' || q.quoteType === 'ETF' || q.quoteType === 'CRYPTOCURRENCY')
-            .map((q: any) => ({
+        return (
+            (data?.quotes || []) as {
+                quoteType: string
+                symbol: string
+                shortname?: string
+                longname?: string
+                exchDisp?: string
+                exchange: string
+            }[]
+        )
+            .filter((q) => q.quoteType === 'EQUITY' || q.quoteType === 'ETF' || q.quoteType === 'CRYPTOCURRENCY')
+            .map((q) => ({
                 symbol: q.symbol,
                 name: q.shortname || q.longname || q.symbol,
                 exchange: q.exchDisp || q.exchange,
