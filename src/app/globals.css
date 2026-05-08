@@ -1593,7 +1593,7 @@ h3 {
             12px
             minmax(0, 1fr)
             12px
-            var(--right-panel-width, 390px) !important;
+            var(--right-panel-width, 390px);
     }
 
     .panel-splitter {

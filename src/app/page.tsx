@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
-import TradingViewChart from '@/components/TradingViewChart'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import PortfolioSidebar from '@/components/PortfolioSidebar'
+import TradingViewChart from '@/components/TradingViewChart'
 
 interface TreeNode {
     dentryId: number
@@ -103,9 +103,9 @@ function inferMarketLabel(item: TreeNode | null): string {
 function formatLargeNumber(value: number | null): string {
     if (value == null || !Number.isFinite(value)) return '--'
     const abs = Math.abs(value)
-    if (abs >= 1e12) return (value / 1e12).toFixed(2) + ' 万亿'
-    if (abs >= 1e8) return (value / 1e8).toFixed(2) + ' 亿'
-    if (abs >= 1e4) return (value / 1e4).toFixed(2) + ' 万'
+    if (abs >= 1e12) return `${(value / 1e12).toFixed(2)} 万亿`
+    if (abs >= 1e8) return `${(value / 1e8).toFixed(2)} 亿`
+    if (abs >= 1e4) return `${(value / 1e4).toFixed(2)} 万`
     return String(value)
 }
 
@@ -536,6 +536,7 @@ export default function Home() {
                         role="separator"
                         tabIndex={0}
                         aria-label="调整左侧列宽"
+                        aria-valuenow={50}
                         aria-orientation="vertical"
                         className="panel-splitter"
                         onDoubleClick={resetPanelWidths}
@@ -598,6 +599,7 @@ export default function Home() {
                         <div className="chart-tabs">
                             {chartTabs.map((tab) => (
                                 <button
+                                    type="button"
                                     key={tab.id}
                                     className={`chart-tab ${activeChartTab === tab.id ? 'active' : ''}`}
                                     onClick={() => setActiveChartTab(tab.id)}
@@ -620,7 +622,7 @@ export default function Home() {
                                     </button>
                                 ))}
                             </div>
-                            <div className="chart-tool-icons" aria-label="图表工具">
+                            <div className="chart-tool-icons" role="toolbar" aria-label="图表工具">
                                 <button type="button" title="指标">
                                     ƒx
                                 </button>
@@ -666,6 +668,7 @@ export default function Home() {
                         role="separator"
                         tabIndex={0}
                         aria-label="调整右侧列宽"
+                        aria-valuenow={50}
                         aria-orientation="vertical"
                         className="panel-splitter"
                         onDoubleClick={resetPanelWidths}
@@ -815,7 +818,12 @@ export default function Home() {
                             </header>
                             <div className="fund-flow-container">
                                 <div className="fund-flow-donut">
-                                    <svg viewBox="0 0 100 100" className="donut-chart">
+                                    <svg
+                                        viewBox="0 0 100 100"
+                                        className="donut-chart"
+                                        role="img"
+                                        aria-label="资金流向图"
+                                    >
                                         <circle
                                             cx="50"
                                             cy="50"

@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
+import { getMockHistory, isMockEnabled } from '@/lib/mock-data'
 import { getHistory } from '@/lib/yahoo-finance'
-import { isMockEnabled, getMockHistory } from '@/lib/mock-data'
 
 const ALLOWED_RESOLUTIONS = new Set(['1', '5', '15', '30', '60', '240', '1D', '1W', '1M'])
 const SYMBOL_PATTERN = /^[A-Z0-9.^=:_-]{1,24}$/i
@@ -30,7 +30,14 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        let bars
+        let bars: {
+            time: number
+            open: number
+            high: number
+            low: number
+            close: number
+            volume: number
+        }[]
 
         // Check if mock data is enabled
         const useMock = isMockEnabled(searchParams)

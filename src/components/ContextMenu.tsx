@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 interface ContextMenuProps {
     x: number
@@ -26,9 +26,9 @@ export default function ContextMenu({
     const menuRef = useRef<HTMLDivElement>(null)
     const [isClosing, setIsClosing] = useState(false)
 
-    function handleClose() {
+    const handleClose = useCallback(() => {
         setIsClosing(true)
-    }
+    }, [])
 
     useEffect(() => {
         if (isClosing) return
@@ -51,7 +51,7 @@ export default function ContextMenu({
             document.removeEventListener('mousedown', handleClickOutside)
             document.removeEventListener('keydown', handleEscape)
         }
-    }, [isClosing])
+    }, [isClosing, handleClose])
 
     useEffect(() => {
         if (!isClosing) return
@@ -77,6 +77,7 @@ export default function ContextMenu({
         >
             <div className="context-menu-section">
                 <button
+                    type="button"
                     className="context-menu-item"
                     onClick={() => {
                         onAddFolder()
@@ -87,6 +88,7 @@ export default function ContextMenu({
                     <span className="context-menu-label">新建文件夹</span>
                 </button>
                 <button
+                    type="button"
                     className="context-menu-item"
                     onClick={() => {
                         onAddStock()
@@ -103,6 +105,7 @@ export default function ContextMenu({
                     <div className="context-menu-divider" />
                     <div className="context-menu-section">
                         <button
+                            type="button"
                             className="context-menu-item"
                             onClick={() => {
                                 onRename()
@@ -113,6 +116,7 @@ export default function ContextMenu({
                             <span className="context-menu-label">重命名</span>
                         </button>
                         <button
+                            type="button"
                             className="context-menu-item danger"
                             onClick={() => {
                                 onDelete()

@@ -1,8 +1,27 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 
 const SYMBOL_PATTERN = /^[A-Z0-9.^=:_-]{1,24}$/i
 
-const SYMBOLS_DB: Record<string, any> = {
+interface SymbolInfo {
+    name: string
+    ticker: string
+    full_name: string
+    description: string
+    exchange: string
+    listed_exchange: string
+    type: string
+    currency_code: string
+    currency: string
+    session: string
+    timezone: string
+    minmov: number
+    pricescale: number
+    has_intraday: boolean
+    has_daily?: boolean
+    supported_resolutions: string[]
+}
+
+const SYMBOLS_DB: Record<string, SymbolInfo> = {
     AAPL: {
         name: 'AAPL',
         ticker: 'AAPL',

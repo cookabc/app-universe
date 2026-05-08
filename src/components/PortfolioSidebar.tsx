@@ -174,7 +174,9 @@ export default function PortfolioSidebar({
                 const quoteData = await response.json()
 
                 if (cancelled) return
-                const entries = Object.entries(quoteData).map(([symbol, data]: [string, any]) => {
+                const entries = Object.entries(
+                    quoteData as Record<string, { latestPrice?: number; changePercent?: number }>,
+                ).map(([symbol, data]) => {
                     const latestPrice = data?.latestPrice ?? null
                     const changePercent = data?.changePercent ?? null
                     return [
@@ -254,12 +256,14 @@ export default function PortfolioSidebar({
                 {/* 标签页 */}
                 <div className="sidebar-tabs">
                     <button
+                        type="button"
                         className={`sidebar-tab ${activeTab === 'watchlist' ? 'active' : ''}`}
                         onClick={() => setActiveTab('watchlist')}
                     >
                         自选
                     </button>
                     <button
+                        type="button"
                         className={`sidebar-tab ${activeTab === 'monitor' ? 'active' : ''}`}
                         onClick={() => setActiveTab('monitor')}
                     >
@@ -283,6 +287,7 @@ export default function PortfolioSidebar({
                 <div className="sidebar-categories" aria-label="自选分组">
                     {categories.map((category) => (
                         <button
+                            type="button"
                             key={category.id}
                             className={`category-item ${activeCategory === category.id ? 'active' : ''}`}
                             onClick={() => setActiveCategory(category.id)}
@@ -446,12 +451,18 @@ function WatchlistRows({
                         <div key={node.dentryId}>
                             {/* Folder Header Row */}
                             <div
+                                role="button"
+                                tabIndex={0}
                                 className="watchlist-row folder-row"
                                 style={{
                                     paddingLeft: `${14 + depth * 12}px`,
                                     cursor: 'pointer',
                                 }}
                                 onClick={(e) => toggleExpand(node.dentryId, e)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ')
+                                        toggleExpand(node.dentryId, e as unknown as React.MouseEvent)
+                                }}
                                 onContextMenu={(e) => onContextMenu(node, e)}
                             >
                                 <div
@@ -487,6 +498,11 @@ function WatchlistRows({
                 return (
                     <div
                         key={node.dentryId}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                            if (isStock && (e.key === 'Enter' || e.key === ' ')) onSelectStock(node)
+                        }}
                         className={`watchlist-row ${isSelected ? 'active' : ''}`}
                         style={{
                             paddingLeft: `${14 + depth * 12}px`,

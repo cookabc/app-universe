@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 
 // 模拟 symbol 数据库 - 后续从 SQLite 获取
 const ALL_SYMBOLS = [
