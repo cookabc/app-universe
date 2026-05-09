@@ -42,6 +42,11 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Icons+Round&display=swap"
           rel="stylesheet"
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("app-universe-theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme:dark)").matches)){document.documentElement.classList.add("dark")}}catch(e){}})()`,
+          }}
+        />
       </head>
       <body
         className={`${plusJakarta.variable} ${outfit.variable} ${jetBrainsMono.variable} antialiased min-w-[320px]`}
@@ -53,6 +58,8 @@ export default function RootLayout({
               defaultTheme="system"
               enableSystem
               disableTransitionOnChange
+              enableColorScheme
+              storageKey="app-universe-theme"
             >
               <TooltipProvider delayDuration={300}>
                 <div className="flex flex-col min-h-screen bg-background">
