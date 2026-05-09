@@ -33,18 +33,26 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div className="home-loading" role="status" aria-live="polite">
-        <span>Loading skills…</span>
+      <div
+        className="flex min-h-[60vh] items-center justify-center"
+        role="status"
+        aria-live="polite"
+      >
+        <span className="text-muted-foreground text-sm">Loading skills...</span>
       </div>
     );
   }
 
   if (error) {
     return (
-      <section className="app-error-state" aria-labelledby="skills-load-error">
-        <p className="app-error-kicker">Data unavailable</p>
-        <h1 id="skills-load-error">Skill data could not be loaded.</h1>
-        <p>{error}</p>
+      <section className="mx-auto max-w-xl px-4 py-20 text-center">
+        <p className="text-xs font-bold uppercase tracking-wider text-destructive mb-2">
+          Data unavailable
+        </p>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+          Skill data could not be loaded.
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">{error}</p>
       </section>
     );
   }
@@ -53,26 +61,22 @@ export default function HomePage() {
     <>
       <HeroSection />
       <FeaturedResources />
-      <section
-        id="skills"
-        className="skills-workbench"
-        aria-labelledby="skills-heading"
-      >
-        <div className="workbench-header">
+      <section id="skills" className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex items-end justify-between gap-4 mb-6">
           <div>
-            <p className="workbench-kicker">Explore</p>
-            <h2 id="skills-heading" className="workbench-title">
+            <h2 className="text-2xl font-bold tracking-tight text-foreground">
               Available Skills
             </h2>
           </div>
-          <div className="workbench-actions">
-            <span className="result-count" aria-live="polite">
-              {filtered.length} results
-            </span>
-          </div>
+          <span
+            className="text-xs text-muted-foreground tabular-nums"
+            aria-live="polite"
+          >
+            {filtered.length} results
+          </span>
         </div>
 
-        <div className="workbench-controls">
+        <div className="flex flex-col gap-4 mb-6 sm:flex-row sm:items-start sm:justify-between">
           <SearchBar
             value={q}
             onChange={(value) => updateQueryState({ q: value })}

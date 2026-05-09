@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { SkillData } from "../../data/skills";
 import SkillCard from "./SkillCard";
@@ -24,16 +26,21 @@ export default function SkillGrid({ skills }: Props) {
 
   if (!skills.length)
     return (
-      <div className="skill-empty-state">
-        <p className="skill-empty-title">No Skills Found</p>
-        <p className="skill-empty-desc">
+      <div className="flex flex-col items-center gap-3 py-20 text-center">
+        <p className="text-2xl font-bold tracking-tight text-foreground">
+          No Skills Found
+        </p>
+        <p className="text-sm text-muted-foreground">
           Try a broader search or clear the active category.
         </p>
       </div>
     );
 
   return (
-    <div ref={ref} className="skill-grid">
+    <div
+      ref={ref}
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
       {skills.map((s, i) => (
         <SkillCard key={s.id} skill={s} index={i} visible={visible} />
       ))}
