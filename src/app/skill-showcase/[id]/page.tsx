@@ -1,7 +1,7 @@
 "use client";
 
-import { use } from "react";
 import dynamic from "next/dynamic";
+import { use } from "react";
 
 const SkillDetail = dynamic(() => import("../components/SkillDetailPage"), {
   ssr: false,

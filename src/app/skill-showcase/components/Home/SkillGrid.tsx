@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState, useCallback } from "react";
-import SkillCard from "./SkillCard";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { SkillData } from "../../data/skills";
+import SkillCard from "./SkillCard";
 
 interface Props {
   skills: SkillData[];

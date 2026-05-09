@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
 import type { CSSProperties } from "react";
-import MarkdownRenderer, { slugHeading } from "../../common/MarkdownRenderer";
-import SkillPreview from "../../Demos/SkillPreview";
+import { useMemo, useState } from "react";
+import type { SkillData } from "../../../data/skills";
 import { stripLeadingH1 } from "../../../utils/markdownParser";
 import { buildSkillShowcaseModel } from "../../../utils/skillShowcase";
-import type { SkillData } from "../../../data/skills";
+import MarkdownRenderer, { slugHeading } from "../../common/MarkdownRenderer";
+import SkillPreview from "../../Demos/SkillPreview";
 
 interface Props {
   skill: SkillData;
