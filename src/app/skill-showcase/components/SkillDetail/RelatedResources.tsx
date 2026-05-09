@@ -21,9 +21,9 @@ export default function RelatedResources({ skillId }: Props) {
   if (!resources.length) return null;
 
   return (
-    <div className="related-resources">
-      <h3 className="related-skills-title">
-        <span aria-hidden="true" />
+    <div className="rounded-[var(--radius)] border-2 border-slate-800 bg-card p-6 shadow-[var(--box-shadow)]">
+      <h3 className="flex items-center gap-2 mb-4 text-lg font-bold text-foreground">
+        <span className="w-1 h-5 rounded bg-primary" />
         Related Design Resources
       </h3>
       <ResourceCards resources={resources} variant="compact" />

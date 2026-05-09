@@ -1,115 +1,13 @@
+"use client";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import type { SkillData } from "../../data/skills";
 
 interface Props {
   skill: SkillData;
 }
-
-const bannerStyles = {
-  article: {
-    marginBottom: "40px",
-    paddingBottom: "32px",
-    borderBottom: "1px solid var(--border-soft)",
-  },
-  metaRow: {
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
-    marginBottom: "20px",
-    flexWrap: "wrap" as const,
-  },
-  categoryTag: {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "6px",
-    padding: "4px 12px",
-    borderRadius: "var(--radius-full)",
-    background: "var(--brand-soft)",
-    color: "var(--brand)",
-    fontSize: "11px",
-    fontWeight: 600,
-    textTransform: "uppercase" as const,
-    fontFamily: "var(--font-sans)",
-  },
-  categoryDot: {
-    width: "6px",
-    height: "6px",
-    borderRadius: "50%",
-    background: "var(--brand)",
-  },
-  badge: {
-    padding: "4px 10px",
-    borderRadius: "var(--radius-xs)",
-    background: "var(--bg-elevated)",
-    fontSize: "10px",
-    fontWeight: 600,
-    color: "var(--text-muted)",
-    textTransform: "uppercase" as const,
-    fontFamily: "var(--font-mono)",
-  },
-  title: {
-    fontFamily: "var(--font-display)",
-    fontSize: "clamp(32px, 5vw, 48px)",
-    fontWeight: 400,
-    lineHeight: 1.1,
-    color: "var(--text-primary)",
-    marginBottom: "16px",
-    textWrap: "balance" as const,
-  },
-  description: {
-    fontFamily: "var(--font-sans)",
-    fontSize: "16px",
-    fontWeight: 400,
-    lineHeight: 1.6,
-    color: "var(--text-secondary)",
-    maxWidth: "58ch",
-    marginTop: "0",
-    marginBottom: "28px",
-    textWrap: "pretty" as const,
-  },
-  metricsRow: {
-    display: "flex",
-    alignItems: "center",
-    gap: "12px",
-    flexWrap: "wrap" as const,
-  },
-  metricPill: {
-    display: "inline-flex",
-    alignItems: "baseline",
-    gap: "5px",
-    padding: "8px 14px",
-    borderRadius: "var(--radius-full)",
-    background: "var(--bg-surface)",
-    border: "1px solid var(--border)",
-  },
-  metricValue: {
-    fontFamily: "var(--font-sans)",
-    fontSize: "15px",
-    fontWeight: 600,
-    color: "var(--text-primary)",
-    fontVariantNumeric: "tabular-nums" as const,
-  },
-  metricLabel: {
-    fontSize: "10px",
-    color: "var(--text-muted)",
-    textTransform: "uppercase" as const,
-    fontWeight: 500,
-  },
-  copyBtn: {
-    marginLeft: "auto",
-    padding: "8px 18px",
-    borderRadius: "var(--radius-full)",
-    border: "1px solid var(--border-strong)",
-    background: "transparent",
-    color: "var(--text-secondary)",
-    fontSize: "12px",
-    fontWeight: 600,
-    fontFamily: "var(--font-sans)",
-    cursor: "pointer",
-    transition:
-      "background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out)",
-  },
-};
 
 export default function SkillHeroBanner({ skill }: Props) {
   const [copied, setCopied] = useState(false);
@@ -124,71 +22,64 @@ export default function SkillHeroBanner({ skill }: Props) {
   };
 
   return (
-    <article style={bannerStyles.article}>
-      <div style={bannerStyles.metaRow}>
-        <span
-          style={{
-            ...bannerStyles.categoryTag,
-            color: `var(--cat-${cat.key})`,
-            background: `color-mix(in srgb, var(--cat-${cat.key}) 10%, transparent)`,
-          }}
+    <div className="pb-8 mb-10 border-b border-border">
+      <div className="flex items-center gap-3 flex-wrap mb-5">
+        <Badge
+          className="uppercase text-[11px] font-semibold"
+          style={{ color: `var(--cat-${cat.key})` }}
         >
           <span
-            style={{
-              ...bannerStyles.categoryDot,
-              background: `var(--cat-${cat.key})`,
-            }}
+            className="w-1.5 h-1.5 rounded-full mr-1.5"
+            style={{ background: `var(--cat-${cat.key})` }}
           />
           {cat.label}
-        </span>
-        <span style={bannerStyles.badge}>{skill.stats.complexityLabel}</span>
+        </Badge>
+        <Badge
+          variant="outline"
+          className="text-[10px] font-semibold font-mono uppercase"
+        >
+          {skill.stats.complexityLabel}
+        </Badge>
       </div>
 
-      <h1 style={bannerStyles.title}>{skill.name}</h1>
+      <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
+        {skill.name}
+      </h1>
 
-      <p style={bannerStyles.description}>
+      <p className="text-lg text-muted-foreground leading-relaxed max-w-3xl mb-7">
         {skill.description || "No description available."}
       </p>
 
-      <div style={bannerStyles.metricsRow}>
+      <div className="flex items-center gap-3 flex-wrap">
         {[
           [String(skill.stats.lineCount), "Lines"],
           [String(skill.fileInfo.totalFiles), "Files"],
           [skill.stats.readTime, "Read"],
         ].map(([value, label], i) => (
-          <div key={i} style={bannerStyles.metricPill}>
-            <span style={bannerStyles.metricValue}>{value}</span>
-            <span style={bannerStyles.metricLabel}>{label}</span>
+          <div
+            key={i}
+            className="inline-flex items-baseline gap-1.5 px-3.5 py-2 rounded-full bg-muted border border-border"
+          >
+            <span className="text-[15px] font-semibold text-foreground tabular-nums">
+              {value}
+            </span>
+            <span className="text-[10px] text-muted-foreground uppercase font-medium">
+              {label}
+            </span>
           </div>
         ))}
 
         {skill.installCommand && (
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={handleCopy}
-            style={{
-              ...bannerStyles.copyBtn,
-              ...(copied
-                ? {
-                    background: "var(--brand-soft)",
-                    color: "var(--brand)",
-                    borderColor: `color-mix(in srgb, var(--brand) 30%, transparent)`,
-                  }
-                : {}),
-            }}
-            onMouseDown={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "scale(0.97)";
-            }}
-            onMouseUp={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "scale(1)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "scale(1)";
-            }}
+            className="ml-auto"
           >
             {copied ? "Copied" : "Copy Install Cmd"}
-          </button>
+          </Button>
         )}
       </div>
-    </article>
+    </div>
   );
 }
