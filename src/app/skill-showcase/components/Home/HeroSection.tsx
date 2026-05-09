@@ -1,100 +1,37 @@
-import Link from "next/link";
+"use client";
+
 import { useSkills } from "../../hooks/useSkills";
-import { buildSkillShowcaseModel } from "../../utils/skillShowcase";
 
 export default function HeroSection() {
   const { total, skills } = useSkills();
-  const featuredIds = [
-    "opc-methodology",
-    "khazix-skills",
-    "gpt-image-2",
-    "kami",
-  ];
-  const featured = featuredIds
-    .map((id) => skills.find((skill) => skill.id === id))
-    .filter((skill): skill is NonNullable<typeof skill> => Boolean(skill))
-    .concat(skills)
-    .filter(
-      (skill, index, all) =>
-        all.findIndex((item) => item.id === skill.id) === index,
-    )
-    .slice(0, 4);
-  const catCount = new Set(skills.map((skill) => skill.category.key)).size;
-  const installable = skills.filter((skill) => skill.installCommand).length;
-  const visualCases = skills.filter(
-    (skill) => skill.assets.screenshots.length || skill.assets.samples.length,
-  ).length;
+  const catCount = new Set(skills.map((s) => s.category.key)).size;
+  const installable = skills.filter((s) => s.installCommand).length;
 
   return (
-    <section className="home-hero" aria-labelledby="home-hero-title">
-      <div className="home-hero-copy">
-        <div className="home-hero-eyebrow-row">
-          <span className="home-hero-eyebrow">Agent Capability Atlas</span>
-          <span className="home-hero-version">v2.0</span>
-        </div>
-
-        <h1 id="home-hero-title" className="home-hero-title">
-          Map the right capability before you use it.
-        </h1>
-
-        <p className="home-hero-description">
-          A light-first atlas for agent skills and design resources, arranged
-          around outcomes, triggers, references, and example cases so each
-          capability is easier to inspect.
-        </p>
-
-        <div className="home-hero-cta-row">
-          <a href="#skills" className="home-primary-link">
-            Browse cases
-          </a>
-          <a href="#skills" className="home-secondary-link">
-            Search skills
-          </a>
-        </div>
-
-        <div className="home-hero-actions" aria-label="Library metrics">
-          {[
-            [String(total), "Skills"],
-            [String(catCount), "Categories"],
-            [String(installable), "Installable"],
-            [String(visualCases), "Visual cases"],
-          ].map(([value, label]) => (
-            <div key={label} className="metric-tile">
-              <span className="metric-value">{value}</span>
-              <span className="metric-label">{label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="hero-case-stack" aria-label="Featured skill cases">
-        <div className="hero-case-stack-header">
-          <span>Featured cases</span>
-          <span>{featured.length} selected</span>
-        </div>
-        {featured.map((skill, index) => {
-          const model = buildSkillShowcaseModel(skill);
-          return (
-            <Link
-              key={skill.id}
-              href={`/skill-showcase/${skill.id}`}
-              className="hero-case-card"
-            >
-              <span className="hero-case-number">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <span className="hero-case-category">
-                  {skill.category.label}
-                </span>
-                <h2>{skill.name}</h2>
-                <p>{model.outputSummary}</p>
-              </div>
-              <code>{model.primaryTrigger}</code>
-            </Link>
-          );
-        })}
+    <section className="max-w-7xl mx-auto px-4 pt-12 pb-8">
+      <h1 className="text-3xl font-bold tracking-tight text-foreground">
+        Skill Showcase
+      </h1>
+      <p className="mt-2 text-muted-foreground max-w-2xl">
+        Explore and discover AI agent skills and capabilities. Browse by
+        category, search by name, or dive into individual skill details.
+      </p>
+      <div className="mt-6 flex flex-wrap gap-6">
+        <StatItem value={total} label="Skills" />
+        <StatItem value={catCount} label="Categories" />
+        <StatItem value={installable} label="Installable" />
       </div>
     </section>
+  );
+}
+
+function StatItem({ value, label }: { value: number; label: string }) {
+  return (
+    <div className="flex items-baseline gap-2 rounded-[var(--radius)] border border-border bg-card px-4 py-3">
+      <span className="text-2xl font-bold tracking-tight text-foreground">
+        {value}
+      </span>
+      <span className="text-sm text-muted-foreground">{label}</span>
+    </div>
   );
 }

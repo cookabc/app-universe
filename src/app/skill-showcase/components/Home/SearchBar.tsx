@@ -1,3 +1,7 @@
+"use client";
+
+import { Input } from "@/components/ui/input";
+
 interface Props {
   value: string;
   onChange: (v: string) => void;
@@ -5,12 +9,9 @@ interface Props {
 
 export default function SearchBar({ value, onChange }: Props) {
   return (
-    <div className="search-field">
-      <label htmlFor="skill-search" className="sr-only">
-        Search Skills
-      </label>
+    <div className="relative w-full max-w-md">
       <svg
-        className="search-field-icon"
+        className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
         aria-hidden="true"
         viewBox="0 0 24 24"
         fill="none"
@@ -22,25 +23,21 @@ export default function SearchBar({ value, onChange }: Props) {
         <circle cx="11" cy="11" r="8" />
         <path d="m21 21-4.3-4.3" />
       </svg>
-      <input
-        id="skill-search"
+      <Input
         type="search"
-        name="q"
-        placeholder="Search by name, category, or workflow…"
+        placeholder="Search by name, category, or workflow..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        autoComplete="off"
-        spellCheck={false}
-        className="search-field-input"
+        className="h-10 pl-10 pr-10"
       />
       {value && (
         <button
           type="button"
-          className="search-clear-button"
-          aria-label="Clear Search"
+          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md px-2 py-1 text-sm text-muted-foreground hover:text-foreground hover:bg-muted"
           onClick={() => onChange("")}
+          aria-label="Clear search"
         >
-          ×
+          &times;
         </button>
       )}
     </div>

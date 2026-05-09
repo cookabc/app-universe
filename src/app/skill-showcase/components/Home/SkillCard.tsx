@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { SkillData } from "../../data/skills";
 import { buildSkillShowcaseModel } from "../../utils/skillShowcase";
+import { Badge } from "@/components/ui/badge";
 
 interface Props {
   skill: SkillData;
@@ -11,72 +14,66 @@ interface Props {
 
 export default function SkillCard({ skill, index, visible = false }: Props) {
   const cat = skill.category;
-  const num = String(index + 1).padStart(2, "0");
   const delay = Math.min(index * 60, 420);
   const model = buildSkillShowcaseModel(skill);
-  const previewLabel =
-    model.kind === "image"
-      ? `${model.assetUrls.length} visual reference${model.assetUrls.length === 1 ? "" : "s"}`
-      : model.kind === "generated-flow"
-        ? "Generated workflow board"
-        : model.kind === "generated-prompt"
-          ? "Generated prompt board"
-          : "Generated output board";
 
   return (
     <Link
       href={`/skill-showcase/${skill.id}`}
-      className="skill-card-link"
-      style={
-        {
-          "--card-color": `var(--cat-${cat.key}, ${cat.color || "var(--brand)"})`,
-          "--card-delay": `${delay}ms`,
-        } as CSSProperties
-      }
+      className="block text-inherit no-underline"
     >
-      <article className="skill-card" data-visible={visible ? "true" : "false"}>
-        <div className="skill-card-header">
-          <span className="skill-card-index">{num}</span>
-          <span className="skill-card-category">
-            <span className="skill-card-category-dot" aria-hidden="true" />
+      <article
+        className="rounded-[var(--radius)] border-2 border-slate-800 bg-card p-6 shadow-[var(--box-shadow)] transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1"
+        style={
+          {
+            "--card-color": `var(--cat-${cat.key}, ${cat.color})`,
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0)" : "translateY(18px)",
+            transitionDelay: `${delay}ms`,
+          } as CSSProperties
+        }
+      >
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <Badge
+            variant="outline"
+            className="text-xs"
+            style={
+              {
+                color: `var(--cat-${cat.key})`,
+                borderColor: `var(--cat-${cat.key})`,
+              } as CSSProperties
+            }
+          >
+            <span
+              className="mr-1 inline-block h-2 w-2 rounded-full"
+              style={{ backgroundColor: `var(--cat-${cat.key})` }}
+              aria-hidden="true"
+            />
             {cat.label}
+          </Badge>
+          <span className="text-xs text-muted-foreground tabular-nums">
+            {skill.fileInfo.totalFiles} files
           </span>
         </div>
 
-        <h3 className="skill-card-title">{skill.name}</h3>
+        <h3 className="text-lg font-semibold text-foreground leading-tight mb-2">
+          {skill.name}
+        </h3>
 
-        <p className="skill-card-description">
+        <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
           {skill.description || "No description available"}
         </p>
 
-        <div className="skill-card-preview-hint" aria-hidden="true">
-          <span>{previewLabel}</span>
-          <div>
-            {model.workflowSteps.slice(0, 3).map((step) => (
-              <i key={step} />
-            ))}
-          </div>
-        </div>
-
-        <div className="skill-card-trigger">
-          <span className="skill-card-trigger-label">Trigger</span>
-          <code>{model.primaryTrigger}</code>
-        </div>
-
-        <div className="skill-card-meta">
-          <div className="skill-card-meta-item">
-            <span className="skill-card-meta-value">
-              {skill.fileInfo.totalFiles}
-            </span>
-            <span className="skill-card-meta-label">files</span>
-          </div>
-          <div className="skill-card-meta-item">
-            <span className="skill-card-meta-value">
-              {skill.keyFeatures.length}
-            </span>
-            <span className="skill-card-meta-label">features</span>
-          </div>
-          <span className="skill-card-complexity">{skill.stats.readTime}</span>
+        <div className="mt-auto rounded-md border border-border bg-muted/50 p-3">
+          <span className="block text-[10px] font-bold uppercase text-muted-foreground mb-1">
+            Trigger
+          </span>
+          <code
+            className="block text-xs truncate"
+            style={{ color: `var(--cat-${cat.key})` } as CSSProperties}
+          >
+            {model.primaryTrigger}
+          </code>
         </div>
       </article>
     </Link>

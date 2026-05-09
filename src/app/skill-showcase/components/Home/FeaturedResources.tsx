@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import {
   type DesignResource,
@@ -17,21 +19,14 @@ export default function FeaturedResources() {
   if (!resources.length) return null;
 
   return (
-    <section
-      id="resources"
-      className="featured-resources"
-      aria-labelledby="featured-resources-heading"
-    >
-      <div className="featured-resources-header">
-        <div>
-          <p className="workbench-kicker">Resources</p>
-          <h2 id="featured-resources-heading">Featured Design Resources</h2>
-        </div>
-        <p>
-          These are the reference layers behind better skill usage: product
-          framing, design-system context, and promptable visual styles.
-        </p>
-      </div>
+    <section className="max-w-7xl mx-auto px-4 pb-8">
+      <h2 className="text-2xl font-bold tracking-tight text-foreground mb-2">
+        Featured Resources
+      </h2>
+      <p className="text-sm text-muted-foreground mb-6 max-w-2xl">
+        Reference layers for better skill usage: product framing, design-system
+        context, and promptable visual styles.
+      </p>
       <ResourceCards resources={resources} />
     </section>
   );
