@@ -1,9 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 import { useSearch, useSkills } from "../hooks/useSkills";
-import TweaksPanel, { applyTweaks, useTweaks } from "./common/TweaksPanel";
 import CategoryFilter from "./Home/CategoryFilter";
 import FeaturedResources from "./Home/FeaturedResources";
 import HeroSection from "./Home/HeroSection";
@@ -14,13 +12,8 @@ export default function HomePage() {
   const { skills, loading, error } = useSkills();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { tweaks, setTweak } = useTweaks();
   const q = searchParams.get("q") || "";
   const cat = searchParams.get("cat") || "all";
-
-  useEffect(() => {
-    applyTweaks(tweaks);
-  }, [tweaks]);
 
   const updateQueryState = (next: { q?: string; cat?: string }) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -93,8 +86,6 @@ export default function HomePage() {
 
         <SkillGrid skills={filtered} />
       </section>
-
-      <TweaksPanel tweaks={tweaks} onChange={setTweak} />
     </>
   );
 }

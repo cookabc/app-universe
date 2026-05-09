@@ -1,53 +1,52 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap");
 
-/* === Warm Atelier Design System === */
-/* Light by default, dark via html.dark (next-themes) */
+/* === Skill Showcase — synced with app-universe Tailwind tokens === */
+/* Surfaces, text, borders, and shadows derive from the global HSL vars
+   so dark/light mode follows next-themes automatically. */
 .ss-wrapper {
-  color-scheme: light;
-
-  /* Surfaces - Warm paper */
-  --bg-primary: #faf9f7;
-  --bg-secondary: #f5f4f2;
-  --bg-surface: #f0eeeb;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f5f4f2;
-  --bg-elevated: #ffffff;
+  /* Surfaces → map to global background/card tokens */
+  --bg-primary: hsl(var(--background));
+  --bg-secondary: hsl(var(--muted));
+  --bg-surface: hsl(var(--muted));
+  --bg-card: hsl(var(--card));
+  --bg-card-hover: hsl(var(--accent));
+  --bg-elevated: hsl(var(--popover));
   --bg-primary-rgb: 250, 249, 247;
-  --bg-secondary-rgb: 245, 244, 242;
+  --bg-secondary-rgb: 240, 240, 240;
 
-  /* Text - Warm white hierarchy */
-  --text-primary: #1a1a18;
-  --text-secondary: #5c5a56;
-  --text-muted: #8a8884;
-  --text-dim: #b5b3af;
+  /* Text → map to global foreground tokens */
+  --text-primary: hsl(var(--foreground));
+  --text-secondary: hsl(var(--muted-foreground));
+  --text-muted: hsl(var(--muted-foreground));
+  --text-dim: hsl(var(--border));
 
-  /* Accent - Amber gold primary, mint secondary */
-  --brand: #b8932f;
-  --brand-soft: rgba(184, 147, 47, 0.1);
-  --brand-subtle: rgba(184, 147, 47, 0.05);
-  --brand-glow: rgba(184, 147, 47, 0.15);
-  --accent: #5ecf8a;
-  --accent-soft: rgba(94, 207, 138, 0.12);
-  --accent-glow: rgba(94, 207, 138, 0.18);
+  /* Accent → use global primary + accent */
+  --brand: hsl(var(--accent));
+  --brand-soft: hsl(var(--accent) / 0.1);
+  --brand-subtle: hsl(var(--accent) / 0.05);
+  --brand-glow: hsl(var(--accent) / 0.15);
+  --accent: hsl(var(--primary));
+  --accent-soft: hsl(var(--primary) / 0.1);
+  --accent-glow: hsl(var(--primary) / 0.18);
 
-  /* Border - Warm dark */
-  --border: #e5e3df;
-  --border-strong: #d5d3cf;
-  --border-soft: #f0eeeb;
-  --border-subtle: #f5f4f2;
+  /* Borders → map to global border tokens */
+  --border: hsl(var(--border));
+  --border-strong: hsl(var(--border));
+  --border-soft: hsl(var(--muted));
+  --border-subtle: hsl(var(--muted));
 
   /* Tag backgrounds */
-  --tag-bg-light: rgba(184, 147, 47, 0.06);
-  --tag-bg-default: rgba(184, 147, 47, 0.1);
-  --tag-bg-medium: rgba(184, 147, 47, 0.16);
-  --tag-bg-strong: rgba(184, 147, 47, 0.24);
+  --tag-bg-light: hsl(var(--accent) / 0.06);
+  --tag-bg-default: hsl(var(--accent) / 0.1);
+  --tag-bg-medium: hsl(var(--accent) / 0.16);
+  --tag-bg-strong: hsl(var(--accent) / 0.24);
 
   /* Status colors */
-  --success: #5ecf8a;
-  --warning: #d4a853;
-  --error: #e85c4a;
+  --success: hsl(var(--success));
+  --warning: hsl(var(--warning));
+  --error: hsl(var(--destructive));
 
-  /* Category palette — mapped to midnight tones */
+  /* Category palette */
   --cat-diagram: #9b8af2;
   --cat-design: #e88e8e;
   --cat-screenshot: #e8a84c;
@@ -61,33 +60,33 @@
   --cat-methodology: #8aa1e8;
   --cat-document: #d4a853;
 
-  /* Shadows - Depth layers */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.06);
-  --shadow-glow:
-    0 0 20px rgba(184, 147, 47, 0.06), 0 8px 32px rgba(0, 0, 0, 0.06);
-  --shadow-ring: inset 0 0 0 1px var(--border-strong);
-  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px hsl(var(--accent) / 0.08);
+  --shadow-ring: inset 0 0 0 1px var(--border);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 
-  /* Radius - Concentric scale */
-  --radius-xs: 4px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
+  /* Radius */
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
   --radius-full: 9999px;
 
-  /* Typography */
+  /* Typography → use site fonts */
   --font-display: "DM Serif Display", Georgia, "Noto Serif SC", serif;
-  --font-sans:
-    "Plus Jakarta Sans", -apple-system, "PingFang SC", "Noto Sans SC",
-    system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
+  --font-sans: var(--font-sans, system-ui, sans-serif);
+  --font-mono: var(--font-jetbrains-mono, ui-monospace, monospace);
 
   /* Focus ring */
-  --focus-ring: 0 0 0 2px var(--brand);
+  --focus-ring: 0 0 0 2px hsl(var(--ring));
   --focus-ring-offset: 2px;
 
   /* Motion */
@@ -100,57 +99,10 @@
   --duration-entry: 600ms;
 }
 
-/* === Dark Mode (via next-themes html.dark) === */
-html.dark .ss-wrapper {
-  color-scheme: dark;
-  --bg-primary: #0f0f0e;
-  --bg-secondary: #161614;
-  --bg-surface: #1a1918;
-  --bg-card: #232220;
-  --bg-card-hover: #2a2927;
-  --bg-elevated: #302e2c;
-  --bg-primary-rgb: 15, 15, 14;
-  --bg-secondary-rgb: 22, 22, 20;
-  --text-primary: #e8e6e3;
-  --text-secondary: #9a9590;
-  --text-muted: #5c5a56;
-  --text-dim: #3a3836;
-  --brand: #d4a853;
-  --brand-soft: rgba(212, 168, 83, 0.12);
-  --brand-subtle: rgba(212, 168, 83, 0.06);
-  --brand-glow: rgba(212, 168, 83, 0.2);
-  --border: #2e2c2a;
-  --border-strong: #3d3b38;
-  --border-soft: #1f1e1c;
-  --border-subtle: #181816;
-  --tag-bg-light: rgba(212, 168, 83, 0.08);
-  --tag-bg-default: rgba(212, 168, 83, 0.14);
-  --tag-bg-medium: rgba(212, 168, 83, 0.2);
-  --tag-bg-strong: rgba(212, 168, 83, 0.28);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.25);
-  --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.38), 0 2px 8px rgba(0, 0, 0, 0.28);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.45), 0 4px 16px rgba(0, 0, 0, 0.32);
-  --shadow-glow:
-    0 0 20px rgba(212, 168, 83, 0.08), 0 8px 32px rgba(0, 0, 0, 0.3);
-  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.25);
-}
-
-html.dark .ss-wrapper a:hover {
-  color: #d4a853;
-}
-
 .ss-wrapper *,
 .ss-wrapper *::before,
 .ss-wrapper *::after {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
-}
-
-.ss-wrapper {
-  font-size: 16px;
-  scroll-behavior: smooth;
 }
 
 .ss-wrapper {
