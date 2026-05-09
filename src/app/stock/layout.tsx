@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -17,10 +16,6 @@ export default function StockLayout({
       className="stock-wrapper"
       style={{ height: "100vh", overflow: "hidden" }}
     >
-      <Script
-        src="/charting_library/charting_library.js"
-        strategy="beforeInteractive"
-      />
       {children}
     </div>
   );
