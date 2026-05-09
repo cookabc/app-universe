@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap");
 
-/* === Warm Atelier Design System (Light Only) === */
-/* Warm paper background, amber-gold accent, serif display + geometric sans */
+/* === Warm Atelier Design System === */
+/* Light by default, dark via html.dark (next-themes) */
 .ss-wrapper {
   color-scheme: light;
 
@@ -98,6 +98,46 @@
   --duration-normal: 250ms;
   --duration-slow: 400ms;
   --duration-entry: 600ms;
+}
+
+/* === Dark Mode (via next-themes html.dark) === */
+html.dark .ss-wrapper {
+  color-scheme: dark;
+  --bg-primary: #0f0f0e;
+  --bg-secondary: #161614;
+  --bg-surface: #1a1918;
+  --bg-card: #232220;
+  --bg-card-hover: #2a2927;
+  --bg-elevated: #302e2c;
+  --bg-primary-rgb: 15, 15, 14;
+  --bg-secondary-rgb: 22, 22, 20;
+  --text-primary: #e8e6e3;
+  --text-secondary: #9a9590;
+  --text-muted: #5c5a56;
+  --text-dim: #3a3836;
+  --brand: #d4a853;
+  --brand-soft: rgba(212, 168, 83, 0.12);
+  --brand-subtle: rgba(212, 168, 83, 0.06);
+  --brand-glow: rgba(212, 168, 83, 0.2);
+  --border: #2e2c2a;
+  --border-strong: #3d3b38;
+  --border-soft: #1f1e1c;
+  --border-subtle: #181816;
+  --tag-bg-light: rgba(212, 168, 83, 0.08);
+  --tag-bg-default: rgba(212, 168, 83, 0.14);
+  --tag-bg-medium: rgba(212, 168, 83, 0.2);
+  --tag-bg-strong: rgba(212, 168, 83, 0.28);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.38), 0 2px 8px rgba(0, 0, 0, 0.28);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.45), 0 4px 16px rgba(0, 0, 0, 0.32);
+  --shadow-glow:
+    0 0 20px rgba(212, 168, 83, 0.08), 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+html.dark .ss-wrapper a:hover {
+  color: #d4a853;
 }
 
 .ss-wrapper *,
