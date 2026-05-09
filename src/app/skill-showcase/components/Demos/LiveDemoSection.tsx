@@ -5,6 +5,7 @@ import ColorPalette, { extractThemeColors } from "./ColorPalette";
 import DeviceFrame from "./DeviceFrame";
 import ImageGallery from "./ImageGallery";
 import TerminalWindow from "./TerminalWindow";
+import SkillPreview from "./SkillPreview";
 
 interface Props {
   skill: SkillData;
@@ -160,31 +161,12 @@ export default function LiveDemoSection({ skill }: Props) {
   if (!demos.length) return null;
 
   return (
-    <div style={{ marginTop: "32px", maxWidth: "65ch", padding: "12px 16px" }}>
-      <h3
-        style={{
-          fontFamily: "var(--font-display)",
-          fontSize: "18px",
-          fontWeight: 400,
-          marginBottom: "16px",
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          color: "var(--text-primary)",
-        }}
-      >
-        <span
-          style={{
-            width: "3px",
-            height: "18px",
-            background: "var(--brand)",
-            borderRadius: "1.5px",
-            display: "inline-block",
-          }}
-        />
+    <div className="mt-8 max-w-3xl px-4">
+      <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+        <span className="w-[3px] h-[18px] bg-primary rounded-sm inline-block" />
         Live Demo
       </h3>
-      <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+      <div className="flex flex-col gap-5">
         {demos.map((demo, i) => (
           <div key={i}>{demo}</div>
         ))}
@@ -412,7 +394,6 @@ function extractCodeBlocksLimited(
     const code = m[2].trim();
     if (code.length > 20 && code.length < 5000) {
       let lang = m[1] || "text";
-      // Map common aliases
       const langMap: Record<string, string> = {
         js: "javascript",
         py: "python",
