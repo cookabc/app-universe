@@ -1,5 +1,5 @@
-import MarkdownRenderer from "../common/MarkdownRenderer";
 import type { SkillData } from "../../data/skills";
+import MarkdownRenderer from "../common/MarkdownRenderer";
 
 interface Props {
   skill: SkillData;

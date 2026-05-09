@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
-  getResourcesForSkill,
   type DesignResource,
+  getResourcesForSkill,
 } from "../../data/resources";
 import ResourceCards from "../Resources/ResourceCards";
 

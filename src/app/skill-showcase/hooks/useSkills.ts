@@ -1,11 +1,11 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { CATEGORIES } from "../data/categories";
 import {
   getAllSkills,
   registerCustomSkill,
-  subscribeToSkillsChange,
   type SkillData,
+  subscribeToSkillsChange,
 } from "../data/skills";
-import { CATEGORIES } from "../data/categories";
 
 const SKILL_DISPLAY_ORDER = [
   "opc-methodology",

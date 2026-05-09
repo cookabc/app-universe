@@ -1,7 +1,7 @@
 import { useState } from "react";
-import MarkdownRenderer from "../common/MarkdownRenderer";
 import type { SkillData } from "../../data/skills";
 import { extractCodeBlocks } from "../../utils/markdownParser";
+import MarkdownRenderer from "../common/MarkdownRenderer";
 
 interface Props {
   skill: SkillData;

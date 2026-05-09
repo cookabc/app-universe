@@ -1,14 +1,14 @@
 "use client";
 
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { useSkills, useSearch } from "../hooks/useSkills";
+import { useSearch, useSkills } from "../hooks/useSkills";
+import TweaksPanel, { applyTweaks, useTweaks } from "./common/TweaksPanel";
+import CategoryFilter from "./Home/CategoryFilter";
+import FeaturedResources from "./Home/FeaturedResources";
 import HeroSection from "./Home/HeroSection";
 import SearchBar from "./Home/SearchBar";
-import CategoryFilter from "./Home/CategoryFilter";
 import SkillGrid from "./Home/SkillGrid";
-import FeaturedResources from "./Home/FeaturedResources";
-import TweaksPanel, { useTweaks, applyTweaks } from "./common/TweaksPanel";
 
 export default function HomePage() {
   const { skills, loading, error } = useSkills();

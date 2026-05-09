@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
-  getFeaturedResources,
   type DesignResource,
+  getFeaturedResources,
 } from "../../data/resources";
 import ResourceCards from "../Resources/ResourceCards";
 

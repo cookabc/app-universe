@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import type { SkillData } from "../data/skills";
 import { getSkillById } from "../data/skills";
 import LiveDemoSection from "./Demos/LiveDemoSection";
-import RelatedSkills from "./SkillDetail/RelatedSkills";
-import RelatedResources from "./SkillDetail/RelatedResources";
 import UnifiedLayout from "./SkillDetail/layouts/UnifiedLayout";
-import type { SkillData } from "../data/skills";
+import RelatedResources from "./SkillDetail/RelatedResources";
+import RelatedSkills from "./SkillDetail/RelatedSkills";
 
 export default function SkillDetailPage({ id }: { id: string }) {
   const [skill, setSkill] = useState<SkillData | undefined>(undefined);

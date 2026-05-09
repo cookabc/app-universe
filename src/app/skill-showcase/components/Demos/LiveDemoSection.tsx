@@ -1,10 +1,10 @@
-import React from "react";
+import type React from "react";
 import type { SkillData } from "../../data/skills.types";
-import ImageGallery from "./ImageGallery";
-import ColorPalette, { extractThemeColors } from "./ColorPalette";
-import TerminalWindow from "./TerminalWindow";
-import DeviceFrame from "./DeviceFrame";
 import CodePlayground from "./CodePlayground";
+import ColorPalette, { extractThemeColors } from "./ColorPalette";
+import DeviceFrame from "./DeviceFrame";
+import ImageGallery from "./ImageGallery";
+import TerminalWindow from "./TerminalWindow";
 
 interface Props {
   skill: SkillData;
