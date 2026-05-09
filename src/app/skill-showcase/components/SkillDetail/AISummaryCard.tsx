@@ -1,3 +1,4 @@
+import { Card, CardContent } from "@/components/ui/card";
 import type { SkillData } from "../../data/skills";
 
 interface Props {
@@ -13,58 +14,21 @@ function getSummary(s: SkillData): string {
 export default function AISummaryCard({ skill }: Props) {
   const summary = getSummary(skill);
   return (
-    <div
-      style={{
-        border: "0.5px solid var(--border-soft)",
-        padding: "18px 20px",
-        marginBottom: "24px",
-        maxWidth: "65ch",
-        margin: "0 auto 24px",
-        borderRadius: "8px",
-        background: "var(--bg-surface)",
-        boxShadow: "var(--shadow-sm)",
-        opacity: 1,
-        transform: "translateY(0)",
-        transition: "opacity .4s ease .1s, transform .4s ease .1s",
-      }}
-    >
-      <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
-        <span style={{ fontSize: "16px", flexShrink: 0 }}>🤖</span>
+    <Card className="max-w-3xl mx-auto mb-6">
+      <CardContent className="p-4 flex gap-3 items-start">
+        <span className="text-base shrink-0">🤖</span>
         <div>
-          <div
-            style={{
-              fontSize: "10px",
-              color: "var(--brand)",
-              fontWeight: 600,
-              marginBottom: "4px",
-              textTransform: "uppercase",
-              letterSpacing: "1px",
-            }}
-          >
+          <div className="text-[10px] text-primary font-semibold uppercase tracking-wider mb-1">
             AI Summary
           </div>
-          <p
-            style={{
-              fontSize: "13px",
-              color: "var(--text-secondary)",
-              lineHeight: 1.5,
-              textWrap: "pretty",
-            }}
-          >
+          <p className="text-[13px] text-muted-foreground leading-relaxed">
             {summary}
           </p>
-          <div
-            style={{
-              marginTop: "6px",
-              fontSize: "11px",
-              color: "var(--text-muted)",
-              fontVariantNumeric: "tabular-nums",
-            }}
-          >
+          <div className="mt-1.5 text-[11px] text-muted-foreground tabular-nums">
             Auto-generated from SKILL.md · {skill.stats.readTime} read time
           </div>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

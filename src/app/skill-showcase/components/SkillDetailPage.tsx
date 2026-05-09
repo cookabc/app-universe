@@ -33,68 +33,53 @@ export default function SkillDetailPage({ id }: { id: string }) {
 
   if (loading) {
     return (
-      <div style={{ textAlign: "center", padding: "80px 24px" }}>
-        <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>
-          Loading skill…
-        </p>
+      <div
+        className="flex min-h-[60vh] items-center justify-center"
+        role="status"
+        aria-live="polite"
+      >
+        <span className="text-sm text-muted-foreground">Loading skill...</span>
       </div>
     );
   }
 
   if (!skill) {
     return (
-      <div style={{ textAlign: "center", padding: "80px 24px" }}>
-        <h1
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "26px",
-            fontWeight: 400,
-            marginBottom: "8px",
-          }}
-        >
-          {error ? "Skill data unavailable" : "Skill not found"}
+      <section className="mx-auto max-w-xl px-4 py-20 text-center">
+        <p className="text-xs font-bold uppercase tracking-wider text-destructive mb-2">
+          {error ? "Data unavailable" : "Not found"}
+        </p>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+          {error ? "Skill data could not be loaded." : "Skill not found"}
         </h1>
-        <p
-          style={{
-            color: "var(--text-secondary)",
-            marginBottom: "20px",
-            fontSize: "14px",
-          }}
-        >
+        <p className="mt-2 text-sm text-muted-foreground">
           {error || `No skill found with ID: "${id}".`}
         </p>
         <Link
           href="/skill-showcase"
-          style={{
-            color: "var(--brand)",
-            textDecoration: "none",
-            fontSize: "14px",
-            fontWeight: 500,
-          }}
+          className="inline-block mt-5 text-sm font-medium text-primary hover:underline"
         >
           Back to gallery
         </Link>
-      </div>
+      </section>
     );
   }
 
   return (
-    <div className="skill-page-shell">
-      <div className="skill-page-main">
-        <UnifiedLayout skill={skill} />
-      </div>
+    <div className="w-full">
+      <UnifiedLayout skill={skill} />
 
       {skill.installCommand && (
-        <section className="skill-live-demo-section">
+        <section className="max-w-5xl mx-auto mt-7">
           <LiveDemoSection skill={skill} />
         </section>
       )}
 
-      <section className="skill-related-section">
+      <section className="max-w-5xl mx-auto mt-7">
         <RelatedResources skillId={skill.id} />
       </section>
 
-      <section className="skill-related-section">
+      <section className="max-w-5xl mx-auto mt-7">
         <RelatedSkills currentId={skill.id} />
       </section>
     </div>

@@ -6,10 +6,8 @@ import { use } from "react";
 const SkillDetail = dynamic(() => import("../components/SkillDetailPage"), {
   ssr: false,
   loading: () => (
-    <div style={{ textAlign: "center", padding: "80px 24px" }}>
-      <span style={{ color: "var(--text-muted)", fontSize: "14px" }}>
-        Loading skill…
-      </span>
+    <div className="flex min-h-[60vh] items-center justify-center">
+      <span className="text-sm text-muted-foreground">Loading skill...</span>
     </div>
   ),
 });

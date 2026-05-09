@@ -27,20 +27,24 @@ export default function RelatedSkills({ currentId }: Props) {
   if (!rel.length) return null;
 
   return (
-    <div className="related-skills">
-      <h3 className="related-skills-title">
-        <span aria-hidden="true" />
+    <div className="rounded-[var(--radius)] border-2 border-slate-800 bg-card p-6 shadow-[var(--box-shadow)]">
+      <h3 className="flex items-center gap-2 mb-4 text-lg font-bold text-foreground">
+        <span className="w-1 h-5 rounded bg-primary" />
         Related Skills ({cl})
       </h3>
-      <div className="related-skills-row">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {rel.map((s) => (
           <Link
             key={s.id}
             href={`/skill-showcase/${s.id}`}
-            className="related-skill-card"
+            className="rounded-lg bg-muted border border-border p-4 flex flex-col justify-between min-h-[80px] hover:-translate-y-0.5 hover:border-foreground transition-all duration-200"
           >
-            <div>{s.name}</div>
-            <span>{s.category.label}</span>
+            <div className="font-semibold text-foreground text-sm leading-tight">
+              {s.name}
+            </div>
+            <span className="text-xs text-muted-foreground mt-2">
+              {s.category.label}
+            </span>
           </Link>
         ))}
       </div>
