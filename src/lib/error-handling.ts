@@ -19,62 +19,15 @@ export class ValidationError extends AppError {
     }
 }
 
-class AuthenticationError extends AppError {
-    constructor(message: string = 'Authentication required') {
-        super(message, 'AUTHENTICATION_ERROR', 401)
-        this.name = 'AuthenticationError'
-    }
-}
-
-class AuthorizationError extends AppError {
-    constructor(message: string = 'Insufficient permissions') {
-        super(message, 'AUTHORIZATION_ERROR', 403)
-        this.name = 'AuthorizationError'
-    }
-}
-
-class NotFoundError extends AppError {
-    constructor(message: string = 'Resource not found') {
-        super(message, 'NOT_FOUND_ERROR', 404)
-        this.name = 'NotFoundError'
-    }
-}
-
-class NetworkError extends AppError {
-    constructor(message: string = 'Network request failed') {
-        super(message, 'NETWORK_ERROR', 502)
-        this.name = 'NetworkError'
-    }
-}
-
-// Error handler utility functions
 function handleError(error: unknown): AppError {
     if (error instanceof AppError) {
         return error
     }
 
     if (error instanceof Error) {
-        // Handle specific error types
-        if (error.message.includes('Authentication') || error.message.includes('Unauthorized')) {
-            return new AuthenticationError(error.message)
-        }
-
-        if (error.message.includes('Permission') || error.message.includes('Forbidden')) {
-            return new AuthorizationError(error.message)
-        }
-
-        if (error.message.includes('not found')) {
-            return new NotFoundError(error.message)
-        }
-
-        if (error.message.includes('Network') || error.message.includes('fetch')) {
-            return new NetworkError(error.message)
-        }
-
         return new AppError(error.message, 'UNKNOWN_ERROR', 500, error)
     }
 
-    // Handle non-Error objects
     return new AppError(typeof error === 'string' ? error : 'An unknown error occurred', 'UNKNOWN_ERROR', 500, error)
 }
 
