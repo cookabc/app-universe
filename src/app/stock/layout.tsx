@@ -1,22 +1,19 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next'
+import './globals.css'
 
 export const metadata: Metadata = {
-  title: "Stock Platform - Trading Terminal",
-  description: "Professional stock analysis and trading platform",
-};
+    title: 'Stock Platform - Trading Terminal',
+    description: 'Professional stock analysis and trading platform',
+}
 
 export default function StockLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode
 }>) {
-  return (
-    <div
-      className="stock-wrapper"
-      style={{ height: "100vh", overflow: "hidden" }}
-    >
-      {children}
-    </div>
-  );
+    return (
+        <div className="stock-wrapper" style={{ height: '100vh', overflow: 'hidden' }}>
+            {children}
+        </div>
+    )
 }
