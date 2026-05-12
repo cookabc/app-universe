@@ -69,19 +69,19 @@
   },
   "agischool": {
     "hero": {
-      "badge": "The #1 AI School for Future Leaders",
+      "badge": "AI learning for future builders",
       "title": "Master the Future with AGI School",
-      "subtitle": "Join the world's most advanced AI literacy platform. Learn by doing, build real apps, and get certified in next-gen technologies.",
+      "subtitle": "Learn by doing, build real apps, and develop practical AI literacy through guided projects.",
       "cta": "Start Learning Now",
       "demo": "View Demo",
       "noCreditCard": "No credit card required",
-      "freeTrial": "14-day free trial",
+      "freeTrial": "Start at your pace",
       "completionRate": "Course Completion Rate",
       "completionRateDesc": "Our students finish what they start."
     },
     "trust": {
-      "title": "Trusted by 50+ Forward-Thinking Schools",
-      "schools": ["TechHigh", "FutureAcad", "STEM Prep", "InnovateK12"]
+      "title": "Designed for learning teams",
+      "schools": ["", "", "", ""]
     },
     "features": {
       "title": "Choose Your Path to AI Mastery",
@@ -163,10 +163,10 @@
       "badge": "Start Your AI Journey Today",
       "title": "Ready to Unlock Your",
       "subtitle": "AI Superpowers?",
-      "description": "Join 10,000+ students already mastering AI skills. Start with free tutorials, then unlock premium projects and personalized learning paths.",
+      "description": "Start with free tutorials, then unlock premium projects and personalized learning paths as your skills grow.",
       "primaryButton": "Get Started Free",
       "secondaryButton": "View Pricing",
-      "trust": "No credit card required • Cancel anytime • 14-day free trial"
+      "trust": "No credit card required • Cancel anytime"
     }
   },
   "duekeep": {
