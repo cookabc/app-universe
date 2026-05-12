@@ -1,48 +1,48 @@
-import type { ReactNode } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import type { ReactNode } from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 interface Props {
-  content: string;
+    content: string
 }
 
 function textFromNode(node: ReactNode): string {
-  if (typeof node === "string" || typeof node === "number") return String(node);
-  if (Array.isArray(node)) return node.map(textFromNode).join("");
-  if (node && typeof node === "object" && "props" in node) {
-    const props = node.props as { children?: ReactNode };
-    return textFromNode(props.children);
-  }
-  return "";
+    if (typeof node === 'string' || typeof node === 'number') return String(node)
+    if (Array.isArray(node)) return node.map(textFromNode).join('')
+    if (node && typeof node === 'object' && 'props' in node) {
+        const props = node.props as { children?: ReactNode }
+        return textFromNode(props.children)
+    }
+    return ''
 }
 
 export function slugHeading(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
+    return text
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
 }
 
 export default function MarkdownRenderer({ content }: Props) {
-  return (
-    <div className="md-content max-w-3xl mx-auto text-left">
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        components={{
-          h2({ children }) {
-            const id = slugHeading(textFromNode(children));
-            return <h2 id={id}>{children}</h2>;
-          },
-          h3({ children }) {
-            const id = slugHeading(textFromNode(children));
-            return <h3 id={id}>{children}</h3>;
-          },
-        }}
-      >
-        {content}
-      </ReactMarkdown>
-      <style>{`
+    return (
+        <div className="md-content max-w-3xl mx-auto text-left">
+            <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                    h2({ children }) {
+                        const id = slugHeading(textFromNode(children))
+                        return <h2 id={id}>{children}</h2>
+                    },
+                    h3({ children }) {
+                        const id = slugHeading(textFromNode(children))
+                        return <h3 id={id}>{children}</h3>
+                    },
+                }}
+            >
+                {content}
+            </ReactMarkdown>
+            <style>{`
         .md-content{font-family:var(--font-sans);max-width:72ch;margin:0 auto}
         .md-content h1{font-size:24px;font-weight:850;margin:28px 0 14px;color:var(--color-foreground);line-height:1.18;text-wrap:balance}
         .md-content h2{font-size:22px;font-weight:850;margin:34px 0 14px;color:var(--color-foreground);border-bottom:1px solid var(--color-border);padding-bottom:10px;line-height:1.22;text-wrap:balance;scroll-margin-top:96px}
@@ -63,6 +63,6 @@ export default function MarkdownRenderer({ content }: Props) {
         .md-content hr{border:none;border-top:1px solid var(--color-border);margin:28px 0}
         .md-content img{max-width:100%;border-radius:8px;border:1px solid var(--color-border)}
       `}</style>
-    </div>
-  );
+        </div>
+    )
 }
