@@ -65,19 +65,19 @@
   },
   "agischool": {
     "hero": {
-      "badge": "未来领导者的首选 AI 学校",
+      "badge": "面向未来创造者的 AI 学习",
       "title": "掌握未来，从 AGI 学校开始",
-      "subtitle": "加入世界上最先进的 AI 素养平台。通过实践学习，构建真实应用，并获得下一代技术的认证。",
+      "subtitle": "通过实践学习，构建真实应用，并在引导式项目中培养实用的 AI 素养。",
       "cta": "立即开始学习",
       "demo": "观看演示",
       "noCreditCard": "无需信用卡",
-      "freeTrial": "14 天免费试用",
+      "freeTrial": "按自己的节奏开始",
       "completionRate": "课程完成率",
       "completionRateDesc": "我们的学生坚持完成他们的学习。"
     },
     "trust": {
-      "title": "受到 50+ 前瞻思维学校的信任",
-      "schools": ["科技高中", "未来学院", "STEM 预备学校", "创新 K12"]
+      "title": "为学习团队设计",
+      "schools": ["", "", "", ""]
     },
     "features": {
       "title": "选择你的 AI 精通之路",
@@ -159,10 +159,10 @@
       "badge": "今天开始你的 AI 之旅",
       "title": "准备好解锁你的",
       "subtitle": "AI 超能力了吗？",
-      "description": "加入已经掌握 AI 技能的 10,000+ 学生。从免费教程开始，然后解锁高级项目和个性化学习路径。",
+      "description": "从免费教程开始，随着能力提升逐步解锁高级项目和个性化学习路径。",
       "primaryButton": "免费开始",
       "secondaryButton": "查看定价",
-      "trust": "无需信用卡 • 随时取消 • 14 天免费试用"
+      "trust": "无需信用卡 • 随时取消"
     }
   },
   "duekeep": {
