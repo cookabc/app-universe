@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 
-const FULLSCREEN_ROUTES = ['/stock', '/duekeep', '/realtime-fund']
+const FULLSCREEN_ROUTES = ['/stock', '/realtime-fund']
 
 export function AppChrome({ children }: { children: React.ReactNode }) {
     const pathname = usePathname()
