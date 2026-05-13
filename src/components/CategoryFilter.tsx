@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import type { Tool } from "@/data/tools";
 import { TOOL_CATEGORIES, type ToolCategory } from "@/data/tools";
 import { getIcon } from "@/lib/icon-map";
+import { useI18nReady } from "@/hooks/useI18nReady";
 
 interface CategoryFilterProps {
   tools: Tool[];
@@ -16,6 +17,9 @@ export function CategoryFilter({
   activeCategory,
   onCategoryChange,
 }: CategoryFilterProps) {
+  const { i18n } = useI18nReady();
+  const lang = i18n.language as "en" | "zh";
+
   const counts = useMemo(() => {
     const map: Record<string, number> = { all: tools.length };
     for (const tool of tools) {
@@ -50,7 +54,13 @@ export function CategoryFilter({
             }
           >
             <Icon className="h-3.5 w-3.5" />
-            <span>{cat.key === "all" ? "All" : cat.label.en}</span>
+            <span>
+              {cat.key === "all"
+                ? lang === "zh"
+                  ? "全部"
+                  : "All"
+                : cat.label[lang] || cat.label.en}
+            </span>
             {count !== undefined && (
               <span
                 className={`text-[10px] ${isActive ? "opacity-70" : "text-muted-foreground"}`}
