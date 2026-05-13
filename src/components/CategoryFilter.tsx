@@ -29,7 +29,7 @@ export function CategoryFilter({
   }, [tools]);
 
   return (
-    <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap">
+    <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap">
       {TOOL_CATEGORIES.map((cat: ToolCategory) => {
         const Icon = getIcon(cat.icon);
         const count = counts[cat.key];

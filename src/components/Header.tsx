@@ -20,9 +20,8 @@ export const Header = () => {
           {isReady ? t("app.name") : "App Universe"}
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <LanguageSwitcher />
-          <div className="w-px h-4 bg-border" />
           <ThemeSwitch width={44} height={22} className="scale-85" />
         </div>
       </div>
