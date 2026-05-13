@@ -1,6 +1,5 @@
 "use client";
 
-import { Sparkles } from "lucide-react";
 import Link from "next/link";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { useI18nReady } from "@/hooks/useI18nReady";
@@ -16,11 +15,33 @@ export const Header = () => {
           href="/"
           className="flex items-center gap-1.5 text-sm font-black font-heading tracking-tight text-foreground hover:text-primary transition-colors"
         >
-          <Sparkles className="h-4 w-4 text-primary" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 125 125"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="62.5"
+              cy="62.5"
+              r="58"
+              stroke="currentColor"
+              strokeWidth="8"
+            />
+            <circle
+              cx="62.5"
+              cy="62.5"
+              r="32"
+              stroke="currentColor"
+              strokeWidth="8"
+            />
+            <circle cx="62.5" cy="62.5" r="10" fill="currentColor" />
+          </svg>
           {isReady ? t("app.name") : "App Universe"}
         </Link>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <LanguageSwitcher />
           <ThemeSwitch width={44} height={22} className="scale-85" />
         </div>
