@@ -1,48 +1,23 @@
 "use client";
 
+import { Languages } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 
-interface LanguageOption {
-  value: string;
-  label: string;
-  flag: string;
-}
-
-const languages: LanguageOption[] = [
-  { value: "en", label: "EN", flag: "🇺🇸" },
-  { value: "zh", label: "中文", flag: "🇨🇳" },
-];
-
 export function LanguageSwitcher() {
   const { i18n } = useTranslation();
-
-  const handleLanguageChange = (value: string) => {
-    i18n.changeLanguage(value);
-  };
+  const isZh = i18n.language === "zh";
 
   return (
-    <div
-      className="flex items-center space-x-2"
-      role="group"
-      aria-label="Language selection"
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={() => i18n.changeLanguage(isZh ? "en" : "zh")}
+      className="h-7 px-2 text-xs gap-1 text-muted-foreground hover:text-foreground"
+      aria-label={isZh ? "Switch to English" : "切换到中文"}
     >
-      {languages.map((lang) => (
-        <Button
-          key={lang.value}
-          variant={i18n.language === lang.value ? "default" : "outline"}
-          size="sm"
-          onClick={() => handleLanguageChange(lang.value)}
-          className={`transition-all duration-300 ${i18n.language === lang.value ? "bg-primary text-primary-foreground" : "hover:bg-muted"}`}
-          aria-pressed={i18n.language === lang.value}
-          aria-label={`Switch to ${lang.label}`}
-        >
-          <span className="flex items-center space-x-1">
-            <span aria-hidden="true">{lang.flag}</span>
-            <span>{lang.label}</span>
-          </span>
-        </Button>
-      ))}
-    </div>
+      <Languages className="h-3.5 w-3.5" />
+      <span>{isZh ? "EN" : "中"}</span>
+    </Button>
   );
 }
