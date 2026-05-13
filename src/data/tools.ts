@@ -35,18 +35,6 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
     icon: "TrendingUp",
   },
   {
-    key: "ai",
-    label: { en: "AI & Agents", zh: "AI 与智能体" },
-    color: "#8b5cf6",
-    icon: "Sparkles",
-  },
-  {
-    key: "dev",
-    label: { en: "Development", zh: "开发工具" },
-    color: "#10b981",
-    icon: "Code",
-  },
-  {
     key: "design",
     label: { en: "Design", zh: "设计灵感" },
     color: "#ec4899",
@@ -57,12 +45,6 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
     label: { en: "Productivity", zh: "效率办公" },
     color: "#f97316",
     icon: "Zap",
-  },
-  {
-    key: "media",
-    label: { en: "Media & Video", zh: "媒体与视频" },
-    color: "#3b82f6",
-    icon: "Film",
   },
   {
     key: "resources",
