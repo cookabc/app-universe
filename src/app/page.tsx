@@ -1,17 +1,15 @@
-"use client";
+'use client'
 
-import { ToolGrid } from "@/components/ToolGrid";
-import { ToolWallHeader } from "@/components/ToolWallHeader";
+import HeroSection from '@/components/magicpath/nice-ui-landing-hero/HeroSection'
+import { ToolGrid } from '@/components/ToolGrid'
 
 export default function HomePage() {
-  return (
-    <div>
-      <div className="px-4 pt-2 pb-4">
-        <ToolWallHeader />
-      </div>
-      <div className="container max-w-7xl mx-auto px-4 pb-12">
-        <ToolGrid />
-      </div>
-    </div>
-  );
+    return (
+        <div>
+            <HeroSection />
+            <div id="tools" className="container max-w-7xl mx-auto px-4 pb-12">
+                <ToolGrid />
+            </div>
+        </div>
+    )
 }

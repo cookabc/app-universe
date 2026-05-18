@@ -1,4 +1,12 @@
 {
+  "hero": {
+    "title": "Discover tools that",
+    "titleAccent": "actually work",
+    "subtitle": "A curated collection of apps and tools I use and build — for design, finance, productivity, and more.",
+    "cta": "Explore tools",
+    "statsTools": "11+ tools",
+    "statsCategories": "4 categories"
+  },
   "toolsWall": {
     "subtitle": "A curated collection of tools I use and build",
     "searchPlaceholder": "Search tools by name, category, or keyword...",
