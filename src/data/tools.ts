@@ -55,20 +55,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
 ]
 
 const TOOLS: Tool[] = [
-    {
-        id: 'getdesign-md',
-        type: 'link',
-        name: { en: 'getdesign.md', zh: 'getdesign.md' },
-        description: {
-            en: 'DESIGN.md collection for AI coding agents',
-            zh: 'AI 编码助手设计系统集合，生成高质量 UI',
-        },
-        category: 'design',
-        tags: ['design', 'ai', 'coding', 'design-system', 'ui'],
-        url: 'https://getdesign.md/',
-        icon: 'BookOpen',
-        color: '#1b365d',
-    },
+    // ── Design ──
     {
         id: 'open-design',
         type: 'link',
@@ -82,20 +69,6 @@ const TOOLS: Tool[] = [
         url: 'https://open-design.ai/',
         icon: 'Palette',
         color: '#6366f1',
-    },
-    {
-        id: 'designprompts',
-        type: 'link',
-        name: { en: 'Design Prompts', zh: 'Design Prompts' },
-        description: {
-            en: 'AI design style explorer with 31+ rendered styles',
-            zh: 'AI 驱动的设计风格探索器，31+ 种风格提示词',
-        },
-        category: 'design',
-        tags: ['design', 'ai', 'prompts', 'style', 'explorer'],
-        url: 'https://www.designprompts.dev/',
-        icon: 'Wand',
-        color: '#0a0a0a',
     },
     {
         id: 'impeccable',
@@ -112,6 +85,35 @@ const TOOLS: Tool[] = [
         color: '#6366f1',
     },
     {
+        id: 'getdesign-md',
+        type: 'link',
+        name: { en: 'getdesign.md', zh: 'getdesign.md' },
+        description: {
+            en: 'DESIGN.md collection for AI coding agents',
+            zh: 'AI 编码助手设计系统集合，生成高质量 UI',
+        },
+        category: 'design',
+        tags: ['design', 'ai', 'coding', 'design-system', 'ui'],
+        url: 'https://getdesign.md/',
+        icon: 'BookOpen',
+        color: '#1b365d',
+    },
+    {
+        id: 'designprompts',
+        type: 'link',
+        name: { en: 'Design Prompts', zh: 'Design Prompts' },
+        description: {
+            en: 'AI design style explorer with 31+ rendered styles',
+            zh: 'AI 驱动的设计风格探索器，31+ 种风格提示词',
+        },
+        category: 'design',
+        tags: ['design', 'ai', 'prompts', 'style', 'explorer'],
+        url: 'https://www.designprompts.dev/',
+        icon: 'Wand',
+        color: '#0a0a0a',
+    },
+    // ── Productivity ──
+    {
         id: 'kami',
         type: 'link',
         name: { en: 'Kami', zh: 'Kami' },
@@ -124,20 +126,6 @@ const TOOLS: Tool[] = [
         url: 'https://kami.tw93.fun/',
         icon: 'Pencil',
         color: '#8b7355',
-    },
-    {
-        id: 'opc-skills',
-        type: 'link',
-        name: { en: 'OPC Skills', zh: '一人企业技能' },
-        description: {
-            en: '9 Agent Skills for building a lightweight personal business',
-            zh: '可执行的一人企业方法论，9 个技能构建个人业务系统',
-        },
-        category: 'productivity',
-        tags: ['business', 'methodology', 'skills', 'agent', 'one-person'],
-        url: 'https://opc-skills.ft07.com/',
-        icon: 'Briefcase',
-        color: '#78716c',
     },
     {
         id: 'docu-md',
@@ -168,6 +156,21 @@ const TOOLS: Tool[] = [
         color: '#f59e0b',
     },
     {
+        id: 'opc-skills',
+        type: 'link',
+        name: { en: 'OPC Skills', zh: '一人企业技能' },
+        description: {
+            en: '9 Agent Skills for building a lightweight personal business',
+            zh: '可执行的一人企业方法论，9 个技能构建个人业务系统',
+        },
+        category: 'productivity',
+        tags: ['business', 'methodology', 'skills', 'agent', 'one-person'],
+        url: 'https://opc-skills.ft07.com/',
+        icon: 'Briefcase',
+        color: '#78716c',
+    },
+    // ── Finance ──
+    {
         id: 'k2ai',
         type: 'link',
         name: { en: 'K2AI', zh: 'K2AI' },
@@ -195,6 +198,7 @@ const TOOLS: Tool[] = [
         icon: 'BarChart3',
         color: '#3b82f6',
     },
+    // ── Resources ──
     {
         id: 'neal-fun',
         type: 'link',
@@ -208,6 +212,20 @@ const TOOLS: Tool[] = [
         url: 'https://neal.fun/',
         icon: 'Sparkles',
         color: '#f43f5e',
+    },
+    {
+        id: 'astrocade',
+        type: 'link',
+        name: { en: 'Astrocade', zh: 'Astrocade' },
+        description: {
+            en: 'Play casual and arcade-style games online',
+            zh: '在线游玩休闲与街机风格游戏的平台',
+        },
+        category: 'resources',
+        tags: ['games', 'arcade', 'casual', 'online', 'gaming'],
+        url: 'https://www.astrocade.com/',
+        icon: 'Gamepad',
+        color: '#f97316',
     },
 ]
 
