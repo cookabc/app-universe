@@ -29,12 +29,6 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         icon: 'LayoutGrid',
     },
     {
-        key: 'finance',
-        label: { en: 'Finance', zh: '金融理财' },
-        color: '#ef4444',
-        icon: 'TrendingUp',
-    },
-    {
         key: 'design',
         label: { en: 'Design', zh: '设计灵感' },
         color: '#ec4899',
@@ -45,6 +39,12 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         label: { en: 'Productivity', zh: '效率办公' },
         color: '#f97316',
         icon: 'Zap',
+    },
+    {
+        key: 'finance',
+        label: { en: 'Finance', zh: '金融理财' },
+        color: '#ef4444',
+        icon: 'TrendingUp',
     },
     {
         key: 'resources',
