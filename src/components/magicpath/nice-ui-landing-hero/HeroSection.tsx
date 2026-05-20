@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import { ArrowRight, LayoutGrid, Palette, TrendingUp, Zap } from 'lucide-react'
-import { TOOL_CATEGORIES } from '@/data/tools'
+import { TOOL_CATEGORIES, default as TOOLS } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
 
 const categoryIcons = [
@@ -40,8 +40,12 @@ export default function HeroSection() {
         ? t('hero.subtitle')
         : 'A curated collection of apps and tools I use and build — for design, finance, productivity, and more.'
     const ctaText = isReady ? t('hero.cta') : 'Explore tools'
-    const statsTools = isReady ? t('hero.statsTools') : '11+ tools'
-    const statsCategories = isReady ? t('hero.statsCategories') : '4 categories'
+    const toolCount = TOOLS.length
+    const categoryCount = TOOL_CATEGORIES.filter((c) => c.key !== 'all').length
+    const statsTools = isReady ? t('hero.statsTools', { count: toolCount }) : `${toolCount}+ tools`
+    const statsCategories = isReady
+        ? t('hero.statsCategories', { count: categoryCount })
+        : `${categoryCount} categories`
 
     return (
         <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
