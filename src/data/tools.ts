@@ -112,6 +112,34 @@ const TOOLS: Tool[] = [
         icon: 'Wand',
         color: '#0a0a0a',
     },
+    {
+        id: 'motionsites',
+        type: 'link',
+        name: { en: 'MotionSites', zh: 'MotionSites' },
+        description: {
+            en: 'Ready-to-use AI prompt library for beautiful landing pages',
+            zh: 'AI 驱动的落地页提示词库，复制即用的精美网站模板',
+        },
+        category: 'design',
+        tags: ['design', 'ai', 'prompts', 'landing-page', 'templates'],
+        url: 'https://motionsites.ai/',
+        icon: 'Rocket',
+        color: '#8b5cf6',
+    },
+    {
+        id: 'designmd-sh',
+        type: 'link',
+        name: { en: 'designmd.sh', zh: 'designmd.sh' },
+        description: {
+            en: 'Public DESIGN.md registry for AI coding and design agents',
+            zh: '公共 DESIGN.md 注册表，为 AI 编码与设计代理提供设计系统',
+        },
+        category: 'design',
+        tags: ['design', 'ai', 'coding', 'design-system', 'registry'],
+        url: 'https://designmd.sh/',
+        icon: 'FileCode',
+        color: '#10b981',
+    },
     // ── Productivity ──
     {
         id: 'kami',
@@ -168,6 +196,20 @@ const TOOLS: Tool[] = [
         url: 'https://opc-skills.ft07.com/',
         icon: 'Briefcase',
         color: '#78716c',
+    },
+    {
+        id: 'browse-sh',
+        type: 'link',
+        name: { en: 'browse.sh', zh: 'browse.sh' },
+        description: {
+            en: 'Browser CLI for AI agents with open web skill catalog',
+            zh: 'AI 代理浏览器 CLI，开放网页技能目录与自动化原语',
+        },
+        category: 'productivity',
+        tags: ['browser', 'cli', 'ai-agent', 'automation', 'skills'],
+        url: 'https://browse.sh/',
+        icon: 'Globe',
+        color: '#3b82f6',
     },
     // ── Finance ──
     {
