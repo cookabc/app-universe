@@ -211,6 +211,20 @@ const TOOLS: Tool[] = [
         icon: 'Globe',
         color: '#3b82f6',
     },
+    {
+        id: 'magic-slide',
+        type: 'link',
+        name: { en: 'Magic Slide', zh: 'Magic Slide' },
+        description: {
+            en: 'AI-powered HTML presentations with Magic Move transitions and browser editing',
+            zh: 'AI 驱动的 HTML 演示工具，支持 Magic Move 过渡与浏览器编辑',
+        },
+        category: 'productivity',
+        tags: ['presentation', 'html', 'ai', 'slides', 'magic-move'],
+        url: 'https://www.magicslide.show/',
+        icon: 'Presentation',
+        color: '#a855f7',
+    },
     // ── Finance ──
     {
         id: 'k2ai',
