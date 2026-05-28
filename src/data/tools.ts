@@ -140,6 +140,20 @@ const TOOLS: Tool[] = [
         icon: 'FileCode',
         color: '#10b981',
     },
+    {
+        id: 'designmd-supply',
+        type: 'link',
+        name: { en: 'designmd.supply', zh: 'designmd.supply' },
+        description: {
+            en: 'Generate DESIGN.md style guides from any public domain',
+            zh: '输入任意公开域名，自动生成 Google DESIGN.md 风格指南',
+        },
+        category: 'design',
+        tags: ['design', 'ai', 'design-system', 'style-guide', 'generator'],
+        url: 'https://www.designmd.supply/',
+        icon: 'FileText',
+        color: '#f59e0b',
+    },
     // ── Productivity ──
     {
         id: 'kami',
