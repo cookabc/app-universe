@@ -154,6 +154,20 @@ const TOOLS: Tool[] = [
         icon: 'FileText',
         color: '#f59e0b',
     },
+    {
+        id: 'taste-skill',
+        type: 'link',
+        name: { en: 'Taste Skill', zh: 'Taste Skill' },
+        description: {
+            en: 'Anti-slop SKILL.md files that give AI coding agents better design taste',
+            zh: '为 AI 编码 Agent 提供设计审美的 SKILL.md 技能文件，告别模板感界面',
+        },
+        category: 'design',
+        tags: ['design', 'ai', 'coding', 'skill', 'frontend'],
+        url: 'https://www.tasteskill.dev/',
+        icon: 'Sparkles',
+        color: '#ec4899',
+    },
     // ── Productivity ──
     {
         id: 'kami',
