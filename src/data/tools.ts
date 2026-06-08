@@ -56,6 +56,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
 
 const TOOLS: Tool[] = [
     // ── Design ──
+    // Design studio & framework
     {
         id: 'open-design',
         type: 'link',
@@ -70,6 +71,7 @@ const TOOLS: Tool[] = [
         icon: 'Palette',
         color: '#6366f1',
     },
+    // AI design rules & taste
     {
         id: 'impeccable',
         type: 'link',
@@ -85,19 +87,20 @@ const TOOLS: Tool[] = [
         color: '#6366f1',
     },
     {
-        id: 'getdesign-md',
+        id: 'taste-skill',
         type: 'link',
-        name: { en: 'getdesign.md', zh: 'getdesign.md' },
+        name: { en: 'Taste Skill', zh: 'Taste Skill' },
         description: {
-            en: 'DESIGN.md collection for AI coding agents',
-            zh: 'AI 编码助手设计系统集合，生成高质量 UI',
+            en: 'Anti-slop SKILL.md files that give AI coding agents better design taste',
+            zh: '为 AI 编码 Agent 提供设计审美的 SKILL.md 技能文件，告别模板感界面',
         },
         category: 'design',
-        tags: ['design', 'ai', 'coding', 'design-system', 'ui'],
-        url: 'https://getdesign.md/',
-        icon: 'BookOpen',
-        color: '#1b365d',
+        tags: ['design', 'ai', 'coding', 'skill', 'frontend'],
+        url: 'https://www.tasteskill.dev/',
+        icon: 'Sparkles',
+        color: '#ec4899',
     },
+    // Prompts & templates
     {
         id: 'designprompts',
         type: 'link',
@@ -125,6 +128,21 @@ const TOOLS: Tool[] = [
         url: 'https://motionsites.ai/',
         icon: 'Rocket',
         color: '#8b5cf6',
+    },
+    // DESIGN.md series
+    {
+        id: 'getdesign-md',
+        type: 'link',
+        name: { en: 'getdesign.md', zh: 'getdesign.md' },
+        description: {
+            en: 'DESIGN.md collection for AI coding agents',
+            zh: 'AI 编码助手设计系统集合，生成高质量 UI',
+        },
+        category: 'design',
+        tags: ['design', 'ai', 'coding', 'design-system', 'ui'],
+        url: 'https://getdesign.md/',
+        icon: 'BookOpen',
+        color: '#1b365d',
     },
     {
         id: 'designmd-sh',
@@ -154,35 +172,8 @@ const TOOLS: Tool[] = [
         icon: 'FileText',
         color: '#f59e0b',
     },
-    {
-        id: 'taste-skill',
-        type: 'link',
-        name: { en: 'Taste Skill', zh: 'Taste Skill' },
-        description: {
-            en: 'Anti-slop SKILL.md files that give AI coding agents better design taste',
-            zh: '为 AI 编码 Agent 提供设计审美的 SKILL.md 技能文件，告别模板感界面',
-        },
-        category: 'design',
-        tags: ['design', 'ai', 'coding', 'skill', 'frontend'],
-        url: 'https://www.tasteskill.dev/',
-        icon: 'Sparkles',
-        color: '#ec4899',
-    },
     // ── Productivity ──
-    {
-        id: 'kami',
-        type: 'link',
-        name: { en: 'Kami', zh: 'Kami' },
-        description: {
-            en: 'Warm parchment design system for AI-assisted documents',
-            zh: 'AI 代理的文档设计系统，温暖的羊皮纸风格排版',
-        },
-        category: 'productivity',
-        tags: ['document', 'design-system', 'ai', 'pdf', 'typeset'],
-        url: 'https://kami.tw93.fun/',
-        icon: 'Pencil',
-        color: '#8b7355',
-    },
+    // Document tools
     {
         id: 'docu-md',
         type: 'link',
@@ -197,6 +188,36 @@ const TOOLS: Tool[] = [
         icon: 'BookOpen',
         color: '#10b981',
     },
+    {
+        id: 'kami',
+        type: 'link',
+        name: { en: 'Kami', zh: 'Kami' },
+        description: {
+            en: 'Warm parchment design system for AI-assisted documents',
+            zh: 'AI 代理的文档设计系统，温暖的羊皮纸风格排版',
+        },
+        category: 'productivity',
+        tags: ['document', 'design-system', 'ai', 'pdf', 'typeset'],
+        url: 'https://kami.tw93.fun/',
+        icon: 'Pencil',
+        color: '#8b7355',
+    },
+    // Presentation
+    {
+        id: 'magic-slide',
+        type: 'link',
+        name: { en: 'Magic Slide', zh: 'Magic Slide' },
+        description: {
+            en: 'AI-powered HTML presentations with Magic Move transitions and browser editing',
+            zh: 'AI 驱动的 HTML 演示工具，支持 Magic Move 过渡与浏览器编辑',
+        },
+        category: 'productivity',
+        tags: ['presentation', 'html', 'ai', 'slides', 'magic-move'],
+        url: 'https://www.magicslide.show/',
+        icon: 'Presentation',
+        color: '#a855f7',
+    },
+    // Methodology & business
     {
         id: 'pmframe',
         type: 'link',
@@ -225,6 +246,7 @@ const TOOLS: Tool[] = [
         icon: 'Briefcase',
         color: '#78716c',
     },
+    // Developer tools
     {
         id: 'browse-sh',
         type: 'link',
@@ -238,20 +260,6 @@ const TOOLS: Tool[] = [
         url: 'https://browse.sh/',
         icon: 'Globe',
         color: '#3b82f6',
-    },
-    {
-        id: 'magic-slide',
-        type: 'link',
-        name: { en: 'Magic Slide', zh: 'Magic Slide' },
-        description: {
-            en: 'AI-powered HTML presentations with Magic Move transitions and browser editing',
-            zh: 'AI 驱动的 HTML 演示工具，支持 Magic Move 过渡与浏览器编辑',
-        },
-        category: 'productivity',
-        tags: ['presentation', 'html', 'ai', 'slides', 'magic-move'],
-        url: 'https://www.magicslide.show/',
-        icon: 'Presentation',
-        color: '#a855f7',
     },
     // ── Finance ──
     {
