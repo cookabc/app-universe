@@ -218,6 +218,21 @@ const TOOLS: Tool[] = [
         icon: 'Pencil',
         color: '#8b7355',
     },
+    {
+        id: 'markmark',
+        type: 'link',
+        name: { en: 'MarkMark', zh: 'MarkMark' },
+        description: {
+            en: 'Native macOS Markdown reader with annotation and AI revision workflow',
+            zh: '原生 macOS Markdown 阅读器，支持批注标注并一键交给 AI 修订',
+        },
+        category: 'productivity',
+        tags: ['markdown', 'reader', 'annotation', 'ai', 'macos'],
+        url: 'https://markmark.ft07.com/',
+        icon: 'BookOpen',
+        color: '#3b82f6',
+        githubUrl: 'https://github.com/easychen/markmark',
+    },
     // Presentation
     {
         id: 'magic-slide',
