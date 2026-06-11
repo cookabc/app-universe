@@ -26,11 +26,7 @@ export function HeroOrbital() {
 
     return (
         <div className="relative w-full max-w-[340px] mx-auto aspect-square">
-            <svg
-                viewBox="0 0 300 300"
-                className="w-full h-full"
-                xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg viewBox="0 0 300 300" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <filter id="planet-glow">
                         <feGaussianBlur stdDeviation="2.5" result="blur" />
@@ -69,71 +65,75 @@ export function HeroOrbital() {
                 <circle cx={CX} cy={CY} r="4" fill="hsl(var(--foreground))" />
 
                 {/* Planets — only render on client to avoid hydration mismatch */}
-                {mounted && PLANETS.map((p) => {
-                    const Icon = p.icon
-                    const animating = !shouldReduceMotion
+                {mounted &&
+                    PLANETS.map((p) => {
+                        const Icon = p.icon
+                        const animating = !shouldReduceMotion
 
-                    return (
-                        <g
-                            key={`planet-${p.key}`}
-                            style={animating ? {
-                                transformOrigin: `${CX}px ${CY}px`,
-                                animation: `orbit-spin-${p.key} ${p.speed}s linear infinite`,
-                            } : {
-                                transform: `rotate(${p.startAngle}deg)`,
-                                transformOrigin: `${CX}px ${CY}px`,
-                            }}
-                        >
-                            <circle
-                                cx={CX}
-                                cy={CY - p.orbit}
-                                r={p.size / 2 + 5}
-                                fill={p.color}
-                                opacity="0.12"
-                            />
-                            <circle
-                                cx={CX}
-                                cy={CY - p.orbit}
-                                r={p.size / 2}
-                                fill={p.color}
-                                filter="url(#planet-glow)"
-                            />
+                        return (
                             <g
-                                style={animating ? {
-                                    transformOrigin: `${CX}px ${CY - p.orbit}px`,
-                                    animation: `orbit-counter-spin-${p.key} ${p.speed}s linear infinite`,
-                                } : {
-                                    transform: `rotate(${-p.startAngle}deg)`,
-                                    transformOrigin: `${CX}px ${CY - p.orbit}px`,
-                                }}
+                                key={`planet-${p.key}`}
+                                style={
+                                    animating
+                                        ? {
+                                              transformOrigin: `${CX}px ${CY}px`,
+                                              animation: `orbit-spin-${p.key} ${p.speed}s linear infinite`,
+                                          }
+                                        : {
+                                              transform: `rotate(${p.startAngle}deg)`,
+                                              transformOrigin: `${CX}px ${CY}px`,
+                                          }
+                                }
                             >
-                                <foreignObject
-                                    x={CX - p.size / 2}
-                                    y={CY - p.orbit - p.size / 2}
-                                    width={p.size}
-                                    height={p.size}
+                                <circle cx={CX} cy={CY - p.orbit} r={p.size / 2 + 5} fill={p.color} opacity="0.12" />
+                                <circle
+                                    cx={CX}
+                                    cy={CY - p.orbit}
+                                    r={p.size / 2}
+                                    fill={p.color}
+                                    filter="url(#planet-glow)"
+                                />
+                                <g
+                                    style={
+                                        animating
+                                            ? {
+                                                  transformOrigin: `${CX}px ${CY - p.orbit}px`,
+                                                  animation: `orbit-counter-spin-${p.key} ${p.speed}s linear infinite`,
+                                              }
+                                            : {
+                                                  transform: `rotate(${-p.startAngle}deg)`,
+                                                  transformOrigin: `${CX}px ${CY - p.orbit}px`,
+                                              }
+                                    }
                                 >
-                                    <div
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                        }}
+                                    <foreignObject
+                                        x={CX - p.size / 2}
+                                        y={CY - p.orbit - p.size / 2}
+                                        width={p.size}
+                                        height={p.size}
                                     >
-                                        <Icon color="#fff" size={p.size * 0.55} strokeWidth={2.5} />
-                                    </div>
-                                </foreignObject>
+                                        <div
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }}
+                                        >
+                                            <Icon color="#fff" size={p.size * 0.55} strokeWidth={2.5} />
+                                        </div>
+                                    </foreignObject>
+                                </g>
                             </g>
-                        </g>
-                    )
-                })}
+                        )
+                    })}
             </svg>
 
             {mounted && !shouldReduceMotion && (
                 <style>{`
-                    ${PLANETS.map((p) => `
+                    ${PLANETS.map(
+                        (p) => `
                         @keyframes orbit-spin-${p.key} {
                             from { transform: rotate(${p.startAngle}deg); }
                             to { transform: rotate(${p.startAngle + 360}deg); }
@@ -142,7 +142,8 @@ export function HeroOrbital() {
                             from { transform: rotate(${-p.startAngle}deg); }
                             to { transform: rotate(${-p.startAngle - 360}deg); }
                         }
-                    `).join('')}
+                    `,
+                    ).join('')}
                 `}</style>
             )}
         </div>
