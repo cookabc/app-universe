@@ -284,6 +284,20 @@ const TOOLS: Tool[] = [
     },
     // ── Finance ──
     {
+        id: 'ai-pricing',
+        type: 'link',
+        name: { en: 'AI Pricing', zh: 'AI 订阅比价' },
+        description: {
+            en: 'Compare AI subscription prices across App Store regions worldwide',
+            zh: '比较全球各 App Store 地区的 AI 应用订阅价格，找到最便宜的国家',
+        },
+        category: 'finance',
+        tags: ['ai', 'pricing', 'subscription', 'comparison', 'app-store'],
+        url: 'https://opentherank.com/zh/ai-pricing/',
+        icon: 'DollarSign',
+        color: '#06b6d4',
+    },
+    {
         id: 'k2ai',
         type: 'link',
         name: { en: 'K2AI', zh: 'K2AI' },
