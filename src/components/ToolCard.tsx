@@ -1,6 +1,7 @@
 'use client'
 
 import { ExternalLink, Github, Loader2 } from 'lucide-react'
+import { useState } from 'react'
 import type { Tool } from '@/data/tools'
 import { TOOL_CATEGORIES } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
@@ -34,8 +35,9 @@ export function ToolCard({ tool }: ToolCardProps) {
         toolId: tool.id,
         url: tool.url,
     })
+    const [imgError, setImgError] = useState(false)
 
-    const showFallback = error || (!isLoading && !src)
+    const showFallback = error || imgError || (!isLoading && !src)
 
     return (
         <a href={tool.url} target="_blank" rel="noopener noreferrer" className="group block h-full">
@@ -55,6 +57,7 @@ export function ToolCard({ tool }: ToolCardProps) {
                                 alt={`${name} preview`}
                                 className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
                                 loading="lazy"
+                                onError={() => setImgError(true)}
                             />
                             <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-card to-transparent" />
                             {/* Service indicator */}
