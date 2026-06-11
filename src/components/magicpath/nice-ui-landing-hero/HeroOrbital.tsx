@@ -1,16 +1,15 @@
 'use client'
 
 import { useReducedMotion } from 'framer-motion'
-import { BookOpen, LayoutGrid, Palette, Sparkles, TrendingUp, Zap } from 'lucide-react'
+import { BookOpen, LayoutGrid, Palette, TrendingUp, Zap } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 const PLANETS = [
-    { key: 'ai-design', icon: Sparkles, color: '#8b5cf6', orbit: 40, size: 28, speed: 30, startAngle: 0 },
-    { key: 'design', icon: Palette, color: '#ec4899', orbit: 58, size: 24, speed: 40, startAngle: 60 },
-    { key: 'documents', icon: BookOpen, color: '#10b981', orbit: 74, size: 22, speed: 50, startAngle: 120 },
-    { key: 'productivity', icon: Zap, color: '#f97316', orbit: 88, size: 20, speed: 60, startAngle: 180 },
-    { key: 'finance', icon: TrendingUp, color: '#ef4444', orbit: 100, size: 18, speed: 72, startAngle: 240 },
-    { key: 'resources', icon: LayoutGrid, color: '#eab308', orbit: 110, size: 16, speed: 88, startAngle: 300 },
+    { key: 'design', icon: Palette, color: '#ec4899', orbit: 48, size: 26, speed: 36, startAngle: 0 },
+    { key: 'documents', icon: BookOpen, color: '#10b981', orbit: 68, size: 22, speed: 48, startAngle: 72 },
+    { key: 'productivity', icon: Zap, color: '#f97316', orbit: 84, size: 20, speed: 60, startAngle: 144 },
+    { key: 'finance', icon: TrendingUp, color: '#ef4444', orbit: 100, size: 18, speed: 72, startAngle: 216 },
+    { key: 'resources', icon: LayoutGrid, color: '#eab308', orbit: 112, size: 16, speed: 88, startAngle: 288 },
 ]
 
 const CX = 150
