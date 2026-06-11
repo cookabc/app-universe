@@ -74,9 +74,7 @@ export default function HeroSection() {
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                     </a>
                     <span className="glass-card px-3 py-1.5 text-xs font-bold text-foreground">{statsTools}</span>
-                    <span className="glass-card px-3 py-1.5 text-xs font-bold text-foreground">
-                        {statsCategories}
-                    </span>
+                    <span className="glass-card px-3 py-1.5 text-xs font-bold text-foreground">{statsCategories}</span>
                 </motion.div>
 
                 {/* Orbital illustration */}
