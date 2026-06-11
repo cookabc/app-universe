@@ -29,14 +29,26 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
         icon: 'LayoutGrid',
     },
     {
+        key: 'ai-design',
+        label: { en: 'AI Design', zh: 'AI 设计' },
+        color: '#8b5cf6',
+        icon: 'Sparkles',
+    },
+    {
         key: 'design',
         label: { en: 'Design', zh: '设计灵感' },
         color: '#ec4899',
         icon: 'Palette',
     },
     {
+        key: 'documents',
+        label: { en: 'Documents', zh: '文档演示' },
+        color: '#10b981',
+        icon: 'FileText',
+    },
+    {
         key: 'productivity',
-        label: { en: 'Productivity', zh: '效率办公' },
+        label: { en: 'Productivity', zh: '效率工具' },
         color: '#f97316',
         icon: 'Zap',
     },
@@ -55,8 +67,8 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
 ]
 
 const TOOLS: Tool[] = [
-    // ── Design ──
-    // Design studio & framework
+    // ── AI Design ──
+    // Design studios & frameworks
     {
         id: 'open-design',
         type: 'link',
@@ -65,7 +77,7 @@ const TOOLS: Tool[] = [
             en: 'Open-source design studio with 31 skills and 72 design systems',
             zh: '开源设计工作室，31 个可组合技能与 72 个品牌级设计系统',
         },
-        category: 'design',
+        category: 'ai-design',
         tags: ['design', 'open-source', 'ai', 'skills', 'studio'],
         url: 'https://open-design.ai/',
         icon: 'Palette',
@@ -80,7 +92,7 @@ const TOOLS: Tool[] = [
             en: 'AI design intelligence with 23 commands for frontend design',
             zh: 'AI设计智能工具，23 个命令覆盖排版、色彩、动效与交互',
         },
-        category: 'design',
+        category: 'ai-design',
         tags: ['design', 'ai', 'commands', 'frontend', 'typography'],
         url: 'https://impeccable.style/',
         icon: 'Sparkles',
@@ -94,12 +106,56 @@ const TOOLS: Tool[] = [
             en: 'Anti-slop SKILL.md files that give AI coding agents better design taste',
             zh: '为 AI 编码 Agent 提供设计审美的 SKILL.md 技能文件，告别模板感界面',
         },
-        category: 'design',
+        category: 'ai-design',
         tags: ['design', 'ai', 'coding', 'skill', 'frontend'],
         url: 'https://www.tasteskill.dev/',
         icon: 'Sparkles',
         color: '#ec4899',
     },
+    // DESIGN.md series
+    {
+        id: 'getdesign-md',
+        type: 'link',
+        name: { en: 'getdesign.md', zh: 'getdesign.md' },
+        description: {
+            en: 'DESIGN.md collection for AI coding agents',
+            zh: 'AI 编码助手设计系统集合，生成高质量 UI',
+        },
+        category: 'ai-design',
+        tags: ['design', 'ai', 'coding', 'design-system', 'ui'],
+        url: 'https://getdesign.md/',
+        icon: 'BookOpen',
+        color: '#1b365d',
+    },
+    {
+        id: 'designmd-sh',
+        type: 'link',
+        name: { en: 'designmd.sh', zh: 'designmd.sh' },
+        description: {
+            en: 'Public DESIGN.md registry for AI coding and design agents',
+            zh: '公共 DESIGN.md 注册表，为 AI 编码与设计代理提供设计系统',
+        },
+        category: 'ai-design',
+        tags: ['design', 'ai', 'coding', 'design-system', 'registry'],
+        url: 'https://designmd.sh/',
+        icon: 'FileCode',
+        color: '#10b981',
+    },
+    {
+        id: 'designmd-supply',
+        type: 'link',
+        name: { en: 'designmd.supply', zh: 'designmd.supply' },
+        description: {
+            en: 'Generate DESIGN.md style guides from any public domain',
+            zh: '输入任意公开域名，自动生成 Google DESIGN.md 风格指南',
+        },
+        category: 'ai-design',
+        tags: ['design', 'ai', 'design-system', 'style-guide', 'generator'],
+        url: 'https://www.designmd.supply/',
+        icon: 'FileText',
+        color: '#f59e0b',
+    },
+    // ── Design ──
     // Prompts & templates
     {
         id: 'designprompts',
@@ -129,49 +185,6 @@ const TOOLS: Tool[] = [
         icon: 'Rocket',
         color: '#8b5cf6',
     },
-    // DESIGN.md series
-    {
-        id: 'getdesign-md',
-        type: 'link',
-        name: { en: 'getdesign.md', zh: 'getdesign.md' },
-        description: {
-            en: 'DESIGN.md collection for AI coding agents',
-            zh: 'AI 编码助手设计系统集合，生成高质量 UI',
-        },
-        category: 'design',
-        tags: ['design', 'ai', 'coding', 'design-system', 'ui'],
-        url: 'https://getdesign.md/',
-        icon: 'BookOpen',
-        color: '#1b365d',
-    },
-    {
-        id: 'designmd-sh',
-        type: 'link',
-        name: { en: 'designmd.sh', zh: 'designmd.sh' },
-        description: {
-            en: 'Public DESIGN.md registry for AI coding and design agents',
-            zh: '公共 DESIGN.md 注册表，为 AI 编码与设计代理提供设计系统',
-        },
-        category: 'design',
-        tags: ['design', 'ai', 'coding', 'design-system', 'registry'],
-        url: 'https://designmd.sh/',
-        icon: 'FileCode',
-        color: '#10b981',
-    },
-    {
-        id: 'designmd-supply',
-        type: 'link',
-        name: { en: 'designmd.supply', zh: 'designmd.supply' },
-        description: {
-            en: 'Generate DESIGN.md style guides from any public domain',
-            zh: '输入任意公开域名，自动生成 Google DESIGN.md 风格指南',
-        },
-        category: 'design',
-        tags: ['design', 'ai', 'design-system', 'style-guide', 'generator'],
-        url: 'https://www.designmd.supply/',
-        icon: 'FileText',
-        color: '#f59e0b',
-    },
     // Color resources
     {
         id: 'zhongguo-colors',
@@ -188,8 +201,7 @@ const TOOLS: Tool[] = [
         color: '#c0392b',
         githubUrl: 'https://github.com/nevertoday/zhongguo-traditional-colors',
     },
-    // ── Productivity ──
-    // Document tools
+    // ── Documents ──
     {
         id: 'docu-md',
         type: 'link',
@@ -198,7 +210,7 @@ const TOOLS: Tool[] = [
             en: 'One-click Markdown to Word with Mermaid, LaTeX, and charts',
             zh: '一键将 Markdown 转换为完美 Word 文档',
         },
-        category: 'productivity',
+        category: 'documents',
         tags: ['markdown', 'word', 'document', 'converter', 'mermaid'],
         url: 'https://docu.md/',
         icon: 'BookOpen',
@@ -212,7 +224,7 @@ const TOOLS: Tool[] = [
             en: 'Warm parchment design system for AI-assisted documents',
             zh: 'AI 代理的文档设计系统，温暖的羊皮纸风格排版',
         },
-        category: 'productivity',
+        category: 'documents',
         tags: ['document', 'design-system', 'ai', 'pdf', 'typeset'],
         url: 'https://kami.tw93.fun/',
         icon: 'Pencil',
@@ -226,14 +238,13 @@ const TOOLS: Tool[] = [
             en: 'Native macOS Markdown reader with annotation and AI revision workflow',
             zh: '原生 macOS Markdown 阅读器，支持批注标注并一键交给 AI 修订',
         },
-        category: 'productivity',
+        category: 'documents',
         tags: ['markdown', 'reader', 'annotation', 'ai', 'macos'],
         url: 'https://markmark.ft07.com/',
         icon: 'BookOpen',
         color: '#3b82f6',
         githubUrl: 'https://github.com/easychen/markmark',
     },
-    // Presentation
     {
         id: 'magic-slide',
         type: 'link',
@@ -242,13 +253,13 @@ const TOOLS: Tool[] = [
             en: 'AI-powered HTML presentations with Magic Move transitions and browser editing',
             zh: 'AI 驱动的 HTML 演示工具，支持 Magic Move 过渡与浏览器编辑',
         },
-        category: 'productivity',
+        category: 'documents',
         tags: ['presentation', 'html', 'ai', 'slides', 'magic-move'],
         url: 'https://www.magicslide.show/',
         icon: 'Presentation',
         color: '#a855f7',
     },
-    // Methodology & business
+    // ── Productivity ──
     {
         id: 'pmframe',
         type: 'link',
@@ -277,7 +288,6 @@ const TOOLS: Tool[] = [
         icon: 'Briefcase',
         color: '#78716c',
     },
-    // Developer tools
     {
         id: 'browse-sh',
         type: 'link',
