@@ -44,42 +44,45 @@ export default function HeroSection() {
     return (
         <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
-                className="flex flex-col items-center text-center py-8 sm:py-10"
+                className="flex flex-col lg:flex-row items-center gap-6 lg:gap-10 py-6 sm:py-8"
                 variants={shouldReduceMotion ? undefined : containerVariants}
                 initial="hidden"
                 animate="visible"
             >
-                {/* Title */}
-                <motion.div className="space-y-2" variants={shouldReduceMotion ? undefined : itemVariants}>
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tight text-foreground leading-[1.08]">
-                        {title}
-                        <br />
-                        <span className="text-gradient">{titleAccent}</span>
-                    </h1>
-                    <p className="text-sm sm:text-base text-muted-foreground max-w-lg mx-auto leading-relaxed">
-                        {subtitle}
-                    </p>
-                </motion.div>
+                {/* Left: text */}
+                <div className="flex-1 min-w-0 text-center lg:text-left">
+                    <motion.div className="space-y-3" variants={shouldReduceMotion ? undefined : itemVariants}>
+                        <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-black font-heading tracking-tight text-foreground leading-[1.08]">
+                            {title}
+                            <br />
+                            <span className="text-gradient">{titleAccent}</span>
+                        </h1>
+                        <p className="text-base sm:text-lg text-muted-foreground max-w-lg mx-auto lg:mx-0 leading-relaxed">
+                            {subtitle}
+                        </p>
+                    </motion.div>
 
-                {/* CTA */}
-                <motion.div
-                    className="flex items-center justify-center gap-3 flex-wrap mt-5"
-                    variants={shouldReduceMotion ? undefined : itemVariants}
-                >
-                    <a
-                        href="#tools"
-                        className="group inline-flex items-center gap-2 px-5 py-2.5 border-2 border-slate-800 bg-foreground text-background font-bold text-sm rounded-[var(--radius)] shadow-[var(--box-shadow)] transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[calc(var(--box-shadow)_+_4px)]"
+                    <motion.div
+                        className="flex items-center justify-center lg:justify-start gap-3 flex-wrap mt-5"
+                        variants={shouldReduceMotion ? undefined : itemVariants}
                     >
-                        {ctaText}
-                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                    </a>
-                    <span className="glass-card px-3 py-1.5 text-xs font-bold text-foreground">{statsTools}</span>
-                    <span className="glass-card px-3 py-1.5 text-xs font-bold text-foreground">{statsCategories}</span>
-                </motion.div>
+                        <a
+                            href="#tools"
+                            className="group inline-flex items-center gap-2 px-5 py-2.5 border-2 border-slate-800 bg-foreground text-background font-bold text-sm rounded-[var(--radius)] shadow-[var(--box-shadow)] transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[calc(var(--box-shadow)_+_4px)]"
+                        >
+                            {ctaText}
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                        </a>
+                        <span className="glass-card px-3 py-1.5 text-xs font-bold text-foreground">{statsTools}</span>
+                        <span className="glass-card px-3 py-1.5 text-xs font-bold text-foreground">
+                            {statsCategories}
+                        </span>
+                    </motion.div>
+                </div>
 
-                {/* Orbital illustration */}
+                {/* Right: orbital */}
                 <motion.div
-                    className="mt-6 w-full max-w-[420px]"
+                    className="w-full max-w-[300px] sm:max-w-[340px] lg:max-w-[380px] flex-shrink-0"
                     variants={shouldReduceMotion ? undefined : itemVariants}
                 >
                     <HeroOrbital />
