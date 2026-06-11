@@ -1,10 +1,10 @@
 'use client'
 
-import { ExternalLink, Github } from 'lucide-react'
-import { useState } from 'react'
+import { ExternalLink, Github, Loader2 } from 'lucide-react'
 import type { Tool } from '@/data/tools'
 import { TOOL_CATEGORIES } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { useScreenshot } from '@/hooks/useScreenshot'
 import { getIcon } from '@/lib/icon-map'
 
 interface ToolCardProps {
@@ -24,39 +24,54 @@ export function ToolCard({ tool }: ToolCardProps) {
     const lang = i18n.language as 'en' | 'zh'
     const Icon = getIcon(tool.icon)
     const category = TOOL_CATEGORIES.find((c) => c.key === tool.category)
-    const [imgError, setImgError] = useState(false)
 
     const name = tool.name[lang] || tool.name.en
     const desc = tool.description[lang] || tool.description.en
     const note = tool.note?.[lang] || tool.note?.en
     const domain = getDomain(tool.url)
-    const previewSrc = `https://api.microlink.io/?url=${encodeURIComponent(tool.url)}&screenshot=true&meta=false&embed=screenshot.url`
+
+    const { src, isLoading, error, service } = useScreenshot({
+        toolId: tool.id,
+        url: tool.url,
+    })
+
+    const showFallback = error || (!isLoading && !src)
 
     return (
         <a href={tool.url} target="_blank" rel="noopener noreferrer" className="group block h-full">
             <div className="relative h-full overflow-hidden rounded-[var(--radius)] border-2 border-slate-800 bg-card transition-all duration-200 hover:-translate-x-1 hover:-translate-y-1 shadow-[var(--box-shadow)] hover:shadow-[calc(var(--box-shadow)_+_4px)]">
                 {/* Preview */}
                 <div className="relative aspect-[2/1] overflow-hidden bg-muted">
-                    {!imgError ? (
+                    {isLoading && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-muted">
+                            <Loader2 className="h-5 w-5 text-muted-foreground animate-spin" />
+                        </div>
+                    )}
+                    {!showFallback && src ? (
                         <>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                                src={previewSrc}
+                                src={src}
                                 alt={`${name} preview`}
                                 className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
                                 loading="lazy"
-                                onError={() => setImgError(true)}
                             />
                             <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-card to-transparent" />
+                            {/* Service indicator */}
+                            {service && (
+                                <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded text-[9px] font-medium bg-black/50 text-white/80 backdrop-blur-sm">
+                                    {service === 'microlink' ? 'ML' : service === 'thum' ? 'TH' : 'FB'}
+                                </div>
+                            )}
                         </>
-                    ) : (
+                    ) : showFallback ? (
                         <div
                             className="absolute inset-0 flex items-center justify-center"
                             style={{ backgroundColor: tool.color }}
                         >
                             <Icon className="h-10 w-10 text-white/20" />
                         </div>
-                    )}
+                    ) : null}
                 </div>
 
                 {/* Content */}

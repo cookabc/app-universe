@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 const CACHE_KEY = 'tool-previews-v1'
 const CACHE_TTL = 7 * 24 * 60 * 60 * 1000 // 7 days
@@ -68,30 +68,18 @@ interface UseScreenshotResult {
 }
 
 export function useScreenshot({ toolId, url, enabled = true }: UseScreenshotOptions): UseScreenshotResult {
-    const [state, setState] = useState<UseScreenshotResult>(() => {
-        // Check cache on init
-        const cache = getCache()
-        const cached = cache[toolId]
-        if (cached) {
-            return {
-                src: cached.url,
-                isLoading: false,
-                error: false,
-                service: cached.service,
-            }
-        }
-        return {
-            src: null,
-            isLoading: enabled,
-            error: false,
-            service: null,
-        }
+    // Always start with loading state to avoid hydration mismatch
+    const [state, setState] = useState<UseScreenshotResult>({
+        src: null,
+        isLoading: enabled,
+        error: false,
+        service: null,
     })
 
     const tryLoad = useCallback(async () => {
         if (!enabled) return
 
-        // Check cache again
+        // Check cache after mount (client-only)
         const cache = getCache()
         const cached = cache[toolId]
         if (cached) {
@@ -104,7 +92,7 @@ export function useScreenshot({ toolId, url, enabled = true }: UseScreenshotOpti
             return
         }
 
-        setState(s => ({ ...s, isLoading: true, error: false }))
+        setState((s) => ({ ...s, isLoading: true, error: false }))
 
         // Try Microlink first
         const microlinkUrl = getMicrolinkUrl(url)
