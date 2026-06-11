@@ -172,6 +172,22 @@ const TOOLS: Tool[] = [
         icon: 'FileText',
         color: '#f59e0b',
     },
+    // Color resources
+    {
+        id: 'zhongguo-colors',
+        type: 'link',
+        name: { en: '中国传统配色', zh: '中国传统配色' },
+        description: {
+            en: '742 traditional Chinese color swatches with HEX, RGB, CMYK values',
+            zh: '742 张高清中国传统色卡，含色名、HEX、RGB、CMYK 与配色推荐',
+        },
+        category: 'design',
+        tags: ['color', 'chinese', 'traditional', 'palette', 'swatches'],
+        url: 'https://nevertoday.github.io/zhongguo-traditional-colors/',
+        icon: 'Palette',
+        color: '#c0392b',
+        githubUrl: 'https://github.com/nevertoday/zhongguo-traditional-colors',
+    },
     // ── Productivity ──
     // Document tools
     {
