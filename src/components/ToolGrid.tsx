@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { PackageSearch } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { CategoryFilter } from '@/components/CategoryFilter'
@@ -18,7 +18,11 @@ const container = {
 
 const containerReduced = { hidden: { opacity: 1 }, show: { opacity: 1 } }
 
-const item = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }
+const item = {
+    hidden: { opacity: 0, y: 16, scale: 0.96 },
+    show: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, scale: 0.96, transition: { duration: 0.15 } },
+}
 const itemReduced = { hidden: { opacity: 1 }, show: { opacity: 1 } }
 
 const sectionVariants = {
@@ -97,7 +101,8 @@ export function ToolGrid() {
                                 key={category.key}
                                 variants={shouldReduceMotion ? containerReduced : sectionVariants}
                                 initial="hidden"
-                                animate="show"
+                                whileInView="show"
+                                viewport={{ once: true, margin: '-50px' }}
                             >
                                 <div className="flex items-center gap-2.5 mb-3">
                                     <div
@@ -118,11 +123,17 @@ export function ToolGrid() {
                                     animate="show"
                                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
                                 >
-                                    {catTools.map((tool) => (
-                                        <motion.div key={tool.id} variants={shouldReduceMotion ? itemReduced : item}>
-                                            <ToolCard tool={tool} />
-                                        </motion.div>
-                                    ))}
+                                    <AnimatePresence mode="popLayout">
+                                        {catTools.map((tool) => (
+                                            <motion.div
+                                                key={tool.id}
+                                                layout
+                                                variants={shouldReduceMotion ? itemReduced : item}
+                                            >
+                                                <ToolCard tool={tool} />
+                                            </motion.div>
+                                        ))}
+                                    </AnimatePresence>
                                 </motion.div>
                             </motion.section>
                         )
@@ -135,11 +146,13 @@ export function ToolGrid() {
                     animate="show"
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
                 >
-                    {filtered.map((tool) => (
-                        <motion.div key={tool.id} variants={shouldReduceMotion ? itemReduced : item}>
-                            <ToolCard tool={tool} />
-                        </motion.div>
-                    ))}
+                    <AnimatePresence mode="popLayout">
+                        {filtered.map((tool) => (
+                            <motion.div key={tool.id} layout variants={shouldReduceMotion ? itemReduced : item}>
+                                <ToolCard tool={tool} />
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
                 </motion.div>
             )}
         </div>
