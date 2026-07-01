@@ -181,6 +181,20 @@ const TOOLS: Tool[] = [
         color: '#c0392b',
         githubUrl: 'https://github.com/nevertoday/zhongguo-traditional-colors',
     },
+    {
+        id: 'yeguozi',
+        type: 'link',
+        name: { en: 'Yeguozi', zh: '野果子' },
+        description: {
+            en: 'Curated film stills for home color and décor inspiration',
+            zh: '精选电影截图，为家居配色与装饰氛围提供灵感参考',
+        },
+        category: 'design',
+        tags: ['film', 'color', 'interior', 'decor', 'palette', 'cinema'],
+        url: 'https://www.yeguozi.com/',
+        icon: 'Film',
+        color: '#b45309',
+    },
     // ── Documents ──
     {
         id: 'docu-md',
