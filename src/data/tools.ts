@@ -1,18 +1,10 @@
 type LocaleText = { en: string; zh: string }
 
-export interface ToolCategory {
-    key: string
-    label: LocaleText
-    color: string
-    icon: string
-}
-
 export interface Tool {
     id: string
     type: 'link'
     name: LocaleText
     description: LocaleText
-    category: string
     tags: string[]
     url: string
     icon: string
@@ -21,48 +13,7 @@ export interface Tool {
     note?: LocaleText
 }
 
-export const TOOL_CATEGORIES: ToolCategory[] = [
-    {
-        key: 'all',
-        label: { en: 'All', zh: '全部' },
-        color: '#6b69c7',
-        icon: 'LayoutGrid',
-    },
-    {
-        key: 'design',
-        label: { en: 'Design', zh: '设计' },
-        color: '#8b7cc7',
-        icon: 'Palette',
-    },
-    {
-        key: 'documents',
-        label: { en: 'Documents', zh: '文档演示' },
-        color: '#7c8bc7',
-        icon: 'FileText',
-    },
-    {
-        key: 'productivity',
-        label: { en: 'Productivity', zh: '效率工具' },
-        color: '#7c6bc7',
-        icon: 'Zap',
-    },
-    {
-        key: 'finance',
-        label: { en: 'Finance', zh: '金融理财' },
-        color: '#6b7cc7',
-        icon: 'TrendingUp',
-    },
-    {
-        key: 'resources',
-        label: { en: 'Resources', zh: '资源集合' },
-        color: '#8b8cc7',
-        icon: 'BookOpen',
-    },
-]
-
 const TOOLS: Tool[] = [
-    // ── AI Design ──
-    // Design studios & frameworks
     {
         id: 'open-design',
         type: 'link',
@@ -71,13 +22,11 @@ const TOOLS: Tool[] = [
             en: 'Open-source design studio with 31 skills and 72 design systems',
             zh: '开源设计工作室，31 个可组合技能与 72 个品牌级设计系统',
         },
-        category: 'design',
-        tags: ['design', 'open-source', 'ai', 'skills', 'studio'],
+        tags: ['ai-design', 'design-system'],
         url: 'https://open-design.ai/',
         icon: 'Palette',
         color: '#6366f1',
     },
-    // AI design rules & taste
     {
         id: 'impeccable',
         type: 'link',
@@ -86,8 +35,7 @@ const TOOLS: Tool[] = [
             en: 'AI design intelligence with 23 commands for frontend design',
             zh: 'AI设计智能工具，23 个命令覆盖排版、色彩、动效与交互',
         },
-        category: 'design',
-        tags: ['design', 'ai', 'commands', 'frontend', 'typography'],
+        tags: ['ai-design', 'frontend'],
         url: 'https://impeccable.style/',
         icon: 'Sparkles',
         color: '#6366f1',
@@ -100,13 +48,11 @@ const TOOLS: Tool[] = [
             en: 'Anti-slop SKILL.md files that give AI coding agents better design taste',
             zh: '为 AI 编码 Agent 提供设计审美的 SKILL.md 技能文件，告别模板感界面',
         },
-        category: 'design',
-        tags: ['design', 'ai', 'coding', 'skill', 'frontend'],
+        tags: ['ai-design', 'ai-agent'],
         url: 'https://www.tasteskill.dev/',
         icon: 'Sparkles',
         color: '#ec4899',
     },
-    // DESIGN.md series
     {
         id: 'getdesign-md',
         type: 'link',
@@ -115,8 +61,7 @@ const TOOLS: Tool[] = [
             en: 'DESIGN.md collection for AI coding agents',
             zh: 'AI 编码助手设计系统集合，生成高质量 UI',
         },
-        category: 'design',
-        tags: ['design', 'ai', 'coding', 'design-system', 'ui'],
+        tags: ['ai-design', 'design-system', 'ai-agent'],
         url: 'https://getdesign.md/',
         icon: 'BookOpen',
         color: '#1b365d',
@@ -129,14 +74,11 @@ const TOOLS: Tool[] = [
             en: 'Public DESIGN.md registry for AI coding and design agents',
             zh: '公共 DESIGN.md 注册表，为 AI 编码与设计代理提供设计系统',
         },
-        category: 'design',
-        tags: ['design', 'ai', 'coding', 'design-system', 'registry'],
+        tags: ['ai-design', 'ai-agent'],
         url: 'https://designmd.sh/',
         icon: 'FileCode',
         color: '#10b981',
     },
-    // ── Design ──
-    // Prompts & templates
     {
         id: 'designprompts',
         type: 'link',
@@ -145,8 +87,7 @@ const TOOLS: Tool[] = [
             en: 'AI design style explorer with 31+ rendered styles',
             zh: 'AI 驱动的设计风格探索器，31+ 种风格提示词',
         },
-        category: 'design',
-        tags: ['design', 'ai', 'prompts', 'style', 'explorer'],
+        tags: ['ai-design', 'prompts'],
         url: 'https://www.designprompts.dev/',
         icon: 'Wand',
         color: '#0a0a0a',
@@ -159,13 +100,11 @@ const TOOLS: Tool[] = [
             en: 'Ready-to-use AI prompt library for beautiful landing pages',
             zh: 'AI 驱动的落地页提示词库，复制即用的精美网站模板',
         },
-        category: 'design',
-        tags: ['design', 'ai', 'prompts', 'landing-page', 'templates'],
+        tags: ['ai-design', 'prompts'],
         url: 'https://motionsites.ai/',
         icon: 'Rocket',
         color: '#8b5cf6',
     },
-    // Color resources
     {
         id: 'zhongguo-colors',
         type: 'link',
@@ -174,8 +113,7 @@ const TOOLS: Tool[] = [
             en: '742 traditional Chinese color swatches with HEX, RGB, CMYK values',
             zh: '742 张高清中国传统色卡，含色名、HEX、RGB、CMYK 与配色推荐',
         },
-        category: 'design',
-        tags: ['color', 'chinese', 'traditional', 'palette', 'swatches'],
+        tags: ['color', 'inspiration'],
         url: 'https://nevertoday.github.io/zhongguo-traditional-colors/',
         icon: 'Palette',
         color: '#c0392b',
@@ -189,8 +127,7 @@ const TOOLS: Tool[] = [
             en: 'Ultra-fast zero-dependency shaders for designs',
             zh: '超快速零依赖的设计用着色器库',
         },
-        category: 'design',
-        tags: ['shaders', 'visual-effects', 'animations', 'design', 'css', 'webgl'],
+        tags: ['color', 'inspiration'],
         url: 'https://shaders.paper.design/',
         icon: 'Sparkles',
         color: '#8b5cf6',
@@ -203,13 +140,11 @@ const TOOLS: Tool[] = [
             en: 'Curated film stills for home color and décor inspiration',
             zh: '精选电影截图，为家居配色与装饰氛围提供灵感参考',
         },
-        category: 'design',
-        tags: ['film', 'color', 'interior', 'decor', 'palette', 'cinema'],
+        tags: ['color', 'inspiration'],
         url: 'https://www.yeguozi.com/',
         icon: 'Film',
         color: '#b45309',
     },
-    // ── Documents ──
     {
         id: 'docu-md',
         type: 'link',
@@ -218,8 +153,7 @@ const TOOLS: Tool[] = [
             en: 'One-click Markdown to Word with Mermaid, LaTeX, and charts',
             zh: '一键将 Markdown 转换为完美 Word 文档',
         },
-        category: 'documents',
-        tags: ['markdown', 'word', 'document', 'converter', 'mermaid'],
+        tags: ['markdown', 'document'],
         url: 'https://docu.md/',
         icon: 'BookOpen',
         color: '#10b981',
@@ -232,8 +166,7 @@ const TOOLS: Tool[] = [
             en: 'Warm parchment design system for AI-assisted documents',
             zh: 'AI 代理的文档设计系统，温暖的羊皮纸风格排版',
         },
-        category: 'documents',
-        tags: ['document', 'design-system', 'ai', 'pdf', 'typeset'],
+        tags: ['document', 'design-system'],
         url: 'https://kami.tw93.fun/',
         icon: 'Pencil',
         color: '#8b7355',
@@ -246,8 +179,7 @@ const TOOLS: Tool[] = [
             en: 'Native macOS Markdown reader with annotation and AI revision workflow',
             zh: '原生 macOS Markdown 阅读器，支持批注标注并一键交给 AI 修订',
         },
-        category: 'documents',
-        tags: ['markdown', 'reader', 'annotation', 'ai', 'macos'],
+        tags: ['markdown', 'document'],
         url: 'https://markmark.ft07.com/',
         icon: 'BookOpen',
         color: '#3b82f6',
@@ -261,13 +193,11 @@ const TOOLS: Tool[] = [
             en: 'AI-powered HTML presentations with Magic Move transitions and browser editing',
             zh: 'AI 驱动的 HTML 演示工具，支持 Magic Move 过渡与浏览器编辑',
         },
-        category: 'documents',
-        tags: ['presentation', 'html', 'ai', 'slides', 'magic-move'],
+        tags: ['presentation', 'document'],
         url: 'https://www.magicslide.show/',
         icon: 'Presentation',
         color: '#a855f7',
     },
-    // ── Productivity ──
     {
         id: 'pmframe',
         type: 'link',
@@ -276,8 +206,7 @@ const TOOLS: Tool[] = [
             en: 'Product management framework with 100 principles',
             zh: '产品管理方法论框架，100 个原则涵盖用户研究与设计思维',
         },
-        category: 'productivity',
-        tags: ['product', 'management', 'framework', 'methodology', 'principles'],
+        tags: ['productivity', 'business'],
         url: 'https://pmframe.works/',
         icon: 'Lightbulb',
         color: '#f59e0b',
@@ -290,8 +219,7 @@ const TOOLS: Tool[] = [
             en: '9 Agent Skills for building a lightweight personal business',
             zh: '可执行的一人企业方法论，9 个技能构建个人业务系统',
         },
-        category: 'productivity',
-        tags: ['business', 'methodology', 'skills', 'agent', 'one-person'],
+        tags: ['productivity', 'business'],
         url: 'https://opc-skills.ft07.com/',
         icon: 'Briefcase',
         color: '#78716c',
@@ -304,13 +232,11 @@ const TOOLS: Tool[] = [
             en: 'Browser CLI for AI agents with open web skill catalog',
             zh: 'AI 代理浏览器 CLI，开放网页技能目录与自动化原语',
         },
-        category: 'productivity',
-        tags: ['browser', 'cli', 'ai-agent', 'automation', 'skills'],
+        tags: ['ai-agent', 'ai'],
         url: 'https://browse.sh/',
         icon: 'Globe',
         color: '#3b82f6',
     },
-    // ── Finance ──
     {
         id: 'ai-pricing',
         type: 'link',
@@ -319,41 +245,11 @@ const TOOLS: Tool[] = [
             en: 'Compare AI subscription prices across App Store regions worldwide',
             zh: '比较全球各 App Store 地区的 AI 应用订阅价格，找到最便宜的国家',
         },
-        category: 'finance',
-        tags: ['ai', 'pricing', 'subscription', 'comparison', 'app-store'],
+        tags: ['ai', 'pricing'],
         url: 'https://opentherank.com/zh/ai-pricing/',
         icon: 'DollarSign',
         color: '#06b6d4',
     },
-    {
-        id: 'k2ai',
-        type: 'link',
-        name: { en: 'K2AI', zh: 'K2AI' },
-        description: {
-            en: 'AI civilization market system and investment terminal',
-            zh: 'AI文明市场系统及投资终端，追踪算力与产业链信号',
-        },
-        category: 'finance',
-        tags: ['ai', 'investment', 'market', 'analysis', 'compute'],
-        url: 'https://app.k2ai.dev/',
-        icon: 'Brain',
-        color: '#8b5cf6',
-    },
-    {
-        id: 'fund-cccd',
-        type: 'link',
-        name: { en: '基估宝', zh: '基估宝' },
-        description: {
-            en: 'Fund tracking and portfolio management tool',
-            zh: '基金追踪和投资组合管理工具',
-        },
-        category: 'finance',
-        tags: ['fund', 'investment', 'portfolio', 'tracking'],
-        url: 'https://fund.cc.cd/',
-        icon: 'BarChart3',
-        color: '#3b82f6',
-    },
-    // ── Resources ──
     {
         id: 'neal-fun',
         type: 'link',
@@ -362,8 +258,7 @@ const TOOLS: Tool[] = [
             en: 'Games, visualizations, interactives and weird stuff',
             zh: '有趣的游戏、可视化、交互实验和奇怪的东西',
         },
-        category: 'resources',
-        tags: ['games', 'interactive', 'fun', 'visualization', 'creative'],
+        tags: ['games', 'fun'],
         url: 'https://neal.fun/',
         icon: 'Sparkles',
         color: '#f43f5e',
@@ -376,12 +271,28 @@ const TOOLS: Tool[] = [
             en: 'Play casual and arcade-style games online',
             zh: '在线游玩休闲与街机风格游戏的平台',
         },
-        category: 'resources',
-        tags: ['games', 'arcade', 'casual', 'online', 'gaming'],
+        tags: ['games', 'fun'],
         url: 'https://www.astrocade.com/',
         icon: 'Gamepad',
         color: '#f97316',
     },
 ]
+
+export function getAllTags(tools: Tool[]): string[] {
+    const set = new Set<string>()
+    for (const tool of tools) {
+        for (const tag of tool.tags) {
+            set.add(tag)
+        }
+    }
+    return Array.from(set).sort()
+}
+
+export function formatTag(tag: string): string {
+    return tag
+        .split('-')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+}
 
 export default TOOLS
