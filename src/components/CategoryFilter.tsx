@@ -25,7 +25,7 @@ export function CategoryFilter({ tools, activeCategory, onCategoryChange }: Cate
     }, [tools])
 
     return (
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap">
+        <div className="flex gap-1 overflow-x-auto scrollbar-hide py-1 -mx-4 px-4 md:mx-0 md:px-0">
             {TOOL_CATEGORIES.map((cat: ToolCategory) => {
                 const Icon = getIcon(cat.icon)
                 const count = counts[cat.key]
@@ -38,19 +38,21 @@ export function CategoryFilter({ tools, activeCategory, onCategoryChange }: Cate
                         key={cat.key}
                         type="button"
                         onClick={() => onCategoryChange(cat.key)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap border-2 transition-all duration-200 ${
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap border transition-all duration-200 surface-active ${
                             isActive
-                                ? 'border-slate-800 shadow-[var(--box-shadow)] -translate-y-0.5'
-                                : 'border-transparent bg-muted/50 hover:bg-muted'
+                                ? 'bg-foreground text-background border-foreground shadow-sm'
+                                : 'bg-card text-muted-foreground border-border hover:border-foreground/20 hover:text-foreground'
                         }`}
-                        style={isActive ? { backgroundColor: `${cat.color}18`, color: cat.color } : undefined}
+                        aria-pressed={isActive}
                     >
-                        <Icon className="h-3.5 w-3.5" />
+                        <Icon className="h-3.5 w-3.5" strokeWidth={2} />
                         <span>
                             {cat.key === 'all' ? (lang === 'zh' ? '全部' : 'All') : cat.label[lang] || cat.label.en}
                         </span>
                         {count !== undefined && (
-                            <span className={`text-[10px] ${isActive ? 'opacity-70' : 'text-muted-foreground'}`}>
+                            <span
+                                className={`text-[10px] tabular-nums ${isActive ? 'opacity-70' : 'text-muted-foreground/70'}`}
+                            >
                                 {count}
                             </span>
                         )}
