@@ -1,15 +1,15 @@
 'use client'
 
+import { BookOpen, Lightning, Palette, SquaresFour, TrendUp } from '@phosphor-icons/react'
 import { useReducedMotion } from 'framer-motion'
-import { BookOpen, LayoutGrid, Palette, TrendingUp, Zap } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 const PLANETS = [
-    { key: 'design', icon: Palette, color: '#ec4899', orbit: 48, size: 26, speed: 36, startAngle: 0 },
-    { key: 'documents', icon: BookOpen, color: '#10b981', orbit: 68, size: 22, speed: 48, startAngle: 72 },
-    { key: 'productivity', icon: Zap, color: '#f97316', orbit: 84, size: 20, speed: 60, startAngle: 144 },
-    { key: 'finance', icon: TrendingUp, color: '#ef4444', orbit: 100, size: 18, speed: 72, startAngle: 216 },
-    { key: 'resources', icon: LayoutGrid, color: '#eab308', orbit: 112, size: 16, speed: 88, startAngle: 288 },
+    { key: 'design', icon: Palette, color: '#8b7cc7', orbit: 48, size: 26, speed: 36, startAngle: 0 },
+    { key: 'documents', icon: BookOpen, color: '#7c8bc7', orbit: 68, size: 22, speed: 48, startAngle: 72 },
+    { key: 'productivity', icon: Lightning, color: '#7c6bc7', orbit: 84, size: 20, speed: 60, startAngle: 144 },
+    { key: 'finance', icon: TrendUp, color: '#6b7cc7', orbit: 100, size: 18, speed: 72, startAngle: 216 },
+    { key: 'resources', icon: SquaresFour, color: '#8b8cc7', orbit: 112, size: 16, speed: 88, startAngle: 288 },
 ]
 
 const CX = 150
