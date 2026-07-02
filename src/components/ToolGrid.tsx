@@ -1,7 +1,7 @@
 'use client'
 
+import { MagnifyingGlass } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { PackageSearch } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { CategoryFilter } from '@/components/CategoryFilter'
 import { SearchBar } from '@/components/SearchBar'
@@ -13,21 +13,21 @@ import { getIcon } from '@/lib/icon-map'
 
 const container = {
     hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.06 } },
+    show: { opacity: 1, transition: { staggerChildren: 0.05 } },
 }
 
 const containerReduced = { hidden: { opacity: 1 }, show: { opacity: 1 } }
 
 const item = {
-    hidden: { opacity: 0, y: 16, scale: 0.96 },
+    hidden: { opacity: 0, y: 16, scale: 0.98 },
     show: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, scale: 0.96, transition: { duration: 0.15 } },
+    exit: { opacity: 0, scale: 0.98, transition: { duration: 0.12 } },
 }
 const itemReduced = { hidden: { opacity: 1 }, show: { opacity: 1 } }
 
 const sectionVariants = {
     hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.08 } },
+    show: { opacity: 1, transition: { staggerChildren: 0.06 } },
 }
 
 export function ToolGrid() {
@@ -78,24 +78,26 @@ export function ToolGrid() {
     }, [filtered, activeCategory, searchQuery])
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-5">
             <SearchBar value={searchQuery} onChange={setSearchQuery} />
             <CategoryFilter tools={tools} activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
 
             {filtered.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-16 text-center">
-                    <PackageSearch className="h-10 w-10 text-muted-foreground/50 mb-3" />
-                    <p className="text-sm font-medium text-muted-foreground">
+                <div className="flex flex-col items-center justify-center py-20 text-center">
+                    <MagnifyingGlass className="h-12 w-12 text-muted-foreground/40 mb-4" weight="duotone" />
+                    <p className="text-base font-medium text-foreground">
                         {isReady ? t('toolsWall.noResults') : 'No tools found'}
                     </p>
-                    <p className="text-xs text-muted-foreground/70 mt-1">
+                    <p className="text-sm text-muted-foreground mt-1">
                         {isReady ? t('toolsWall.noResultsHint') : 'Try a different keyword or category'}
                     </p>
                 </div>
             ) : grouped ? (
-                <div className="space-y-8">
+                <div className="space-y-10">
                     {grouped.map(({ category, tools: catTools }) => {
                         const CatIcon = getIcon(category.icon)
+                        const [featured, ...rest] = catTools
+
                         return (
                             <motion.section
                                 key={category.key}
@@ -104,27 +106,37 @@ export function ToolGrid() {
                                 whileInView="show"
                                 viewport={{ once: true, margin: '-50px' }}
                             >
-                                <div className="flex items-center gap-2.5 mb-3">
+                                <div className="flex items-center gap-2.5 mb-4">
                                     <div
                                         className="flex h-7 w-7 items-center justify-center rounded-lg"
-                                        style={{ backgroundColor: `${category.color}18`, color: category.color }}
+                                        style={{ backgroundColor: `${category.color}15`, color: category.color }}
                                     >
-                                        <CatIcon className="h-3.5 w-3.5" />
+                                        <CatIcon className="h-3.5 w-3.5" strokeWidth={2} />
                                     </div>
-                                    <h2 className="text-sm font-bold text-foreground">
+                                    <h2 className="text-sm font-semibold text-foreground">
                                         {category.label[lang] || category.label.en}
                                     </h2>
-                                    <span className="text-xs text-muted-foreground/60">{catTools.length}</span>
+                                    <span className="text-xs text-muted-foreground/60 tabular-nums">
+                                        {catTools.length}
+                                    </span>
                                     <div className="flex-1 h-px bg-border" />
                                 </div>
                                 <motion.div
                                     variants={shouldReduceMotion ? containerReduced : container}
                                     initial="hidden"
                                     animate="show"
-                                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+                                    className="grid grid-cols-1 md:grid-cols-2 gap-4"
                                 >
                                     <AnimatePresence mode="popLayout">
-                                        {catTools.map((tool) => (
+                                        <motion.div
+                                            key={featured.id}
+                                            layout
+                                            variants={shouldReduceMotion ? itemReduced : item}
+                                            className="md:col-span-2"
+                                        >
+                                            <ToolCard tool={featured} featured />
+                                        </motion.div>
+                                        {rest.map((tool) => (
                                             <motion.div
                                                 key={tool.id}
                                                 layout
@@ -144,12 +156,17 @@ export function ToolGrid() {
                     variants={shouldReduceMotion ? containerReduced : container}
                     initial="hidden"
                     animate="show"
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+                    className="grid grid-cols-1 md:grid-cols-2 gap-4"
                 >
                     <AnimatePresence mode="popLayout">
-                        {filtered.map((tool) => (
-                            <motion.div key={tool.id} layout variants={shouldReduceMotion ? itemReduced : item}>
-                                <ToolCard tool={tool} />
+                        {filtered.map((tool, index) => (
+                            <motion.div
+                                key={tool.id}
+                                layout
+                                variants={shouldReduceMotion ? itemReduced : item}
+                                className={index === 0 ? 'md:col-span-2' : ''}
+                            >
+                                <ToolCard tool={tool} featured={index === 0} />
                             </motion.div>
                         ))}
                     </AnimatePresence>
