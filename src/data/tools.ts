@@ -182,6 +182,20 @@ const TOOLS: Tool[] = [
         githubUrl: 'https://github.com/nevertoday/zhongguo-traditional-colors',
     },
     {
+        id: 'paper-shaders',
+        type: 'link',
+        name: { en: 'Paper Shaders', zh: 'Paper Shaders' },
+        description: {
+            en: 'Ultra-fast zero-dependency shaders for designs',
+            zh: '超快速零依赖的设计用着色器库',
+        },
+        category: 'design',
+        tags: ['shaders', 'visual-effects', 'animations', 'design', 'css', 'webgl'],
+        url: 'https://shaders.paper.design/',
+        icon: 'Sparkles',
+        color: '#8b5cf6',
+    },
+    {
         id: 'yeguozi',
         type: 'link',
         name: { en: 'Yeguozi', zh: '野果子' },
