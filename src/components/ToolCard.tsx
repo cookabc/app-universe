@@ -1,9 +1,9 @@
 'use client'
 
-import { ArrowSquareOut, GithubLogo } from '@phosphor-icons/react'
+import { ArrowSquareOutIcon, GithubLogoIcon } from '@phosphor-icons/react'
 import { useState } from 'react'
 import type { Tool } from '@/data/tools'
-import { TOOL_CATEGORIES } from '@/data/tools'
+import { formatTag } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
 import { getIcon } from '@/lib/icon-map'
 
@@ -24,7 +24,6 @@ export function ToolCard({ tool, featured = false }: ToolCardProps) {
     const { i18n, t, isReady } = useI18nReady()
     const lang = i18n.language as 'en' | 'zh'
     const Icon = getIcon(tool.icon)
-    const category = TOOL_CATEGORIES.find((c) => c.key === tool.category)
     const [imgError, setImgError] = useState(false)
 
     const name = tool.name[lang] || tool.name.en
@@ -59,9 +58,9 @@ export function ToolCard({ tool, featured = false }: ToolCardProps) {
                 ) : (
                     <div
                         className="absolute inset-0 flex items-center justify-center"
-                        style={{ backgroundColor: `${category?.color}15` }}
+                        style={{ backgroundColor: `${tool.color}15` }}
                     >
-                        <Icon className="h-12 w-12" style={{ color: category?.color }} />
+                        <Icon className="h-12 w-12" style={{ color: tool.color }} />
                     </div>
                 )}
             </div>
@@ -72,7 +71,7 @@ export function ToolCard({ tool, featured = false }: ToolCardProps) {
                 <div className="flex items-start gap-3">
                     <div
                         className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-white"
-                        style={{ backgroundColor: category?.color }}
+                        style={{ backgroundColor: tool.color }}
                     >
                         <Icon className="h-[18px] w-[18px]" strokeWidth={2} />
                     </div>
@@ -83,7 +82,7 @@ export function ToolCard({ tool, featured = false }: ToolCardProps) {
                             >
                                 {name}
                             </h3>
-                            <ArrowSquareOut className="h-3 w-3 text-muted-foreground flex-shrink-0" weight="bold" />
+                            <ArrowSquareOutIcon className="h-3 w-3 text-muted-foreground flex-shrink-0" weight="bold" />
                         </div>
                         <p className="text-[11px] text-muted-foreground/70 font-mono truncate">{domain}</p>
                     </div>
@@ -106,7 +105,7 @@ export function ToolCard({ tool, featured = false }: ToolCardProps) {
                             tabIndex={0}
                             className="flex-shrink-0 text-muted-foreground hover:text-foreground transition-colors"
                         >
-                            <GithubLogo className="h-3.5 w-3.5" weight="regular" />
+                            <GithubLogoIcon className="h-3.5 w-3.5" weight="regular" />
                         </span>
                     )}
                 </div>
@@ -135,7 +134,7 @@ export function ToolCard({ tool, featured = false }: ToolCardProps) {
                                     key={tag}
                                     className="px-1.5 py-0.5 rounded-md text-[10px] font-medium bg-muted text-muted-foreground"
                                 >
-                                    {tag}
+                                    {formatTag(tag)}
                                 </span>
                             ))}
                         </div>
@@ -144,7 +143,7 @@ export function ToolCard({ tool, featured = false }: ToolCardProps) {
                     )}
                     <span className="text-[11px] font-medium text-primary flex items-center gap-0.5 flex-shrink-0">
                         Visit
-                        <ArrowSquareOut
+                        <ArrowSquareOutIcon
                             className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                             weight="bold"
                         />
