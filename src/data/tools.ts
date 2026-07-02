@@ -25,37 +25,37 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
     {
         key: 'all',
         label: { en: 'All', zh: '全部' },
-        color: '#6366f1',
+        color: '#6b69c7',
         icon: 'LayoutGrid',
     },
     {
         key: 'design',
         label: { en: 'Design', zh: '设计' },
-        color: '#ec4899',
+        color: '#8b7cc7',
         icon: 'Palette',
     },
     {
         key: 'documents',
         label: { en: 'Documents', zh: '文档演示' },
-        color: '#10b981',
+        color: '#7c8bc7',
         icon: 'FileText',
     },
     {
         key: 'productivity',
         label: { en: 'Productivity', zh: '效率工具' },
-        color: '#f97316',
+        color: '#7c6bc7',
         icon: 'Zap',
     },
     {
         key: 'finance',
         label: { en: 'Finance', zh: '金融理财' },
-        color: '#ef4444',
+        color: '#6b7cc7',
         icon: 'TrendingUp',
     },
     {
         key: 'resources',
         label: { en: 'Resources', zh: '资源集合' },
-        color: '#eab308',
+        color: '#8b8cc7',
         icon: 'BookOpen',
     },
 ]
