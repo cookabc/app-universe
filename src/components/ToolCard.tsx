@@ -9,7 +9,8 @@ import { getIcon } from '@/lib/icon-map'
 
 interface ToolCardProps {
     tool: Tool
-    featured?: boolean
+    index?: number
+    onTagClick?: (tag: string) => void
 }
 
 function getDomain(url: string): string {
@@ -20,7 +21,9 @@ function getDomain(url: string): string {
     }
 }
 
-export function ToolCard({ tool, featured = false }: ToolCardProps) {
+const previewPatterns = ['aspect-[3/2]', 'aspect-[2/1]', 'aspect-[4/3]', 'aspect-[16/9]']
+
+export function ToolCard({ tool, index = 0, onTagClick }: ToolCardProps) {
     const { i18n, t, isReady } = useI18nReady()
     const lang = i18n.language as 'en' | 'zh'
     const Icon = getIcon(tool.icon)
@@ -32,17 +35,12 @@ export function ToolCard({ tool, featured = false }: ToolCardProps) {
     const domain = getDomain(tool.url)
     const previewSrc = `/previews/${tool.id}.png`
 
+    const previewClass = previewPatterns[index % previewPatterns.length]
+
     return (
-        <a
-            href={tool.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`group block surface surface-active h-full ${featured ? 'md:flex md:flex-row' : ''}`}
-        >
+        <article className="group surface surface-active flex flex-col overflow-hidden">
             {/* Preview */}
-            <div
-                className={`relative overflow-hidden bg-muted ${featured ? 'aspect-[2/1] md:aspect-auto md:w-2/5 md:min-w-[240px]' : 'aspect-[2/1]'}`}
-            >
+            <div className={`relative overflow-hidden bg-muted ${previewClass}`}>
                 {!imgError ? (
                     <>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -66,7 +64,7 @@ export function ToolCard({ tool, featured = false }: ToolCardProps) {
             </div>
 
             {/* Content */}
-            <div className={`flex flex-col p-4 ${featured ? 'md:flex-1' : ''}`}>
+            <div className="flex flex-col p-4">
                 {/* Header */}
                 <div className="flex items-start gap-3">
                     <div
@@ -76,46 +74,32 @@ export function ToolCard({ tool, featured = false }: ToolCardProps) {
                         <Icon className="h-[18px] w-[18px]" strokeWidth={2} />
                     </div>
                     <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5">
-                            <h3
-                                className={`font-semibold text-foreground truncate ${featured ? 'text-base' : 'text-sm'}`}
-                            >
-                                {name}
-                            </h3>
+                        <a
+                            href={tool.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/title flex items-center gap-1.5"
+                        >
+                            <h3 className="font-semibold text-foreground truncate text-sm">{name}</h3>
                             <ArrowSquareOutIcon className="h-3 w-3 text-muted-foreground flex-shrink-0" weight="bold" />
-                        </div>
+                        </a>
                         <p className="text-[11px] text-muted-foreground/70 font-mono truncate">{domain}</p>
                     </div>
                     {tool.githubUrl && (
-                        <span
-                            role="link"
+                        <a
+                            href={tool.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             aria-label="GitHub repository"
-                            onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
-                                window.open(tool.githubUrl, '_blank', 'noopener,noreferrer')
-                            }}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                    e.preventDefault()
-                                    e.stopPropagation()
-                                    window.open(tool.githubUrl, '_blank', 'noopener,noreferrer')
-                                }
-                            }}
-                            tabIndex={0}
                             className="flex-shrink-0 text-muted-foreground hover:text-foreground transition-colors"
                         >
                             <GithubLogoIcon className="h-3.5 w-3.5" weight="regular" />
-                        </span>
+                        </a>
                     )}
                 </div>
 
                 {/* Description */}
-                <p
-                    className={`text-muted-foreground line-clamp-2 mt-3 ${featured ? 'text-sm leading-relaxed' : 'text-xs leading-relaxed'}`}
-                >
-                    {desc}
-                </p>
+                <p className="text-muted-foreground mt-3 line-clamp-3 text-xs leading-relaxed">{desc}</p>
 
                 {/* Curator note */}
                 {note && (
@@ -129,27 +113,37 @@ export function ToolCard({ tool, featured = false }: ToolCardProps) {
                 <div className="mt-auto pt-3 flex items-center justify-between gap-3">
                     {tool.tags.length > 0 ? (
                         <div className="flex flex-wrap gap-1.5">
-                            {tool.tags.slice(0, featured ? 5 : 3).map((tag) => (
-                                <span
+                            {tool.tags.map((tag) => (
+                                <button
                                     key={tag}
-                                    className="px-1.5 py-0.5 rounded-md text-[10px] font-medium bg-muted text-muted-foreground"
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        onTagClick?.(tag)
+                                    }}
+                                    className="px-1.5 py-0.5 rounded-md text-[10px] font-medium bg-muted text-muted-foreground hover:bg-foreground/10 hover:text-foreground transition-colors"
                                 >
                                     {formatTag(tag)}
-                                </span>
+                                </button>
                             ))}
                         </div>
                     ) : (
                         <span />
                     )}
-                    <span className="text-[11px] font-medium text-primary flex items-center gap-0.5 flex-shrink-0">
+                    <a
+                        href={tool.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[11px] font-medium text-primary flex items-center gap-0.5 flex-shrink-0 hover:underline"
+                    >
                         Visit
                         <ArrowSquareOutIcon
                             className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                             weight="bold"
                         />
-                    </span>
+                    </a>
                 </div>
             </div>
-        </a>
+        </article>
     )
 }
