@@ -6,13 +6,20 @@ import { LanguageSwitcher } from './LanguageSwitcher'
 
 export const Header = () => {
     return (
-        <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800/60 transition-all duration-300">
-            <div className="container max-w-7xl mx-auto px-4 h-12 flex items-center justify-between">
+        <header className="sticky top-0 z-40 w-full bg-background/75 backdrop-blur-xl border-b border-border/60">
+            <div className="container max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
                 <Link
                     href="/"
-                    className="flex items-center gap-1.5 text-sm font-black font-heading tracking-tight text-foreground hover:text-primary transition-colors"
+                    className="flex items-center gap-2 text-sm font-bold tracking-tight text-foreground hover:text-primary transition-colors"
                 >
-                    <svg width="16" height="16" viewBox="0 0 125 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 125 125"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                    >
                         <circle cx="62.5" cy="62.5" r="58" stroke="currentColor" strokeWidth="8" />
                         <circle cx="62.5" cy="62.5" r="32" stroke="currentColor" strokeWidth="8" />
                         <circle cx="62.5" cy="62.5" r="10" fill="currentColor" />
@@ -20,9 +27,9 @@ export const Header = () => {
                     App Universe
                 </Link>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                     <LanguageSwitcher />
-                    <ThemeSwitch width={44} height={22} className="scale-85" />
+                    <ThemeSwitch width={44} height={22} className="scale-90" />
                 </div>
             </div>
         </header>
