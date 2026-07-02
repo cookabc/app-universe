@@ -1,5 +1,5 @@
+import { CaretDown, Star } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
-import { ChevronDown, Star } from 'lucide-react'
 import type React from 'react'
 import { useState } from 'react'
 import { cn } from '../../../lib/utils'
@@ -114,7 +114,7 @@ const LandingPageHero: React.FC = () => {
                                 >
                                     <button className="flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                                         {item.label}
-                                        {item.dropdown && <ChevronDown className="ml-1 h-4 w-4" />}
+                                        {item.dropdown && <CaretDown className="ml-1 h-4 w-4" />}
                                     </button>
 
                                     {item.dropdown && activeDropdown === item.label && (

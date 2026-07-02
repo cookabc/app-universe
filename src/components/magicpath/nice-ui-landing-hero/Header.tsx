@@ -1,5 +1,5 @@
+import { CaretDown, List, X } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
-import { ChevronDown, Menu, X } from 'lucide-react'
 import type React from 'react'
 import { useState } from 'react'
 import { cn } from '../../../lib/utils'
@@ -114,7 +114,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                                 ) : (
                                     <button className="flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                                         {item.label}
-                                        {item.dropdown && <ChevronDown className="ml-1 h-4 w-4" />}
+                                        {item.dropdown && <CaretDown className="ml-1 h-4 w-4" />}
                                     </button>
                                 )}
 
@@ -167,7 +167,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                         aria-label="Toggle mobile menu"
                     >
-                        {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                        {mobileMenuOpen ? <X className="h-6 w-6" /> : <List className="h-6 w-6" />}
                     </button>
                 </div>
 
@@ -205,7 +205,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                                         >
                                             {item.label}
                                             {item.dropdown && (
-                                                <ChevronDown
+                                                <CaretDown
                                                     className={cn(
                                                         'h-4 w-4 transition-transform',
                                                         activeDropdown === item.label && 'rotate-180',
