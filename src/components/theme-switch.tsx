@@ -1,7 +1,7 @@
 'use client'
 
+import { Moon, type Icon as PhosphorIcon, Sun } from '@phosphor-icons/react'
 import * as SwitchPrimitives from '@radix-ui/react-switch'
-import { type LucideIcon, MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
@@ -10,8 +10,8 @@ import { cn } from '@/lib/utils'
 interface ThemeSwitchProps extends React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root> {
     width?: number
     height?: number
-    lightIcon?: LucideIcon
-    darkIcon?: LucideIcon
+    lightIcon?: PhosphorIcon
+    darkIcon?: PhosphorIcon
     lightColor?: string
     darkColor?: string
 }
@@ -19,8 +19,8 @@ interface ThemeSwitchProps extends React.ComponentPropsWithoutRef<typeof SwitchP
 const DEFAULTS = {
     WIDTH: 80,
     HEIGHT: 44,
-    LIGHT_COLOR: '#fbbf24',
-    DARK_COLOR: '#312E81',
+    LIGHT_COLOR: 'hsl(var(--muted))',
+    DARK_COLOR: 'hsl(var(--foreground))',
     PADDING: 4,
 }
 
@@ -30,8 +30,8 @@ const ThemeSwitch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Ro
             className,
             width = DEFAULTS.WIDTH,
             height = DEFAULTS.HEIGHT,
-            lightIcon: LightIcon = SunIcon,
-            darkIcon: DarkIcon = MoonIcon,
+            lightIcon: LightIcon = Sun,
+            darkIcon: DarkIcon = Moon,
             lightColor = DEFAULTS.LIGHT_COLOR,
             darkColor = DEFAULTS.DARK_COLOR,
             ...props
@@ -59,8 +59,8 @@ const ThemeSwitch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Ro
         }, [height, width, isDarkMode])
 
         const thumbIconStyle = {
-            height: computeThumbStyles.size * 0.75,
-            width: computeThumbStyles.size * 0.75,
+            height: computeThumbStyles.size * 0.65,
+            width: computeThumbStyles.size * 0.65,
         }
 
         return (
@@ -68,9 +68,9 @@ const ThemeSwitch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Ro
                 <TooltipTrigger asChild>
                     <SwitchPrimitives.Root
                         className={cn(
-                            'rounded-full relative inline-flex shrink-0 cursor-pointer border-2 border-transparent',
+                            'rounded-full relative inline-flex shrink-0 cursor-pointer border border-border',
                             'transition-colors duration-200 ease-in-out',
-                            'focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
+                            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                             className,
                         )}
                         checked={isDarkMode}
@@ -86,7 +86,7 @@ const ThemeSwitch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Ro
                         }}
                     >
                         <SwitchPrimitives.Thumb
-                            className="pointer-events-none rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out flex items-center justify-center"
+                            className="pointer-events-none rounded-full bg-card text-foreground shadow-sm ring-0 transition duration-200 ease-in-out flex items-center justify-center"
                             style={{
                                 height: computeThumbStyles.size,
                                 width: computeThumbStyles.size,
@@ -94,8 +94,8 @@ const ThemeSwitch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Ro
                             }}
                         >
                             {isDarkMode
-                                ? DarkIcon && <DarkIcon style={thumbIconStyle} />
-                                : LightIcon && <LightIcon style={thumbIconStyle} />}
+                                ? DarkIcon && <DarkIcon style={thumbIconStyle} strokeWidth={2} />
+                                : LightIcon && <LightIcon style={thumbIconStyle} strokeWidth={2} />}
                         </SwitchPrimitives.Thumb>
                     </SwitchPrimitives.Root>
                 </TooltipTrigger>

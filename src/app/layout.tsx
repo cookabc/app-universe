@@ -17,8 +17,18 @@ const jetBrainsMono = JetBrains_Mono({
 })
 
 export const metadata = {
-    title: 'App Universe',
-    description: 'Discover and use amazing AI-powered tools',
+    title: 'App Universe — Tools that actually work',
+    description: 'A curated collection of apps and tools for design, finance, productivity, and more.',
+    openGraph: {
+        title: 'App Universe — Tools that actually work',
+        description: 'A curated collection of apps and tools for design, finance, productivity, and more.',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'App Universe — Tools that actually work',
+        description: 'A curated collection of apps and tools for design, finance, productivity, and more.',
+    },
 }
 
 export default function RootLayout({
@@ -39,6 +49,10 @@ export default function RootLayout({
             <body
                 className={`${plusJakarta.variable} ${outfit.variable} ${jetBrainsMono.variable} antialiased min-w-[320px]`}
             >
+                <a href="#main-content" className="skip-link">
+                    Skip to content
+                </a>
+                <div className="grain" aria-hidden="true" />
                 <I18nProvider>
                     <ThemeProvider
                         attribute="class"
