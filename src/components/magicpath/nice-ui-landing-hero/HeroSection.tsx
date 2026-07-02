@@ -2,7 +2,7 @@
 
 import { ArrowRight } from '@phosphor-icons/react'
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
-import { TOOL_CATEGORIES, default as TOOLS } from '@/data/tools'
+import { getAllTags, default as TOOLS } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
 import { HeroOrbital } from './HeroOrbital'
 
@@ -30,14 +30,12 @@ export default function HeroSection() {
     const titleAccent = isReady ? t('hero.titleAccent') : 'actually work'
     const subtitle = isReady
         ? t('hero.subtitle')
-        : 'A curated collection of apps and tools I use and build — for design, finance, productivity, and more.'
+        : 'A curated collection of apps and tools I use and build — for design, productivity, and more.'
     const ctaText = isReady ? t('hero.cta') : 'Explore tools'
     const toolCount = TOOLS.length
-    const categoryCount = TOOL_CATEGORIES.filter((c) => c.key !== 'all').length
+    const tagCount = getAllTags(TOOLS).length
     const statsTools = isReady ? t('hero.statsTools', { count: toolCount }) : `${toolCount}+ tools`
-    const statsCategories = isReady
-        ? t('hero.statsCategories', { count: categoryCount })
-        : `${categoryCount} categories`
+    const statsTags = isReady ? t('hero.statsTags', { count: tagCount }) : `${tagCount} tags`
 
     const shouldReduceMotion = useReducedMotion()
 
@@ -77,9 +75,7 @@ export default function HeroSection() {
                             />
                         </a>
                         <span className="surface px-3 py-1.5 text-xs font-medium text-foreground">{statsTools}</span>
-                        <span className="surface px-3 py-1.5 text-xs font-medium text-foreground">
-                            {statsCategories}
-                        </span>
+                        <span className="surface px-3 py-1.5 text-xs font-medium text-foreground">{statsTags}</span>
                     </motion.div>
                 </div>
 
