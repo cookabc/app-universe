@@ -7,7 +7,9 @@ export function AppChrome({ children }: { children: React.ReactNode }) {
     return (
         <>
             <Header />
-            <main className="flex-grow">{children}</main>
+            <main id="main-content" className="flex-grow" tabIndex={-1}>
+                {children}
+            </main>
             <Footer />
         </>
     )
