@@ -2,16 +2,16 @@
   "hero": {
     "title": "发现真正",
     "titleAccent": "好用的工具",
-    "subtitle": "我使用和构建的应用与工具精选集 — 涵盖设计、金融、效率等领域。",
+    "subtitle": "我使用和构建的应用与工具精选集 — 涵盖设计、效率等领域。",
     "cta": "探索工具",
     "statsTools": "{{count}}+ 工具",
-    "statsCategories": "{{count}} 个分类"
+    "statsTags": "{{count}} 个标签"
   },
   "toolsWall": {
     "subtitle": "我使用和构建的工具精选集",
-    "searchPlaceholder": "按名称、分类或关键词搜索工具...",
+    "searchPlaceholder": "按名称、标签或关键词搜索工具...",
     "noResults": "未找到工具",
-    "noResultsHint": "试试其他关键词或分类",
+    "noResultsHint": "试试其他关键词或标签",
     "curatorNote": "备注"
   }
 }

@@ -2,16 +2,16 @@
   "hero": {
     "title": "Discover tools that",
     "titleAccent": "actually work",
-    "subtitle": "A curated collection of apps and tools I use and build — for design, finance, productivity, and more.",
+    "subtitle": "A curated collection of apps and tools I use and build — for design, productivity, and more.",
     "cta": "Explore tools",
     "statsTools": "{{count}}+ tools",
-    "statsCategories": "{{count}} categories"
+    "statsTags": "{{count}} tags"
   },
   "toolsWall": {
     "subtitle": "A curated collection of tools I use and build",
-    "searchPlaceholder": "Search tools by name, category, or keyword...",
+    "searchPlaceholder": "Search tools by name, tag, or keyword...",
     "noResults": "No tools found",
-    "noResultsHint": "Try a different keyword or category",
+    "noResultsHint": "Try a different keyword or tag",
     "curatorNote": "Note"
   }
 }
