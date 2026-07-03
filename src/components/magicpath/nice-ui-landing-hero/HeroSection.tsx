@@ -50,10 +50,10 @@ export default function HeroSection() {
                 {/* Left: text */}
                 <div className="flex-1 min-w-0 text-center lg:text-left">
                     <motion.div className="space-y-4" variants={shouldReduceMotion ? undefined : itemVariants}>
-                        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-heading tracking-tighter text-foreground leading-[0.95] text-balance">
+                        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-heading tracking-[-0.03em] text-foreground leading-[1.05] text-balance">
                             {title}
                             <br />
-                            <span className="font-serif text-foreground">{titleAccent}</span>
+                            <span className="font-serif italic text-foreground">{titleAccent}</span>
                         </h1>
                         <p className="text-base sm:text-lg text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed text-pretty">
                             {subtitle}

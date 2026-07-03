@@ -5,11 +5,27 @@ import { useReducedMotion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
 const PLANETS = [
-    { key: 'design', icon: PaletteIcon, color: '#8b7cc7', orbit: 48, size: 26, speed: 36, startAngle: 0 },
-    { key: 'documents', icon: BookOpenIcon, color: '#7c8bc7', orbit: 68, size: 22, speed: 48, startAngle: 72 },
-    { key: 'productivity', icon: LightningIcon, color: '#7c6bc7', orbit: 84, size: 20, speed: 60, startAngle: 144 },
-    { key: 'finance', icon: TrendUpIcon, color: '#6b7cc7', orbit: 100, size: 18, speed: 72, startAngle: 216 },
-    { key: 'resources', icon: SquaresFourIcon, color: '#8b8cc7', orbit: 112, size: 16, speed: 88, startAngle: 288 },
+    { key: 'design', icon: PaletteIcon, color: 'hsl(18 60% 55%)', orbit: 48, size: 26, speed: 36, startAngle: 0 },
+    { key: 'documents', icon: BookOpenIcon, color: 'hsl(18 55% 58%)', orbit: 68, size: 22, speed: 48, startAngle: 72 },
+    {
+        key: 'productivity',
+        icon: LightningIcon,
+        color: 'hsl(18 65% 52%)',
+        orbit: 84,
+        size: 20,
+        speed: 60,
+        startAngle: 144,
+    },
+    { key: 'finance', icon: TrendUpIcon, color: 'hsl(18 50% 60%)', orbit: 100, size: 18, speed: 72, startAngle: 216 },
+    {
+        key: 'resources',
+        icon: SquaresFourIcon,
+        color: 'hsl(18 45% 62%)',
+        orbit: 112,
+        size: 16,
+        speed: 88,
+        startAngle: 288,
+    },
 ]
 
 const CX = 150
