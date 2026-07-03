@@ -1,4 +1,4 @@
-import { JetBrains_Mono, Outfit, Plus_Jakarta_Sans } from 'next/font/google'
+import { Cormorant_Garamond, JetBrains_Mono, Outfit, Plus_Jakarta_Sans } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { AppChrome } from '@/components/AppChrome'
 import { I18nProvider } from '@/components/I18nProvider'
@@ -10,7 +10,13 @@ const plusJakarta = Plus_Jakarta_Sans({
     subsets: ['latin'],
     variable: '--font-sans',
 })
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-serif' })
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-display' })
+const cormorant = Cormorant_Garamond({
+    subsets: ['latin'],
+    weight: ['400', '500', '600', '700'],
+    style: ['normal', 'italic'],
+    variable: '--font-serif',
+})
 const jetBrainsMono = JetBrains_Mono({
     subsets: ['latin'],
     variable: '--font-jetbrains-mono',
@@ -47,7 +53,7 @@ export default function RootLayout({
                 />
             </head>
             <body
-                className={`${plusJakarta.variable} ${outfit.variable} ${jetBrainsMono.variable} antialiased min-w-[320px]`}
+                className={`${plusJakarta.variable} ${outfit.variable} ${cormorant.variable} ${jetBrainsMono.variable} antialiased min-w-[320px]`}
             >
                 <a href="#main-content" className="skip-link">
                     Skip to content
