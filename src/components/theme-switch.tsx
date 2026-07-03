@@ -25,12 +25,16 @@ const cycle: Record<string, string> = {
     dark: 'system',
 }
 
+function prefersReducedMotion(): boolean {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
 function startThemeTransition(
     nextTheme: string,
     setTheme: (theme: string) => void,
     clickEvent: React.MouseEvent<HTMLButtonElement>,
 ) {
-    if (!document.startViewTransition) {
+    if (!document.startViewTransition || prefersReducedMotion()) {
         setTheme(nextTheme)
         return
     }
