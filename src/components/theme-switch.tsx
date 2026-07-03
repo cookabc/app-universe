@@ -1,111 +1,116 @@
 'use client'
 
-import { Moon, type Icon as PhosphorIcon, Sun } from '@phosphor-icons/react'
-import * as SwitchPrimitives from '@radix-ui/react-switch'
+import { MonitorIcon, MoonIcon, type Icon as PhosphorIcon, SunIcon } from '@phosphor-icons/react'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
+import { flushSync } from 'react-dom'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 
-interface ThemeSwitchProps extends React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root> {
-    width?: number
-    height?: number
-    lightIcon?: PhosphorIcon
-    darkIcon?: PhosphorIcon
-    lightColor?: string
-    darkColor?: string
+const themeIcons: Record<string, PhosphorIcon> = {
+    system: MonitorIcon,
+    light: SunIcon,
+    dark: MoonIcon,
 }
 
-const DEFAULTS = {
-    WIDTH: 80,
-    HEIGHT: 44,
-    LIGHT_COLOR: 'hsl(var(--muted))',
-    DARK_COLOR: 'hsl(var(--foreground))',
-    PADDING: 4,
+const themeLabels: Record<string, string> = {
+    system: 'System',
+    light: 'Light',
+    dark: 'Dark',
 }
 
-const ThemeSwitch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, ThemeSwitchProps>(
-    (
-        {
-            className,
-            width = DEFAULTS.WIDTH,
-            height = DEFAULTS.HEIGHT,
-            lightIcon: LightIcon = Sun,
-            darkIcon: DarkIcon = Moon,
-            lightColor = DEFAULTS.LIGHT_COLOR,
-            darkColor = DEFAULTS.DARK_COLOR,
-            ...props
-        },
-        ref,
-    ) => {
-        const { theme, setTheme } = useTheme()
-        const [mounted, setMounted] = React.useState(false)
+const cycle: Record<string, string> = {
+    system: 'light',
+    light: 'dark',
+    dark: 'system',
+}
 
-        React.useEffect(() => {
-            setMounted(true)
-        }, [])
+function startThemeTransition(
+    nextTheme: string,
+    setTheme: (theme: string) => void,
+    clickEvent: React.MouseEvent<HTMLButtonElement>,
+) {
+    if (!document.startViewTransition) {
+        setTheme(nextTheme)
+        return
+    }
 
-        const isDarkMode = mounted ? theme === 'dark' : false
-        const label = isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'
+    document.documentElement.classList.add('theme-transition')
 
-        const computeThumbStyles = React.useMemo(() => {
-            const thumbSize = height - DEFAULTS.PADDING
-            const translateX = width - thumbSize - DEFAULTS.PADDING
+    const x = clickEvent.clientX
+    const y = clickEvent.clientY
+    const endRadius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))
 
-            return {
-                size: thumbSize,
-                transform: isDarkMode ? translateX : 0,
-            }
-        }, [height, width, isDarkMode])
+    const transition = document.startViewTransition(() => {
+        flushSync(() => setTheme(nextTheme))
+    })
 
-        const thumbIconStyle = {
-            height: computeThumbStyles.size * 0.65,
-            width: computeThumbStyles.size * 0.65,
-        }
+    const cleanup = () => {
+        document.documentElement.classList.remove('theme-transition')
+    }
 
-        return (
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    <SwitchPrimitives.Root
-                        className={cn(
-                            'rounded-full relative inline-flex shrink-0 cursor-pointer border border-border',
-                            'transition-colors duration-200 ease-in-out',
-                            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-                            className,
-                        )}
-                        checked={isDarkMode}
-                        onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')}
-                        aria-label={label}
-                        aria-pressed={isDarkMode}
-                        {...props}
-                        ref={ref}
-                        style={{
-                            width,
-                            height,
-                            backgroundColor: isDarkMode ? darkColor : lightColor,
-                        }}
-                    >
-                        <SwitchPrimitives.Thumb
-                            className="pointer-events-none rounded-full bg-card text-foreground shadow-sm ring-0 transition duration-200 ease-in-out flex items-center justify-center"
-                            style={{
-                                height: computeThumbStyles.size,
-                                width: computeThumbStyles.size,
-                                transform: `translateX(${computeThumbStyles.transform}px)`,
-                            }}
-                        >
-                            {isDarkMode
-                                ? DarkIcon && <DarkIcon style={thumbIconStyle} strokeWidth={2} />
-                                : LightIcon && <LightIcon style={thumbIconStyle} strokeWidth={2} />}
-                        </SwitchPrimitives.Thumb>
-                    </SwitchPrimitives.Root>
-                </TooltipTrigger>
-                <TooltipContent>
-                    <p>{label}</p>
-                </TooltipContent>
-            </Tooltip>
+    transition.ready
+        .then(() =>
+            document.documentElement.animate(
+                {
+                    clipPath: [`circle(0% at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`],
+                },
+                {
+                    duration: 500,
+                    easing: 'ease-in-out',
+                    pseudoElement: '::view-transition-new(root)',
+                },
+            ),
         )
-    },
-)
+        .catch(() => {
+            // Browser cancelled the transition; theme is already updated.
+        })
+        .finally(cleanup)
+}
+
+interface ThemeSwitchProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+const ThemeSwitch = React.forwardRef<HTMLButtonElement, ThemeSwitchProps>(({ className, ...props }, ref) => {
+    const { theme = 'system', setTheme } = useTheme()
+    const [mounted, setMounted] = React.useState(false)
+
+    React.useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    const current = mounted ? theme : 'system'
+    const next = cycle[current]
+    const Icon = themeIcons[current]
+    const label = `Theme: ${themeLabels[current]}. Click to switch to ${themeLabels[next]}.`
+
+    return (
+        <Tooltip>
+            <TooltipTrigger asChild>
+                <button
+                    ref={ref}
+                    type="button"
+                    onClick={(event) => startThemeTransition(next, setTheme, event)}
+                    aria-label={label}
+                    className={cn(
+                        'inline-flex h-7 w-7 items-center justify-center rounded-[var(--radius-inner)]',
+                        'border border-border bg-card text-muted-foreground',
+                        'transition-all duration-200',
+                        'hover:border-primary/30 hover:text-foreground',
+                        'active:translate-y-px active:scale-[0.98]',
+                        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+                        className,
+                    )}
+                    {...props}
+                >
+                    <Icon className="h-3.5 w-3.5" weight="regular" />
+                </button>
+            </TooltipTrigger>
+            <TooltipContent>
+                <p>{label}</p>
+            </TooltipContent>
+        </Tooltip>
+    )
+})
 ThemeSwitch.displayName = 'ThemeSwitch'
 
 export { ThemeSwitch }
