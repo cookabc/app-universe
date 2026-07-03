@@ -6,7 +6,6 @@ import { useMemo, useState } from 'react'
 import { SearchBar } from '@/components/SearchBar'
 import { TagFilter } from '@/components/TagFilter'
 import { ToolCard } from '@/components/ToolCard'
-import type { Tool } from '@/data/tools'
 import tools from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
 
@@ -25,7 +24,7 @@ export function ToolGrid() {
     const [activeTag, setActiveTag] = useState('all')
 
     const filtered = useMemo(() => {
-        let result: Tool[] = tools
+        let result = tools
 
         if (activeTag !== 'all') {
             result = result.filter((tool) => tool.tags.includes(activeTag))
@@ -46,7 +45,8 @@ export function ToolGrid() {
     }, [searchQuery, activeTag])
 
     return (
-        <div className="space-y-5">
+        <div className="relative space-y-5">
+            <div className="pointer-events-none absolute -inset-x-4 -top-16 h-[28rem] bg-ambient" aria-hidden="true" />
             <SearchBar value={searchQuery} onChange={setSearchQuery} />
             <TagFilter tools={tools} activeTag={activeTag} onTagChange={setActiveTag} />
 
@@ -61,18 +61,18 @@ export function ToolGrid() {
                     </p>
                 </div>
             ) : (
-                <div className="columns-1 md:columns-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <AnimatePresence>
-                        {filtered.map((tool, i) => (
+                        {filtered.map((tool) => (
                             <motion.div
                                 key={tool.id}
-                                className="break-inside-avoid mb-4"
+                                className="h-full"
                                 initial={shouldReduceMotion ? undefined : 'hidden'}
                                 animate={shouldReduceMotion ? undefined : 'show'}
                                 exit={shouldReduceMotion ? undefined : 'exit'}
                                 variants={shouldReduceMotion ? itemReduced : item}
                             >
-                                <ToolCard tool={tool} index={i} onTagClick={setActiveTag} />
+                                <ToolCard tool={tool} onTagClick={setActiveTag} />
                             </motion.div>
                         ))}
                     </AnimatePresence>

@@ -9,7 +9,6 @@ import { getIcon } from '@/lib/icon-map'
 
 interface ToolCardProps {
     tool: Tool
-    index?: number
     onTagClick?: (tag: string) => void
 }
 
@@ -21,9 +20,7 @@ function getDomain(url: string): string {
     }
 }
 
-const previewPatterns = ['aspect-[3/2]', 'aspect-[2/1]', 'aspect-[4/3]', 'aspect-[16/9]']
-
-export function ToolCard({ tool, index = 0, onTagClick }: ToolCardProps) {
+export function ToolCard({ tool, onTagClick }: ToolCardProps) {
     const { i18n, t, isReady } = useI18nReady()
     const lang = i18n.language as 'en' | 'zh'
     const Icon = getIcon(tool.icon)
@@ -35,12 +32,10 @@ export function ToolCard({ tool, index = 0, onTagClick }: ToolCardProps) {
     const domain = getDomain(tool.url)
     const previewSrc = `/previews/${tool.id}.png`
 
-    const previewClass = previewPatterns[index % previewPatterns.length]
-
     return (
-        <article className="group surface surface-active flex flex-col overflow-hidden">
+        <article className="group surface surface-active radius-outer flex flex-col overflow-hidden h-full">
             {/* Preview */}
-            <div className={`relative overflow-hidden bg-muted ${previewClass}`}>
+            <div className="relative overflow-hidden bg-muted flex-1 min-h-[160px]">
                 {!imgError ? (
                     <>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -121,7 +116,7 @@ export function ToolCard({ tool, index = 0, onTagClick }: ToolCardProps) {
                                         e.stopPropagation()
                                         onTagClick?.(tag)
                                     }}
-                                    className="px-1.5 py-0.5 rounded-md text-[10px] font-medium bg-muted text-muted-foreground hover:bg-foreground/10 hover:text-foreground transition-colors"
+                                    className="px-1.5 py-0.5 radius-inner text-[10px] font-medium bg-muted text-muted-foreground hover:bg-foreground/10 hover:text-foreground transition-colors"
                                 >
                                     {formatTag(tag)}
                                 </button>
