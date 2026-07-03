@@ -3,6 +3,7 @@ import {
     BookOpenIcon,
     BrainIcon,
     BriefcaseIcon,
+    CaretDownIcon,
     ChartBarIcon,
     CodeIcon,
     CurrencyDollarIcon,
@@ -21,6 +22,7 @@ import {
     RocketIcon,
     SparkleIcon,
     SquaresFourIcon,
+    StarIcon,
     TrendUpIcon,
 } from '@phosphor-icons/react'
 
@@ -29,6 +31,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
     BookOpen: BookOpenIcon,
     Brain: BrainIcon,
     Briefcase: BriefcaseIcon,
+    CaretDown: CaretDownIcon,
     Code: CodeIcon,
     DollarSign: CurrencyDollarIcon,
     ExternalLink: ArrowSquareOutIcon,
@@ -36,6 +39,7 @@ const iconMap: Record<string, React.ComponentType<any>> = {
     FileText: FileTextIcon,
     Film: FilmStripIcon,
     Gamepad: GameControllerIcon,
+    Github: GithubLogoIcon,
     Globe: GlobeIcon,
     LayoutGrid: SquaresFourIcon,
     Lightbulb: LightbulbIcon,
@@ -44,10 +48,10 @@ const iconMap: Record<string, React.ComponentType<any>> = {
     Presentation: PresentationChartIcon,
     Rocket: RocketIcon,
     Sparkles: SparkleIcon,
+    Star: StarIcon,
     TrendingUp: TrendUpIcon,
     Wand: MagicWandIcon,
     Zap: LightningIcon,
-    Github: GithubLogoIcon,
 }
 
 export function getIcon(name: string): React.ComponentType<any> {

@@ -89,25 +89,25 @@
 @layer base {
     :root {
         --background: 45 40% 97%;
-        --foreground: 220 25% 16%;
+        --foreground: 40 22% 12%;
 
         --card: 40 30% 99%;
-        --card-foreground: 220 25% 16%;
+        --card-foreground: 40 22% 12%;
 
         --popover: 40 30% 99%;
-        --popover-foreground: 220 25% 16%;
+        --popover-foreground: 40 22% 12%;
 
         --primary: 245 55% 53%;
         --primary-foreground: 0 0% 100%;
 
-        --secondary: 40 20% 94%;
-        --secondary-foreground: 220 25% 16%;
+        --secondary: 40 18% 94%;
+        --secondary-foreground: 40 22% 12%;
 
-        --muted: 42 20% 94%;
-        --muted-foreground: 220 12% 46%;
+        --muted: 42 18% 94%;
+        --muted-foreground: 40 10% 42%;
 
-        --accent: 42 30% 92%;
-        --accent-foreground: 220 25% 16%;
+        --accent: 42 26% 92%;
+        --accent-foreground: 40 22% 12%;
 
         --destructive: 0 72% 51%;
         --destructive-foreground: 0 0% 100%;
@@ -121,11 +121,11 @@
         --info: 210 80% 48%;
         --info-foreground: 0 0% 100%;
 
-        --border: 40 18% 88%;
+        --border: 40 14% 86%;
         --input: 40 30% 99%;
         --ring: 245 55% 53%;
 
-        --shadow-color: 245 30% 24%;
+        --shadow-color: 40 30% 24%;
         --shadow-xs: 0 1px 2px hsl(var(--shadow-color) / 0.05);
         --shadow-sm: 0 1px 2px hsl(var(--shadow-color) / 0.06), 0 2px 4px hsl(var(--shadow-color) / 0.04);
         --shadow-md: 0 4px 6px -1px hsl(var(--shadow-color) / 0.06), 0 2px 4px -2px hsl(var(--shadow-color) / 0.04);
@@ -139,30 +139,40 @@
         --chart-5: 220 12% 60%;
 
         --radius: 0.875rem;
+        --radius-inner: 0.5rem;
+        --radius-outer: 1.125rem;
+
+        --z-base: 0;
+        --z-header: 30;
+        --z-skip-link: 40;
+        --z-grain: 50;
+        --z-tooltip: 55;
+        --z-toast: 60;
+
         --box-shadow: var(--shadow-lg);
     }
 
     .dark {
-        --background: 220 18% 7%;
-        --foreground: 40 18% 96%;
+        --background: 40 10% 7%;
+        --foreground: 40 12% 96%;
 
-        --card: 220 16% 10%;
-        --card-foreground: 40 18% 96%;
+        --card: 40 8% 10%;
+        --card-foreground: 40 12% 96%;
 
-        --popover: 220 16% 10%;
-        --popover-foreground: 40 18% 96%;
+        --popover: 40 8% 10%;
+        --popover-foreground: 40 12% 96%;
 
         --primary: 235 70% 72%;
-        --primary-foreground: 220 18% 7%;
+        --primary-foreground: 40 10% 7%;
 
-        --secondary: 220 12% 16%;
-        --secondary-foreground: 40 18% 96%;
+        --secondary: 40 8% 15%;
+        --secondary-foreground: 40 12% 96%;
 
-        --muted: 220 12% 16%;
-        --muted-foreground: 220 10% 58%;
+        --muted: 40 7% 14%;
+        --muted-foreground: 40 8% 55%;
 
-        --accent: 220 12% 16%;
-        --accent-foreground: 40 18% 96%;
+        --accent: 40 8% 16%;
+        --accent-foreground: 40 12% 96%;
 
         --destructive: 0 62% 50%;
         --destructive-foreground: 0 0% 100%;
@@ -176,11 +186,11 @@
         --info: 210 70% 55%;
         --info-foreground: 0 0% 100%;
 
-        --border: 220 12% 18%;
-        --input: 220 16% 10%;
+        --border: 40 8% 18%;
+        --input: 40 8% 10%;
         --ring: 235 70% 72%;
 
-        --shadow-color: 220 40% 4%;
+        --shadow-color: 40 40% 4%;
 
         --chart-1: 235 70% 72%;
         --chart-2: 40 18% 96%;
@@ -253,6 +263,22 @@
     }
 }
 
+/* Theme transition: disable default crossfade so the circle reveal is visible.
+   Scoped to .theme-transition so other View Transitions are not affected. */
+.theme-transition::view-transition-old(root),
+.theme-transition::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-transition::view-transition-group(root),
+    .theme-transition::view-transition-old(root),
+    .theme-transition::view-transition-new(root) {
+        animation: none !important;
+    }
+}
+
 /* Particle styles */
 .particle {
     width: 6px;
@@ -302,7 +328,7 @@
         position: absolute;
         top: -100%;
         left: 1rem;
-        z-index: 100;
+        z-index: var(--z-skip-link);
         padding: 0.5rem 1rem;
         border-radius: calc(var(--radius) - 0.25rem);
         background-color: hsl(var(--primary));
@@ -330,18 +356,12 @@
 
     .surface:hover {
         box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
     }
 
     .surface-active:active {
         transform: translateY(1px) scale(0.995);
         box-shadow: var(--shadow-xs);
-    }
-
-    .text-gradient {
-        background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(260 55% 60%) 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
     }
 
     .text-balance {
@@ -356,8 +376,20 @@
         position: fixed;
         inset: 0;
         pointer-events: none;
-        z-index: 9999;
+        z-index: var(--z-grain);
         opacity: 0.03;
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    .radius-inner {
+        border-radius: var(--radius-inner);
+    }
+
+    .radius-outer {
+        border-radius: var(--radius-outer);
+    }
+
+    .bg-ambient {
+        background-image: radial-gradient(ellipse 80% 60% at 50% 0%, hsl(var(--primary) / 0.07), transparent 60%);
     }
 }

@@ -1,4 +1,4 @@
-import { CaretDown, Star } from '@phosphor-icons/react'
+import { CaretDownIcon, StarIcon } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 import type React from 'react'
 import { useState } from 'react'
@@ -114,7 +114,7 @@ const LandingPageHero: React.FC = () => {
                                 >
                                     <button className="flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                                         {item.label}
-                                        {item.dropdown && <CaretDown className="ml-1 h-4 w-4" />}
+                                        {item.dropdown && <CaretDownIcon className="ml-1 h-4 w-4" />}
                                     </button>
 
                                     {item.dropdown && activeDropdown === item.label && (
@@ -229,7 +229,7 @@ const LandingPageHero: React.FC = () => {
                             <div className="flex items-center space-x-1">
                                 <div className="flex">
                                     {[...Array(5)].map((_, i) => (
-                                        <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                                        <StarIcon key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                                     ))}
                                 </div>
                                 <span className="text-sm font-medium text-foreground">5.0</span>
