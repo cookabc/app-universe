@@ -1,4 +1,4 @@
-import { CaretDown, List, X } from '@phosphor-icons/react'
+import { CaretDownIcon, ListIcon, XIcon } from '@phosphor-icons/react'
 import { motion } from 'framer-motion'
 import type React from 'react'
 import { useState } from 'react'
@@ -81,7 +81,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     return (
         <header
             className={cn(
-                'border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50',
+                'border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-[var(--z-header)]',
                 className,
             )}
         >
@@ -114,7 +114,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                                 ) : (
                                     <button className="flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                                         {item.label}
-                                        {item.dropdown && <CaretDown className="ml-1 h-4 w-4" />}
+                                        {item.dropdown && <CaretDownIcon className="ml-1 h-4 w-4" />}
                                     </button>
                                 )}
 
@@ -167,7 +167,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                         aria-label="Toggle mobile menu"
                     >
-                        {mobileMenuOpen ? <X className="h-6 w-6" /> : <List className="h-6 w-6" />}
+                        {mobileMenuOpen ? <XIcon className="h-6 w-6" /> : <ListIcon className="h-6 w-6" />}
                     </button>
                 </div>
 
@@ -205,7 +205,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                                         >
                                             {item.label}
                                             {item.dropdown && (
-                                                <CaretDown
+                                                <CaretDownIcon
                                                     className={cn(
                                                         'h-4 w-4 transition-transform',
                                                         activeDropdown === item.label && 'rotate-180',

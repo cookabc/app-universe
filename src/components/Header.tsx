@@ -6,7 +6,7 @@ import { LanguageSwitcher } from './LanguageSwitcher'
 
 export const Header = () => {
     return (
-        <header className="sticky top-0 z-40 w-full bg-background/75 backdrop-blur-xl border-b border-border/60">
+        <header className="sticky top-0 z-[var(--z-header)] w-full bg-background/75 backdrop-blur-xl border-b border-border/60">
             <div className="container max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
                 <Link
                     href="/"
@@ -29,7 +29,7 @@ export const Header = () => {
 
                 <div className="flex items-center gap-3">
                     <LanguageSwitcher />
-                    <ThemeSwitch width={44} height={22} className="scale-90" />
+                    <ThemeSwitch />
                 </div>
             </div>
         </header>

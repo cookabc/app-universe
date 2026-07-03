@@ -34,10 +34,10 @@ export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
             <button
                 type="button"
                 onClick={() => onTagChange('all')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap border transition-all duration-200 surface-active ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 radius-inner text-xs font-medium whitespace-nowrap border transition-all duration-200 surface-active ${
                     activeTag === 'all'
-                        ? 'bg-foreground text-background border-foreground shadow-sm'
-                        : 'bg-card text-muted-foreground border-border hover:border-foreground/20 hover:text-foreground'
+                        ? 'bg-primary text-primary-foreground border-primary shadow-sm'
+                        : 'bg-card text-muted-foreground border-border hover:border-primary/30 hover:text-foreground'
                 }`}
                 aria-pressed={activeTag === 'all'}
             >
@@ -55,10 +55,10 @@ export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
                         key={tag}
                         type="button"
                         onClick={() => onTagChange(tag)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap border transition-all duration-200 surface-active ${
+                        className={`flex items-center gap-1.5 px-3 py-1.5 radius-inner text-xs font-medium whitespace-nowrap border transition-all duration-200 surface-active ${
                             isActive
-                                ? 'bg-foreground text-background border-foreground shadow-sm'
-                                : 'bg-card text-muted-foreground border-border hover:border-foreground/20 hover:text-foreground'
+                                ? 'bg-primary text-primary-foreground border-primary shadow-sm'
+                                : 'bg-card text-muted-foreground border-border hover:border-primary/30 hover:text-foreground'
                         }`}
                         aria-pressed={isActive}
                     >

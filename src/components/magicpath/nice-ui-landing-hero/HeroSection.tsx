@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowRight } from '@phosphor-icons/react'
+import { ArrowRightIcon } from '@phosphor-icons/react'
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import { getAllTags, default as TOOLS } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
@@ -42,7 +42,7 @@ export default function HeroSection() {
     return (
         <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
-                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 py-10 sm:py-14"
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 py-12 sm:py-20"
                 variants={shouldReduceMotion ? undefined : containerVariants}
                 initial="hidden"
                 animate="visible"
@@ -53,7 +53,7 @@ export default function HeroSection() {
                         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-heading tracking-tighter text-foreground leading-[0.95] text-balance">
                             {title}
                             <br />
-                            <span className="text-gradient">{titleAccent}</span>
+                            <span className="font-serif text-foreground">{titleAccent}</span>
                         </h1>
                         <p className="text-base sm:text-lg text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed text-pretty">
                             {subtitle}
@@ -66,16 +66,20 @@ export default function HeroSection() {
                     >
                         <a
                             href="#tools"
-                            className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-[var(--radius)] bg-foreground text-background font-medium text-sm hover:bg-foreground/90 transition-all duration-200 active:translate-y-px active:scale-[0.98]"
+                            className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-[var(--radius-inner)] bg-foreground text-background font-medium text-sm hover:bg-foreground/90 transition-all duration-200 active:translate-y-px active:scale-[0.98]"
                         >
                             {ctaText}
-                            <ArrowRight
+                            <ArrowRightIcon
                                 className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
                                 weight="bold"
                             />
                         </a>
-                        <span className="surface px-3 py-1.5 text-xs font-medium text-foreground">{statsTools}</span>
-                        <span className="surface px-3 py-1.5 text-xs font-medium text-foreground">{statsTags}</span>
+                        <span className="surface radius-inner px-3 py-1.5 text-xs font-medium text-foreground">
+                            {statsTools}
+                        </span>
+                        <span className="surface radius-inner px-3 py-1.5 text-xs font-medium text-foreground">
+                            {statsTags}
+                        </span>
                     </motion.div>
                 </div>
 
