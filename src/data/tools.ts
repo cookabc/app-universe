@@ -276,6 +276,19 @@ const TOOLS: Tool[] = [
         icon: 'Gamepad',
         color: '#f97316',
     },
+    {
+        id: 'kenney',
+        type: 'link',
+        name: { en: 'Kenney', zh: 'Kenney' },
+        description: {
+            en: 'Thousands of completely free game assets including sprites, 3D models, audio and tools',
+            zh: '数千个完全免费的游戏素材，涵盖精灵图、3D 模型、音效及工具',
+        },
+        tags: ['games', 'assets'],
+        url: 'https://kenney.nl/',
+        icon: 'Gamepad',
+        color: '#22c55e',
+    },
 ]
 
 export function getAllTags(tools: Tool[]): string[] {
