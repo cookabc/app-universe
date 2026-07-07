@@ -289,6 +289,19 @@ const TOOLS: Tool[] = [
         icon: 'Gamepad',
         color: '#22c55e',
     },
+    {
+        id: 'timing',
+        type: 'link',
+        name: { en: 'Timing', zh: 'Timing' },
+        description: {
+            en: 'Translate motion timing and springs across design and code platforms',
+            zh: '跨平台动效 timing 转换工具，打通设计稿与代码的弹簧/贝塞尔参数',
+        },
+        tags: ['animation', 'frontend'],
+        url: 'https://timing.xiaolin.work/',
+        icon: 'Zap',
+        color: '#14b8a6',
+    },
 ]
 
 export function getAllTags(tools: Tool[]): string[] {
