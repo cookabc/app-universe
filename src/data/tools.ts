@@ -382,6 +382,36 @@ const TOOLS: Tool[] = [
     },
 ]
 
+function mulberry32(seed: number) {
+    return () => {
+        seed += 0x6d2b79f5
+        let t = seed
+        t = Math.imul(t ^ (t >>> 15), t | 1)
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+    }
+}
+
+function hashString(str: string): number {
+    let hash = 0
+    for (let i = 0; i < str.length; i++) {
+        hash = Math.imul(31, hash) + str.charCodeAt(i)
+    }
+    return hash
+}
+
+function seededShuffle<T>(array: T[], seed: string): T[] {
+    const rand = mulberry32(hashString(seed))
+    const result = array.slice()
+    for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(rand() * (i + 1))
+        ;[result[i], result[j]] = [result[j], result[i]]
+    }
+    return result
+}
+
+const SHUFFLED_TOOLS = seededShuffle(TOOLS, 'app-universe-v1')
+
 export function getAllTags(tools: Tool[]): string[] {
     const set = new Set<string>()
     for (const tool of tools) {
@@ -399,4 +429,4 @@ export function formatTag(tag: string): string {
         .join(' ')
 }
 
-export default TOOLS
+export default SHUFFLED_TOOLS
