@@ -2,7 +2,7 @@
 
 import { MagnifyingGlassIcon } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { SearchBar } from '@/components/SearchBar'
 import { TagFilter } from '@/components/TagFilter'
 import { ToolCard } from '@/components/ToolCard'
@@ -16,15 +16,29 @@ const item = {
 }
 const itemReduced = { hidden: { opacity: 1 }, show: { opacity: 1 }, exit: { opacity: 0 } }
 
+function shuffle<T>(array: T[]): T[] {
+    const result = array.slice()
+    for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[result[i], result[j]] = [result[j], result[i]]
+    }
+    return result
+}
+
 export function ToolGrid() {
     const { t, isReady } = useI18nReady()
     const shouldReduceMotion = useReducedMotion()
 
     const [searchQuery, setSearchQuery] = useState('')
     const [activeTag, setActiveTag] = useState('all')
+    const [shuffledTools, setShuffledTools] = useState(tools)
+
+    useEffect(() => {
+        setShuffledTools(shuffle(tools))
+    }, [tools])
 
     const filtered = useMemo(() => {
-        let result = tools
+        let result = shuffledTools
 
         if (activeTag !== 'all') {
             result = result.filter((tool) => tool.tags.includes(activeTag))
@@ -42,7 +56,7 @@ export function ToolGrid() {
         }
 
         return result
-    }, [searchQuery, activeTag])
+    }, [searchQuery, activeTag, shuffledTools])
 
     return (
         <div className="relative space-y-5">
