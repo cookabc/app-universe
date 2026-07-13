@@ -38,7 +38,6 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
             <div className="relative overflow-hidden bg-muted flex-1 min-h-[160px]">
                 {!imgError ? (
                     <>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={previewSrc}
                             alt={`${name} preview`}

@@ -1,18 +1,12 @@
 import {
     ArrowSquareOutIcon,
     BookOpenIcon,
-    BrainIcon,
     BriefcaseIcon,
-    CaretDownIcon,
-    ChartBarIcon,
-    CodeIcon,
-    CurrencyDollarIcon,
     FileCodeIcon,
-    FileTextIcon,
     FilmStripIcon,
     GameControllerIcon,
-    GithubLogoIcon,
     GlobeIcon,
+    type Icon,
     LightbulbIcon,
     LightningIcon,
     MagicWandIcon,
@@ -23,23 +17,14 @@ import {
     SparkleIcon,
     SquaresFourIcon,
     StarIcon,
-    TrendUpIcon,
 } from '@phosphor-icons/react'
 
-const iconMap: Record<string, React.ComponentType<any>> = {
-    BarChart3: ChartBarIcon,
+const iconMap = {
     BookOpen: BookOpenIcon,
-    Brain: BrainIcon,
     Briefcase: BriefcaseIcon,
-    CaretDown: CaretDownIcon,
-    Code: CodeIcon,
-    DollarSign: CurrencyDollarIcon,
-    ExternalLink: ArrowSquareOutIcon,
     FileCode: FileCodeIcon,
-    FileText: FileTextIcon,
     Film: FilmStripIcon,
     Gamepad: GameControllerIcon,
-    Github: GithubLogoIcon,
     Globe: GlobeIcon,
     LayoutGrid: SquaresFourIcon,
     Lightbulb: LightbulbIcon,
@@ -49,11 +34,12 @@ const iconMap: Record<string, React.ComponentType<any>> = {
     Rocket: RocketIcon,
     Sparkles: SparkleIcon,
     Star: StarIcon,
-    TrendingUp: TrendUpIcon,
     Wand: MagicWandIcon,
     Zap: LightningIcon,
-}
+} satisfies Record<string, Icon>
 
-export function getIcon(name: string): React.ComponentType<any> {
-    return iconMap[name] || ArrowSquareOutIcon
+export type IconName = keyof typeof iconMap
+
+export function getIcon(name: string): Icon {
+    return iconMap[name as IconName] ?? ArrowSquareOutIcon
 }
