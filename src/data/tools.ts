@@ -382,6 +382,19 @@ const TOOLS: Tool[] = [
         icon: 'Globe',
         color: '#0891b2',
     },
+    {
+        id: 'feralui',
+        type: 'link',
+        name: { en: 'FeralUI', zh: 'FeralUI' },
+        description: {
+            en: 'Playful, physics-driven React elements that move like real things',
+            zh: 'playful 的物理驱动 React 元素，像真实物体一样运动',
+        },
+        tags: ['animation', 'frontend'],
+        url: 'https://feralui.dev/',
+        icon: 'Zap',
+        color: '#06b6d4',
+    },
 ]
 
 export function getAllTags(tools: Tool[]): string[] {
