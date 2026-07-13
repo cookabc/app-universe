@@ -14,7 +14,8 @@
     "format": "biome format --write src",
     "format:check": "biome format src",
     "typecheck": "tsc --noEmit",
-    "check": "pnpm run lint && pnpm run typecheck && pnpm run build && pnpm run test"
+    "check": "pnpm run lint && pnpm run typecheck && pnpm run build && pnpm run test",
+    "download-previews": "node scripts/download-previews.js"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
