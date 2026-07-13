@@ -27,7 +27,9 @@ if (!i18n.isInitialized) {
                 caches: ['cookie'],
             },
             interpolation: {
-                escapeValue: true,
+                // React escapes interpolated values itself; enabling this
+                // double-escapes entities (e.g. "&" → "&amp;").
+                escapeValue: false,
             },
         })
 }
