@@ -2,7 +2,6 @@ import { Cormorant_Garamond, JetBrains_Mono, Outfit, Plus_Jakarta_Sans } from 'n
 import { ThemeProvider } from 'next-themes'
 import { AppChrome } from '@/components/AppChrome'
 import { I18nProvider } from '@/components/I18nProvider'
-import { Toaster } from '@/components/ui/toaster'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import './globals.css'
 
@@ -44,14 +43,6 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <head>
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Material+Icons+Round&display=swap"
-                    rel="stylesheet"
-                />
-            </head>
             <body
                 className={`${plusJakarta.variable} ${outfit.variable} ${cormorant.variable} ${jetBrainsMono.variable} antialiased min-w-[320px]`}
             >
@@ -72,7 +63,6 @@ export default function RootLayout({
                             <div className="flex flex-col min-h-screen bg-background">
                                 <AppChrome>{children}</AppChrome>
                             </div>
-                            <Toaster />
                         </TooltipProvider>
                     </ThemeProvider>
                 </I18nProvider>
