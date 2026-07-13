@@ -8,6 +8,7 @@ import { TagFilter } from '@/components/TagFilter'
 import { ToolCard } from '@/components/ToolCard'
 import tools from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { shuffle } from '@/lib/shuffle'
 
 const item = {
     hidden: { opacity: 0, y: 16, scale: 0.98 },
@@ -16,29 +17,23 @@ const item = {
 }
 const itemReduced = { hidden: { opacity: 1 }, show: { opacity: 1 }, exit: { opacity: 0 } }
 
-function shuffle<T>(array: T[]): T[] {
-    const result = array.slice()
-    for (let i = result.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[result[i], result[j]] = [result[j], result[i]]
-    }
-    return result
-}
-
 export function ToolGrid() {
     const { t, isReady } = useI18nReady()
     const shouldReduceMotion = useReducedMotion()
 
     const [searchQuery, setSearchQuery] = useState('')
     const [activeTag, setActiveTag] = useState('all')
-    const [shuffledTools, setShuffledTools] = useState(tools)
 
+    // Server render and first client paint use the curated order so the markup
+    // matches between SSR and hydration. Once mounted, adopt a fresh random
+    // order for this page load.
+    const [orderedTools, setOrderedTools] = useState<typeof tools>(tools)
     useEffect(() => {
-        setShuffledTools(shuffle(tools))
-    }, [tools])
+        setOrderedTools(shuffle(tools))
+    }, [])
 
     const filtered = useMemo(() => {
-        let result = shuffledTools
+        let result = orderedTools
 
         if (activeTag !== 'all') {
             result = result.filter((tool) => tool.tags.includes(activeTag))
@@ -56,7 +51,7 @@ export function ToolGrid() {
         }
 
         return result
-    }, [searchQuery, activeTag, shuffledTools])
+    }, [searchQuery, activeTag, orderedTools])
 
     return (
         <div className="relative space-y-5">

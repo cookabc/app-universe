@@ -1,3 +1,5 @@
+import type { IconName } from '@/lib/icon-map'
+
 type LocaleText = { en: string; zh: string }
 
 export interface Tool {
@@ -7,7 +9,7 @@ export interface Tool {
     description: LocaleText
     tags: string[]
     url: string
-    icon: string
+    icon: IconName
     color: string
     githubUrl?: string
     note?: LocaleText
