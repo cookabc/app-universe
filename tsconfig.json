@@ -10,6 +10,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "allowImportingTsExtensions": true,
     "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
@@ -18,8 +19,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@/apps/agischool/*": ["./src/app/apps/agischool/*"]
+      "@/*": ["./src/*"]
     },
     "target": "ES2022",
     "useDefineForClassFields": true,
@@ -36,5 +36,5 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "benchmarks", "apps"]
+  "exclude": ["node_modules"]
 }

@@ -7,11 +7,13 @@
  * Saves to public/previews/{toolId}.png
  */
 
-const fs = require('fs')
-const path = require('path')
-const https = require('https')
-const http = require('http')
+import fs from 'node:fs'
+import http from 'node:http'
+import https from 'node:https'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PREVIEWS_DIR = path.join(__dirname, '..', 'public', 'previews')
 
 // Import tools data
@@ -22,10 +24,12 @@ const toolsContent = fs.readFileSync(toolsFile, 'utf-8')
 const urlMatches = [...toolsContent.matchAll(/url:\s*['"](https?:\/\/[^'"]+)['"]/g)]
 const idMatches = [...toolsContent.matchAll(/id:\s*['"]([^'"]+)['"]/g)]
 
-const tools = idMatches.map((m, i) => ({
-    id: m[1],
-    url: urlMatches[i]?.[1],
-})).filter(t => t.url)
+const tools = idMatches
+    .map((m, i) => ({
+        id: m[1],
+        url: urlMatches[i]?.[1],
+    }))
+    .filter((t) => t.url)
 
 function fetchImage(url) {
     return new Promise((resolve, reject) => {
@@ -40,7 +44,7 @@ function fetchImage(url) {
                 return
             }
             const chunks = []
-            res.on('data', chunk => chunks.push(chunk))
+            res.on('data', (chunk) => chunks.push(chunk))
             res.on('end', () => {
                 const buffer = Buffer.concat(chunks)
                 if (buffer.length < 100) {
@@ -114,7 +118,7 @@ async function main() {
     for (let i = 0; i < tools.length; i++) {
         await downloadPreview(tools[i], i)
         // Small delay between requests
-        await new Promise(r => setTimeout(r, 500))
+        await new Promise((r) => setTimeout(r, 500))
     }
 
     console.log('\nDone!')
