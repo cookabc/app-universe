@@ -395,6 +395,19 @@ const TOOLS: Tool[] = [
         icon: 'Zap',
         color: '#06b6d4',
     },
+    {
+        id: 'namethatui',
+        type: 'link',
+        name: { en: 'NameThatUI', zh: 'NameThatUI' },
+        description: {
+            en: 'Visual dictionary of UI elements: learn the real name and prompt your coding agent with precision',
+            zh: 'UI 元素视觉词典，学会准确名称并用精确提示词驱动编码 Agent',
+        },
+        tags: ['frontend', 'ai-agent'],
+        url: 'https://namethatui.com/',
+        icon: 'BookOpen',
+        color: '#4ea1ff',
+    },
 ]
 
 export function getAllTags(tools: Tool[]): string[] {
