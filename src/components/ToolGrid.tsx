@@ -6,8 +6,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { SearchBar } from '@/components/SearchBar'
 import { TagFilter } from '@/components/TagFilter'
 import { ToolCard } from '@/components/ToolCard'
-import tools, { formatTag, type Tool } from '@/data/tools'
+import tools, { type Tool } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { filterTools } from '@/lib/filter-tools'
 import { shuffle } from '@/lib/shuffle'
 
 const item = {
@@ -16,49 +17,6 @@ const item = {
     exit: { opacity: 0, scale: 0.98, transition: { duration: 0.12 } },
 }
 const itemReduced = { hidden: { opacity: 1 }, show: { opacity: 1 }, exit: { opacity: 0 } }
-
-function normalizeQuery(value: string): string {
-    return value.toLowerCase().replace(/[-\s_./]+/g, '')
-}
-
-function getDomain(url: string): string {
-    try {
-        return new URL(url).hostname.replace(/^www\./, '')
-    } catch {
-        return url
-    }
-}
-
-function filterTools(list: Tool[], activeTag: string, searchQuery: string): Tool[] {
-    let result = list
-
-    if (activeTag !== 'all') {
-        result = result.filter((tool) => tool.tags.includes(activeTag))
-    }
-
-    if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase().trim()
-        const qNorm = normalizeQuery(q)
-        result = result.filter((tool) => {
-            const nameMatch = tool.name.en.toLowerCase().includes(q) || tool.name.zh.toLowerCase().includes(q)
-            const descMatch =
-                tool.description.en.toLowerCase().includes(q) || tool.description.zh.toLowerCase().includes(q)
-            const noteMatch =
-                (tool.note?.en.toLowerCase().includes(q) ?? false) || (tool.note?.zh.toLowerCase().includes(q) ?? false)
-            const tagMatch = tool.tags.some(
-                (tag) =>
-                    tag.includes(q) ||
-                    normalizeQuery(tag).includes(qNorm) ||
-                    formatTag(tag).toLowerCase().includes(q) ||
-                    normalizeQuery(formatTag(tag)).includes(qNorm),
-            )
-            const domainMatch = getDomain(tool.url).toLowerCase().includes(q)
-            return nameMatch || descMatch || noteMatch || tagMatch || domainMatch
-        })
-    }
-
-    return result
-}
 
 type SortMode = 'curated' | 'shuffle'
 
@@ -187,18 +145,18 @@ export function ToolGrid() {
             )}
 
             {filtered.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div className="flex flex-col items-center justify-center py-20 text-center surface radius-outer px-6">
                     <MagnifyingGlassIcon className="h-12 w-12 text-muted-foreground/40 mb-4" weight="duotone" />
                     <p className="text-base font-medium text-foreground">
                         {isReady ? t('toolsWall.noResults') : 'No tools found'}
                     </p>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-sm text-muted-foreground mt-1 max-w-sm text-pretty">
                         {isReady ? t('toolsWall.noResultsHint') : 'Try a different keyword or tag'}
                     </p>
                     <button
                         type="button"
                         onClick={clearFilters}
-                        className="mt-4 px-4 py-2 text-sm font-medium radius-inner border border-border bg-card text-foreground hover:border-primary/30 transition-colors"
+                        className="mt-5 px-4 py-2.5 min-h-[44px] text-sm font-medium radius-inner border border-border bg-card text-foreground hover:border-primary/30 transition-colors"
                     >
                         {isReady ? t('toolsWall.clearFilters') : 'Clear filters'}
                     </button>
