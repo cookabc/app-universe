@@ -49,8 +49,8 @@ const TOOLS: Tool[] = [
         icon: 'Palette',
         color: '#c0392b',
         note: {
-            en: 'Best free reference when a Chinese palette needs names and print-ready values.',
-            zh: '做中国风配色时最好的免费参考：有色名和印刷可用数值。',
+            en: 'When a Chinese-inspired palette needs real names and print values, I open this first. Replaces random hex dumps from image samplers. Caveat: cultural names matter more than “close enough” RGB.',
+            zh: '做中国风配色、需要色名和印刷可用数值时，我先打开这里。能替代从图片瞎吸 hex。注意：色名与语境比「差不多的 RGB」更重要。',
         },
         githubUrl: 'https://github.com/nevertoday/zhongguo-traditional-colors',
     },
@@ -67,14 +67,17 @@ const TOOLS: Tool[] = [
         icon: 'Sparkles',
         color: '#8b5cf6',
         note: {
-            en: 'Drop-in shaders that look expensive without dragging a heavy creative stack.',
-            zh: '几乎零依赖就能上质感的着色器，轻量却很出片。',
+            en: 'When a surface needs expensive-looking motion without a heavy creative stack, I drop these in. Replaces custom shader experiments I will not maintain. Caveat: still check performance on low-end phones.',
+            zh: '需要贵气质的动态表面、又不想背沉重创意栈时，我直接用这套。能替代自己写又不维护的 shader 实验。注意：低端机仍要看性能。',
         },
     },
     {
         id: 'designprompts',
         type: 'link',
-        name: { en: 'Design Prompts', zh: 'Design Prompts' },
+        name: {
+            en: 'Design Prompts',
+            zh: 'Design Prompts',
+        },
         description: {
             en: 'AI design style explorer with 31+ rendered styles',
             zh: 'AI 驱动的设计风格探索器，31+ 种风格提示词',
@@ -84,8 +87,8 @@ const TOOLS: Tool[] = [
         icon: 'Wand',
         color: '#404040',
         note: {
-            en: 'Fast taste calibration — browse styles before writing a long design prompt.',
-            zh: '写长设计提示词前先扫一圈风格，校准审美很快。',
+            en: 'When I am about to write a long design prompt, I browse styles here first. Replaces guessing a visual direction in pure text. Caveat: steal the direction, rewrite the prompt in your product’s voice.',
+            zh: '当要写长设计提示词时，我先来这里扫风格。能替代纯文字里瞎猜视觉方向。注意：借方向可以，提示词还是要用自己产品的语气重写。',
         },
     },
     {
@@ -101,8 +104,8 @@ const TOOLS: Tool[] = [
         icon: 'Rocket',
         color: '#8b5cf6',
         note: {
-            en: 'Landing-page prompt library I steal structure from, then rewrite in my voice.',
-            zh: '落地页提示词库：先借结构，再改成自己的语气。',
+            en: 'When a landing page needs structure fast, I steal a skeleton here then rewrite the copy. Replaces starting from a blank hero. Caveat: do not ship the template prose — clients smell it.',
+            zh: '落地页要快速搭结构时，我先借骨架再改文案。能替代从空白 hero 硬开。注意：模板腔文案不要原样上线，客户闻得出来。',
         },
     },
     {
@@ -136,8 +139,8 @@ const TOOLS: Tool[] = [
         icon: 'Film',
         color: '#b45309',
         note: {
-            en: 'Film stills for moodboards when stock photos feel too clean.',
-            zh: '情绪板需要电影感时用，比干净的图库更有氛围。',
+            en: 'When a moodboard needs film grain instead of stock polish, I dig here. Replaces sterile Unsplash grids for home and interior refs. Caveat: rights vary — treat as inspiration, not free commercial art.',
+            zh: '情绪板需要电影感而不是图库精修时，我来这里翻。能替代干干净净却没情绪的 Unsplash 拼贴。注意：版权各异，当灵感别当免费商用素材。',
         },
     },
     {
@@ -153,8 +156,8 @@ const TOOLS: Tool[] = [
         icon: 'Presentation',
         color: '#a855f7',
         note: {
-            en: 'HTML decks with Magic Move — better than fighting Keynote for agent workflows.',
-            zh: 'HTML 演示 + Magic Move，比和 Keynote 较劲更适合 Agent 流程。',
+            en: 'When a deck must live in the browser and move with Magic Move, I use this over Keynote. Replaces fighting export pipelines for agent-built slides. Caveat: design still needs hierarchy — animation will not save a bad outline.',
+            zh: '演示必须待在浏览器、还要 Magic Move 时，我用它而不是 Keynote。能替代为 Agent 做幻灯片时痛苦的导出链路。注意：动效救不了烂大纲，层级还是要做。',
         },
     },
     {
@@ -170,14 +173,17 @@ const TOOLS: Tool[] = [
         icon: 'Pencil',
         color: '#8b7355',
         note: {
-            en: 'Warm document aesthetic when Markdown previews look too cold and default.',
-            zh: 'Markdown 预览太冷太默认时，用这套羊皮纸文档气质。',
+            en: 'When Markdown previews feel cold and default, I switch to this parchment system. Replaces plain GitHub-flavored dumps for reading-heavy docs. Caveat: not every stakeholder wants warm paper — ask before standardizing.',
+            zh: 'Markdown 预览太冷太默认时，我换成这套羊皮纸气质。能替代 GitHub 风纯文本长文。注意：不是每个干系人都要暖纸感，先问再标准化。',
         },
     },
     {
         id: 'taste-skill',
         type: 'link',
-        name: { en: 'Taste Skill', zh: 'Taste Skill' },
+        name: {
+            en: 'Taste Skill',
+            zh: 'Taste Skill',
+        },
         description: {
             en: 'Anti-slop SKILL.md files that give AI coding agents better design taste',
             zh: '为 AI 编码 Agent 提供设计审美的 SKILL.md 技能文件，告别模板感界面',
@@ -189,7 +195,7 @@ const TOOLS: Tool[] = [
         featured: true,
         note: {
             en: 'When I bootstrap a coding agent for UI work, I drop these SKILL.md files in first. Replaces hoping the model “has taste.” Caveat: still needs a real reference layout.',
-            zh: '给做 UI 的编码 Agent 开工前，我先塞进这些 SKILL.md。比指望模型「自己有审美」靠谱。注意：仍要配真实参考布局。',
+            zh: '当给做 UI 的编码 Agent 开工时，我先塞进这些 SKILL.md。能替代指望模型「自己有审美」。注意：仍要配真实参考布局。',
         },
     },
     {
@@ -205,8 +211,8 @@ const TOOLS: Tool[] = [
         icon: 'BookOpen',
         color: '#1b365d',
         note: {
-            en: 'Collect DESIGN.md files so agents inherit a coherent system.',
-            zh: '收集 DESIGN.md，让 Agent 继承一致的设计系统。',
+            en: 'When agents need a coherent DESIGN.md to inherit, I collect from here. Replaces one-off style notes scattered in chat. Caveat: prune the collection — too many systems becomes none.',
+            zh: 'Agent 需要可继承的 DESIGN.md 时，我从这里收集。能替代散落在聊天里的一次性风格备注。注意：收藏要剪枝，系统太多等于没有系统。',
         },
     },
     {
@@ -222,8 +228,8 @@ const TOOLS: Tool[] = [
         icon: 'FileCode',
         color: '#10b981',
         note: {
-            en: 'Public registry of design systems for agent-readable specs.',
-            zh: '公开的设计系统注册表，方便 Agent 读规格。',
+            en: 'When I need a public registry of agent-readable design systems, I look here. Replaces hunting random GitHub gists. Caveat: verify the system matches your stack before wiring it in.',
+            zh: '需要公开、Agent 可读的设计系统注册表时，我看这里。能替代满世界翻 gist。注意：接进项目前先确认和你的技术栈匹配。',
         },
     },
     {
@@ -239,14 +245,17 @@ const TOOLS: Tool[] = [
         icon: 'BookOpen',
         color: '#10b981',
         note: {
-            en: 'One-click MD → Word when stakeholders still live in .docx.',
-            zh: '干系人只要 Word 时，一键 Markdown 转 docx。',
+            en: 'When stakeholders only accept .docx, I convert Markdown here in one click. Replaces hand-fixing Word after every edit. Caveat: complex Mermaid/LaTeX still needs a human pass.',
+            zh: '干系人只要 Word 时，我在这里一键把 Markdown 转出去。能替代每次改完手工排 Word。注意：复杂 Mermaid/LaTeX 仍要人工过一眼。',
         },
     },
     {
         id: 'markmark',
         type: 'link',
-        name: { en: 'MarkMark', zh: 'MarkMark' },
+        name: {
+            en: 'MarkMark',
+            zh: 'MarkMark',
+        },
         description: {
             en: 'Native macOS Markdown reader with annotation and AI revision workflow',
             zh: '原生 macOS Markdown 阅读器，支持批注标注并一键交给 AI 修订',
@@ -256,8 +265,8 @@ const TOOLS: Tool[] = [
         icon: 'BookOpen',
         color: '#3b82f6',
         note: {
-            en: 'Native macOS reader for annotating Markdown before handing it to AI.',
-            zh: '原生 macOS 阅读器：先批注 Markdown，再丢给 AI。',
+            en: 'When I annotate Markdown on Mac before sending it to AI, I use this native reader. Replaces browser tabs full of half-read drafts. Caveat: macOS-only — not for cross-team shared editing.',
+            zh: '当在 Mac 上批注 Markdown、再丢给 AI 时，我用这个原生阅读器。能替代浏览器里堆着的半读草稿。注意：仅 macOS，不适合跨团队共编。',
         },
         githubUrl: 'https://github.com/easychen/markmark',
     },
@@ -274,8 +283,8 @@ const TOOLS: Tool[] = [
         icon: 'Lightbulb',
         color: '#f59e0b',
         note: {
-            en: 'Compact PM principles when I need a checklist, not a course.',
-            zh: '需要清单而不是课程时的紧凑产品方法论。',
+            en: 'When I need a PM checklist instead of a course, I skim the principles here. Replaces rereading long product books mid-sprint. Caveat: principles are prompts for judgment, not a process religion.',
+            zh: '需要产品清单而不是一门课时，我来扫这些原则。能替代冲刺中途重读大部头。注意：原则是判断提示，不是流程宗教。',
         },
     },
     {
@@ -291,8 +300,8 @@ const TOOLS: Tool[] = [
         icon: 'Briefcase',
         color: '#78716c',
         note: {
-            en: 'One-person-company skills — practical when shipping alone.',
-            zh: '一人公司技能：一个人交付时很实用。',
+            en: 'When I am shipping alone and need operator skills, not org charts, I open this. Replaces enterprise playbooks that assume a team of twelve. Caveat: still schedule rest — solo does not mean infinite capacity.',
+            zh: '一个人交付、需要操作技能而不是组织架构时，我打开这里。能替代默认十二人团队的企业手册。注意：一人公司也不是无限产能，休息要排。',
         },
     },
     {
@@ -308,8 +317,8 @@ const TOOLS: Tool[] = [
         icon: 'Globe',
         color: '#3b82f6',
         note: {
-            en: 'Browser CLI primitives for agents that need the open web.',
-            zh: 'Agent 需要打开网页时的浏览器 CLI 原语。',
+            en: 'When an agent needs real browser primitives on the open web, I reach for this CLI. Replaces brittle custom puppeteer glue. Caveat: respect site ToS and rate limits — automation is not a free pass.',
+            zh: 'Agent 需要真实浏览器原语爬开网页时，我用这套 CLI。能替代脆弱的自写 puppeteer 胶水。注意：遵守站点条款与限速，自动化不是通行证。',
         },
     },
     {
@@ -325,8 +334,8 @@ const TOOLS: Tool[] = [
         icon: 'Sparkles',
         color: '#f43f5e',
         note: {
-            en: 'Interaction inspiration when product demos need a spark of play.',
-            zh: '产品演示需要一点玩心时的交互灵感来源。',
+            en: 'When a product demo needs a spark of play, I study interactions here. Replaces generic “delight” decks with no concrete reference. Caveat: fun is not a feature checklist — steal the feeling, not the gimmick.',
+            zh: '产品演示需要一点玩心时，我来这里研究交互。能替代没有具体参考的「delight」空谈。注意：好玩不是功能清单，借感觉别抄噱头。',
         },
     },
     {
@@ -342,8 +351,8 @@ const TOOLS: Tool[] = [
         icon: 'Gamepad',
         color: '#f97316',
         note: {
-            en: 'Casual game loops to study for short-session design.',
-            zh: '研究短局游戏循环时的休闲游戏参考。',
+            en: 'When I study short-session game loops for casual products, I play here. Replaces abstract GDD notes with muscle memory. Caveat: browser games optimize for re-entry — mobile constraints still differ.',
+            zh: '研究短局休闲循环时，我来这里玩。能替代只有抽象 GDD 没有体感。注意：网页游戏偏重回访，移动端约束仍不同。',
         },
     },
     {
@@ -359,8 +368,8 @@ const TOOLS: Tool[] = [
         icon: 'Gamepad',
         color: '#22c55e',
         note: {
-            en: 'Free game assets I trust when prototyping without art budget.',
-            zh: '没美术预算做原型时，可信赖的免费游戏素材。',
+            en: 'When a prototype needs art and I have zero budget, I trust Kenney first. Replaces random free packs with unclear licenses. Caveat: free assets still need consistent art direction — do not mix five packs blindly.',
+            zh: '原型要美术、预算为零时，我先信 Kenney。能替代授权不清的随机免费包。注意：免费素材也要统一美术方向，别五包混用。',
         },
     },
     {
@@ -394,8 +403,8 @@ const TOOLS: Tool[] = [
         icon: 'Globe',
         color: '#4f46e5',
         note: {
-            en: 'Curated site gallery for layout patterns that still feel current.',
-            zh: '精选站酷画廊，找仍然不过时的版式模式。',
+            en: 'When I need layout patterns that still feel current, I browse this curated set. Replaces endless Awwwards tabs. Caveat: inspiration is not a clone — adapt structure to your content density.',
+            zh: '需要仍然不过时的版式模式时，我看这套精选。能替代无限开 Awwwards 标签页。注意：灵感不是克隆，结构要按你的内容密度改。',
         },
     },
     {
@@ -411,8 +420,8 @@ const TOOLS: Tool[] = [
         icon: 'Star',
         color: '#e11d48',
         note: {
-            en: 'Long-running one-pager archive — good for single-screen storytelling.',
-            zh: '长寿的单页网站档案，适合单屏叙事。',
+            en: 'When a story must fit one screen, I study this long-running one-pager archive. Replaces multi-page IA for simple offers. Caveat: one page still needs ruthless editing — length is not the goal.',
+            zh: '故事必须装进单屏时，我研究这套长寿的单页档案。能替代简单 offer 却硬做多页 IA。注意：单页更要狠删，长度不是目标。',
         },
     },
     {
@@ -446,8 +455,8 @@ const TOOLS: Tool[] = [
         icon: 'LayoutGrid',
         color: '#2563eb',
         note: {
-            en: 'Production app UI flows when I need “how did they structure onboarding?”',
-            zh: '需要「别人怎么做引导」时看的真实 App 流程。',
+            en: 'When I need “how did they structure onboarding?”, I scan real app flows here. Replaces guessing funnel steps from memory. Caveat: paid tiers exist — know what you can export before planning a research session.',
+            zh: '需要「别人怎么做引导」时，我扫这里的真实 App 流程。能替代凭记忆猜漏斗步骤。注意：有付费档，研究前先搞清能导出什么。',
         },
     },
     {
@@ -463,8 +472,8 @@ const TOOLS: Tool[] = [
         icon: 'Sparkles',
         color: '#d97706',
         note: {
-            en: 'Rebrand case studies for logo + identity before/after thinking.',
-            zh: '品牌重塑案例，做 logo/识别前后对比时有用。',
+            en: 'When a logo or identity needs before/after thinking, I study rebrands here. Replaces arguing from taste alone in reviews. Caveat: context is half the story — a rebrand for a bank is not a rebrand for a game.',
+            zh: 'logo/识别需要前后对比思路时，我研究这里的重塑案例。能替代评审里纯靠口味吵架。注意：语境占一半，银行重塑≠游戏重塑。',
         },
     },
     {
@@ -480,8 +489,8 @@ const TOOLS: Tool[] = [
         icon: 'Zap',
         color: '#ea580c',
         note: {
-            en: 'Micro-interaction references that raise the bar for “delight”.',
-            zh: '微交互参考，把「delight」的标准拉高一点。',
+            en: 'When micro-interactions feel flat, I raise the bar with references here. Replaces “add a little bounce” without a target. Caveat: 60fps on desktop is not free on mid-range Android.',
+            zh: '微交互发闷时，我用这里的参考抬标准。能替代没有目标的「加一点弹跳」。注意：桌面 60fps 在中端安卓并不免费。',
         },
     },
     {
@@ -497,8 +506,8 @@ const TOOLS: Tool[] = [
         icon: 'Globe',
         color: '#0891b2',
         note: {
-            en: 'App Store screenshots and paywalls — study conversion framing.',
-            zh: 'App Store 截图与付费墙，研究转化话术。',
+            en: 'When store screenshots or paywalls need framing, I study this gallery. Replaces inventing conversion copy in a vacuum. Caveat: patterns age — check dates and category fit.',
+            zh: '商店截图或付费墙要话术框架时，我研究这套画廊。能替代真空里发明转化文案。注意：模式会过时，看日期和品类是否合身。',
         },
     },
     {
@@ -514,8 +523,8 @@ const TOOLS: Tool[] = [
         icon: 'Zap',
         color: '#06b6d4',
         note: {
-            en: 'Physics-y React bits when a page needs to feel alive, not rigid.',
-            zh: '页面需要「活着」而不是僵硬时，用这套物理感 React 零件。',
+            en: 'When a page feels rigid and needs physics-y life, I reach for these React bits. Replaces CSS-only hover that never surprises. Caveat: motion accessibility first — honor reduced motion.',
+            zh: '页面僵硬、需要物理感的「活着」时，我用这些 React 零件。能替代永远不意外的纯 CSS hover。注意：无障碍优先，尊重减少动态。',
         },
     },
     {
@@ -533,7 +542,7 @@ const TOOLS: Tool[] = [
         featured: true,
         note: {
             en: 'When I’d otherwise write “that little grey control,” I look up the real name first. Replaces fuzzy agent prompts. Caveat: names vary slightly by system — still better than “thing.”',
-            zh: '否则我会写「那个灰色小控件」时，我先来查标准名字。能替代含糊的 Agent 提示。注意：各系统叫法略有差别，但总比「那个玩意儿」强。',
+            zh: '否则我会写出「那个灰色小控件」时，我先查标准名字。能替代含糊的 Agent 提示。注意：各系统叫法略有差别，但总比「那个玩意儿」强。',
         },
     },
 ]
