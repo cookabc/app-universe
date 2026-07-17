@@ -36,6 +36,7 @@
     "sortShuffle": "随机",
     "featuredTitle": "精选推荐",
     "featuredSubtitle": "每周先打开的工具 — 何时用、为何用、替代了什么",
+    "featuredBadge": "精选",
     "allToolsTitle": "全部工具",
     "curatedMeta": "{{count}} 个工具 · 更新于 {{date}}"
   },

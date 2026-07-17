@@ -36,6 +36,7 @@
     "sortShuffle": "Shuffle",
     "featuredTitle": "Featured picks",
     "featuredSubtitle": "Weekly openers — when, why, and what they replace",
+    "featuredBadge": "Featured",
     "allToolsTitle": "All tools",
     "curatedMeta": "{{count}} tools · updated {{date}}"
   },
