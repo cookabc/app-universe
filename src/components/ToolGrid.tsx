@@ -71,6 +71,15 @@ export function ToolGrid() {
     const [sortMode, setSortMode] = useState<SortMode>('curated')
     const [shuffledTools, setShuffledTools] = useState<Tool[]>(tools)
 
+    // Deep-link from tool pages: /?tag=ai-design#tools
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search)
+        const tag = params.get('tag')
+        if (tag && (tag === 'all' || tools.some((tool) => tool.tags.includes(tag)))) {
+            setActiveTag(tag)
+        }
+    }, [])
+
     useEffect(() => {
         if (sortMode === 'shuffle') {
             setShuffledTools(shuffle(tools))

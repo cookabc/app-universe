@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { existsSync } from 'node:fs'
 import { test } from 'node:test'
 import { ICON_MAP } from '../lib/icon-map.ts'
-import tools, { formatTag, getAllTags } from './tools.ts'
+import tools, { formatTag, getAllTags, getRelatedTools, getToolById, getToolPath } from './tools.ts'
 
 test('formatTag title-cases kebab-case tag names and keeps acronyms', () => {
     assert.equal(formatTag('ai-design'), 'AI Design')
@@ -54,4 +54,18 @@ test('every tool has complete bilingual fields, a valid icon, and a preview', ()
 
     assert.ok(noteCount === tools.length, 'every tool should have a curator note')
     assert.ok(featuredCount >= 3, 'expected at least a few featured tools')
+})
+
+test('getToolById and related tools helpers', () => {
+    const first = tools[0]
+    assert.equal(getToolById(first.id), first)
+    assert.equal(getToolById('does-not-exist'), undefined)
+    assert.equal(getToolPath(first.id), `/t/${first.id}`)
+
+    const related = getRelatedTools(first, 3)
+    assert.ok(related.length <= 3)
+    assert.ok(!related.some((tool) => tool.id === first.id))
+    for (const item of related) {
+        assert.ok(item.tags.some((tag) => first.tags.includes(tag)))
+    }
 })

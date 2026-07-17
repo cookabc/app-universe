@@ -1,10 +1,11 @@
 'use client'
 
 import { ArrowSquareOutIcon, GithubLogoIcon } from '@phosphor-icons/react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { normalizeLanguage } from '@/components/I18nProvider'
 import type { Tool } from '@/data/tools'
-import { formatTag } from '@/data/tools'
+import { formatTag, getToolPath } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
 import { getIcon } from '@/lib/icon-map'
 
@@ -29,6 +30,7 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
     const Icon = getIcon(tool.icon)
     const [imgError, setImgError] = useState(false)
     const featured = variant === 'featured'
+    const detailHref = getToolPath(tool.id)
 
     const name = tool.name[lang] || tool.name.en
     const desc = tool.description[lang] || tool.description.en
@@ -36,6 +38,7 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
     const domain = getDomain(tool.url)
     const previewSrc = `/previews/${tool.id}.png`
     const visitLabel = isReady ? t('toolsWall.visit') : 'Visit'
+    const detailsLabel = isReady ? t('toolsWall.details') : 'Details'
     const githubLabel = isReady ? t('toolsWall.githubRepo') : 'GitHub repository'
     const previewAlt = isReady ? t('toolsWall.previewAlt', { name }) : `${name} preview`
     const opensInNewTab = isReady ? t('toolsWall.opensInNewTab') : 'opens in a new tab'
@@ -55,8 +58,10 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
                 featured ? 'ring-1 ring-primary/25 shadow-md' : ''
             }`}
         >
-            {/* Preview */}
-            <div className={`relative overflow-hidden bg-muted flex-1 ${featured ? 'min-h-[200px]' : 'min-h-[160px]'}`}>
+            <Link
+                href={detailHref}
+                className={`relative block overflow-hidden bg-muted flex-1 ${featured ? 'min-h-[200px]' : 'min-h-[160px]'}`}
+            >
                 {!imgError ? (
                     <>
                         <img
@@ -83,11 +88,9 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
                         <Icon className="h-12 w-12" style={{ color: tool.color }} weight="duotone" />
                     </div>
                 )}
-            </div>
+            </Link>
 
-            {/* Content */}
             <div className={`flex flex-col ${featured ? 'p-5' : 'p-4'}`}>
-                {/* Header */}
                 <div className="flex items-start gap-3">
                     <div
                         className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-white"
@@ -96,20 +99,15 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
                         <Icon className="h-[18px] w-[18px]" weight="bold" />
                     </div>
                     <div className="flex-1 min-w-0">
-                        <a
-                            href={tool.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group/title flex items-center gap-1.5"
-                        >
+                        <Link href={detailHref} className="group/title flex items-center gap-1.5 min-w-0">
                             <h3
-                                className={`font-semibold text-foreground truncate ${featured ? 'text-base' : 'text-sm'}`}
+                                className={`font-semibold text-foreground truncate hover:text-primary transition-colors ${
+                                    featured ? 'text-base' : 'text-sm'
+                                }`}
                             >
                                 {name}
                             </h3>
-                            <ArrowSquareOutIcon className="h-3 w-3 text-muted-foreground flex-shrink-0" weight="bold" />
-                            <span className="sr-only">({opensInNewTab})</span>
-                        </a>
+                        </Link>
                         <p className="text-[11px] text-muted-foreground/70 font-mono truncate">{domain}</p>
                     </div>
                     {tool.githubUrl && (
@@ -125,7 +123,6 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
                     )}
                 </div>
 
-                {/* Featured: note is primary; default: description then truncated note */}
                 {featured && note ? (
                     <p className="text-sm text-foreground/90 mt-3 leading-relaxed">{note}</p>
                 ) : (
@@ -142,7 +139,6 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
 
                 {featured && <p className="text-xs text-muted-foreground mt-2 line-clamp-2 leading-relaxed">{desc}</p>}
 
-                {/* Tags + footer */}
                 <div className="mt-auto pt-3 flex items-center justify-between gap-3">
                     {tool.tags.length > 0 ? (
                         <div className="flex flex-wrap gap-1.5">
@@ -163,19 +159,27 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
                     ) : (
                         <span />
                     )}
-                    <a
-                        href={tool.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[11px] font-medium text-primary flex items-center gap-0.5 flex-shrink-0 hover:underline"
-                    >
-                        {visitLabel}
-                        <span className="sr-only">({opensInNewTab})</span>
-                        <ArrowSquareOutIcon
-                            className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                            weight="bold"
-                        />
-                    </a>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                        <Link
+                            href={detailHref}
+                            className="text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                            {detailsLabel}
+                        </Link>
+                        <a
+                            href={tool.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[11px] font-medium text-primary flex items-center gap-0.5 hover:underline"
+                        >
+                            {visitLabel}
+                            <span className="sr-only">({opensInNewTab})</span>
+                            <ArrowSquareOutIcon
+                                className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                                weight="bold"
+                            />
+                        </a>
+                    </div>
                 </div>
             </div>
         </article>

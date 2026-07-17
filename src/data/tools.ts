@@ -562,4 +562,28 @@ export function formatTag(tag: string): string {
         .join(' ')
 }
 
+export function getToolById(id: string): Tool | undefined {
+    return TOOLS.find((tool) => tool.id === id)
+}
+
+export function getToolPath(id: string): string {
+    return `/t/${id}`
+}
+
+/** Other tools sharing at least one tag, featured first, then by tag overlap. */
+export function getRelatedTools(tool: Tool, limit = 3): Tool[] {
+    const tags = new Set(tool.tags)
+    return TOOLS.filter((candidate) => candidate.id !== tool.id)
+        .map((candidate) => {
+            const overlap = candidate.tags.filter((tag) => tags.has(tag)).length
+            return { candidate, overlap, featured: candidate.featured ? 1 : 0 }
+        })
+        .filter((entry) => entry.overlap > 0)
+        .sort(
+            (a, b) => b.featured - a.featured || b.overlap - a.overlap || a.candidate.id.localeCompare(b.candidate.id),
+        )
+        .slice(0, limit)
+        .map(({ candidate }) => candidate)
+}
+
 export default TOOLS
