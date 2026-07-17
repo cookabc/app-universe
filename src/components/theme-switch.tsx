@@ -5,18 +5,13 @@ import { useTheme } from 'next-themes'
 import * as React from 'react'
 import { flushSync } from 'react-dom'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { useI18nReady } from '@/hooks/useI18nReady'
 import { cn } from '@/lib/utils'
 
 const themeIcons: Record<string, PhosphorIcon> = {
     system: MonitorIcon,
     light: SunIcon,
     dark: MoonIcon,
-}
-
-const themeLabels: Record<string, string> = {
-    system: 'System',
-    light: 'Light',
-    dark: 'Dark',
 }
 
 const cycle: Record<string, string> = {
@@ -76,16 +71,25 @@ interface ThemeSwitchProps extends React.ButtonHTMLAttributes<HTMLButtonElement>
 
 const ThemeSwitch = React.forwardRef<HTMLButtonElement, ThemeSwitchProps>(({ className, ...props }, ref) => {
     const { theme = 'system', setTheme } = useTheme()
+    const { t, isReady } = useI18nReady()
     const [mounted, setMounted] = React.useState(false)
 
     React.useEffect(() => {
         setMounted(true)
     }, [])
 
+    const themeLabels: Record<string, string> = {
+        system: isReady ? t('theme.system') : 'System',
+        light: isReady ? t('theme.light') : 'Light',
+        dark: isReady ? t('theme.dark') : 'Dark',
+    }
+
     const current = mounted ? theme : 'system'
     const next = cycle[current]
     const Icon = themeIcons[current]
-    const label = `Theme: ${themeLabels[current]}. Click to switch to ${themeLabels[next]}.`
+    const label = isReady
+        ? t('theme.label', { current: themeLabels[current], next: themeLabels[next] })
+        : `Theme: ${themeLabels[current]}. Click to switch to ${themeLabels[next]}.`
 
     return (
         <Tooltip>

@@ -16,7 +16,15 @@ const PLANETS = [
         speed: 60,
         startAngle: 144,
     },
-    { key: 'finance', icon: TrendUpIcon, color: 'hsl(18 50% 60%)', orbit: 100, size: 18, speed: 72, startAngle: 216 },
+    {
+        key: 'animation',
+        icon: TrendUpIcon,
+        color: 'hsl(18 50% 60%)',
+        orbit: 100,
+        size: 18,
+        speed: 72,
+        startAngle: 216,
+    },
     {
         key: 'resources',
         icon: SquaresFourIcon,
@@ -40,7 +48,7 @@ export function HeroOrbital() {
     }, [])
 
     return (
-        <div className="relative w-full max-w-[340px] mx-auto aspect-square">
+        <div className="relative w-full max-w-[340px] mx-auto aspect-square" aria-hidden="true">
             <svg viewBox="0 0 300 300" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <filter id="planet-glow">
@@ -136,7 +144,7 @@ export function HeroOrbital() {
                                                 justifyContent: 'center',
                                             }}
                                         >
-                                            <Icon color="#fff" size={p.size * 0.55} strokeWidth={2.5} />
+                                            <Icon color="#fff" size={p.size * 0.55} weight="bold" />
                                         </div>
                                     </foreignObject>
                                 </g>

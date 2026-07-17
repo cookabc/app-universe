@@ -1,4 +1,13 @@
 {
+  "brand": {
+    "name": "App Universe"
+  },
+  "nav": {
+    "skipToContent": "跳到主要内容",
+    "privacy": "隐私",
+    "terms": "条款",
+    "home": "首页"
+  },
   "hero": {
     "title": "发现真正",
     "titleAccent": "好用的工具",
@@ -8,10 +17,60 @@
     "statsTags": "{{count}} 个标签"
   },
   "toolsWall": {
-    "subtitle": "我使用和构建的工具精选集",
     "searchPlaceholder": "按名称、标签或关键词搜索工具...",
+    "searchAriaLabel": "搜索工具",
+    "clearSearch": "清除搜索",
     "noResults": "未找到工具",
     "noResultsHint": "试试其他关键词或标签",
-    "curatorNote": "备注"
+    "clearFilters": "清除筛选",
+    "curatorNote": "备注",
+    "visit": "访问",
+    "githubRepo": "GitHub 仓库",
+    "previewAlt": "{{name}} 预览",
+    "opensInNewTab": "在新标签页打开",
+    "allTags": "全部",
+    "tagFilterLabel": "按标签筛选",
+    "resultCount": "显示 {{shown}} / {{total}}",
+    "sortLabel": "排序",
+    "sortCurated": "策展顺序",
+    "sortShuffle": "随机",
+    "featuredTitle": "精选推荐",
+    "featuredSubtitle": "我最常先打开的工具",
+    "allToolsTitle": "全部工具"
+  },
+  "theme": {
+    "system": "跟随系统",
+    "light": "浅色",
+    "dark": "深色",
+    "label": "主题：{{current}}。点击切换到{{next}}。"
+  },
+  "language": {
+    "switchToEn": "切换到英文",
+    "switchToZh": "切换到中文"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "页面未找到",
+    "body": "你访问的页面不存在或已被移动。",
+    "cta": "返回首页"
+  },
+  "tags": {
+    "ai-agent": "AI Agent",
+    "ai-design": "AI 设计",
+    "animation": "动效",
+    "assets": "素材",
+    "branding": "品牌",
+    "business": "商业",
+    "color": "色彩",
+    "design-system": "设计系统",
+    "document": "文档",
+    "frontend": "前端",
+    "fun": "趣味",
+    "games": "游戏",
+    "inspiration": "灵感",
+    "markdown": "Markdown",
+    "presentation": "演示",
+    "productivity": "效率",
+    "prompts": "提示词"
   }
 }

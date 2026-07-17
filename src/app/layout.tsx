@@ -1,8 +1,10 @@
+import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, JetBrains_Mono, Outfit, Plus_Jakarta_Sans } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { AppChrome } from '@/components/AppChrome'
 import { I18nProvider } from '@/components/I18nProvider'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site'
 import './globals.css'
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -21,19 +23,39 @@ const jetBrainsMono = JetBrains_Mono({
     variable: '--font-jetbrains-mono',
 })
 
-export const metadata = {
-    title: 'App Universe — Tools that actually work',
-    description: 'A curated collection of apps and tools for design, finance, productivity, and more.',
+export const metadata: Metadata = {
+    metadataBase: new URL(SITE_URL),
+    title: {
+        default: `${SITE_NAME} — Tools that actually work`,
+        template: `%s — ${SITE_NAME}`,
+    },
+    description: SITE_DESCRIPTION,
+    applicationName: SITE_NAME,
     openGraph: {
-        title: 'App Universe — Tools that actually work',
-        description: 'A curated collection of apps and tools for design, finance, productivity, and more.',
+        title: `${SITE_NAME} — Tools that actually work`,
+        description: SITE_DESCRIPTION,
         type: 'website',
+        url: SITE_URL,
+        siteName: SITE_NAME,
+        locale: 'en_US',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'App Universe — Tools that actually work',
-        description: 'A curated collection of apps and tools for design, finance, productivity, and more.',
+        title: `${SITE_NAME} — Tools that actually work`,
+        description: SITE_DESCRIPTION,
     },
+    alternates: {
+        canonical: '/',
+    },
+}
+
+export const viewport: Viewport = {
+    themeColor: [
+        { media: '(prefers-color-scheme: light)', color: '#fafaf9' },
+        { media: '(prefers-color-scheme: dark)', color: '#0c0d10' },
+    ],
+    width: 'device-width',
+    initialScale: 1,
 }
 
 export default function RootLayout({

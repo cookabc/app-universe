@@ -2,9 +2,13 @@
 
 import Link from 'next/link'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { useI18nReady } from '@/hooks/useI18nReady'
 import { LanguageSwitcher } from './LanguageSwitcher'
 
 export const Header = () => {
+    const { t, isReady } = useI18nReady()
+    const brand = isReady ? t('brand.name') : 'App Universe'
+
     return (
         <header className="sticky top-0 z-[var(--z-header)] w-full bg-background/75 backdrop-blur-xl border-b border-border/60">
             <div className="container max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -24,7 +28,7 @@ export const Header = () => {
                         <circle cx="62.5" cy="62.5" r="32" stroke="currentColor" strokeWidth="8" />
                         <circle cx="62.5" cy="62.5" r="10" fill="currentColor" />
                     </svg>
-                    App Universe
+                    {brand}
                 </Link>
 
                 <div className="flex items-center gap-3">

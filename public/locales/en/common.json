@@ -1,4 +1,13 @@
 {
+  "brand": {
+    "name": "App Universe"
+  },
+  "nav": {
+    "skipToContent": "Skip to content",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "home": "Home"
+  },
   "hero": {
     "title": "Discover tools that",
     "titleAccent": "actually work",
@@ -8,10 +17,60 @@
     "statsTags": "{{count}} tags"
   },
   "toolsWall": {
-    "subtitle": "A curated collection of tools I use and build",
     "searchPlaceholder": "Search tools by name, tag, or keyword...",
+    "searchAriaLabel": "Search tools",
+    "clearSearch": "Clear search",
     "noResults": "No tools found",
     "noResultsHint": "Try a different keyword or tag",
-    "curatorNote": "Note"
+    "clearFilters": "Clear filters",
+    "curatorNote": "Note",
+    "visit": "Visit",
+    "githubRepo": "GitHub repository",
+    "previewAlt": "{{name}} preview",
+    "opensInNewTab": "opens in a new tab",
+    "allTags": "All",
+    "tagFilterLabel": "Filter by tag",
+    "resultCount": "Showing {{shown}} of {{total}}",
+    "sortLabel": "Sort tools",
+    "sortCurated": "Curated",
+    "sortShuffle": "Shuffle",
+    "featuredTitle": "Featured picks",
+    "featuredSubtitle": "Tools I reach for first",
+    "allToolsTitle": "All tools"
+  },
+  "theme": {
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark",
+    "label": "Theme: {{current}}. Click to switch to {{next}}."
+  },
+  "language": {
+    "switchToEn": "Switch to English",
+    "switchToZh": "Switch to Chinese"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page not found",
+    "body": "The page you are looking for does not exist or has been moved.",
+    "cta": "Go back home"
+  },
+  "tags": {
+    "ai-agent": "AI Agent",
+    "ai-design": "AI Design",
+    "animation": "Animation",
+    "assets": "Assets",
+    "branding": "Branding",
+    "business": "Business",
+    "color": "Color",
+    "design-system": "Design System",
+    "document": "Document",
+    "frontend": "Frontend",
+    "fun": "Fun",
+    "games": "Games",
+    "inspiration": "Inspiration",
+    "markdown": "Markdown",
+    "presentation": "Presentation",
+    "productivity": "Productivity",
+    "prompts": "Prompts"
   }
 }
