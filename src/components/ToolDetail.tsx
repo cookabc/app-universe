@@ -7,15 +7,8 @@ import { normalizeLanguage } from '@/components/I18nProvider'
 import type { Tool } from '@/data/tools'
 import { formatTag, getToolPath } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { getDomain } from '@/lib/filter-tools'
 import { getIcon } from '@/lib/icon-map'
-
-function getDomain(url: string): string {
-    try {
-        return new URL(url).hostname.replace(/^www\./, '')
-    } catch {
-        return url
-    }
-}
 
 interface ToolDetailProps {
     tool: Tool
@@ -27,6 +20,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
     const lang = normalizeLanguage(i18n.language)
     const Icon = getIcon(tool.icon)
     const [imgError, setImgError] = useState(false)
+    const [relatedImgError, setRelatedImgError] = useState<Record<string, boolean>>({})
 
     const name = tool.name[lang] || tool.name.en
     const desc = tool.description[lang] || tool.description.en
@@ -55,14 +49,14 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
         <article className="mx-auto max-w-4xl px-4 py-10 sm:py-14">
             <Link
                 href="/#tools"
-                className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+                className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 min-h-[44px]"
             >
                 <ArrowLeftIcon className="h-4 w-4" weight="bold" />
                 {backLabel}
             </Link>
 
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start">
-                <div className="relative overflow-hidden radius-outer surface min-h-[220px] sm:min-h-[280px]">
+                <div className="relative overflow-hidden radius-outer surface min-h-[220px] sm:min-h-[280px] hover:transform-none hover:shadow-sm">
                     {!imgError ? (
                         <img
                             src={previewSrc}
@@ -91,7 +85,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                     <header className="space-y-3">
                         <div className="flex items-start gap-3">
                             <div
-                                className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl text-white"
+                                className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl text-white shadow-sm"
                                 style={{ backgroundColor: tool.color }}
                             >
                                 <Icon className="h-5 w-5" weight="bold" />
@@ -107,11 +101,19 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                     </header>
 
                     {note && (
-                        <section className="surface radius-outer p-4 sm:p-5">
-                            <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                        <section
+                            className="radius-outer border border-primary/15 bg-primary/5 p-4 sm:p-5"
+                            aria-labelledby="why-heading"
+                        >
+                            <h2
+                                id="why-heading"
+                                className="text-xs font-semibold uppercase tracking-wider text-primary mb-2"
+                            >
                                 {whyLabel}
                             </h2>
-                            <p className="text-sm sm:text-[0.95rem] text-foreground/90 leading-relaxed">{note}</p>
+                            <p className="text-sm sm:text-[0.95rem] text-foreground/90 leading-relaxed text-pretty">
+                                {note}
+                            </p>
                         </section>
                     )}
 
@@ -120,7 +122,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                             <Link
                                 key={tag}
                                 href={`/?tag=${encodeURIComponent(tag)}#tools`}
-                                className="px-2.5 py-1 radius-inner text-xs font-medium bg-muted text-muted-foreground hover:bg-foreground/10 hover:text-foreground transition-colors"
+                                className="px-2.5 py-1.5 min-h-[32px] radius-inner text-xs font-medium bg-muted text-muted-foreground hover:bg-foreground/10 hover:text-foreground transition-colors"
                             >
                                 {tagLabel(tag)}
                             </Link>
@@ -132,7 +134,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                             href={tool.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[var(--radius-inner)] bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-[var(--radius-inner)] bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors"
                         >
                             {openExternal}
                             <ArrowSquareOutIcon className="h-4 w-4" weight="bold" />
@@ -143,7 +145,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                                 href={tool.githubUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[var(--radius-inner)] border border-border bg-card text-sm font-medium text-foreground hover:border-primary/30 transition-colors"
+                                className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-[var(--radius-inner)] border border-border bg-card text-sm font-medium text-foreground hover:border-primary/30 transition-colors"
                                 aria-label={`${githubLabel} (${opensInNewTab})`}
                             >
                                 <GithubLogoIcon className="h-4 w-4" weight="regular" />
@@ -164,25 +166,55 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                         {related.map((item) => {
                             const RelatedIcon = getIcon(item.icon)
                             const relatedName = item.name[lang] || item.name.en
+                            const relatedPreview = `/previews/${item.id}.png`
+                            const showImg = !relatedImgError[item.id]
                             return (
                                 <li key={item.id}>
                                     <Link
                                         href={getToolPath(item.id)}
-                                        className="surface surface-active radius-outer flex items-center gap-3 p-3 h-full hover:border-primary/20 transition-colors"
+                                        className="group surface surface-active radius-outer flex flex-col overflow-hidden h-full"
                                     >
-                                        <div
-                                            className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-white"
-                                            style={{ backgroundColor: item.color }}
-                                        >
-                                            <RelatedIcon className="h-4 w-4" weight="bold" />
+                                        <div className="relative h-24 bg-muted overflow-hidden">
+                                            {showImg ? (
+                                                <img
+                                                    src={relatedPreview}
+                                                    alt=""
+                                                    width={320}
+                                                    height={96}
+                                                    className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
+                                                    loading="lazy"
+                                                    onError={() =>
+                                                        setRelatedImgError((prev) => ({ ...prev, [item.id]: true }))
+                                                    }
+                                                />
+                                            ) : (
+                                                <div
+                                                    className="flex h-full items-center justify-center"
+                                                    style={{ backgroundColor: `${item.color}18` }}
+                                                >
+                                                    <RelatedIcon
+                                                        className="h-8 w-8"
+                                                        style={{ color: item.color }}
+                                                        weight="duotone"
+                                                    />
+                                                </div>
+                                            )}
                                         </div>
-                                        <div className="min-w-0">
-                                            <p className="text-sm font-semibold text-foreground truncate">
-                                                {relatedName}
-                                            </p>
-                                            <p className="text-[11px] text-muted-foreground truncate">
-                                                {item.tags.map(tagLabel).join(' · ')}
-                                            </p>
+                                        <div className="flex items-center gap-3 p-3">
+                                            <div
+                                                className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-white"
+                                                style={{ backgroundColor: item.color }}
+                                            >
+                                                <RelatedIcon className="h-4 w-4" weight="bold" />
+                                            </div>
+                                            <div className="min-w-0">
+                                                <p className="text-sm font-semibold text-foreground truncate">
+                                                    {relatedName}
+                                                </p>
+                                                <p className="text-[11px] text-muted-foreground truncate">
+                                                    {item.tags.map(tagLabel).join(' · ')}
+                                                </p>
+                                            </div>
                                         </div>
                                     </Link>
                                 </li>

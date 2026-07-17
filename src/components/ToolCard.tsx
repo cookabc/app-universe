@@ -7,6 +7,7 @@ import { normalizeLanguage } from '@/components/I18nProvider'
 import type { Tool } from '@/data/tools'
 import { formatTag, getToolPath } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { getDomain } from '@/lib/filter-tools'
 import { getIcon } from '@/lib/icon-map'
 
 interface ToolCardProps {
@@ -14,14 +15,6 @@ interface ToolCardProps {
     onTagClick?: (tag: string) => void
     /** Larger preview + full curator note (featured strip). */
     variant?: 'default' | 'featured'
-}
-
-function getDomain(url: string): string {
-    try {
-        return new URL(url).hostname.replace(/^www\./, '')
-    } catch {
-        return url
-    }
 }
 
 export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProps) {
