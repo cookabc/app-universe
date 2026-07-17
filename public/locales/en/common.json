@@ -38,7 +38,14 @@
     "featuredSubtitle": "Weekly openers — when, why, and what they replace",
     "featuredBadge": "Featured",
     "allToolsTitle": "All tools",
-    "curatedMeta": "{{count}} tools · updated {{date}}"
+    "curatedMeta": "{{count}} tools · updated {{date}}",
+    "details": "Details"
+  },
+  "toolDetail": {
+    "back": "Back to tools",
+    "whyIUseIt": "Why I use it",
+    "related": "Related tools",
+    "openSite": "Open site"
   },
   "theme": {
     "system": "System",

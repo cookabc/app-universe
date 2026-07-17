@@ -38,7 +38,14 @@
     "featuredSubtitle": "每周先打开的工具 — 何时用、为何用、替代了什么",
     "featuredBadge": "精选",
     "allToolsTitle": "全部工具",
-    "curatedMeta": "{{count}} 个工具 · 更新于 {{date}}"
+    "curatedMeta": "{{count}} 个工具 · 更新于 {{date}}",
+    "details": "详情"
+  },
+  "toolDetail": {
+    "back": "返回工具墙",
+    "whyIUseIt": "我为什么用它",
+    "related": "相关工具",
+    "openSite": "打开网站"
   },
   "theme": {
     "system": "跟随系统",

@@ -74,6 +74,8 @@ app-universe/
 
 Tools are defined in `src/data/tools.ts`. Preview images live in `public/previews/` and **must** match each tool's `id` (e.g. `open-design` → `public/previews/open-design.png`).
 
+Each tool also has a static detail page at `/t/{id}` (e.g. `/t/namethatui`) with curator note, tags, related tools, and SEO metadata. The home wall links there; external **Visit** still opens the tool site.
+
 Canonical site URL for SEO metadata is `src/lib/site.ts`.
 
 ## License
