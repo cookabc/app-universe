@@ -11,7 +11,7 @@
   "hero": {
     "title": "Discover tools that",
     "titleAccent": "actually work",
-    "subtitle": "A curated collection of apps and tools I use and build — for design, productivity, and more.",
+    "subtitle": "A curated collection of apps and tools I actually use — for design, productivity, and more.",
     "cta": "Explore tools",
     "statsTools": "{{count}}+ tools",
     "statsTags": "{{count}} tags"
@@ -35,8 +35,9 @@
     "sortCurated": "Curated",
     "sortShuffle": "Shuffle",
     "featuredTitle": "Featured picks",
-    "featuredSubtitle": "Tools I reach for first",
-    "allToolsTitle": "All tools"
+    "featuredSubtitle": "Weekly openers — when, why, and what they replace",
+    "allToolsTitle": "All tools",
+    "curatedMeta": "{{count}} tools · updated {{date}}"
   },
   "theme": {
     "system": "System",

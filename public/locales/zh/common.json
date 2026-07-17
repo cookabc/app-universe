@@ -11,7 +11,7 @@
   "hero": {
     "title": "发现真正",
     "titleAccent": "好用的工具",
-    "subtitle": "我使用和构建的应用与工具精选集 — 涵盖设计、效率等领域。",
+    "subtitle": "我真正在用的应用与工具精选集 — 涵盖设计、效率等领域。",
     "cta": "探索工具",
     "statsTools": "{{count}}+ 工具",
     "statsTags": "{{count}} 个标签"
@@ -35,8 +35,9 @@
     "sortCurated": "策展顺序",
     "sortShuffle": "随机",
     "featuredTitle": "精选推荐",
-    "featuredSubtitle": "我最常先打开的工具",
-    "allToolsTitle": "全部工具"
+    "featuredSubtitle": "每周先打开的工具 — 何时用、为何用、替代了什么",
+    "allToolsTitle": "全部工具",
+    "curatedMeta": "{{count}} 个工具 · 更新于 {{date}}"
   },
   "theme": {
     "system": "跟随系统",

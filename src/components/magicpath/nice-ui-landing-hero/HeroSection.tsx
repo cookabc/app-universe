@@ -30,7 +30,7 @@ export default function HeroSection() {
     const titleAccent = isReady ? t('hero.titleAccent') : 'actually work'
     const subtitle = isReady
         ? t('hero.subtitle')
-        : 'A curated collection of apps and tools I use and build — for design, productivity, and more.'
+        : 'A curated collection of apps and tools I actually use — for design, productivity, and more.'
     const ctaText = isReady ? t('hero.cta') : 'Explore tools'
     const toolCount = TOOLS.length
     const tagCount = getAllTags(TOOLS).length
