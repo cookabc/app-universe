@@ -41,11 +41,15 @@ export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
     }
 
     return (
-        <div className="flex gap-1.5 flex-wrap py-1" role="group" aria-label={groupLabel}>
+        <div
+            className="flex gap-1.5 py-1 overflow-x-auto max-sm:flex-nowrap sm:flex-wrap scrollbar-thin -mx-1 px-1"
+            role="group"
+            aria-label={groupLabel}
+        >
             <button
                 type="button"
                 onClick={() => onTagChange('all')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 radius-inner text-xs font-medium whitespace-nowrap border transition-all duration-200 surface-active ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 radius-inner text-xs font-medium whitespace-nowrap border transition-all duration-200 surface-active shrink-0 ${
                     activeTag === 'all'
                         ? 'bg-primary text-primary-foreground border-primary shadow-sm'
                         : 'bg-card text-muted-foreground border-border hover:border-primary/30 hover:text-foreground'
@@ -66,7 +70,7 @@ export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
                         key={tag}
                         type="button"
                         onClick={() => onTagChange(tag)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 radius-inner text-xs font-medium whitespace-nowrap border transition-all duration-200 surface-active ${
+                        className={`flex items-center gap-1.5 px-3 py-1.5 radius-inner text-xs font-medium whitespace-nowrap border transition-all duration-200 surface-active shrink-0 ${
                             isActive
                                 ? 'bg-primary text-primary-foreground border-primary shadow-sm'
                                 : 'bg-card text-muted-foreground border-border hover:border-primary/30 hover:text-foreground'

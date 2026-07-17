@@ -71,7 +71,7 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
                         <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-card to-transparent" />
                         {featured && (
                             <span className="absolute top-2 left-2 rounded-full bg-foreground/90 text-background text-[10px] font-semibold px-2 py-0.5 tracking-wide">
-                                Featured
+                                {isReady ? t('toolsWall.featuredBadge') : 'Featured'}
                             </span>
                         )}
                     </>
