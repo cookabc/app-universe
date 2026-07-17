@@ -2,7 +2,6 @@
 
 import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { initReactI18next, useTranslation } from 'react-i18next'
 import enTranslations from '@/../public/locales/en/common.json'
@@ -13,18 +12,28 @@ const resources = {
     zh: { common: zhTranslations },
 }
 
+function normalizeLanguage(lng: string | undefined): 'en' | 'zh' {
+    if (!lng) return 'en'
+    return lng.toLowerCase().startsWith('zh') ? 'zh' : 'en'
+}
+
 if (!i18n.isInitialized) {
     i18n.use(LanguageDetector)
         .use(initReactI18next)
         .init({
             resources,
-            lng: 'en',
+            // Let LanguageDetector choose; do not force English on every load.
             fallbackLng: 'en',
+            supportedLngs: ['en', 'zh'],
+            nonExplicitSupportedLngs: true,
+            load: 'languageOnly',
             ns: ['common'],
             defaultNS: 'common',
             detection: {
-                order: ['path', 'cookie', 'localStorage', 'navigator', 'htmlTag'],
-                caches: ['cookie'],
+                order: ['cookie', 'localStorage', 'navigator', 'htmlTag'],
+                caches: ['cookie', 'localStorage'],
+                lookupCookie: 'i18next',
+                lookupLocalStorage: 'i18nextLng',
             },
             interpolation: {
                 // React escapes interpolated values itself; enabling this
@@ -39,22 +48,21 @@ interface I18nProviderProps {
 }
 
 export function I18nProvider({ children }: I18nProviderProps) {
-    const router = useRouter()
-    const { i18n } = useTranslation()
+    const { i18n: i18nInstance } = useTranslation()
 
     useEffect(() => {
-        // Sync language with URL
-        const handleLanguageChange = (lng: string) => {
-            const url = new URL(window.location.href)
-            if (url.pathname.startsWith(`/${i18n.language}/`)) {
-                url.pathname = url.pathname.replace(`/${i18n.language}/`, `/${lng}/`)
-                router.push(url.toString())
-            }
+        const syncDocumentLang = (lng: string) => {
+            document.documentElement.lang = normalizeLanguage(lng)
         }
 
-        i18n.on('languageChanged', handleLanguageChange)
-        return () => i18n.off('languageChanged', handleLanguageChange)
-    }, [i18n, router])
+        syncDocumentLang(i18nInstance.language)
+        i18nInstance.on('languageChanged', syncDocumentLang)
+        return () => {
+            i18nInstance.off('languageChanged', syncDocumentLang)
+        }
+    }, [i18nInstance])
 
     return <>{children}</>
 }
+
+export { normalizeLanguage }

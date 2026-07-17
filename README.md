@@ -1,16 +1,18 @@
 # App Universe
 
-A curated directory of useful tools and resources, built with Next.js 16 App Router.
+A curated directory of useful tools and resources, built with Next.js App Router.
+
+**Live:** https://app-universe.vercel.app
 
 ## Tech Stack
 
 - **Framework**: [Next.js](https://nextjs.org/) 16, [React](https://react.dev/) 19, [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) v4, `clsx`, `tailwind-merge`
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) v4 (CSS-first `@theme` in `src/app/globals.css`), `clsx`, `tailwind-merge`
 - **UI**: [Radix UI](https://www.radix-ui.com/) primitives, shadcn-style components in `src/components/ui`
 - **Animation**: [Framer Motion](https://www.framer.com/motion/)
 - **Icons**: [Phosphor Icons](https://phosphoricons.com/)
-- **i18n**: [i18next](https://www.i18next.com/) with `react-i18next` and browser language detection
-- **Theming**: `next-themes` for light/dark mode
+- **i18n**: [i18next](https://www.i18next.com/) with `react-i18next` and browser language detection (EN / 中文)
+- **Theming**: `next-themes` for light/dark/system mode
 - **Tooling**: [Biome](https://biomejs.dev/) for linting and formatting
 
 ## Getting Started
@@ -50,28 +52,29 @@ pnpm start
 ```
 app-universe/
 ├── src/
-│   ├── app/              # Next.js App Router pages
+│   ├── app/              # Next.js App Router (pages, metadata, robots, sitemap)
 │   ├── components/       # React components (ui, layout, features)
 │   ├── data/             # Static data (tools.ts, tests)
 │   ├── hooks/            # Custom React hooks
-│   └── lib/              # Utilities, helpers, and icon mapping
+│   └── lib/              # Utilities, site config, icon mapping
 ├── public/
-│   ├── locales/          # i18n translation files
-│   └── previews/         # Tool preview images
+│   ├── locales/          # i18n translation files (en, zh)
+│   └── previews/         # Tool preview images ({tool.id}.png)
 ├── scripts/
-│   └── download-previews.js  # Maintenance script for preview images
+│   └── download-previews.js
 ├── biome.json
 ├── next.config.ts
 ├── package.json
 ├── pnpm-workspace.yaml
 ├── postcss.config.mjs
-├── tailwind.config.js
 └── tsconfig.json
 ```
 
 ## Data
 
-Tools are defined in `src/data/tools.ts`. Preview images live in `public/previews/` and should match each tool's `id`.
+Tools are defined in `src/data/tools.ts`. Preview images live in `public/previews/` and **must** match each tool's `id` (e.g. `open-design` → `public/previews/open-design.png`).
+
+Canonical site URL for SEO metadata is `src/lib/site.ts`.
 
 ## License
 

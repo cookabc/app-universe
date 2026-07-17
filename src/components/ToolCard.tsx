@@ -2,6 +2,7 @@
 
 import { ArrowSquareOutIcon, GithubLogoIcon } from '@phosphor-icons/react'
 import { useState } from 'react'
+import { normalizeLanguage } from '@/components/I18nProvider'
 import type { Tool } from '@/data/tools'
 import { formatTag } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
@@ -22,7 +23,7 @@ function getDomain(url: string): string {
 
 export function ToolCard({ tool, onTagClick }: ToolCardProps) {
     const { i18n, t, isReady } = useI18nReady()
-    const lang = i18n.language as 'en' | 'zh'
+    const lang = normalizeLanguage(i18n.language)
     const Icon = getIcon(tool.icon)
     const [imgError, setImgError] = useState(false)
 
@@ -31,6 +32,19 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
     const note = tool.note?.[lang] || tool.note?.en
     const domain = getDomain(tool.url)
     const previewSrc = `/previews/${tool.id}.png`
+    const visitLabel = isReady ? t('toolsWall.visit') : 'Visit'
+    const githubLabel = isReady ? t('toolsWall.githubRepo') : 'GitHub repository'
+    const previewAlt = isReady ? t('toolsWall.previewAlt', { name }) : `${name} preview`
+    const opensInNewTab = isReady ? t('toolsWall.opensInNewTab') : 'opens in a new tab'
+
+    const tagLabel = (tag: string) => {
+        if (isReady) {
+            const key = `tags.${tag}`
+            const translated = t(key)
+            if (translated !== key) return translated
+        }
+        return formatTag(tag)
+    }
 
     return (
         <article className="group surface surface-active radius-outer flex flex-col overflow-hidden h-full">
@@ -40,7 +54,9 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
                     <>
                         <img
                             src={previewSrc}
-                            alt={`${name} preview`}
+                            alt={previewAlt}
+                            width={640}
+                            height={360}
                             className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
                             loading="lazy"
                             onError={() => setImgError(true)}
@@ -52,7 +68,7 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
                         className="absolute inset-0 flex items-center justify-center"
                         style={{ backgroundColor: `${tool.color}15` }}
                     >
-                        <Icon className="h-12 w-12" style={{ color: tool.color }} />
+                        <Icon className="h-12 w-12" style={{ color: tool.color }} weight="duotone" />
                     </div>
                 )}
             </div>
@@ -65,7 +81,7 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
                         className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-white"
                         style={{ backgroundColor: tool.color }}
                     >
-                        <Icon className="h-[18px] w-[18px]" strokeWidth={2} />
+                        <Icon className="h-[18px] w-[18px]" weight="bold" />
                     </div>
                     <div className="flex-1 min-w-0">
                         <a
@@ -76,6 +92,7 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
                         >
                             <h3 className="font-semibold text-foreground truncate text-sm">{name}</h3>
                             <ArrowSquareOutIcon className="h-3 w-3 text-muted-foreground flex-shrink-0" weight="bold" />
+                            <span className="sr-only">({opensInNewTab})</span>
                         </a>
                         <p className="text-[11px] text-muted-foreground/70 font-mono truncate">{domain}</p>
                     </div>
@@ -84,7 +101,7 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
                             href={tool.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label="GitHub repository"
+                            aria-label={`${githubLabel} (${opensInNewTab})`}
                             className="flex-shrink-0 text-muted-foreground hover:text-foreground transition-colors"
                         >
                             <GithubLogoIcon className="h-3.5 w-3.5" weight="regular" />
@@ -117,7 +134,7 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
                                     }}
                                     className="px-1.5 py-0.5 radius-inner text-[10px] font-medium bg-muted text-muted-foreground hover:bg-foreground/10 hover:text-foreground transition-colors"
                                 >
-                                    {formatTag(tag)}
+                                    {tagLabel(tag)}
                                 </button>
                             ))}
                         </div>
@@ -130,7 +147,8 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
                         rel="noopener noreferrer"
                         className="text-[11px] font-medium text-primary flex items-center gap-0.5 flex-shrink-0 hover:underline"
                     >
-                        Visit
+                        {visitLabel}
+                        <span className="sr-only">({opensInNewTab})</span>
                         <ArrowSquareOutIcon
                             className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                             weight="bold"

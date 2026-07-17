@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import { normalizeLanguage } from '@/components/I18nProvider'
 import type { Tool } from '@/data/tools'
 import { formatTag } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
@@ -12,8 +13,8 @@ interface TagFilterProps {
 }
 
 export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
-    const { i18n } = useI18nReady()
-    const lang = i18n.language as 'en' | 'zh'
+    const { t, i18n, isReady } = useI18nReady()
+    const lang = normalizeLanguage(i18n.language)
 
     const tags = useMemo(() => {
         const counts = new Map<string, number>()
@@ -27,10 +28,20 @@ export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
             .map(([tag, count]) => ({ tag, count }))
     }, [tools])
 
-    const allLabel = lang === 'zh' ? '全部' : 'All'
+    const allLabel = isReady ? t('toolsWall.allTags') : lang === 'zh' ? '全部' : 'All'
+    const groupLabel = isReady ? t('toolsWall.tagFilterLabel') : 'Filter by tag'
+
+    const labelFor = (tag: string) => {
+        if (isReady) {
+            const key = `tags.${tag}`
+            const translated = t(key)
+            if (translated !== key) return translated
+        }
+        return formatTag(tag)
+    }
 
     return (
-        <div className="flex gap-1.5 flex-wrap py-1">
+        <div className="flex gap-1.5 flex-wrap py-1" role="group" aria-label={groupLabel}>
             <button
                 type="button"
                 onClick={() => onTagChange('all')}
@@ -62,7 +73,7 @@ export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
                         }`}
                         aria-pressed={isActive}
                     >
-                        <span>{formatTag(tag)}</span>
+                        <span>{labelFor(tag)}</span>
                         <span
                             className={`text-[10px] tabular-nums ${isActive ? 'opacity-70' : 'text-muted-foreground/70'}`}
                         >

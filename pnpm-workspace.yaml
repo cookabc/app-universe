@@ -3,4 +3,4 @@ packages:
 strictDepBuilds: false
 minimumReleaseAge: 0
 allowBuilds:
-  sharp: set this to true or false
+  sharp: true

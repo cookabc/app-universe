@@ -13,6 +13,8 @@ export interface Tool {
     color: string
     githubUrl?: string
     note?: LocaleText
+    /** Pinned in the featured strip on the home wall. */
+    featured?: boolean
 }
 
 const TOOLS: Tool[] = [
@@ -28,6 +30,11 @@ const TOOLS: Tool[] = [
         url: 'https://open-design.ai/',
         icon: 'Palette',
         color: '#6366f1',
+        featured: true,
+        note: {
+            en: 'My default starting kit when an agent needs real design systems, not generic UI soup.',
+            zh: '需要真正设计系统而不是通用 UI 模板时，我默认从这里起手。',
+        },
     },
     {
         id: 'zhongguo-colors',
@@ -41,6 +48,10 @@ const TOOLS: Tool[] = [
         url: 'https://nevertoday.github.io/zhongguo-traditional-colors/',
         icon: 'Palette',
         color: '#c0392b',
+        note: {
+            en: 'Best free reference when a Chinese palette needs names and print-ready values.',
+            zh: '做中国风配色时最好的免费参考：有色名和印刷可用数值。',
+        },
         githubUrl: 'https://github.com/nevertoday/zhongguo-traditional-colors',
     },
     {
@@ -55,6 +66,10 @@ const TOOLS: Tool[] = [
         url: 'https://shaders.paper.design/',
         icon: 'Sparkles',
         color: '#8b5cf6',
+        note: {
+            en: 'Drop-in shaders that look expensive without dragging a heavy creative stack.',
+            zh: '几乎零依赖就能上质感的着色器，轻量却很出片。',
+        },
     },
     {
         id: 'designprompts',
@@ -67,7 +82,11 @@ const TOOLS: Tool[] = [
         tags: ['ai-design', 'prompts'],
         url: 'https://www.designprompts.dev/',
         icon: 'Wand',
-        color: '#0a0a0a',
+        color: '#404040',
+        note: {
+            en: 'Fast taste calibration — browse styles before writing a long design prompt.',
+            zh: '写长设计提示词前先扫一圈风格，校准审美很快。',
+        },
     },
     {
         id: 'motionsites',
@@ -81,6 +100,10 @@ const TOOLS: Tool[] = [
         url: 'https://motionsites.ai/',
         icon: 'Rocket',
         color: '#8b5cf6',
+        note: {
+            en: 'Landing-page prompt library I steal structure from, then rewrite in my voice.',
+            zh: '落地页提示词库：先借结构，再改成自己的语气。',
+        },
     },
     {
         id: 'impeccable',
@@ -88,12 +111,17 @@ const TOOLS: Tool[] = [
         name: { en: 'Impeccable', zh: 'Impeccable' },
         description: {
             en: 'AI design intelligence with 23 commands for frontend design',
-            zh: 'AI设计智能工具，23 个命令覆盖排版、色彩、动效与交互',
+            zh: 'AI 设计智能工具，23 个命令覆盖排版、色彩、动效与交互',
         },
         tags: ['ai-design', 'frontend'],
         url: 'https://impeccable.style/',
         icon: 'Sparkles',
         color: '#6366f1',
+        featured: true,
+        note: {
+            en: 'Command set for “this UI feels off” moments during agent-built frontends.',
+            zh: 'Agent 拼出来的前端「哪里不对劲」时，用这套命令修审美。',
+        },
     },
     {
         id: 'yeguozi',
@@ -107,6 +135,10 @@ const TOOLS: Tool[] = [
         url: 'https://www.yeguozi.com/',
         icon: 'Film',
         color: '#b45309',
+        note: {
+            en: 'Film stills for moodboards when stock photos feel too clean.',
+            zh: '情绪板需要电影感时用，比干净的图库更有氛围。',
+        },
     },
     {
         id: 'magic-slide',
@@ -120,6 +152,10 @@ const TOOLS: Tool[] = [
         url: 'https://www.magicslide.show/',
         icon: 'Presentation',
         color: '#a855f7',
+        note: {
+            en: 'HTML decks with Magic Move — better than fighting Keynote for agent workflows.',
+            zh: 'HTML 演示 + Magic Move，比和 Keynote 较劲更适合 Agent 流程。',
+        },
     },
     {
         id: 'kami',
@@ -133,6 +169,10 @@ const TOOLS: Tool[] = [
         url: 'https://kami.tw93.fun/',
         icon: 'Pencil',
         color: '#8b7355',
+        note: {
+            en: 'Warm document aesthetic when Markdown previews look too cold and default.',
+            zh: 'Markdown 预览太冷太默认时，用这套羊皮纸文档气质。',
+        },
     },
     {
         id: 'taste-skill',
@@ -146,6 +186,11 @@ const TOOLS: Tool[] = [
         url: 'https://www.tasteskill.dev/',
         icon: 'Sparkles',
         color: '#ec4899',
+        featured: true,
+        note: {
+            en: 'SKILL.md files that push coding agents away from template-looking UI.',
+            zh: '用 SKILL.md 把编码 Agent 从模板感 UI 里拉回来。',
+        },
     },
     {
         id: 'getdesign-md',
@@ -159,6 +204,10 @@ const TOOLS: Tool[] = [
         url: 'https://getdesign.md/',
         icon: 'BookOpen',
         color: '#1b365d',
+        note: {
+            en: 'Collect DESIGN.md files so agents inherit a coherent system.',
+            zh: '收集 DESIGN.md，让 Agent 继承一致的设计系统。',
+        },
     },
     {
         id: 'designmd-sh',
@@ -172,6 +221,10 @@ const TOOLS: Tool[] = [
         url: 'https://designmd.sh/',
         icon: 'FileCode',
         color: '#10b981',
+        note: {
+            en: 'Public registry of design systems for agent-readable specs.',
+            zh: '公开的设计系统注册表，方便 Agent 读规格。',
+        },
     },
     {
         id: 'docu-md',
@@ -185,6 +238,10 @@ const TOOLS: Tool[] = [
         url: 'https://docu.md/',
         icon: 'BookOpen',
         color: '#10b981',
+        note: {
+            en: 'One-click MD → Word when stakeholders still live in .docx.',
+            zh: '干系人只要 Word 时，一键 Markdown 转 docx。',
+        },
     },
     {
         id: 'markmark',
@@ -198,6 +255,10 @@ const TOOLS: Tool[] = [
         url: 'https://markmark.ft07.com/',
         icon: 'BookOpen',
         color: '#3b82f6',
+        note: {
+            en: 'Native macOS reader for annotating Markdown before handing it to AI.',
+            zh: '原生 macOS 阅读器：先批注 Markdown，再丢给 AI。',
+        },
         githubUrl: 'https://github.com/easychen/markmark',
     },
     {
@@ -212,6 +273,10 @@ const TOOLS: Tool[] = [
         url: 'https://pmframe.works/',
         icon: 'Lightbulb',
         color: '#f59e0b',
+        note: {
+            en: 'Compact PM principles when I need a checklist, not a course.',
+            zh: '需要清单而不是课程时的紧凑产品方法论。',
+        },
     },
     {
         id: 'opc-skills',
@@ -225,6 +290,10 @@ const TOOLS: Tool[] = [
         url: 'https://opc-skills.ft07.com/',
         icon: 'Briefcase',
         color: '#78716c',
+        note: {
+            en: 'One-person-company skills — practical when shipping alone.',
+            zh: '一人公司技能：一个人交付时很实用。',
+        },
     },
     {
         id: 'browse-sh',
@@ -238,6 +307,10 @@ const TOOLS: Tool[] = [
         url: 'https://browse.sh/',
         icon: 'Globe',
         color: '#3b82f6',
+        note: {
+            en: 'Browser CLI primitives for agents that need the open web.',
+            zh: 'Agent 需要打开网页时的浏览器 CLI 原语。',
+        },
     },
     {
         id: 'neal-fun',
@@ -251,6 +324,10 @@ const TOOLS: Tool[] = [
         url: 'https://neal.fun/',
         icon: 'Sparkles',
         color: '#f43f5e',
+        note: {
+            en: 'Interaction inspiration when product demos need a spark of play.',
+            zh: '产品演示需要一点玩心时的交互灵感来源。',
+        },
     },
     {
         id: 'astrocade',
@@ -264,6 +341,10 @@ const TOOLS: Tool[] = [
         url: 'https://www.astrocade.com/',
         icon: 'Gamepad',
         color: '#f97316',
+        note: {
+            en: 'Casual game loops to study for short-session design.',
+            zh: '研究短局游戏循环时的休闲游戏参考。',
+        },
     },
     {
         id: 'kenney',
@@ -277,6 +358,10 @@ const TOOLS: Tool[] = [
         url: 'https://kenney.nl/',
         icon: 'Gamepad',
         color: '#22c55e',
+        note: {
+            en: 'Free game assets I trust when prototyping without art budget.',
+            zh: '没美术预算做原型时，可信赖的免费游戏素材。',
+        },
     },
     {
         id: 'timing',
@@ -290,6 +375,11 @@ const TOOLS: Tool[] = [
         url: 'https://timing.xiaolin.work/',
         icon: 'Zap',
         color: '#14b8a6',
+        featured: true,
+        note: {
+            en: 'Translates motion timing across design and code — stops spring-parameter guessing.',
+            zh: '跨设计与代码转换动效 timing，少猜弹簧参数。',
+        },
     },
     {
         id: 'craftwork-websites',
@@ -303,6 +393,10 @@ const TOOLS: Tool[] = [
         url: 'https://craftwork.design/curated/websites/',
         icon: 'Globe',
         color: '#4f46e5',
+        note: {
+            en: 'Curated site gallery for layout patterns that still feel current.',
+            zh: '精选站酷画廊，找仍然不过时的版式模式。',
+        },
     },
     {
         id: 'onepagelove',
@@ -316,6 +410,10 @@ const TOOLS: Tool[] = [
         url: 'https://onepagelove.com/',
         icon: 'Star',
         color: '#e11d48',
+        note: {
+            en: 'Long-running one-pager archive — good for single-screen storytelling.',
+            zh: '长寿的单页网站档案，适合单屏叙事。',
+        },
     },
     {
         id: 'component-gallery',
@@ -329,6 +427,11 @@ const TOOLS: Tool[] = [
         url: 'https://component.gallery/',
         icon: 'LayoutGrid',
         color: '#059669',
+        featured: true,
+        note: {
+            en: 'Real design-system components, not Dribbble fiction.',
+            zh: '真实设计系统组件，不是 Dribbble 幻想稿。',
+        },
     },
     {
         id: 'mobbin',
@@ -342,6 +445,10 @@ const TOOLS: Tool[] = [
         url: 'https://mobbin.com/discover/apps/web/popular',
         icon: 'LayoutGrid',
         color: '#2563eb',
+        note: {
+            en: 'Production app UI flows when I need “how did they structure onboarding?”',
+            zh: '需要「别人怎么做引导」时看的真实 App 流程。',
+        },
     },
     {
         id: 'rebrand-gallery',
@@ -355,6 +462,10 @@ const TOOLS: Tool[] = [
         url: 'https://www.rebrand.gallery/',
         icon: 'Sparkles',
         color: '#d97706',
+        note: {
+            en: 'Rebrand case studies for logo + identity before/after thinking.',
+            zh: '品牌重塑案例，做 logo/识别前后对比时有用。',
+        },
     },
     {
         id: '60fps',
@@ -368,6 +479,10 @@ const TOOLS: Tool[] = [
         url: 'https://60fps.design/',
         icon: 'Zap',
         color: '#ea580c',
+        note: {
+            en: 'Micro-interaction references that raise the bar for “delight”.',
+            zh: '微交互参考，把「delight」的标准拉高一点。',
+        },
     },
     {
         id: 'before-click',
@@ -381,6 +496,10 @@ const TOOLS: Tool[] = [
         url: 'https://before.click/',
         icon: 'Globe',
         color: '#0891b2',
+        note: {
+            en: 'App Store screenshots and paywalls — study conversion framing.',
+            zh: 'App Store 截图与付费墙，研究转化话术。',
+        },
     },
     {
         id: 'feralui',
@@ -388,12 +507,16 @@ const TOOLS: Tool[] = [
         name: { en: 'FeralUI', zh: 'FeralUI' },
         description: {
             en: 'Playful, physics-driven React elements that move like real things',
-            zh: 'playful 的物理驱动 React 元素，像真实物体一样运动',
+            zh: '有趣的物理驱动 React 元素，像真实物体一样运动',
         },
         tags: ['animation', 'frontend'],
         url: 'https://feralui.dev/',
         icon: 'Zap',
         color: '#06b6d4',
+        note: {
+            en: 'Physics-y React bits when a page needs to feel alive, not rigid.',
+            zh: '页面需要「活着」而不是僵硬时，用这套物理感 React 零件。',
+        },
     },
     {
         id: 'namethatui',
@@ -407,6 +530,11 @@ const TOOLS: Tool[] = [
         url: 'https://namethatui.com/',
         icon: 'BookOpen',
         color: '#4ea1ff',
+        featured: true,
+        note: {
+            en: 'Name UI pieces precisely so agent prompts stop saying “that button thing”.',
+            zh: '准确叫出 UI 零件名，别再跟 Agent 说「那个按钮玩意儿」。',
+        },
     },
 ]
 
@@ -420,10 +548,17 @@ export function getAllTags(tools: Tool[]): string[] {
     return Array.from(set).sort()
 }
 
+const TAG_ACRONYMS = new Set(['ai', 'ui', 'pm', 'cli', 'api', 'md'])
+
 export function formatTag(tag: string): string {
     return tag
         .split('-')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .map((word) => {
+            if (TAG_ACRONYMS.has(word.toLowerCase())) {
+                return word.toUpperCase()
+            }
+            return word.charAt(0).toUpperCase() + word.slice(1)
+        })
         .join(' ')
 }
 

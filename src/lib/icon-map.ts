@@ -19,7 +19,7 @@ import {
     StarIcon,
 } from '@phosphor-icons/react'
 
-const iconMap = {
+export const ICON_MAP = {
     BookOpen: BookOpenIcon,
     Briefcase: BriefcaseIcon,
     FileCode: FileCodeIcon,
@@ -38,8 +38,8 @@ const iconMap = {
     Zap: LightningIcon,
 } satisfies Record<string, Icon>
 
-export type IconName = keyof typeof iconMap
+export type IconName = keyof typeof ICON_MAP
 
 export function getIcon(name: string): Icon {
-    return iconMap[name as IconName] ?? ArrowSquareOutIcon
+    return ICON_MAP[name as IconName] ?? ArrowSquareOutIcon
 }
