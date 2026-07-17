@@ -69,3 +69,21 @@ test('getToolById and related tools helpers', () => {
         assert.ok(item.tags.some((tag) => first.tags.includes(tag)))
     }
 })
+
+test('curator notes follow when/replaces/caveat voice cues', () => {
+    for (const tool of tools) {
+        assert.ok(tool.note, `missing note: ${tool.id}`)
+        const en = tool.note.en
+        const zh = tool.note.zh
+        // English template signals
+        assert.match(en, /When |when /i, `${tool.id} en note should open with a situation`)
+        assert.match(en, /Replaces |replaces /i, `${tool.id} en note should say what it replaces`)
+        assert.match(en, /Caveat:|caveat:/i, `${tool.id} en note should include a caveat`)
+        // Chinese template signals
+        assert.match(zh, /时|当/, `${tool.id} zh note should describe a situation`)
+        assert.match(zh, /替代|能替代/, `${tool.id} zh note should say what it replaces`)
+        assert.match(zh, /注意/, `${tool.id} zh note should include a caveat`)
+        assert.ok(en.length >= 80, `${tool.id} en note too short`)
+        assert.ok(zh.length >= 24, `${tool.id} zh note too short`)
+    }
+})

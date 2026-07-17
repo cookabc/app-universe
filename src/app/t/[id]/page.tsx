@@ -20,24 +20,32 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
 
     const title = tool.name.en
-    const description = tool.note?.en ?? tool.description.en
+    const titleZh = tool.name.zh
+    const descriptionEn = tool.note?.en ?? tool.description.en
+    const descriptionZh = tool.note?.zh ?? tool.description.zh
+    // Keep primary meta English for crawlers; include Chinese in OG for bilingual shares.
+    const description = descriptionEn === descriptionZh ? descriptionEn : `${descriptionEn} / ${descriptionZh}`
     const path = `/t/${tool.id}`
     const preview = `${SITE_URL}/previews/${tool.id}.png`
+    const fullTitle = title === titleZh ? title : `${title} · ${titleZh}`
 
     return {
-        title,
+        title: fullTitle,
         description,
         alternates: { canonical: path },
         openGraph: {
-            title: `${title} — ${SITE_NAME}`,
+            title: `${fullTitle} — ${SITE_NAME}`,
             description,
             url: `${SITE_URL}${path}`,
             type: 'website',
+            locale: 'en_US',
+            alternateLocale: ['zh_CN'],
+            siteName: SITE_NAME,
             images: [{ url: preview, width: 1200, height: 630, alt: `${title} preview` }],
         },
         twitter: {
             card: 'summary_large_image',
-            title: `${title} — ${SITE_NAME}`,
+            title: `${fullTitle} — ${SITE_NAME}`,
             description,
             images: [preview],
         },
@@ -54,8 +62,10 @@ export default async function ToolPage({ params }: PageProps) {
         '@context': 'https://schema.org',
         '@type': 'WebPage',
         name: tool.name.en,
+        alternateName: tool.name.zh !== tool.name.en ? tool.name.zh : undefined,
         description: tool.note?.en ?? tool.description.en,
         url: `${SITE_URL}/t/${tool.id}`,
+        inLanguage: ['en', 'zh'],
         isPartOf: {
             '@type': 'WebSite',
             name: SITE_NAME,
@@ -67,6 +77,7 @@ export default async function ToolPage({ params }: PageProps) {
             url: tool.url,
             applicationCategory: 'WebApplication',
             description: tool.description.en,
+            image: `${SITE_URL}/previews/${tool.id}.png`,
         },
     }
 
