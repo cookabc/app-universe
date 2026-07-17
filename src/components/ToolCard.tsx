@@ -11,6 +11,8 @@ import { getIcon } from '@/lib/icon-map'
 interface ToolCardProps {
     tool: Tool
     onTagClick?: (tag: string) => void
+    /** Larger preview + full curator note (featured strip). */
+    variant?: 'default' | 'featured'
 }
 
 function getDomain(url: string): string {
@@ -21,11 +23,12 @@ function getDomain(url: string): string {
     }
 }
 
-export function ToolCard({ tool, onTagClick }: ToolCardProps) {
+export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProps) {
     const { i18n, t, isReady } = useI18nReady()
     const lang = normalizeLanguage(i18n.language)
     const Icon = getIcon(tool.icon)
     const [imgError, setImgError] = useState(false)
+    const featured = variant === 'featured'
 
     const name = tool.name[lang] || tool.name.en
     const desc = tool.description[lang] || tool.description.en
@@ -47,9 +50,13 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
     }
 
     return (
-        <article className="group surface surface-active radius-outer flex flex-col overflow-hidden h-full">
+        <article
+            className={`group surface surface-active radius-outer flex flex-col overflow-hidden h-full ${
+                featured ? 'ring-1 ring-primary/25 shadow-md' : ''
+            }`}
+        >
             {/* Preview */}
-            <div className="relative overflow-hidden bg-muted flex-1 min-h-[160px]">
+            <div className={`relative overflow-hidden bg-muted flex-1 ${featured ? 'min-h-[200px]' : 'min-h-[160px]'}`}>
                 {!imgError ? (
                     <>
                         <img
@@ -62,6 +69,11 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
                             onError={() => setImgError(true)}
                         />
                         <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-card to-transparent" />
+                        {featured && (
+                            <span className="absolute top-2 left-2 rounded-full bg-foreground/90 text-background text-[10px] font-semibold px-2 py-0.5 tracking-wide">
+                                Featured
+                            </span>
+                        )}
                     </>
                 ) : (
                     <div
@@ -74,7 +86,7 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
             </div>
 
             {/* Content */}
-            <div className="flex flex-col p-4">
+            <div className={`flex flex-col ${featured ? 'p-5' : 'p-4'}`}>
                 {/* Header */}
                 <div className="flex items-start gap-3">
                     <div
@@ -90,7 +102,11 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
                             rel="noopener noreferrer"
                             className="group/title flex items-center gap-1.5"
                         >
-                            <h3 className="font-semibold text-foreground truncate text-sm">{name}</h3>
+                            <h3
+                                className={`font-semibold text-foreground truncate ${featured ? 'text-base' : 'text-sm'}`}
+                            >
+                                {name}
+                            </h3>
                             <ArrowSquareOutIcon className="h-3 w-3 text-muted-foreground flex-shrink-0" weight="bold" />
                             <span className="sr-only">({opensInNewTab})</span>
                         </a>
@@ -109,16 +125,22 @@ export function ToolCard({ tool, onTagClick }: ToolCardProps) {
                     )}
                 </div>
 
-                {/* Description */}
-                <p className="text-muted-foreground mt-3 line-clamp-3 text-xs leading-relaxed">{desc}</p>
-
-                {/* Curator note */}
-                {note && (
-                    <p className="text-xs text-muted-foreground/80 italic mt-2 line-clamp-1">
-                        {isReady ? `${t('toolsWall.curatorNote')}: ` : 'Note: '}
-                        {note}
-                    </p>
+                {/* Featured: note is primary; default: description then truncated note */}
+                {featured && note ? (
+                    <p className="text-sm text-foreground/90 mt-3 leading-relaxed">{note}</p>
+                ) : (
+                    <>
+                        <p className="text-muted-foreground mt-3 line-clamp-3 text-xs leading-relaxed">{desc}</p>
+                        {note && (
+                            <p className="text-xs text-muted-foreground/80 italic mt-2 line-clamp-1">
+                                {isReady ? `${t('toolsWall.curatorNote')}: ` : 'Note: '}
+                                {note}
+                            </p>
+                        )}
+                    </>
                 )}
+
+                {featured && <p className="text-xs text-muted-foreground mt-2 line-clamp-2 leading-relaxed">{desc}</p>}
 
                 {/* Tags + footer */}
                 <div className="mt-auto pt-3 flex items-center justify-between gap-3">

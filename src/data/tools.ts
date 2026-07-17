@@ -32,8 +32,8 @@ const TOOLS: Tool[] = [
         color: '#6366f1',
         featured: true,
         note: {
-            en: 'My default starting kit when an agent needs real design systems, not generic UI soup.',
-            zh: '需要真正设计系统而不是通用 UI 模板时，我默认从这里起手。',
+            en: 'When an agent needs a real design system — not another “make it pretty” prompt — I start here. Replaces generic UI kits. Caveat: pick one system and stick with it.',
+            zh: '当 Agent 需要真正的设计系统、而不是「做漂亮一点」的空提示时，我从这里起手。能替代通用 UI 套件。注意：先选定一套系统并坚持用完。',
         },
     },
     {
@@ -119,8 +119,8 @@ const TOOLS: Tool[] = [
         color: '#6366f1',
         featured: true,
         note: {
-            en: 'Command set for “this UI feels off” moments during agent-built frontends.',
-            zh: 'Agent 拼出来的前端「哪里不对劲」时，用这套命令修审美。',
+            en: 'When a generated page looks “off” but I can’t name why, I run these commands. Replaces vague redesign chats. Caveat: it critiques taste — you still choose the fix.',
+            zh: '当生成页面「哪里不对」却说不清时，我跑这套命令。能替代含糊的「重做一版」对话。注意：它帮你挑审美问题，拍板还是你。',
         },
     },
     {
@@ -188,8 +188,8 @@ const TOOLS: Tool[] = [
         color: '#ec4899',
         featured: true,
         note: {
-            en: 'SKILL.md files that push coding agents away from template-looking UI.',
-            zh: '用 SKILL.md 把编码 Agent 从模板感 UI 里拉回来。',
+            en: 'When I bootstrap a coding agent for UI work, I drop these SKILL.md files in first. Replaces hoping the model “has taste.” Caveat: still needs a real reference layout.',
+            zh: '给做 UI 的编码 Agent 开工前，我先塞进这些 SKILL.md。比指望模型「自己有审美」靠谱。注意：仍要配真实参考布局。',
         },
     },
     {
@@ -377,8 +377,8 @@ const TOOLS: Tool[] = [
         color: '#14b8a6',
         featured: true,
         note: {
-            en: 'Translates motion timing across design and code — stops spring-parameter guessing.',
-            zh: '跨设计与代码转换动效 timing，少猜弹簧参数。',
+            en: 'When Figma springs and CSS never match, I translate here once. Replaces guessing cubic-bezier values. Caveat: still verify on the target device.',
+            zh: 'Figma 弹簧和 CSS 对不上时，我来这里转一次参数。能替代瞎猜 cubic-bezier。注意：还是要在真机上过一眼。',
         },
     },
     {
@@ -429,8 +429,8 @@ const TOOLS: Tool[] = [
         color: '#059669',
         featured: true,
         note: {
-            en: 'Real design-system components, not Dribbble fiction.',
-            zh: '真实设计系统组件，不是 Dribbble 幻想稿。',
+            en: 'When I need how real design systems name a pattern, I open this — not Dribbble. Replaces inventing component vocabulary. Caveat: it’s reference, not a kit to copy wholesale.',
+            zh: '需要看真实设计系统怎么命名某个模式时，我打开这里，而不是 Dribbble。能替代自己发明组件黑话。注意：是参考，不是整库照搬。',
         },
     },
     {
@@ -532,8 +532,8 @@ const TOOLS: Tool[] = [
         color: '#4ea1ff',
         featured: true,
         note: {
-            en: 'Name UI pieces precisely so agent prompts stop saying “that button thing”.',
-            zh: '准确叫出 UI 零件名，别再跟 Agent 说「那个按钮玩意儿」。',
+            en: 'When I’d otherwise write “that little grey control,” I look up the real name first. Replaces fuzzy agent prompts. Caveat: names vary slightly by system — still better than “thing.”',
+            zh: '否则我会写「那个灰色小控件」时，我先来查标准名字。能替代含糊的 Agent 提示。注意：各系统叫法略有差别，但总比「那个玩意儿」强。',
         },
     },
 ]

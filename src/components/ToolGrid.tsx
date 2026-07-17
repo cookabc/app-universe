@@ -153,7 +153,12 @@ export function ToolGrid() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {featuredTools.map((tool) => (
-                            <ToolCard key={`featured-${tool.id}`} tool={tool} onTagClick={handleTagClick} />
+                            <ToolCard
+                                key={`featured-${tool.id}`}
+                                tool={tool}
+                                variant="featured"
+                                onTagClick={handleTagClick}
+                            />
                         ))}
                     </div>
                     <div className="border-t border-border/60 pt-2">
