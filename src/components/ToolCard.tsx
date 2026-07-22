@@ -15,7 +15,7 @@ interface ToolCardProps {
     onTagClick?: (tag: string) => void
     /** Larger preview + full curator note (featured strip). */
     variant?: 'default' | 'featured'
-    /** Position in a list, shown as a two-digit index. */
+    /** Position in a list, shown as a three-digit archive number. */
     index?: number
 }
 
@@ -49,13 +49,13 @@ export function ToolCard({ tool, onTagClick, variant = 'default', index }: ToolC
 
     return (
         <article
-            className={`group relative flex flex-col h-full bg-card border border-border/60 transition-colors hover:border-border ${
+            className={`group relative flex flex-col h-full bg-card border border-border transition-shadow hover:shadow-md ${
                 featured ? 'md:col-span-2' : ''
             }`}
         >
             <Link
                 href={detailHref}
-                className={`relative block overflow-hidden bg-muted ${featured ? 'aspect-[2/1]' : 'aspect-[16/10]'}`}
+                className={`relative block overflow-hidden bg-muted border-b border-border ${featured ? 'aspect-[2/1]' : 'aspect-[16/10]'}`}
             >
                 {!imgError ? (
                     <img
@@ -76,8 +76,8 @@ export function ToolCard({ tool, onTagClick, variant = 'default', index }: ToolC
                     </div>
                 )}
                 {index !== undefined && (
-                    <span className="absolute top-3 left-3 index-label bg-card/80 backdrop-blur-sm px-1.5 py-0.5">
-                        {String(index + 1).padStart(2, '0')}
+                    <span className="absolute top-3 left-3 archive-number bg-card px-1.5 py-0.5 border border-border">
+                        No. {String(index + 1).padStart(3, '0')}
                     </span>
                 )}
             </Link>
@@ -121,7 +121,7 @@ export function ToolCard({ tool, onTagClick, variant = 'default', index }: ToolC
                 <p className="text-muted-foreground mt-4 text-sm leading-relaxed line-clamp-2 text-pretty">{desc}</p>
 
                 {note && (
-                    <p className="text-sm text-foreground/80 mt-3 leading-relaxed border-l-2 border-border pl-3 line-clamp-2">
+                    <p className="text-sm text-foreground/80 mt-3 leading-relaxed border-l-2 border-accent pl-3 line-clamp-2">
                         {note}
                     </p>
                 )}
