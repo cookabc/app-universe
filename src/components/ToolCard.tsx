@@ -15,9 +15,11 @@ interface ToolCardProps {
     onTagClick?: (tag: string) => void
     /** Larger preview + full curator note (featured strip). */
     variant?: 'default' | 'featured'
+    /** Position in a list, shown as a two-digit index. */
+    index?: number
 }
 
-export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProps) {
+export function ToolCard({ tool, onTagClick, variant = 'default', index }: ToolCardProps) {
     const { i18n, t, isReady } = useI18nReady()
     const lang = normalizeLanguage(i18n.language)
     const Icon = getIcon(tool.icon)
@@ -47,32 +49,24 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
 
     return (
         <article
-            className={`group surface surface-active radius-outer flex flex-col overflow-hidden h-full ${
-                featured ? 'ring-1 ring-primary/25 shadow-md' : ''
+            className={`group relative flex flex-col h-full bg-card border border-border/60 transition-colors hover:border-border ${
+                featured ? 'md:col-span-2' : ''
             }`}
         >
             <Link
                 href={detailHref}
-                className={`relative block overflow-hidden bg-muted flex-1 ${featured ? 'min-h-[200px]' : 'min-h-[160px]'}`}
+                className={`relative block overflow-hidden bg-muted ${featured ? 'aspect-[2/1]' : 'aspect-[16/10]'}`}
             >
                 {!imgError ? (
-                    <>
-                        <img
-                            src={previewSrc}
-                            alt={previewAlt}
-                            width={640}
-                            height={360}
-                            className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
-                            loading="lazy"
-                            onError={() => setImgError(true)}
-                        />
-                        <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-card to-transparent" />
-                        {featured && (
-                            <span className="absolute top-2 left-2 rounded-full bg-foreground/90 text-background text-[10px] font-semibold px-2 py-0.5 tracking-wide">
-                                {isReady ? t('toolsWall.featuredBadge') : 'Featured'}
-                            </span>
-                        )}
-                    </>
+                    <img
+                        src={previewSrc}
+                        alt={previewAlt}
+                        width={640}
+                        height={400}
+                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                        loading="lazy"
+                        onError={() => setImgError(true)}
+                    />
                 ) : (
                     <div
                         className="absolute inset-0 flex items-center justify-center"
@@ -81,60 +75,60 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
                         <Icon className="h-12 w-12" style={{ color: tool.color }} weight="duotone" />
                     </div>
                 )}
+                {index !== undefined && (
+                    <span className="absolute top-3 left-3 index-label bg-card/80 backdrop-blur-sm px-1.5 py-0.5">
+                        {String(index + 1).padStart(2, '0')}
+                    </span>
+                )}
             </Link>
 
-            <div className={`flex flex-col ${featured ? 'p-5' : 'p-4'}`}>
-                <div className="flex items-start gap-3">
-                    <div
-                        className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg text-white"
-                        style={{ backgroundColor: tool.color }}
-                    >
-                        <Icon className="h-[18px] w-[18px]" weight="bold" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                        <Link href={detailHref} className="group/title flex items-center gap-1.5 min-w-0">
-                            <h3
-                                className={`font-semibold text-foreground truncate hover:text-primary transition-colors ${
-                                    featured ? 'text-base' : 'text-sm'
-                                }`}
+            <div className={`flex flex-col flex-1 ${featured ? 'p-6' : 'p-5'}`}>
+                <div className="flex items-baseline justify-between gap-3">
+                    <Link href={detailHref} className="min-w-0">
+                        <h3
+                            className={`serif-display text-foreground truncate group-hover:underline underline-offset-4 ${
+                                featured ? 'text-2xl' : 'text-xl'
+                            }`}
+                        >
+                            {name}
+                        </h3>
+                    </Link>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                        {tool.githubUrl && (
+                            <a
+                                href={tool.githubUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={`${githubLabel} (${opensInNewTab})`}
+                                className="text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                {name}
-                            </h3>
-                        </Link>
-                        <p className="text-[11px] text-muted-foreground/70 font-mono truncate">{domain}</p>
-                    </div>
-                    {tool.githubUrl && (
+                                <GithubLogoIcon className="h-4 w-4" weight="regular" />
+                            </a>
+                        )}
                         <a
-                            href={tool.githubUrl}
+                            href={tool.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label={`${githubLabel} (${opensInNewTab})`}
-                            className="flex-shrink-0 text-muted-foreground hover:text-foreground transition-colors"
+                            aria-label={`${visitLabel} (${opensInNewTab})`}
+                            className="text-muted-foreground hover:text-foreground transition-colors"
                         >
-                            <GithubLogoIcon className="h-3.5 w-3.5" weight="regular" />
+                            <ArrowSquareOutIcon className="h-4 w-4" weight="bold" />
                         </a>
-                    )}
+                    </div>
                 </div>
+                <p className="index-label mt-1">{domain}</p>
 
-                {featured && note ? (
-                    <p className="text-sm text-foreground/90 mt-3 leading-relaxed">{note}</p>
-                ) : (
-                    <>
-                        <p className="text-muted-foreground mt-3 line-clamp-3 text-xs leading-relaxed">{desc}</p>
-                        {note && (
-                            <p className="text-xs text-muted-foreground/80 italic mt-2 line-clamp-1">
-                                {isReady ? `${t('toolsWall.curatorNote')}: ` : 'Note: '}
-                                {note}
-                            </p>
-                        )}
-                    </>
+                <p className="text-muted-foreground mt-4 text-sm leading-relaxed line-clamp-2 text-pretty">{desc}</p>
+
+                {note && (
+                    <p className="text-sm text-foreground/80 mt-3 leading-relaxed border-l-2 border-border pl-3 line-clamp-2">
+                        {note}
+                    </p>
                 )}
 
-                {featured && <p className="text-xs text-muted-foreground mt-2 line-clamp-2 leading-relaxed">{desc}</p>}
-
-                <div className="mt-auto pt-3 flex items-center justify-between gap-3">
+                <div className="mt-auto pt-5 flex items-center justify-between gap-3">
                     {tool.tags.length > 0 ? (
-                        <div className="flex flex-wrap gap-1.5">
+                        <div className="flex flex-wrap gap-x-3 gap-y-1">
                             {tool.tags.map((tag) => (
                                 <button
                                     key={tag}
@@ -143,7 +137,7 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
                                         e.stopPropagation()
                                         onTagClick?.(tag)
                                     }}
-                                    className="px-1.5 py-0.5 radius-inner text-[10px] font-medium bg-muted text-muted-foreground hover:bg-foreground/10 hover:text-foreground transition-colors"
+                                    className="index-label hover:text-foreground transition-colors"
                                 >
                                     {tagLabel(tag)}
                                 </button>
@@ -152,27 +146,12 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
                     ) : (
                         <span />
                     )}
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                        <Link
-                            href={detailHref}
-                            className="text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors"
-                        >
-                            {detailsLabel}
-                        </Link>
-                        <a
-                            href={tool.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[11px] font-medium text-primary flex items-center gap-0.5 hover:underline"
-                        >
-                            {visitLabel}
-                            <span className="sr-only">({opensInNewTab})</span>
-                            <ArrowSquareOutIcon
-                                className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                                weight="bold"
-                            />
-                        </a>
-                    </div>
+                    <Link
+                        href={detailHref}
+                        className="index-label flex-shrink-0 hover:text-foreground transition-colors"
+                    >
+                        {detailsLabel} →
+                    </Link>
                 </div>
             </div>
         </article>

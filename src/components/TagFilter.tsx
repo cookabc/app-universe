@@ -40,52 +40,38 @@ export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
         return formatTag(tag)
     }
 
+    const itemClass = (isActive: boolean) =>
+        `index-label whitespace-nowrap pb-1 border-b transition-colors shrink-0 ${
+            isActive
+                ? 'text-foreground border-foreground'
+                : 'text-muted-foreground border-transparent hover:text-foreground'
+        }`
+
     return (
         <div
-            className="flex gap-1.5 py-1 overflow-x-auto max-sm:flex-nowrap sm:flex-wrap scrollbar-thin -mx-1 px-1"
+            className="flex gap-x-5 gap-y-2 py-1 overflow-x-auto max-sm:flex-nowrap sm:flex-wrap scrollbar-thin"
             role="group"
             aria-label={groupLabel}
         >
             <button
                 type="button"
                 onClick={() => onTagChange('all')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 radius-inner text-xs font-medium whitespace-nowrap border transition-all duration-200 surface-active shrink-0 ${
-                    activeTag === 'all'
-                        ? 'bg-primary text-primary-foreground border-primary shadow-sm'
-                        : 'bg-card text-muted-foreground border-border hover:border-primary/30 hover:text-foreground'
-                }`}
+                className={itemClass(activeTag === 'all')}
                 aria-pressed={activeTag === 'all'}
             >
-                <span>{allLabel}</span>
-                <span
-                    className={`text-[10px] tabular-nums ${activeTag === 'all' ? 'opacity-70' : 'text-muted-foreground/70'}`}
-                >
-                    {tools.length}
-                </span>
+                {allLabel} {tools.length}
             </button>
-            {tags.map(({ tag, count }) => {
-                const isActive = activeTag === tag
-                return (
-                    <button
-                        key={tag}
-                        type="button"
-                        onClick={() => onTagChange(tag)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 radius-inner text-xs font-medium whitespace-nowrap border transition-all duration-200 surface-active shrink-0 ${
-                            isActive
-                                ? 'bg-primary text-primary-foreground border-primary shadow-sm'
-                                : 'bg-card text-muted-foreground border-border hover:border-primary/30 hover:text-foreground'
-                        }`}
-                        aria-pressed={isActive}
-                    >
-                        <span>{labelFor(tag)}</span>
-                        <span
-                            className={`text-[10px] tabular-nums ${isActive ? 'opacity-70' : 'text-muted-foreground/70'}`}
-                        >
-                            {count}
-                        </span>
-                    </button>
-                )
-            })}
+            {tags.map(({ tag, count }) => (
+                <button
+                    key={tag}
+                    type="button"
+                    onClick={() => onTagChange(tag)}
+                    className={itemClass(activeTag === tag)}
+                    aria-pressed={activeTag === tag}
+                >
+                    {labelFor(tag)} {count}
+                </button>
+            ))}
         </div>
     )
 }
