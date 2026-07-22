@@ -106,7 +106,7 @@ export function ToolGrid() {
                         </h2>
                         <p className="index-label hidden sm:block">{featuredSubtitle}</p>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border border border-border">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {featuredTools.map((tool) => (
                             <ToolCard
                                 key={`featured-${tool.id}`}
@@ -151,7 +151,7 @@ export function ToolGrid() {
                         </button>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filtered.map((tool, i) => (
                             <ToolCard key={tool.id} tool={tool} index={i} onTagClick={handleTagClick} />
                         ))}
