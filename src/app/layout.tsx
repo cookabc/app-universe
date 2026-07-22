@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Fraunces, Inter, JetBrains_Mono } from 'next/font/google'
+import { IBM_Plex_Mono, IBM_Plex_Sans, Libre_Caslon_Text } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { AppChrome } from '@/components/AppChrome'
 import { I18nProvider } from '@/components/I18nProvider'
@@ -7,18 +7,20 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site'
 import './globals.css'
 
-const inter = Inter({
+const plexSans = IBM_Plex_Sans({
     subsets: ['latin'],
+    weight: ['400', '500', '600'],
     variable: '--font-sans',
 })
-const fraunces = Fraunces({
+const libreCaslon = Libre_Caslon_Text({
     subsets: ['latin'],
+    weight: ['400', '700'],
     style: ['normal', 'italic'],
-    axes: ['opsz'],
     variable: '--font-serif',
 })
-const jetBrainsMono = JetBrains_Mono({
+const plexMono = IBM_Plex_Mono({
     subsets: ['latin'],
+    weight: ['400', '500'],
     variable: '--font-jetbrains-mono',
 })
 
@@ -50,8 +52,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
     themeColor: [
-        { media: '(prefers-color-scheme: light)', color: '#fafaf9' },
-        { media: '(prefers-color-scheme: dark)', color: '#0c0d10' },
+        { media: '(prefers-color-scheme: light)', color: '#f4f1ea' },
+        { media: '(prefers-color-scheme: dark)', color: '#14130f' },
     ],
     width: 'device-width',
     initialScale: 1,
@@ -65,7 +67,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body
-                className={`${inter.variable} ${fraunces.variable} ${jetBrainsMono.variable} antialiased min-w-[320px]`}
+                className={`${plexSans.variable} ${libreCaslon.variable} ${plexMono.variable} antialiased min-w-[320px]`}
             >
                 <a href="#main-content" className="skip-link">
                     Skip to content
