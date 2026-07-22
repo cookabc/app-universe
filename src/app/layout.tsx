@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Cormorant_Garamond, JetBrains_Mono, Outfit, Plus_Jakarta_Sans } from 'next/font/google'
+import { Fraunces, Inter, JetBrains_Mono } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { AppChrome } from '@/components/AppChrome'
 import { I18nProvider } from '@/components/I18nProvider'
@@ -7,15 +7,14 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site'
 import './globals.css'
 
-const plusJakarta = Plus_Jakarta_Sans({
+const inter = Inter({
     subsets: ['latin'],
     variable: '--font-sans',
 })
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-display' })
-const cormorant = Cormorant_Garamond({
+const fraunces = Fraunces({
     subsets: ['latin'],
-    weight: ['400', '500', '600', '700'],
     style: ['normal', 'italic'],
+    axes: ['opsz'],
     variable: '--font-serif',
 })
 const jetBrainsMono = JetBrains_Mono({
@@ -66,7 +65,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body
-                className={`${plusJakarta.variable} ${outfit.variable} ${cormorant.variable} ${jetBrainsMono.variable} antialiased min-w-[320px]`}
+                className={`${inter.variable} ${fraunces.variable} ${jetBrainsMono.variable} antialiased min-w-[320px]`}
             >
                 <a href="#main-content" className="skip-link">
                     Skip to content
