@@ -1,12 +1,10 @@
 'use client'
 
-import { useReducedMotion } from 'framer-motion'
 import { getAllTags, default as TOOLS } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
 
 export default function Hero() {
     const { t, isReady } = useI18nReady()
-    const shouldReduceMotion = useReducedMotion()
 
     const title = isReady ? t('hero.title') : 'Discover tools that'
     const titleAccent = isReady ? t('hero.titleAccent') : 'actually work'
@@ -19,22 +17,25 @@ export default function Hero() {
     const statsTags = isReady ? t('hero.statsTags', { count: tagCount }) : `${tagCount} tags`
 
     return (
-        <section className="bg-grid-faint border-b border-border">
-            <div className="container max-w-7xl mx-auto px-4 pt-24 pb-20 sm:pt-32 sm:pb-28">
-                <p className="index-label mb-6">Index — curated {new Date().getFullYear()}</p>
-                <h1
-                    className="serif-display text-6xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight text-foreground max-w-[14ch]"
-                    style={shouldReduceMotion ? undefined : { animation: 'fade-in-up 0.6s ease-out both' }}
-                >
-                    {title} <em className="not-italic sm:italic text-muted-foreground">{titleAccent}</em>
-                </h1>
-                <p className="measure mt-8 text-base sm:text-lg leading-relaxed text-muted-foreground text-pretty">
-                    {subtitle}
-                </p>
-                <hr className="hairline mt-10 mb-4" />
-                <div className="flex items-center justify-between text-sm">
-                    <span className="index-label">{statsTools}</span>
+        <section className="bg-lined-paper border-b-2 border-foreground">
+            <div className="container max-w-7xl mx-auto px-4 pt-16 pb-14 sm:pt-20 sm:pb-16">
+                <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                        <p className="archive-number mb-3">Archive of practice — vol. {new Date().getFullYear()}</p>
+                        <h1 className="serif-display text-5xl sm:text-6xl lg:text-7xl leading-[0.95] tracking-tight text-foreground max-w-[14ch]">
+                            {title} <em className="italic">{titleAccent}</em>
+                        </h1>
+                    </div>
+                    <span className="archive-tab hidden sm:inline-block mt-2 flex-shrink-0">{statsTools}</span>
+                </div>
+                <p className="measure mt-6 text-base leading-relaxed text-muted-foreground text-pretty">{subtitle}</p>
+                <div className="mt-8 flex items-center gap-4 sm:hidden">
+                    <span className="archive-tab">{statsTools}</span>
                     <span className="index-label">{statsTags}</span>
+                </div>
+                <div className="mt-10 hidden sm:flex items-center justify-between border-t border-border pt-3">
+                    <span className="index-label">Curated by hand — {statsTags}</span>
+                    <span className="index-label">Updated July 2026</span>
                 </div>
             </div>
         </section>
