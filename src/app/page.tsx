@@ -1,13 +1,13 @@
 'use client'
 
-import HeroSection from '@/components/magicpath/nice-ui-landing-hero/HeroSection'
+import Hero from '@/components/Hero'
 import { ToolGrid } from '@/components/ToolGrid'
 
 export default function HomePage() {
     return (
         <div>
-            <HeroSection />
-            <div id="tools" className="container max-w-7xl mx-auto px-4 pb-12">
+            <Hero />
+            <div id="tools" className="container max-w-7xl mx-auto px-4 py-16">
                 <ToolGrid />
             </div>
         </div>
