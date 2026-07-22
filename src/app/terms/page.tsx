@@ -9,13 +9,15 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
     return (
-        <section className="mx-auto max-w-2xl px-4 py-12">
-            <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+        <section className="mx-auto max-w-2xl px-4 py-16 sm:py-20">
+            <Link href="/" className="index-label hover:text-foreground transition-colors">
                 ← Back home
             </Link>
-            <h1 className="text-3xl font-bold tracking-tight text-foreground mt-4 mb-2">Terms of Service</h1>
-            <p className="text-sm text-muted-foreground mb-6">Last updated: July 17, 2026</p>
-            <div className="text-muted-foreground space-y-4 leading-relaxed">
+            <h1 className="serif-display text-4xl sm:text-5xl tracking-tight text-foreground mt-6 mb-3">
+                Terms of Service
+            </h1>
+            <p className="index-label mb-10">Last updated — July 17, 2026</p>
+            <div className="measure text-muted-foreground space-y-5 leading-relaxed">
                 <p>
                     {SITE_NAME} is a curated directory of third-party tools and resources. Links are provided for
                     convenience and informational purposes only.
@@ -34,7 +36,7 @@ export default function TermsPage() {
                     Questions:{' '}
                     <a
                         href="mailto:chuangcius@gmail.com"
-                        className="text-foreground underline underline-offset-2 hover:text-primary"
+                        className="text-foreground underline underline-offset-4 hover:opacity-70"
                     >
                         chuangcius@gmail.com
                     </a>
