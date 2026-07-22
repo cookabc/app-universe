@@ -17,25 +17,52 @@ export const Footer = () => {
         : `${tools.length} tools · updated ${CURATED_UPDATED}`
 
     return (
-        <footer className="w-full mt-auto py-10 border-t border-border/60">
-            <div className="container max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="text-center sm:text-left space-y-1">
-                    <p className="text-sm text-muted-foreground">
+        <footer className="w-full mt-auto border-t border-border">
+            <div className="container max-w-7xl mx-auto px-4 py-14 grid gap-10 sm:grid-cols-3">
+                <div className="space-y-3">
+                    <p className="serif-display text-xl text-foreground">{brand}</p>
+                    <p className="index-label">{meta}</p>
+                </div>
+                <nav aria-label="Site" className="space-y-2">
+                    <p className="index-label mb-3">Navigate</p>
+                    <ul className="space-y-2 text-sm">
+                        <li>
+                            <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
+                                {home}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/privacy"
+                                className="text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                                {privacy}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/terms"
+                                className="text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                                {terms}
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
+                <div className="space-y-3">
+                    <p className="index-label">Colophon</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                        A hand-maintained index of tools that earn their place. Set in Fraunces & Inter.
+                    </p>
+                </div>
+            </div>
+            <div className="border-t border-border">
+                <div className="container max-w-7xl mx-auto px-4 py-5 flex items-center justify-between">
+                    <p className="index-label">
                         © {new Date().getFullYear()} {brand}
                     </p>
-                    <p className="text-xs text-muted-foreground/80">{meta}</p>
+                    <p className="index-label hidden sm:inline">{tools.length} entries</p>
                 </div>
-                <nav aria-label="Legal" className="flex items-center gap-6 text-sm text-muted-foreground">
-                    <Link href="/privacy" className="hover:text-foreground transition-colors">
-                        {privacy}
-                    </Link>
-                    <Link href="/terms" className="hover:text-foreground transition-colors">
-                        {terms}
-                    </Link>
-                    <Link href="/" className="hover:text-foreground transition-colors">
-                        {home}
-                    </Link>
-                </nav>
             </div>
         </footer>
     )

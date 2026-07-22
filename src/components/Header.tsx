@@ -10,25 +10,14 @@ export const Header = () => {
     const brand = isReady ? t('brand.name') : 'App Universe'
 
     return (
-        <header className="sticky top-0 z-[var(--z-header)] w-full bg-background/75 backdrop-blur-xl border-b border-border/60">
+        <header className="sticky top-0 z-[var(--z-header)] w-full bg-background/85 backdrop-blur-md border-b border-border">
             <div className="container max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
                 <Link
                     href="/"
-                    className="flex items-center gap-2 text-sm font-bold tracking-tight text-foreground hover:text-primary transition-colors"
+                    className="flex items-baseline gap-2 text-foreground hover:opacity-70 transition-opacity"
                 >
-                    <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 125 125"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                    >
-                        <circle cx="62.5" cy="62.5" r="58" stroke="currentColor" strokeWidth="8" />
-                        <circle cx="62.5" cy="62.5" r="32" stroke="currentColor" strokeWidth="8" />
-                        <circle cx="62.5" cy="62.5" r="10" fill="currentColor" />
-                    </svg>
-                    {brand}
+                    <span className="serif-display text-lg leading-none">{brand}</span>
+                    <span className="index-label hidden sm:inline">Index</span>
                 </Link>
 
                 <div className="flex items-center gap-3">
