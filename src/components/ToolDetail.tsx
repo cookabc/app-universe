@@ -47,107 +47,113 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
         <article className="mx-auto max-w-5xl px-4 py-12 sm:py-16">
             <Link
                 href="/#tools"
-                className="index-label inline-flex items-center gap-1.5 hover:text-foreground transition-colors mb-12 min-h-[44px]"
+                className="index-label inline-flex items-center gap-1.5 hover:text-foreground transition-colors mb-10 min-h-[44px]"
             >
                 <ArrowLeftIcon className="h-3.5 w-3.5" weight="bold" />
                 {backLabel}
             </Link>
 
-            <header className="space-y-4">
-                <p className="index-label">{domain}</p>
-                <h1 className="serif-display text-4xl sm:text-5xl lg:text-6xl leading-[1.02] tracking-tight text-foreground text-balance">
-                    {name}
-                </h1>
-                <p className="measure text-base sm:text-lg text-muted-foreground leading-relaxed text-pretty">{desc}</p>
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-2">
-                    {tool.tags.map((tag) => (
-                        <Link
-                            key={tag}
-                            href={`/?tag=${encodeURIComponent(tag)}#tools`}
-                            className="index-label hover:text-foreground transition-colors"
-                        >
-                            {tagLabel(tag)}
-                        </Link>
-                    ))}
-                </div>
-            </header>
-
-            <div className="relative mt-10 border border-border bg-muted overflow-hidden">
-                {!imgError ? (
-                    <img
-                        src={previewSrc}
-                        alt={isReady ? t('toolsWall.previewAlt', { name }) : `${name} preview`}
-                        width={1200}
-                        height={675}
-                        className="w-full aspect-video object-cover object-top"
-                        onError={() => setImgError(true)}
-                    />
-                ) : (
-                    <div
-                        className="flex aspect-video items-center justify-center"
-                        style={{ backgroundColor: `${tool.color}18` }}
-                    >
-                        <Icon className="h-16 w-16" style={{ color: tool.color }} weight="duotone" />
+            <div className="border border-border bg-card">
+                <header className="p-6 sm:p-8 border-b border-border space-y-4">
+                    <div className="flex items-start justify-between gap-4">
+                        <div className="min-w-0 space-y-3">
+                            <p className="archive-number">No. {String(tool.id.padStart?.(3, '0') ?? tool.id)}</p>
+                            <h1 className="serif-display text-4xl sm:text-5xl leading-[1.02] tracking-tight text-foreground text-balance">
+                                {name}
+                            </h1>
+                        </div>
+                        <span className="archive-tab flex-shrink-0 mt-1">{domain}</span>
                     </div>
-                )}
-            </div>
+                    <p className="measure text-base text-muted-foreground leading-relaxed text-pretty">{desc}</p>
+                    <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1">
+                        {tool.tags.map((tag) => (
+                            <Link
+                                key={tag}
+                                href={`/?tag=${encodeURIComponent(tag)}#tools`}
+                                className="index-label hover:text-foreground transition-colors"
+                            >
+                                {tagLabel(tag)}
+                            </Link>
+                        ))}
+                    </div>
+                </header>
 
-            <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)]">
-                {note ? (
-                    <section aria-labelledby="why-heading">
-                        <h2 id="why-heading" className="index-label mb-4">
-                            {whyLabel}
-                        </h2>
-                        <p className="serif-display text-xl sm:text-2xl leading-relaxed text-foreground/90 text-pretty border-l-2 border-foreground pl-5">
-                            {note}
-                        </p>
-                    </section>
-                ) : (
-                    <span />
-                )}
+                <div className="relative bg-muted overflow-hidden border-b border-border">
+                    {!imgError ? (
+                        <img
+                            src={previewSrc}
+                            alt={isReady ? t('toolsWall.previewAlt', { name }) : `${name} preview`}
+                            width={1200}
+                            height={675}
+                            className="w-full aspect-video object-cover object-top"
+                            onError={() => setImgError(true)}
+                        />
+                    ) : (
+                        <div
+                            className="flex aspect-video items-center justify-center"
+                            style={{ backgroundColor: `${tool.color}18` }}
+                        >
+                            <Icon className="h-16 w-16" style={{ color: tool.color }} weight="duotone" />
+                        </div>
+                    )}
+                </div>
 
-                <div className="space-y-3 lg:justify-self-end lg:text-right">
-                    <a
-                        href={tool.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 border border-foreground bg-foreground text-background px-6 py-3 text-sm font-medium hover:opacity-85 transition-opacity"
-                    >
-                        {openExternal}
-                        <ArrowSquareOutIcon className="h-4 w-4" weight="bold" />
-                        <span className="sr-only">({opensInNewTab})</span>
-                    </a>
-                    {tool.githubUrl && (
+                <div className="p-6 sm:p-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)]">
+                    {note ? (
+                        <section aria-labelledby="why-heading">
+                            <h2 id="why-heading" className="index-label mb-4">
+                                {whyLabel}
+                            </h2>
+                            <p className="serif-display text-xl sm:text-2xl leading-relaxed text-foreground/90 text-pretty border-l-2 border-accent pl-5">
+                                {note}
+                            </p>
+                        </section>
+                    ) : (
+                        <span />
+                    )}
+
+                    <div className="space-y-3 lg:justify-self-end lg:text-right">
                         <a
-                            href={tool.githubUrl}
+                            href={tool.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="index-label flex items-center gap-1.5 hover:text-foreground transition-colors lg:justify-end"
-                            aria-label={`${githubLabel} (${opensInNewTab})`}
+                            className="inline-flex items-center gap-2 border border-foreground bg-foreground text-background px-6 py-3 text-sm font-medium hover:opacity-85 transition-opacity"
                         >
-                            <GithubLogoIcon className="h-3.5 w-3.5" weight="regular" />
-                            GitHub
+                            {openExternal}
+                            <ArrowSquareOutIcon className="h-4 w-4" weight="bold" />
+                            <span className="sr-only">({opensInNewTab})</span>
                         </a>
-                    )}
+                        {tool.githubUrl && (
+                            <a
+                                href={tool.githubUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="index-label flex items-center gap-1.5 hover:text-foreground transition-colors lg:justify-end"
+                                aria-label={`${githubLabel} (${opensInNewTab})`}
+                            >
+                                <GithubLogoIcon className="h-3.5 w-3.5" weight="regular" />
+                                GitHub
+                            </a>
+                        )}
+                    </div>
                 </div>
             </div>
 
             {related.length > 0 && (
-                <section className="mt-20" aria-labelledby="related-tools-heading">
-                    <hr className="hairline mb-6" />
+                <section className="mt-16" aria-labelledby="related-tools-heading">
                     <h2 id="related-tools-heading" className="serif-display text-2xl text-foreground mb-6">
                         {relatedLabel}
                     </h2>
-                    <ul className="grid gap-px bg-border border border-border sm:grid-cols-3">
+                    <ul className="grid gap-6 sm:grid-cols-3">
                         {related.map((item) => {
                             const RelatedIcon = getIcon(item.icon)
                             const relatedName = item.name[lang] || item.name.en
                             const relatedPreview = `/previews/${item.id}.png`
                             const showImg = !relatedImgError[item.id]
                             return (
-                                <li key={item.id} className="bg-card">
+                                <li key={item.id} className="border border-border bg-card">
                                     <Link href={getToolPath(item.id)} className="group flex flex-col h-full">
-                                        <div className="relative h-28 bg-muted overflow-hidden">
+                                        <div className="relative h-28 bg-muted overflow-hidden border-b border-border">
                                             {showImg ? (
                                                 <img
                                                     src={relatedPreview}
