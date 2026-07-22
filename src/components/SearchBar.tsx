@@ -17,7 +17,7 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
     return (
         <form role="search" className="relative w-full" onSubmit={(e) => e.preventDefault()}>
             <MagnifyingGlassIcon
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/70"
+                className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
                 weight="regular"
                 aria-hidden="true"
             />
@@ -27,13 +27,13 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
                 aria-label={ariaLabel}
-                className="w-full rounded-[var(--radius)] border border-border bg-card pl-10 pr-10 py-2.5 text-sm shadow-sm outline-none transition-all duration-200 placeholder:text-muted-foreground/60 hover:border-border/80 focus:border-primary/50 focus:ring-2 focus:ring-ring/20"
+                className="w-full bg-transparent border-0 border-b border-border pl-7 pr-8 py-3 text-base outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-foreground"
             />
             {value && (
                 <button
                     type="button"
                     onClick={() => onChange('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/70 hover:text-foreground transition-colors rounded-full p-0.5 focus-visible:ring-2 focus-visible:ring-ring"
+                    className="absolute right-0 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
                     aria-label={clearLabel}
                 >
                     <XIcon className="h-4 w-4" />
