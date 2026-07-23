@@ -10,7 +10,7 @@ export default function NotFound() {
         <section className="min-h-[70vh] flex items-center px-4">
             <div className="container max-w-7xl mx-auto">
                 <p className="index-label mb-4">{isReady ? t('notFound.code') : '404'}</p>
-                <h1 className="serif-display text-5xl sm:text-6xl text-foreground mb-4 tracking-tight">
+                <h1 className="display-heading text-5xl sm:text-6xl text-foreground mb-4 tracking-[-0.04em]">
                     {isReady ? t('notFound.title') : 'Page not found'}
                 </h1>
                 <p className="measure text-base text-muted-foreground mb-8 leading-relaxed">
@@ -18,7 +18,7 @@ export default function NotFound() {
                 </p>
                 <Link
                     href="/"
-                    className="index-label inline-block pb-1 border-b border-foreground text-foreground hover:opacity-70 transition-opacity"
+                    className="index-label index-label--foreground inline-block pb-1 border-b border-foreground hover:opacity-70 transition-opacity"
                 >
                     {isReady ? t('notFound.cta') : 'Go back home'} →
                 </Link>

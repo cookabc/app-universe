@@ -10,17 +10,18 @@ export const Header = () => {
     const brand = isReady ? t('brand.name') : 'App Universe'
 
     return (
-        <header className="sticky top-0 z-[var(--z-header)] w-full bg-background/90 backdrop-blur-sm border-b border-border">
-            <div className="container max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-                <Link
-                    href="/"
-                    className="flex items-baseline gap-2 text-foreground hover:opacity-70 transition-opacity"
-                >
-                    <span className="serif-display text-lg leading-none">{brand}</span>
-                    <span className="archive-tab hidden sm:inline">Archive</span>
+        <header className="sticky top-0 z-[var(--z-header)] w-full bg-background border-b-2 border-foreground">
+            <div className="container max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+                <Link href="/" className="group flex min-h-11 items-center gap-3 text-foreground">
+                    <span className="signal-mark" aria-hidden="true">
+                        <span />
+                    </span>
+                    <span className="display-heading text-base leading-none tracking-[-0.02em] group-hover:text-primary transition-colors">
+                        {brand}
+                    </span>
                 </Link>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                     <LanguageSwitcher />
                     <ThemeSwitch />
                 </div>

@@ -100,17 +100,17 @@ const ThemeSwitch = React.forwardRef<HTMLButtonElement, ThemeSwitchProps>(({ cla
                     onClick={(event) => startThemeTransition(next, setTheme, event)}
                     aria-label={label}
                     className={cn(
-                        'inline-flex h-7 w-7 items-center justify-center rounded-[var(--radius-inner)]',
-                        'border border-border bg-card text-muted-foreground',
+                        'inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-inner)]',
+                        'border border-border bg-card text-foreground',
                         'transition-all duration-200',
-                        'hover:border-primary/30 hover:text-foreground',
+                        'hover:border-foreground hover:bg-accent',
                         'active:translate-y-px active:scale-[0.98]',
                         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                         className,
                     )}
                     {...props}
                 >
-                    <Icon className="h-3.5 w-3.5" weight="regular" />
+                    <Icon className="h-4 w-4" weight="bold" />
                 </button>
             </TooltipTrigger>
             <TooltipContent>

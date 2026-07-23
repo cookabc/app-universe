@@ -41,15 +41,15 @@ export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
     }
 
     const itemClass = (isActive: boolean) =>
-        `index-label whitespace-nowrap pb-1 border-b transition-colors shrink-0 ${
+        `index-label inline-flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-[var(--radius)] border px-3 py-2 transition-all ${
             isActive
-                ? 'text-foreground border-foreground'
-                : 'text-muted-foreground border-transparent hover:text-foreground'
+                ? 'index-label--accent-foreground border-foreground bg-accent shadow-[2px_2px_0_hsl(var(--foreground))]'
+                : 'border-border bg-card text-muted-foreground hover:border-foreground hover:text-foreground'
         }`
 
     return (
         <div
-            className="flex gap-x-5 gap-y-2 py-1 overflow-x-auto max-sm:flex-nowrap sm:flex-wrap scrollbar-thin"
+            className="flex gap-2 overflow-x-auto py-1 max-sm:flex-nowrap sm:flex-wrap scrollbar-thin"
             role="group"
             aria-label={groupLabel}
         >

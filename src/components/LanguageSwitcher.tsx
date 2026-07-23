@@ -18,7 +18,7 @@ export function LanguageSwitcher() {
         <button
             type="button"
             onClick={() => i18n.changeLanguage(isZh ? 'en' : 'zh')}
-            className="h-7 px-2.5 text-[11px] font-medium radius-inner border border-border bg-card text-muted-foreground hover:text-foreground shadow-sm hover:border-primary/30 active:translate-y-px active:scale-[0.98] transition-all duration-200"
+            className="index-label index-label--foreground inline-flex h-11 min-w-11 items-center justify-center border border-border bg-card px-3 hover:border-foreground hover:bg-accent transition-colors"
             aria-label={label}
         >
             {isZh ? 'EN' : '中文'}

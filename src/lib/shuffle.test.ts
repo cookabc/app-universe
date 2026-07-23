@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { shuffle } from './shuffle.ts'
+import { shuffle, shuffleDifferent } from './shuffle.ts'
 
 test('shuffle returns a new array (does not mutate the input)', () => {
     const input = [1, 2, 3, 4, 5]
@@ -20,4 +20,15 @@ test('shuffle preserves the same multiset of elements', () => {
 test('shuffle handles empty and single-element arrays', () => {
     assert.deepEqual(shuffle([]), [])
     assert.deepEqual(shuffle([42]), [42])
+})
+
+test('shuffleDifferent changes an unchanged shuffle result', () => {
+    const originalRandom = Math.random
+    Math.random = () => 0.999
+
+    try {
+        assert.deepEqual(shuffleDifferent(['a', 'b', 'c'], ['a', 'b', 'c']), ['b', 'c', 'a'])
+    } finally {
+        Math.random = originalRandom
+    }
 })
