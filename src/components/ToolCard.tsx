@@ -15,11 +15,9 @@ interface ToolCardProps {
     onTagClick?: (tag: string) => void
     /** Larger preview + full curator note (featured strip). */
     variant?: 'default' | 'featured'
-    /** Position in a list, shown as a three-digit archive number. */
-    index?: number
 }
 
-export function ToolCard({ tool, onTagClick, variant = 'default', index }: ToolCardProps) {
+export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProps) {
     const { i18n, t, isReady } = useI18nReady()
     const lang = normalizeLanguage(i18n.language)
     const Icon = getIcon(tool.icon)
@@ -74,11 +72,6 @@ export function ToolCard({ tool, onTagClick, variant = 'default', index }: ToolC
                     >
                         <Icon className="h-12 w-12" style={{ color: tool.color }} weight="duotone" />
                     </div>
-                )}
-                {index !== undefined && (
-                    <span className="absolute top-3 left-3 archive-number bg-card px-1.5 py-0.5 border border-border">
-                        No. {String(index + 1).padStart(3, '0')}
-                    </span>
                 )}
             </Link>
 

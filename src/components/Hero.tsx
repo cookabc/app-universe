@@ -21,7 +21,7 @@ export default function Hero() {
             <div className="container max-w-7xl mx-auto px-4 pt-16 pb-14 sm:pt-20 sm:pb-16">
                 <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0">
-                        <p className="archive-number mb-3">Archive of practice — vol. {new Date().getFullYear()}</p>
+                        <p className="index-label mb-3">Archive of practice</p>
                         <h1 className="serif-display text-5xl sm:text-6xl lg:text-7xl leading-[0.95] tracking-tight text-foreground max-w-[14ch]">
                             {title} <em className="italic">{titleAccent}</em>
                         </h1>
