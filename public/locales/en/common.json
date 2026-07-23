@@ -9,15 +9,23 @@
     "home": "Home"
   },
   "hero": {
+    "eyebrow": "Human-curated field guide",
     "title": "Discover tools that",
-    "titleAccent": "actually work",
-    "subtitle": "A curated collection of apps and tools I actually use — for design, productivity, and more.",
-    "cta": "Explore tools",
-    "statsTools": "{{count}}+ tools",
-    "statsTags": "{{count}} tags"
+    "titleAccent": "earn their place.",
+    "subtitle": "A hand-curated field guide for design, code, and creative work—with honest notes on when to use each tool.",
+    "cta": "Explore the archive",
+    "indexTitle": "Archive index",
+    "statsTools": "{{count}} tools",
+    "statsTags": "{{count}} tags",
+    "statsLanguage": "Bilingual",
+    "statsUpdated": "July 2026",
+    "entriesLabel": "Entries",
+    "categoriesLabel": "Categories",
+    "languageLabel": "Language",
+    "statusLabel": "Status"
   },
   "toolsWall": {
-    "searchPlaceholder": "Search tools by name, tag, or keyword...",
+    "searchPlaceholder": "Search by name, tag, note, or domain...",
     "searchAriaLabel": "Search tools",
     "clearSearch": "Clear search",
     "noResults": "No tools found",
@@ -34,18 +42,27 @@
     "sortLabel": "Sort tools",
     "sortCurated": "Curated",
     "sortShuffle": "Shuffle",
-    "featuredTitle": "Featured picks",
-    "featuredSubtitle": "Weekly openers — when, why, and what they replace",
+    "featuredTitle": "Featured selections",
+    "featuredSubtitle": "Tools that consistently earn a place in the workflow",
     "featuredBadge": "Featured",
     "allToolsTitle": "All tools",
     "curatedMeta": "{{count}} tools · updated {{date}}",
-    "details": "Details"
+    "details": "Details",
+    "entryCount": "{{count}} entries",
+    "discoveryLabel": "Discovery controls",
+    "featuredEyebrow": "Curator signal",
+    "allToolsEyebrow": "Complete index"
   },
   "toolDetail": {
     "back": "Back to tools",
     "whyIUseIt": "Why I use it",
     "related": "Related tools",
-    "openSite": "Open site"
+    "openSite": "Open site",
+    "recordLabel": "Archive record · {{id}}",
+    "relatedEyebrow": "Keep exploring"
+  },
+  "footer": {
+    "colophon": "Archive colophon"
   },
   "theme": {
     "system": "System",

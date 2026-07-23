@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { IBM_Plex_Mono, IBM_Plex_Sans, Libre_Caslon_Text } from 'next/font/google'
+import { IBM_Plex_Mono, IBM_Plex_Sans, Plus_Jakarta_Sans } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { AppChrome } from '@/components/AppChrome'
 import { I18nProvider } from '@/components/I18nProvider'
@@ -12,11 +12,10 @@ const plexSans = IBM_Plex_Sans({
     weight: ['400', '500', '600'],
     variable: '--font-sans',
 })
-const libreCaslon = Libre_Caslon_Text({
+const plusJakarta = Plus_Jakarta_Sans({
     subsets: ['latin'],
-    weight: ['400', '700'],
-    style: ['normal', 'italic'],
-    variable: '--font-serif',
+    weight: ['600', '700', '800'],
+    variable: '--font-display',
 })
 const plexMono = IBM_Plex_Mono({
     subsets: ['latin'],
@@ -27,13 +26,13 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
     metadataBase: new URL(SITE_URL),
     title: {
-        default: `${SITE_NAME} — Tools that actually work`,
+        default: `${SITE_NAME} — Tools that earn their place`,
         template: `%s — ${SITE_NAME}`,
     },
     description: SITE_DESCRIPTION,
     applicationName: SITE_NAME,
     openGraph: {
-        title: `${SITE_NAME} — Tools that actually work`,
+        title: `${SITE_NAME} — Tools that earn their place`,
         description: SITE_DESCRIPTION,
         type: 'website',
         url: SITE_URL,
@@ -42,7 +41,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: `${SITE_NAME} — Tools that actually work`,
+        title: `${SITE_NAME} — Tools that earn their place`,
         description: SITE_DESCRIPTION,
     },
     alternates: {
@@ -65,9 +64,9 @@ export default function RootLayout({
     children: React.ReactNode
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning>
+        <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
             <body
-                className={`${plexSans.variable} ${libreCaslon.variable} ${plexMono.variable} antialiased min-w-[320px]`}
+                className={`${plexSans.variable} ${plusJakarta.variable} ${plexMono.variable} antialiased min-w-[320px]`}
             >
                 <a href="#main-content" className="skip-link">
                     Skip to content

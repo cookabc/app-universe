@@ -13,7 +13,7 @@ export default function PrivacyPage() {
             <Link href="/" className="index-label hover:text-foreground transition-colors">
                 ← Back home
             </Link>
-            <h1 className="serif-display text-4xl sm:text-5xl tracking-tight text-foreground mt-6 mb-3">
+            <h1 className="display-heading text-4xl sm:text-5xl tracking-[-0.04em] text-foreground mt-6 mb-3">
                 Privacy Policy
             </h1>
             <p className="index-label mb-10">Last updated — July 17, 2026</p>

@@ -15,9 +15,10 @@ interface ToolCardProps {
     onTagClick?: (tag: string) => void
     /** Larger preview + full curator note (featured strip). */
     variant?: 'default' | 'featured'
+    featuredIndex?: number
 }
 
-export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProps) {
+export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex = 0 }: ToolCardProps) {
     const { i18n, t, isReady } = useI18nReady()
     const lang = normalizeLanguage(i18n.language)
     const Icon = getIcon(tool.icon)
@@ -47,13 +48,24 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
 
     return (
         <article
-            className={`group relative flex flex-col h-full bg-card border border-border transition-shadow hover:shadow-md ${
-                featured ? 'md:col-span-2' : ''
+            className={`tool-card-lift group relative flex h-full flex-col overflow-hidden border-2 border-foreground bg-card ${
+                featured
+                    ? featuredIndex === 0
+                        ? 'lg:col-span-8 lg:grid lg:grid-cols-2'
+                        : featuredIndex === 1
+                          ? 'lg:col-span-4'
+                          : 'lg:col-span-6'
+                    : ''
             }`}
         >
+            {featured && <span className="featured-tab">{isReady ? t('toolsWall.featuredBadge') : 'Featured'}</span>}
             <Link
                 href={detailHref}
-                className={`relative block overflow-hidden bg-muted border-b border-border ${featured ? 'aspect-[2/1]' : 'aspect-[16/10]'}`}
+                className={`relative block overflow-hidden bg-muted ${
+                    featuredIndex === 0 && featured
+                        ? 'min-h-64 border-b-2 border-foreground lg:min-h-full lg:border-r-2 lg:border-b-0'
+                        : `border-b-2 border-foreground ${featured ? 'aspect-[16/9]' : 'aspect-[16/10]'}`
+                }`}
             >
                 {!imgError ? (
                     <img
@@ -75,25 +87,25 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
                 )}
             </Link>
 
-            <div className={`flex flex-col flex-1 ${featured ? 'p-6' : 'p-5'}`}>
+            <div className={`flex flex-1 flex-col ${featured ? 'p-6' : 'p-5'}`}>
                 <div className="flex items-baseline justify-between gap-3">
                     <Link href={detailHref} className="min-w-0">
                         <h3
-                            className={`serif-display text-foreground truncate group-hover:underline underline-offset-4 ${
+                            className={`display-heading text-foreground truncate group-hover:text-primary transition-colors ${
                                 featured ? 'text-2xl' : 'text-xl'
                             }`}
                         >
                             {name}
                         </h3>
                     </Link>
-                    <div className="flex items-center gap-2 flex-shrink-0">
+                    <div className="flex items-center gap-1 flex-shrink-0">
                         {tool.githubUrl && (
                             <a
                                 href={tool.githubUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label={`${githubLabel} (${opensInNewTab})`}
-                                className="text-muted-foreground hover:text-foreground transition-colors"
+                                className="flex h-11 w-11 items-center justify-center border border-border text-muted-foreground hover:border-foreground hover:text-foreground transition-colors"
                             >
                                 <GithubLogoIcon className="h-4 w-4" weight="regular" />
                             </a>
@@ -103,18 +115,20 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={`${visitLabel} (${opensInNewTab})`}
-                            className="text-muted-foreground hover:text-foreground transition-colors"
+                            className="flex h-11 w-11 items-center justify-center bg-primary text-primary-foreground hover:opacity-85 transition-opacity"
                         >
                             <ArrowSquareOutIcon className="h-4 w-4" weight="bold" />
                         </a>
                     </div>
                 </div>
-                <p className="index-label mt-1">{domain}</p>
+                <p className="index-label index-label--primary mt-1">{domain}</p>
 
                 <p className="text-muted-foreground mt-4 text-sm leading-relaxed line-clamp-2 text-pretty">{desc}</p>
 
                 {note && (
-                    <p className="text-sm text-foreground/80 mt-3 leading-relaxed border-l-2 border-accent pl-3 line-clamp-2">
+                    <p
+                        className={`mt-4 border-l-4 border-[hsl(var(--signal))] bg-muted p-3 text-sm leading-relaxed text-foreground/85 ${featured ? 'line-clamp-3' : 'line-clamp-2'}`}
+                    >
                         {note}
                     </p>
                 )}
@@ -130,7 +144,7 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
                                         e.stopPropagation()
                                         onTagClick?.(tag)
                                     }}
-                                    className="index-label hover:text-foreground transition-colors"
+                                    className="index-label inline-flex min-h-8 items-center border border-border px-2 hover:border-foreground hover:text-foreground transition-colors"
                                 >
                                     {tagLabel(tag)}
                                 </button>
@@ -141,7 +155,7 @@ export function ToolCard({ tool, onTagClick, variant = 'default' }: ToolCardProp
                     )}
                     <Link
                         href={detailHref}
-                        className="index-label flex-shrink-0 hover:text-foreground transition-colors"
+                        className="index-label index-label--foreground flex min-h-11 flex-shrink-0 items-center border-b-2 border-foreground hover:border-primary hover:text-primary transition-colors"
                     >
                         {detailsLabel} →
                     </Link>

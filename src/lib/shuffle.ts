@@ -12,3 +12,24 @@ export function shuffle<T>(array: readonly T[]): T[] {
     }
     return result
 }
+
+/**
+ * Shuffles an array and guarantees a visibly different order when at least
+ * two distinct entries are present.
+ */
+export function shuffleDifferent<T>(array: readonly T[], previous: readonly T[]): T[] {
+    const result = shuffle(array)
+    const hasSameOrder =
+        result.length > 1 &&
+        result.length === previous.length &&
+        result.every((item, index) => item === previous[index])
+
+    if (hasSameOrder) {
+        const first = result.shift()
+        if (first !== undefined) {
+            result.push(first)
+        }
+    }
+
+    return result
+}

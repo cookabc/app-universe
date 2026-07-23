@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'App Universe — Tools that actually work'
+export const alt = 'App Universe — Tools that earn their place'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -14,8 +14,8 @@ export default function OpenGraphImage() {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 padding: 80,
-                background: 'linear-gradient(145deg, #0c0d10 0%, #171a21 55%, #1c2430 100%)',
-                color: '#f5f5f4',
+                background: '#F4F3EF',
+                color: '#101114',
                 fontFamily: 'system-ui, sans-serif',
             }}
         >
@@ -31,8 +31,8 @@ export default function OpenGraphImage() {
                     style={{
                         width: 48,
                         height: 48,
-                        borderRadius: 999,
-                        border: '4px solid #f5f5f4',
+                        borderRadius: 4,
+                        border: '4px solid #101114',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -42,18 +42,18 @@ export default function OpenGraphImage() {
                         style={{
                             width: 18,
                             height: 18,
-                            borderRadius: 999,
-                            background: '#f5f5f4',
+                            borderRadius: 2,
+                            background: '#315CFF',
                         }}
                     />
                 </div>
                 <div style={{ fontSize: 28, fontWeight: 600, letterSpacing: -0.5 }}>App Universe</div>
             </div>
             <div style={{ fontSize: 64, fontWeight: 700, lineHeight: 1.05, maxWidth: 900, letterSpacing: -1.5 }}>
-                Tools that actually work
+                Tools that earn their place
             </div>
-            <div style={{ marginTop: 24, fontSize: 28, color: '#a8a29e', maxWidth: 760 }}>
-                A curated collection for design, productivity, animation, and more.
+            <div style={{ marginTop: 24, fontSize: 28, color: '#62636A', maxWidth: 760 }}>
+                Curated signal for design, code, and creative work.
             </div>
         </div>,
         { ...size },
