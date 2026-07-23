@@ -51,6 +51,8 @@ pnpm start
 
 ```
 app-universe/
+├── PROJECT_OVERVIEW.md   # Product content, positioning, and boundaries
+├── DESIGN.md             # Signal Atlas visual and interaction system
 ├── src/
 │   ├── app/              # Next.js App Router (pages, metadata, robots, sitemap)
 │   ├── components/       # React components (ui, layout, features)
