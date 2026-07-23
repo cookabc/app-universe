@@ -37,7 +37,7 @@ export const Footer = () => {
                     </nav>
                 </div>
                 <div className="mt-10 pt-4 border-t border-border flex items-center justify-between">
-                    <p className="archive-number">
+                    <p className="index-label">
                         © {new Date().getFullYear()} {brand}
                     </p>
                     <p className="index-label hidden sm:inline">{tools.length} entries</p>

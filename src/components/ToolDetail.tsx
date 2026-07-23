@@ -57,7 +57,6 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                 <header className="p-6 sm:p-8 border-b border-border space-y-4">
                     <div className="flex items-start justify-between gap-4">
                         <div className="min-w-0 space-y-3">
-                            <p className="archive-number">No. {String(tool.id.padStart?.(3, '0') ?? tool.id)}</p>
                             <h1 className="serif-display text-4xl sm:text-5xl leading-[1.02] tracking-tight text-foreground text-balance">
                                 {name}
                             </h1>

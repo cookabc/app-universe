@@ -17,7 +17,7 @@ export const Header = () => {
                     className="flex items-baseline gap-2 text-foreground hover:opacity-70 transition-opacity"
                 >
                     <span className="serif-display text-lg leading-none">{brand}</span>
-                    <span className="archive-number hidden sm:inline">Archive</span>
+                    <span className="archive-tab hidden sm:inline">Archive</span>
                 </Link>
 
                 <div className="flex items-center gap-3">
