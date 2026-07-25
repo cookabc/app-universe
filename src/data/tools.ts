@@ -545,6 +545,23 @@ const TOOLS: Tool[] = [
             zh: '否则我会写出「那个灰色小控件」时，我先查标准名字。能替代含糊的 Agent 提示。注意：各系统叫法略有差别，但总比「那个玩意儿」强。',
         },
     },
+    {
+        id: 'bestdesignsonx',
+        type: 'link',
+        name: { en: 'BestDesignson X', zh: 'BestDesignson X' },
+        description: {
+            en: 'Hourly updated directory of creatives to discover and follow on X',
+            zh: '按小时更新的 X 平台创意人发现与关注目录',
+        },
+        tags: ['inspiration'],
+        url: 'https://bestdesignsonx.com/',
+        icon: 'Star',
+        color: '#171717',
+        note: {
+            en: 'When I need fresh designer references without chasing algorithm feeds, I browse this hourly digest. Replaces scrolling X hoping to stumble on good work. Caveat: profiles come and go — use it as discovery, not a permanent bookmark list.',
+            zh: '当我需要新鲜的设计师参考、又不想追算法时间线时，我会翻这个小时级合集。能替代在 X 上随缘刷到好作品。注意：主页会变，把它当发现入口，不要当永久书签用。',
+        },
+    },
 ]
 
 export function getAllTags(tools: Tool[]): string[] {
