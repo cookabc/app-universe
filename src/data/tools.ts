@@ -562,6 +562,23 @@ const TOOLS: Tool[] = [
             zh: '当我需要新鲜的设计师参考、又不想追算法时间线时，我会翻这个小时级合集。能替代在 X 上随缘刷到好作品。注意：主页会变，把它当发现入口，不要当永久书签用。',
         },
     },
+    {
+        id: 'cola-skill',
+        type: 'link',
+        name: { en: 'Cola Skill', zh: 'Cola Skill' },
+        description: {
+            en: 'Curated agent skills for design, writing, marketing, and productivity workflows',
+            zh: '精选 Agent 技能库，覆盖设计、写作、营销与效率工作流',
+        },
+        tags: ['ai-agent', 'productivity'],
+        url: 'https://colaskill.com/',
+        icon: 'Star',
+        color: '#c2410c',
+        note: {
+            en: 'When I need a ready-made skill for an agent to handle a specific workflow, I browse this directory first. Replaces building prompts from scratch or keeping scattered skill files. Caveat: skills vary in quality and domain fit — pick one that matches your actual stack and verify before wiring it in.',
+            zh: '当 Agent 需要处理某个具体工作流、我想找现成技能时，我先翻这个目录。能替代从零写提示词或把技能文件东放一个西放一个。注意：技能质量与领域适配度参差不齐，先选和你技术栈匹配的，接进项目前再过一遍。',
+        },
+    },
 ]
 
 export function getAllTags(tools: Tool[]): string[] {
