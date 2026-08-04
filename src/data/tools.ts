@@ -596,6 +596,23 @@ const TOOLS: Tool[] = [
             zh: '当品牌或插画需要真正的中国传统纹样参考时，我先翻这个图鉴。能替代通用素材站或翻故纸堆。注意：纹样是为现代使用做了再诠释的，如果是 heritage 或正式文化项目，先核实文化语境。',
         },
     },
+    {
+        id: 'whatships',
+        type: 'link',
+        name: { en: 'What Ships', zh: 'What Ships' },
+        description: {
+            en: 'A curated edit of startup launch videos, demos, and product walkthroughs from X',
+            zh: '来自 X 的精选创业公司发布视频、产品演示与功能介绍合集',
+        },
+        tags: ['inspiration'],
+        url: 'https://whatships.com/',
+        icon: 'Film',
+        color: '#0f172a',
+        note: {
+            en: 'When I need inspiration for a product launch or demo video, I browse this curated feed first. Replaces scrolling X hoping to catch a good launch post. Caveat: launch videos are ephemeral and trends move fast — use it for inspiration, not as a permanent archive.',
+            zh: '当我要为产品发布或演示视频找灵感时，我先翻这个精选合集。能替代在 X 上随缘刷到好发布。注意：发布视频时效性强、潮流变得快，把它当灵感库用，不要当永久档案。',
+        },
+    },
 ]
 
 export function getAllTags(tools: Tool[]): string[] {
