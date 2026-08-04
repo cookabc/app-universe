@@ -70,13 +70,15 @@ export function ToolGrid() {
 
     return (
         <div className="space-y-20">
-            <section className="discovery-rail -mx-4 px-4 py-5 sm:mx-0 sm:px-5" aria-label={discoveryLabel}>
+            <section className="discovery-rail -mx-4 px-4 py-4 sm:mx-0 sm:px-5" aria-label={discoveryLabel}>
                 <div className="grid gap-4 lg:grid-cols-[minmax(18rem,0.8fr)_minmax(0,1.2fr)] lg:items-center">
                     <SearchBar value={searchQuery} onChange={setSearchQuery} />
-                    <div className="flex flex-col gap-4">
-                        <TagFilter tools={tools} activeTag={activeTag} onTagChange={setActiveTag} />
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
+                        <div className="min-w-0 flex-1">
+                            <TagFilter tools={tools} activeTag={activeTag} onTagChange={setActiveTag} />
+                        </div>
                         <div
-                            className="flex shrink-0 items-center justify-end gap-2 self-start lg:self-end"
+                            className="flex shrink-0 items-center justify-end gap-2 self-start lg:self-start"
                             role="group"
                             aria-label={isReady ? t('toolsWall.sortLabel') : 'Sort tools'}
                         >
