@@ -216,74 +216,6 @@ const TOOLS: Tool[] = [
         },
     },
     {
-        id: 'docu-md',
-        type: 'link',
-        name: { en: 'Docu.md', zh: 'Docu.md' },
-        description: {
-            en: 'One-click Markdown to Word with Mermaid, LaTeX, and charts',
-            zh: '一键将 Markdown 转换为完美 Word 文档',
-        },
-        tags: ['markdown', 'document'],
-        url: 'https://docu.md/',
-        icon: 'BookOpen',
-        color: '#10b981',
-        note: {
-            en: 'When stakeholders only accept .docx, I convert Markdown here in one click. Replaces hand-fixing Word after every edit. Caveat: complex Mermaid/LaTeX still needs a human pass.',
-            zh: '干系人只要 Word 时，我在这里一键把 Markdown 转出去。能替代每次改完手工排 Word。注意：复杂 Mermaid/LaTeX 仍要人工过一眼。',
-        },
-    },
-    {
-        id: 'pmframe',
-        type: 'link',
-        name: { en: 'PMFrame', zh: 'PMFrame' },
-        description: {
-            en: 'Product management framework with 100 principles',
-            zh: '产品管理方法论框架，100 个原则涵盖用户研究与设计思维',
-        },
-        tags: ['productivity', 'business'],
-        url: 'https://pmframe.works/',
-        icon: 'Lightbulb',
-        color: '#f59e0b',
-        note: {
-            en: 'When I need a PM checklist instead of a course, I skim the principles here. Replaces rereading long product books mid-sprint. Caveat: principles are prompts for judgment, not a process religion.',
-            zh: '需要产品清单而不是一门课时，我来扫这些原则。能替代冲刺中途重读大部头。注意：原则是判断提示，不是流程宗教。',
-        },
-    },
-    {
-        id: 'opc-skills',
-        type: 'link',
-        name: { en: 'OPC Skills', zh: '一人企业技能' },
-        description: {
-            en: '9 Agent Skills for building a lightweight personal business',
-            zh: '可执行的一人企业方法论，9 个技能构建个人业务系统',
-        },
-        tags: ['productivity', 'business'],
-        url: 'https://opc-skills.ft07.com/',
-        icon: 'Briefcase',
-        color: '#78716c',
-        note: {
-            en: 'When I am shipping alone and need operator skills, not org charts, I open this. Replaces enterprise playbooks that assume a team of twelve. Caveat: still schedule rest — solo does not mean infinite capacity.',
-            zh: '一个人交付、需要操作技能而不是组织架构时，我打开这里。能替代默认十二人团队的企业手册。注意：一人公司也不是无限产能，休息要排。',
-        },
-    },
-    {
-        id: 'browse-sh',
-        type: 'link',
-        name: { en: 'browse.sh', zh: 'browse.sh' },
-        description: {
-            en: 'Browser CLI for AI agents with open web skill catalog',
-            zh: 'AI 代理浏览器 CLI，开放网页技能目录与自动化原语',
-        },
-        tags: ['ai-agent'],
-        url: 'https://browse.sh/',
-        icon: 'Globe',
-        color: '#3b82f6',
-        note: {
-            en: 'When an agent needs real browser primitives on the open web, I reach for this CLI. Replaces brittle custom puppeteer glue. Caveat: respect site ToS and rate limits — automation is not a free pass.',
-            zh: 'Agent 需要真实浏览器原语爬开网页时，我用这套 CLI。能替代脆弱的自写 puppeteer 胶水。注意：遵守站点条款与限速，自动化不是通行证。',
-        },
-    },
-    {
         id: 'neal-fun',
         type: 'link',
         name: { en: 'Neal.fun', zh: 'Neal.fun' },
@@ -522,23 +454,6 @@ const TOOLS: Tool[] = [
         note: {
             en: 'When I need fresh designer references without chasing algorithm feeds, I browse this hourly digest. Replaces scrolling X hoping to stumble on good work. Caveat: profiles come and go — use it as discovery, not a permanent bookmark list.',
             zh: '当我需要新鲜的设计师参考、又不想追算法时间线时，我会翻这个小时级合集。能替代在 X 上随缘刷到好作品。注意：主页会变，把它当发现入口，不要当永久书签用。',
-        },
-    },
-    {
-        id: 'cola-skill',
-        type: 'link',
-        name: { en: 'Cola Skill', zh: 'Cola Skill' },
-        description: {
-            en: 'Curated agent skills for design, writing, marketing, and productivity workflows',
-            zh: '精选 Agent 技能库，覆盖设计、写作、营销与效率工作流',
-        },
-        tags: ['ai-agent', 'productivity'],
-        url: 'https://colaskill.com/',
-        icon: 'Star',
-        color: '#c2410c',
-        note: {
-            en: 'When I need a ready-made skill for an agent to handle a specific workflow, I browse this directory first. Replaces building prompts from scratch or keeping scattered skill files. Caveat: skills vary in quality and domain fit — pick one that matches your actual stack and verify before wiring it in.',
-            zh: '当 Agent 需要处理某个具体工作流、我想找现成技能时，我先翻这个目录。能替代从零写提示词或把技能文件东放一个西放一个。注意：技能质量与领域适配度参差不齐，先选和你技术栈匹配的，接进项目前再过一遍。',
         },
     },
     {
