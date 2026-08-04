@@ -199,23 +199,6 @@ const TOOLS: Tool[] = [
         },
     },
     {
-        id: 'getdesign-md',
-        type: 'link',
-        name: { en: 'getdesign.md', zh: 'getdesign.md' },
-        description: {
-            en: 'DESIGN.md collection for AI coding agents',
-            zh: 'AI 编码助手设计系统集合，生成高质量 UI',
-        },
-        tags: ['ai-design', 'design-system', 'ai-agent'],
-        url: 'https://getdesign.md/',
-        icon: 'BookOpen',
-        color: '#1b365d',
-        note: {
-            en: 'When agents need a coherent DESIGN.md to inherit, I collect from here. Replaces one-off style notes scattered in chat. Caveat: prune the collection — too many systems becomes none.',
-            zh: 'Agent 需要可继承的 DESIGN.md 时，我从这里收集。能替代散落在聊天里的一次性风格备注。注意：收藏要剪枝，系统太多等于没有系统。',
-        },
-    },
-    {
         id: 'designmd-sh',
         type: 'link',
         name: { en: 'designmd.sh', zh: 'designmd.sh' },
@@ -248,27 +231,6 @@ const TOOLS: Tool[] = [
             en: 'When stakeholders only accept .docx, I convert Markdown here in one click. Replaces hand-fixing Word after every edit. Caveat: complex Mermaid/LaTeX still needs a human pass.',
             zh: '干系人只要 Word 时，我在这里一键把 Markdown 转出去。能替代每次改完手工排 Word。注意：复杂 Mermaid/LaTeX 仍要人工过一眼。',
         },
-    },
-    {
-        id: 'markmark',
-        type: 'link',
-        name: {
-            en: 'MarkMark',
-            zh: 'MarkMark',
-        },
-        description: {
-            en: 'Native macOS Markdown reader with annotation and AI revision workflow',
-            zh: '原生 macOS Markdown 阅读器，支持批注标注并一键交给 AI 修订',
-        },
-        tags: ['markdown', 'document'],
-        url: 'https://markmark.ft07.com/',
-        icon: 'BookOpen',
-        color: '#3b82f6',
-        note: {
-            en: 'When I annotate Markdown on Mac before sending it to AI, I use this native reader. Replaces browser tabs full of half-read drafts. Caveat: macOS-only — not for cross-team shared editing.',
-            zh: '当在 Mac 上批注 Markdown、再丢给 AI 时，我用这个原生阅读器。能替代浏览器里堆着的半读草稿。注意：仅 macOS，不适合跨团队共编。',
-        },
-        githubUrl: 'https://github.com/easychen/markmark',
     },
     {
         id: 'pmframe',
