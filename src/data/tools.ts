@@ -579,6 +579,23 @@ const TOOLS: Tool[] = [
             zh: '当 Agent 需要处理某个具体工作流、我想找现成技能时，我先翻这个目录。能替代从零写提示词或把技能文件东放一个西放一个。注意：技能质量与领域适配度参差不齐，先选和你技术栈匹配的，接进项目前再过一遍。',
         },
     },
+    {
+        id: 'wenyang',
+        type: 'link',
+        name: { en: 'Wenyang', zh: '文样' },
+        description: {
+            en: 'A catalogue of Chinese traditional patterns, redrawn and open-sourced for modern design',
+            zh: '中国传统纹样图鉴，为现代设计重新绘制并开源',
+        },
+        tags: ['inspiration', 'assets'],
+        url: 'https://wenyang.net/',
+        icon: 'Sparkles',
+        color: '#c23a30',
+        note: {
+            en: 'When I need authentic Chinese pattern references for branding or illustration, I browse this catalogue first. Replaces generic pattern sites or digging through historical archives. Caveat: patterns are reinterpreted for modern use — verify cultural context if you are working on heritage or formal projects.',
+            zh: '当品牌或插画需要真正的中国传统纹样参考时，我先翻这个图鉴。能替代通用素材站或翻故纸堆。注意：纹样是为现代使用做了再诠释的，如果是 heritage 或正式文化项目，先核实文化语境。',
+        },
+    },
 ]
 
 export function getAllTags(tools: Tool[]): string[] {
