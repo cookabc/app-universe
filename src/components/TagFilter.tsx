@@ -49,7 +49,7 @@ export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
 
     return (
         <div
-            className="flex gap-2 overflow-x-auto py-1 max-sm:flex-nowrap sm:flex-wrap scrollbar-thin"
+            className="flex gap-2 overflow-x-auto py-1 flex-nowrap scrollbar-thin"
             role="group"
             aria-label={groupLabel}
         >

@@ -78,44 +78,44 @@ export function ToolGrid() {
     return (
         <div className="space-y-20">
             <section className="discovery-rail -mx-4 px-4 py-4 sm:mx-0 sm:px-5" aria-label={discoveryLabel}>
-                <div className="grid gap-4 lg:grid-cols-[minmax(18rem,0.8fr)_minmax(0,1.2fr)] lg:items-center">
-                    <SearchBar value={searchQuery} onChange={setSearchQuery} />
-                    <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
-                        <div className="min-w-0 flex-1">
-                            <TagFilter tools={tools} activeTag={activeTag} onTagChange={setActiveTag} />
-                        </div>
-                        <div
-                            className="flex shrink-0 items-center justify-end gap-2 self-start lg:self-start"
-                            role="group"
-                            aria-label={isReady ? t('toolsWall.sortLabel') : 'Sort tools'}
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
+                    <div className="lg:w-[18rem] lg:shrink-0">
+                        <SearchBar value={searchQuery} onChange={setSearchQuery} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                        <TagFilter tools={tools} activeTag={activeTag} onTagChange={setActiveTag} />
+                    </div>
+                    <div
+                        className="flex shrink-0 items-center gap-2"
+                        role="group"
+                        aria-label={isReady ? t('toolsWall.sortLabel') : 'Sort tools'}
+                    >
+                        <button
+                            type="button"
+                            onClick={handleCuratedSort}
+                            className={`index-label inline-flex min-h-11 items-center gap-1.5 border px-3 transition-colors ${
+                                sortMode === 'curated'
+                                    ? 'index-label--inverse border-foreground bg-foreground'
+                                    : 'border-border bg-card hover:border-foreground hover:text-foreground'
+                            }`}
+                            aria-pressed={sortMode === 'curated'}
                         >
-                            <button
-                                type="button"
-                                onClick={handleCuratedSort}
-                                className={`index-label inline-flex min-h-11 items-center gap-1.5 border px-3 transition-colors ${
-                                    sortMode === 'curated'
-                                        ? 'index-label--inverse border-foreground bg-foreground'
-                                        : 'border-border bg-card hover:border-foreground hover:text-foreground'
-                                }`}
-                                aria-pressed={sortMode === 'curated'}
-                            >
-                                <SortAscendingIcon className="h-3.5 w-3.5" weight="bold" />
-                                {curatedLabel}
-                            </button>
-                            <button
-                                type="button"
-                                onClick={handleShuffleSort}
-                                className={`index-label inline-flex min-h-11 items-center gap-1.5 border px-3 transition-colors ${
-                                    sortMode === 'shuffle'
-                                        ? 'index-label--inverse border-foreground bg-foreground'
-                                        : 'border-border bg-card hover:border-foreground hover:text-foreground'
-                                }`}
-                                aria-pressed={sortMode === 'shuffle'}
-                            >
-                                <ShuffleIcon className="h-3.5 w-3.5" weight="bold" />
-                                {shuffleLabel}
-                            </button>
-                        </div>
+                            <SortAscendingIcon className="h-3.5 w-3.5" weight="bold" />
+                            {curatedLabel}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleShuffleSort}
+                            className={`index-label inline-flex min-h-11 items-center gap-1.5 border px-3 transition-colors ${
+                                sortMode === 'shuffle'
+                                    ? 'index-label--inverse border-foreground bg-foreground'
+                                    : 'border-border bg-card hover:border-foreground hover:text-foreground'
+                            }`}
+                            aria-pressed={sortMode === 'shuffle'}
+                        >
+                            <ShuffleIcon className="h-3.5 w-3.5" weight="bold" />
+                            {shuffleLabel}
+                        </button>
                     </div>
                 </div>
             </section>
