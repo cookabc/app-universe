@@ -540,4 +540,73 @@ export function getRelatedTools(tool: Tool, limit = 3): Tool[] {
         .map(({ candidate }) => candidate)
 }
 
+export type ToolCategory = 'design' | 'games' | 'other'
+
+export const CATEGORY_ORDER: ToolCategory[] = ['design', 'games', 'other']
+
+export const CATEGORY_LABELS: Record<ToolCategory, { en: string; zh: string; eyebrow: { en: string; zh: string } }> = {
+    design: {
+        en: 'Design',
+        zh: '设计',
+        eyebrow: { en: 'Visual craft', zh: '视觉工艺' },
+    },
+    games: {
+        en: 'Games',
+        zh: '游戏',
+        eyebrow: { en: 'Play & systems', zh: '玩法与系统' },
+    },
+    other: {
+        en: 'Else',
+        zh: '其他',
+        eyebrow: { en: 'Discovery feed', zh: '发现源' },
+    },
+}
+
+export const TOOL_CATEGORY: Record<string, ToolCategory> = {
+    'open-design': 'design',
+    'zhongguo-colors': 'design',
+    'paper-shaders': 'design',
+    designprompts: 'design',
+    motionsites: 'design',
+    impeccable: 'design',
+    yeguozi: 'design',
+    'magic-slide': 'design',
+    kami: 'design',
+    'taste-skill': 'design',
+    'designmd-sh': 'design',
+    timing: 'design',
+    'craftwork-websites': 'design',
+    onepagelove: 'design',
+    'component-gallery': 'design',
+    mobbin: 'design',
+    'rebrand-gallery': 'design',
+    '60fps': 'design',
+    'before-click': 'design',
+    feralui: 'design',
+    namethatui: 'design',
+    wenyang: 'design',
+    'neal-fun': 'games',
+    astrocade: 'games',
+    kenney: 'games',
+    bestdesignsonx: 'other',
+    whatships: 'other',
+}
+
+export function getToolCategory(tool: Tool): ToolCategory {
+    return TOOL_CATEGORY[tool.id] ?? 'other'
+}
+
+export function groupToolsByCategory(list: Tool[]): Record<ToolCategory, Tool[]> {
+    const grouped: Record<ToolCategory, Tool[]> = {
+        design: [],
+        games: [],
+        other: [],
+    }
+    for (const tool of list) {
+        const category = getToolCategory(tool)
+        grouped[category].push(tool)
+    }
+    return grouped
+}
+
 export default TOOLS
