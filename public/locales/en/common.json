@@ -81,22 +81,10 @@
     "cta": "Go back home"
   },
   "tags": {
-    "ai-agent": "AI Agent",
-    "ai-design": "AI Design",
-    "animation": "Animation",
-    "assets": "Assets",
-    "branding": "Branding",
-    "business": "Business",
-    "color": "Color",
-    "design-system": "Design System",
-    "document": "Document",
-    "frontend": "Frontend",
-    "fun": "Fun",
+    "ai": "AI",
+    "design": "Design",
     "games": "Games",
-    "inspiration": "Inspiration",
-    "markdown": "Markdown",
-    "presentation": "Presentation",
-    "productivity": "Productivity",
-    "prompts": "Prompts"
+    "motion": "Motion",
+    "ui": "UI"
   }
 }

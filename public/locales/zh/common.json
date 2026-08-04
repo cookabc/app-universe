@@ -81,22 +81,10 @@
     "cta": "返回首页"
   },
   "tags": {
-    "ai-agent": "AI Agent",
-    "ai-design": "AI 设计",
-    "animation": "动效",
-    "assets": "素材",
-    "branding": "品牌",
-    "business": "商业",
-    "color": "色彩",
-    "design-system": "设计系统",
-    "document": "文档",
-    "frontend": "前端",
-    "fun": "趣味",
+    "ai": "AI",
+    "design": "设计",
     "games": "游戏",
-    "inspiration": "灵感",
-    "markdown": "Markdown",
-    "presentation": "演示",
-    "productivity": "效率",
-    "prompts": "提示词"
+    "motion": "动效",
+    "ui": "UI"
   }
 }
