@@ -21,7 +21,7 @@
     "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-tooltip": "^1.2.16",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.43.0",
+    "framer-motion": "^13.0.0",
     "i18next": "^26.3.6",
     "i18next-browser-languagedetector": "^8.2.1",
     "next": "^16.3.0",
@@ -33,15 +33,15 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.7",
-    "@happy-dom/global-registrator": "^20.11.1",
+    "@happy-dom/global-registrator": "^20.11.2",
     "@tailwindcss/postcss": "^4.3.3",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
-    "@types/node": "^26.1.2",
+    "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
-    "happy-dom": "^20.11.1",
-    "postcss": "^8.5.25",
+    "happy-dom": "^20.11.2",
+    "postcss": "^8.5.26",
     "tailwindcss": "^4.3.3",
     "typescript": "7.0.2"
   }
