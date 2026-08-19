@@ -490,6 +490,23 @@ const TOOLS: Tool[] = [
             zh: '当我要为产品发布或演示视频找灵感时，我先翻这个精选合集。能替代在 X 上随缘刷到好发布。注意：发布视频时效性强、潮流变得快，把它当灵感库用，不要当永久档案。',
         },
     },
+    {
+        id: 'inspora',
+        type: 'link',
+        name: { en: 'Inspora', zh: 'Inspora' },
+        description: {
+            en: 'A curated archive of recent visual design and creative work, updated hourly',
+            zh: '按小时更新的近期视觉设计与创意作品精选档案库',
+        },
+        tags: ['design'],
+        url: 'https://www.inspora.design/',
+        icon: 'Sparkles',
+        color: '#0ea5e9',
+        note: {
+            en: 'When I need to see what design work shipped this week across disciplines, I let this hourly archive run. Replaces scrolling scattered X and Dribbble tabs hoping to catch something current. Caveat: “recent” is not “best” - treat it as a pulse check, not a canon.',
+            zh: '想看本周各学科都上线了什么设计作品时，我让这个小时级档案跑着。能替代在各路 X 和 Dribbble 标签页里随缘刷当下。注意：「近期」不等于「最好」，当脉搏看，别当经典。',
+        },
+    },
 ]
 
 export function getAllTags(tools: Tool[]): string[] {
@@ -590,6 +607,7 @@ export const TOOL_CATEGORY: Record<string, ToolCategory> = {
     kenney: 'games',
     bestdesignsonx: 'other',
     whatships: 'other',
+    inspora: 'design',
 }
 
 export function getToolCategory(tool: Tool): ToolCategory {
