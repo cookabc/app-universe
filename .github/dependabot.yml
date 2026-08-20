@@ -1,0 +1,23 @@
+# 依赖更新策略：patch/minor 自动合并、major 交人工（见 dependency-upgrade-handbook.md）
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "chore(deps)"
+    versioning-strategy: increase
+    update-types:
+      - "version-update:semver-patch"
+      - "version-update:semver-minor"
+    groups:
+      patch-minor:
+        patterns:
+          - "*"
+        update-types:
+          - "version-update:semver-patch"
+          - "version-update:semver-minor"
