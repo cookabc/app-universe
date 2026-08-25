@@ -22,6 +22,27 @@ export default function NotFound() {
                 >
                     {isReady ? t('notFound.cta') : 'Go back home'} →
                 </Link>
+                <nav aria-label="Site resources" className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-2">
+                    <span className="index-label">{isReady ? t('notFound.resources') : 'Site resources'}</span>
+                    <a
+                        href="/sitemap.xml"
+                        className="index-label inline-block pb-1 border-b border-transparent hover:border-foreground hover:text-foreground transition-colors"
+                    >
+                        sitemap.xml
+                    </a>
+                    <a
+                        href="/llms.txt"
+                        className="index-label inline-block pb-1 border-b border-transparent hover:border-foreground hover:text-foreground transition-colors"
+                    >
+                        llms.txt
+                    </a>
+                    <a
+                        href="/tools.json"
+                        className="index-label inline-block pb-1 border-b border-transparent hover:border-foreground hover:text-foreground transition-colors"
+                    >
+                        tools.json
+                    </a>
+                </nav>
             </div>
         </section>
     )
