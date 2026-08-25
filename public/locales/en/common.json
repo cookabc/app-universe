@@ -78,7 +78,8 @@
     "code": "404",
     "title": "Page not found",
     "body": "The page you are looking for does not exist or has been moved.",
-    "cta": "Go back home"
+    "cta": "Go back home",
+    "resources": "Site resources"
   },
   "tags": {
     "ai": "AI",

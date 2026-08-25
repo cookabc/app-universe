@@ -80,6 +80,18 @@ Each tool also has a static detail page at `/t/{id}` (e.g. `/t/namethatui`) with
 
 Canonical site URL for SEO metadata is `src/lib/site.ts`.
 
+## Agent & Machine-Readable Surface
+
+| Resource | Description |
+|----------|-------------|
+| `/llms.txt` | Agent guide following [llmstxt.org](https://llmstxt.org): site summary plus links to every tool page and machine-readable resource |
+| `/tools.json` | Full structured catalog of every tool (bilingual names/descriptions/notes, tags, URLs) |
+| `Accept: text/markdown` | Any page answers with Markdown when requested with this header (content negotiation via `src/proxy.ts`, served by `/api/markdown`) |
+| `/api/markdown?path={path}` | Headerless alternative: Markdown for any page path |
+| Unknown paths | Return a real HTTP 404; agents sending `Accept: text/markdown` get a Markdown body linking to sitemap, llms.txt, and tools.json |
+
+Markdown generation lives in `src/lib/markdown.ts`; homepage JSON-LD identity (`WebSite` + `Organization`) in `src/lib/structured-data.ts`.
+
 ## License
 
 See [LICENSE](./LICENSE).
