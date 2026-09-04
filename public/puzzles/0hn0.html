@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>0h n0 · 哦诺</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="index.html">← 返回</a>
+  <div class="title">0 h &nbsp; n 0</div>
+  <div class="stat" id="timer">00:00</div>
+</div>
+<div class="stage">
+  <div class="row">
+    <select id="size"></select>
+    <button class="btn" id="new">新 游 戏</button>
+  </div>
+  <div id="grid" class="tgrid"></div>
+  <div class="stat" id="msg"></div>
+  <div class="hint">点按空格：未知 → 黑点 → 白块 → 未知（右键反向）。<br>
+    黑点的数字 = 它在上下左右四个方向上、被白块挡住之前能看到的黑点总数。<br>
+    带小圆点的格子是给定的。让所有给定数字成立，并填满整个方阵。</div>
+</div>
+<script src="js/ohn0.js"></script>
+</body>
+</html>

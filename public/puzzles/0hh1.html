@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>0h h1 · 哦嗨</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="index.html">← 返回</a>
+  <div class="title">0 h &nbsp; h 1</div>
+  <div class="stat" id="timer">00:00</div>
+</div>
+<div class="stage">
+  <div class="row">
+    <select id="size"></select>
+    <button class="btn" id="new">新 游 戏</button>
+  </div>
+  <div id="grid" class="tgrid"></div>
+  <div class="stat" id="msg"></div>
+  <div class="hint" id="rules"></div>
+</div>
+<script src="js/takuzu.js"></script>
+<script>
+mountTakuzu({
+  key: 'ohh1',
+  skin: 'blocks',
+  sizes: [4, 6, 8, 10],
+  def: 6,
+  rules: '点按格子：空格 → 黑 → 白 → 空格（右键反向）。规则：每行每列黑白数量相同；任何方向不得三连同色；不得出现完全相同的两行或两列。带小圆点的是给定格。'
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>black · 黑</title>
+<link rel="stylesheet" href="style.css">
+<style>
+#mapPanel{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;max-width:430px;width:100%;}
+#mapPanel.hide{display:none;}
+#mapPanel button{aspect-ratio:1;border:1px solid #444;background:#000;color:#fff;cursor:pointer;font-size:12px;font-family:inherit;border-radius:2px;}
+#mapPanel button.done{background:#fff;color:#000;border-color:#fff;}
+#mapPanel button.cur{outline:2px solid #fff;outline-offset:2px;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="index.html">← 返回</a>
+  <div class="title">B L A C K</div>
+  <div class="stat" id="lvl">1 / 50</div>
+</div>
+<div class="stage">
+  <canvas id="cv" width="750" height="750"></canvas>
+  <div class="hint" id="hint"></div>
+  <div class="row">
+    <button class="btn ghost" id="prev">‹ 上一关</button>
+    <button class="btn ghost" id="re">重玩本关</button>
+    <button class="btn ghost" id="next">下一关 ›</button>
+    <button class="btn ghost" id="map">选关</button>
+  </div>
+  <div id="mapPanel" class="hide"></div>
+  <div class="hint">唯一的目标：让整个屏幕变成纯黑色。每一关的玩法都不一样。</div>
+</div>
+<script src="js/black.js"></script>
+</body>
+</html>

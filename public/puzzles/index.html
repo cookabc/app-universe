@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="dark">
+<title>黑白谜题集 · B/W Puzzles</title>
+<style>
+:root{--bg:#000;--fg:#fff;--gray:#888;--dim:#1c1c1c;--line:#333;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{color-scheme:dark;}
+body{background:var(--bg);color:var(--fg);font-family:-apple-system,"PingFang SC","Helvetica Neue",Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+.hero{width:100%;max-width:820px;padding:56px 20px 8px;text-align:center;}
+.hero h1{font-size:clamp(26px,6vw,40px);letter-spacing:.5em;text-indent:.5em;font-weight:800;}
+.hero .sub{margin-top:14px;font-size:12px;letter-spacing:.4em;text-indent:.4em;opacity:.45;}
+.rule{width:56px;height:1px;background:var(--fg);opacity:.6;margin:26px auto 0;}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:100%;max-width:820px;padding:40px 20px 16px;}
+@media (max-width:640px){.grid{grid-template-columns:1fr;}}
+.card{border:1px solid var(--line);padding:22px 22px 18px;display:flex;flex-direction:column;gap:10px;min-height:150px;transition:background .15s,color .15s,border-color .15s,transform .12s;}
+.card:hover,.card:focus-visible{background:var(--fg);color:var(--bg);border-color:var(--fg);}
+.card:active{transform:scale(.985);}
+.card:focus-visible{outline:2px solid var(--fg);outline-offset:3px;}
+.card .no{font-size:11px;letter-spacing:.3em;opacity:.5;font-variant-numeric:tabular-nums;}
+.card h2{font-size:17px;letter-spacing:.22em;font-weight:800;}
+.card .en{font-size:11px;letter-spacing:.3em;opacity:.55;}
+.card p{font-size:12.5px;line-height:1.8;opacity:.65;flex:1;}
+.card .meta{font-size:10.5px;letter-spacing:.22em;opacity:.45;border-top:1px solid currentColor;padding-top:9px;}
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>黑 白 谜 题 集</h1>
+  <div class="sub">B / W &nbsp;P U Z Z L E S</div>
+  <div class="rule"></div>
+</header>
+
+<main class="grid">
+  <a class="card" href="/puzzles/black.html">
+    <span class="no">01</span>
+    <h2>black · 黑</h2>
+    <span class="en">BART BONTE TRIBUTE</span>
+    <p>50 个关卡，每一关机制完全不同——点击、按住、涂抹、翻转、记忆、追逐……唯一目标：让整个屏幕变成纯黑。进度自动保存。</p>
+    <span class="meta">50 LEVELS · CANVAS</span>
+  </a>
+  <a class="card" href="/puzzles/0hh1.html">
+    <span class="no">02</span>
+    <h2>0h h1 · 哦嗨</h2>
+    <span class="en">TAKUZU</span>
+    <p>最纯净的数独变体：填满方阵，每行每列黑白各半、无三连同色、无重复行列。实时错误高亮，附计时。</p>
+    <span class="meta">4×4 – 10×10</span>
+  </a>
+  <a class="card" href="/puzzles/0hn0.html">
+    <span class="no">03</span>
+    <h2>0h n0 · 哦诺</h2>
+    <span class="en">COUNT &amp; SEE</span>
+    <p>黑色数字点能在被白块挡住前看到多少同类？根据数字推理出每个格子的黑白归属。</p>
+    <span class="meta">5×5 – 9×9</span>
+  </a>
+  <a class="card" href="/puzzles/iteration.html">
+    <span class="no">04</span>
+    <h2>黑白迭代</h2>
+    <span class="en">LIGHTS OUT</span>
+    <p>最强大脑同款。点击方块会连同上下左右一起反转黑白，用逆向思维拼出目标图形；图案由随机操作生成，保证有解。</p>
+    <span class="meta">3×3 – 5×5</span>
+  </a>
+  <a class="card" href="/puzzles/binary.html">
+    <span class="no">05</span>
+    <h2>Binary</h2>
+    <span class="en">SIMON TATHAM</span>
+    <p>神级开源谜题集同款二进制矩阵，纯靠 0 与 1 的逻辑排他性解题，附计时器，极客最爱。</p>
+    <span class="meta">0 / 1 MATRIX</span>
+  </a>
+  <a class="card" href="/puzzles/nonogram.html">
+    <span class="no">06</span>
+    <h2>Nonogram · 数织</h2>
+    <span class="en">PIXEL LOGIC</span>
+    <p>边缘数字代表连续黑块长度。支持拖动填充与 × 标记，完成行列自动划线，在纯黑白之间用逻辑“作画”。</p>
+    <span class="meta">6 PATTERNS + 12×12</span>
+  </a>
+</main>
+</body>
+</html>
