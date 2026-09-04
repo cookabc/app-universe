@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Nonogram · 数织</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="index.html">← 返回</a>
+  <div class="title">数 织</div>
+  <div class="stat" id="pinfo"></div>
+</div>
+<div class="stage">
+  <div class="row">
+    <select id="pz"></select>
+    <button class="btn" id="modeFill">■ 填充</button>
+    <button class="btn ghost" id="modeX">× 标记</button>
+    <button class="btn ghost" id="clear">清 空</button>
+  </div>
+  <div class="nwrap"><div id="grid" class="ngrid"></div></div>
+  <div class="stat" id="msg"></div>
+  <div class="hint">边缘数字表示该行/列中连续黑块的长度。左键（或「填充」模式）涂黑，右键（或「标记」模式）打 ×，支持按住拖动连续操作。</div>
+</div>
+<script src="js/nonogram.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Binary · Simon Tatham 风格</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="index.html">← 返回</a>
+  <div class="title">B I N A R Y</div>
+  <div class="stat" id="timer">00:00</div>
+</div>
+<div class="stage">
+  <div class="row">
+    <select id="size"></select>
+    <button class="btn" id="new">新 游 戏</button>
+  </div>
+  <div id="grid" class="tgrid"></div>
+  <div class="stat" id="msg"></div>
+  <div class="hint" id="rules"></div>
+</div>
+<script src="js/takuzu.js"></script>
+<script>
+mountTakuzu({
+  key: 'binary',
+  skin: 'digits',
+  sizes: [4, 6, 8, 10],
+  def: 8,
+  rules: 'Simon Tatham\'s Puzzles 同款。左键循环填入 1 / 0，右键反向。规则：每行每列 0 和 1 数量相同；不得三个相同数字相连；不得有完全相同的两行或两列。带小圆点的为给定数字。'
+});
+</script>
+</body>
+</html>

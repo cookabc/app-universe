@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>黑白迭代</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="index.html">← 返回</a>
+  <div class="title">黑 白 迭 代</div>
+  <div class="stat" id="moves">0 步</div>
+</div>
+<div class="stage">
+  <div class="iter-wrap">
+    <div id="board" class="igrid"></div>
+    <div class="side">
+      <div class="lab">目 标 图 形</div>
+      <div id="target" class="igrid small"></div>
+      <div class="stat" id="msg"></div>
+    </div>
+  </div>
+  <div class="row">
+    <select id="size">
+      <option value="3">3 × 3</option>
+      <option value="4" selected>4 × 4</option>
+      <option value="5">5 × 5</option>
+    </select>
+    <button class="btn" id="new">新 图 案</button>
+    <button class="btn ghost" id="reset">重 置</button>
+  </div>
+  <div class="hint">点击任意方块，它与上下左右的方块一起黑白反转。<br>让左侧大棋盘变成右侧的目标图形。每个图案都保证有解。</div>
+</div>
+<script src="js/iteration.js"></script>
+</body>
+</html>
