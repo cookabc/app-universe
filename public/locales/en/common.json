@@ -51,7 +51,11 @@
     "entryCount": "{{count}} entries",
     "discoveryLabel": "Discovery controls",
     "featuredEyebrow": "Curator signal",
-    "allToolsEyebrow": "Complete index"
+    "allToolsEyebrow": "Complete index",
+    "signalMap": "Signal map",
+    "signalMapHint": "This order is reproducible — share the link",
+    "copyLink": "Copy link",
+    "linkCopied": "Copied"
   },
   "toolDetail": {
     "back": "Back to tools",
@@ -59,7 +63,12 @@
     "related": "Related tools",
     "openSite": "Open site",
     "recordLabel": "Archive record · {{id}}",
-    "relatedEyebrow": "Keep exploring"
+    "relatedEyebrow": "Keep exploring",
+    "copyNote": "Copy note",
+    "noteCopied": "Copied",
+    "curatorAttribution": "Curator's note · {{domain}}",
+    "copyImage": "Copy as image",
+    "imageDone": "Image ready"
   },
   "footer": {
     "colophon": "Archive colophon"

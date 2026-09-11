@@ -1,14 +1,23 @@
 'use client'
 
-import { ArrowLeftIcon, ArrowSquareOutIcon, GithubLogoIcon } from '@phosphor-icons/react'
+import {
+    ArrowLeftIcon,
+    ArrowSquareOutIcon,
+    CheckIcon,
+    CopyIcon,
+    GithubLogoIcon,
+    ImageIcon,
+} from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useState } from 'react'
+import { CuratorNote } from '@/components/CuratorNote'
 import { normalizeLanguage } from '@/components/I18nProvider'
 import type { Tool } from '@/data/tools'
-import { formatTag, getToolPath } from '@/data/tools'
+import { formatTag, formatToolNumber, getToolNumber, getToolPath } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
 import { getDomain } from '@/lib/filter-tools'
 import { getIcon } from '@/lib/icon-map'
+import { copyCanvasAsImage, renderNoteCard } from '@/lib/note-card-image'
 
 interface ToolDetailProps {
     tool: Tool
@@ -21,6 +30,8 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
     const Icon = getIcon(tool.icon)
     const [imgError, setImgError] = useState(false)
     const [relatedImgError, setRelatedImgError] = useState<Record<string, boolean>>({})
+    const [noteCopied, setNoteCopied] = useState(false)
+    const [imageState, setImageState] = useState<'idle' | 'rendering' | 'done'>('idle')
 
     const name = tool.name[lang] || tool.name.en
     const desc = tool.description[lang] || tool.description.en
@@ -35,6 +46,44 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
     const openExternal = isReady ? t('toolDetail.openSite') : 'Open site'
     const recordLabel = isReady ? t('toolDetail.recordLabel', { id: tool.id }) : `Archive record · ${tool.id}`
     const relatedEyebrow = isReady ? t('toolDetail.relatedEyebrow') : 'Keep exploring'
+    const copyNoteLabel = isReady ? t('toolDetail.copyNote') : 'Copy note'
+    const noteCopiedLabel = isReady ? t('toolDetail.noteCopied') : 'Copied'
+    const copyImageLabel = isReady ? t('toolDetail.copyImage') : 'Copy as image'
+    const imageDoneLabel = isReady ? t('toolDetail.imageDone') : 'Image ready'
+    const curatorAttribution = isReady ? t('toolDetail.curatorAttribution', { domain }) : `Curator's note · ${domain}`
+    const attributionLabel = curatorAttribution.split('·')[0].trim()
+
+    const handleCopyNote = async () => {
+        if (!note) return
+        try {
+            await navigator.clipboard.writeText(`${name} — ${note}`)
+            setNoteCopied(true)
+            setTimeout(() => setNoteCopied(false), 2000)
+        } catch {
+            // Clipboard unavailable (permissions / non-secure context); keep quiet.
+        }
+    }
+
+    const handleCopyImage = async () => {
+        if (!note || imageState === 'rendering') return
+        setImageState('rendering')
+        try {
+            const canvas = await renderNoteCard({
+                name,
+                note,
+                domain,
+                color: tool.color,
+                label: whyLabel,
+                attributionLabel,
+                brand: 'App Universe',
+            })
+            await copyCanvasAsImage(canvas, `${tool.id}-note.png`)
+            setImageState('done')
+            setTimeout(() => setImageState('idle'), 2000)
+        } catch {
+            setImageState('idle')
+        }
+    }
 
     const tagLabel = (tag: string) => {
         if (isReady) {
@@ -57,7 +106,9 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
 
             <section className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-8">
                 <div className="min-w-0 lg:col-span-5 lg:sticky lg:top-24">
-                    <p className="index-label index-label--accent mb-5">{recordLabel}</p>
+                    <p className="index-label index-label--accent mb-5">
+                        {formatToolNumber(getToolNumber(tool.id))} · {recordLabel}
+                    </p>
                     <h1 className="display-heading max-w-full text-[clamp(2.75rem,4vw,4rem)] leading-[0.96] tracking-[-0.045em] text-foreground [overflow-wrap:anywhere]">
                         {name}
                     </h1>
@@ -76,15 +127,44 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                         ))}
                     </div>
                     {note ? (
-                        <section
-                            className="mt-10 border-l-4 border-[hsl(var(--signal))] bg-card p-5"
-                            aria-labelledby="why-heading"
-                        >
-                            <h2 id="why-heading" className="index-label index-label--signal mb-3">
-                                {whyLabel}
-                            </h2>
-                            <p className="text-base leading-relaxed text-foreground/90 text-pretty">{note}</p>
-                        </section>
+                        <div className="mt-10">
+                            <CuratorNote
+                                note={note}
+                                label={whyLabel}
+                                attribution={curatorAttribution}
+                                action={
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            type="button"
+                                            onClick={handleCopyNote}
+                                            className="index-label index-label--foreground inline-flex min-h-11 items-center gap-1.5 border border-border bg-background px-3 hover:border-foreground transition-colors"
+                                            aria-live="polite"
+                                        >
+                                            {noteCopied ? (
+                                                <CheckIcon className="h-3.5 w-3.5" weight="bold" />
+                                            ) : (
+                                                <CopyIcon className="h-3.5 w-3.5" weight="bold" />
+                                            )}
+                                            {noteCopied ? noteCopiedLabel : copyNoteLabel}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={handleCopyImage}
+                                            disabled={imageState === 'rendering'}
+                                            className="index-label inline-flex min-h-11 items-center gap-1.5 border border-foreground bg-foreground px-3 text-background hover:bg-primary hover:border-primary disabled:opacity-60 transition-colors"
+                                            aria-live="polite"
+                                        >
+                                            {imageState === 'done' ? (
+                                                <CheckIcon className="h-3.5 w-3.5" weight="bold" />
+                                            ) : (
+                                                <ImageIcon className="h-3.5 w-3.5" weight="bold" />
+                                            )}
+                                            {imageState === 'done' ? imageDoneLabel : copyImageLabel}
+                                        </button>
+                                    </div>
+                                }
+                            />
+                        </div>
                     ) : null}
                 </div>
 

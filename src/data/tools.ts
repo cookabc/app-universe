@@ -541,6 +541,15 @@ export function getToolPath(id: string): string {
     return `/t/${id}`
 }
 
+/** 1-based position in the curated archive order; 0 when the id is unknown. */
+export function getToolNumber(id: string): number {
+    return TOOLS.findIndex((tool) => tool.id === id) + 1
+}
+
+export function formatToolNumber(n: number): string {
+    return `№ ${String(n).padStart(3, '0')}`
+}
+
 /** Other tools sharing at least one tag, featured first, then by tag overlap. */
 export function getRelatedTools(tool: Tool, limit = 3): Tool[] {
     const tags = new Set(tool.tags)
