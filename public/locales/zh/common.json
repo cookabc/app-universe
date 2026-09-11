@@ -51,7 +51,11 @@
     "entryCount": "{{count}} 个条目",
     "discoveryLabel": "工具发现与筛选",
     "featuredEyebrow": "策展信号",
-    "allToolsEyebrow": "完整索引"
+    "allToolsEyebrow": "完整索引",
+    "signalMap": "信号地图",
+    "signalMapHint": "此排序可复现，分享链接即可还原",
+    "copyLink": "复制链接",
+    "linkCopied": "已复制"
   },
   "toolDetail": {
     "back": "返回工具墙",
@@ -59,7 +63,12 @@
     "related": "相关工具",
     "openSite": "打开网站",
     "recordLabel": "档案记录 · {{id}}",
-    "relatedEyebrow": "继续探索"
+    "relatedEyebrow": "继续探索",
+    "copyNote": "复制备注",
+    "noteCopied": "已复制",
+    "curatorAttribution": "策展备注 · {{domain}}",
+    "copyImage": "复制为图片",
+    "imageDone": "图片已就绪"
   },
   "footer": {
     "colophon": "档案说明"
