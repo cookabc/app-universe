@@ -426,6 +426,24 @@
         font-weight: 800;
     }
 
+    .marker-highlight {
+        display: inline-block;
+        padding: 0.04em 0.12em 0.07em;
+        border: 0.03em solid hsl(var(--foreground));
+        background-color: hsl(var(--accent));
+        color: hsl(var(--accent-foreground));
+        box-shadow: 0.05em 0.05em 0 hsl(var(--foreground));
+        transform: rotate(-1.5deg);
+    }
+
+    .mosaic-caption {
+        font-family: var(--font-jetbrains-mono), monospace;
+        font-size: 0.5625rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
     .measure {
         max-width: 65ch;
     }

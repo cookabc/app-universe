@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { normalizeLanguage } from '@/components/I18nProvider'
 import type { Tool } from '@/data/tools'
-import { formatTag, getToolPath } from '@/data/tools'
+import { formatTag, formatToolNumber, getToolNumber, getToolPath } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
 import { getDomain } from '@/lib/filter-tools'
 import { getIcon } from '@/lib/icon-map'
@@ -121,7 +121,9 @@ export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex 
                         </a>
                     </div>
                 </div>
-                <p className="index-label index-label--primary mt-1">{domain}</p>
+                <p className="index-label index-label--primary mt-1">
+                    {formatToolNumber(getToolNumber(tool.id))} · {domain}
+                </p>
 
                 <p className="text-muted-foreground mt-4 text-sm leading-relaxed line-clamp-2 text-pretty">{desc}</p>
 
