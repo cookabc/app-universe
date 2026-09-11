@@ -26,7 +26,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     // Keep primary meta English for crawlers; include Chinese in OG for bilingual shares.
     const description = descriptionEn === descriptionZh ? descriptionEn : `${descriptionEn} / ${descriptionZh}`
     const path = `/t/${tool.id}`
-    const preview = `${SITE_URL}/previews/${tool.id}.png`
     const fullTitle = title === titleZh ? title : `${title} · ${titleZh}`
 
     return {
@@ -41,13 +40,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             locale: 'en_US',
             alternateLocale: ['zh_CN'],
             siteName: SITE_NAME,
-            images: [{ url: preview, width: 1200, height: 630, alt: `${title} preview` }],
         },
         twitter: {
             card: 'summary_large_image',
             title: `${fullTitle} — ${SITE_NAME}`,
             description,
-            images: [preview],
         },
     }
 }
