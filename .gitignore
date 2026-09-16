@@ -45,4 +45,5 @@ next-env.d.ts
 .cursor/
 .agent/
 .zcode/
+.workbuddy-ai/
 
