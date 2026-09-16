@@ -507,6 +507,23 @@ const TOOLS: Tool[] = [
             zh: '想看本周各学科都上线了什么设计作品时，我让这个小时级档案跑着。能替代在各路 X 和 Dribbble 标签页里随缘刷当下。注意：「近期」不等于「最好」，当脉搏看，别当经典。',
         },
     },
+    {
+        id: 'libraries-dev',
+        type: 'link',
+        name: { en: 'Libraries.dev', zh: 'Libraries.dev' },
+        description: {
+            en: 'High-crafted UI effect libraries that ship as copy-paste prompts for coding agents',
+            zh: '为 AI 编码代理打造的高质量 UI 特效库，以提示词形式交付，复制即用',
+        },
+        tags: ['ai', 'ui', 'motion'],
+        url: 'https://libraries.dev/#components',
+        icon: 'Sparkles',
+        color: '#7c3aed',
+        note: {
+            en: 'When an agent-built interface looks generic and needs one signature motion, I hand it a prompt from here. Replaces hand-rolling loading and hover effects that never feel finished. Caveat: five effects only - pick the one that matches the product’s voice, do not stack them all.',
+            zh: '当 Agent 生成的界面千篇一律、缺一个标志性动效时，我从这里复制提示词给它。能替代自己手搓却永远差口气的加载和悬停效果。注意：一共只有五个特效，选最贴合产品气质的那一个，别全往页面上叠。',
+        },
+    },
 ]
 
 export function getAllTags(tools: Tool[]): string[] {
@@ -617,6 +634,7 @@ export const TOOL_CATEGORY: Record<string, ToolCategory> = {
     bestdesignsonx: 'other',
     whatships: 'other',
     inspora: 'design',
+    'libraries-dev': 'design',
 }
 
 export function getToolCategory(tool: Tool): ToolCategory {
