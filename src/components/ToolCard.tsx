@@ -2,13 +2,13 @@
 
 import { ArrowSquareOutIcon, GithubLogoIcon } from '@phosphor-icons/react'
 import Link from 'next/link'
-import { useState } from 'react'
 import { normalizeLanguage } from '@/components/I18nProvider'
+import { ToolPreviewImage } from '@/components/ToolPreviewImage'
 import type { Tool } from '@/data/tools'
-import { formatTag, formatToolNumber, getToolNumber, getToolPath } from '@/data/tools'
+import { formatToolNumber, getToolNumber, getToolPath } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { useTagLabel } from '@/hooks/useTagLabel'
 import { getDomain } from '@/lib/filter-tools'
-import { getIcon } from '@/lib/icon-map'
 
 interface ToolCardProps {
     tool: Tool
@@ -21,8 +21,7 @@ interface ToolCardProps {
 export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex = 0 }: ToolCardProps) {
     const { i18n, t, isReady } = useI18nReady()
     const lang = normalizeLanguage(i18n.language)
-    const Icon = getIcon(tool.icon)
-    const [imgError, setImgError] = useState(false)
+    const tagLabel = useTagLabel()
     const featured = variant === 'featured'
     const detailHref = getToolPath(tool.id)
 
@@ -30,25 +29,15 @@ export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex 
     const desc = tool.description[lang] || tool.description.en
     const note = tool.note?.[lang] || tool.note?.en
     const domain = getDomain(tool.url)
-    const previewSrc = `/previews/${tool.id}.png`
     const visitLabel = isReady ? t('toolsWall.visit') : 'Visit'
     const detailsLabel = isReady ? t('toolsWall.details') : 'Details'
     const githubLabel = isReady ? t('toolsWall.githubRepo') : 'GitHub repository'
     const previewAlt = isReady ? t('toolsWall.previewAlt', { name }) : `${name} preview`
     const opensInNewTab = isReady ? t('toolsWall.opensInNewTab') : 'opens in a new tab'
 
-    const tagLabel = (tag: string) => {
-        if (isReady) {
-            const key = `tags.${tag}`
-            const translated = t(key)
-            if (translated !== key) return translated
-        }
-        return formatTag(tag)
-    }
-
     return (
         <article
-            className={`tool-card-lift group relative flex h-full flex-col overflow-hidden border-2 border-foreground bg-card ${
+            className={`tool-card-lift atlas-card group relative flex h-full flex-col overflow-hidden border-2 border-foreground bg-card ${
                 featured
                     ? featuredIndex === 0
                         ? 'lg:col-span-8 lg:grid lg:grid-cols-2'
@@ -67,24 +56,16 @@ export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex 
                         : `border-b-2 border-foreground ${featured ? 'aspect-[16/9]' : 'aspect-[16/10]'}`
                 }`}
             >
-                {!imgError ? (
-                    <img
-                        src={previewSrc}
-                        alt={previewAlt}
-                        width={640}
-                        height={400}
-                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
-                        loading="lazy"
-                        onError={() => setImgError(true)}
-                    />
-                ) : (
-                    <div
-                        className="absolute inset-0 flex items-center justify-center"
-                        style={{ backgroundColor: `${tool.color}15` }}
-                    >
-                        <Icon className="h-12 w-12" style={{ color: tool.color }} weight="duotone" />
-                    </div>
-                )}
+                <ToolPreviewImage
+                    tool={tool}
+                    sizes={
+                        featured
+                            ? '(min-width: 1024px) 800px, (min-width: 768px) 50vw, 100vw'
+                            : '(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw'
+                    }
+                    alt={previewAlt}
+                    className="transition-transform duration-500 group-hover:scale-[1.02]"
+                />
             </Link>
 
             <div className={`flex flex-1 flex-col ${featured ? 'p-6' : 'p-5'}`}>

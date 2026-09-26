@@ -39,6 +39,10 @@ test('every tool has complete bilingual fields, a valid icon, and a preview', ()
         assert.ok(!ids.has(tool.id), `duplicate tool id: ${tool.id}`)
         ids.add(tool.id)
 
+        assert.ok(
+            tool.category === 'design' || tool.category === 'games' || tool.category === 'other',
+            `tool "${tool.id}" has an invalid category`,
+        )
         assert.ok(tool.tags.length > 0, `tool "${tool.id}" has no tags`)
         assert.ok(tool.icon in ICON_MAP, `tool "${tool.id}" has unknown icon ${tool.icon}`)
         assert.match(tool.url, /^https?:\/\//, `tool "${tool.id}" has an invalid url`)

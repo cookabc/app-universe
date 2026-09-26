@@ -4,8 +4,6 @@ import Link from 'next/link'
 import tools from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
 
-const CURATED_UPDATED = 'July 2026'
-
 export const Footer = () => {
     const { t, isReady } = useI18nReady()
     const brand = isReady ? t('brand.name') : 'App Universe'
@@ -13,12 +11,10 @@ export const Footer = () => {
     const terms = isReady ? t('nav.terms') : 'Terms'
     const home = isReady ? t('nav.home') : 'Home'
     const colophon = isReady ? t('footer.colophon') : 'Archive colophon'
-    const meta = isReady
-        ? t('toolsWall.curatedMeta', { count: tools.length, date: CURATED_UPDATED })
-        : `${tools.length} tools · updated ${CURATED_UPDATED}`
+    const meta = isReady ? t('toolsWall.curatedMeta', { count: tools.length }) : `${tools.length} tools · human-curated`
 
     return (
-        <footer className="mt-auto w-full border-t-2 border-foreground bg-card">
+        <footer className="atlas-footer mt-auto w-full border-t-2 border-foreground bg-card">
             <div className="container max-w-7xl mx-auto px-4 py-10 sm:py-12">
                 <div className="grid gap-8 sm:grid-cols-[1fr_auto] sm:items-end">
                     <div>

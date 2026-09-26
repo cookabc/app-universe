@@ -9,7 +9,7 @@ A curated directory of useful tools and resources, built with Next.js App Router
 - **Framework**: [Next.js](https://nextjs.org/) 16, [React](https://react.dev/) 19, [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) v4 (CSS-first `@theme` in `src/app/globals.css`), `clsx`, `tailwind-merge`
 - **UI**: [Radix UI](https://www.radix-ui.com/) primitives, shadcn-style components in `src/components/ui`
-- **Animation**: [Framer Motion](https://www.framer.com/motion/)
+- **Animation**: CSS transitions with reduced-motion support
 - **Icons**: [Phosphor Icons](https://phosphoricons.com/)
 - **i18n**: [i18next](https://www.i18next.com/) with `react-i18next` and browser language detection (EN / 中文)
 - **Theming**: `next-themes` for light/dark/system mode
@@ -45,14 +45,15 @@ pnpm start
 | `pnpm format:check` | Check formatting with Biome |
 | `pnpm typecheck` | Run TypeScript without emitting files |
 | `pnpm check` | Run lint, typecheck, build, and tests |
-| `pnpm download-previews` | Download tool preview images (maintenance) |
+| `pnpm download-previews` | Download tool preview images, then optimize them (maintenance) |
+| `pnpm optimize-previews` | Recompress existing previews in place: cap width at 1600px, palette-compress (maintenance) |
 
 ## Project Structure
 
 ```
 app-universe/
 ├── PROJECT_OVERVIEW.md   # Product content, positioning, and boundaries
-├── DESIGN.md             # Signal Atlas visual and interaction system
+├── DESIGN.md             # Working Atlas visual and interaction system
 ├── src/
 │   ├── app/              # Next.js App Router (pages, metadata, robots, sitemap)
 │   ├── components/       # React components (ui, layout, features)
@@ -74,7 +75,9 @@ app-universe/
 
 ## Data
 
-Tools are defined in `src/data/tools.ts`. Preview images live in `public/previews/` and **must** match each tool's `id` (e.g. `open-design` → `public/previews/open-design.png`).
+Tools are defined in `src/data/tools.ts`. Preview images live in `public/previews/` and **must** match each tool's `id` (e.g. `open-design` → `public/previews/open-design.png`). Keep them optimized: run `pnpm optimize-previews` after adding or re-downloading screenshots.
+
+Pages render previews through `next/image` (AVIF/WebP with responsive sizes) via the shared `ToolPreviewImage` component.
 
 Each tool also has a static detail page at `/t/{id}` (e.g. `/t/namethatui`) with curator note, tags, related tools, and SEO metadata. The home wall links there; external **Visit** still opens the tool site.
 

@@ -2,6 +2,7 @@
 
 import { LinkIcon, MagnifyingGlassIcon, ShuffleIcon, SortAscendingIcon, XIcon } from '@phosphor-icons/react'
 import { useEffect, useMemo, useState } from 'react'
+import { normalizeLanguage } from '@/components/I18nProvider'
 import { SearchBar } from '@/components/SearchBar'
 import { TagFilter } from '@/components/TagFilter'
 import { ToolCard } from '@/components/ToolCard'
@@ -41,7 +42,7 @@ export function ToolGrid() {
     )
 
     const orderedTools = sortMode === 'shuffle' ? shuffledTools : tools
-    const featuredTools = useMemo(() => tools.filter((tool) => tool.featured), [])
+    const featuredTools = useMemo(() => tools.filter((tool) => tool.featured).slice(0, 4), [])
 
     const filtered = useMemo(
         () => filterTools(orderedTools, activeTag, searchQuery),
@@ -118,7 +119,7 @@ export function ToolGrid() {
     const linkCopiedLabel = isReady ? t('toolsWall.linkCopied') : 'Copied'
 
     return (
-        <div className="space-y-20">
+        <div className="atlas-index space-y-20">
             <section className="discovery-rail -mx-4 px-4 py-4 sm:mx-0 sm:px-5" aria-label={discoveryLabel}>
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
                     <div className="lg:w-[18rem] lg:shrink-0">
@@ -270,9 +271,9 @@ export function ToolGrid() {
                         const categoryTools = groupedTools?.[category] ?? []
                         if (categoryTools.length === 0) return null
                         const labels = CATEGORY_LABELS[category]
-                        const lang = isReady ? (i18n.language || 'en').split('-')[0] : 'en'
-                        const title = labels[lang === 'zh' ? 'zh' : 'en']
-                        const eyebrow = labels.eyebrow[lang === 'zh' ? 'zh' : 'en']
+                        const lang = normalizeLanguage(i18n.language)
+                        const title = labels[lang]
+                        const eyebrow = labels.eyebrow[lang]
                         return (
                             <section key={category} className="space-y-7" aria-label={title}>
                                 <div className="flex items-end justify-between gap-4 border-b-2 border-foreground pb-3">

@@ -18,18 +18,12 @@ interface CuratorNoteProps {
  */
 export function CuratorNote({ note, label, attribution, action }: CuratorNoteProps) {
     return (
-        <figure className="curator-note relative border-2 border-foreground bg-card p-6 sm:p-7">
-            <span
-                aria-hidden="true"
-                className="display-heading absolute -top-4 left-5 -rotate-3 border-2 border-foreground bg-[hsl(var(--signal))] px-2.5 py-1 text-2xl leading-none text-white shadow-[2px_2px_0_hsl(var(--foreground))]"
-            >
-                ”
-            </span>
-            <div className="flex items-start justify-between gap-4">
+        <figure className="atlas-note relative overflow-hidden bg-card p-6 sm:p-7">
+            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
                 <figcaption className="index-label index-label--signal pt-1">{label}</figcaption>
                 {action}
             </div>
-            <blockquote className="mt-4 text-lg leading-relaxed text-foreground text-pretty sm:text-xl sm:leading-relaxed">
+            <blockquote className="atlas-note-quote mt-5 text-lg leading-relaxed text-foreground text-pretty sm:text-xl sm:leading-relaxed">
                 {note}
             </blockquote>
             {attribution ? (
