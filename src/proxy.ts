@@ -41,5 +41,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-    matcher: '/((?!_next/|api/|previews/|locales/).*)',
+    matcher: '/((?!_next/|api/|previews/|locales/|puzzles).*)',
 }

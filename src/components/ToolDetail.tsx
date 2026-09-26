@@ -12,11 +12,12 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { CuratorNote } from '@/components/CuratorNote'
 import { normalizeLanguage } from '@/components/I18nProvider'
+import { ToolPreviewImage } from '@/components/ToolPreviewImage'
 import type { Tool } from '@/data/tools'
-import { formatTag, formatToolNumber, getToolNumber, getToolPath } from '@/data/tools'
+import { formatToolNumber, getToolNumber, getToolPath } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { useTagLabel } from '@/hooks/useTagLabel'
 import { getDomain } from '@/lib/filter-tools'
-import { getIcon } from '@/lib/icon-map'
 import { copyCanvasAsImage, renderNoteCard } from '@/lib/note-card-image'
 
 interface ToolDetailProps {
@@ -27,9 +28,7 @@ interface ToolDetailProps {
 export function ToolDetail({ tool, related }: ToolDetailProps) {
     const { i18n, t, isReady } = useI18nReady()
     const lang = normalizeLanguage(i18n.language)
-    const Icon = getIcon(tool.icon)
-    const [imgError, setImgError] = useState(false)
-    const [relatedImgError, setRelatedImgError] = useState<Record<string, boolean>>({})
+    const tagLabel = useTagLabel()
     const [noteCopied, setNoteCopied] = useState(false)
     const [imageState, setImageState] = useState<'idle' | 'rendering' | 'done'>('idle')
 
@@ -37,7 +36,6 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
     const desc = tool.description[lang] || tool.description.en
     const note = tool.note?.[lang] || tool.note?.en
     const domain = getDomain(tool.url)
-    const previewSrc = `/previews/${tool.id}.png`
     const githubLabel = isReady ? t('toolsWall.githubRepo') : 'GitHub repository'
     const opensInNewTab = isReady ? t('toolsWall.opensInNewTab') : 'opens in a new tab'
     const backLabel = isReady ? t('toolDetail.back') : 'Back to tools'
@@ -85,17 +83,8 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
         }
     }
 
-    const tagLabel = (tag: string) => {
-        if (isReady) {
-            const key = `tags.${tag}`
-            const translated = t(key)
-            if (translated !== key) return translated
-        }
-        return formatTag(tag)
-    }
-
     return (
-        <article className="mx-auto max-w-7xl px-4 py-12 sm:py-16 lg:py-20">
+        <article className="atlas-detail mx-auto max-w-7xl px-4 py-12 sm:py-16 lg:py-20">
             <Link
                 href="/#tools"
                 className="index-label index-label--foreground mb-10 inline-flex min-h-11 items-center gap-2 border-b-2 border-foreground hover:border-primary hover:text-primary transition-colors"
@@ -109,7 +98,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                     <p className="index-label index-label--accent mb-5">
                         {formatToolNumber(getToolNumber(tool.id))} · {recordLabel}
                     </p>
-                    <h1 className="display-heading max-w-full text-[clamp(2.75rem,4vw,4rem)] leading-[0.96] tracking-[-0.045em] text-foreground [overflow-wrap:anywhere]">
+                    <h1 className="atlas-detail-title display-heading max-w-full text-[clamp(2.75rem,4vw,4rem)] leading-[0.96] tracking-[-0.045em] text-foreground [overflow-wrap:anywhere]">
                         {name}
                     </h1>
                     <p className="measure mt-6 text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
@@ -120,7 +109,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                             <Link
                                 key={tag}
                                 href={`/?tag=${encodeURIComponent(tag)}#tools`}
-                                className="index-label index-label--accent-foreground inline-flex min-h-11 items-center border border-foreground bg-accent px-3 hover:bg-primary hover:text-primary-foreground transition-colors"
+                                className="atlas-detail-tag index-label index-label--accent-foreground inline-flex min-h-11 items-center border border-foreground bg-accent px-3 hover:bg-primary hover:text-primary-foreground transition-colors"
                             >
                                 {tagLabel(tag)}
                             </Link>
@@ -168,8 +157,8 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                     ) : null}
                 </div>
 
-                <div className="signal-card overflow-hidden lg:col-span-7">
-                    <div className="flex flex-col gap-4 border-b-2 border-foreground p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="atlas-detail-media signal-card overflow-hidden lg:col-span-7">
+                    <div className="atlas-detail-media-head flex flex-col gap-4 border-b-2 border-foreground p-4 sm:flex-row sm:items-center sm:justify-between">
                         <span className="index-label index-label--primary">{domain}</span>
                         <a
                             href={tool.url}
@@ -182,24 +171,13 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                             <span className="sr-only">({opensInNewTab})</span>
                         </a>
                     </div>
-                    <div className="relative overflow-hidden bg-muted">
-                        {!imgError ? (
-                            <img
-                                src={previewSrc}
-                                alt={isReady ? t('toolsWall.previewAlt', { name }) : `${name} preview`}
-                                width={1200}
-                                height={675}
-                                className="aspect-video w-full object-cover object-top"
-                                onError={() => setImgError(true)}
-                            />
-                        ) : (
-                            <div
-                                className="flex aspect-video items-center justify-center"
-                                style={{ backgroundColor: `${tool.color}18` }}
-                            >
-                                <Icon className="h-16 w-16" style={{ color: tool.color }} weight="duotone" />
-                            </div>
-                        )}
+                    <div className="relative aspect-video overflow-hidden bg-muted">
+                        <ToolPreviewImage
+                            tool={tool}
+                            sizes="(min-width: 1024px) 690px, 100vw"
+                            alt={isReady ? t('toolsWall.previewAlt', { name }) : `${name} preview`}
+                            iconClassName="h-16 w-16"
+                        />
                     </div>
                     {tool.githubUrl && (
                         <div className="border-t border-border p-4">
@@ -230,41 +208,20 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                     </div>
                     <ul className="grid gap-6 sm:grid-cols-3">
                         {related.map((item) => {
-                            const RelatedIcon = getIcon(item.icon)
                             const relatedName = item.name[lang] || item.name.en
-                            const relatedPreview = `/previews/${item.id}.png`
-                            const showImg = !relatedImgError[item.id]
                             return (
                                 <li
                                     key={item.id}
-                                    className="tool-card-lift overflow-hidden border-2 border-foreground bg-card"
+                                    className="atlas-related-card tool-card-lift overflow-hidden border-2 border-foreground bg-card"
                                 >
                                     <Link href={getToolPath(item.id)} className="group flex flex-col h-full">
                                         <div className="relative aspect-[16/9] bg-muted overflow-hidden border-b-2 border-foreground">
-                                            {showImg ? (
-                                                <img
-                                                    src={relatedPreview}
-                                                    alt=""
-                                                    width={320}
-                                                    height={112}
-                                                    className="w-full h-full object-cover object-top transition-transform duration-200 group-hover:scale-[1.02]"
-                                                    loading="lazy"
-                                                    onError={() =>
-                                                        setRelatedImgError((prev) => ({ ...prev, [item.id]: true }))
-                                                    }
-                                                />
-                                            ) : (
-                                                <div
-                                                    className="flex h-full items-center justify-center"
-                                                    style={{ backgroundColor: `${item.color}18` }}
-                                                >
-                                                    <RelatedIcon
-                                                        className="h-8 w-8"
-                                                        style={{ color: item.color }}
-                                                        weight="duotone"
-                                                    />
-                                                </div>
-                                            )}
+                                            <ToolPreviewImage
+                                                tool={item}
+                                                sizes="(min-width: 640px) 33vw, 100vw"
+                                                className="transition-transform duration-200 group-hover:scale-[1.02]"
+                                                iconClassName="h-8 w-8"
+                                            />
                                         </div>
                                         <div className="p-4">
                                             <p className="display-heading text-lg text-foreground truncate group-hover:text-primary transition-colors">

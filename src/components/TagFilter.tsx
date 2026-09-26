@@ -1,10 +1,9 @@
 'use client'
 
 import { useMemo } from 'react'
-import { normalizeLanguage } from '@/components/I18nProvider'
 import type { Tool } from '@/data/tools'
-import { formatTag } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { useTagLabel } from '@/hooks/useTagLabel'
 
 interface TagFilterProps {
     tools: Tool[]
@@ -13,8 +12,8 @@ interface TagFilterProps {
 }
 
 export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
-    const { t, i18n, isReady } = useI18nReady()
-    const lang = normalizeLanguage(i18n.language)
+    const { t, isReady } = useI18nReady()
+    const tagLabel = useTagLabel()
 
     const tags = useMemo(() => {
         const counts = new Map<string, number>()
@@ -28,17 +27,8 @@ export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
             .map(([tag, count]) => ({ tag, count }))
     }, [tools])
 
-    const allLabel = isReady ? t('toolsWall.allTags') : lang === 'zh' ? '全部' : 'All'
+    const allLabel = isReady ? t('toolsWall.allTags') : 'All'
     const groupLabel = isReady ? t('toolsWall.tagFilterLabel') : 'Filter by tag'
-
-    const labelFor = (tag: string) => {
-        if (isReady) {
-            const key = `tags.${tag}`
-            const translated = t(key)
-            if (translated !== key) return translated
-        }
-        return formatTag(tag)
-    }
 
     const itemClass = (isActive: boolean) =>
         `index-label inline-flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-[var(--radius)] border px-3 py-2 transition-all ${
@@ -69,7 +59,7 @@ export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
                     className={itemClass(activeTag === tag)}
                     aria-pressed={activeTag === tag}
                 >
-                    {labelFor(tag)} {count}
+                    {tagLabel(tag)} {count}
                 </button>
             ))}
         </div>
