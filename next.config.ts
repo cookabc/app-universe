@@ -2,6 +2,15 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
     turbopack: {},
+    agentRules: false,
+    images: {
+        // Screenshots favor AVIF's compression; WebP remains the fallback.
+        formats: ['image/avif', 'image/webp'],
+        // Preview sources are capped at 1600px by scripts/optimize-previews.js,
+        // so the variant ladder stops there instead of the 3840 default.
+        deviceSizes: [640, 750, 828, 1080, 1200, 1600],
+        imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    },
     async rewrites() {
         // Hidden puzzles room: /puzzles serves the static dashboard in public/.
         return [{ source: '/puzzles', destination: '/puzzles/index.html' }]

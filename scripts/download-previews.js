@@ -121,6 +121,14 @@ async function main() {
         await new Promise((r) => setTimeout(r, 500))
     }
 
+    // Fresh screenshots are full-resolution PNGs — normalize them so the
+    // previews directory never regrows to tens of megabytes.
+    console.log('\nOptimizing previews...')
+    const { optimizeAllPreviews } = await import('./optimize-previews.js')
+    for (const { file, before, after } of await optimizeAllPreviews()) {
+        if (after < before) console.log(`   ${file}: ${(before / 1024).toFixed(0)} KB → ${(after / 1024).toFixed(0)} KB`)
+    }
+
     console.log('\nDone!')
 }
 
