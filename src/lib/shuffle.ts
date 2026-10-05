@@ -41,9 +41,9 @@ export function parseSeed(value: string | null): number | null {
     return Number.isSafeInteger(parsed) ? parsed : null
 }
 
-/** Numeric seed → URL-safe string. */
+/** Numeric seed → URL-safe string (6 chars, matching randomSeed's width). */
 export function encodeSeed(seed: number): string {
-    return seed.toString(36)
+    return seed.toString(36).padStart(6, '0')
 }
 
 /** URL seed string → numeric seed for seededShuffle (assumes parseSeed passed). */
