@@ -540,6 +540,25 @@ const TOOLS: Tool[] = [
         },
     },
     {
+        id: 'awesome-ai-motion',
+        type: 'link',
+        category: 'design',
+        name: { en: 'Awesome AI Motion', zh: 'Awesome AI Motion' },
+        description: {
+            en: 'Curated gallery of 460+ AI motion works with public prompts and source code',
+            zh: '460+ 个 AI 动效作品的精选画廊，附公开提示词与源码案例',
+        },
+        tags: ['ai', 'motion'],
+        url: 'https://guanmo-ai.github.io/awesome-ai-motion/',
+        icon: 'Film',
+        color: '#d97706',
+        githubUrl: 'https://github.com/guanmo-ai/awesome-ai-motion',
+        note: {
+            en: 'When I want to see what AI video can actually do before briefing one, I browse this gallery by use case. Replaces scrubbing X to find that one clip someone mentioned. Caveat: prompts are snapshots of a single run - treat them as starting points, not recipes that reproduce the result.',
+            zh: '想在给 AI 下视频需求前先摸清它能做到什么程度时，我按用途翻这个画廊。能替代在 X 上大海捞针找某条被提过的片子。注意：提示词是单次运行的快照，只能当起点，不能当能复现结果的配方。',
+        },
+    },
+    {
         id: 'libraries-dev',
         type: 'link',
         category: 'design',
