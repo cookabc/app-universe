@@ -1,8 +1,23 @@
 {
   "name": "app-universe",
   "version": "0.1.0",
+  "description": "人工精选的双语（EN/中文）工具目录站：30 款设计、游戏与效率工具",
+  "license": "MIT",
   "private": true,
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cookabc/app-universe.git"
+  },
+  "keywords": [
+    "nextjs",
+    "react",
+    "tailwindcss",
+    "curated",
+    "directory",
+    "i18n",
+    "typescript"
+  ],
   "packageManager": "pnpm@12.9.1+sha512.06b055fff5cd20dc12781de173ced3310ce0951bf2ec620211a16045d5444d5c93a663210764ef29a653a610459ba0368f0e74f84d80c54723cf95aae7bc0d6d",
   "scripts": {
     "dev": "next dev -p 4000",
