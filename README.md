@@ -1,6 +1,10 @@
 # App Universe
 
-人工精选的双语（EN/中文）工具目录站。Next.js 16 App Router + React 19 + Tailwind v4，部署在 Vercel；收录数据全部在 `src/data/tools.ts`。`/puzzles` 是不上架的静态彩蛋页（noindex）。
+人工精选的双语（EN/中文）工具目录站，线上在 [app-universe.vercel.app](https://app-universe.vercel.app)。Next.js 16 App Router + React 19 + Tailwind v4，部署在 Vercel；收录数据全部在 `src/data/tools.ts`。`/puzzles` 是不上架的静态彩蛋页（noindex）。
+
+<p align="center">
+  <img src="docs/images/home.png" width="880" alt="App Universe 首页：左侧导语，右侧本期精选卡片">
+</p>
 
 ## 常用命令
 
@@ -33,3 +37,7 @@
 
 - Node：`.nvmrc` 固定 `24`，CI 使用同版本。
 - 包管理器：`packageManager` 钉 `pnpm@12.9.1`。本机 pnpm 与钉版不一致时会自切换；断网或全隧道代理环境下自切换的签名校验可能失败——此时直接执行 `node_modules/.bin/` 下的 `biome` / `tsc` / `next`，测试改用 nvm 绝对路径的 node 跑。
+
+## 许可
+
+MIT，见 [LICENSE](LICENSE)。
