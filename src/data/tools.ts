@@ -576,6 +576,24 @@ const TOOLS: Tool[] = [
             zh: '当 Agent 生成的界面千篇一律、缺一个标志性动效时，我从这里复制提示词给它。能替代自己手搓却永远差口气的加载和悬停效果。注意：一共只有五个特效，选最贴合产品气质的那一个，别全往页面上叠。',
         },
     },
+    {
+        id: 'game-art-style',
+        type: 'link',
+        category: 'games',
+        name: { en: 'Game Art Style', zh: '游戏美术风格' },
+        description: {
+            en: 'Visual atlas of 37 game art styles mapped to 103 real games',
+            zh: '收录 37 种游戏美术风格、103 款真实游戏的视觉图鉴',
+        },
+        tags: ['games', 'design'],
+        url: 'https://gameartstyle.loopyhop.com/',
+        icon: 'Palette',
+        color: '#4b6650',
+        note: {
+            en: 'When I need to pin down a game’s art direction before talking to artists, I pick a reference frame from this atlas. Replaces vague mood-board searches for “what does painterly 3D actually look like”. Caveat: the style names are the curator’s own descriptive labels, not industry standards — and a visible screenshot is not a reuse license.',
+            zh: '要跟美术对齐游戏风格、却说不清「厚涂 3D 到底长什么样」时，我在这里挑一张参考图当锚点。能替代在图库网站盲搜风格关键词。注意：风格名是策展人自己下的描述性标签，不是行业标准；截图能看见也不等于可复用。',
+        },
+    },
 ]
 
 export function getAllTags(tools: Tool[]): string[] {
