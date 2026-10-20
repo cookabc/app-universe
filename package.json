@@ -1,7 +1,7 @@
 {
   "name": "app-universe",
   "version": "0.1.0",
-  "description": "人工精选的双语（EN/中文）工具目录站：30 款设计、游戏与效率工具",
+  "description": "人工精选的双语（EN/中文）工具目录站：31 款设计、游戏与效率工具",
   "license": "MIT",
   "private": true,
   "type": "module",
