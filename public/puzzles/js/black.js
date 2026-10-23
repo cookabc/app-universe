@@ -1,5 +1,5 @@
 'use strict';
-/* black / 黑 —— Bart Bonte 风格复刻，50 关，每关一种机制。
+/* black · 黑 —— Bart Bonte 风格复刻，50 关，每关一种机制。
  * 每关是一个对象：{ hint, make(), draw(s,t), down(s,p), move(s,p,drag), up(s,p), key(s,k), tick(s,dt), solved(s) }
  */
 const W = 750, H = 750;
@@ -19,7 +19,7 @@ const ri = (a, b) => Math.floor(rnd(a, b + 1));
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 function txt(t, x, y, s, c, w) {
-  ctx.fillStyle = c || '#fdfdff';
+  ctx.fillStyle = c || '#fff';
   ctx.font = (w || 700) + ' ' + s + 'px -apple-system,"PingFang SC",sans-serif';
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   ctx.fillText(t, x, y);
@@ -49,7 +49,7 @@ function fSquares(n, moving) {
       }
       return { sqs, moving };
     },
-    draw(s) { for (const q of s.sqs) if (!q.hit) { ctx.fillStyle = '#fdfdff'; ctx.fillRect(q.x - q.r, q.y - q.r, q.r * 2, q.r * 2); } },
+    draw(s) { for (const q of s.sqs) if (!q.hit) { ctx.fillStyle = '#fff'; ctx.fillRect(q.x - q.r, q.y - q.r, q.r * 2, q.r * 2); } },
     tick(s, dt) { if (!s.moving) return;
       for (const q of s.sqs) { if (q.hit) continue;
         q.x += q.vx * dt; q.y += q.vy * dt;
@@ -65,8 +65,8 @@ function fHold(ms) {
     make: () => ({ prog: 0, hold: false }),
     draw(s) {
       ctx.lineWidth = 18;
-      ctx.strokeStyle = '#313131'; ctx.beginPath(); ctx.arc(375, 375, 150, 0, 7); ctx.stroke();
-      ctx.strokeStyle = '#fdfdff'; ctx.beginPath();
+      ctx.strokeStyle = '#333'; ctx.beginPath(); ctx.arc(375, 375, 150, 0, 7); ctx.stroke();
+      ctx.strokeStyle = '#fff'; ctx.beginPath();
       ctx.arc(375, 375, 150, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * clamp(s.prog / ms, 0, 1)); ctx.stroke();
       txt('按 住', 375, 375, 44);
     },
@@ -92,8 +92,8 @@ function fPaint(need) {
   return { hint: '按住拖动，把整个屏幕涂黑',
     make: () => ({ g: new Uint8Array(N * N), done: 0 }),
     draw(s) {
-      ctx.fillStyle = '#fdfdff'; ctx.fillRect(0, 0, W, H);
-      ctx.fillStyle = '#11130c';
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#000';
       for (let i = 0; i < N * N; i++) if (s.g[i]) ctx.fillRect((i % N) * CS, ((i / N) | 0) * CS, CS + 1, CS + 1);
     },
     down(s, p) { paintAt(s, p); },
@@ -118,9 +118,9 @@ function fLights(n, k) {
     draw(s) {
       const m = 70, cs = (W - 2 * m) / n;
       for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
-        ctx.fillStyle = s.b[y * n + x] ? '#11130c' : '#fdfdff';
+        ctx.fillStyle = s.b[y * n + x] ? '#000' : '#fff';
         ctx.fillRect(m + x * cs + 3, m + y * cs + 3, cs - 6, cs - 6);
-        ctx.strokeStyle = '#313131'; ctx.lineWidth = 1;
+        ctx.strokeStyle = '#333'; ctx.lineWidth = 1;
         ctx.strokeRect(m + x * cs + 3, m + y * cs + 3, cs - 6, cs - 6);
       }
     },
@@ -149,8 +149,8 @@ function fOrder(k) {
     draw(s) {
       for (const q of s.sqs) {
         if (q.hit) continue;
-        ctx.fillStyle = '#fdfdff'; ctx.fillRect(q.x - q.r, q.y - q.r, 2 * q.r, 2 * q.r);
-        txt(q.n, q.x, q.y, q.r, '#11130c');
+        ctx.fillStyle = '#fff'; ctx.fillRect(q.x - q.r, q.y - q.r, 2 * q.r, 2 * q.r);
+        txt(q.n, q.x, q.y, q.r, '#000');
       }
     },
     down(s, p) {
@@ -177,13 +177,13 @@ function fSum(nums, target) {
         const inRow = Math.min(perRow, n - row * perRow);
         const x = 375 + (col - (inRow - 1) / 2) * (cs + 22), y = 360 + (row - (rows - 1) / 2) * (cs + 30);
         q.x = x; q.y = y; q.cs = cs;
-        ctx.fillStyle = q.sel ? '#11130c' : '#fdfdff';
+        ctx.fillStyle = q.sel ? '#000' : '#fff';
         ctx.fillRect(x - cs / 2, y - cs / 2, cs, cs);
-        ctx.strokeStyle = '#fdfdff'; ctx.lineWidth = q.sel ? 5 : 1;
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = q.sel ? 5 : 1;
         ctx.strokeRect(x - cs / 2, y - cs / 2, cs, cs);
-        txt(q.v, x, y, cs * 0.42, q.sel ? '#fdfdff' : '#11130c');
+        txt(q.v, x, y, cs * 0.42, q.sel ? '#fff' : '#000');
       });
-      txt('目标 ' + s.target + '　/　当前 ' + s.sum, 375, 640, 28, 'rgba(255,255,255,.7)');
+      txt('目标 ' + s.target + '　·　当前 ' + s.sum, 375, 640, 28, 'rgba(255,255,255,.7)');
     },
     down(s, p) {
       for (const q of s.sqs) {
@@ -206,11 +206,11 @@ function fSliders(m) {
     draw(s) {
       for (let i = 0; i < m; i++) {
         const y = 375 + (i - (m - 1) / 2) * (m > 3 ? 100 : 120);
-        ctx.fillStyle = '#313131'; ctx.fillRect(120, y - 8, 510, 16);
-        ctx.fillStyle = '#fdfdff'; ctx.fillRect(120, y - 8, 510 * s.vals[i], 16);
+        ctx.fillStyle = '#333'; ctx.fillRect(120, y - 8, 510, 16);
+        ctx.fillStyle = '#fff'; ctx.fillRect(120, y - 8, 510 * s.vals[i], 16);
         const kx = 120 + 510 * s.vals[i];
-        ctx.fillStyle = '#fdfdff'; ctx.fillRect(kx - 26, y - 34, 52, 68);
-        ctx.fillStyle = '#11130c'; ctx.fillRect(kx - 8, y - 20, 16, 40);
+        ctx.fillStyle = '#fff'; ctx.fillRect(kx - 26, y - 34, 52, 68);
+        ctx.fillStyle = '#000'; ctx.fillRect(kx - 8, y - 20, 16, 40);
       }
     },
     down(s, p) {
@@ -238,10 +238,10 @@ function fStroop(word, rounds) {
     draw(s) {
       txt('点击写着「' + word + '」的方块', 375, 120, 34);
       for (const c of s.cells) {
-        ctx.fillStyle = c.fill ? '#fdfdff' : '#11130c';
+        ctx.fillStyle = c.fill ? '#fff' : '#000';
         ctx.fillRect(c.x, c.y, c.cs, c.cs);
-        ctx.strokeStyle = '#fdfdff'; ctx.lineWidth = 1; ctx.strokeRect(c.x, c.y, c.cs, c.cs);
-        txt(c.ch, c.x + c.cs / 2, c.y + c.cs / 2, 66, c.fill ? '#11130c' : '#fdfdff');
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.strokeRect(c.x, c.y, c.cs, c.cs);
+        txt(c.ch, c.x + c.cs / 2, c.y + c.cs / 2, 66, c.fill ? '#000' : '#fff');
       }
       txt('第 ' + Math.min(s.round + 1, rounds) + ' / ' + rounds + ' 轮', 375, 680, 22, 'rgba(255,255,255,.5)');
     },
@@ -268,12 +268,12 @@ function fTiming(w0, speed0, hits) {
     },
     draw(s) {
       const zx = 375 - s.w * 270;
-      ctx.strokeStyle = '#fdfdff'; ctx.lineWidth = 3;
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 3;
       ctx.strokeRect(zx, 180, s.w * 540, 390);
       const x = 105 + s.pos * 540;
-      ctx.fillStyle = '#fdfdff'; ctx.fillRect(x - 9, 150, 18, 450);
+      ctx.fillStyle = '#fff'; ctx.fillRect(x - 9, 150, 18, 450);
       for (let i = 0; i < s.need; i++) {
-        ctx.fillStyle = i < s.hit ? '#fdfdff' : '#313131';
+        ctx.fillStyle = i < s.hit ? '#fff' : '#333';
         ctx.beginPath(); ctx.arc(375 + (i - (s.need - 1) / 2) * 46, 665, 13, 0, 7); ctx.fill();
       }
     },
@@ -293,12 +293,12 @@ function fType(word) {
   return { hint: '依次点击字母，拼出 ' + word,
     make: () => ({ prog: 0 }),
     draw(s) {
-      txt(letters.map((c, i) => i < s.prog ? c : '/').join(' '), 375, 220, 64);
+      txt(letters.map((c, i) => i < s.prog ? c : '·').join(' '), 375, 220, 64);
       pool.forEach((t, i) => {
         const col = i % 3, row = (i / 3) | 0;
         const x = 375 + (col - 1) * 150, y = 400 + row * 140;
         t.x = x; t.y = y;
-        ctx.strokeStyle = '#fdfdff'; ctx.lineWidth = 2; ctx.strokeRect(x - 52, y - 52, 104, 104);
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.strokeRect(x - 52, y - 52, 104, 104);
         txt(t.c, x, y, 46);
       });
     },
@@ -329,9 +329,9 @@ function fMemory(len) {
       const cs = 150, m = 375 - cs * 1.5 - 28;
       for (let i = 0; i < 9; i++) {
         const x = m + (i % 3) * (cs + 28) + cs / 2, y = 250 + ((i / 3) | 0) * (cs + 28) + cs / 2 - 30;
-        ctx.strokeStyle = '#fdfdff'; ctx.lineWidth = 2;
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
         ctx.strokeRect(x - cs / 2, y - cs / 2, cs, cs);
-        if (i === s.lit) { ctx.fillStyle = '#fdfdff'; ctx.fillRect(x - cs / 2, y - cs / 2, cs, cs); }
+        if (i === s.lit) { ctx.fillStyle = '#fff'; ctx.fillRect(x - cs / 2, y - cs / 2, cs, cs); }
       }
     },
     down(s, p) {
@@ -356,7 +356,7 @@ function fChase(speed) {
     make: () => ({ x: 375, y: 400, r: 58, got: false, px: -9999, py: -9999 }),
     draw(s) {
       txt('抓 住 它', 375, 105, 28, 'rgba(255,255,255,.5)');
-      ctx.fillStyle = '#fdfdff'; ctx.fillRect(s.x - s.r, s.y - s.r, s.r * 2, s.r * 2);
+      ctx.fillStyle = '#fff'; ctx.fillRect(s.x - s.r, s.y - s.r, s.r * 2, s.r * 2);
     },
     tick(s, dt) {
       const dx = s.x - s.px, dy = s.y - s.py;
@@ -406,9 +406,9 @@ function fFlood(wallP) {
     },
     draw(s) {
       const cs = W / N;
-      ctx.fillStyle = '#fdfdff'; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
       for (let i = 0; i < N * N; i++) {
-        if (s.walls[i] || s.filled[i]) { ctx.fillStyle = '#11130c'; ctx.fillRect((i % N) * cs, ((i / N) | 0) * cs, cs + 1, cs + 1); }
+        if (s.walls[i] || s.filled[i]) { ctx.fillStyle = '#000'; ctx.fillRect((i % N) * cs, ((i / N) | 0) * cs, cs + 1, cs + 1); }
         else { ctx.strokeStyle = 'rgba(0,0,0,.12)'; ctx.lineWidth = 1; ctx.strokeRect((i % N) * cs, ((i / N) | 0) * cs, cs, cs); }
       }
     },
@@ -438,9 +438,9 @@ function fDial(turns) {
     make: () => ({ acc: 0, last: null }),
     draw(s) {
       ctx.lineWidth = 26;
-      ctx.strokeStyle = '#313131'; ctx.beginPath(); ctx.arc(375, 375, 190, 0, 7); ctx.stroke();
+      ctx.strokeStyle = '#333'; ctx.beginPath(); ctx.arc(375, 375, 190, 0, 7); ctx.stroke();
       const p = clamp(s.acc / (turns * 2 * Math.PI), 0, 1);
-      ctx.strokeStyle = '#fdfdff'; ctx.beginPath();
+      ctx.strokeStyle = '#fff'; ctx.beginPath();
       ctx.arc(375, 375, 190, -Math.PI / 2, -Math.PI / 2 + p * 2 * Math.PI); ctx.stroke();
       txt('↻', 375, 365, 90);
       txt(((p * 100) | 0) + '%', 375, 540, 26, 'rgba(255,255,255,.6)');
@@ -462,9 +462,9 @@ function fCount(n) {
   return { hint: '点击实心大方块 ' + n + ' 次，千万别点右下角空心方块',
     make: () => ({ c: 0 }),
     draw(s) {
-      ctx.fillStyle = '#fdfdff'; ctx.fillRect(215, 220, 320, 320);
-      txt(Math.max(0, n - s.c), 375, 380, 96, '#11130c');
-      ctx.strokeStyle = '#fdfdff'; ctx.lineWidth = 4; ctx.strokeRect(600, 580, 80, 80);
+      ctx.fillStyle = '#fff'; ctx.fillRect(215, 220, 320, 320);
+      txt(Math.max(0, n - s.c), 375, 380, 96, '#000');
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 4; ctx.strokeRect(600, 580, 80, 80);
     },
     down(s, p) {
       if (p.x > 215 && p.x < 535 && p.y > 220 && p.y < 540) s.c++;
@@ -479,7 +479,7 @@ function fDragOff() {
     make: () => ({ x: 375, y: 400, r: 82, drag: false, dx: 0, dy: 0, done: false }),
     draw(s) {
       txt('拖 出 屏 幕', 375, 105, 26, 'rgba(255,255,255,.5)');
-      ctx.fillStyle = '#fdfdff'; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 7); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 7); ctx.fill();
     },
     down(s, p) { if (Math.hypot(p.x - s.x, p.y - s.y) < s.r) { s.drag = true; s.dx = s.x - p.x; s.dy = s.y - p.y; } },
     move(s, p) { if (s.drag) { s.x = p.x + s.dx; s.y = p.y + s.dy; } },
@@ -514,10 +514,10 @@ function fPairs(np) {
       s.cards.forEach((c, i) => {
         const x = ox + (i % cols) * (cs + gap), y = oy + ((i / cols) | 0) * (cs + gap);
         c.x = x; c.y = y; c.cs = cs;
-        if (s.st[i] === 0) { ctx.fillStyle = '#fdfdff'; ctx.fillRect(x, y, cs, cs); }
+        if (s.st[i] === 0) { ctx.fillStyle = '#fff'; ctx.fillRect(x, y, cs, cs); }
         else {
-          ctx.fillStyle = '#11130c'; ctx.fillRect(x, y, cs, cs);
-          ctx.strokeStyle = '#fdfdff'; ctx.lineWidth = 2; ctx.strokeRect(x, y, cs, cs);
+          ctx.fillStyle = '#000'; ctx.fillRect(x, y, cs, cs);
+          ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.strokeRect(x, y, cs, cs);
           txt(c.ch, x + cs / 2, y + cs / 2, cs * 0.45);
         }
       });
@@ -544,7 +544,7 @@ function fFinal() {
   return { hint: '最后一关', make: () => ({ done: false }),
     draw() {
       txt('50', 375, 330, 160);
-      txt('感谢游玩 / 点一下收尾', 375, 500, 26, 'rgba(255,255,255,.55)');
+      txt('感谢游玩 · 点一下收尾', 375, 500, 26, 'rgba(255,255,255,.55)');
     },
     down(s) { s.done = true; },
     solved: s => s.done };
@@ -673,7 +673,7 @@ let last = performance.now();
 function loop(t) {
   const dt = Math.min(50, t - last); last = t;
   if (!S.won && L.tick) { L.tick(S, dt); after(); }
-  ctx.fillStyle = '#11130c'; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
   L.draw(S, t);
   if (S.flash > 0) {
     S.flash -= dt;

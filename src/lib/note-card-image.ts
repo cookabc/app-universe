@@ -90,12 +90,12 @@ function displayFont(size: number, cjk: boolean): string {
 }
 
 // Palette from DESIGN.md (light mode).
-const BG = '#f9f9f8'
-const SURFACE = '#fdfdfc'
-const INK = '#21201c'
-const MUTED = '#63635e'
-const HAIRLINE = '#e2e1de'
-const SIGNAL = '#e54d2e'
+const BG = '#F9F9F8'
+const SURFACE = '#FDFDFC'
+const INK = '#21201C'
+const MUTED = '#63635E'
+const HAIRLINE = '#E2E1DE'
+const SIGNAL = '#E54D2E'
 
 export async function renderNoteCard(data: NoteCardData): Promise<HTMLCanvasElement> {
     const scale = 2 // retina output
@@ -144,7 +144,7 @@ export async function renderNoteCard(data: NoteCardData): Promise<HTMLCanvasElem
     // Backdrop: cloud paper with faint signal grid.
     ctx.fillStyle = BG
     ctx.fillRect(0, 0, width, height)
-    ctx.strokeStyle = '#d9d9e0'
+    ctx.strokeStyle = 'rgba(16, 17, 20, 0.05)'
     ctx.lineWidth = 1
     for (let x = 0; x <= width; x += 48) {
         ctx.beginPath()

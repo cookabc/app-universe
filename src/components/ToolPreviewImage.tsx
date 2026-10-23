@@ -39,7 +39,7 @@ export function ToolPreviewImage({
         return (
             <div
                 className={`flex h-full w-full items-center justify-center ${className ?? ''}`}
-                style={{ backgroundColor: 'var(--slate-3)' }}
+                style={{ backgroundColor: `${tool.color}18` }}
             >
                 <Icon className={iconClassName} style={{ color: tool.color }} weight="duotone" />
             </div>
