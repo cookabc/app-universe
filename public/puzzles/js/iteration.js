@@ -49,7 +49,7 @@
         if (board.every((b, j) => b === target[j])) {
           done = true;
           boardEl.classList.add('won');
-          msgEl.textContent = '✓ 完成 / ' + moves + ' 步';
+          msgEl.textContent = '✓ 完成 · ' + moves + ' 步';
         }
       });
       el.appendChild(d);

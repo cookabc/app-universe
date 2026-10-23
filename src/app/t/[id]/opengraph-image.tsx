@@ -9,11 +9,11 @@ export const alt = 'App Universe — archive record'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-const BG = '#f9f9f8'
-const INK = '#21201c'
-const MUTED = '#63635e'
-const ACCENT = '#e2f0bd'
-const SIGNAL = '#e54d2e'
+const BG = '#F9F9F8'
+const INK = '#21201C'
+const MUTED = '#63635E'
+const ACCENT = '#E2F0BD'
+const SIGNAL = '#E54D2E'
 
 export function generateStaticParams() {
     return TOOLS.map((tool) => ({ id: tool.id }))
@@ -53,7 +53,7 @@ export default async function ToolOpenGraphImage({ params }: { params: Promise<{
                     width: 1096,
                     height: 526,
                     display: 'flex',
-                    background: '#fdfdfc',
+                    background: '#FDFDFC',
                     border: `3px solid ${INK}`,
                     padding: 44,
                     gap: 40,

@@ -47,7 +47,3 @@ next-env.d.ts
 .zcode/
 .workbuddy-ai/
 
-
-.impeccable/review/
-.impeccable/questions/
-.impeccable/direction-seed.txt

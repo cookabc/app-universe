@@ -14,7 +14,7 @@ import { CuratorNote } from '@/components/CuratorNote'
 import { normalizeLanguage } from '@/components/I18nProvider'
 import { ToolPreviewImage } from '@/components/ToolPreviewImage'
 import type { Tool } from '@/data/tools'
-import { getToolPath } from '@/data/tools'
+import { formatToolNumber, getToolNumber, getToolPath } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
 import { useTagLabel } from '@/hooks/useTagLabel'
 import { getDomain } from '@/lib/filter-tools'
@@ -42,6 +42,8 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
     const whyLabel = isReady ? t('toolDetail.whyIUseIt') : 'Why I use it'
     const relatedLabel = isReady ? t('toolDetail.related') : 'Related tools'
     const openExternal = isReady ? t('toolDetail.openSite') : 'Open site'
+    const recordLabel = isReady ? t('toolDetail.recordLabel', { id: tool.id }) : `Archive record ${tool.id}`
+    const relatedEyebrow = isReady ? t('toolDetail.relatedEyebrow') : 'Keep exploring'
     const copyNoteLabel = isReady ? t('toolDetail.copyNote') : 'Copy note'
     const noteCopiedLabel = isReady ? t('toolDetail.noteCopied') : 'Copied'
     const copyImageLabel = isReady ? t('toolDetail.copyImage') : 'Copy as image'
@@ -95,6 +97,9 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
 
             <section className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-8">
                 <div className="min-w-0 lg:col-span-5 lg:sticky lg:top-24">
+                    <p className="index-label index-label--accent mb-5">
+                        {formatToolNumber(getToolNumber(tool.id))} {recordLabel}
+                    </p>
                     <h1 className="atlas-detail-title display-heading max-w-full text-[clamp(2.75rem,4vw,4rem)] leading-[0.96] tracking-[-0.045em] text-foreground [overflow-wrap:anywhere]">
                         {name}
                     </h1>
@@ -197,6 +202,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                 <section className="mt-20" aria-labelledby="related-tools-heading">
                     <div className="mb-7 flex items-end justify-between border-b border-foreground pb-3">
                         <div>
+                            <p className="index-label index-label--accent mb-2">{relatedEyebrow}</p>
                             <h2 id="related-tools-heading" className="display-heading text-3xl text-foreground">
                                 {relatedLabel}
                             </h2>

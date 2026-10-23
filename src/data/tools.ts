@@ -667,7 +667,7 @@ export const CATEGORY_LABELS: Record<ToolCategory, { en: string; zh: string; eye
         eyebrow: { en: 'Play & systems', zh: '玩法与系统' },
     },
     other: {
-        en: 'More tools',
+        en: 'Else',
         zh: '其他',
         eyebrow: { en: 'Discovery feed', zh: '发现源' },
     },

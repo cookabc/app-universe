@@ -1,253 +1,299 @@
 'use client'
 
-import { ArrowRightIcon, ArrowSquareOutIcon, ShuffleIcon } from '@phosphor-icons/react'
-import Link from 'next/link'
+import { LinkIcon, MagnifyingGlassIcon, ShuffleIcon, SortAscendingIcon, XIcon } from '@phosphor-icons/react'
 import { useEffect, useMemo, useState } from 'react'
+import { DossierRow } from '@/components/DossierRow'
 import { normalizeLanguage } from '@/components/I18nProvider'
-import { ToolPreviewImage } from '@/components/ToolPreviewImage'
-import tools, { CATEGORY_LABELS, CATEGORY_ORDER, getAllTags, getToolPath } from '@/data/tools'
+import { SearchBar } from '@/components/SearchBar'
+import { TagFilter } from '@/components/TagFilter'
+import { ToolCard } from '@/components/ToolCard'
+import tools, { CATEGORY_LABELS, CATEGORY_ORDER, groupToolsByCategory } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
-import { useTagLabel } from '@/hooks/useTagLabel'
-import { filterTools, getDomain } from '@/lib/filter-tools'
+import { filterTools } from '@/lib/filter-tools'
 import { parseSeed, randomSeed, seededShuffle, seedToNumber } from '@/lib/shuffle'
 
+type SortMode = 'curated' | 'shuffle'
+
 export function ToolGrid() {
-    const { i18n } = useI18nReady()
-    const lang = normalizeLanguage(i18n.language)
-    const zh = lang === 'zh'
-    const tagLabel = useTagLabel()
-    const [query, setQuery] = useState('')
-    const [category, setCategory] = useState('all')
-    const [tag, setTag] = useState('all')
-    const [selected, setSelected] = useState('')
-    const [seed, setSeed] = useState<string | null>(null)
-    const [copied, setCopied] = useState(false)
+    const { t, i18n, isReady } = useI18nReady()
+
+    const [searchQuery, setSearchQuery] = useState('')
+    const [activeTag, setActiveTag] = useState('all')
+    const [sortMode, setSortMode] = useState<SortMode>('curated')
+    const [shuffleSeed, setShuffleSeed] = useState<string | null>(null)
+    const [linkCopied, setLinkCopied] = useState(false)
+
+    // Deep-links: /?tag=ai-design#tools and shareable shuffle /?seed=xxxxxx
     useEffect(() => {
         const params = new URLSearchParams(window.location.search)
-        const nextQuery = params.get('q')
-        if (nextQuery) setQuery(nextQuery)
-        const nextCategory = params.get('category')
-        if (nextCategory && CATEGORY_ORDER.some((value) => value === nextCategory)) setCategory(nextCategory)
-        const nextTag = params.get('tag')
-        if (nextTag && tools.some((tool) => tool.tags.includes(nextTag))) setTag(nextTag)
-        const nextSeed = params.get('seed')
-        if (parseSeed(nextSeed) !== null) setSeed(nextSeed)
-        const tool = params.get('tool')
-        if (tool && tools.some((item) => item.id === tool)) setSelected(tool)
+        const tag = params.get('tag')
+        if (tag && (tag === 'all' || tools.some((tool) => tool.tags.includes(tag)))) {
+            setActiveTag(tag)
+        }
+        const seedParam = params.get('seed')
+        if (parseSeed(seedParam) !== null) {
+            setShuffleSeed(seedParam)
+            setSortMode('shuffle')
+        }
     }, [])
-    const filtered = useMemo(() => {
-        const ordered = seed ? seededShuffle(tools, seedToNumber(seed)) : tools
-        return filterTools(ordered, tag, query).filter((tool) => category === 'all' || tool.category === category)
-    }, [query, tag, category, seed])
-    const active = filtered.find((tool) => tool.id === selected) ?? filtered[0]
-    const updateUrl = (key: string, value: string | null) => {
+
+    const shuffledTools = useMemo(
+        () => (shuffleSeed ? seededShuffle(tools, seedToNumber(shuffleSeed)) : tools),
+        [shuffleSeed],
+    )
+
+    const orderedTools = sortMode === 'shuffle' ? shuffledTools : tools
+    const featuredTools = useMemo(() => tools.filter((tool) => tool.featured).slice(0, 4), [])
+
+    const filtered = useMemo(
+        () => filterTools(orderedTools, activeTag, searchQuery),
+        [searchQuery, activeTag, orderedTools],
+    )
+
+    const isFiltering = activeTag !== 'all' || searchQuery.trim().length > 0
+
+    const groupedTools = useMemo(() => {
+        if (isFiltering) return null
+        return groupToolsByCategory(orderedTools)
+    }, [isFiltering, orderedTools])
+
+    const showFeatured =
+        sortMode === 'curated' && activeTag === 'all' && !searchQuery.trim() && featuredTools.length > 0
+
+    const clearFilters = () => {
+        setSearchQuery('')
+        setActiveTag('all')
+    }
+
+    const handleTagClick = (tag: string) => {
+        setActiveTag(tag)
+        setSearchQuery('')
+        document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+
+    const syncUrl = (seed: string | null) => {
         const url = new URL(window.location.href)
-        if (value && value !== 'all') url.searchParams.set(key, value)
-        else url.searchParams.delete(key)
+        if (seed) {
+            url.searchParams.set('seed', seed)
+        } else {
+            url.searchParams.delete('seed')
+        }
         window.history.replaceState(null, '', url)
     }
-    const shuffle = () => {
-        const next = randomSeed()
-        setSeed(next)
-        setSelected('')
-        setCopied(false)
-        updateUrl('tool', null)
-        updateUrl('seed', next)
+
+    const handleCuratedSort = () => {
+        setSortMode('curated')
+        syncUrl(null)
     }
-    const copyLink = async () => {
+
+    const handleShuffleSort = () => {
+        const seed = randomSeed()
+        setShuffleSeed(seed)
+        setSortMode('shuffle')
+        syncUrl(seed)
+        setLinkCopied(false)
+    }
+
+    const handleCopySignalLink = async () => {
+        if (!shuffleSeed) return
+        const url = new URL(window.location.href)
+        url.searchParams.set('seed', shuffleSeed)
         try {
-            const url = new URL(window.location.href)
-            if (active) url.searchParams.set('tool', active.id)
             await navigator.clipboard.writeText(url.toString())
-            setCopied(true)
+            setLinkCopied(true)
+            setTimeout(() => setLinkCopied(false), 2000)
         } catch {
-            setCopied(false)
+            // Clipboard unavailable; the seed is still visible in the URL.
         }
     }
+
+    const curatedLabel = isReady ? t('toolsWall.sortCurated') : 'Curated order'
+    const shuffleLabel = isReady ? t('toolsWall.sortShuffle') : 'Shuffle'
+    const featuredTitle = isReady ? t('toolsWall.featuredTitle') : 'Featured picks'
+    const featuredSubtitle = isReady ? t('toolsWall.featuredSubtitle') : 'Tools I reach for first'
+    const discoveryLabel = isReady ? t('toolsWall.discoveryLabel') : 'Discovery controls'
+    const featuredEyebrow = isReady ? t('toolsWall.featuredEyebrow') : 'Curator signal'
+    const allToolsEyebrow = isReady ? t('toolsWall.allToolsEyebrow') : 'Complete index'
+    const signalMapLabel = isReady ? t('toolsWall.signalMap') : 'Signal map'
+    const signalMapHint = isReady ? t('toolsWall.signalMapHint') : 'This order is reproducible — share the link'
+    const copyLinkLabel = isReady ? t('toolsWall.copyLink') : 'Copy link'
+    const linkCopiedLabel = isReady ? t('toolsWall.linkCopied') : 'Copied'
+
     return (
-        <section className="tool-explorer" id="tools" aria-labelledby="explorer-title">
-            <div className="explorer-heading">
-                <h1 id="explorer-title">{zh ? '好工具，逐个发现。' : 'Find your next good tool.'}</h1>
-                <span>
-                    {tools.length} {zh ? '款精选工具' : 'curated tools'}
-                </span>
-            </div>
-            <div className="explorer-controls">
-                <label className="explorer-search">
-                    <span>{zh ? '搜索' : 'Search'}</span>
-                    <input
-                        type="search"
-                        value={query}
-                        onChange={(event) => {
-                            setQuery(event.target.value)
-                            updateUrl('q', event.target.value)
-                        }}
-                        placeholder={zh ? '工具名称、用途…' : 'Name or purpose…'}
-                    />
-                </label>
-                <div className="explorer-categories" role="group" aria-label={zh ? '分类' : 'Category'}>
-                    {['all', ...CATEGORY_ORDER].map((item) => (
-                        <button
-                            type="button"
-                            key={item}
-                            aria-pressed={category === item}
-                            onClick={() => {
-                                setCategory(item)
-                                updateUrl('category', item)
-                            }}
-                        >
-                            {item === 'all'
-                                ? zh
-                                    ? '全部'
-                                    : 'All'
-                                : CATEGORY_LABELS[item as keyof typeof CATEGORY_LABELS][lang]}
-                        </button>
-                    ))}
-                </div>
-                <label className="explorer-tag">
-                    <span className="sr-only">{zh ? '标签' : 'Tag'}</span>
-                    <select
-                        value={tag}
-                        onChange={(event) => {
-                            setTag(event.target.value)
-                            updateUrl('tag', event.target.value)
-                        }}
-                    >
-                        <option value="all">{zh ? '所有标签' : 'All tags'}</option>
-                        {getAllTags(tools).map((item) => (
-                            <option key={item} value={item}>
-                                {tagLabel(item)}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <button className="explorer-shuffle" type="button" onClick={shuffle}>
-                    <ShuffleIcon size={18} />
-                    {zh ? '换个顺序' : 'Shuffle'}
-                </button>
-            </div>
-            <div className="explorer-workspace">
-                <div className="explorer-index">
-                    <div className="explorer-index-head">
-                        <span>{zh ? '工具目录' : 'Collection'}</span>
-                        <span aria-live="polite">
-                            {filtered.length} / {tools.length}
-                        </span>
+        <div className="atlas-index space-y-20">
+            <section className="discovery-rail -mx-4 px-4 py-4 sm:mx-0 sm:px-5" aria-label={discoveryLabel}>
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
+                    <div className="lg:w-[18rem] lg:shrink-0">
+                        <SearchBar value={searchQuery} onChange={setSearchQuery} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                        <TagFilter tools={tools} activeTag={activeTag} onTagChange={setActiveTag} />
                     </div>
                     <div
-                        className="explorer-list"
+                        className="flex shrink-0 items-center gap-2"
                         role="group"
-                        aria-label={zh ? '选择预览工具' : 'Choose a tool to preview'}
+                        aria-label={isReady ? t('toolsWall.sortLabel') : 'Sort tools'}
                     >
-                        {filtered.map((tool) => (
-                            <button
-                                type="button"
-                                key={tool.id}
-                                className="explorer-item"
-                                aria-pressed={active?.id === tool.id}
-                                onClick={() => {
-                                    setSelected(tool.id)
-                                    updateUrl('tool', tool.id)
-                                    setCopied(false)
-                                }}
-                            >
-                                <span className="explorer-item-mark" aria-hidden="true">
-                                    {tool.name[lang].slice(0, 1)}
-                                </span>
-                                <span>
-                                    <strong>{tool.name[lang]}</strong>
-                                    <small>{getDomain(tool.url)}</small>
-                                </span>
-                                <ArrowRightIcon size={16} aria-hidden="true" />
-                            </button>
-                        ))}
-                        {filtered.length === 0 && (
-                            <div className="explorer-empty">
-                                <p>{zh ? '没有找到匹配工具' : 'No matching tools'}</p>
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setQuery('')
-                                        setTag('all')
-                                        setCategory('all')
-                                        updateUrl('tag', null)
-                                        updateUrl('category', null)
-                                        updateUrl('q', null)
-                                    }}
-                                >
-                                    {zh ? '清除筛选' : 'Clear filters'}
-                                </button>
-                            </div>
-                        )}
+                        <button
+                            type="button"
+                            onClick={handleCuratedSort}
+                            className={`index-label inline-flex min-h-11 items-center gap-1.5 border px-3 transition-colors ${
+                                sortMode === 'curated'
+                                    ? 'index-label--inverse border-foreground bg-foreground'
+                                    : 'border-border bg-card hover:border-foreground hover:text-foreground'
+                            }`}
+                            aria-pressed={sortMode === 'curated'}
+                        >
+                            <SortAscendingIcon className="h-3.5 w-3.5" weight="bold" />
+                            {curatedLabel}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleShuffleSort}
+                            className={`index-label inline-flex min-h-11 items-center gap-1.5 border px-3 transition-colors ${
+                                sortMode === 'shuffle'
+                                    ? 'index-label--inverse border-foreground bg-foreground'
+                                    : 'border-border bg-card hover:border-foreground hover:text-foreground'
+                            }`}
+                            aria-pressed={sortMode === 'shuffle'}
+                        >
+                            <ShuffleIcon className="h-3.5 w-3.5" weight="bold" />
+                            {shuffleLabel}
+                        </button>
                     </div>
-                    {seed && (
-                        <div className="explorer-order">
+                </div>
+            </section>
+
+            {sortMode === 'shuffle' && shuffleSeed && (
+                <section
+                    className="flex flex-wrap items-center gap-x-5 gap-y-3 border border-foreground bg-accent px-4 py-3 sm:px-5"
+                    aria-label={signalMapLabel}
+                >
+                    <p className="index-label index-label--accent-foreground inline-flex items-center gap-2">
+                        <span aria-hidden="true">✦</span>
+                        {signalMapLabel}
+                    </p>
+                    <p className="index-label index-label--accent-foreground border border-accent-foreground/40 px-2 py-1">
+                        № {shuffleSeed}
+                    </p>
+                    <p className="index-label index-label--accent-foreground hidden opacity-70 sm:block">
+                        {signalMapHint}
+                    </p>
+                    <span className="flex items-center gap-2 sm:ml-auto">
+                        <button
+                            type="button"
+                            onClick={handleCopySignalLink}
+                            className="index-label index-label--accent-foreground inline-flex min-h-11 items-center gap-1.5 border border-accent-foreground bg-transparent px-3 hover:bg-accent-foreground hover:text-accent transition-colors"
+                        >
+                            <LinkIcon className="h-3.5 w-3.5" weight="bold" />
+                            {linkCopied ? linkCopiedLabel : copyLinkLabel}
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleCuratedSort}
+                            aria-label={curatedLabel}
+                            className="index-label index-label--accent-foreground inline-flex min-h-11 w-11 items-center justify-center border border-accent-foreground hover:bg-accent-foreground hover:text-accent transition-colors"
+                        >
+                            <XIcon className="h-3.5 w-3.5" weight="bold" />
+                        </button>
+                    </span>
+                </section>
+            )}
+
+            {showFeatured && (
+                <section className="space-y-7" aria-labelledby="featured-heading">
+                    <div className="flex items-end justify-between gap-4 border-b border-foreground pb-3">
+                        <div>
+                            <p className="index-label index-label--accent mb-2">{featuredEyebrow}</p>
+                            <h2 id="featured-heading" className="display-heading text-3xl text-foreground">
+                                {featuredTitle}
+                            </h2>
+                        </div>
+                        <p className="index-label hidden sm:block">{featuredSubtitle}</p>
+                    </div>
+                    <div className="featured-grid grid grid-cols-1 gap-6 lg:grid-cols-12">
+                        {featuredTools.map((tool, index) => (
+                            <ToolCard
+                                key={`featured-${tool.id}`}
+                                tool={tool}
+                                variant="featured"
+                                featuredIndex={index}
+                                onTagClick={handleTagClick}
+                            />
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {isFiltering ? (
+                <section className="space-y-7" aria-label="Search results">
+                    <div className="flex items-end justify-between gap-4 border-b border-foreground pb-3">
+                        <div>
+                            <p className="index-label index-label--accent mb-2">{allToolsEyebrow}</p>
+                            <h2 className="display-heading text-3xl text-foreground">
+                                {isReady ? t('toolsWall.allToolsTitle') : 'All tools'}
+                            </h2>
+                        </div>
+                        <p className="index-label" aria-live="polite">
+                            {isReady
+                                ? t('toolsWall.resultCount', { shown: filtered.length, total: tools.length })
+                                : `Showing ${filtered.length} of ${tools.length}`}
+                        </p>
+                    </div>
+
+                    {filtered.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center py-24 text-center border border-border px-6">
+                            <MagnifyingGlassIcon className="h-10 w-10 text-muted-foreground/40 mb-4" weight="duotone" />
+                            <p className="display-heading text-base text-foreground">
+                                {isReady ? t('toolsWall.noResults') : 'No tools found'}
+                            </p>
+                            <p className="text-sm text-muted-foreground mt-2 max-w-sm text-pretty">
+                                {isReady ? t('toolsWall.noResultsHint') : 'Try a different keyword or tag'}
+                            </p>
                             <button
                                 type="button"
-                                onClick={() => {
-                                    setSeed(null)
-                                    updateUrl('seed', null)
-                                }}
+                                onClick={clearFilters}
+                                className="index-label index-label--foreground mt-6 pb-1 border-b border-foreground hover:opacity-70 transition-opacity"
                             >
-                                {zh ? '恢复精选顺序' : 'Restore curated order'}
+                                {isReady ? t('toolsWall.clearFilters') : 'Clear filters'}
                             </button>
+                        </div>
+                    ) : (
+                        <div className="dossier-list">
+                            {filtered.map((tool) => (
+                                <DossierRow key={tool.id} tool={tool} onTagClick={handleTagClick} />
+                            ))}
                         </div>
                     )}
+                </section>
+            ) : (
+                <div className="space-y-20">
+                    {CATEGORY_ORDER.map((category) => {
+                        const categoryTools = groupedTools?.[category] ?? []
+                        if (categoryTools.length === 0) return null
+                        const labels = CATEGORY_LABELS[category]
+                        const lang = normalizeLanguage(i18n.language)
+                        const title = labels[lang]
+                        const eyebrow = labels.eyebrow[lang]
+                        return (
+                            <section key={category} className="space-y-7" aria-label={title}>
+                                <div className="flex items-end justify-between gap-4 border-b border-foreground pb-3">
+                                    <div>
+                                        <p className="index-label index-label--accent mb-2">{eyebrow}</p>
+                                        <h2 className="display-heading text-3xl text-foreground">{title}</h2>
+                                    </div>
+                                    <p className="index-label">{categoryTools.length}</p>
+                                </div>
+                                <div className="dossier-list">
+                                    {categoryTools.map((tool) => (
+                                        <DossierRow key={tool.id} tool={tool} onTagClick={handleTagClick} />
+                                    ))}
+                                </div>
+                            </section>
+                        )
+                    })}
                 </div>
-                {active && (
-                    <article className="explorer-preview" aria-label={zh ? '工具预览' : 'Tool preview'}>
-                        <div className="explorer-preview-bar">
-                            <span>{getDomain(active.url)}</span>
-                            <a href={active.url} target="_blank" rel="noopener noreferrer">
-                                {zh ? '打开网站' : 'Open website'}
-                                <ArrowSquareOutIcon size={16} />
-                            </a>
-                        </div>
-                        <Link
-                            className="explorer-image"
-                            href={getToolPath(active.id)}
-                            aria-label={`${active.name[lang]} ${zh ? '详情' : 'details'}`}
-                        >
-                            <ToolPreviewImage
-                                key={active.id}
-                                tool={active}
-                                sizes="(min-width: 900px) 900px, 100vw"
-                                eager
-                                alt={`${active.name[lang]} ${zh ? '网站预览' : 'website preview'}`}
-                            />
-                        </Link>
-                        <div className="explorer-detail" aria-live="polite">
-                            <div>
-                                <h2>{active.name[lang]}</h2>
-                                <p>{active.description[lang]}</p>
-                            </div>
-                            <div className="explorer-actions">
-                                <Link href={getToolPath(active.id)}>
-                                    {zh ? '使用建议' : 'Read the notes'}
-                                    <span aria-hidden="true"> →</span>
-                                </Link>
-                                <button type="button" onClick={copyLink}>
-                                    {copied ? (zh ? '链接已复制' : 'Link copied') : zh ? '复制链接' : 'Copy link'}
-                                </button>
-                            </div>
-                            <div className="explorer-tags">
-                                {active.tags.map((item) => (
-                                    <button
-                                        type="button"
-                                        key={item}
-                                        onClick={() => {
-                                            setTag(item)
-                                            updateUrl('tag', item)
-                                        }}
-                                    >
-                                        {tagLabel(item)}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </article>
-                )}
-            </div>
-        </section>
+            )}
+        </div>
     )
 }
