@@ -2,6 +2,7 @@
 
 import { LinkIcon, MagnifyingGlassIcon, ShuffleIcon, SortAscendingIcon, XIcon } from '@phosphor-icons/react'
 import { useEffect, useMemo, useState } from 'react'
+import { DossierRow } from '@/components/DossierRow'
 import { normalizeLanguage } from '@/components/I18nProvider'
 import { SearchBar } from '@/components/SearchBar'
 import { TagFilter } from '@/components/TagFilter'
@@ -258,9 +259,9 @@ export function ToolGrid() {
                             </button>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                        <div className="dossier-list">
                             {filtered.map((tool) => (
-                                <ToolCard key={tool.id} tool={tool} onTagClick={handleTagClick} />
+                                <DossierRow key={tool.id} tool={tool} onTagClick={handleTagClick} />
                             ))}
                         </div>
                     )}
@@ -283,9 +284,9 @@ export function ToolGrid() {
                                     </div>
                                     <p className="index-label">{categoryTools.length}</p>
                                 </div>
-                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                                <div className="dossier-list">
                                     {categoryTools.map((tool) => (
-                                        <ToolCard key={tool.id} tool={tool} onTagClick={handleTagClick} />
+                                        <DossierRow key={tool.id} tool={tool} onTagClick={handleTagClick} />
                                     ))}
                                 </div>
                             </section>

@@ -4,6 +4,7 @@ import { ArrowSquareOutIcon, GithubLogoIcon } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { normalizeLanguage } from '@/components/I18nProvider'
 import { ToolPreviewImage } from '@/components/ToolPreviewImage'
+import { VerdictCard } from '@/components/VerdictCard'
 import type { Tool } from '@/data/tools'
 import { formatToolNumber, getToolNumber, getToolPath } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
@@ -34,6 +35,14 @@ export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex 
     const githubLabel = isReady ? t('toolsWall.githubRepo') : 'GitHub repository'
     const previewAlt = isReady ? t('toolsWall.previewAlt', { name }) : `${name} preview`
     const opensInNewTab = isReady ? t('toolsWall.opensInNewTab') : 'opens in a new tab'
+    const curatorNoteLabel = isReady ? t('toolsWall.curatorNote') : 'Note'
+    const verdictLabels = {
+        when: isReady ? t('verdict.when') : 'When',
+        replaces: isReady ? t('verdict.replaces') : 'Replaces',
+        caveat: isReady ? t('verdict.caveat') : 'Caveat',
+    }
+    const verdictFlipCue = isReady ? t('verdict.flip') : 'See what it replaces'
+    const verdictBackCue = isReady ? t('verdict.back') : 'Turn back'
 
     return (
         <article
@@ -109,11 +118,14 @@ export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex 
                 <p className="text-muted-foreground mt-4 text-sm leading-relaxed line-clamp-2 text-pretty">{desc}</p>
 
                 {note && (
-                    <p
-                        className={`mt-4 border-l-4 border-[hsl(var(--signal))] bg-muted p-3 text-sm leading-relaxed text-foreground/85 ${featured ? 'line-clamp-3' : 'line-clamp-2'}`}
-                    >
-                        {note}
-                    </p>
+                    <VerdictCard
+                        note={note}
+                        language={lang === 'zh' ? 'zh' : 'en'}
+                        label={curatorNoteLabel}
+                        labels={verdictLabels}
+                        flipCue={verdictFlipCue}
+                        backCue={verdictBackCue}
+                    />
                 )}
 
                 <div className="mt-auto pt-5 flex items-center justify-between gap-3">
