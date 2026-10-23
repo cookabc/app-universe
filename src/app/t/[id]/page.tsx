@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     // Keep primary meta English for crawlers; include Chinese in OG for bilingual shares.
     const description = descriptionEn === descriptionZh ? descriptionEn : `${descriptionEn} / ${descriptionZh}`
     const path = `/t/${tool.id}`
-    const fullTitle = title === titleZh ? title : `${title} · ${titleZh}`
+    const fullTitle = title === titleZh ? title : `${title} ${titleZh}`
 
     return {
         title: fullTitle,

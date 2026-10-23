@@ -61,9 +61,9 @@ export function VerdictCard({ note, language, label, labels, flipCue, backCue, v
         { key: 'caveat' as const, text: parsed.caveat },
     ]
 
-    const movesBlock = (
+    const movesBlock = (list: typeof moves) => (
         <span className="verdict__moves">
-            {moves.map((move) => (
+            {list.map((move) => (
                 <span className="verdict__move" key={move.key}>
                     <span className="verdict__move-label index-label">{labels[move.key]}</span>
                     <span className="verdict__move-text">{move.text}</span>
@@ -78,7 +78,7 @@ export function VerdictCard({ note, language, label, labels, flipCue, backCue, v
         return (
             <div className="verdict verdict--open">
                 <p className="verdict__label index-label index-label--signal">{label}</p>
-                {movesBlock}
+                {movesBlock(moves)}
             </div>
         )
     }
@@ -90,6 +90,9 @@ export function VerdictCard({ note, language, label, labels, flipCue, backCue, v
             aria-expanded={flipped}
             onClick={() => setFlipped((value) => !value)}
         >
+            {/* The front carries the situation; the back carries the two moves
+                that follow it. Repeating the situation on both faces would
+                say the same thing twice for the reader's attention. */}
             <span className="verdict__face verdict__face--front">
                 <span className="verdict__label index-label index-label--signal">{label}</span>
                 <span className="verdict__text">{parsed.when}</span>
@@ -98,7 +101,7 @@ export function VerdictCard({ note, language, label, labels, flipCue, backCue, v
 
             <span className="verdict__face verdict__face--back" aria-hidden={!flipped}>
                 <span className="verdict__label index-label index-label--signal">{label}</span>
-                {movesBlock}
+                {movesBlock(moves.slice(1))}
                 <span className="verdict__cue index-label">{backCue}</span>
             </span>
         </button>

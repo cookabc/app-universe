@@ -23,7 +23,7 @@ export function CuratorNote({ note, label, attribution, action }: CuratorNotePro
                 <figcaption className="index-label index-label--signal pt-1">{label}</figcaption>
                 {action}
             </div>
-            <blockquote className="atlas-note-quote mt-5 text-lg leading-relaxed text-foreground text-pretty sm:text-xl sm:leading-relaxed">
+            <blockquote className="atlas-note-quote mt-5 text-base leading-relaxed text-foreground text-pretty sm:text-base sm:leading-relaxed">
                 {note}
             </blockquote>
             {attribution ? (

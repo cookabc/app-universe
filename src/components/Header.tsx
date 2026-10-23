@@ -10,7 +10,7 @@ export const Header = () => {
     const brand = isReady ? t('brand.name') : 'App Universe'
 
     return (
-        <header className="atlas-header sticky top-0 z-[var(--z-header)] w-full bg-background border-b-2 border-foreground">
+        <header className="atlas-header sticky top-0 z-[var(--z-header)] w-full bg-background border-b border-foreground">
             <div className="container max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
                 <Link href="/" className="group flex min-h-11 items-center gap-3 text-foreground">
                     <span className="signal-mark" aria-hidden="true">

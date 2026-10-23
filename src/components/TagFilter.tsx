@@ -33,7 +33,7 @@ export function TagFilter({ tools, activeTag, onTagChange }: TagFilterProps) {
     const itemClass = (isActive: boolean) =>
         `index-label inline-flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-[var(--radius)] border px-3 py-2 transition-all ${
             isActive
-                ? 'index-label--accent-foreground border-foreground bg-accent shadow-[2px_2px_0_hsl(var(--foreground))]'
+                ? 'index-label--accent-foreground border-foreground bg-accent '
                 : 'border-border bg-card text-muted-foreground hover:border-foreground hover:text-foreground'
         }`
 

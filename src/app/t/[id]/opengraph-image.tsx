@@ -9,11 +9,11 @@ export const alt = 'App Universe — archive record'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-const BG = '#F4F3EF'
-const INK = '#101114'
-const MUTED = '#62636A'
-const ACCENT = '#D8FF4F'
-const SIGNAL = '#FF6B57'
+const BG = '#F9F9F8'
+const INK = '#21201C'
+const MUTED = '#63635E'
+const ACCENT = '#E2F0BD'
+const SIGNAL = '#E54D2E'
 
 export function generateStaticParams() {
     return TOOLS.map((tool) => ({ id: tool.id }))
@@ -53,7 +53,7 @@ export default async function ToolOpenGraphImage({ params }: { params: Promise<{
                     width: 1096,
                     height: 526,
                     display: 'flex',
-                    background: '#FFFFFF',
+                    background: '#FDFDFC',
                     border: `3px solid ${INK}`,
                     padding: 44,
                     gap: 40,
@@ -61,7 +61,7 @@ export default async function ToolOpenGraphImage({ params }: { params: Promise<{
             >
                 <div style={{ display: 'flex', flex: 1, flexDirection: 'column', minWidth: 0 }}>
                     <div style={{ display: 'flex', fontSize: 19, letterSpacing: 5, color: SIGNAL }}>
-                        {`ARCHIVE RECORD · ${entryNo}`}
+                        {`ARCHIVE RECORD ${entryNo}`}
                     </div>
                     <div
                         style={{

@@ -49,9 +49,6 @@ export default function Hero() {
                             {cta}
                             <span aria-hidden="true">↗</span>
                         </a>
-                        <span className="atlas-scroll-note">
-                            {lang === 'zh' ? '向下浏览精选索引' : 'SCROLL TO EXPLORE'}
-                        </span>
                     </div>
                     <div className="atlas-facts">
                         <span>{toolsLabel}</span>
@@ -70,7 +67,7 @@ export default function Hero() {
                             tool={lead}
                             sizes="(min-width: 1024px) 580px, 100vw"
                             eager
-                            className="transition-transform duration-700 group-hover:scale-[1.04]"
+                            className="group-hover:scale-[1.02]"
                         />
                         <span className="atlas-image-index" aria-hidden="true">
                             01 / {String(TOOLS.length).padStart(2, '0')}
@@ -95,7 +92,7 @@ export default function Hero() {
                                             tool={tool}
                                             sizes="(min-width: 1024px) 240px, 45vw"
                                             eager
-                                            className="transition-transform duration-500 group-hover:scale-[1.06]"
+                                            className="group-hover:scale-[1.03]"
                                         />
                                     </span>
                                     <span className="atlas-mini-name">
