@@ -1132,3 +1132,298 @@
         transform: none;
     }
 }
+
+/* ── The curator verdict card ──────────────────────────────────
+   The note is the site's voice. Flat, it is one grey paragraph and
+   the three claims inside it blur together. Turned over, it is three
+   labelled moves: the situation, the replacement, the catch.
+
+   The card turns on the Y axis with a real 3D flip, so the back face
+   reads as the reverse of the same card rather than as a different
+   panel that replaced it. */
+.verdict {
+    position: relative;
+    display: grid;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0;
+    border: 0;
+    text-align: left;
+    cursor: pointer;
+    perspective: 900px;
+}
+/* Both faces sit in the same grid cell, so the card is as tall as the
+   taller one and the caveat is never clipped. But while the card is still
+   closed it must be as short as the front face — otherwise a grid of cards
+   reserves room for text nobody has asked to see yet. */
+.verdict:not(.is-flipped) .verdict__face--back {
+    display: none;
+}
+.verdict__face {
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
+    border-left: 4px solid hsl(var(--signal));
+    border-radius: 0 10px 10px 0;
+    background: hsl(var(--muted));
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    transition:
+        transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
+        opacity 260ms ease;
+}
+.verdict__face--back {
+    opacity: 0;
+    transform: rotateY(180deg);
+    pointer-events: none;
+}
+.verdict.is-flipped .verdict__face--front {
+    opacity: 0;
+    transform: rotateY(-180deg);
+    pointer-events: none;
+}
+.verdict.is-flipped .verdict__face--back {
+    opacity: 1;
+    transform: rotateY(0deg);
+}
+.verdict__text {
+    display: -webkit-box;
+    overflow: hidden;
+    color: hsl(var(--foreground) / 0.85);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+.verdict__label {
+    color: hsl(var(--signal));
+}
+.verdict__cue {
+    margin-top: 0.15rem;
+    color: hsl(var(--muted-foreground));
+    transition: color 200ms ease;
+}
+.verdict:hover .verdict__cue {
+    color: hsl(var(--foreground));
+}
+.verdict__moves {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+.verdict__move {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+.verdict__move-label {
+    color: hsl(var(--signal));
+}
+/* The caveat is the one that can stop you using the tool, so it gets the
+   loudest label of the three. */
+.verdict__move:last-child .verdict__move-label {
+    color: hsl(var(--destructive));
+}
+.verdict__move-text {
+    color: hsl(var(--foreground) / 0.85);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+}
+.verdict--flat {
+    margin-top: 1rem;
+    padding: 0.85rem 1rem;
+    border-left: 4px solid hsl(var(--signal));
+    border-radius: 0 10px 10px 0;
+    background: hsl(var(--muted));
+}
+.verdict--flat .verdict__text {
+    margin-top: 0.35rem;
+}
+@media (prefers-reduced-motion: reduce) {
+    .verdict__face {
+        transition: opacity 160ms ease;
+    }
+    .verdict.is-flipped .verdict__face--front,
+    .verdict__face--back {
+        transform: none;
+    }
+}
+
+/* The open variant: the three moves shown straight away, for a column of
+   dossiers a reader is scanning rather than opening one at a time. */
+.verdict--open {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.85rem 1rem;
+    border-left: 4px solid hsl(var(--signal));
+    border-radius: 0 10px 10px 0;
+    background: hsl(var(--muted));
+}
+.verdict--open .verdict__moves {
+    gap: 0.5rem;
+}
+
+/* ── The dossier list ─────────────────────────────────────────
+   A field guide is read down a column, not scanned as a grid. Each
+   entry is a row: number, thumbnail, name, domain, description, and
+   the curator's three moves already separated. The thumbnail carries
+   the tool's own colour, so a row is identifiable before its name is
+   read. */
+.dossier-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid hsl(var(--border));
+}
+.dossier {
+    display: grid;
+    grid-template-columns: 168px minmax(0, 1fr);
+    gap: 1.25rem;
+    padding: 1.35rem 0;
+    border-bottom: 1px solid hsl(var(--border));
+    transition: background 200ms ease;
+}
+.dossier:hover {
+    background: hsl(var(--muted) / 0.45);
+}
+.dossier__thumb {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    border: 1px solid hsl(var(--border));
+    border-radius: 10px;
+    background: hsl(var(--muted));
+}
+.dossier__thumb-image {
+    object-fit: cover;
+    object-position: top;
+    transition: transform 400ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.dossier:hover .dossier__thumb-image {
+    transform: scale(1.05);
+}
+/* The colour chip is the entry's identity. It sits on the thumbnail's
+   corner so the row can be picked out of a long list by colour alone. */
+.dossier__swatch {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 26px;
+    height: 26px;
+    border-top: 1px solid hsl(var(--border));
+    border-left: 1px solid hsl(var(--border));
+    border-top-left-radius: 8px;
+}
+.dossier__body {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+}
+.dossier__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 0.75rem;
+}
+.dossier__name {
+    font-family: Georgia, "Songti SC", serif;
+    font-size: 1.375rem;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    color: hsl(var(--foreground));
+    transition: color 180ms ease;
+}
+.dossier__name:hover {
+    color: hsl(var(--primary));
+}
+.dossier__domain {
+    color: hsl(var(--muted-foreground));
+}
+.dossier__links {
+    display: flex;
+    gap: 0.35rem;
+    margin-left: auto;
+}
+.dossier__icon-link {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+    transition:
+        border-color 180ms ease,
+        color 180ms ease;
+}
+.dossier__icon-link:hover {
+    border-color: hsl(var(--foreground));
+    color: hsl(var(--foreground));
+}
+.dossier__icon-link--primary {
+    border-color: transparent;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+.dossier__icon-link--primary:hover {
+    color: hsl(var(--primary-foreground));
+    opacity: 0.85;
+}
+.dossier__desc {
+    max-width: 78ch;
+    margin-top: 0.5rem;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+.dossier__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.9rem;
+}
+.dossier__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+.dossier__tag {
+    padding: 0.3rem 0.55rem;
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+    transition:
+        border-color 180ms ease,
+        color 180ms ease;
+}
+.dossier__tag:hover {
+    border-color: hsl(var(--foreground));
+    color: hsl(var(--foreground));
+}
+.dossier__detail {
+    padding-bottom: 0.15rem;
+    border-bottom: 2px solid hsl(var(--foreground));
+    transition: color 180ms ease;
+}
+.dossier__detail:hover {
+    color: hsl(var(--primary));
+}
+@media (max-width: 720px) {
+    .dossier {
+        grid-template-columns: 84px minmax(0, 1fr);
+        gap: 0.85rem;
+    }
+    .dossier__name {
+        font-size: 1.125rem;
+    }
+    .dossier__domain {
+        width: 100%;
+    }
+    .dossier__links {
+        margin-left: 0;
+    }
+}

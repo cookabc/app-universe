@@ -96,5 +96,12 @@
     "games": "Games",
     "motion": "Motion",
     "ui": "UI"
+  },
+  "verdict": {
+    "when": "When",
+    "replaces": "Replaces",
+    "caveat": "Caveat",
+    "flip": "See what it replaces",
+    "back": "Turn back"
   }
 }

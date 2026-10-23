@@ -96,5 +96,12 @@
     "games": "游戏",
     "motion": "动效",
     "ui": "UI"
+  },
+  "verdict": {
+    "when": "何时用",
+    "replaces": "替代什么",
+    "caveat": "注意",
+    "flip": "看它替代了什么",
+    "back": "翻回正面"
   }
 }
