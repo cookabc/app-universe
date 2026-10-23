@@ -1,0 +1,487 @@
+/* Browse real tools in a persistent preview workspace. */
+:root {
+    --color-background: var(--slate-1);
+    --color-foreground: var(--slate-12);
+    --color-card: var(--slate-2);
+    --color-card-foreground: var(--slate-12);
+    --color-popover: var(--slate-2);
+    --color-popover-foreground: var(--slate-12);
+    --color-primary: var(--indigo-11);
+    --color-primary-foreground: var(--indigo-1);
+    --color-secondary: var(--slate-3);
+    --color-secondary-foreground: var(--slate-12);
+    --color-muted: var(--slate-3);
+    --color-muted-foreground: var(--slate-11);
+    --color-accent: var(--indigo-3);
+    --color-accent-foreground: var(--indigo-12);
+    --color-border: var(--slate-6);
+    --color-input: var(--slate-7);
+    --color-ring: var(--indigo-8);
+    --color-destructive: var(--red-11);
+    --color-success: var(--grass-11);
+    --radius: 6px;
+}
+body {
+    background: var(--slate-1);
+    color: var(--slate-12);
+    font-size: 16px;
+}
+*,
+*::before,
+*::after {
+    border-color: var(--slate-6);
+    box-shadow: none;
+}
+::selection {
+    background: var(--indigo-5);
+    color: var(--indigo-12);
+}
+:focus-visible {
+    outline: 2px solid var(--indigo-8);
+    outline-offset: 3px;
+}
+input {
+    caret-color: var(--indigo-11);
+}
+html {
+    scroll-behavior: auto;
+    scrollbar-color: var(--slate-7) var(--slate-2);
+}
+.grain,
+.atlas-footer .index-label--accent {
+    display: none;
+}
+.atlas-header {
+    background: var(--slate-1);
+    border-bottom: 0.5px solid var(--slate-6);
+}
+.atlas-header .container,
+.atlas-footer .container {
+    max-width: 1440px;
+    padding-inline: 32px;
+}
+.atlas-header .signal-mark {
+    background: var(--indigo-9);
+    border: none;
+    border-radius: 4px;
+    transform: none;
+}
+
+.atlas-footer {
+    background: var(--slate-2);
+    border-top: 0.5px solid var(--slate-6);
+}
+.atlas-footer .display-heading {
+    font-size: 16px;
+}
+.atlas-footer .container {
+    padding-block: 24px;
+}
+.atlas-footer .mt-8 {
+    margin-top: 20px;
+}
+.explorer-container {
+    width: min(1440px, 100%);
+    padding: 40px 32px 64px;
+    margin: auto;
+}
+.explorer-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+.explorer-heading h1 {
+    font-family: var(--font-display), sans-serif;
+    font-size: 48px;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+.explorer-heading > span {
+    color: var(--slate-11);
+    font-size: 12px;
+    white-space: nowrap;
+}
+.explorer-controls {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding-block: 16px;
+    border-block: 0.5px solid var(--slate-6);
+}
+.explorer-search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 180px;
+}
+.explorer-search > span {
+    color: var(--slate-11);
+    font-size: 12px;
+}
+.explorer-search input {
+    width: 100%;
+    min-width: 0;
+    padding: 10px 0;
+    background: transparent;
+    border: 0;
+    font-size: 16px;
+    color: var(--slate-12);
+}
+.explorer-search input::placeholder {
+    color: var(--slate-11);
+}
+.explorer-categories {
+    display: flex;
+    gap: 4px;
+}
+.explorer-categories button,
+.explorer-shuffle,
+.explorer-tag select {
+    min-height: 44px;
+    padding: 10px 14px;
+    font-size: 12px;
+    border: 0;
+    border-radius: 4px;
+    color: var(--slate-11);
+    background: transparent;
+    cursor: pointer;
+}
+.explorer-categories [aria-pressed="true"] {
+    background: var(--indigo-4);
+    color: var(--indigo-11);
+}
+.explorer-categories button:hover,
+.explorer-shuffle:hover {
+    background: var(--slate-3);
+    color: var(--slate-12);
+}
+.explorer-shuffle {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.explorer-tag select {
+    background: var(--slate-2);
+    border: 0.5px solid var(--slate-7);
+    max-width: 155px;
+}
+.explorer-workspace {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    min-height: 660px;
+    border-bottom: 0.5px solid var(--slate-6);
+}
+.explorer-index {
+    border-right: 0.5px solid var(--slate-6);
+    min-width: 0;
+}
+.explorer-index-head {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 20px 16px 0;
+    font-size: 12px;
+    color: var(--slate-11);
+}
+.explorer-list {
+    max-height: 640px;
+    overflow: auto;
+    scrollbar-width: thin;
+    padding-right: 12px;
+}
+.explorer-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    min-height: 72px;
+    padding: 12px;
+    border: 0;
+    border-bottom: 0.5px solid var(--slate-6);
+    background: transparent;
+    color: var(--slate-12);
+    cursor: pointer;
+    border-radius: 0;
+}
+.explorer-item:hover {
+    background: var(--slate-3);
+}
+.explorer-item[aria-pressed="true"] {
+    background: var(--indigo-3);
+}
+.explorer-item > span:nth-child(2) {
+    flex: 1;
+    min-width: 0;
+}
+.explorer-item strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+.explorer-item small {
+    display: block;
+    font-size: 12px;
+    color: var(--slate-11);
+    overflow-wrap: anywhere;
+    margin-top: 4px;
+}
+.explorer-item-mark {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    color: var(--indigo-11);
+    background: var(--indigo-4);
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.explorer-item > svg {
+    flex-shrink: 0;
+    color: var(--slate-11);
+}
+.explorer-preview {
+    min-width: 0;
+    padding: 0 0 32px 32px;
+}
+.explorer-preview-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 0;
+    color: var(--slate-11);
+    font-size: 12px;
+}
+.explorer-preview-bar a {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: var(--indigo-11);
+    min-height: 24px;
+}
+.explorer-image {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    max-height: 500px;
+    background: var(--slate-3);
+    border: 0.5px solid var(--slate-6);
+    overflow: hidden;
+}
+.explorer-image img {
+    object-fit: contain;
+    object-position: top;
+}
+.explorer-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 20px;
+    padding-top: 24px;
+}
+.explorer-detail h2 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+}
+.explorer-detail p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--slate-11);
+    max-width: 60ch;
+}
+.explorer-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+.explorer-actions a {
+    background: var(--indigo-9);
+    color: var(--indigo-1);
+    padding: 12px 18px;
+    border-radius: 4px;
+    font-size: 12px;
+    min-height: 44px;
+}
+.explorer-actions button {
+    font-size: 12px;
+    color: var(--slate-11);
+    min-height: 40px;
+    cursor: pointer;
+}
+.explorer-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+}
+.explorer-tags button {
+    font-size: 12px;
+    padding: 6px 10px;
+    background: var(--slate-3);
+    color: var(--slate-11);
+    border-radius: 3px;
+    min-height: 32px;
+}
+.explorer-empty {
+    padding: 32px 12px;
+    font-size: 16px;
+}
+.explorer-empty button,
+.explorer-order button {
+    color: var(--indigo-11);
+    min-height: 44px;
+    font-size: 12px;
+}
+.atlas-header .signal-mark span {
+    border-color: var(--indigo-1);
+}
+@media (max-width: 900px) {
+    .explorer-container {
+        padding: 28px 20px 40px;
+    }
+    .explorer-heading h1 {
+        font-size: 24px;
+    }
+    .explorer-controls {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .explorer-search {
+        flex-basis: 100%;
+    }
+    .explorer-categories {
+        flex: 1;
+    }
+    .explorer-workspace {
+        grid-template-columns: 220px minmax(0, 1fr);
+    }
+    .explorer-preview {
+        padding-left: 20px;
+    }
+    .explorer-detail {
+        grid-template-columns: 1fr;
+    }
+    .explorer-actions {
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+    }
+}
+@media (max-width: 600px) {
+    .atlas-header .container,
+    .atlas-footer .container {
+        padding-inline: 20px;
+    }
+    .explorer-heading {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .explorer-categories {
+        flex-basis: 100%;
+    }
+    .explorer-categories button {
+        flex: 1;
+        padding-inline: 8px;
+    }
+    .explorer-workspace {
+        display: flex;
+        flex-direction: column;
+    }
+    .explorer-index {
+        border-right: 0;
+        border-bottom: 0.5px solid var(--slate-6);
+    }
+    .explorer-list {
+        display: flex;
+        gap: 8px;
+        max-height: none;
+        padding: 0 0 16px;
+        overflow: auto;
+    }
+    .explorer-item {
+        flex: 0 0 200px;
+        border: 0.5px solid var(--slate-6);
+        padding: 10px;
+    }
+    .explorer-item > svg {
+        display: none;
+    }
+    .explorer-preview {
+        padding: 0 0 24px;
+    }
+    .explorer-image {
+        aspect-ratio: 4 / 3;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}
+.explorer-actions a {
+    color: #fdfdfe;
+}
+.explorer-image {
+    width: 100%;
+    max-height: none;
+}
+@layer utilities {
+    .border {
+        border-width: 0.5px;
+    }
+    .border-t {
+        border-width: 0;
+        border-top-width: 0.5px;
+    }
+    .border-r {
+        border-width: 0;
+        border-right-width: 0.5px;
+    }
+    .border-b {
+        border-width: 0;
+        border-bottom-width: 0.5px;
+    }
+    .border-l {
+        border-width: 0;
+        border-left-width: 0.5px;
+    }
+}
+
+:root,
+.dark {
+    --background: var(--slate-1);
+    --foreground: var(--slate-12);
+    --card: var(--slate-2);
+    --card-foreground: var(--slate-12);
+    --popover: var(--slate-2);
+    --popover-foreground: var(--slate-12);
+    --primary: var(--indigo-11);
+    --primary-foreground: #fdfdfe;
+    --secondary: var(--slate-3);
+    --secondary-foreground: var(--slate-12);
+    --muted: var(--slate-3);
+    --muted-foreground: var(--slate-11);
+    --accent: var(--indigo-3);
+    --accent-foreground: var(--indigo-12);
+    --signal: var(--indigo-11);
+    --border: var(--slate-6);
+    --input: var(--slate-7);
+    --ring: var(--indigo-8);
+}
+.skip-link {
+    background: var(--indigo-9);
+    color: #fdfdfe;
+}
