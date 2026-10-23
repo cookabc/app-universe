@@ -166,7 +166,7 @@ export function ToolGrid() {
 
             {sortMode === 'shuffle' && shuffleSeed && (
                 <section
-                    className="flex flex-wrap items-center gap-x-5 gap-y-3 border-2 border-foreground bg-accent px-4 py-3 sm:px-5"
+                    className="flex flex-wrap items-center gap-x-5 gap-y-3 border border-foreground bg-accent px-4 py-3 sm:px-5"
                     aria-label={signalMapLabel}
                 >
                     <p className="index-label index-label--accent-foreground inline-flex items-center gap-2">
@@ -202,7 +202,7 @@ export function ToolGrid() {
 
             {showFeatured && (
                 <section className="space-y-7" aria-labelledby="featured-heading">
-                    <div className="flex items-end justify-between gap-4 border-b-2 border-foreground pb-3">
+                    <div className="flex items-end justify-between gap-4 border-b border-foreground pb-3">
                         <div>
                             <p className="index-label index-label--accent mb-2">{featuredEyebrow}</p>
                             <h2 id="featured-heading" className="display-heading text-3xl text-foreground">
@@ -227,7 +227,7 @@ export function ToolGrid() {
 
             {isFiltering ? (
                 <section className="space-y-7" aria-label="Search results">
-                    <div className="flex items-end justify-between gap-4 border-b-2 border-foreground pb-3">
+                    <div className="flex items-end justify-between gap-4 border-b border-foreground pb-3">
                         <div>
                             <p className="index-label index-label--accent mb-2">{allToolsEyebrow}</p>
                             <h2 className="display-heading text-3xl text-foreground">
@@ -244,7 +244,7 @@ export function ToolGrid() {
                     {filtered.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-24 text-center border border-border px-6">
                             <MagnifyingGlassIcon className="h-10 w-10 text-muted-foreground/40 mb-4" weight="duotone" />
-                            <p className="display-heading text-xl text-foreground">
+                            <p className="display-heading text-base text-foreground">
                                 {isReady ? t('toolsWall.noResults') : 'No tools found'}
                             </p>
                             <p className="text-sm text-muted-foreground mt-2 max-w-sm text-pretty">
@@ -277,7 +277,7 @@ export function ToolGrid() {
                         const eyebrow = labels.eyebrow[lang]
                         return (
                             <section key={category} className="space-y-7" aria-label={title}>
-                                <div className="flex items-end justify-between gap-4 border-b-2 border-foreground pb-3">
+                                <div className="flex items-end justify-between gap-4 border-b border-foreground pb-3">
                                     <div>
                                         <p className="index-label index-label--accent mb-2">{eyebrow}</p>
                                         <h2 className="display-heading text-3xl text-foreground">{title}</h2>

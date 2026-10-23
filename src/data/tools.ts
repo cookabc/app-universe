@@ -34,7 +34,7 @@ const TOOLS: Tool[] = [
         tags: ['ai', 'design'],
         url: 'https://open-design.ai/',
         icon: 'Palette',
-        color: '#6366f1',
+        color: '#3e63dd',
         featured: true,
         note: {
             en: 'When an agent needs a real design system — not another “make it pretty” prompt — I start here. Replaces generic UI kits. Caveat: pick one system and stick with it.',
@@ -53,7 +53,7 @@ const TOOLS: Tool[] = [
         tags: ['design'],
         url: 'https://nevertoday.github.io/zhongguo-traditional-colors/',
         icon: 'Palette',
-        color: '#c0392b',
+        color: '#e5484d',
         note: {
             en: 'When a Chinese-inspired palette needs real names and print values, I open this first. Replaces random hex dumps from image samplers. Caveat: cultural names matter more than “close enough” RGB.',
             zh: '做中国风配色、需要色名和印刷可用数值时，我先打开这里。能替代从图片瞎吸 hex。注意：色名与语境比「差不多的 RGB」更重要。',
@@ -72,7 +72,7 @@ const TOOLS: Tool[] = [
         tags: ['design'],
         url: 'https://shaders.paper.design/',
         icon: 'Sparkles',
-        color: '#8b5cf6',
+        color: '#6e56cf',
         note: {
             en: 'When a surface needs expensive-looking motion without a heavy creative stack, I drop these in. Replaces custom shader experiments I will not maintain. Caveat: still check performance on low-end phones.',
             zh: '需要贵气质的动态表面、又不想背沉重创意栈时，我直接用这套。能替代自己写又不维护的 shader 实验。注意：低端机仍要看性能。',
@@ -93,7 +93,7 @@ const TOOLS: Tool[] = [
         tags: ['ai'],
         url: 'https://www.designprompts.dev/',
         icon: 'Wand',
-        color: '#404040',
+        color: '#646464',
         note: {
             en: 'When I am about to write a long design prompt, I browse styles here first. Replaces guessing a visual direction in pure text. Caveat: steal the direction, rewrite the prompt in your product’s voice.',
             zh: '当要写长设计提示词时，我先来这里扫风格。能替代纯文字里瞎猜视觉方向。注意：借方向可以，提示词还是要用自己产品的语气重写。',
@@ -111,7 +111,7 @@ const TOOLS: Tool[] = [
         tags: ['ai'],
         url: 'https://motionsites.ai/',
         icon: 'Rocket',
-        color: '#8b5cf6',
+        color: '#6e56cf',
         note: {
             en: 'When a landing page needs structure fast, I steal a skeleton here then rewrite the copy. Replaces starting from a blank hero. Caveat: do not ship the template prose — clients smell it.',
             zh: '落地页要快速搭结构时，我先借骨架再改文案。能替代从空白 hero 硬开。注意：模板腔文案不要原样上线，客户闻得出来。',
@@ -129,7 +129,7 @@ const TOOLS: Tool[] = [
         tags: ['ai', 'ui'],
         url: 'https://impeccable.style/',
         icon: 'Sparkles',
-        color: '#6366f1',
+        color: '#3e63dd',
         featured: true,
         note: {
             en: 'When a generated page looks “off” but I can’t name why, I run these commands. Replaces vague redesign chats. Caveat: it critiques taste — you still choose the fix.',
@@ -148,7 +148,7 @@ const TOOLS: Tool[] = [
         tags: ['design'],
         url: 'https://www.yeguozi.com/',
         icon: 'Film',
-        color: '#b45309',
+        color: '#ab6400',
         note: {
             en: 'When a moodboard needs film grain instead of stock polish, I dig here. Replaces sterile Unsplash grids for home and interior refs. Caveat: rights vary — treat as inspiration, not free commercial art.',
             zh: '情绪板需要电影感而不是图库精修时，我来这里翻。能替代干干净净却没情绪的 Unsplash 拼贴。注意：版权各异，当灵感别当免费商用素材。',
@@ -166,7 +166,7 @@ const TOOLS: Tool[] = [
         tags: ['design'],
         url: 'https://www.magicslide.show/',
         icon: 'Presentation',
-        color: '#a855f7',
+        color: '#8e4ec6',
         note: {
             en: 'When a deck must live in the browser and move with Magic Move, I use this over Keynote. Replaces fighting export pipelines for agent-built slides. Caveat: design still needs hierarchy — animation will not save a bad outline.',
             zh: '演示必须待在浏览器、还要 Magic Move 时，我用它而不是 Keynote。能替代为 Agent 做幻灯片时痛苦的导出链路。注意：动效救不了烂大纲，层级还是要做。',
@@ -184,7 +184,7 @@ const TOOLS: Tool[] = [
         tags: ['design'],
         url: 'https://kami.tw93.fun/',
         icon: 'Pencil',
-        color: '#8b7355',
+        color: '#8d8d86',
         note: {
             en: 'When Markdown previews feel cold and default, I switch to this parchment system. Replaces plain GitHub-flavored dumps for reading-heavy docs. Caveat: not every stakeholder wants warm paper — ask before standardizing.',
             zh: 'Markdown 预览太冷太默认时，我换成这套羊皮纸气质。能替代 GitHub 风纯文本长文。注意：不是每个干系人都要暖纸感，先问再标准化。',
@@ -205,7 +205,7 @@ const TOOLS: Tool[] = [
         tags: ['ai'],
         url: 'https://www.tasteskill.dev/',
         icon: 'Sparkles',
-        color: '#ec4899',
+        color: '#d6409f',
         featured: true,
         note: {
             en: 'When I bootstrap a coding agent for UI work, I drop these SKILL.md files in first. Replaces hoping the model “has taste.” Caveat: still needs a real reference layout.',
@@ -224,7 +224,7 @@ const TOOLS: Tool[] = [
         tags: ['ai'],
         url: 'https://designmd.sh/',
         icon: 'FileCode',
-        color: '#10b981',
+        color: '#12a594',
         note: {
             en: 'When I need a public registry of agent-readable design systems, I look here. Replaces hunting random GitHub gists. Caveat: verify the system matches your stack before wiring it in.',
             zh: '需要公开、Agent 可读的设计系统注册表时，我看这里。能替代满世界翻 gist。注意：接进项目前先确认和你的技术栈匹配。',
@@ -242,7 +242,7 @@ const TOOLS: Tool[] = [
         tags: ['games'],
         url: 'https://neal.fun/',
         icon: 'Sparkles',
-        color: '#f43f5e',
+        color: '#e54666',
         note: {
             en: 'When a product demo needs a spark of play, I study interactions here. Replaces generic “delight” decks with no concrete reference. Caveat: fun is not a feature checklist — steal the feeling, not the gimmick.',
             zh: '产品演示需要一点玩心时，我来这里研究交互。能替代没有具体参考的「delight」空谈。注意：好玩不是功能清单，借感觉别抄噱头。',
@@ -260,7 +260,7 @@ const TOOLS: Tool[] = [
         tags: ['games'],
         url: 'https://www.astrocade.com/',
         icon: 'Gamepad',
-        color: '#f97316',
+        color: '#f76b15',
         note: {
             en: 'When I study short-session game loops for casual products, I play here. Replaces abstract GDD notes with muscle memory. Caveat: browser games optimize for re-entry — mobile constraints still differ.',
             zh: '研究短局休闲循环时，我来这里玩。能替代只有抽象 GDD 没有体感。注意：网页游戏偏重回访，移动端约束仍不同。',
@@ -278,7 +278,7 @@ const TOOLS: Tool[] = [
         tags: ['games'],
         url: 'https://kenney.nl/',
         icon: 'Gamepad',
-        color: '#22c55e',
+        color: '#46a758',
         note: {
             en: 'When a prototype needs art and I have zero budget, I trust Kenney first. Replaces random free packs with unclear licenses. Caveat: free assets still need consistent art direction — do not mix five packs blindly.',
             zh: '原型要美术、预算为零时，我先信 Kenney。能替代授权不清的随机免费包。注意：免费素材也要统一美术方向，别五包混用。',
@@ -296,7 +296,7 @@ const TOOLS: Tool[] = [
         tags: ['ui', 'motion'],
         url: 'https://timing.xiaolin.work/',
         icon: 'Zap',
-        color: '#14b8a6',
+        color: '#12a594',
         featured: true,
         note: {
             en: 'When Figma springs and CSS never match, I translate here once. Replaces guessing cubic-bezier values. Caveat: still verify on the target device.',
@@ -315,7 +315,7 @@ const TOOLS: Tool[] = [
         tags: ['ui'],
         url: 'https://craftwork.design/curated/websites/',
         icon: 'Globe',
-        color: '#4f46e5',
+        color: '#3e63dd',
         note: {
             en: 'When I need layout patterns that still feel current, I browse this curated set. Replaces endless Awwwards tabs. Caveat: inspiration is not a clone — adapt structure to your content density.',
             zh: '需要仍然不过时的版式模式时，我看这套精选。能替代无限开 Awwwards 标签页。注意：灵感不是克隆，结构要按你的内容密度改。',
@@ -333,7 +333,7 @@ const TOOLS: Tool[] = [
         tags: ['ui'],
         url: 'https://onepagelove.com/',
         icon: 'Star',
-        color: '#e11d48',
+        color: '#e54666',
         note: {
             en: 'When a story must fit one screen, I study this long-running one-pager archive. Replaces multi-page IA for simple offers. Caveat: one page still needs ruthless editing — length is not the goal.',
             zh: '故事必须装进单屏时，我研究这套长寿的单页档案。能替代简单 offer 却硬做多页 IA。注意：单页更要狠删，长度不是目标。',
@@ -351,7 +351,7 @@ const TOOLS: Tool[] = [
         tags: ['design', 'ui'],
         url: 'https://component.gallery/',
         icon: 'LayoutGrid',
-        color: '#059669',
+        color: '#12a594',
         featured: true,
         note: {
             en: 'When I need how real design systems name a pattern, I open this — not Dribbble. Replaces inventing component vocabulary. Caveat: it’s reference, not a kit to copy wholesale.',
@@ -370,7 +370,7 @@ const TOOLS: Tool[] = [
         tags: ['ui'],
         url: 'https://mobbin.com/discover/apps/web/popular',
         icon: 'LayoutGrid',
-        color: '#2563eb',
+        color: '#0090ff',
         note: {
             en: 'When I need “how did they structure onboarding?”, I scan real app flows here. Replaces guessing funnel steps from memory. Caveat: paid tiers exist — know what you can export before planning a research session.',
             zh: '需要「别人怎么做引导」时，我扫这里的真实 App 流程。能替代凭记忆猜漏斗步骤。注意：有付费档，研究前先搞清能导出什么。',
@@ -388,7 +388,7 @@ const TOOLS: Tool[] = [
         tags: ['design'],
         url: 'https://www.rebrand.gallery/',
         icon: 'Sparkles',
-        color: '#d97706',
+        color: '#ab6400',
         note: {
             en: 'When a logo or identity needs before/after thinking, I study rebrands here. Replaces arguing from taste alone in reviews. Caveat: context is half the story — a rebrand for a bank is not a rebrand for a game.',
             zh: 'logo/识别需要前后对比思路时，我研究这里的重塑案例。能替代评审里纯靠口味吵架。注意：语境占一半，银行重塑≠游戏重塑。',
@@ -406,7 +406,7 @@ const TOOLS: Tool[] = [
         tags: ['ui', 'motion'],
         url: 'https://60fps.design/',
         icon: 'Zap',
-        color: '#ea580c',
+        color: '#cc4e00',
         note: {
             en: 'When micro-interactions feel flat, I raise the bar with references here. Replaces “add a little bounce” without a target. Caveat: 60fps on desktop is not free on mid-range Android.',
             zh: '微交互发闷时，我用这里的参考抬标准。能替代没有目标的「加一点弹跳」。注意：桌面 60fps 在中端安卓并不免费。',
@@ -424,7 +424,7 @@ const TOOLS: Tool[] = [
         tags: ['ui'],
         url: 'https://before.click/',
         icon: 'Globe',
-        color: '#0891b2',
+        color: '#0797b9',
         note: {
             en: 'When store screenshots or paywalls need framing, I study this gallery. Replaces inventing conversion copy in a vacuum. Caveat: patterns age — check dates and category fit.',
             zh: '商店截图或付费墙要话术框架时，我研究这套画廊。能替代真空里发明转化文案。注意：模式会过时，看日期和品类是否合身。',
@@ -442,7 +442,7 @@ const TOOLS: Tool[] = [
         tags: ['ui', 'motion'],
         url: 'https://feralui.dev/',
         icon: 'Zap',
-        color: '#06b6d4',
+        color: '#00a2c7',
         note: {
             en: 'When a page feels rigid and needs physics-y life, I reach for these React bits. Replaces CSS-only hover that never surprises. Caveat: motion accessibility first — honor reduced motion.',
             zh: '页面僵硬、需要物理感的「活着」时，我用这些 React 零件。能替代永远不意外的纯 CSS hover。注意：无障碍优先，尊重减少动态。',
@@ -460,7 +460,7 @@ const TOOLS: Tool[] = [
         tags: ['ai', 'ui'],
         url: 'https://namethatui.com/',
         icon: 'BookOpen',
-        color: '#4ea1ff',
+        color: '#5eb1ef',
         featured: true,
         note: {
             en: 'When I’d otherwise write “that little grey control,” I look up the real name first. Replaces fuzzy agent prompts. Caveat: names vary slightly by system — still better than “thing.”',
@@ -479,7 +479,7 @@ const TOOLS: Tool[] = [
         tags: ['design'],
         url: 'https://bestdesignsonx.com/',
         icon: 'Star',
-        color: '#171717',
+        color: '#646464',
         note: {
             en: 'When I need fresh designer references without chasing algorithm feeds, I browse this hourly digest. Replaces scrolling X hoping to stumble on good work. Caveat: profiles come and go — use it as discovery, not a permanent bookmark list.',
             zh: '当我需要新鲜的设计师参考、又不想追算法时间线时，我会翻这个小时级合集。能替代在 X 上随缘刷到好作品。注意：主页会变，把它当发现入口，不要当永久书签用。',
@@ -497,7 +497,7 @@ const TOOLS: Tool[] = [
         tags: ['design'],
         url: 'https://wenyang.net/',
         icon: 'Sparkles',
-        color: '#c23a30',
+        color: '#e5484d',
         note: {
             en: 'When I need authentic Chinese pattern references for branding or illustration, I browse this catalogue first. Replaces generic pattern sites or digging through historical archives. Caveat: patterns are reinterpreted for modern use — verify cultural context if you are working on heritage or formal projects.',
             zh: '当品牌或插画需要真正的中国传统纹样参考时，我先翻这个图鉴。能替代通用素材站或翻故纸堆。注意：纹样是为现代使用做了再诠释的，如果是 heritage 或正式文化项目，先核实文化语境。',
@@ -515,7 +515,7 @@ const TOOLS: Tool[] = [
         tags: ['design'],
         url: 'https://whatships.com/',
         icon: 'Film',
-        color: '#0f172a',
+        color: '#1c2024',
         note: {
             en: 'When I need inspiration for a product launch or demo video, I browse this curated feed first. Replaces scrolling X hoping to catch a good launch post. Caveat: launch videos are ephemeral and trends move fast — use it for inspiration, not as a permanent archive.',
             zh: '当我要为产品发布或演示视频找灵感时，我先翻这个精选合集。能替代在 X 上随缘刷到好发布。注意：发布视频时效性强、潮流变得快，把它当灵感库用，不要当永久档案。',
@@ -533,7 +533,7 @@ const TOOLS: Tool[] = [
         tags: ['design'],
         url: 'https://www.inspora.design/',
         icon: 'Sparkles',
-        color: '#0ea5e9',
+        color: '#0588f0',
         note: {
             en: 'When I need to see what design work shipped this week across disciplines, I let this hourly archive run. Replaces scrolling scattered X and Dribbble tabs hoping to catch something current. Caveat: “recent” is not “best” - treat it as a pulse check, not a canon.',
             zh: '想看本周各学科都上线了什么设计作品时，我让这个小时级档案跑着。能替代在各路 X 和 Dribbble 标签页里随缘刷当下。注意：「近期」不等于「最好」，当脉搏看，别当经典。',
@@ -551,7 +551,7 @@ const TOOLS: Tool[] = [
         tags: ['ai', 'motion'],
         url: 'https://guanmo-ai.github.io/awesome-ai-motion/',
         icon: 'Film',
-        color: '#d97706',
+        color: '#ab6400',
         githubUrl: 'https://github.com/guanmo-ai/awesome-ai-motion',
         note: {
             en: 'When I want to see what AI video can actually do before briefing one, I browse this gallery by use case. Replaces scrubbing X to find that one clip someone mentioned. Caveat: prompts are snapshots of a single run - treat them as starting points, not recipes that reproduce the result.',
@@ -570,7 +570,7 @@ const TOOLS: Tool[] = [
         tags: ['ai', 'ui', 'motion'],
         url: 'https://libraries.dev/#components',
         icon: 'Sparkles',
-        color: '#7c3aed',
+        color: '#6e56cf',
         note: {
             en: 'When an agent-built interface looks generic and needs one signature motion, I hand it a prompt from here. Replaces hand-rolling loading and hover effects that never feel finished. Caveat: five effects only - pick the one that matches the product’s voice, do not stack them all.',
             zh: '当 Agent 生成的界面千篇一律、缺一个标志性动效时，我从这里复制提示词给它。能替代自己手搓却永远差口气的加载和悬停效果。注意：一共只有五个特效，选最贴合产品气质的那一个，别全往页面上叠。',
@@ -588,7 +588,7 @@ const TOOLS: Tool[] = [
         tags: ['games', 'design'],
         url: 'https://gameartstyle.loopyhop.com/',
         icon: 'Palette',
-        color: '#4b6650',
+        color: '#5f6563',
         note: {
             en: 'When I need to pin down a game’s art direction before talking to artists, I pick a reference frame from this atlas. Replaces vague mood-board searches for “what does painterly 3D actually look like”. Caveat: the style names are the curator’s own descriptive labels, not industry standards — and a visible screenshot is not a reuse license.',
             zh: '要跟美术对齐游戏风格、却说不清「厚涂 3D 到底长什么样」时，我在这里挑一张参考图当锚点。能替代在图库网站盲搜风格关键词。注意：风格名是策展人自己下的描述性标签，不是行业标准；截图能看见也不等于可复用。',

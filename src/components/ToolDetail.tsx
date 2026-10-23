@@ -42,14 +42,16 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
     const whyLabel = isReady ? t('toolDetail.whyIUseIt') : 'Why I use it'
     const relatedLabel = isReady ? t('toolDetail.related') : 'Related tools'
     const openExternal = isReady ? t('toolDetail.openSite') : 'Open site'
-    const recordLabel = isReady ? t('toolDetail.recordLabel', { id: tool.id }) : `Archive record · ${tool.id}`
+    const recordLabel = isReady ? t('toolDetail.recordLabel', { id: tool.id }) : `Archive record ${tool.id}`
     const relatedEyebrow = isReady ? t('toolDetail.relatedEyebrow') : 'Keep exploring'
     const copyNoteLabel = isReady ? t('toolDetail.copyNote') : 'Copy note'
     const noteCopiedLabel = isReady ? t('toolDetail.noteCopied') : 'Copied'
     const copyImageLabel = isReady ? t('toolDetail.copyImage') : 'Copy as image'
     const imageDoneLabel = isReady ? t('toolDetail.imageDone') : 'Image ready'
-    const curatorAttribution = isReady ? t('toolDetail.curatorAttribution', { domain }) : `Curator's note · ${domain}`
-    const attributionLabel = curatorAttribution.split('·')[0].trim()
+    const curatorAttribution = isReady ? t('toolDetail.curatorAttribution', { domain }) : `Curator's note, ${domain}`
+    // The label is the part before the domain. Both comma forms are accepted
+    // because the two locales punctuate differently.
+    const attributionLabel = curatorAttribution.split(/[,，]/)[0].trim()
 
     const handleCopyNote = async () => {
         if (!note) return
@@ -87,7 +89,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
         <article className="atlas-detail mx-auto max-w-7xl px-4 py-12 sm:py-16 lg:py-20">
             <Link
                 href="/#tools"
-                className="index-label index-label--foreground mb-10 inline-flex min-h-11 items-center gap-2 border-b-2 border-foreground hover:border-primary hover:text-primary transition-colors"
+                className="index-label index-label--foreground mb-10 inline-flex min-h-11 items-center gap-2 border-b border-foreground hover:border-primary hover:text-primary transition-colors"
             >
                 <ArrowLeftIcon className="h-3.5 w-3.5" weight="bold" />
                 {backLabel}
@@ -96,12 +98,12 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
             <section className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-8">
                 <div className="min-w-0 lg:col-span-5 lg:sticky lg:top-24">
                     <p className="index-label index-label--accent mb-5">
-                        {formatToolNumber(getToolNumber(tool.id))} · {recordLabel}
+                        {formatToolNumber(getToolNumber(tool.id))} {recordLabel}
                     </p>
                     <h1 className="atlas-detail-title display-heading max-w-full text-[clamp(2.75rem,4vw,4rem)] leading-[0.96] tracking-[-0.045em] text-foreground [overflow-wrap:anywhere]">
                         {name}
                     </h1>
-                    <p className="measure mt-6 text-base leading-relaxed text-muted-foreground text-pretty sm:text-lg">
+                    <p className="measure mt-6 text-base leading-relaxed text-muted-foreground text-pretty sm:text-base">
                         {desc}
                     </p>
                     <div className="mt-7 flex flex-wrap gap-2">
@@ -158,7 +160,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                 </div>
 
                 <div className="atlas-detail-media signal-card overflow-hidden lg:col-span-7">
-                    <div className="atlas-detail-media-head flex flex-col gap-4 border-b-2 border-foreground p-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="atlas-detail-media-head flex flex-col gap-4 border-b border-foreground p-4 sm:flex-row sm:items-center sm:justify-between">
                         <span className="index-label index-label--primary">{domain}</span>
                         <a
                             href={tool.url}
@@ -185,7 +187,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                                 href={tool.githubUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="index-label index-label--foreground inline-flex min-h-11 items-center gap-2 border-b-2 border-foreground hover:border-primary hover:text-primary transition-colors"
+                                className="index-label index-label--foreground inline-flex min-h-11 items-center gap-2 border-b border-foreground hover:border-primary hover:text-primary transition-colors"
                                 aria-label={`${githubLabel} (${opensInNewTab})`}
                             >
                                 <GithubLogoIcon className="h-3.5 w-3.5" weight="regular" />
@@ -198,7 +200,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
 
             {related.length > 0 && (
                 <section className="mt-20" aria-labelledby="related-tools-heading">
-                    <div className="mb-7 flex items-end justify-between border-b-2 border-foreground pb-3">
+                    <div className="mb-7 flex items-end justify-between border-b border-foreground pb-3">
                         <div>
                             <p className="index-label index-label--accent mb-2">{relatedEyebrow}</p>
                             <h2 id="related-tools-heading" className="display-heading text-3xl text-foreground">
@@ -212,23 +214,23 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                             return (
                                 <li
                                     key={item.id}
-                                    className="atlas-related-card tool-card-lift overflow-hidden border-2 border-foreground bg-card"
+                                    className="atlas-related-card tool-card-lift overflow-hidden border border-foreground bg-card"
                                 >
                                     <Link href={getToolPath(item.id)} className="group flex flex-col h-full">
-                                        <div className="relative aspect-[16/9] bg-muted overflow-hidden border-b-2 border-foreground">
+                                        <div className="relative aspect-[16/9] bg-muted overflow-hidden border-b border-foreground">
                                             <ToolPreviewImage
                                                 tool={item}
                                                 sizes="(min-width: 640px) 33vw, 100vw"
-                                                className="transition-transform duration-200 group-hover:scale-[1.02]"
+                                                className="group-hover:scale-[1.02]"
                                                 iconClassName="h-8 w-8"
                                             />
                                         </div>
                                         <div className="p-4">
-                                            <p className="display-heading text-lg text-foreground truncate group-hover:text-primary transition-colors">
+                                            <p className="display-heading text-base text-foreground truncate group-hover:text-primary transition-colors">
                                                 {relatedName}
                                             </p>
                                             <p className="index-label mt-1 truncate">
-                                                {item.tags.map(tagLabel).join(' · ')}
+                                                {item.tags.map(tagLabel).join(', ')}
                                             </p>
                                         </div>
                                     </Link>

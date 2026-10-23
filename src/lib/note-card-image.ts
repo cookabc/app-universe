@@ -90,12 +90,12 @@ function displayFont(size: number, cjk: boolean): string {
 }
 
 // Palette from DESIGN.md (light mode).
-const BG = '#F4F3EF'
-const SURFACE = '#FFFFFF'
-const INK = '#101114'
-const MUTED = '#62636A'
-const HAIRLINE = '#CBCAC4'
-const SIGNAL = '#FF6B57'
+const BG = '#F9F9F8'
+const SURFACE = '#FDFDFC'
+const INK = '#21201C'
+const MUTED = '#63635E'
+const HAIRLINE = '#E2E1DE'
+const SIGNAL = '#E54D2E'
 
 export async function renderNoteCard(data: NoteCardData): Promise<HTMLCanvasElement> {
     const scale = 2 // retina output
@@ -223,7 +223,7 @@ export async function renderNoteCard(data: NoteCardData): Promise<HTMLCanvasElem
 
     ctx.font = brandFont
     ctx.fillStyle = MUTED
-    const attribution = `${data.attributionLabel} · ${data.domain}`.toUpperCase()
+    const attribution = `${data.attributionLabel}, ${data.domain}`.toUpperCase()
     ctx.fillText(attribution, cardX + padX, y)
 
     ctx.fillStyle = data.color

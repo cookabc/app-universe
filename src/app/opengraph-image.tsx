@@ -7,12 +7,12 @@ export const alt = 'App Universe — Tools that earn their place'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-const BG = '#F4F3EF'
-const INK = '#101114'
-const MUTED = '#62636A'
-const HAIRLINE = '#CBCAC4'
-const ACCENT = '#D8FF4F'
-const SIGNAL = '#FF6B57'
+const BG = '#F9F9F8'
+const INK = '#21201C'
+const MUTED = '#63635E'
+const HAIRLINE = '#E2E1DE'
+const ACCENT = '#E2F0BD'
+const SIGNAL = '#E54D2E'
 
 const V_LINE_KEYS = 'abcdefghijklmnopqrstuvwx'.split('')
 const H_LINE_KEYS = 'abcdefghijkl'.split('')
@@ -25,7 +25,7 @@ export default async function OpenGraphImage() {
             return `data:image/png;base64,${file.toString('base64')}`
         }),
     )
-    const stats = `${TOOLS.length} TOOLS · ${getAllTags(TOOLS).length} TAGS · ZH / EN`
+    const stats = `${TOOLS.length} TOOLS / ${getAllTags(TOOLS).length} TAGS / ZH + EN`
 
     return new ImageResponse(
         <div
@@ -75,7 +75,7 @@ export default async function OpenGraphImage() {
                     height: 518,
                     display: 'flex',
                     flexDirection: 'column',
-                    background: '#FFFFFF',
+                    background: '#FDFDFC',
                     border: `3px solid ${INK}`,
                     padding: 48,
                 }}

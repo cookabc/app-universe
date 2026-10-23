@@ -67,14 +67,14 @@ function buildHomeMarkdown(): string {
         '',
         ...tools.map(toolLine),
         '',
-        `Legal: [Privacy Policy](${SITE_URL}/privacy) · [Terms of Service](${SITE_URL}/terms)`,
+        `Legal: [Privacy Policy](${SITE_URL}/privacy), [Terms of Service](${SITE_URL}/terms)`,
         '',
     ].join('\n')
 }
 
 function buildToolMarkdown(tool: Tool): string {
     const lines = [
-        `# ${tool.name.en}${tool.name.zh !== tool.name.en ? ` · ${tool.name.zh}` : ''}`,
+        `# ${tool.name.en}${tool.name.zh !== tool.name.en ? ` ${tool.name.zh}` : ''}`,
         '',
         `> ${tool.description.en}${tool.description.zh !== tool.description.en ? ` / ${tool.description.zh}` : ''}`,
         '',

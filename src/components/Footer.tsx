@@ -11,10 +11,10 @@ export const Footer = () => {
     const terms = isReady ? t('nav.terms') : 'Terms'
     const home = isReady ? t('nav.home') : 'Home'
     const colophon = isReady ? t('footer.colophon') : 'Archive colophon'
-    const meta = isReady ? t('toolsWall.curatedMeta', { count: tools.length }) : `${tools.length} tools · human-curated`
+    const meta = isReady ? t('toolsWall.curatedMeta', { count: tools.length }) : `${tools.length} tools, human-curated`
 
     return (
-        <footer className="atlas-footer mt-auto w-full border-t-2 border-foreground bg-card">
+        <footer className="atlas-footer mt-auto w-full border-t border-foreground bg-card">
             <div className="container max-w-7xl mx-auto px-4 py-10 sm:py-12">
                 <div className="grid gap-8 sm:grid-cols-[1fr_auto] sm:items-end">
                     <div>
@@ -25,19 +25,19 @@ export const Footer = () => {
                     <nav aria-label="Site" className="flex items-center gap-5 text-sm">
                         <Link
                             href="/"
-                            className="index-label inline-flex min-h-11 items-center border-b-2 border-transparent hover:border-foreground hover:text-foreground transition-colors"
+                            className="index-label inline-flex min-h-11 items-center border-b border-transparent hover:border-foreground hover:text-foreground transition-colors"
                         >
                             {home}
                         </Link>
                         <Link
                             href="/privacy"
-                            className="index-label inline-flex min-h-11 items-center border-b-2 border-transparent hover:border-foreground hover:text-foreground transition-colors"
+                            className="index-label inline-flex min-h-11 items-center border-b border-transparent hover:border-foreground hover:text-foreground transition-colors"
                         >
                             {privacy}
                         </Link>
                         <Link
                             href="/terms"
-                            className="index-label inline-flex min-h-11 items-center border-b-2 border-transparent hover:border-foreground hover:text-foreground transition-colors"
+                            className="index-label inline-flex min-h-11 items-center border-b border-transparent hover:border-foreground hover:text-foreground transition-colors"
                         >
                             {terms}
                         </Link>
@@ -47,7 +47,6 @@ export const Footer = () => {
                     <p className="index-label">
                         © {new Date().getFullYear()} {brand}
                     </p>
-                    <p className="index-label hidden sm:inline">{tools.length} entries</p>
                 </div>
             </div>
         </footer>

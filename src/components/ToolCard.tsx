@@ -46,7 +46,7 @@ export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex 
 
     return (
         <article
-            className={`tool-card-lift atlas-card group relative flex h-full flex-col overflow-hidden border-2 border-foreground bg-card ${
+            className={`tool-card-lift atlas-card group relative flex h-full flex-col overflow-hidden border border-foreground bg-card ${
                 featured
                     ? featuredIndex === 0
                         ? 'lg:col-span-8 lg:grid lg:grid-cols-2'
@@ -61,8 +61,8 @@ export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex 
                 href={detailHref}
                 className={`relative block overflow-hidden bg-muted ${
                     featuredIndex === 0 && featured
-                        ? 'min-h-64 border-b-2 border-foreground lg:min-h-full lg:border-r-2 lg:border-b-0'
-                        : `border-b-2 border-foreground ${featured ? 'aspect-[16/9]' : 'aspect-[16/10]'}`
+                        ? 'min-h-64 border-b border-foreground lg:min-h-full lg:border-r lg:border-b-0'
+                        : `border-b border-foreground ${featured ? 'aspect-[16/9]' : 'aspect-[16/10]'}`
                 }`}
             >
                 <ToolPreviewImage
@@ -73,7 +73,7 @@ export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex 
                             : '(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw'
                     }
                     alt={previewAlt}
-                    className="transition-transform duration-500 group-hover:scale-[1.02]"
+                    className="group-hover:scale-[1.02]"
                 />
             </Link>
 
@@ -82,7 +82,7 @@ export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex 
                     <Link href={detailHref} className="min-w-0">
                         <h3
                             className={`display-heading text-foreground truncate group-hover:text-primary transition-colors ${
-                                featured ? 'text-2xl' : 'text-xl'
+                                featured ? 'text-2xl' : 'text-base'
                             }`}
                         >
                             {name}
@@ -112,7 +112,7 @@ export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex 
                     </div>
                 </div>
                 <p className="index-label index-label--primary mt-1">
-                    {formatToolNumber(getToolNumber(tool.id))} · {domain}
+                    {formatToolNumber(getToolNumber(tool.id))} {domain}
                 </p>
 
                 <p className="text-muted-foreground mt-4 text-sm leading-relaxed line-clamp-2 text-pretty">{desc}</p>
@@ -150,7 +150,7 @@ export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex 
                     )}
                     <Link
                         href={detailHref}
-                        className="index-label index-label--foreground flex min-h-11 flex-shrink-0 items-center border-b-2 border-foreground hover:border-primary hover:text-primary transition-colors"
+                        className="index-label index-label--foreground flex min-h-11 flex-shrink-0 items-center border-b border-foreground hover:border-primary hover:text-primary transition-colors"
                     >
                         {detailsLabel} →
                     </Link>
