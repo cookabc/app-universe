@@ -15,6 +15,10 @@
     --border-width-8: 0.5px;
 
     --default-transition-duration: 250ms;
+
+    /* 缓动也跟着全站走一条：ease-out。跟 020/032/033 同一个曲线，
+       免得同一次点击里两段动画的速度曲线不一样。 */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme {
@@ -332,7 +336,7 @@
         font-weight: 500;
         text-decoration: none;
         box-shadow: var(--shadow-lg);
-        transition: top 0.2s ease;
+        transition: top 250ms var(--ease-out);
     }
 
     .skip-link:focus {
@@ -938,7 +942,7 @@
 }
 
 .atlas-card {
-    border-width: 1px;
+    border-width: 0.5px;
     border-color: hsl(var(--border));
     border-radius: 18px;
     box-shadow: 0 12px 35px hsl(var(--foreground) / 0.05);
@@ -950,7 +954,7 @@
 }
 
 .atlas-card > a:first-of-type {
-    border-bottom-width: 1px;
+    border-bottom-width: 0.5px;
     border-bottom-color: hsl(var(--border));
 }
 
@@ -968,7 +972,7 @@
 }
 
 .atlas-header {
-    border-bottom-width: 1px;
+    border-bottom-width: 0.5px;
     border-color: hsl(var(--border));
     background: hsl(var(--background) / 0.92);
     backdrop-filter: blur(18px);
@@ -977,7 +981,7 @@
 .atlas-header .signal-mark {
     width: 1.95rem;
     height: 1.95rem;
-    border-width: 1px;
+    border-width: 0.5px;
     border-radius: 50%;
     background: hsl(var(--primary));
     transform: rotate(-18deg);
@@ -996,12 +1000,12 @@
 }
 
 .atlas-index section > div:first-child:has(h2) {
-    border-bottom-width: 1px;
+    border-bottom-width: 0.5px;
     border-color: hsl(var(--border));
 }
 
 .atlas-footer {
-    border-top-width: 1px;
+    border-top-width: 0.5px;
     border-color: hsl(var(--border));
 }
 
@@ -1056,19 +1060,19 @@
 }
 
 .atlas-detail-media-head {
-    border-bottom-width: 1px;
+    border-bottom-width: 0.5px;
     border-color: hsl(var(--border));
 }
 
 .atlas-related-card {
-    border-width: 1px;
+    border-width: 0.5px;
     border-color: hsl(var(--border));
     border-radius: 16px;
     box-shadow: 0 10px 28px hsl(var(--foreground) / 0.05);
 }
 
 .atlas-related-card > a > div:first-child {
-    border-bottom-width: 1px;
+    border-bottom-width: 0.5px;
     border-color: hsl(var(--border));
 }
 
@@ -1086,7 +1090,7 @@
 
 .signal-button,
 .signal-card {
-    border-width: 1px;
+    border-width: 0.5px;
     border-color: hsl(var(--border));
     border-radius: 14px;
     box-shadow: 0 12px 30px hsl(var(--foreground) / 0.08);
