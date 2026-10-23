@@ -44,6 +44,23 @@ export function VerdictCard({ note, language, label, labels, flipCue, backCue, v
     const [flipped, setFlipped] = useState(false)
     const parsed = parseVerdict(note, language)
 
+    /* The marker that separated the moves is already the label above each
+       one, so it is not printed a second time inside the sentence. */
+    const displayText = (key: 'when' | 'replaces' | 'caveat', text: string) => {
+        const markers =
+            language === 'zh'
+                ? ['注意：', '注意:']
+                : key === 'when'
+                  ? ['When ', 'when ']
+                  : key === 'replaces'
+                    ? ['Replaces ', 'replaces ']
+                    : ['Caveat:']
+        for (const m of markers) {
+            if (text.startsWith(m)) return text.slice(m.length).trim()
+        }
+        return text
+    }
+
     if (!parsed) {
         // A note that does not carry the three markers is shown whole. There
         // is nothing to separate, so there is nothing to turn over.
@@ -56,9 +73,9 @@ export function VerdictCard({ note, language, label, labels, flipCue, backCue, v
     }
 
     const moves = [
-        { key: 'when' as const, text: parsed.when },
-        { key: 'replaces' as const, text: parsed.replaces },
-        { key: 'caveat' as const, text: parsed.caveat },
+        { key: 'when' as const, text: displayText('when', parsed.when) },
+        { key: 'replaces' as const, text: displayText('replaces', parsed.replaces) },
+        { key: 'caveat' as const, text: displayText('caveat', parsed.caveat) },
     ]
 
     const movesBlock = (list: typeof moves) => (
@@ -74,13 +91,10 @@ export function VerdictCard({ note, language, label, labels, flipCue, backCue, v
 
     // The open variant is not a control, so it is not a button: a reader
     // scanning a column of dossiers should not be walking through buttons.
+    // It also drops the card title: three salmon move labels already say
+    // what the block is, one more heading would be noise on every row.
     if (variant === 'open') {
-        return (
-            <div className="verdict verdict--open">
-                <p className="verdict__label index-label index-label--signal">{label}</p>
-                {movesBlock(moves)}
-            </div>
-        )
+        return <div className="verdict verdict--open">{movesBlock(moves)}</div>
     }
 
     return (
