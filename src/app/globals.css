@@ -15,7 +15,7 @@
 
     /* 缓动也跟着全站走一条：ease-out。跟 020/032/033 同一个曲线，
        免得同一次点击里两段动画的速度曲线不一样。 */
-    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out: var(--ease-out);
 }
 
 /* The site's rule is a hairline: every border that is drawn is 0.5px.
@@ -49,43 +49,33 @@
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
 
-    --color-background: hsl(var(--background));
-    --color-foreground: hsl(var(--foreground));
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
 
-    --color-card: hsl(var(--card));
-    --color-card-foreground: hsl(var(--card-foreground));
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
 
-    --color-popover: hsl(var(--popover));
-    --color-popover-foreground: hsl(var(--popover-foreground));
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
 
-    --color-primary: hsl(var(--primary));
-    --color-primary-foreground: hsl(var(--primary-foreground));
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
 
-    --color-secondary: hsl(var(--secondary));
-    --color-secondary-foreground: hsl(var(--secondary-foreground));
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
 
-    --color-muted: hsl(var(--muted));
-    --color-muted-foreground: hsl(var(--muted-foreground));
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
 
-    --color-accent: hsl(var(--accent));
-    --color-accent-foreground: hsl(var(--accent-foreground));
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
 
-    --color-destructive: hsl(var(--destructive));
-    --color-destructive-foreground: hsl(var(--destructive-foreground));
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
 
-    --color-border: hsl(var(--border));
-    --color-input: hsl(var(--input));
-    --color-ring: hsl(var(--ring));
-
-    --color-chart-1: hsl(var(--chart-1));
-    --color-chart-2: hsl(var(--chart-2));
-    --color-chart-3: hsl(var(--chart-3));
-    --color-chart-4: hsl(var(--chart-4));
-    --color-chart-5: hsl(var(--chart-5));
-
-    --color-success: hsl(var(--success));
-    --color-warning: hsl(var(--warning));
-    --color-info: hsl(var(--info));
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
 
     @keyframes tooltip-in {
         from {
@@ -132,58 +122,38 @@
 
 @layer base {
     :root {
-        /* Radix Colors. sand is the paper, sage the quiet surface,
-           tomato the one action colour, gray the neutrals. */
-        --background: 60 8% 97%;
-        --foreground: 48 8% 12%;
+        /* Radix Colors 官方刻度原值（@radix-ui/colors 3.0.0）。
+           sand 是纸面，sage 是安静的衬面，tomato 是唯一的动作色。
+           用法遵循 Radix 的档位规范：1–2 底、3–5 控件、6–8 边线、
+           9–10 实色填充、11–12 可读墨色。 */
+        --background: #f9f9f8; /* sand-2  */
+        --foreground: #21201c; /* sand-12 */
 
-        --card: 60 20% 99%;
-        --card-foreground: 48 8% 12%;
+        --card: #fdfdfc; /* sand-1  */
+        --card-foreground: #21201c;
 
-        --popover: 60 20% 99%;
-        --popover-foreground: 48 8% 12%;
+        --popover: #fdfdfc;
+        --popover-foreground: #21201c;
 
-        --primary: 10 82% 45%;
-        --primary-foreground: 60 20% 99%;
+        --primary: #e54d2e; /* tomato-9：填充档 */
+        --primary-foreground: #ffffff;
 
-        --secondary: 160 10% 94%;
-        --secondary-foreground: 154 12% 12%;
+        --secondary: #eef1f0; /* sage-3  */
+        --secondary-foreground: #1a211e;
 
-        --muted: 30 7% 94%;
-        --muted-foreground: 60 3% 38%;
+        --muted: #f1f0ef; /* sand-3  */
+        --muted-foreground: #63635e; /* sand-11 */
 
-        --accent: 160 10% 94%;
-        --accent-foreground: 154 12% 12%;
-        --signal: 10 82% 45%;
+        --accent: #eef1f0; /* sage-3  */
+        --accent-foreground: #1a211e;
+        --signal: #d13415; /* tomato-11：文字档 */
 
-        --destructive: 358 65% 49%;
-        --destructive-foreground: 0 100% 99%;
+        --destructive: #ce2c31; /* red-11  */
+        --destructive-foreground: #ffffff;
 
-        --success: undefined;
-        --success-foreground: undefined;
-
-        --warning: 35 100% 34%;
-        --warning-foreground: 40 60% 99%;
-
-        --info: 208 88% 43%;
-        --info-foreground: 210 100% 99%;
-
-        --border: 45 6% 88%;
-        --input: 60 20% 99%;
-        --ring: 10 82% 45%;
-
-        --shadow-color: 48 8% 12%;
-        --shadow-xs: 1px 1px 0 hsl(var(--shadow-color));
-        --shadow-sm: 2px 2px 0 hsl(var(--shadow-color));
-        --shadow-md: 3px 3px 0 hsl(var(--shadow-color));
-        --shadow-lg: 4px 4px 0 hsl(var(--shadow-color));
-        --shadow-xl: 6px 6px 0 hsl(var(--shadow-color));
-
-        --chart-1: 10 82% 45%;
-        --chart-2: 154 12% 12%;
-        --chart-3: 60 3% 54%;
-        --chart-4: 10 75% 70%;
-        --chart-5: 157 3% 54%;
+        --border: #dad9d6; /* sand-6  */
+        --input: #fdfdfc;
+        --ring: #e54d2e; /* tomato-9 */
 
         --radius: 0.5rem;
         --radius-inner: 0.375rem;
@@ -195,61 +165,37 @@
         --z-grain: 50;
         --z-tooltip: 55;
         --z-toast: 60;
-
-        --box-shadow: var(--shadow-lg);
     }
 
     .dark {
-        --background: 0 0% 13%;
-        --foreground: 60 8% 97%;
+        --background: #18191b; /* dark slate-2  */
+        --foreground: #edeef0; /* dark slate-12 */
 
-        --card: 0 0% 39%;
-        --card-foreground: 60 8% 97%;
+        --card: #212225; /* dark slate-3  */
+        --card-foreground: #edeef0;
 
-        --popover: 0 0% 39%;
-        --popover-foreground: 60 8% 97%;
+        --popover: #212225;
+        --popover-foreground: #edeef0;
 
-        --primary: 10 78% 54%;
-        --primary-foreground: 0 0% 13%;
+        --primary: #e54d2e; /* dark tomato-9：深浅同值 */
+        --primary-foreground: #ffffff;
 
-        --secondary: 160 3% 38%;
-        --secondary-foreground: 60 8% 97%;
+        --secondary: #272a2d; /* dark slate-4  */
+        --secondary-foreground: #edeef0;
 
-        --muted: 0 0% 39%;
-        --muted-foreground: 60 2% 50%;
+        --muted: #212225; /* dark slate-3  */
+        --muted-foreground: #b0b4ba; /* dark slate-11 */
 
-        --accent: 160 3% 38%;
-        --accent-foreground: 60 8% 97%;
-        --signal: 10 78% 54%;
+        --accent: #272a2d;
+        --accent-foreground: #edeef0;
+        --signal: #ff977d; /* dark tomato-11 */
 
-        --destructive: 358 75% 59%;
-        --destructive-foreground: 0 0% 13%;
+        --destructive: #ff9592; /* dark red-11 */
+        --destructive-foreground: #18191b;
 
-        --success: undefined;
-        --success-foreground: 0 0% 13%;
-
-        --warning: 42 100% 62%;
-        --warning-foreground: 0 0% 13%;
-
-        --info: 206 100% 50%;
-        --info-foreground: 0 0% 13%;
-
-        --border: 0 0% 81%;
-        --input: 0 0% 39%;
-        --ring: 10 78% 54%;
-
-        --shadow-color: 60 8% 97%;
-        --shadow-xs: 1px 1px 0 hsl(var(--shadow-color));
-        --shadow-sm: 2px 2px 0 hsl(var(--shadow-color));
-        --shadow-md: 3px 3px 0 hsl(var(--shadow-color));
-        --shadow-lg: 4px 4px 0 hsl(var(--shadow-color));
-        --shadow-xl: 6px 6px 0 hsl(var(--shadow-color));
-
-        --chart-1: 10 78% 54%;
-        --chart-2: 60 8% 97%;
-        --chart-3: 0 0% 55%;
-        --chart-4: 10 75% 70%;
-        --chart-5: 157 3% 54%;
+        --border: #363a3f; /* dark slate-6 */
+        --input: #212225;
+        --ring: #e54d2e;
     }
 }
 
@@ -263,30 +209,30 @@
     }
 
     ::selection {
-        background-color: hsl(var(--primary) / 0.2);
-        color: hsl(var(--foreground));
+        background-color: color-mix(in srgb, var(--primary) 20%, transparent);
+        color: var(--foreground);
     }
 
     :focus-visible {
         outline: none;
         box-shadow:
-            0 0 0 2px hsl(var(--background)),
-            0 0 0 4px hsl(var(--ring));
+            0 0 0 2px var(--background),
+            0 0 0 4px var(--ring);
     }
 
     body {
         box-sizing: border-box;
-        background-color: hsl(var(--background));
-        color: hsl(var(--foreground));
+        background-color: var(--background);
+        color: var(--foreground);
         font-family: var(--font-sans), sans-serif;
         background-image:
-            linear-gradient(hsl(var(--foreground) / 0.025) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(var(--foreground) / 0.025) 1px, transparent 1px);
+            linear-gradient(color-mix(in srgb, var(--foreground) 2.5%, transparent) 1px, transparent 1px),
+            linear-gradient(90deg, color-mix(in srgb, var(--foreground) 2.5%, transparent) 1px, transparent 1px);
         background-size: 48px 48px;
     }
 
     main {
-        animation: fade-in-up 0.45s ease-out forwards;
+        animation: fade-in-up 250ms var(--ease-out) forwards;
     }
 
     @keyframes fade-in-up {
@@ -344,12 +290,11 @@
         z-index: var(--z-skip-link);
         padding: 0.5rem 1rem;
         border-radius: calc(var(--radius) - 0.25rem);
-        background-color: hsl(var(--primary));
-        color: hsl(var(--primary-foreground));
+        background-color: var(--primary);
+        color: var(--primary-foreground);
         font-size: 0.875rem;
         font-weight: 500;
         text-decoration: none;
-        box-shadow: var(--shadow-lg);
         transition: top 250ms var(--ease-out);
     }
 
@@ -358,23 +303,14 @@
     }
 
     .surface {
-        background-color: hsl(var(--card));
-        border: 0.5px solid hsl(var(--border));
+        background-color: var(--card);
+        border: 0.5px solid var(--border);
         border-radius: var(--radius);
-        box-shadow: var(--shadow-sm);
-        transition:
-            box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1),
-            transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: background 250ms var(--ease-out);
     }
 
     .surface:hover {
-        box-shadow: var(--shadow-md);
-        transform: translateY(-2px);
-    }
-
-    .surface-active:active {
-        transform: translateY(1px) scale(0.995);
-        box-shadow: var(--shadow-xs);
+        background: var(--secondary);
     }
 
     .text-balance {
@@ -403,7 +339,11 @@
     }
 
     .bg-ambient {
-        background-image: radial-gradient(ellipse 80% 60% at 50% 0%, hsl(var(--primary) / 0.07), transparent 60%);
+        background-image: radial-gradient(
+            ellipse 80% 60% at 50% 0%,
+            color-mix(in srgb, var(--primary) 7%, transparent),
+            transparent 60%
+        );
     }
 
     /* --- redesign utilities --- */
@@ -414,36 +354,36 @@
         font-weight: 500;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: hsl(var(--muted-foreground));
+        color: var(--muted-foreground);
     }
 
     .index-label--accent {
-        color: hsl(var(--primary));
+        color: var(--primary);
     }
 
     .index-label--foreground {
-        color: hsl(var(--foreground));
+        color: var(--foreground);
     }
 
     .index-label--inverse {
-        color: hsl(var(--background));
+        color: var(--background);
     }
 
     .index-label--primary {
-        color: hsl(var(--primary));
+        color: var(--primary);
     }
 
     .index-label--accent-foreground {
-        color: hsl(var(--accent-foreground));
+        color: var(--accent-foreground);
     }
 
     .index-label--signal {
-        color: hsl(var(--signal));
+        color: var(--signal);
     }
 
     .hairline {
         border: 0;
-        border-top: 0.5px solid hsl(var(--border));
+        border-top: 0.5px solid var(--border);
     }
 
     .bg-lined-paper {
@@ -451,8 +391,8 @@
             to bottom,
             transparent,
             transparent 27px,
-            hsl(var(--foreground) / 0.025) 27px,
-            hsl(var(--foreground) / 0.025) 28px
+            color-mix(in srgb, var(--foreground) 2.5%, transparent) 27px,
+            color-mix(in srgb, var(--foreground) 2.5%, transparent) 28px
         );
     }
 
@@ -469,10 +409,9 @@
     .marker-highlight {
         display: inline-block;
         padding: 0.04em 0.12em 0.07em;
-        border: 0.03em solid hsl(var(--foreground));
-        background-color: hsl(var(--accent));
-        color: hsl(var(--accent-foreground));
-        box-shadow: 0 1px 2px hsl(var(--foreground) / 0.06);
+        border: 0.03em solid var(--foreground);
+        background-color: var(--accent);
+        color: var(--accent-foreground);
         transform: rotate(-1.5deg);
     }
 
@@ -491,8 +430,8 @@
     .archive-tab {
         display: inline-block;
         padding: 0.125rem 0.5rem;
-        background-color: hsl(var(--accent));
-        color: hsl(var(--accent-foreground));
+        background-color: var(--accent);
+        color: var(--accent-foreground);
         font-family: var(--font-jetbrains-mono), monospace;
         font-size: 0.75rem;
         letter-spacing: 0.1em;
@@ -501,17 +440,16 @@
 
     .signal-grid {
         background-image:
-            linear-gradient(to right, hsl(var(--foreground) / 0.06) 1px, transparent 1px),
-            linear-gradient(to bottom, hsl(var(--foreground) / 0.06) 1px, transparent 1px);
+            linear-gradient(to right, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px),
+            linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px);
         background-size: 48px 48px;
         background-position: -1px -1px;
     }
 
     .signal-card {
-        border: 0.5px solid hsl(var(--foreground));
+        border: 0.5px solid var(--foreground);
         border-radius: var(--radius);
-        background: hsl(var(--card));
-        box-shadow: 0 2px 8px hsl(var(--foreground) / 0.08);
+        background: var(--card);
     }
 
     .signal-sticker {
@@ -522,11 +460,10 @@
         width: 2.5rem;
         height: 2.5rem;
         place-items: center;
-        border: 0.5px solid hsl(var(--foreground));
+        border: 0.5px solid var(--foreground);
         border-radius: var(--radius);
-        background: hsl(var(--accent));
-        color: hsl(var(--accent-foreground));
-        box-shadow: 0 1px 4px hsl(var(--foreground) / 0.07);
+        background: var(--accent);
+        color: var(--accent-foreground);
         transform: rotate(4deg);
     }
 
@@ -536,10 +473,10 @@
         width: 1.75rem;
         height: 1.75rem;
         place-items: center;
-        border: 0.5px solid hsl(var(--foreground));
+        border: 0.5px solid var(--foreground);
         border-radius: var(--radius);
-        background: hsl(var(--accent));
-        transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+        background: var(--accent);
+        transition: transform 250ms var(--ease-out);
     }
 
     .signal-mark::before,
@@ -547,7 +484,7 @@
     .signal-mark span {
         position: absolute;
         content: "";
-        background: hsl(var(--foreground));
+        background: var(--foreground);
     }
 
     .signal-mark::before {
@@ -571,31 +508,28 @@
     }
 
     .signal-button {
-        border: 0.5px solid hsl(var(--foreground));
+        border: 0.5px solid var(--foreground);
         border-radius: var(--radius);
-        background: hsl(var(--primary));
-        color: hsl(var(--primary-foreground));
+        background: var(--primary);
+        color: var(--primary-foreground);
         font-size: 0.875rem;
         font-weight: 600;
-        box-shadow: 0 2px 6px hsl(var(--foreground) / 0.08);
         transition:
-            transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
-            box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1),
-            opacity 250ms cubic-bezier(0.16, 1, 0.3, 1);
+            transform 250ms var(--ease-out),
+            opacity 250ms var(--ease-out);
     }
 
     .signal-button:hover {
-        transform: translate(-2px, -2px);
-        box-shadow: 0 4px 12px hsl(var(--foreground) / 0.1);
+        opacity: 0.92;
     }
 
     .coordinate-rule {
         height: 0.5rem;
-        border-top: 0.5px solid hsl(var(--border));
+        border-top: 0.5px solid var(--border);
         background: repeating-linear-gradient(
             to right,
-            hsl(var(--foreground)) 0,
-            hsl(var(--foreground)) 1px,
+            var(--foreground) 0,
+            var(--foreground) 1px,
             transparent 1px,
             transparent 1rem
         );
@@ -606,21 +540,18 @@
 
     .discovery-rail {
         position: relative;
-        border-block: 0.5px solid hsl(var(--foreground));
+        border: 0.5px solid var(--border);
         border-radius: var(--radius);
-        background: hsl(var(--background));
+        background: var(--card);
     }
 
     .tool-card-lift {
         border-radius: var(--radius);
-        transition:
-            transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
-            box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: background 250ms var(--ease-out);
     }
 
     .tool-card-lift:hover {
-        transform: translate(-2px, -2px);
-        box-shadow: 0 2px 8px hsl(var(--foreground) / 0.08);
+        background: var(--secondary);
     }
 
     .featured-tab {
@@ -628,10 +559,10 @@
         left: 0;
         top: 0;
         z-index: 2;
-        border-right: 0.5px solid hsl(var(--foreground));
-        border-bottom: 0.5px solid hsl(var(--foreground));
-        background: hsl(var(--accent));
-        color: hsl(var(--accent-foreground));
+        border-right: 0.5px solid var(--foreground);
+        border-bottom: 0.5px solid var(--foreground);
+        background: var(--accent);
+        color: var(--accent-foreground);
         padding: 0.45rem 0.7rem;
         font-family: var(--font-jetbrains-mono), monospace;
         font-size: 0.75rem;
@@ -657,15 +588,24 @@
     }
 }
 
-/* App Universe / the working atlas: an editorial instrument rather than a tile wall. */
+/* App Universe / the working atlas: an editorial instrument rather than a tile wall.
+
+   封面在两种主题下都是同一块深色版面，所以它有自己的小 token 组，
+   值全部取自 Radix dark 刻度：blue-2 做底，sand 的暖白做墨，
+   tomato-11 做信号色，lime-9 是唯一的大面积填充。 */
 .atlas-hero {
+    --hero-bg: #111927; /* dark blue-2   */
+    --hero-ink: #eeeeec; /* dark sand-12  */
+    --hero-muted: #b5b3ad; /* dark sand-11  */
+    --hero-accent: #ff977d; /* dark tomato-11 */
+    --hero-lime: #bdee63; /* lime-9        */
+    --hero-lime-hover: #d4ff70; /* lime-10       */
+
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    background:
-        radial-gradient(circle at 7% 20%, rgb(85 140 130 / 0.24), transparent 29%),
-        radial-gradient(circle at 96% 68%, rgb(239 101 64 / 0.2), transparent 25%), #10232e;
-    color: #f5f0e6;
+    background: var(--hero-bg);
+    color: var(--hero-ink);
 }
 
 .atlas-hero::before {
@@ -673,8 +613,8 @@
     inset: 0;
     z-index: -1;
     background-image:
-        linear-gradient(rgb(232 240 227 / 0.055) 1px, transparent 1px),
-        linear-gradient(90deg, rgb(232 240 227 / 0.055) 1px, transparent 1px);
+        linear-gradient(color-mix(in srgb, var(--hero-ink) 5%, transparent) 1px, transparent 1px),
+        linear-gradient(90deg, color-mix(in srgb, var(--hero-ink) 5%, transparent) 1px, transparent 1px);
     background-size: 76px 76px;
     content: "";
     mask-image: linear-gradient(to right, #000, transparent 80%);
@@ -685,7 +625,7 @@
     z-index: -1;
     width: 52vw;
     aspect-ratio: 1;
-    border: 0.5px solid rgb(225 237 217 / 0.1);
+    border: 0.5px solid color-mix(in srgb, var(--hero-ink) 10%, transparent);
     border-radius: 50%;
     pointer-events: none;
 }
@@ -733,12 +673,12 @@
     display: flex;
     align-items: center;
     gap: 0.65rem;
-    color: #b5d7c1;
+    color: var(--hero-muted);
 }
 
 .atlas-edition {
     margin-left: auto;
-    color: #849f9f;
+    color: var(--hero-muted);
     white-space: nowrap;
 }
 
@@ -747,8 +687,8 @@
     height: 8px;
     flex: none;
     border-radius: 50%;
-    background: #c0ed9d;
-    box-shadow: 0 0 0 5px rgb(192 237 157 / 0.12);
+    background: var(--hero-lime);
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--hero-lime) 14%, transparent);
 }
 
 .atlas-title {
@@ -769,15 +709,15 @@
 
 .atlas-title em {
     margin-top: 0.1em;
-    color: #fc8867;
+    color: var(--hero-accent);
     font-style: italic;
 }
 
 .atlas-intro {
     max-width: 42ch;
     margin-top: 2.3rem;
-    color: #c3d1ca;
-    font-size: clamp(1rem, 1.35vw, 1.16rem);
+    color: var(--hero-muted);
+    font-size: 1rem;
     line-height: 1.75;
     text-wrap: pretty;
 }
@@ -797,27 +737,24 @@
     gap: 2.25rem;
     padding: 0 1.25rem;
     border-radius: 999px;
-    background: #c0ed9d;
-    color: #10232e;
-    font-size: 0.91rem;
+    background: var(--hero-lime);
+    color: var(--hero-bg);
+    font-size: 0.875rem;
     font-weight: 700;
-    transition:
-        transform 180ms ease,
-        background 180ms ease;
+    transition: background 250ms var(--ease-out);
 }
 
 .atlas-cta:hover {
-    transform: translateY(-3px);
-    background: #e2ffc8;
+    background: var(--hero-lime-hover);
 }
 
 .atlas-cta span {
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: 400;
 }
 
 .atlas-scroll-note {
-    color: #799897;
+    color: var(--hero-muted);
 }
 
 .atlas-facts {
@@ -826,25 +763,24 @@
     gap: 0.8rem 1.4rem;
     margin-top: clamp(3rem, 6vw, 6rem);
     padding-top: 1.25rem;
-    border-top: 0.5px solid rgb(219 236 218 / 0.2);
-    color: #98b1ab;
+    border-top: 0.5px solid color-mix(in srgb, var(--hero-ink) 18%, transparent);
+    color: var(--hero-muted);
 }
 
 .atlas-facts span + span::before {
     margin-right: 1.4rem;
-    color: #fc8867;
+    color: var(--hero-accent);
     content: "✳";
 }
 
 .atlas-showcase {
     min-width: 0;
-    padding: 1.25rem;
-    border: 0.5px solid rgb(225 237 217 / 0.28);
-    border-radius: 22px;
-    background: rgb(247 244 236 / 0.06);
-    box-shadow: 0 30px 80px rgb(0 0 0 / 0.24);
+    padding: 0.75rem;
+    border: 0.5px solid color-mix(in srgb, var(--hero-ink) 24%, transparent);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--hero-ink) 6%, transparent);
     transform: rotate(1.4deg);
-    transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 250ms var(--ease-out);
 }
 
 .atlas-showcase:hover {
@@ -855,7 +791,7 @@
     display: flex;
     justify-content: space-between;
     padding-bottom: 0.9rem;
-    color: #b8d0c0;
+    color: var(--hero-muted);
 }
 
 .atlas-lead-image {
@@ -863,18 +799,18 @@
     display: block;
     overflow: hidden;
     aspect-ratio: 16 / 10;
-    border-radius: 12px;
-    background: #e9e9dc;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--hero-ink) 10%, transparent);
 }
 
 .atlas-image-index {
     position: absolute;
-    right: 0.8rem;
-    bottom: 0.8rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
     padding: 0.55rem 0.65rem;
-    border-radius: 5px;
-    background: #10232e;
-    color: #e8eadc;
+    border-radius: 4px;
+    background: var(--hero-bg);
+    color: var(--hero-ink);
 }
 
 .atlas-lead-caption {
@@ -883,7 +819,7 @@
     justify-content: space-between;
     gap: 1rem;
     padding: 1.15rem 0 1.4rem;
-    border-bottom: 0.5px solid rgb(225 237 217 / 0.25);
+    border-bottom: 0.5px solid color-mix(in srgb, var(--hero-ink) 20%, transparent);
 }
 
 .atlas-lead-caption > div {
@@ -893,20 +829,20 @@
 }
 
 .atlas-lead-caption .atlas-meta {
-    color: #9fb5ad;
+    color: var(--hero-muted);
 }
 
 .atlas-lead-caption a {
-    color: #f4eee0;
+    color: var(--hero-ink);
     font-family: Georgia, "Songti SC", serif;
     font-size: clamp(1.5rem, 2.1vw, 2rem);
     letter-spacing: -0.04em;
 }
 
 .atlas-lead-caption a span {
-    color: #fc8867;
+    color: var(--hero-accent);
     font-family: var(--font-sans), sans-serif;
-    font-size: 1.15rem;
+    font-size: 0.875rem;
 }
 
 .atlas-mini-grid {
@@ -925,8 +861,8 @@
     display: block;
     overflow: hidden;
     aspect-ratio: 2.4;
-    border-radius: 8px;
-    background: #e9e9dc;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--hero-ink) 10%, transparent);
 }
 
 .atlas-mini-name {
@@ -934,13 +870,13 @@
     align-items: center;
     gap: 0.6rem;
     margin-top: 0.55rem;
-    color: #f4eee0;
-    font-size: 0.83rem;
+    color: var(--hero-ink);
+    font-size: 0.875rem;
     font-weight: 600;
 }
 
 .atlas-mini-name .atlas-meta {
-    color: #fc8867;
+    color: var(--hero-accent);
 }
 
 .atlas-hero-foot {
@@ -950,26 +886,25 @@
     gap: 2rem;
     overflow: hidden;
     padding: 0.9rem 1rem;
-    background: #fc8867;
-    color: #10232e;
+    background: var(--hero-accent);
+    color: var(--hero-bg);
     white-space: nowrap;
 }
 
 .atlas-card {
     border-width: 0.5px;
-    border-color: hsl(var(--border));
-    border-radius: 18px;
-    box-shadow: 0 12px 35px hsl(var(--foreground) / 0.05);
+    border-color: var(--border);
+    border-radius: var(--radius);
+    transition: border-color 250ms var(--ease-out);
 }
 
 .atlas-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 22px 45px hsl(var(--foreground) / 0.14);
+    border-color: var(--foreground);
 }
 
 .atlas-card > a:first-of-type {
     border-bottom-width: 0.5px;
-    border-bottom-color: hsl(var(--border));
+    border-bottom-color: var(--border);
 }
 
 .atlas-card h3 {
@@ -981,14 +916,14 @@
 .atlas-card .featured-tab {
     border: 0;
     border-radius: 0 0 9px 0;
-    background: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
+    background: var(--primary);
+    color: var(--primary-foreground);
 }
 
 .atlas-header {
     border-bottom-width: 0.5px;
-    border-color: hsl(var(--border));
-    background: hsl(var(--background) / 0.92);
+    border-color: var(--border);
+    background: color-mix(in srgb, var(--background) 92%, transparent);
     backdrop-filter: blur(18px);
 }
 
@@ -997,14 +932,14 @@
     height: 1.95rem;
     border-width: 0.5px;
     border-radius: 50%;
-    background: hsl(var(--primary));
+    background: var(--primary);
     transform: rotate(-18deg);
 }
 
 .atlas-header .signal-mark::before,
 .atlas-header .signal-mark::after,
 .atlas-header .signal-mark span {
-    background: hsl(var(--primary-foreground));
+    background: var(--primary-foreground);
 }
 
 .atlas-index h2 {
@@ -1015,12 +950,12 @@
 
 .atlas-index section > div:first-child:has(h2) {
     border-bottom-width: 0.5px;
-    border-color: hsl(var(--border));
+    border-color: var(--border);
 }
 
 .atlas-footer {
     border-top-width: 0.5px;
-    border-color: hsl(var(--border));
+    border-color: var(--border);
 }
 
 .atlas-footer .display-heading {
@@ -1037,21 +972,20 @@
 
 .atlas-detail-tag {
     border-width: 0.5px;
-    border-color: hsl(var(--border));
+    border-color: var(--border);
     border-radius: 999px;
 }
 
 .atlas-note {
-    border: 0.5px solid hsl(var(--border));
+    border: 0.5px solid var(--border);
     border-radius: var(--radius);
-    box-shadow: 0 12px 30px hsl(var(--foreground) / 0.06);
 }
 
 .atlas-note::before {
     position: absolute;
     top: -3.2rem;
     right: 1rem;
-    color: hsl(var(--primary) / 0.12);
+    color: color-mix(in srgb, var(--primary) 12%, transparent);
     content: "“";
     font-family: Georgia, serif;
     font-size: 11rem;
@@ -1070,24 +1004,23 @@
 }
 
 .atlas-detail-media {
-    border-radius: 18px;
+    border-radius: var(--radius);
 }
 
 .atlas-detail-media-head {
     border-bottom-width: 0.5px;
-    border-color: hsl(var(--border));
+    border-color: var(--border);
 }
 
 .atlas-related-card {
     border-width: 0.5px;
-    border-color: hsl(var(--border));
-    border-radius: 16px;
-    box-shadow: 0 10px 28px hsl(var(--foreground) / 0.05);
+    border-color: var(--border);
+    border-radius: var(--radius);
 }
 
 .atlas-related-card > a > div:first-child {
     border-bottom-width: 0.5px;
-    border-color: hsl(var(--border));
+    border-color: var(--border);
 }
 
 .atlas-related-card .display-heading {
@@ -1095,23 +1028,10 @@
     font-weight: 500;
 }
 
-.discovery-rail {
-    border: 0.5px solid hsl(var(--border));
-    border-radius: 18px;
-    background: hsl(var(--card));
-    box-shadow: 0 12px 30px hsl(var(--foreground) / 0.07);
-}
-
-.signal-button,
 .signal-card {
     border-width: 0.5px;
-    border-color: hsl(var(--border));
-    border-radius: 14px;
-    box-shadow: 0 12px 30px hsl(var(--foreground) / 0.08);
-}
-
-.signal-button:hover {
-    box-shadow: 0 16px 34px hsl(var(--foreground) / 0.14);
+    border-color: var(--border);
+    border-radius: var(--radius);
 }
 
 @media (max-width: 900px) {
@@ -1201,14 +1121,14 @@
     flex-direction: column;
     gap: 0.5rem;
     padding: 0.85rem 1rem;
-    border: 0.5px solid hsl(var(--border));
+    border: 0.5px solid var(--border);
     border-radius: var(--radius);
-    background: hsl(var(--muted));
+    background: var(--muted);
     transform-style: preserve-3d;
     backface-visibility: hidden;
     transition:
-        transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
-        opacity 250ms cubic-bezier(0.16, 1, 0.3, 1);
+        transform 250ms var(--ease-out),
+        opacity 250ms var(--ease-out);
 }
 .verdict__face--back {
     opacity: 0;
@@ -1232,22 +1152,22 @@
 .verdict__text {
     display: -webkit-box;
     overflow: hidden;
-    color: hsl(var(--foreground) / 0.85);
+    color: color-mix(in srgb, var(--foreground) 85%, transparent);
     font-size: 0.875rem;
     line-height: 1.6;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
 }
 .verdict__label {
-    color: hsl(var(--signal));
+    color: var(--signal);
 }
 .verdict__cue {
     margin-top: 0.15rem;
-    color: hsl(var(--muted-foreground));
-    transition: color 250ms cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--muted-foreground);
+    transition: color 250ms var(--ease-out);
 }
 .verdict:hover .verdict__cue {
-    color: hsl(var(--foreground));
+    color: var(--foreground);
 }
 .verdict__moves {
     display: flex;
@@ -1260,31 +1180,32 @@
     gap: 0.15rem;
 }
 .verdict__move-label {
-    color: hsl(var(--signal));
+    color: var(--signal);
 }
 /* The caveat is the one that can stop you using the tool, so it gets the
    loudest label of the three. */
 .verdict__move:last-child .verdict__move-label {
-    color: hsl(var(--destructive));
+    color: var(--destructive);
 }
 .verdict__move-text {
-    color: hsl(var(--foreground) / 0.85);
-    font-size: 0.8125rem;
+    max-width: 70ch;
+    color: color-mix(in srgb, var(--foreground) 85%, transparent);
+    font-size: 0.875rem;
     line-height: 1.5;
 }
 .verdict--flat {
     margin-top: 1rem;
     padding: 0.85rem 1rem;
-    border: 0.5px solid hsl(var(--border));
+    border: 0.5px solid var(--border);
     border-radius: var(--radius);
-    background: hsl(var(--muted));
+    background: var(--muted);
 }
 .verdict--flat .verdict__text {
     margin-top: 0.35rem;
 }
 @media (prefers-reduced-motion: reduce) {
     .verdict__face {
-        transition: opacity 250ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 250ms var(--ease-out);
     }
     .verdict.is-flipped .verdict__face--front,
     .verdict__face--back {
@@ -1300,9 +1221,9 @@
     gap: 0.5rem;
     margin-top: 1rem;
     padding: 0.85rem 1rem;
-    border: 0.5px solid hsl(var(--border));
+    border: 0.5px solid var(--border);
     border-radius: var(--radius);
-    background: hsl(var(--muted));
+    background: var(--muted);
 }
 .verdict--open .verdict__moves {
     gap: 0.5rem;
@@ -1317,32 +1238,32 @@
 .dossier-list {
     display: flex;
     flex-direction: column;
-    border-top: 0.5px solid hsl(var(--border));
+    border-top: 0.5px solid var(--border);
 }
 .dossier {
     display: grid;
     grid-template-columns: 168px minmax(0, 1fr);
     gap: 1.25rem;
     padding: 1.35rem 0;
-    border-bottom: 0.5px solid hsl(var(--border));
-    transition: background 250ms cubic-bezier(0.16, 1, 0.3, 1);
+    border-bottom: 0.5px solid var(--border);
+    transition: background 250ms var(--ease-out);
 }
 .dossier:hover {
-    background: hsl(var(--muted) / 0.45);
+    background: color-mix(in srgb, var(--muted) 45%, transparent);
 }
 .dossier__thumb {
     position: relative;
     display: block;
     overflow: hidden;
     aspect-ratio: 16 / 10;
-    border: 0.5px solid hsl(var(--border));
+    border: 0.5px solid var(--border);
     border-radius: 10px;
-    background: hsl(var(--muted));
+    background: var(--muted);
 }
 .dossier__thumb-image {
     object-fit: cover;
     object-position: top;
-    transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 250ms var(--ease-out);
 }
 .dossier:hover .dossier__thumb-image {
     transform: scale(1.05);
@@ -1355,8 +1276,8 @@
     bottom: 0;
     width: 26px;
     height: 26px;
-    border-top: 0.5px solid hsl(var(--border));
-    border-left: 0.5px solid hsl(var(--border));
+    border-top: 0.5px solid var(--border);
+    border-left: 0.5px solid var(--border);
     border-top-left-radius: 8px;
 }
 .dossier__body {
@@ -1372,17 +1293,17 @@
 }
 .dossier__name {
     font-family: Georgia, "Songti SC", serif;
-    font-size: 1.375rem;
+    font-size: 1.25rem;
     font-weight: 500;
     letter-spacing: -0.035em;
-    color: hsl(var(--foreground));
-    transition: color 250ms cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--foreground);
+    transition: color 250ms var(--ease-out);
 }
 .dossier__name:hover {
-    color: hsl(var(--primary));
+    color: var(--primary);
 }
 .dossier__domain {
-    color: hsl(var(--muted-foreground));
+    color: var(--muted-foreground);
 }
 .dossier__links {
     display: flex;
@@ -1394,29 +1315,29 @@
     width: 34px;
     height: 34px;
     place-items: center;
-    border: 0.5px solid hsl(var(--border));
-    color: hsl(var(--muted-foreground));
+    border: 0.5px solid var(--border);
+    color: var(--muted-foreground);
     transition:
-        border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
-        color 250ms cubic-bezier(0.16, 1, 0.3, 1);
+        border-color 250ms var(--ease-out),
+        color 250ms var(--ease-out);
 }
 .dossier__icon-link:hover {
-    border-color: hsl(var(--foreground));
-    color: hsl(var(--foreground));
+    border-color: var(--foreground);
+    color: var(--foreground);
 }
 .dossier__icon-link--primary {
     border-color: transparent;
-    background: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
+    background: var(--primary);
+    color: var(--primary-foreground);
 }
 .dossier__icon-link--primary:hover {
-    color: hsl(var(--primary-foreground));
+    color: var(--primary-foreground);
     opacity: 0.85;
 }
 .dossier__desc {
     max-width: 78ch;
     margin-top: 0.5rem;
-    color: hsl(var(--muted-foreground));
+    color: var(--muted-foreground);
     font-size: 0.875rem;
     line-height: 1.6;
 }
@@ -1435,23 +1356,23 @@
 }
 .dossier__tag {
     padding: 0.3rem 0.55rem;
-    border: 0.5px solid hsl(var(--border));
-    color: hsl(var(--muted-foreground));
+    border: 0.5px solid var(--border);
+    color: var(--muted-foreground);
     transition:
-        border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
-        color 250ms cubic-bezier(0.16, 1, 0.3, 1);
+        border-color 250ms var(--ease-out),
+        color 250ms var(--ease-out);
 }
 .dossier__tag:hover {
-    border-color: hsl(var(--foreground));
-    color: hsl(var(--foreground));
+    border-color: var(--foreground);
+    color: var(--foreground);
 }
 .dossier__detail {
     padding-bottom: 0.15rem;
-    border-bottom: 0.5px solid hsl(var(--foreground));
-    transition: color 250ms cubic-bezier(0.16, 1, 0.3, 1);
+    border-bottom: 0.5px solid var(--foreground);
+    transition: color 250ms var(--ease-out);
 }
 .dossier__detail:hover {
-    color: hsl(var(--primary));
+    color: var(--primary);
 }
 @media (max-width: 720px) {
     .dossier {
@@ -1459,7 +1380,7 @@
         gap: 0.85rem;
     }
     .dossier__name {
-        font-size: 1.125rem;
+        font-size: 1.25rem;
     }
     .dossier__domain {
         width: 100%;
