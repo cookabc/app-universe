@@ -1,0 +1,595 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-23T10:18:24.273266+00:00",
+  "title": "Design System: App Universe",
+  "extensions": {
+    "colorMeta": {
+      "slate-1": {
+        "role": "neutral",
+        "displayName": "Slate 1",
+        "tonalRamp": [
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#b9bbc6",
+          "#d9d9e0",
+          "#e8e8ec",
+          "#f9f9fb",
+          "#fcfcfd"
+        ]
+      },
+      "slate-12": {
+        "role": "neutral",
+        "displayName": "Slate 12",
+        "tonalRamp": [
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#b9bbc6",
+          "#d9d9e0",
+          "#e8e8ec",
+          "#f9f9fb",
+          "#fcfcfd"
+        ]
+      },
+      "slate-2": {
+        "role": "neutral",
+        "displayName": "Slate 2",
+        "tonalRamp": [
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#b9bbc6",
+          "#d9d9e0",
+          "#e8e8ec",
+          "#f9f9fb",
+          "#fcfcfd"
+        ]
+      },
+      "indigo-11": {
+        "role": "primary",
+        "displayName": "Indigo 11",
+        "tonalRamp": [
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#8da4ef",
+          "#c1d0ff",
+          "#e1e9ff",
+          "#f7f9ff",
+          "#fdfdfe"
+        ]
+      },
+      "indigo-1": {
+        "role": "primary",
+        "displayName": "Indigo 1",
+        "tonalRamp": [
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#8da4ef",
+          "#c1d0ff",
+          "#e1e9ff",
+          "#f7f9ff",
+          "#fdfdfe"
+        ]
+      },
+      "slate-3": {
+        "role": "neutral",
+        "displayName": "Slate 3",
+        "tonalRamp": [
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#b9bbc6",
+          "#d9d9e0",
+          "#e8e8ec",
+          "#f9f9fb",
+          "#fcfcfd"
+        ]
+      },
+      "slate-11": {
+        "role": "neutral",
+        "displayName": "Slate 11",
+        "tonalRamp": [
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#b9bbc6",
+          "#d9d9e0",
+          "#e8e8ec",
+          "#f9f9fb",
+          "#fcfcfd"
+        ]
+      },
+      "indigo-3": {
+        "role": "primary",
+        "displayName": "Indigo 3",
+        "tonalRamp": [
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#8da4ef",
+          "#c1d0ff",
+          "#e1e9ff",
+          "#f7f9ff",
+          "#fdfdfe"
+        ]
+      },
+      "indigo-12": {
+        "role": "primary",
+        "displayName": "Indigo 12",
+        "tonalRamp": [
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#8da4ef",
+          "#c1d0ff",
+          "#e1e9ff",
+          "#f7f9ff",
+          "#fdfdfe"
+        ]
+      },
+      "slate-6": {
+        "role": "neutral",
+        "displayName": "Slate 6",
+        "tonalRamp": [
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#b9bbc6",
+          "#d9d9e0",
+          "#e8e8ec",
+          "#f9f9fb",
+          "#fcfcfd"
+        ]
+      },
+      "slate-7": {
+        "role": "neutral",
+        "displayName": "Slate 7",
+        "tonalRamp": [
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#b9bbc6",
+          "#d9d9e0",
+          "#e8e8ec",
+          "#f9f9fb",
+          "#fcfcfd"
+        ]
+      },
+      "indigo-8": {
+        "role": "primary",
+        "displayName": "Indigo 8",
+        "tonalRamp": [
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#8da4ef",
+          "#c1d0ff",
+          "#e1e9ff",
+          "#f7f9ff",
+          "#fdfdfe"
+        ]
+      },
+      "red-11": {
+        "role": "secondary",
+        "displayName": "Red 11",
+        "tonalRamp": [
+          "#641723",
+          "#ce2c31",
+          "#e5484d",
+          "#eb8e90",
+          "#fdbdbe",
+          "#ffdbdc",
+          "#fff7f7",
+          "#fffcfc"
+        ]
+      },
+      "grass-11": {
+        "role": "secondary",
+        "displayName": "Grass 11",
+        "tonalRamp": [
+          "#203c25",
+          "#2a7e3b",
+          "#46a758",
+          "#65ba74",
+          "#b2ddb5",
+          "#daf1db",
+          "#f5fbf5",
+          "#fbfefb"
+        ]
+      },
+      "indigo-5": {
+        "role": "primary",
+        "displayName": "Indigo 5",
+        "tonalRamp": [
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#8da4ef",
+          "#c1d0ff",
+          "#e1e9ff",
+          "#f7f9ff",
+          "#fdfdfe"
+        ]
+      },
+      "indigo-9": {
+        "role": "primary",
+        "displayName": "Indigo 9",
+        "tonalRamp": [
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#8da4ef",
+          "#c1d0ff",
+          "#e1e9ff",
+          "#f7f9ff",
+          "#fdfdfe"
+        ]
+      },
+      "indigo-4": {
+        "role": "primary",
+        "displayName": "Indigo 4",
+        "tonalRamp": [
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#8da4ef",
+          "#c1d0ff",
+          "#e1e9ff",
+          "#f7f9ff",
+          "#fdfdfe"
+        ]
+      },
+      "slate-1-dark": {
+        "role": "neutral",
+        "displayName": "Slate 1 Dark",
+        "tonalRamp": [
+          "#111113",
+          "#18191b",
+          "#272a2d",
+          "#363a3f",
+          "#5a6169",
+          "#696e77",
+          "#b0b4ba",
+          "#edeef0"
+        ]
+      },
+      "slate-12-dark": {
+        "role": "neutral",
+        "displayName": "Slate 12 Dark",
+        "tonalRamp": [
+          "#111113",
+          "#18191b",
+          "#272a2d",
+          "#363a3f",
+          "#5a6169",
+          "#696e77",
+          "#b0b4ba",
+          "#edeef0"
+        ]
+      },
+      "slate-2-dark": {
+        "role": "neutral",
+        "displayName": "Slate 2 Dark",
+        "tonalRamp": [
+          "#111113",
+          "#18191b",
+          "#272a2d",
+          "#363a3f",
+          "#5a6169",
+          "#696e77",
+          "#b0b4ba",
+          "#edeef0"
+        ]
+      },
+      "indigo-11-dark": {
+        "role": "primary",
+        "displayName": "Indigo 11 Dark",
+        "tonalRamp": [
+          "#11131f",
+          "#141726",
+          "#1d2e62",
+          "#304384",
+          "#435db1",
+          "#3e63dd",
+          "#9eb1ff",
+          "#d6e1ff"
+        ]
+      },
+      "indigo-1-dark": {
+        "role": "primary",
+        "displayName": "Indigo 1 Dark",
+        "tonalRamp": [
+          "#11131f",
+          "#141726",
+          "#1d2e62",
+          "#304384",
+          "#435db1",
+          "#3e63dd",
+          "#9eb1ff",
+          "#d6e1ff"
+        ]
+      },
+      "slate-3-dark": {
+        "role": "neutral",
+        "displayName": "Slate 3 Dark",
+        "tonalRamp": [
+          "#111113",
+          "#18191b",
+          "#272a2d",
+          "#363a3f",
+          "#5a6169",
+          "#696e77",
+          "#b0b4ba",
+          "#edeef0"
+        ]
+      },
+      "slate-11-dark": {
+        "role": "neutral",
+        "displayName": "Slate 11 Dark",
+        "tonalRamp": [
+          "#111113",
+          "#18191b",
+          "#272a2d",
+          "#363a3f",
+          "#5a6169",
+          "#696e77",
+          "#b0b4ba",
+          "#edeef0"
+        ]
+      },
+      "indigo-3-dark": {
+        "role": "primary",
+        "displayName": "Indigo 3 Dark",
+        "tonalRamp": [
+          "#11131f",
+          "#141726",
+          "#1d2e62",
+          "#304384",
+          "#435db1",
+          "#3e63dd",
+          "#9eb1ff",
+          "#d6e1ff"
+        ]
+      },
+      "indigo-12-dark": {
+        "role": "primary",
+        "displayName": "Indigo 12 Dark",
+        "tonalRamp": [
+          "#11131f",
+          "#141726",
+          "#1d2e62",
+          "#304384",
+          "#435db1",
+          "#3e63dd",
+          "#9eb1ff",
+          "#d6e1ff"
+        ]
+      },
+      "slate-6-dark": {
+        "role": "neutral",
+        "displayName": "Slate 6 Dark",
+        "tonalRamp": [
+          "#111113",
+          "#18191b",
+          "#272a2d",
+          "#363a3f",
+          "#5a6169",
+          "#696e77",
+          "#b0b4ba",
+          "#edeef0"
+        ]
+      },
+      "slate-7-dark": {
+        "role": "neutral",
+        "displayName": "Slate 7 Dark",
+        "tonalRamp": [
+          "#111113",
+          "#18191b",
+          "#272a2d",
+          "#363a3f",
+          "#5a6169",
+          "#696e77",
+          "#b0b4ba",
+          "#edeef0"
+        ]
+      },
+      "indigo-8-dark": {
+        "role": "primary",
+        "displayName": "Indigo 8 Dark",
+        "tonalRamp": [
+          "#11131f",
+          "#141726",
+          "#1d2e62",
+          "#304384",
+          "#435db1",
+          "#3e63dd",
+          "#9eb1ff",
+          "#d6e1ff"
+        ]
+      },
+      "red-11-dark": {
+        "role": "secondary",
+        "displayName": "Red 11 Dark",
+        "tonalRamp": [
+          "#191111",
+          "#201314",
+          "#500f1c",
+          "#72232d",
+          "#b54548",
+          "#e5484d",
+          "#ff9592",
+          "#ffd1d9"
+        ]
+      },
+      "grass-11-dark": {
+        "role": "secondary",
+        "displayName": "Grass 11 Dark",
+        "tonalRamp": [
+          "#0e1511",
+          "#141a15",
+          "#1d3a24",
+          "#2d5736",
+          "#3e7949",
+          "#46a758",
+          "#71d083",
+          "#c2f0c2"
+        ]
+      },
+      "indigo-5-dark": {
+        "role": "primary",
+        "displayName": "Indigo 5 Dark",
+        "tonalRamp": [
+          "#11131f",
+          "#141726",
+          "#1d2e62",
+          "#304384",
+          "#435db1",
+          "#3e63dd",
+          "#9eb1ff",
+          "#d6e1ff"
+        ]
+      },
+      "indigo-9-dark": {
+        "role": "primary",
+        "displayName": "Indigo 9 Dark",
+        "tonalRamp": [
+          "#11131f",
+          "#141726",
+          "#1d2e62",
+          "#304384",
+          "#435db1",
+          "#3e63dd",
+          "#9eb1ff",
+          "#d6e1ff"
+        ]
+      },
+      "indigo-4-dark": {
+        "role": "primary",
+        "displayName": "Indigo 4 Dark",
+        "tonalRamp": [
+          "#11131f",
+          "#141726",
+          "#1d2e62",
+          "#304384",
+          "#435db1",
+          "#3e63dd",
+          "#9eb1ff",
+          "#d6e1ff"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Implemented display role."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Implemented title role."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Implemented body role."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Implemented label role."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "state-duration",
+        "value": "250ms",
+        "purpose": "Short functional state changes."
+      },
+      {
+        "name": "inherited-ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Inherited component easing."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "max-900",
+        "value": "900px"
+      },
+      {
+        "name": "max-600",
+        "value": "600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "explorer-actions",
+      "description": "Appearance extracted from current source selectors; isolated specimen does not reproduce application state or navigation.",
+      "html": "<div class=\"ds-specimen\"><div class=\"ds-explorer-actions\"><a href=\"#notes\">Read the notes</a><button>Copy link</button></div></div>",
+      "css": ".ds-specimen { font-family: IBM Plex Sans, sans-serif; color: var(--slate-12, #1c2024); }\n.ds-explorer-actions{\n    display: flex;\n    flex-direction: column;\n    align-items: flex-end;\n    gap: 8px;\n}\n.ds-explorer-actions a{\n    background: var(--indigo-9, #3e63dd);\n    color: var(--indigo-1, #fdfdfe);\n    padding: 12px 18px;\n    border-radius: 4px;\n    font-size: 12px;\n    min-height: 44px;\n}\n.ds-explorer-actions button{\n    font-size: 12px;\n    color: var(--slate-11, #60646c);\n    min-height: 40px;\n    cursor: pointer;\n}\n.ds-explorer-actions{\n        flex-direction: row;\n        align-items: center;\n        gap: 16px;\n    }\n.ds-explorer-actions a{\n    color: #fdfdfe;\n}\n.ds-specimen :focus-visible { outline: 2px solid var(--indigo-8, #8da4ef); outline-offset: 3px; }\n@media (prefers-reduced-motion: reduce) { .ds-specimen * { animation: none !important; transition: none !important; } }"
+    },
+    {
+      "name": "Search",
+      "kind": "input",
+      "refersTo": "explorer-search",
+      "description": "Appearance extracted from current source selectors; isolated specimen does not reproduce application state or navigation.",
+      "html": "<div class=\"ds-specimen\"><label class=\"ds-explorer-search\"><span>Search</span><input aria-label=\"Search tools\" placeholder=\"Name or purpose…\"></label></div>",
+      "css": ".ds-specimen { font-family: IBM Plex Sans, sans-serif; color: var(--slate-12, #1c2024); }\n.ds-explorer-search{\n    display: flex;\n    align-items: center;\n    gap: 12px;\n    flex: 1;\n    min-width: 180px;\n}\n.ds-explorer-search > span{\n    color: var(--slate-11, #60646c);\n    font-size: 12px;\n}\n.ds-explorer-search input{\n    width: 100%;\n    min-width: 0;\n    padding: 10px 0;\n    background: transparent;\n    border: 0;\n    font-size: 16px;\n    color: var(--slate-12, #1c2024);\n}\n.ds-explorer-search input::placeholder{\n    color: var(--slate-11, #60646c);\n}\n.ds-explorer-search{\n        flex-basis: 100%;\n    }\n.ds-specimen :focus-visible { outline: 2px solid var(--indigo-8, #8da4ef); outline-offset: 3px; }\n@media (prefers-reduced-motion: reduce) { .ds-specimen * { animation: none !important; transition: none !important; } }"
+    },
+    {
+      "name": "Categories",
+      "kind": "nav",
+      "refersTo": "explorer-categories",
+      "description": "Appearance extracted from current source selectors; isolated specimen does not reproduce application state or navigation.",
+      "html": "<div class=\"ds-specimen\"><div class=\"ds-explorer-categories\"><button aria-pressed=\"true\">All</button><button>Design</button></div></div>",
+      "css": ".ds-specimen { font-family: IBM Plex Sans, sans-serif; color: var(--slate-12, #1c2024); }\n.ds-explorer-categories{\n    display: flex;\n    gap: 4px;\n}\n.ds-explorer-categories button{\n    min-height: 44px;\n    padding: 10px 14px;\n    font-size: 12px;\n    border: 0;\n    border-radius: 4px;\n    color: var(--slate-11, #60646c);\n    background: transparent;\n    cursor: pointer;\n}\n.ds-explorer-categories [aria-pressed=\"true\"]{\n    background: var(--indigo-4, #e1e9ff);\n    color: var(--indigo-11, #3a5bc7);\n}\n.ds-explorer-categories button:hover{\n    background: var(--slate-3, #f0f0f3);\n    color: var(--slate-12, #1c2024);\n}\n.ds-explorer-categories{\n        flex: 1;\n    }\n.ds-explorer-categories{\n        flex-basis: 100%;\n    }\n.ds-explorer-categories button{\n        flex: 1;\n        padding-inline: 8px;\n    }\n.ds-specimen :focus-visible { outline: 2px solid var(--indigo-8, #8da4ef); outline-offset: 3px; }\n@media (prefers-reduced-motion: reduce) { .ds-specimen * { animation: none !important; transition: none !important; } }"
+    },
+    {
+      "name": "Selected tool",
+      "kind": "custom",
+      "refersTo": "explorer-item",
+      "description": "Appearance extracted from current source selectors; isolated specimen does not reproduce application state or navigation.",
+      "html": "<div class=\"ds-specimen\"><button class=\"ds-explorer-item\" aria-pressed=\"true\"><span></span><span><strong>Open Design</strong><small>open-design.ai</small></span></button></div>",
+      "css": ".ds-specimen { font-family: IBM Plex Sans, sans-serif; color: var(--slate-12, #1c2024); }\n.ds-explorer-item{\n    width: 100%;\n    display: flex;\n    align-items: center;\n    gap: 12px;\n    text-align: left;\n    min-height: 72px;\n    padding: 12px;\n    border: 0;\n    border-bottom: 0.5px solid var(--slate-6, #d9d9e0);\n    background: transparent;\n    color: var(--slate-12, #1c2024);\n    cursor: pointer;\n    border-radius: 0;\n}\n.ds-explorer-item:hover{\n    background: var(--slate-3, #f0f0f3);\n}\n.ds-explorer-item[aria-pressed=\"true\"]{\n    background: var(--indigo-3, #edf2fe);\n}\n.ds-explorer-item > span:nth-child(2){\n    flex: 1;\n    min-width: 0;\n}\n.ds-explorer-item strong{\n    display: block;\n    font-size: 16px;\n    font-weight: 500;\n    overflow-wrap: anywhere;\n}\n.ds-explorer-item small{\n    display: block;\n    font-size: 12px;\n    color: var(--slate-11, #60646c);\n    overflow-wrap: anywhere;\n    margin-top: 4px;\n}\n.ds-explorer-item > svg{\n    flex-shrink: 0;\n    color: var(--slate-11, #60646c);\n}\n.ds-explorer-item{\n        flex: 0 0 200px;\n        border: 0.5px solid var(--slate-6, #d9d9e0);\n        padding: 10px;\n    }\n.ds-explorer-item > svg{\n        display: none;\n    }\n.ds-specimen :focus-visible { outline: 2px solid var(--indigo-8, #8da4ef); outline-offset: 3px; }\n@media (prefers-reduced-motion: reduce) { .ds-specimen * { animation: none !important; transition: none !important; } }"
+    },
+    {
+      "name": "Tag filter",
+      "kind": "chip",
+      "refersTo": "explorer-tags",
+      "description": "Appearance extracted from current source selectors; isolated specimen does not reproduce application state or navigation.",
+      "html": "<div class=\"ds-specimen\"><div class=\"ds-explorer-tags\"><button>Design</button></div></div>",
+      "css": ".ds-specimen { font-family: IBM Plex Sans, sans-serif; color: var(--slate-12, #1c2024); }\n.ds-explorer-tags{\n    display: flex;\n    gap: 8px;\n    flex-wrap: wrap;\n    grid-column: 1 / -1;\n}\n.ds-explorer-tags button{\n    font-size: 12px;\n    padding: 6px 10px;\n    background: var(--slate-3, #f0f0f3);\n    color: var(--slate-11, #60646c);\n    border-radius: 3px;\n    min-height: 32px;\n}\n.ds-specimen :focus-visible { outline: 2px solid var(--indigo-8, #8da4ef); outline-offset: 3px; }\n@media (prefers-reduced-motion: reduce) { .ds-specimen * { animation: none !important; transition: none !important; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Tool Preview Desk",
+    "overview": "A quiet preview desk makes the selected tool the center of attention. Compact collection rows and visible filters support one persistent preview. Indigo identifies selection and actions; original screenshots retain their own visual identities.\n\nThis code-led scan uses src/explorer.css as the final override layer, with inherited rules from src/app/globals.css. Local review captures provide visual evidence; there is no separate visual comp.",
+    "keyCharacteristics": [
+      "Semantic Radix colors",
+      "Four-size hierarchy",
+      "Flat working surfaces",
+      "Original imagery"
+    ],
+    "rules": [
+      {
+        "name": "Semantic Step",
+        "body": "Use exact Radix values at their implemented semantic role; original raster content is outside the authored UI palette.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do use Radix steps 1–2 for backgrounds, 3–5 for interactive surfaces, 6–8 for boundaries, 9–10 for solid fills, and 11–12 for readable ink.",
+      "Do preserve original assets and consult .impeccable/asset-provenance.json before changing imagery.",
+      "Do keep at most four authored text sizes and preserve visible keyboard focus.",
+      "Do remove nonessential motion when prefers-reduced-motion is active."
+    ],
+    "donts": [
+      "Don't add decorative shadows, middle-dot separators, or redundant explanatory UI copy.",
+      "Don't treat screenshot colors or embedded text as UI design tokens."
+    ]
+  }
+}

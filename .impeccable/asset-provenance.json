@@ -1,0 +1,199 @@
+{
+  "version": 1,
+  "policy": "Original repository raster content preserved. No AI-generated raster assets added. This record documents source identity, not independent rights clearance.",
+  "rasterAssets": [
+    {
+      "path": "docs/images/home.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:docs/images/home.png",
+      "sha256": "e2cf3e0d4dcc65aa00f600e989351d98998376f13d75730a09204deb0251923e",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/60fps.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/60fps.png",
+      "sha256": "c15b2bb563f05cdf00ea6dd56a51609deec93b426c6ddb791ef68debf1291c5b",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/astrocade.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/astrocade.png",
+      "sha256": "67c47179256684de0c07b3cb1434cd6f58c9be3a7d7a3ea39f3716d4487c4272",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/awesome-ai-motion.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/awesome-ai-motion.png",
+      "sha256": "07f62b33fa8e0bc113054c8eb974d39d284a5bc2e512acab56923744e2022eeb",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/before-click.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/before-click.png",
+      "sha256": "d80f2286cb670b9353d9686cdc4c6c3acaaf7bc1220b5be80b372dfcf3495903",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/bestdesignsonx.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/bestdesignsonx.png",
+      "sha256": "090c59619c986109cfb7bf6ac57023e25445508fe0c8f611ab827c561f494a01",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/component-gallery.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/component-gallery.png",
+      "sha256": "dd3e846996d0cbaf7c6f61ba65e154dc5545cd9d8b972f5cc2de47e6598c0560",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/craftwork-websites.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/craftwork-websites.png",
+      "sha256": "c2bbf2c18f9714480e870cf0c7e7eeaa5cb81edff6f1cd8e228797d6a26255f4",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/designmd-sh.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/designmd-sh.png",
+      "sha256": "b296f8d39fac43e9ac0a70eade85d3374af212bb5eec374aaada5eb233538b0c",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/designprompts.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/designprompts.png",
+      "sha256": "2c228cb81759fb7b8afcfb2581f64c7c93bb63442b93c1d140d3db95a921b9f0",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/feralui.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/feralui.png",
+      "sha256": "fcae7b05b843f14e566572a9830a87270e8d89267b6834fbb178b3bcf6025027",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/game-art-style.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/game-art-style.png",
+      "sha256": "1181eb828a432c2225213ce640969001c8db2fad7d04953308f4cb44a7c0f18b",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/impeccable.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/impeccable.png",
+      "sha256": "dff837ebe7c9c564ccb0093e6241508096ea730694feb7920ea66a57ddb99b25",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/inspora.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/inspora.png",
+      "sha256": "38b19cb22e6e2d61156a8f05448c8278e0e4450520feb0345ca9a4bb6f70f061",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/kami.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/kami.png",
+      "sha256": "7f1186d38d6ee5de792482ac737db9b074104ff071750a82352c975783fdd528",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/kenney.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/kenney.png",
+      "sha256": "7c613017bde709d5b9ad8645e8b7c0f52100b7ab77b943607326dd905a79adec",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/libraries-dev.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/libraries-dev.png",
+      "sha256": "47faef9fc0b10c4ad94135c6be9af0acccc614dc5f3e3544abb833173ee7e9ec",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/magic-slide.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/magic-slide.png",
+      "sha256": "557bc8cc69c5a118ccc6614fa8aba6a21accb7b46d5e04c875b48fc13cee92ec",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/mobbin.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/mobbin.png",
+      "sha256": "822405d5f5f69322ae6505a93a24bc186a356d4bb7bc4c23dddecdbe8da4c1ae",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/motionsites.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/motionsites.png",
+      "sha256": "29c8ff83ee855f0258be6f96b5d1f00e01f94ef77149241d711d8c843fbddf04",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/namethatui.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/namethatui.png",
+      "sha256": "221c4262d7b64121dd7fcc55e9de5fe4208b2a771c36e3a03ba7b866c8ed2d6e",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/neal-fun.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/neal-fun.png",
+      "sha256": "3b03927911517816dc089b41137579f5eab3d813a9f974a3e3133765dbc61d3a",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/onepagelove.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/onepagelove.png",
+      "sha256": "efc6bcc3d28cd343f754215fd55c5ce5f2a0e226a4a41ff332581e83d89c843e",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/open-design.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/open-design.png",
+      "sha256": "62eb3b69a18e6f44a2f5411f53d2e07b53c0a7821d2bdc63499d796d3e202375",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/paper-shaders.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/paper-shaders.png",
+      "sha256": "d14732f1bcdfee1845789ed74c6ae620fd9188bcd26f71f112fcbaac29018684",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/rebrand-gallery.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/rebrand-gallery.png",
+      "sha256": "44e8191dd3ca7a2c031d58bd4ee6baec0145995c672ffa02485090c83a30fe80",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/taste-skill.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/taste-skill.png",
+      "sha256": "57468b3d766b1e62a3e9386d8a6b5051826f07c99ad170e010d926c4baf93ab4",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/timing.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/timing.png",
+      "sha256": "5b7130baa4e81302fd7981d7c86bea692d0ea2d29070451c637d0be5e119ef85",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/wenyang.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/wenyang.png",
+      "sha256": "f2390c63f126b953072989ad60d2e3b80c7c9bdb397a75e0bbaccb2dbde184c9",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/whatships.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/whatships.png",
+      "sha256": "f3d0ccb2f487776b0b1084ca0a16702667373749c3bfe4fa4ff5fa661be7fdf1",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/yeguozi.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/yeguozi.png",
+      "sha256": "5305fd37b65137c2131da339d50ae99815f1b257f0dd9c482c489858438716b4",
+      "unchangedFromOrigin": true
+    },
+    {
+      "path": "public/previews/zhongguo-colors.png",
+      "origin": "git:6ce54ed46ffd629a833de01c32f7bc450d646de1:public/previews/zhongguo-colors.png",
+      "sha256": "734f69ba053fdf4e3ef80cde833631bb5de44f7ee32ee2eb686542b467c9e222",
+      "unchangedFromOrigin": true
+    }
+  ],
+  "remoteImages": []
+}
