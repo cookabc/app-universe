@@ -6,6 +6,8 @@ import { I18nProvider } from '@/components/I18nProvider'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site'
 import './globals.css'
+import '../radix.css'
+import '../explorer.css'
 
 const plexSans = IBM_Plex_Sans({
     subsets: ['latin'],
@@ -71,7 +73,6 @@ export default function RootLayout({
                 <a href="#main-content" className="skip-link">
                     Skip to content
                 </a>
-                <div className="grain" aria-hidden="true" />
                 <I18nProvider>
                     <ThemeProvider
                         attribute="class"
