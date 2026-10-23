@@ -26,12 +26,21 @@
    (the tokens never reach the output).
    Override the utilities themselves instead. */
 @layer utilities {
-    .border,
-    .border-t,
-    .border-r,
-    .border-b,
-    .border-l {
+    /* 每条画出来的边都是 0.5px —— 按边各自生效，border-t 不能带出另外三条边 */
+    .border {
         border-width: 0.5px;
+    }
+    .border-t {
+        border-top-width: 0.5px;
+    }
+    .border-r {
+        border-right-width: 0.5px;
+    }
+    .border-b {
+        border-bottom-width: 0.5px;
+    }
+    .border-l {
+        border-left-width: 0.5px;
     }
 }
 
@@ -979,18 +988,6 @@
 .atlas-note {
     border: 0.5px solid var(--border);
     border-radius: var(--radius);
-}
-
-.atlas-note::before {
-    position: absolute;
-    top: -3.2rem;
-    right: 1rem;
-    color: color-mix(in srgb, var(--primary) 12%, transparent);
-    content: "“";
-    font-family: Georgia, serif;
-    font-size: 11rem;
-    line-height: 1;
-    pointer-events: none;
 }
 
 .atlas-note-quote {
