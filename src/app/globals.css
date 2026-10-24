@@ -144,8 +144,10 @@
         --popover: #fdfdfc;
         --popover-foreground: #21201c;
 
-        --primary: #e54d2e; /* tomato-9：填充档 */
+        --primary: #e54d2e; /* tomato-9：填充档（无字的大色块/边框） */
         --primary-foreground: #ffffff;
+        --primary-text-fill: #d13415; /* tomato-11：填充档里要放字的那一档，
+                                         白字 4.98:1；tomato-9 上白字只有 3.87:1 */
 
         --secondary: #eef1f0; /* sage-3  */
         --secondary-foreground: #1a211e;
@@ -156,6 +158,8 @@
         --accent: #eef1f0; /* sage-3  */
         --accent-foreground: #1a211e;
         --signal: #d13415; /* tomato-11：文字档 */
+        --signal-deep: #5c271f; /* tomato-12：12px 小字落在 sand-3 卡片上，
+                                   tomato-11 只有 4.38:1，-12 是 10.45:1 */
 
         --destructive: #ce2c31; /* red-11  */
         --destructive-foreground: #ffffff;
@@ -188,6 +192,8 @@
 
         --primary: #e54d2e; /* dark tomato-9：深浅同值 */
         --primary-foreground: #ffffff;
+        /* 深色底上 tomato-9 配白字同样只有 3.87:1；字版填充降一档取 4.98:1。 */
+        --primary-text-fill: #d13415;
 
         --secondary: #272a2d; /* dark slate-4  */
         --secondary-foreground: #edeef0;
@@ -198,6 +204,7 @@
         --accent: #272a2d;
         --accent-foreground: #edeef0;
         --signal: #ff977d; /* dark tomato-11 */
+        --signal-deep: #fbd3cb; /* dark tomato-12：深底上提亮，11.58:1 */
 
         --destructive: #ff9592; /* dark red-11 */
         --destructive-foreground: #18191b;
@@ -366,8 +373,10 @@
         color: var(--muted-foreground);
     }
 
+    /* 文字档用 tomato-11，不用 --primary（tomato-9 是填充档，
+       当 12px 文字色在 sand-2 上只有 3.67:1，低于 4.5:1）。 */
     .index-label--accent {
-        color: var(--primary);
+        color: var(--signal);
     }
 
     .index-label--foreground {
@@ -379,7 +388,7 @@
     }
 
     .index-label--primary {
-        color: var(--primary);
+        color: var(--signal);
     }
 
     .index-label--accent-foreground {
@@ -519,7 +528,7 @@
     .signal-button {
         border: 0.5px solid var(--foreground);
         border-radius: var(--radius);
-        background: var(--primary);
+        background: var(--primary-text-fill);
         color: var(--primary-foreground);
         font-size: 0.875rem;
         font-weight: 600;
@@ -925,7 +934,7 @@
 .atlas-card .featured-tab {
     border: 0;
     border-radius: 0 0 9px 0;
-    background: var(--primary);
+    background: var(--primary-text-fill);
     color: var(--primary-foreground);
 }
 
@@ -1156,7 +1165,7 @@
     -webkit-line-clamp: 3;
 }
 .verdict__label {
-    color: var(--signal);
+    color: var(--signal-deep);
 }
 .verdict__cue {
     margin-top: 0.15rem;
@@ -1177,7 +1186,7 @@
     gap: 0.15rem;
 }
 .verdict__move-label {
-    color: var(--signal);
+    color: var(--signal-deep);
 }
 /* The caveat is the one that can stop you using the tool, so it gets the
    loudest label of the three. */
