@@ -540,6 +540,11 @@
     .signal-button:hover {
         opacity: 0.92;
     }
+    /* Press feedback, same language as the theme switch's Tailwind variant:
+       the button settles into the page instead of staying at its hover lift. */
+    .signal-button:active {
+        transform: translateY(1px) scale(0.98);
+    }
 
     .coordinate-rule {
         height: 0.5rem;
