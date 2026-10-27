@@ -5,10 +5,12 @@ import { normalizeLanguage } from '@/components/I18nProvider'
 import { ToolPreviewImage } from '@/components/ToolPreviewImage'
 import { getAllTags, getToolPath, default as TOOLS } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { useLocaleHref } from '@/hooks/useLocaleHref'
 import { getDomain } from '@/lib/filter-tools'
 
 export default function Hero() {
     const { i18n, t, isReady } = useI18nReady()
+    const href = useLocaleHref()
     const lang = normalizeLanguage(i18n.language)
     const [lead, secondary, tertiary] = TOOLS
     if (!lead || !secondary || !tertiary) return null
@@ -62,7 +64,7 @@ export default function Hero() {
                         <span>INDEX / 001</span>
                         <span>APP UNIVERSE ©</span>
                     </div>
-                    <Link href={getToolPath(lead.id)} className="atlas-lead-image group" aria-label={leadName}>
+                    <Link href={href(getToolPath(lead.id))} className="atlas-lead-image group" aria-label={leadName}>
                         <ToolPreviewImage
                             tool={lead}
                             sizes="(min-width: 1024px) 580px, 100vw"
@@ -76,7 +78,7 @@ export default function Hero() {
                     <div className="atlas-lead-caption">
                         <div>
                             <span className="atlas-meta">{lang === 'zh' ? '本期首选' : 'THE FIRST FIND'}</span>
-                            <Link href={getToolPath(lead.id)}>
+                            <Link href={href(getToolPath(lead.id))}>
                                 {leadName} <span aria-hidden="true">↗</span>
                             </Link>
                         </div>
@@ -86,7 +88,7 @@ export default function Hero() {
                         {[secondary, tertiary].map((tool, index) => {
                             const name = index === 0 ? secondaryName : tertiaryName
                             return (
-                                <Link key={tool.id} href={getToolPath(tool.id)} className="atlas-mini group">
+                                <Link key={tool.id} href={href(getToolPath(tool.id))} className="atlas-mini group">
                                     <span className="atlas-mini-image">
                                         <ToolPreviewImage
                                             tool={tool}

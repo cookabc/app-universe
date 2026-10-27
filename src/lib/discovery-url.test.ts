@@ -20,3 +20,9 @@ test('withTagParam removes tag when the filter is cleared', () => {
 test('withTagParam replaces an existing tag', () => {
     assert.equal(withTagParam('/?tag=ui', 'games'), '/?tag=games')
 })
+
+test('withTagParam keeps a locale prefix on the path', () => {
+    assert.equal(withTagParam('/zh?seed=k4x9f2#tools', 'ai'), '/zh?seed=k4x9f2&tag=ai#tools')
+    assert.equal(withTagParam('/en/t/open-design', 'design'), '/en/t/open-design?tag=design')
+    assert.equal(withTagParam('/zh?tag=ui#tools', 'all'), '/zh#tools')
+})

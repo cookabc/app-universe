@@ -92,6 +92,17 @@ test('unknown paths return a 404 markdown body with recovery links', () => {
     }
 })
 
+test('locale-prefixed paths resolve to the same markdown as the legacy URL', () => {
+    const tool = tools[0]
+    assert.equal(resolveMarkdownForPath('/en').status, 200)
+    assert.equal(resolveMarkdownForPath('/en').body, resolveMarkdownForPath('/').body)
+    assert.equal(resolveMarkdownForPath('/zh').status, 200)
+    assert.equal(resolveMarkdownForPath(`/zh/t/${tool.id}`).body, resolveMarkdownForPath(`/t/${tool.id}`).body)
+    assert.equal(resolveMarkdownForPath('/en/privacy').body, resolveMarkdownForPath('/privacy').body)
+    assert.equal(resolveMarkdownForPath('/zh/terms').status, 200)
+    assert.equal(resolveMarkdownForPath('/enterprise').status, 404, 'a non-locale prefix is not English')
+})
+
 test('path lookup ignores query strings and hash fragments', () => {
     assert.equal(resolveMarkdownForPath('/?ref=agent').status, 200)
     assert.equal(resolveMarkdownForPath(`/t/${tools[0].id}?utm_source=x#top`).status, 200)

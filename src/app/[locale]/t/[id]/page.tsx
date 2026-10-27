@@ -2,10 +2,13 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ToolDetail } from '@/components/ToolDetail'
 import tools, { getRelatedTools, getToolById } from '@/data/tools'
+import { isLocale, localePath } from '@/lib/locale'
+import { getMessages } from '@/lib/messages'
+import { buildPageMetadata } from '@/lib/seo'
 import { SITE_NAME, SITE_URL } from '@/lib/site'
 
 interface PageProps {
-    params: Promise<{ id: string }>
+    params: Promise<{ locale: string; id: string }>
 }
 
 export function generateStaticParams() {
@@ -13,67 +16,57 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    const { id } = await params
+    const { locale: rawLocale, id } = await params
+    const locale = isLocale(rawLocale) ? rawLocale : 'en'
     const tool = getToolById(id)
     if (!tool) {
-        return { title: 'Tool not found' }
+        const { notFound: copy } = getMessages(locale)
+        return buildPageMetadata({
+            locale,
+            suffix: `/t/${id}`,
+            title: copy.title,
+            description: copy.body,
+        })
     }
 
-    const title = tool.name.en
-    const titleZh = tool.name.zh
-    const descriptionEn = tool.note?.en ?? tool.description.en
-    const descriptionZh = tool.note?.zh ?? tool.description.zh
-    // Keep primary meta English for crawlers; include Chinese in OG for bilingual shares.
-    const description = descriptionEn === descriptionZh ? descriptionEn : `${descriptionEn} / ${descriptionZh}`
-    const path = `/t/${tool.id}`
-    const fullTitle = title === titleZh ? title : `${title} ${titleZh}`
-
-    return {
-        title: fullTitle,
+    const description = tool.note?.[locale] ?? tool.description[locale]
+    return buildPageMetadata({
+        locale,
+        suffix: `/t/${tool.id}`,
+        title: tool.name[locale],
         description,
-        alternates: { canonical: path },
-        openGraph: {
-            title: `${fullTitle} — ${SITE_NAME}`,
-            description,
-            url: `${SITE_URL}${path}`,
-            type: 'website',
-            locale: 'en_US',
-            alternateLocale: ['zh_CN'],
-            siteName: SITE_NAME,
-        },
-        twitter: {
-            card: 'summary_large_image',
-            title: `${fullTitle} — ${SITE_NAME}`,
-            description,
-        },
-    }
+    })
 }
 
 export default async function ToolPage({ params }: PageProps) {
-    const { id } = await params
+    const { locale: rawLocale, id } = await params
+    if (!isLocale(rawLocale)) notFound()
+    const locale = rawLocale
     const tool = getToolById(id)
     if (!tool) notFound()
 
     const related = getRelatedTools(tool, 3)
+    const otherLocale = locale === 'zh' ? 'en' : 'zh'
+    const pageUrl = `${SITE_URL}${localePath(locale, `/t/${tool.id}`)}`
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'WebPage',
-        name: tool.name.en,
-        alternateName: tool.name.zh !== tool.name.en ? tool.name.zh : undefined,
-        description: tool.note?.en ?? tool.description.en,
-        url: `${SITE_URL}/t/${tool.id}`,
-        inLanguage: ['en', 'zh'],
+        name: tool.name[locale],
+        alternateName: tool.name[otherLocale] !== tool.name[locale] ? tool.name[otherLocale] : undefined,
+        description: tool.note?.[locale] ?? tool.description[locale],
+        url: pageUrl,
+        inLanguage: locale,
         isPartOf: {
             '@type': 'WebSite',
             name: SITE_NAME,
-            url: SITE_URL,
+            url: `${SITE_URL}/${locale}`,
         },
         about: {
             '@type': 'SoftwareApplication',
-            name: tool.name.en,
+            name: tool.name[locale],
             url: tool.url,
             applicationCategory: 'WebApplication',
-            description: tool.description.en,
+            description: tool.description[locale],
             image: `${SITE_URL}/previews/${tool.id}.png`,
         },
     }

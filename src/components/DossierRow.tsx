@@ -8,6 +8,7 @@ import { VerdictCard } from '@/components/VerdictCard'
 import type { Tool } from '@/data/tools'
 import { formatToolNumber, getToolNumber, getToolPath } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { useLocaleHref } from '@/hooks/useLocaleHref'
 import { useTagLabel } from '@/hooks/useTagLabel'
 import { getDomain } from '@/lib/filter-tools'
 
@@ -30,6 +31,7 @@ interface DossierRowProps {
  */
 export function DossierRow({ tool, onTagClick }: DossierRowProps) {
     const { i18n, t, isReady } = useI18nReady()
+    const href = useLocaleHref()
     const lang = normalizeLanguage(i18n.language)
     const tagLabel = useTagLabel()
 
@@ -37,7 +39,7 @@ export function DossierRow({ tool, onTagClick }: DossierRowProps) {
     const desc = tool.description[lang] || tool.description.en
     const note = tool.note?.[lang] || tool.note?.en
     const domain = getDomain(tool.url)
-    const detailHref = getToolPath(tool.id)
+    const detailHref = href(getToolPath(tool.id))
 
     const visitLabel = isReady ? t('toolsWall.visit') : 'Visit'
     const detailsLabel = isReady ? t('toolsWall.details') : 'Details'

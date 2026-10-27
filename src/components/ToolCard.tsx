@@ -8,6 +8,7 @@ import { VerdictCard } from '@/components/VerdictCard'
 import type { Tool } from '@/data/tools'
 import { formatToolNumber, getToolNumber, getToolPath } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { useLocaleHref } from '@/hooks/useLocaleHref'
 import { useTagLabel } from '@/hooks/useTagLabel'
 import { getDomain } from '@/lib/filter-tools'
 
@@ -21,10 +22,11 @@ interface ToolCardProps {
 
 export function ToolCard({ tool, onTagClick, variant = 'default', featuredIndex = 0 }: ToolCardProps) {
     const { i18n, t, isReady } = useI18nReady()
+    const href = useLocaleHref()
     const lang = normalizeLanguage(i18n.language)
     const tagLabel = useTagLabel()
     const featured = variant === 'featured'
-    const detailHref = getToolPath(tool.id)
+    const detailHref = href(getToolPath(tool.id))
 
     const name = tool.name[lang] || tool.name.en
     const desc = tool.description[lang] || tool.description.en

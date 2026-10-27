@@ -103,5 +103,27 @@
     "caveat": "Caveat",
     "flip": "See what it replaces",
     "back": "Turn back"
+  },
+  "meta": {
+    "title": "App Universe — Tools that earn their place",
+    "description": "A hand-curated field guide for design, code, and creative work—with honest notes on when to use each tool."
+  },
+  "legal": {
+    "backHome": "← Back home",
+    "updated": "Last updated — July 17, 2026",
+    "questionsLead": "Questions:",
+    "privacyTitle": "Privacy Policy",
+    "privacyDescription": "Privacy policy for App Universe.",
+    "privacyIntro": "{{site}} does not collect personal data, run analytics, or serve advertising cookies. The site only stores preferences on your device so the experience stays familiar between visits.",
+    "privacySpecifically": "Specifically, we may use:",
+    "privacyTheme": "for theme preference",
+    "privacyLanguage": "for language preference",
+    "privacyExternal": "When you open a tool link, you leave this site and visit the tool provider's website. We are not responsible for the privacy practices of external sites.",
+    "privacyChanges": "If this policy changes, we will update the date above.",
+    "termsTitle": "Terms of Service",
+    "termsDescription": "Terms of service for App Universe.",
+    "termsIntro": "{{site}} is a curated directory of third-party tools and resources. Links are provided for convenience and informational purposes only.",
+    "termsRisk": "We do not endorse, operate, or control the external tools listed. Use them at your own risk and review each provider's terms of service and privacy policy. Tool availability, pricing, and features may change or break without notice.",
+    "termsWarranty": "The content on this site is provided \"as is\" without warranties of any kind. We may update, reorder, or remove listings at any time. Site branding, copy, and presentation remain the property of {{site}}; third-party product names and trademarks belong to their respective owners."
   }
 }

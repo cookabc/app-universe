@@ -103,5 +103,27 @@
     "caveat": "注意",
     "flip": "看它替代了什么",
     "back": "翻回正面"
+  },
+  "meta": {
+    "title": "App Universe — 值得留下的工具",
+    "description": "面向设计、开发与创意工作的人工策展指南，并诚实说明每个工具何时值得使用。"
+  },
+  "legal": {
+    "backHome": "← 返回首页",
+    "updated": "最近更新 — 2026年7月17日",
+    "questionsLead": "如有问题：",
+    "privacyTitle": "隐私政策",
+    "privacyDescription": "App Universe 的隐私政策。",
+    "privacyIntro": "{{site}} 不收集个人数据、不运行分析，也不投放广告 cookie。本站只在你的设备上保存偏好，让再次访问时体验保持熟悉。",
+    "privacySpecifically": "具体而言，我们可能会使用：",
+    "privacyTheme": "保存主题偏好",
+    "privacyLanguage": "保存语言偏好",
+    "privacyExternal": "当你打开工具链接时，你会离开本站并访问工具提供方的网站。我们不对外站的隐私做法负责。",
+    "privacyChanges": "如果本政策有变更，我们会更新上方的日期。",
+    "termsTitle": "服务条款",
+    "termsDescription": "App Universe 的服务条款。",
+    "termsIntro": "{{site}} 是第三方工具与资源的精选目录。链接仅供查阅方便与信息参考。",
+    "termsRisk": "我们不背书、不运营、也不控制所列出的外部工具。请自行判断风险，并阅读各提供方的服务条款与隐私政策。工具的可用性、价格与功能可能随时变化或失效，恕不另行通知。",
+    "termsWarranty": "本站内容按「现状」提供，不作任何形式的保证。我们可能随时更新、重排或移除条目。站点品牌、文案与呈现归 {{site}} 所有；第三方产品名称与商标归各自权利人所有。"
   }
 }

@@ -3,9 +3,11 @@
 import Link from 'next/link'
 import tools from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { useLocaleHref } from '@/hooks/useLocaleHref'
 
 export const Footer = () => {
     const { t, isReady } = useI18nReady()
+    const href = useLocaleHref()
     const brand = isReady ? t('brand.name') : 'App Universe'
     const privacy = isReady ? t('nav.privacy') : 'Privacy'
     const terms = isReady ? t('nav.terms') : 'Terms'
@@ -24,19 +26,19 @@ export const Footer = () => {
                     </div>
                     <nav aria-label="Site" className="flex items-center gap-5 text-sm">
                         <Link
-                            href="/"
+                            href={href('/')}
                             className="index-label inline-flex min-h-11 items-center border-b border-transparent hover:border-foreground hover:text-foreground transition-colors"
                         >
                             {home}
                         </Link>
                         <Link
-                            href="/privacy"
+                            href={href('/privacy')}
                             className="index-label inline-flex min-h-11 items-center border-b border-transparent hover:border-foreground hover:text-foreground transition-colors"
                         >
                             {privacy}
                         </Link>
                         <Link
-                            href="/terms"
+                            href={href('/terms')}
                             className="index-label inline-flex min-h-11 items-center border-b border-transparent hover:border-foreground hover:text-foreground transition-colors"
                         >
                             {terms}

@@ -16,6 +16,7 @@ import { ToolPreviewImage } from '@/components/ToolPreviewImage'
 import type { Tool } from '@/data/tools'
 import { formatToolNumber, getToolNumber, getToolPath } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { useLocaleHref } from '@/hooks/useLocaleHref'
 import { useTagLabel } from '@/hooks/useTagLabel'
 import { getDomain } from '@/lib/filter-tools'
 import { copyCanvasAsImage, renderNoteCard } from '@/lib/note-card-image'
@@ -27,6 +28,7 @@ interface ToolDetailProps {
 
 export function ToolDetail({ tool, related }: ToolDetailProps) {
     const { i18n, t, isReady } = useI18nReady()
+    const href = useLocaleHref()
     const lang = normalizeLanguage(i18n.language)
     const tagLabel = useTagLabel()
     const [noteCopied, setNoteCopied] = useState(false)
@@ -88,7 +90,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
     return (
         <article className="atlas-detail mx-auto max-w-7xl px-4 py-12 sm:py-16 lg:py-20">
             <Link
-                href="/#tools"
+                href={href('/#tools')}
                 className="index-label index-label--foreground mb-10 inline-flex min-h-11 items-center gap-2 border-b border-foreground hover:border-primary hover:text-primary transition-colors"
             >
                 <ArrowLeftIcon className="h-3.5 w-3.5" weight="bold" />
@@ -110,7 +112,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                         {tool.tags.map((tag) => (
                             <Link
                                 key={tag}
-                                href={`/?tag=${encodeURIComponent(tag)}#tools`}
+                                href={href(`/?tag=${encodeURIComponent(tag)}#tools`)}
                                 className="atlas-detail-tag index-label index-label--accent-foreground inline-flex min-h-11 items-center border border-foreground bg-accent px-3 hover:bg-[var(--primary-text-fill)] hover:text-primary-foreground transition-colors"
                             >
                                 {tagLabel(tag)}
@@ -216,7 +218,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                                     key={item.id}
                                     className="atlas-related-card tool-card-lift overflow-hidden border border-foreground bg-card"
                                 >
-                                    <Link href={getToolPath(item.id)} className="group flex flex-col h-full">
+                                    <Link href={href(getToolPath(item.id))} className="group flex flex-col h-full">
                                         <div className="relative aspect-[16/9] bg-muted overflow-hidden border-b border-foreground">
                                             <ToolPreviewImage
                                                 tool={item}

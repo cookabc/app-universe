@@ -1,27 +1,23 @@
 'use client'
 
 import i18n from 'i18next'
-import { useEffect } from 'react'
-import { initReactI18next, useTranslation } from 'react-i18next'
+import { useEffect, useState } from 'react'
+import { I18nextProvider, initReactI18next } from 'react-i18next'
 import enTranslations from '@/../public/locales/en/common.json'
 import zhTranslations from '@/../public/locales/zh/common.json'
+import { LocaleContext } from '@/hooks/useLocaleHref'
+import { type Locale, localeFromCookie, persistLocalePreference } from '@/lib/locale'
 
 const resources = {
     en: { common: enTranslations },
     zh: { common: zhTranslations },
 }
 
-function normalizeLanguage(lng: string | undefined): 'en' | 'zh' {
-    if (!lng) return 'en'
-    return lng.toLowerCase().startsWith('zh') ? 'zh' : 'en'
-}
-
-if (!i18n.isInitialized) {
-    i18n.use(initReactI18next).init({
+function createI18n(locale: Locale) {
+    const instance = i18n.createInstance()
+    instance.use(initReactI18next).init({
         resources,
-        // Server render and the browser's first render must use the same
-        // language. The saved browser preference is applied after hydration.
-        lng: 'en',
+        lng: locale,
         fallbackLng: 'en',
         supportedLngs: ['en', 'zh'],
         nonExplicitSupportedLngs: true,
@@ -33,58 +29,40 @@ if (!i18n.isInitialized) {
             // double-escapes entities (e.g. "&" → "&amp;").
             escapeValue: false,
         },
+        react: { useSuspense: false },
     })
+    return instance
 }
 
 interface I18nProviderProps {
+    locale: Locale
     children: React.ReactNode
 }
 
-function getPreferredBrowserLanguage(): 'en' | 'zh' {
-    const cookieLanguage = document.cookie
-        .split('; ')
-        .find((entry) => entry.startsWith('i18next='))
-        ?.split('=')[1]
-
-    let storedLanguage: string | null = null
-    try {
-        storedLanguage = window.localStorage.getItem('i18nextLng')
-    } catch {
-        // Storage may be unavailable in privacy-restricted browser contexts.
-    }
-
-    return normalizeLanguage(storedLanguage || cookieLanguage || window.navigator.language)
-}
-
-export function I18nProvider({ children }: I18nProviderProps) {
-    const { i18n: i18nInstance } = useTranslation()
+/**
+ * The URL locale is the language of this document. The instance is created
+ * with that locale so server HTML and hydration match — nothing here swaps
+ * the language after paint. The cookie is written only when missing, so
+ * opening a shared link does not overwrite a returning visitor's preference.
+ * The language switcher writes the cookie itself before navigating.
+ */
+export function I18nProvider({ locale, children }: I18nProviderProps) {
+    const [instance] = useState(() => createI18n(locale))
 
     useEffect(() => {
-        const syncDocumentLang = (lng: string) => {
-            const normalized = normalizeLanguage(lng)
-            document.documentElement.lang = normalized
-
-            try {
-                window.localStorage.setItem('i18nextLng', normalized)
-            } catch {
-                // Keep language switching functional when storage is blocked.
-            }
+        const lock = document.documentElement.dataset.localeLock
+        if (lock && lock !== locale) return
+        document.documentElement.lang = locale
+        if (!localeFromCookie(document.cookie)) {
+            persistLocalePreference(locale)
         }
+    }, [locale])
 
-        i18nInstance.on('languageChanged', syncDocumentLang)
-        const preferredLanguage = getPreferredBrowserLanguage()
-        if (normalizeLanguage(i18nInstance.language) !== preferredLanguage) {
-            void i18nInstance.changeLanguage(preferredLanguage)
-        } else {
-            syncDocumentLang(preferredLanguage)
-        }
-
-        return () => {
-            i18nInstance.off('languageChanged', syncDocumentLang)
-        }
-    }, [i18nInstance])
-
-    return <>{children}</>
+    return (
+        <LocaleContext.Provider value={locale}>
+            <I18nextProvider i18n={instance}>{children}</I18nextProvider>
+        </LocaleContext.Provider>
+    )
 }
 
-export { normalizeLanguage }
+export { normalizeLanguage } from '@/lib/locale'

@@ -1,4 +1,5 @@
 import tools, { getRelatedTools, getToolById, getToolPath, type Tool } from '../data/tools.ts'
+import { stripLocalePrefix } from './locale.ts'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from './site.ts'
 
 /** Contact address published on the privacy and terms pages. */
@@ -167,7 +168,8 @@ function buildNotFoundMarkdown(path: string): string {
  * markdown body pointing at recovery resources.
  */
 export function resolveMarkdownForPath(rawPath: string): MarkdownResolution {
-    const path = normalizePath(rawPath)
+    // `/en/...` and `/zh/...` are the same documents as the legacy unprefixed paths.
+    const path = stripLocalePrefix(normalizePath(rawPath))
     if (path === '/') return { status: 200, body: buildHomeMarkdown() }
     if (path === '/privacy') return { status: 200, body: buildLegalMarkdown('privacy') }
     if (path === '/terms') return { status: 200, body: buildLegalMarkdown('terms') }

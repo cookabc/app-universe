@@ -3,6 +3,10 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
     turbopack: {},
     agentRules: false,
+    // The root layout lives under `[locale]`, so unmatched URLs need their own document.
+    experimental: {
+        globalNotFound: true,
+    },
     images: {
         // Screenshots favor AVIF's compression; WebP remains the fallback.
         formats: ['image/avif', 'image/webp'],
