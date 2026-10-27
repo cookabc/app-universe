@@ -13,6 +13,17 @@ export interface MarkdownResolution {
 }
 
 /**
+ * Single-variant resources. Markdown negotiation must leave these alone —
+ * in particular every Open Graph image, not only the root `/opengraph-image`.
+ */
+export function isMarkdownExemptPath(pathname: string): boolean {
+    if (/\.[a-z0-9]+$/i.test(pathname)) return true
+    if (pathname === '/opengraph-image' || pathname.endsWith('/opengraph-image')) return true
+    if (pathname === '/api/markdown' || pathname.startsWith('/api/markdown/')) return true
+    return false
+}
+
+/**
  * True only when the client explicitly asks for `text/markdown` with a non-zero
  * q value. Wildcard accepts never trigger markdown — browsers send those and
  * must keep getting HTML.

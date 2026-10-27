@@ -111,7 +111,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                             <Link
                                 key={tag}
                                 href={`/?tag=${encodeURIComponent(tag)}#tools`}
-                                className="atlas-detail-tag index-label index-label--accent-foreground inline-flex min-h-11 items-center border border-foreground bg-accent px-3 hover:bg-primary hover:text-primary-foreground transition-colors"
+                                className="atlas-detail-tag index-label index-label--accent-foreground inline-flex min-h-11 items-center border border-foreground bg-accent px-3 hover:bg-[var(--primary-text-fill)] hover:text-primary-foreground transition-colors"
                             >
                                 {tagLabel(tag)}
                             </Link>
@@ -142,7 +142,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                                             type="button"
                                             onClick={handleCopyImage}
                                             disabled={imageState === 'rendering'}
-                                            className="index-label inline-flex min-h-11 items-center gap-1.5 border border-foreground bg-foreground px-3 text-background hover:bg-primary hover:border-primary disabled:opacity-60 transition-colors"
+                                            className="index-label inline-flex min-h-11 items-center gap-1.5 border border-foreground bg-foreground px-3 text-background hover:bg-[var(--primary-text-fill)] hover:border-primary disabled:opacity-60 transition-colors"
                                             aria-live="polite"
                                         >
                                             {imageState === 'done' ? (

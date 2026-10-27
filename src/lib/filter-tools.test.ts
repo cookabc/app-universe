@@ -68,6 +68,25 @@ test('filterTools with impossible query returns empty array', () => {
     assert.equal(result.length, 0)
 })
 
+test('filterTools ignores separator-only queries instead of matching everything', () => {
+    for (const query of ['.', '-', '_', '/', '...', ' - ', '._/']) {
+        assert.deepEqual(
+            filterTools(tools, 'all', query).map((tool) => tool.id),
+            [],
+            `query ${JSON.stringify(query)} should match nothing`,
+        )
+    }
+    assert.equal(filterTools(tools, 'ai', '.').length, 0)
+})
+
+test('filterTools matches names when the query uses spaces or dropped separators', () => {
+    assert.ok(filterTools(tools, 'all', 'name that ui').some((tool) => tool.id === 'namethatui'))
+    assert.ok(filterTools(tools, 'all', '60 fps').some((tool) => tool.id === '60fps'))
+    assert.ok(filterTools(tools, 'all', 'before click').some((tool) => tool.id === 'before-click'))
+    assert.ok(filterTools(tools, 'all', 'opendesign').some((tool) => tool.id === 'open-design'))
+    assert.ok(filterTools(tools, 'all', 'paper-shaders').some((tool) => tool.id === 'paper-shaders'))
+})
+
 test('filterTools combines tag and search', () => {
     const featured = tools.find((t) => t.featured && t.tags.length > 0)
     assert.ok(featured)

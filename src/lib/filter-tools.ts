@@ -14,9 +14,17 @@ export function getDomain(url: string): string {
     }
 }
 
+/** True when `value` contains the query, ignoring separator differences. */
+function matchesQuery(value: string, query: string, normalizedQuery: string): boolean {
+    const lower = value.toLowerCase()
+    if (lower.includes(query)) return true
+    return normalizedQuery.length > 0 && normalizeQuery(lower).includes(normalizedQuery)
+}
+
 /**
  * Filter the curated tool list by active tag and free-text query.
  * Matches name, description, curator note, tags, and domain (real shipped path).
+ * Names like "NameThatUI" match "name that ui"; a query of only separators matches nothing.
  */
 export function filterTools(list: Tool[], activeTag: string, searchQuery: string): Tool[] {
     let result = list
@@ -28,20 +36,19 @@ export function filterTools(list: Tool[], activeTag: string, searchQuery: string
     if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim()
         const qNorm = normalizeQuery(q)
+        // ".", "-", "..." and the like normalize to empty. `includes('')` is true
+        // for every string, which previously returned the whole catalog.
+        if (!qNorm) return []
         result = result.filter((tool) => {
-            const nameMatch = tool.name.en.toLowerCase().includes(q) || tool.name.zh.toLowerCase().includes(q)
-            const descMatch =
-                tool.description.en.toLowerCase().includes(q) || tool.description.zh.toLowerCase().includes(q)
+            const nameMatch = matchesQuery(tool.name.en, q, qNorm) || matchesQuery(tool.name.zh, q, qNorm)
+            const descMatch = matchesQuery(tool.description.en, q, qNorm) || matchesQuery(tool.description.zh, q, qNorm)
             const noteMatch =
-                (tool.note?.en.toLowerCase().includes(q) ?? false) || (tool.note?.zh.toLowerCase().includes(q) ?? false)
+                (tool.note ? matchesQuery(tool.note.en, q, qNorm) : false) ||
+                (tool.note ? matchesQuery(tool.note.zh, q, qNorm) : false)
             const tagMatch = tool.tags.some(
-                (tag) =>
-                    tag.includes(q) ||
-                    normalizeQuery(tag).includes(qNorm) ||
-                    formatTag(tag).toLowerCase().includes(q) ||
-                    normalizeQuery(formatTag(tag)).includes(qNorm),
+                (tag) => matchesQuery(tag, q, qNorm) || matchesQuery(formatTag(tag), q, qNorm),
             )
-            const domainMatch = getDomain(tool.url).toLowerCase().includes(q)
+            const domainMatch = matchesQuery(getDomain(tool.url), q, qNorm)
             return nameMatch || descMatch || noteMatch || tagMatch || domainMatch
         })
     }
