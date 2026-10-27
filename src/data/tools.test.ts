@@ -6,6 +6,7 @@ import tools, {
     formatTag,
     formatToolNumber,
     getAllTags,
+    getFeaturedTools,
     getRelatedTools,
     getToolById,
     getToolNumber,
@@ -66,6 +67,21 @@ test('every tool has complete bilingual fields, a valid icon, and a preview', ()
 
     assert.ok(noteCount === tools.length, 'every tool should have a curator note')
     assert.ok(featuredCount >= 3, 'expected at least a few featured tools')
+})
+
+test('getFeaturedTools keeps every featured tool in catalog order', () => {
+    const featured = getFeaturedTools()
+    assert.deepEqual(
+        featured.map((tool) => tool.id),
+        tools.filter((tool) => tool.featured).map((tool) => tool.id),
+    )
+    assert.ok(featured.length > 4, 'the featured strip must not be capped below the catalog')
+    for (const tool of featured) assert.equal(tool.featured, true)
+})
+
+test('catalog urls point at the current hosts for moved tools', () => {
+    assert.equal(getToolById('zhongguo-colors')?.url, 'https://colors.xiaoxiaodong.ai/')
+    assert.equal(getToolById('craftwork-websites')?.url, 'https://craftwork.design/inspiration/websites')
 })
 
 test('getToolById and related tools helpers', () => {

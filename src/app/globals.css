@@ -13,9 +13,9 @@
 
     --default-transition-duration: 250ms;
 
-    /* 缓动也跟着全站走一条：ease-out。跟 020/032/033 同一个曲线，
-       免得同一次点击里两段动画的速度曲线不一样。 */
-    --ease-out: var(--ease-out);
+    /* One curve for the whole site. A self-reference (`var(--ease-out)`)
+       is a cycle, and every transition that uses it becomes invalid. */
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
 }
 
 /* The site's rule is a hairline: every border that is drawn is 0.5px.

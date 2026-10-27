@@ -1,8 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { MARKDOWN_PATH_HEADER, wantsMarkdown } from '@/lib/markdown'
+import { isMarkdownExemptPath, MARKDOWN_PATH_HEADER, wantsMarkdown } from '@/lib/markdown'
 
 const MARKDOWN_ROUTE = '/api/markdown'
-const IMAGE_ROUTE = '/opengraph-image'
 
 /**
  * Content negotiation (acceptmarkdown.com): clients that explicitly ask for
@@ -15,15 +14,14 @@ export function proxy(request: NextRequest) {
     if (request.headers.has('rsc') || request.headers.has('next-router-prefetch')) return NextResponse.next()
 
     const { pathname } = request.nextUrl
-    // Files with extensions (robots.txt, sitemap.xml, icon.svg, ...) and the
-    // OpenGraph image route are single-variant resources; serve them as-is.
-    if (/\.[a-z0-9]+$/i.test(pathname)) return NextResponse.next()
-    if (pathname === IMAGE_ROUTE || pathname.startsWith(MARKDOWN_ROUTE)) return NextResponse.next()
+    // Files with extensions (robots.txt, sitemap.xml, icon.svg, ...) and every
+    // Open Graph image are single-variant resources; serve them as-is.
+    if (isMarkdownExemptPath(pathname)) return NextResponse.next()
 
     if (!wantsMarkdown(request.headers.get('accept'))) {
-        // This URL also exists as a text/markdown variant keyed on Accept —
-        // caches must not serve one variant for the other. (next start's static
-        // path replaces Vary locally; the Vercel edge applies this header.)
+        // Same URL also serves text/markdown. The app renderer later replaces
+        // this Vary via setHeader; src/instrumentation.ts appends Accept back
+        // onto that write so production caches still vary on Accept.
         const html = NextResponse.next()
         html.headers.append('Vary', 'Accept')
         return html

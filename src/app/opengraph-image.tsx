@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { ImageResponse } from 'next/og'
-import TOOLS, { getAllTags } from '@/data/tools'
+import TOOLS, { getAllTags, getFeaturedTools } from '@/data/tools'
 
 export const alt = 'App Universe — Tools that earn their place'
 export const size = { width: 1200, height: 630 }
@@ -18,7 +18,14 @@ const V_LINE_KEYS = 'abcdefghijklmnopqrstuvwx'.split('')
 const H_LINE_KEYS = 'abcdefghijkl'.split('')
 
 export default async function OpenGraphImage() {
-    const featured = TOOLS.filter((tool) => tool.featured).slice(0, 6)
+    const featured = getFeaturedTools()
+    // The strip sits in a 992px content box (1088 card − 48px padding each side).
+    const stripInnerWidth = 992
+    const previewGap = 2
+    const previewWidth = Math.max(
+        1,
+        Math.floor((stripInnerWidth - previewGap * Math.max(featured.length - 1, 0)) / Math.max(featured.length, 1)),
+    )
     const previews = await Promise.all(
         featured.map(async (tool) => {
             const file = await readFile(join(process.cwd(), 'public', 'previews', `${tool.id}.png`))
@@ -129,12 +136,12 @@ export default async function OpenGraphImage() {
                                 key={featured[i].id}
                                 alt=""
                                 src={src}
-                                width={163}
+                                width={previewWidth}
                                 height={92}
                                 style={{
                                     objectFit: 'cover',
                                     objectPosition: 'top',
-                                    marginRight: i === previews.length - 1 ? 0 : 2,
+                                    marginRight: i === previews.length - 1 ? 0 : previewGap,
                                 }}
                             />
                         ))}

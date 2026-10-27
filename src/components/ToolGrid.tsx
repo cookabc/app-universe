@@ -7,8 +7,9 @@ import { normalizeLanguage } from '@/components/I18nProvider'
 import { SearchBar } from '@/components/SearchBar'
 import { TagFilter } from '@/components/TagFilter'
 import { ToolCard } from '@/components/ToolCard'
-import tools, { CATEGORY_LABELS, CATEGORY_ORDER, groupToolsByCategory } from '@/data/tools'
+import tools, { CATEGORY_LABELS, CATEGORY_ORDER, getFeaturedTools, groupToolsByCategory } from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { withTagParam } from '@/lib/discovery-url'
 import { filterTools } from '@/lib/filter-tools'
 import { parseSeed, randomSeed, seededShuffle, seedToNumber } from '@/lib/shuffle'
 
@@ -43,7 +44,7 @@ export function ToolGrid() {
     )
 
     const orderedTools = sortMode === 'shuffle' ? shuffledTools : tools
-    const featuredTools = useMemo(() => tools.filter((tool) => tool.featured).slice(0, 4), [])
+    const featuredTools = useMemo(() => getFeaturedTools(), [])
 
     const filtered = useMemo(
         () => filterTools(orderedTools, activeTag, searchQuery),
@@ -60,13 +61,22 @@ export function ToolGrid() {
     const showFeatured =
         sortMode === 'curated' && activeTag === 'all' && !searchQuery.trim() && featuredTools.length > 0
 
+    const syncTag = (tag: string) => {
+        window.history.replaceState(null, '', withTagParam(window.location.href, tag))
+    }
+
+    const handleTagChange = (tag: string) => {
+        setActiveTag(tag)
+        syncTag(tag)
+    }
+
     const clearFilters = () => {
         setSearchQuery('')
-        setActiveTag('all')
+        handleTagChange('all')
     }
 
     const handleTagClick = (tag: string) => {
-        setActiveTag(tag)
+        handleTagChange(tag)
         setSearchQuery('')
         document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
@@ -127,7 +137,7 @@ export function ToolGrid() {
                         <SearchBar value={searchQuery} onChange={setSearchQuery} />
                     </div>
                     <div className="min-w-0 flex-1">
-                        <TagFilter tools={tools} activeTag={activeTag} onTagChange={setActiveTag} />
+                        <TagFilter tools={tools} activeTag={activeTag} onTagChange={handleTagChange} />
                     </div>
                     <div
                         className="flex shrink-0 items-center gap-2"

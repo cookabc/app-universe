@@ -51,7 +51,7 @@ const TOOLS: Tool[] = [
             zh: '742 张高清中国传统色卡，含色名、HEX、RGB、CMYK 与配色推荐',
         },
         tags: ['design'],
-        url: 'https://nevertoday.github.io/zhongguo-traditional-colors/',
+        url: 'https://colors.xiaoxiaodong.ai/',
         icon: 'Palette',
         color: '#e5484d',
         note: {
@@ -313,7 +313,7 @@ const TOOLS: Tool[] = [
             zh: '来自 Curated.design 社区精选的网站设计灵感库',
         },
         tags: ['ui'],
-        url: 'https://craftwork.design/curated/websites/',
+        url: 'https://craftwork.design/inspiration/websites',
         icon: 'Globe',
         color: '#3e63dd',
         note: {
@@ -622,6 +622,11 @@ export function formatTag(tag: string): string {
 
 export function getToolById(id: string): Tool | undefined {
     return TOOLS.find((tool) => tool.id === id)
+}
+
+/** Every tool marked featured, in catalog order. Homepage and the OG strip share this list. */
+export function getFeaturedTools(): Tool[] {
+    return TOOLS.filter((tool) => tool.featured)
 }
 
 export function getToolPath(id: string): string {

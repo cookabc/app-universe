@@ -2,7 +2,13 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import tools, { getToolPath } from '../data/tools.ts'
 import { SITE_NAME, SITE_URL } from '../lib/site.ts'
-import { buildLlmsTxt, buildToolsJson, resolveMarkdownForPath, wantsMarkdown } from './markdown.ts'
+import {
+    buildLlmsTxt,
+    buildToolsJson,
+    isMarkdownExemptPath,
+    resolveMarkdownForPath,
+    wantsMarkdown,
+} from './markdown.ts'
 
 test('wantsMarkdown only accepts an explicit text/markdown token', () => {
     assert.equal(wantsMarkdown('text/markdown'), true)
@@ -22,6 +28,15 @@ test('wantsMarkdown only accepts an explicit text/markdown token', () => {
     // Lookalike types must not match.
     assert.equal(wantsMarkdown('text/x-markdown'), false)
     assert.equal(wantsMarkdown('application/markdown'), false)
+})
+
+test('open graph images are exempt from markdown negotiation', () => {
+    assert.equal(isMarkdownExemptPath('/opengraph-image'), true)
+    assert.equal(isMarkdownExemptPath('/t/open-design/opengraph-image'), true)
+    assert.equal(isMarkdownExemptPath('/t/open-design'), false)
+    assert.equal(isMarkdownExemptPath('/'), false)
+    assert.equal(isMarkdownExemptPath('/robots.txt'), true)
+    assert.equal(isMarkdownExemptPath('/api/markdown'), true)
 })
 
 test('home markdown describes the site and lists every tool', () => {
