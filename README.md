@@ -3,8 +3,10 @@
 人工精选的双语（EN/中文）工具目录站，线上在 [app-universe.vercel.app](https://app-universe.vercel.app)。Next.js 16 App Router + React 19 + Tailwind v4，部署在 Vercel；收录数据全部在 `src/data/tools.ts`。`/puzzles` 是不上架的静态彩蛋页（noindex）。
 
 <p align="center">
-  <img src="docs/images/home.png" width="880" alt="App Universe 首页：左侧导语，右侧本期精选卡片">
+  <img src="docs/images/home.png" width="880" alt="App Universe 首页：左侧中文导语与探索按钮，右侧本期精选 Open Design 卡片与两张次选预览">
 </p>
+
+首页左栏是当期导语与筛选入口，右栏把本期精选放大成一张可点卡片，下排露出两张次选；右下角 `01 / 31` 与底部 `31 个工具 · 5 个标签 · 中英双语` 都是从收录数据实时算出的计数。右上角可在中英文之间切换，两种语言各有独立 URL。
 
 ## 常用命令
 
