@@ -36,7 +36,7 @@
 ## 环境版本
 
 - Node：`.nvmrc` 固定 `24`，CI 使用同版本。
-- 包管理器：`packageManager` 钉 `pnpm@12.9.1`。本机 pnpm 与钉版不一致时会自切换；断网或全隧道代理环境下自切换的签名校验可能失败——此时直接执行 `node_modules/.bin/` 下的 `biome` / `tsc` / `next`，测试改用 nvm 绝对路径的 node 跑。
+- 包管理器：版本由 `package.json` 的 `packageManager` 字段钉住。本机 pnpm 与钉版不一致时会自切换；断网或全隧道代理环境下自切换的签名校验可能失败——此时直接执行 `node_modules/.bin/` 下的 `biome` / `tsc` / `next`，测试改用 nvm 绝对路径的 node 跑。
 
 ## 许可
 
