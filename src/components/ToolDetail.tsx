@@ -75,7 +75,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                 color: tool.color,
                 label: whyLabel,
                 attributionLabel,
-                brand: 'Wayfinder',
+                brand: 'Wayseeker',
             })
             await copyCanvasAsImage(canvas, `${tool.id}-note.png`)
             setImageState('done')
