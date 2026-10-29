@@ -231,9 +231,11 @@
     gap: 1.5rem;
     margin-top: -0.75rem;
 }
-.atlas-flip,
-.atlas-visit,
-.atlas-detail {
+/* The three scene actions. Scoped to their real tags so the class can never be
+   reused as a page container and leak `display: inline-flex` onto it. */
+button.atlas-flip,
+a.atlas-visit,
+a.atlas-detail {
     display: inline-flex;
     min-height: 44px;
     align-items: center;
@@ -245,23 +247,23 @@
     font-size: 0.875rem;
     cursor: pointer;
 }
-.atlas-flip {
+button.atlas-flip {
     border-bottom: 0.5px solid var(--way-current);
 }
-.atlas-flip svg,
-.atlas-visit svg {
+button.atlas-flip svg,
+a.atlas-visit svg {
     width: 16px;
     height: 16px;
 }
-.atlas-visit {
+a.atlas-visit {
     color: var(--way-current);
 }
-.atlas-detail {
+a.atlas-detail {
     color: var(--way-muted);
 }
-.atlas-flip:hover,
-.atlas-visit:hover,
-.atlas-detail:hover {
+button.atlas-flip:hover,
+a.atlas-visit:hover,
+a.atlas-detail:hover {
     color: var(--way-current);
 }
 @media (max-width: 1000px) {
