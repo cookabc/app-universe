@@ -1,32 +1,34 @@
+/* Site chrome: layout and brand type only. All colour comes from wayfinder-themes.css. */
 .wayfinder-header {
-    border-bottom: 0.5px solid #363a3f;
-    background: #111927;
-    color: #eeeeec;
-}
-.wayfinder-wordmark {
-    color: #eeeeec;
+    border-bottom: 0.5px solid var(--way-line);
+    background: var(--way-bg);
 }
 .wayfinder-wordmark > svg {
-    color: #eac561;
+    color: var(--way-current);
 }
-.wayfinder-header .display-heading {
-    font-family: "Manrope", var(--font-sans), sans-serif;
+.wayfinder-brand-name {
+    font-family: var(--way-sans);
+    font-size: 1rem;
     font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1;
 }
 .wayfinder-header button {
-    border-color: #363a3f;
-    background: #1c2534;
-    color: #eeeeec;
+    border-color: var(--way-line);
+    background: var(--way-panel);
+    color: var(--way-ink);
 }
 .wayfinder-header button:hover {
-    border-color: #b5b3ad;
-    background: #212b3c;
-    color: #eac561;
+    border-color: var(--way-current);
+    background: var(--way-surface);
+    color: var(--way-current);
 }
 .wayfinder-footer {
-    border-top: 0.5px solid #363a3f;
-    background: #111927;
-    color: #eeeeec;
+    border-top: 0.5px solid var(--way-line);
+    background: var(--way-bg);
+}
+.wayfinder-footer .wayfinder-brand-name {
+    font-size: 1.125rem;
 }
 .wayfinder-footer-main {
     display: flex;
@@ -42,21 +44,21 @@
     display: inline-flex;
     min-height: 44px;
     align-items: center;
-    color: #b5b3ad;
+    color: var(--way-muted);
     font-size: 0.875rem;
 }
 .wayfinder-footer-links a:hover {
-    color: #eac561;
+    color: var(--way-current);
 }
 .wayfinder-footer-meta {
     margin-top: 0.5rem;
-    color: #b5b3ad;
+    color: var(--way-muted);
     font-size: 0.75rem;
 }
 .wayfinder-footer-bottom {
     margin-top: 2rem;
     padding-top: 1rem;
-    border-top: 0.5px solid #363a3f;
+    border-top: 0.5px solid var(--way-line);
 }
 @media (max-width: 600px) {
     .wayfinder-footer-main {
