@@ -13,20 +13,16 @@
 
     --default-transition-duration: 250ms;
 
-    /* 缓动也跟着全站走一条：ease-out。跟 020/032/033 同一个曲线，
-       免得同一次点击里两段动画的速度曲线不一样。 */
+    /* 缓动全站一条：ease-out。同一次点击里的两段动画速度曲线必须一致。 */
     --ease-out: var(--ease-out);
 }
 
-/* The site's rule is a hairline: every border that is drawn is 0.5px.
+/* 全站画出来的边都是 0.5px 细线。
 
-   Tailwind v4 hardcodes the width on the bare border utilities —
-   it compiles to a 1px border and does not read the --border-width-*
-   scale, so overriding the scale above changes nothing on its own
-   (the tokens never reach the output).
-   Override the utilities themselves instead. */
+   Tailwind v4 在裸 border 工具类上硬编码 1px，不读 --border-width-* 刻度，
+   所以只改上面的 token 不落到产物里，必须直接覆盖工具类本身。
+   按边各自生效：border-t 不能带出另外三条边。 */
 @layer utilities {
-    /* 每条画出来的边都是 0.5px —— 按边各自生效，border-t 不能带出另外三条边 */
     .border {
         border-width: 0.5px;
     }
@@ -45,14 +41,14 @@
 }
 
 @theme {
+    /* 一套字型只留两种声音：IBM Plex Sans 负责正文与控件，
+       Georgia/宋体衬线负责标题与工具名。Plus Jakarta 与 Manrope 已移除，
+       此前声明了但从未真正生效的 @font-face 一并清掉。 */
     --font-heading: var(--font-display);
     --font-sans: var(--font-sans);
     --font-serif: var(--font-display);
-    --font-display: var(--font-display);
+    --font-display: Georgia, "Songti SC", "STSong", serif;
     --font-mono: var(--font-jetbrains-mono);
-
-    --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
-    --background-image-gradient-conic: conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops));
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -109,16 +105,6 @@
     }
 }
 
-@layer base {
-    *,
-    ::after,
-    ::before,
-    ::backdrop,
-    ::file-selector-button {
-        border-color: var(--color-gray-200, currentColor);
-    }
-}
-
 @utility min-h-screen {
     min-height: 100vh;
     min-height: 100dvh;
@@ -131,10 +117,10 @@
 
 @layer base {
     :root {
-        /* Radix Colors 官方刻度原值（@radix-ui/colors 3.0.0）。
-           sand 是纸面，sage 是安静的衬面，tomato 是唯一的动作色。
-           用法遵循 Radix 的档位规范：1–2 底、3–5 控件、6–8 边线、
-           9–10 实色填充、11–12 可读墨色。 */
+        /* Radix 刻度做骨架（@radix-ui/colors 3.0.0），强调色全站只留一种赭金，
+           与 favicon 和工作台 --way-current 同源。之前的番茄红、柠檬绿、鼠尾草绿
+           和赭黄四套并存，是页面显乱的主因。危险语义单独保留 red-11。
+           档位规范不变：1–2 底、3–5 控件、6–8 边线、9–10 实色填充、11–12 墨色。 */
         --background: #f9f9f8; /* sand-2  */
         --foreground: #21201c; /* sand-12 */
 
@@ -144,29 +130,27 @@
         --popover: #fdfdfc;
         --popover-foreground: #21201c;
 
-        --primary: #e54d2e; /* tomato-9：填充档（无字的大色块/边框） */
+        --primary: #ab6400; /* 赭金填充档：白字 4.69:1，AA 达标 */
         --primary-foreground: #ffffff;
-        --primary-text-fill: #d13415; /* tomato-11：填充档里要放字的那一档，
-                                         白字 4.98:1；tomato-9 上白字只有 3.87:1 */
+        --primary-text-fill: #8a5200; /* 要放字的填充降一档，纸面 6.4:1 */
 
-        --secondary: #eef1f0; /* sage-3  */
-        --secondary-foreground: #1a211e;
+        --secondary: #f1f0ef; /* sand-3：中性衬面，不再用鼠尾草绿 */
+        --secondary-foreground: #21201c;
 
         --muted: #f1f0ef; /* sand-3  */
         --muted-foreground: #63635e; /* sand-11 */
 
-        --accent: #eef1f0; /* sage-3  */
-        --accent-foreground: #1a211e;
-        --signal: #d13415; /* tomato-11：文字档 */
-        --signal-deep: #5c271f; /* tomato-12：12px 小字落在 sand-3 卡片上，
-                                   tomato-11 只有 4.38:1，-12 是 10.45:1 */
+        --accent: #f1f0ef;
+        --accent-foreground: #21201c;
+        --signal: #8a5200; /* 赭金文字档 */
+        --signal-deep: #6b4000; /* 小字落在 sand-3 卡片上仍 ≥8:1 */
 
-        --destructive: #ce2c31; /* red-11  */
+        --destructive: #ce2c31; /* red-11 */
         --destructive-foreground: #ffffff;
 
         --border: #dad9d6; /* sand-6  */
         --input: #fdfdfc;
-        --ring: #e54d2e; /* tomato-9 */
+        --ring: #ab6400;
 
         --radius: 0.5rem;
         --radius-inner: 0.375rem;
@@ -175,7 +159,6 @@
         --z-base: 0;
         --z-header: 30;
         --z-skip-link: 40;
-        --z-grain: 50;
         --z-tooltip: 55;
         --z-toast: 60;
     }
@@ -190,28 +173,27 @@
         --popover: #212225;
         --popover-foreground: #edeef0;
 
-        --primary: #e54d2e; /* dark tomato-9：深浅同值 */
-        --primary-foreground: #ffffff;
-        /* 深色底上 tomato-9 配白字同样只有 3.87:1；字版填充降一档取 4.98:1。 */
-        --primary-text-fill: #d13415;
+        --primary: #eac561; /* 深底暖金：墨字 8.9:1 */
+        --primary-foreground: #21201c;
+        --primary-text-fill: #eac561;
 
-        --secondary: #272a2d; /* dark slate-4  */
+        --secondary: #212225; /* dark slate-3：中性 */
         --secondary-foreground: #edeef0;
 
         --muted: #212225; /* dark slate-3  */
         --muted-foreground: #b0b4ba; /* dark slate-11 */
 
-        --accent: #272a2d;
+        --accent: #212225;
         --accent-foreground: #edeef0;
-        --signal: #ff977d; /* dark tomato-11 */
-        --signal-deep: #fbd3cb; /* dark tomato-12：深底上提亮，11.58:1 */
+        --signal: #eac561;
+        --signal-deep: #f0d49a; /* 深底上的小字提亮到浅金，≥9:1 */
 
         --destructive: #ff9592; /* dark red-11 */
         --destructive-foreground: #18191b;
 
         --border: #363a3f; /* dark slate-6 */
         --input: #212225;
-        --ring: #e54d2e;
+        --ring: #eac561;
     }
 }
 
@@ -241,10 +223,18 @@
         background-color: var(--background);
         color: var(--foreground);
         font-family: var(--font-sans), sans-serif;
+        /* 医用毛毡（kaze.build 配方）：细深色纤维 multiply 压进表面，
+           细亮色纤维 screen 提出来，再垫一层 1600px 柔和渐洗。
+           工具预览与卡片表面保持干净，截图颜色不受影响。 */
         background-image:
-            linear-gradient(color-mix(in srgb, var(--foreground) 2.5%, transparent) 1px, transparent 1px),
-            linear-gradient(90deg, color-mix(in srgb, var(--foreground) 2.5%, transparent) 1px, transparent 1px);
-        background-size: 48px 48px;
+            var(--way-felt-dark), var(--way-felt-light),
+            linear-gradient(
+                color-mix(in srgb, var(--foreground) 3%, transparent),
+                color-mix(in srgb, var(--foreground) 0%, transparent) 1600px
+            );
+        background-size: 180px 180px, 180px 180px, auto;
+        background-repeat: repeat, repeat, no-repeat;
+        background-blend-mode: multiply, screen, normal;
     }
 
     main {
@@ -329,23 +319,6 @@
         background: var(--secondary);
     }
 
-    .text-balance {
-        text-wrap: balance;
-    }
-
-    .text-pretty {
-        text-wrap: pretty;
-    }
-
-    .grain {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: var(--z-grain);
-        opacity: 0.018;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    }
-
     .radius-inner {
         border-radius: var(--radius-inner);
     }
@@ -353,16 +326,6 @@
     .radius-outer {
         border-radius: var(--radius-outer);
     }
-
-    .bg-ambient {
-        background-image: radial-gradient(
-            ellipse 80% 60% at 50% 0%,
-            color-mix(in srgb, var(--primary) 7%, transparent),
-            transparent 60%
-        );
-    }
-
-    /* --- redesign utilities --- */
 
     .index-label {
         font-family: var(--font-jetbrains-mono), monospace;
@@ -373,8 +336,6 @@
         color: var(--muted-foreground);
     }
 
-    /* 文字档用 tomato-11，不用 --primary（tomato-9 是填充档，
-       当 12px 文字色在 sand-2 上只有 3.67:1，低于 4.5:1）。 */
     .index-label--accent {
         color: var(--signal);
     }
@@ -404,125 +365,20 @@
         border-top: 0.5px solid var(--border);
     }
 
-    .bg-lined-paper {
-        background-image: repeating-linear-gradient(
-            to bottom,
-            transparent,
-            transparent 27px,
-            color-mix(in srgb, var(--foreground) 2.5%, transparent) 27px,
-            color-mix(in srgb, var(--foreground) 2.5%, transparent) 28px
-        );
-    }
-
-    .serif-display {
-        font-family: var(--font-display), sans-serif;
-        font-weight: 700;
-    }
-
+    /* display 声音只留衬线：字重 600，靠大小与字距分层，不靠黑度。 */
     .display-heading {
         font-family: var(--font-display), sans-serif;
-        font-weight: 800;
-    }
-
-    .marker-highlight {
-        display: inline-block;
-        padding: 0.04em 0.12em 0.07em;
-        border: 0.03em solid var(--foreground);
-        background-color: var(--accent);
-        color: var(--accent-foreground);
-        transform: rotate(-1.5deg);
-    }
-
-    .mosaic-caption {
-        font-family: var(--font-jetbrains-mono), monospace;
-        font-size: 0.75rem;
-        font-weight: 500;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+        font-weight: 600;
     }
 
     .measure {
         max-width: 65ch;
     }
 
-    .archive-tab {
-        display: inline-block;
-        padding: 0.125rem 0.5rem;
-        background-color: var(--accent);
-        color: var(--accent-foreground);
-        font-family: var(--font-jetbrains-mono), monospace;
-        font-size: 0.75rem;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-    }
-
-    .signal-grid {
-        background-image:
-            linear-gradient(to right, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px),
-            linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px);
-        background-size: 48px 48px;
-        background-position: -1px -1px;
-    }
-
     .signal-card {
-        border: 0.5px solid var(--foreground);
+        border: 0.5px solid var(--border);
         border-radius: var(--radius);
         background: var(--card);
-    }
-
-    .signal-sticker {
-        position: absolute;
-        right: -0.75rem;
-        top: -0.75rem;
-        display: grid;
-        width: 2.5rem;
-        height: 2.5rem;
-        place-items: center;
-        border: 0.5px solid var(--foreground);
-        border-radius: var(--radius);
-        background: var(--accent);
-        color: var(--accent-foreground);
-        transform: rotate(4deg);
-    }
-
-    .signal-mark {
-        position: relative;
-        display: grid;
-        width: 1.75rem;
-        height: 1.75rem;
-        place-items: center;
-        border: 0.5px solid var(--foreground);
-        border-radius: var(--radius);
-        background: var(--accent);
-        transition: transform 250ms var(--ease-out);
-    }
-
-    .signal-mark::before,
-    .signal-mark::after,
-    .signal-mark span {
-        position: absolute;
-        content: "";
-        background: var(--foreground);
-    }
-
-    .signal-mark::before {
-        width: 0.75rem;
-        height: 2px;
-    }
-
-    .signal-mark::after {
-        width: 2px;
-        height: 0.75rem;
-    }
-
-    .signal-mark span {
-        width: 0.25rem;
-        height: 0.25rem;
-        border-radius: 999px;
-    }
-
-    a:hover .signal-mark {
-        transform: rotate(8deg);
     }
 
     .signal-button {
@@ -540,32 +396,10 @@
     .signal-button:hover {
         opacity: 0.92;
     }
-    /* Press feedback, same language as the theme switch's Tailwind variant:
-       the button settles into the page instead of staying at its hover lift. */
+    /* Press feedback: the button settles into the page instead of
+       staying at its hover lift. */
     .signal-button:active {
         transform: translateY(1px) scale(0.98);
-    }
-
-    .coordinate-rule {
-        height: 0.5rem;
-        border-top: 0.5px solid var(--border);
-        background: repeating-linear-gradient(
-            to right,
-            var(--foreground) 0,
-            var(--foreground) 1px,
-            transparent 1px,
-            transparent 1rem
-        );
-        background-position: top left;
-        background-size: auto 0.35rem;
-        background-repeat: repeat-x;
-    }
-
-    .discovery-rail {
-        position: relative;
-        border: 0.5px solid var(--border);
-        border-radius: var(--radius);
-        background: var(--card);
     }
 
     .tool-card-lift {
@@ -576,418 +410,19 @@
     .tool-card-lift:hover {
         background: var(--secondary);
     }
-
-    .featured-tab {
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 2;
-        border-right: 0.5px solid var(--foreground);
-        border-bottom: 0.5px solid var(--foreground);
-        background: var(--accent);
-        color: var(--accent-foreground);
-        padding: 0.45rem 0.7rem;
-        font-family: var(--font-jetbrains-mono), monospace;
-        font-size: 0.75rem;
-        font-weight: 500;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-    }
-}
-
-@media (min-width: 1024px) {
-    .discovery-rail {
-        position: sticky;
-        top: 4.75rem;
-        z-index: 20;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .tool-card-lift:hover,
-    .signal-button:hover,
-    a:hover .signal-mark {
+    .signal-button:hover {
         transform: none;
     }
 }
 
-/* App Universe / the working atlas: an editorial instrument rather than a tile wall.
-
-   封面在两种主题下都是同一块深色版面，所以它有自己的小 token 组，
-   值全部取自 Radix dark 刻度：blue-2 做底，sand 的暖白做墨，
-   tomato-11 做信号色，lime-9 是唯一的大面积填充。 */
-.atlas-hero {
-    --hero-bg: #111927; /* dark blue-2   */
-    --hero-ink: #eeeeec; /* dark sand-12  */
-    --hero-muted: #b5b3ad; /* dark sand-11  */
-    --hero-accent: #ff977d; /* dark tomato-11 */
-    --hero-lime: #bdee63; /* lime-9        */
-    --hero-lime-hover: #d4ff70; /* lime-10       */
-
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    background: var(--hero-bg);
-    color: var(--hero-ink);
-}
-
-.atlas-hero::before {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background-image:
-        linear-gradient(color-mix(in srgb, var(--hero-ink) 5%, transparent) 1px, transparent 1px),
-        linear-gradient(90deg, color-mix(in srgb, var(--hero-ink) 5%, transparent) 1px, transparent 1px);
-    background-size: 76px 76px;
-    content: "";
-    mask-image: linear-gradient(to right, #000, transparent 80%);
-}
-
-.atlas-orbit {
-    position: absolute;
-    z-index: -1;
-    width: 52vw;
-    aspect-ratio: 1;
-    border: 0.5px solid color-mix(in srgb, var(--hero-ink) 10%, transparent);
-    border-radius: 50%;
-    pointer-events: none;
-}
-
-.atlas-orbit-one {
-    top: -28vw;
-    right: -12vw;
-}
-
-.atlas-orbit-two {
-    right: -28vw;
-    bottom: -35vw;
-    width: 72vw;
-}
-
-.atlas-hero-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
-    align-items: center;
-    gap: clamp(3rem, 6vw, 7rem);
-    padding-top: clamp(5rem, 8vw, 8rem);
-    padding-bottom: clamp(5rem, 8vw, 8rem);
-}
-
-.atlas-hero-copy {
-    min-width: 0;
-}
-
-.atlas-eyebrow-row,
-.atlas-edition,
-.atlas-scroll-note,
-.atlas-facts,
-.atlas-showcase-top,
-.atlas-meta,
-.atlas-hero-foot,
-.atlas-image-index {
-    font-family: var(--font-jetbrains-mono), monospace;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.11em;
-    text-transform: uppercase;
-}
-
-.atlas-eyebrow-row {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    color: var(--hero-muted);
-}
-
-.atlas-edition {
-    margin-left: auto;
-    color: var(--hero-muted);
-    white-space: nowrap;
-}
-
-.atlas-pulse {
-    width: 8px;
-    height: 8px;
-    flex: none;
-    border-radius: 50%;
-    background: var(--hero-lime);
-    box-shadow: 0 0 0 5px color-mix(in srgb, var(--hero-lime) 14%, transparent);
-}
-
-.atlas-title {
-    max-width: 10.8ch;
-    margin-top: clamp(2rem, 4vw, 4rem);
-    font-family: Georgia, "Songti SC", "STSong", serif;
-    font-size: clamp(4rem, 6.3vw, 7.25rem);
-    font-weight: 400;
-    line-height: 0.94;
-    letter-spacing: -0.07em;
-    text-wrap: balance;
-}
-
-.atlas-title span,
-.atlas-title em {
-    display: block;
-}
-
-.atlas-title em {
-    margin-top: 0.1em;
-    color: var(--hero-accent);
-    font-style: italic;
-}
-
-.atlas-intro {
-    max-width: 42ch;
-    margin-top: 2.3rem;
-    color: var(--hero-muted);
-    font-size: 1rem;
-    line-height: 1.75;
-    text-wrap: pretty;
-}
-
-.atlas-hero-actions {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-top: 2.5rem;
-}
-
-.atlas-cta {
-    display: inline-flex;
-    min-height: 58px;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2.25rem;
-    padding: 0 1.25rem;
-    border-radius: 999px;
-    background: var(--hero-lime);
-    color: var(--hero-bg);
-    font-size: 0.875rem;
-    font-weight: 700;
-    transition: background 250ms var(--ease-out);
-}
-
-.atlas-cta:hover {
-    background: var(--hero-lime-hover);
-}
-
-.atlas-cta span {
-    font-size: 1rem;
-    font-weight: 400;
-}
-
-.atlas-scroll-note {
-    color: var(--hero-muted);
-}
-
-.atlas-facts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem 1.4rem;
-    margin-top: clamp(3rem, 6vw, 6rem);
-    padding-top: 1.25rem;
-    border-top: 0.5px solid color-mix(in srgb, var(--hero-ink) 18%, transparent);
-    color: var(--hero-muted);
-}
-
-.atlas-facts span + span::before {
-    margin-right: 1.4rem;
-    color: var(--hero-accent);
-    content: "✳";
-}
-
-.atlas-showcase {
-    min-width: 0;
-    padding: 0.75rem;
-    border: 0.5px solid color-mix(in srgb, var(--hero-ink) 24%, transparent);
-    border-radius: 16px;
-    background: color-mix(in srgb, var(--hero-ink) 6%, transparent);
-    transform: rotate(1.4deg);
-    transition: transform 250ms var(--ease-out);
-}
-
-.atlas-showcase:hover {
-    transform: rotate(0);
-}
-
-.atlas-showcase-top {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 0.9rem;
-    color: var(--hero-muted);
-}
-
-.atlas-lead-image {
-    position: relative;
-    display: block;
-    overflow: hidden;
-    aspect-ratio: 16 / 10;
-    border-radius: 4px;
-    background: color-mix(in srgb, var(--hero-ink) 10%, transparent);
-}
-
-.atlas-image-index {
-    position: absolute;
-    right: 0.5rem;
-    bottom: 0.5rem;
-    padding: 0.55rem 0.65rem;
-    border-radius: 4px;
-    background: var(--hero-bg);
-    color: var(--hero-ink);
-}
-
-.atlas-lead-caption {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 1.15rem 0 1.4rem;
-    border-bottom: 0.5px solid color-mix(in srgb, var(--hero-ink) 20%, transparent);
-}
-
-.atlas-lead-caption > div {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-}
-
-.atlas-lead-caption .atlas-meta {
-    color: var(--hero-muted);
-}
-
-.atlas-lead-caption a {
-    color: var(--hero-ink);
-    font-family: Georgia, "Songti SC", serif;
-    font-size: clamp(1.5rem, 2.1vw, 2rem);
-    letter-spacing: -0.04em;
-}
-
-.atlas-lead-caption a span {
-    color: var(--hero-accent);
-    font-family: var(--font-sans), sans-serif;
-    font-size: 0.875rem;
-}
-
-.atlas-mini-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.8rem;
-    padding-top: 1rem;
-}
-
-.atlas-mini {
-    min-width: 0;
-}
-
-.atlas-mini-image {
-    position: relative;
-    display: block;
-    overflow: hidden;
-    aspect-ratio: 2.4;
-    border-radius: 4px;
-    background: color-mix(in srgb, var(--hero-ink) 10%, transparent);
-}
-
-.atlas-mini-name {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin-top: 0.55rem;
-    color: var(--hero-ink);
-    font-size: 0.875rem;
-    font-weight: 600;
-}
-
-.atlas-mini-name .atlas-meta {
-    color: var(--hero-accent);
-}
-
-.atlas-hero-foot {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    gap: 2rem;
-    overflow: hidden;
-    padding: 0.9rem 1rem;
-    background: var(--hero-accent);
-    color: var(--hero-bg);
-    white-space: nowrap;
-}
-
-.atlas-card {
-    border-width: 0.5px;
-    border-color: var(--border);
-    border-radius: var(--radius);
-    transition: border-color 250ms var(--ease-out);
-}
-
-.atlas-card:hover {
-    border-color: var(--foreground);
-}
-
-.atlas-card > a:first-of-type {
-    border-bottom-width: 0.5px;
-    border-bottom-color: var(--border);
-}
-
-.atlas-card h3 {
-    font-family: Georgia, "Songti SC", serif;
-    font-weight: 500;
-    letter-spacing: -0.04em;
-}
-
-.atlas-card .featured-tab {
-    border: 0;
-    border-radius: 0 0 9px 0;
-    background: var(--primary-text-fill);
-    color: var(--primary-foreground);
-}
-
-.atlas-header {
-    border-bottom-width: 0.5px;
-    border-color: var(--border);
-    background: color-mix(in srgb, var(--background) 92%, transparent);
-    backdrop-filter: blur(18px);
-}
-
-.atlas-header .signal-mark {
-    width: 1.95rem;
-    height: 1.95rem;
-    border-width: 0.5px;
-    border-radius: 50%;
-    background: var(--primary);
-    transform: rotate(-18deg);
-}
-
-.atlas-header .signal-mark::before,
-.atlas-header .signal-mark::after,
-.atlas-header .signal-mark span {
-    background: var(--primary-foreground);
-}
-
-.atlas-index h2 {
-    font-family: Georgia, "Songti SC", serif;
-    font-weight: 500;
-    letter-spacing: -0.045em;
-}
-
-.atlas-index section > div:first-child:has(h2) {
-    border-bottom-width: 0.5px;
-    border-color: var(--border);
-}
-
-.atlas-footer {
-    border-top-width: 0.5px;
-    border-color: var(--border);
-}
-
-.atlas-footer .display-heading {
-    font-family: Georgia, "Songti SC", serif;
-    font-weight: 500;
-}
-
+/* Detail page（/t/[id]）的档案外观。标题与策展引用用衬线显示声音，
+   与首页工作台一致；线宽一律 0.5px。 */
 .atlas-detail-title {
-    font-family: Georgia, "Songti SC", serif;
+    font-family: var(--font-display);
     font-size: clamp(3.6rem, 6vw, 6rem);
     font-weight: 500;
     letter-spacing: -0.065em;
@@ -1006,7 +441,7 @@
 
 .atlas-note-quote {
     position: relative;
-    font-family: Georgia, "Songti SC", serif;
+    font-family: var(--font-display);
     letter-spacing: -0.015em;
 }
 
@@ -1035,368 +470,6 @@
 }
 
 .atlas-related-card .display-heading {
-    font-family: Georgia, "Songti SC", serif;
+    font-family: var(--font-display);
     font-weight: 500;
-}
-
-.signal-card {
-    border-width: 0.5px;
-    border-color: var(--border);
-    border-radius: var(--radius);
-}
-
-@media (max-width: 900px) {
-    .atlas-hero-inner {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-    }
-
-    .atlas-title {
-        max-width: 13ch;
-    }
-
-    .atlas-showcase {
-        max-width: 700px;
-    }
-}
-
-@media (max-width: 600px) {
-    .atlas-hero-inner {
-        padding-top: 4rem;
-        padding-bottom: 4rem;
-    }
-
-    .atlas-title {
-        margin-top: 2rem;
-        font-size: clamp(3.35rem, 13vw, 5rem);
-    }
-
-    .atlas-edition,
-    .atlas-scroll-note,
-    .atlas-lead-caption > span {
-        display: none;
-    }
-
-    .atlas-hero-actions {
-        margin-top: 2rem;
-    }
-
-    .atlas-facts {
-        margin-top: 3rem;
-    }
-
-    .atlas-showcase {
-        padding: 0.9rem;
-        transform: none;
-    }
-
-    .atlas-hero-foot {
-        justify-content: flex-start;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .atlas-cta:hover,
-    .atlas-showcase:hover,
-    .atlas-card:hover {
-        transform: none;
-    }
-}
-
-/* ── The curator verdict card ──────────────────────────────────
-   The note is the site's voice. Flat, it is one grey paragraph and
-   the three claims inside it blur together. Turned over, it is three
-   labelled moves: the situation, the replacement, the catch.
-
-   The card turns on the Y axis with a real 3D flip, so the back face
-   reads as the reverse of the same card rather than as a different
-   panel that replaced it. */
-.verdict {
-    position: relative;
-    display: grid;
-    width: 100%;
-    margin-top: 1rem;
-    padding: 0;
-    border: 0;
-    text-align: left;
-    cursor: pointer;
-    perspective: 900px;
-}
-/* Both faces sit in the same grid cell, so the card is as tall as the
-   taller one and the caveat is never clipped. But while the card is still
-   closed it must be as short as the front face — otherwise a grid of cards
-   reserves room for text nobody has asked to see yet. */
-.verdict__face {
-    grid-area: 1 / 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.85rem 1rem;
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--muted);
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-    transition:
-        transform 250ms var(--ease-out),
-        opacity 250ms var(--ease-out);
-}
-.verdict__face--back {
-    opacity: 0;
-    transform: rotateY(180deg);
-    pointer-events: none;
-}
-/* While the card is closed the back face is not in the layout, so the card
-   is exactly as tall as the front. */
-.verdict:not(.is-flipped) .verdict__face--back {
-    display: none;
-}
-.verdict.is-flipped > .verdict__face--front {
-    opacity: 0;
-    transform: rotateY(-180deg);
-    pointer-events: none;
-}
-.verdict.is-flipped > .verdict__face--back {
-    opacity: 1;
-    transform: rotateY(0deg);
-}
-.verdict__text {
-    display: -webkit-box;
-    overflow: hidden;
-    color: color-mix(in srgb, var(--foreground) 85%, transparent);
-    font-size: 0.875rem;
-    line-height: 1.6;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-}
-.verdict__label {
-    color: var(--signal-deep);
-}
-.verdict__cue {
-    margin-top: 0.15rem;
-    color: var(--muted-foreground);
-    transition: color 250ms var(--ease-out);
-}
-.verdict:hover .verdict__cue {
-    color: var(--foreground);
-}
-.verdict__moves {
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-}
-.verdict__move {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-}
-.verdict__move-label {
-    color: var(--signal-deep);
-}
-/* The caveat is the one that can stop you using the tool, so it gets the
-   loudest label of the three. */
-.verdict__move:last-child .verdict__move-label {
-    color: var(--destructive);
-}
-.verdict__move-text {
-    max-width: 70ch;
-    color: color-mix(in srgb, var(--foreground) 85%, transparent);
-    font-size: 0.875rem;
-    line-height: 1.5;
-}
-.verdict--flat {
-    margin-top: 1rem;
-    padding: 0.85rem 1rem;
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--muted);
-}
-.verdict--flat .verdict__text {
-    margin-top: 0.35rem;
-}
-@media (prefers-reduced-motion: reduce) {
-    .verdict__face {
-        transition: opacity 250ms var(--ease-out);
-    }
-    .verdict.is-flipped .verdict__face--front,
-    .verdict__face--back {
-        transform: none;
-    }
-}
-
-/* The open variant: the three moves shown straight away, for a column of
-   dossiers a reader is scanning rather than opening one at a time. */
-.verdict--open {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    padding: 0.85rem 1rem;
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    background: var(--muted);
-}
-.verdict--open .verdict__moves {
-    gap: 0.5rem;
-}
-
-/* ── The dossier list ─────────────────────────────────────────
-   A field guide is read down a column, not scanned as a grid. Each
-   entry is a row: number, thumbnail, name, domain, description, and
-   the curator's three moves already separated. The thumbnail carries
-   the tool's own colour, so a row is identifiable before its name is
-   read. */
-.dossier-list {
-    display: flex;
-    flex-direction: column;
-    border-top: 0.5px solid var(--border);
-}
-.dossier {
-    display: grid;
-    grid-template-columns: 168px minmax(0, 1fr);
-    gap: 1.25rem;
-    padding: 1.35rem 0;
-    border-bottom: 0.5px solid var(--border);
-    transition: background 250ms var(--ease-out);
-}
-.dossier:hover {
-    background: color-mix(in srgb, var(--muted) 45%, transparent);
-}
-.dossier__thumb {
-    position: relative;
-    display: block;
-    overflow: hidden;
-    aspect-ratio: 16 / 10;
-    border: 0.5px solid var(--border);
-    border-radius: 10px;
-    background: var(--muted);
-}
-.dossier__thumb-image {
-    object-fit: cover;
-    object-position: top;
-    transition: transform 250ms var(--ease-out);
-}
-.dossier:hover .dossier__thumb-image {
-    transform: scale(1.05);
-}
-/* The colour chip is the entry's identity. It sits on the thumbnail's
-   corner so the row can be picked out of a long list by colour alone. */
-.dossier__swatch {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 26px;
-    height: 26px;
-    border-top: 0.5px solid var(--border);
-    border-left: 0.5px solid var(--border);
-    border-top-left-radius: 8px;
-}
-.dossier__body {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-}
-.dossier__head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.35rem 0.75rem;
-}
-.dossier__name {
-    font-family: Georgia, "Songti SC", serif;
-    font-size: 1.25rem;
-    font-weight: 500;
-    letter-spacing: -0.035em;
-    color: var(--foreground);
-    transition: color 250ms var(--ease-out);
-}
-.dossier__name:hover {
-    color: var(--primary);
-}
-.dossier__domain {
-    color: var(--muted-foreground);
-}
-.dossier__links {
-    display: flex;
-    gap: 0.35rem;
-    margin-left: auto;
-}
-.dossier__icon-link {
-    display: grid;
-    width: 34px;
-    height: 34px;
-    place-items: center;
-    border: 0.5px solid var(--border);
-    color: var(--muted-foreground);
-    transition:
-        border-color 250ms var(--ease-out),
-        color 250ms var(--ease-out);
-}
-.dossier__icon-link:hover {
-    border-color: var(--foreground);
-    color: var(--foreground);
-}
-.dossier__icon-link--primary {
-    border-color: transparent;
-    background: var(--primary);
-    color: var(--primary-foreground);
-}
-.dossier__icon-link--primary:hover {
-    color: var(--primary-foreground);
-    opacity: 0.85;
-}
-.dossier__desc {
-    max-width: 78ch;
-    margin-top: 0.5rem;
-    color: var(--muted-foreground);
-    font-size: 0.875rem;
-    line-height: 1.6;
-}
-.dossier__foot {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    margin-top: 0.9rem;
-}
-.dossier__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-}
-.dossier__tag {
-    padding: 0.3rem 0.55rem;
-    border: 0.5px solid var(--border);
-    color: var(--muted-foreground);
-    transition:
-        border-color 250ms var(--ease-out),
-        color 250ms var(--ease-out);
-}
-.dossier__tag:hover {
-    border-color: var(--foreground);
-    color: var(--foreground);
-}
-.dossier__detail {
-    padding-bottom: 0.15rem;
-    border-bottom: 0.5px solid var(--foreground);
-    transition: color 250ms var(--ease-out);
-}
-.dossier__detail:hover {
-    color: var(--primary);
-}
-@media (max-width: 720px) {
-    .dossier {
-        grid-template-columns: 84px minmax(0, 1fr);
-        gap: 0.85rem;
-    }
-    .dossier__name {
-        font-size: 1.25rem;
-    }
-    .dossier__domain {
-        width: 100%;
-    }
-    .dossier__links {
-        margin-left: 0;
-    }
 }
