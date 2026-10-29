@@ -1,1 +1,412 @@
-PLACEHOLDER
+/* Two complete workbench themes, not a white inversion of the dark scene. */
+:root,
+.light {
+    --way-bg: #f4f4f2;
+    --way-panel: #fdfdfc;
+    --way-ink: #21201c;
+    --way-muted: #63635e;
+    --way-line: #dad9d6;
+    --way-current: #ab6400;
+    --way-action: #21201c;
+    --way-action-ink: #fdfdfc;
+    --way-surface: #e9e8e6;
+    --way-thumb-bg: #f9f9f8;
+    --way-image-border: #cfceca;
+    --way-scene-shadow: 0 18px 48px rgb(33 32 28 / 10%);
+    --way-preview-bg: #fdfdfc;
+}
+.dark {
+    --way-bg: #111927;
+    --way-panel: #1c2534;
+    --way-ink: #eeeeec;
+    --way-muted: #b5b3ad;
+    --way-line: #363a3f;
+    --way-current: #eac561;
+    --way-action: #eac561;
+    --way-action-ink: #21201c;
+    --way-surface: #212b3c;
+    --way-thumb-bg: #1c2534;
+    --way-image-border: #363a3f;
+    --way-scene-shadow: 0 22px 55px rgb(0 0 0 / 24%);
+    --way-preview-bg: #1c2534;
+}
+/* The felt recipe lives in wayseeker.css and reads --way-ink, so each theme
+   tints its fibres the right way round: dark specks on paper, bright specks
+   on the navy workbench. Only the workbench itself is felted; panels that
+   carry content stay clean. */
+.wayseeker-shell {
+    min-height: 100vh;
+    background-color: var(--way-bg);
+    color: var(--way-ink);
+}
+.wayseeker-header,
+.wayseeker-footer {
+    border-color: var(--way-line);
+    background-color: var(--way-bg);
+    color: var(--way-ink);
+}
+.wayseeker-wordmark,
+.wayseeker-footer-links a,
+.wayseeker-footer-meta {
+    color: var(--way-ink);
+}
+.wayseeker-wordmark > svg,
+.wayseeker-footer-links a:hover {
+    color: var(--way-current);
+}
+.wayseeker-header button {
+    border-color: var(--way-line);
+    background: var(--way-panel);
+    color: var(--way-ink);
+}
+.wayseeker-header button:hover {
+    border-color: var(--way-current);
+    background: var(--way-surface);
+    color: var(--way-current);
+}
+.wayseeker-intro {
+    position: relative;
+    padding-top: clamp(2rem, 4vw, 3.5rem);
+    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+.wayseeker-intro h1 {
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.06;
+}
+.wayseeker-intro p {
+    max-width: 29ch;
+    color: var(--way-muted);
+    font-size: 0.9375rem;
+}
+.wayseeker-route-wrap {
+    position: relative;
+}
+.wayseeker-route-wrap::after {
+    position: absolute;
+    right: 0;
+    bottom: 0.75rem;
+    left: 0;
+    height: 0.5px;
+    background: var(--way-line);
+    content: "";
+    pointer-events: none;
+}
+.wayseeker-route {
+    position: relative;
+    z-index: 1;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 0.75rem;
+}
+.wayseeker-stop {
+    position: relative;
+    min-height: 48px;
+    gap: 0.6rem;
+    padding: 0.5rem 0;
+    color: var(--way-muted);
+    font-size: 0.875rem;
+}
+.wayseeker-stop + .wayseeker-stop::before {
+    width: clamp(0.75rem, 2.5vw, 2.5rem);
+    margin: 0 clamp(0.5rem, 1.4vw, 1.25rem);
+}
+.wayseeker-stop.is-active {
+    color: var(--way-ink);
+    font-weight: 600;
+}
+.wayseeker-stop.is-active::after {
+    position: absolute;
+    right: 0;
+    bottom: -0.75rem;
+    left: 0;
+    height: 2px;
+    background: var(--way-current);
+    content: "";
+}
+.wayseeker-stop-dot {
+    width: 7px;
+    height: 7px;
+}
+.wayseeker-stop.is-active .wayseeker-stop-dot {
+    box-shadow: none;
+    transform: none;
+}
+.wayseeker-stage {
+    padding-top: 1.25rem;
+}
+.wayseeker-scene-heading {
+    padding-bottom: 1.25rem;
+}
+.wayseeker-scene-heading p {
+    color: var(--way-muted);
+    font-size: 0.9375rem;
+    font-weight: 500;
+}
+.wayseeker-scene-heading > span {
+    color: var(--way-muted);
+    font-size: 0.75rem;
+}
+.wayseeker-scene {
+    grid-template-columns: minmax(0, 1.7fr) minmax(260px, 0.72fr);
+    align-items: start;
+    gap: clamp(1.5rem, 3.2vw, 3.5rem);
+}
+.wayseeker-preview {
+    position: relative;
+    z-index: 1;
+}
+.wayseeker-preview > a {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    margin-bottom: 0;
+    border: 0.5px solid var(--way-image-border);
+    border-radius: 6px;
+    background: var(--way-preview-bg);
+    box-shadow: var(--way-scene-shadow);
+}
+.wayseeker-preview > a img {
+    object-fit: cover;
+    object-position: top;
+}
+.wayseeker-preview-marker {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border: 0.5px solid var(--way-image-border);
+    border-radius: 50%;
+    background: var(--way-panel);
+    color: var(--way-ink);
+    font-family: var(--font-jetbrains-mono), monospace;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+}
+.wayseeker-notes {
+    padding: 0 0 1rem;
+}
+.wayseeker-tool-heading {
+    padding-bottom: 1.25rem;
+    border-bottom: 0.5px solid var(--way-line);
+}
+.wayseeker-tool-heading h2 {
+    font-weight: 500;
+    line-height: 1.15;
+}
+.wayseeker-tool-heading p {
+    color: var(--way-muted);
+}
+.wayseeker-tool-heading > a {
+    border-color: var(--way-line);
+    color: var(--way-current);
+}
+.wayseeker-tool-heading > a:hover {
+    border-color: var(--way-current);
+    background: var(--way-surface);
+}
+.wayseeker-description {
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.75;
+}
+.wayseeker-verdict {
+    margin-top: 1.5rem;
+}
+.wayseeker-verdict > div {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 0.75rem;
+    padding: 0.9rem 0;
+}
+.wayseeker-verdict dt {
+    padding-top: 0.1rem;
+    color: var(--way-current);
+    font-size: 0.75rem;
+}
+.wayseeker-verdict dd {
+    margin-top: 0;
+    line-height: 1.65;
+}
+.wayseeker-detail-link {
+    min-height: 44px;
+    margin-top: 0.5rem;
+    padding-bottom: 0.1rem;
+    border-bottom: 0.5px solid var(--way-current);
+    color: var(--way-ink);
+}
+.wayseeker-related {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 0.5px solid var(--way-line);
+}
+.wayseeker-related-label {
+    padding-top: 0.5rem;
+    color: var(--way-muted);
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+.wayseeker-related-track {
+    display: flex;
+    min-width: 0;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding: 0.25rem 0.25rem 0.75rem;
+    scrollbar-color: var(--way-line) transparent;
+    scrollbar-width: thin;
+}
+.wayseeker-thumbnail {
+    display: flex;
+    width: 104px;
+    min-width: 104px;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--way-muted);
+    font-size: 0.75rem;
+    text-align: left;
+    cursor: pointer;
+    transition: color 250ms var(--ease-out);
+}
+.wayseeker-thumbnail-image {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    border: 0.5px solid var(--way-line);
+    border-radius: 4px;
+    background: var(--way-thumb-bg);
+    transition:
+        border-color 250ms var(--ease-out),
+        transform 250ms var(--ease-out),
+        box-shadow 250ms var(--ease-out);
+}
+.wayseeker-thumbnail-image img {
+    object-fit: cover;
+    object-position: top;
+}
+.wayseeker-thumbnail:hover {
+    color: var(--way-ink);
+}
+.wayseeker-thumbnail:hover .wayseeker-thumbnail-image {
+    border-color: var(--way-current);
+    transform: translateY(-2px);
+}
+.wayseeker-thumbnail.is-current {
+    color: var(--way-ink);
+    font-weight: 600;
+}
+.wayseeker-thumbnail.is-current .wayseeker-thumbnail-image {
+    border-color: var(--way-current);
+    box-shadow:
+        0 0 0 2px var(--way-bg),
+        0 0 0 3px var(--way-current);
+}
+.wayseeker-thumbnail-caption {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.wayseeker-scene-footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+}
+.wayseeker-scene-footer > p {
+    max-width: 60ch;
+    font-size: 0.875rem;
+}
+.wayseeker-step-controls button {
+    border-color: var(--way-line);
+    color: var(--way-ink);
+}
+.wayseeker-step-controls button:hover {
+    border-color: var(--way-current);
+    color: var(--way-current);
+}
+.wayseeker-actions {
+    padding-bottom: 2.5rem;
+}
+.wayseeker-actions button,
+.wayseeker-down {
+    color: var(--way-muted);
+}
+.wayseeker-actions .wayseeker-shuffle {
+    color: var(--way-ink);
+}
+.wayseeker-actions button:hover,
+.wayseeker-down:hover {
+    color: var(--way-current);
+}
+.wayseeker-search-field input {
+    color: var(--way-ink);
+}
+.wayseeker-search-field input::placeholder {
+    color: var(--way-muted);
+}
+.wayseeker-explanation-note,
+.wayseeker-explanation-note > span {
+    border-color: var(--way-current);
+    color: var(--way-current);
+}
+.wayseeker-explanation-note > p {
+    color: var(--way-muted);
+}
+.wayseeker-index-grid section > button {
+    border-color: var(--way-line);
+}
+@media (max-width: 720px) {
+    .wayseeker-route {
+        justify-content: flex-start;
+    }
+    .wayseeker-stop {
+        flex: none;
+    }
+    .wayseeker-scene {
+        display: block;
+    }
+    .wayseeker-preview > a {
+        margin-bottom: 0;
+    }
+    .wayseeker-preview > a img {
+        object-fit: contain;
+        object-position: top left;
+        background: var(--way-preview-bg);
+    }
+    .wayseeker-related {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        margin-top: 2rem;
+    }
+    .wayseeker-related-label {
+        padding-top: 0;
+    }
+    .wayseeker-thumbnail {
+        width: 112px;
+        min-width: 112px;
+    }
+}
+@media (max-width: 480px) {
+    .wayseeker-intro h1 {
+        font-size: 2.75rem;
+    }
+    .wayseeker-verdict > div {
+        grid-template-columns: 74px minmax(0, 1fr);
+    }
+    .wayseeker-preview-marker {
+        right: 8px;
+        bottom: 8px;
+        width: 26px;
+        height: 26px;
+    }
+}
