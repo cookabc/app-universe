@@ -2,6 +2,8 @@
 
 极简黑白风格数字与逻辑游戏合集，纯 HTML/CSS/JS 实现，零依赖、零广告、打开即玩。
 
+> This is a standalone side site served under `/puzzles` (excluded from search engines via `robots.ts`). It is unrelated to the Wayseeker tool guide and keeps its own Chinese documentation; the game names below are the ones shown in the interface.
+
 ## 运行
 
 直接用浏览器打开 `index.html`，或：
