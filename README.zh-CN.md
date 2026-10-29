@@ -10,7 +10,7 @@ Wayseeker 不按热度或标签堆砌工具卡，而是沿「寻找方向 → �
 
 生产站为 [wayseeker.vercel.app](https://wayseeker.vercel.app)；canonical origin 在 `src/lib/site.ts` 中配置，部署前须与实际部署地址一致。
 
-[English](README.md) · **中文**
+**中文** · [English](README.md)
 
 ## 常用命令
 

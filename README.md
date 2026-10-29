@@ -10,7 +10,7 @@ Wayseeker does not stack tool cards by popularity or tag. It follows one route �
 
 Production runs at [wayseeker.vercel.app](https://wayseeker.vercel.app). The canonical origin is configured in `src/lib/site.ts` and must match where the site is actually deployed.
 
-**English** · [中文说明](README.zh.md)
+**English** · [中文说明](README.zh-CN.md)
 
 ## Commands
 
