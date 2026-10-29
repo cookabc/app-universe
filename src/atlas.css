@@ -315,29 +315,48 @@
     .atlas-focus-back dd {
         margin-top: 0.25rem;
     }
+
+    /* The orbit collapses on phones. Rather than floating the neighbours over
+       the preview — where they cover the very screenshot the scene exists to
+       show — they drop into a strip underneath it. */
+    .atlas-orbit-stage:has(.atlas-neighbor) {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+    .atlas-orbit-stage:has(.atlas-neighbor) .atlas-focus {
+        order: -1;
+        flex: 0 0 100%;
+        margin-bottom: 0.25rem;
+    }
     .atlas-neighbor {
-        position: absolute;
-        z-index: 5;
-        width: 92px;
+        position: static;
+        width: auto;
+        flex: 0 0 88px;
+        transform: none;
+        gap: 0.35rem;
+    }
+    .atlas-neighbor--before.atlas-neighbor--1,
+    .atlas-neighbor--before.atlas-neighbor--2,
+    .atlas-neighbor--after.atlas-neighbor--1,
+    .atlas-neighbor--after.atlas-neighbor--2 {
+        top: auto;
+        right: auto;
+        bottom: auto;
+        left: auto;
+    }
+    .atlas-neighbor--before.atlas-neighbor--1:hover,
+    .atlas-neighbor--before.atlas-neighbor--2:hover,
+    .atlas-neighbor--after.atlas-neighbor--1:hover,
+    .atlas-neighbor--after.atlas-neighbor--2:hover {
+        transform: none;
     }
     .atlas-neighbor > span:last-child {
-        display: none;
-    }
-    .atlas-neighbor--before.atlas-neighbor--1 {
-        top: 0;
-        left: -0.25rem;
-    }
-    .atlas-neighbor--before.atlas-neighbor--2 {
-        bottom: 1rem;
-        left: -0.5rem;
-    }
-    .atlas-neighbor--after.atlas-neighbor--1 {
-        top: 0;
-        right: -0.25rem;
-    }
-    .atlas-neighbor--after.atlas-neighbor--2 {
-        right: -0.5rem;
-        bottom: 1rem;
+        display: block;
+        overflow: hidden;
+        font-size: 0.6875rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .atlas-neighbor-image {
         border-radius: 4px;
@@ -353,11 +372,7 @@
         font-size: 1.75rem;
     }
     .atlas-neighbor {
-        width: 66px;
-    }
-    .atlas-neighbor--before.atlas-neighbor--2,
-    .atlas-neighbor--after.atlas-neighbor--2 {
-        display: none;
+        flex-basis: 76px;
     }
     .atlas-focus-back dd {
         font-size: 0.75rem;
