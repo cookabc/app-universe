@@ -6,6 +6,9 @@ import { I18nProvider } from '@/components/I18nProvider'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site'
 import './globals.css'
+import '../wayfinder.css'
+import '../wayfinder-chrome.css'
+import '../wayfinder-themes.css'
 
 const plexSans = IBM_Plex_Sans({
     subsets: ['latin'],
@@ -26,13 +29,13 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
     metadataBase: new URL(SITE_URL),
     title: {
-        default: `${SITE_NAME} — Tools that earn their place`,
+        default: `${SITE_NAME} — Find your next tool`,
         template: `%s — ${SITE_NAME}`,
     },
     description: SITE_DESCRIPTION,
     applicationName: SITE_NAME,
     openGraph: {
-        title: `${SITE_NAME} — Tools that earn their place`,
+        title: `${SITE_NAME} — Find your next tool`,
         description: SITE_DESCRIPTION,
         type: 'website',
         url: SITE_URL,
@@ -41,7 +44,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: `${SITE_NAME} — Tools that earn their place`,
+        title: `${SITE_NAME} — Find your next tool`,
         description: SITE_DESCRIPTION,
     },
     alternates: {
@@ -79,7 +82,7 @@ export default function RootLayout({
                         enableSystem
                         disableTransitionOnChange
                         enableColorScheme
-                        storageKey="app-universe-theme"
+                        storageKey="wayfinder-theme"
                     >
                         <TooltipProvider delayDuration={300}>
                             <div className="flex flex-col min-h-screen bg-background">
