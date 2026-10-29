@@ -4,29 +4,18 @@ import {
     ArrowDownIcon,
     ArrowLeftIcon,
     ArrowRightIcon,
-    ArrowSquareOutIcon,
     MagnifyingGlassIcon,
     ShuffleIcon,
     XIcon,
 } from '@phosphor-icons/react'
-import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import AtlasScene from '@/components/AtlasScene'
 import { normalizeLanguage } from '@/components/I18nProvider'
-import { ToolPreviewImage } from '@/components/ToolPreviewImage'
-import TOOLS, { getToolPath, type Tool } from '@/data/tools'
+import TOOLS, { type Tool } from '@/data/tools'
 import { toolWorkflowIndex, WORKFLOWS } from '@/data/workflow'
 import { useI18nReady } from '@/hooks/useI18nReady'
-import { parseVerdict } from '@/lib/curator-note'
 import { filterTools, getDomain } from '@/lib/filter-tools'
 import { parseSeed, randomSeed, seededShuffle, seedToNumber } from '@/lib/shuffle'
-
-function noteMove(note: string | undefined, lang: 'en' | 'zh', key: 'when' | 'replaces' | 'caveat') {
-    if (!note) return ''
-    const text = parseVerdict(note, lang)?.[key] ?? note
-    if (lang === 'zh') return text.replace(/^注意[：:]\s*/, '')
-    return text.replace(/^(When |Replaces |Caveat:)\s*/i, '')
-}
 
 export default function WorkflowMap() {
     const { i18n, t, isReady } = useI18nReady()
@@ -37,7 +26,6 @@ export default function WorkflowMap() {
     const [searchOpen, setSearchOpen] = useState(false)
     const [seed, setSeed] = useState<string | null>(null)
     const [copied, setCopied] = useState(false)
-    const [transitionKey, setTransitionKey] = useState(0)
     const searchRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
@@ -62,7 +50,6 @@ export default function WorkflowMap() {
     const selected = flowTools.find((tool) => tool.id === selectedId) ?? flowTools[0]
     const selectedIndex = selected ? flowTools.findIndex((tool) => tool.id === selected.id) : -1
     const searchResults = useMemo(() => filterTools(TOOLS, 'all', query).slice(0, 6), [query])
-    const note = selected?.note?.[lang] || selected?.note?.en
 
     const onExplorerKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
         if (event.key === 'ArrowRight') {
@@ -94,7 +81,6 @@ export default function WorkflowMap() {
         setActiveFlow(index)
         const first = seed ? seededShuffle(next.toolIds, seedToNumber(seed))[0] : next.toolIds[0]
         if (first) setSelectedId(first)
-        setTransitionKey((value) => value + 1)
     }
 
     const moveTool = (direction: number) => {
@@ -107,10 +93,9 @@ export default function WorkflowMap() {
     const selectTool = (tool: Tool) => {
         setSelectedId(tool.id)
         setActiveFlow(toolWorkflowIndex(tool.id))
-        setTransitionKey((value) => value + 1)
         setSearchOpen(false)
         setQuery('')
-        document.querySelector('.wayfinder')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        document.querySelector('.wayseeker')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
 
     const shuffle = () => {
@@ -120,7 +105,6 @@ export default function WorkflowMap() {
         setSeed(value)
         setSelectedId(shuffled[0].id)
         setActiveFlow(toolWorkflowIndex(shuffled[0].id))
-        setTransitionKey((current) => current + 1)
         setCopied(false)
         const url = new URL(window.location.href)
         url.searchParams.set('seed', value)
@@ -134,63 +118,57 @@ export default function WorkflowMap() {
             setCopied(true)
             setTimeout(() => setCopied(false), 2000)
         } catch {
-            // The seed remains in the URL for browsers without clipboard access.
+            // The seed stays in the URL for browsers without clipboard access.
         }
     }
 
     if (!flow || !selected) return null
 
     const text = {
-        question: isReady ? t('wayfinder.question') : 'What are you making?',
-        index: isReady ? t('wayfinder.index') : 'Index',
+        question: isReady ? t('wayseeker.question') : 'What are you making?',
+        index: isReady ? t('wayseeker.index') : 'Index',
         search: isReady ? t('toolsWall.searchAriaLabel') : 'Search tools',
-        next: isReady ? t('wayfinder.next') : 'Next stop',
-        previous: isReady ? t('wayfinder.previous') : 'Previous stop',
-        open: isReady ? t('toolDetail.openSite') : 'Open site',
-        detail: isReady ? t('toolsWall.details') : 'Details',
-        shuffle: isReady ? t('wayfinder.shuffle') : 'Surprise me',
+        next: isReady ? t('wayseeker.next') : 'Next stop',
+        previous: isReady ? t('wayseeker.previous') : 'Previous stop',
+        shuffle: isReady ? t('wayseeker.shuffle') : 'Surprise me',
         copied: isReady ? t('toolsWall.linkCopied') : 'Copied',
-        copy: isReady ? t('wayfinder.copy') : 'Copy this path',
-        clear: isReady ? t('wayfinder.clear') : 'Back to the curated route',
-        results: isReady ? t('wayfinder.results') : 'Matching tools',
+        copy: isReady ? t('wayseeker.copy') : 'Copy this path',
+        clear: isReady ? t('wayseeker.clear') : 'Back to the curated route',
+        results: isReady ? t('wayseeker.results') : 'Matching tools',
     }
 
     return (
-        <div className="wayfinder-shell">
-            <section className="wayfinder-intro container max-w-7xl mx-auto px-4" aria-labelledby="wayfinder-title">
-                <h1 id="wayfinder-title">{text.question}</h1>
-                <p>{isReady ? t('wayfinder.intro') : 'A field guide for the next thing you need to make.'}</p>
+        <div className="wayseeker-shell">
+            <section className="wayseeker-intro container max-w-7xl mx-auto px-4" aria-labelledby="wayseeker-title">
+                <h1 id="wayseeker-title">{text.question}</h1>
+                <p>{isReady ? t('wayseeker.intro') : 'A field guide for the next thing you need to make.'}</p>
             </section>
 
             <section
-                className="wayfinder"
-                aria-label={isReady ? t('wayfinder.mapLabel') : 'Workflow explorer'}
+                className="wayseeker"
+                aria-label={isReady ? t('wayseeker.mapLabel') : 'Workflow explorer'}
                 onKeyDown={onExplorerKeyDown}
             >
-                <div className="wayfinder-route-wrap container max-w-7xl mx-auto px-4">
-                    <nav
-                        className="wayfinder-route"
-                        aria-label={isReady ? t('wayfinder.routeLabel') : 'Choose a workflow'}
-                    >
+                <div className="wayseeker-route-wrap container max-w-7xl mx-auto px-4">
+                    <nav className="wayseeker-route" aria-label={isReady ? t('wayseeker.routeLabel') : 'Choose a workflow'}>
                         {WORKFLOWS.map((item, index) => (
                             <button
                                 type="button"
                                 key={item.id}
-                                className={`wayfinder-stop${index === activeFlow ? ' is-active' : ''}`}
+                                className={`wayseeker-stop${index === activeFlow ? ' is-active' : ''}`}
                                 aria-pressed={index === activeFlow}
                                 onClick={() => selectFlow(index)}
                             >
-                                <span className="wayfinder-stop-dot" aria-hidden="true" />
+                                <span className="wayseeker-stop-dot" aria-hidden="true" />
                                 <span>{item.name[lang]}</span>
                             </button>
                         ))}
                     </nav>
                 </div>
 
-                <div className="wayfinder-stage container max-w-7xl mx-auto px-4">
-                    <div className="wayfinder-scene-heading">
+                <div className="wayseeker-stage container max-w-7xl mx-auto px-4">
+                    <div className="wayseeker-scene-heading">
                         <p>{flow.question[lang]}</p>
-                        <span>{selected.name[lang] || selected.name.en}</span>
                     </div>
 
                     <AtlasScene
@@ -201,9 +179,9 @@ export default function WorkflowMap() {
                         onSelect={selectTool}
                     />
 
-                    <div className="wayfinder-scene-footer">
+                    <div className="wayseeker-scene-footer">
                         <p>{flow.description[lang]}</p>
-                        <div className="wayfinder-step-controls">
+                        <div className="wayseeker-step-controls">
                             <button type="button" onClick={() => moveTool(-1)} aria-label={text.previous}>
                                 <ArrowLeftIcon weight="regular" />
                             </button>
@@ -220,28 +198,22 @@ export default function WorkflowMap() {
             </section>
 
             <section
-                className="wayfinder-actions container max-w-7xl mx-auto px-4"
-                aria-label={isReady ? t('wayfinder.exploreActions') : 'Explore actions'}
+                className="wayseeker-actions container max-w-7xl mx-auto px-4"
+                aria-label={isReady ? t('wayseeker.exploreActions') : 'Explore actions'}
             >
-                <button type="button" className="wayfinder-shuffle" onClick={shuffle}>
+                <button type="button" className="wayseeker-shuffle" onClick={shuffle}>
                     <ShuffleIcon weight="bold" /> {text.shuffle}
                 </button>
-                <button
-                    type="button"
-                    className="wayfinder-search-toggle"
-                    onClick={() => setSearchOpen((value) => !value)}
-                    aria-expanded={searchOpen}
-                >
+                <button type="button" onClick={() => setSearchOpen((value) => !value)} aria-expanded={searchOpen}>
                     <MagnifyingGlassIcon weight="regular" /> {text.index}
                 </button>
                 {seed && (
                     <>
-                        <button type="button" onClick={copyPath} className="wayfinder-copy">
+                        <button type="button" onClick={copyPath}>
                             {copied ? text.copied : text.copy}
                         </button>
                         <button
                             type="button"
-                            className="wayfinder-clear"
                             onClick={() => {
                                 setSeed(null)
                                 const url = new URL(window.location.href)
@@ -256,16 +228,16 @@ export default function WorkflowMap() {
                 )}
                 <a
                     href="#workflow-notes"
-                    className="wayfinder-down"
-                    aria-label={isReady ? t('wayfinder.more') : 'More about the guide'}
+                    className="wayseeker-down"
+                    aria-label={isReady ? t('wayseeker.more') : 'More about the guide'}
                 >
                     <ArrowDownIcon weight="regular" />
                 </a>
             </section>
 
             {searchOpen && (
-                <section className="wayfinder-search container max-w-7xl mx-auto px-4" aria-label={text.search}>
-                    <div className="wayfinder-search-field">
+                <section className="wayseeker-search container max-w-7xl mx-auto px-4" aria-label={text.search}>
+                    <div className="wayseeker-search-field">
                         <MagnifyingGlassIcon weight="regular" />
                         <input
                             ref={searchRef}
@@ -287,7 +259,7 @@ export default function WorkflowMap() {
                         </button>
                     </div>
                     {query && (
-                        <div className="wayfinder-search-results">
+                        <div className="wayseeker-search-results">
                             <h2>{text.results}</h2>
                             {searchResults.length > 0 ? (
                                 searchResults.map((tool) => (
@@ -305,32 +277,32 @@ export default function WorkflowMap() {
                 </section>
             )}
 
-            <section id="workflow-notes" className="wayfinder-explanation container max-w-7xl mx-auto px-4">
+            <section id="workflow-notes" className="wayseeker-explanation container max-w-7xl mx-auto px-4">
                 <div>
-                    <h2>{isReady ? t('wayfinder.explainTitle') : 'A guide, not a leaderboard.'}</h2>
+                    <h2>{isReady ? t('wayseeker.explainTitle') : 'A guide, not a leaderboard.'}</h2>
                     <p>
                         {isReady
-                            ? t('wayfinder.explainBody')
+                            ? t('wayseeker.explainBody')
                             : 'Every tool is here for a reason. Follow a workflow to see how tools relate, or search the index when you already know what you need.'}
                     </p>
                 </div>
-                <div className="wayfinder-explanation-note">
-                    <span>{isReady ? t('wayfinder.explainNote') : 'Notes from real use'}</span>
+                <div className="wayseeker-explanation-note">
+                    <span>{isReady ? t('wayseeker.explainNote') : 'Notes from real use'}</span>
                     <p>
                         {isReady
-                            ? t('wayfinder.explainNoteBody')
+                            ? t('wayseeker.explainNoteBody')
                             : 'When to reach for a tool, what it can replace, and the thing worth knowing before you commit.'}
                     </p>
                 </div>
             </section>
 
             <section
-                className="wayfinder-all-tools container max-w-7xl mx-auto px-4"
-                aria-label={isReady ? t('wayfinder.allTools') : 'All tools'}
+                className="wayseeker-all-tools container max-w-7xl mx-auto px-4"
+                aria-label={isReady ? t('wayseeker.allTools') : 'All tools'}
             >
-                <h2>{isReady ? t('wayfinder.allTools') : 'Every tool, in context.'}</h2>
-                <div className="wayfinder-index-grid">
-                    {WORKFLOWS.map((item, index) => (
+                <h2>{isReady ? t('wayseeker.allTools') : 'Every tool, in context.'}</h2>
+                <div className="wayseeker-index-grid">
+                    {WORKFLOWS.map((item) => (
                         <section key={item.id} aria-labelledby={`workflow-${item.id}`}>
                             <h3 id={`workflow-${item.id}`}>{item.name[lang]}</h3>
                             <ul>
@@ -346,7 +318,6 @@ export default function WorkflowMap() {
                                     )
                                 })}
                             </ul>
-                            <span className="sr-only">{index + 1}</span>
                         </section>
                     ))}
                 </div>
