@@ -1,60 +1,62 @@
 # Wayseeker
 
-按工作流探索设计、开发与创意工具的双语（EN/中文）指南。Next.js 16 App Router + React 19 + Tailwind v4，收录事实与策展评论全部在 `src/data/tools.ts`，任务路径在 `src/data/workflow.ts`。
+A bilingual (English / 中文) field guide to design, code and creative tools, organised by the work you are actually doing. Next.js 16 App Router + React 19 + Tailwind v4. All tool facts and curator notes live in `src/data/tools.ts`; the task paths live in `src/data/workflow.ts`.
 
-Wayseeker 不按热度或标签堆砌工具卡，而是沿「寻找方向 → 建立视觉语言 → 让界面动起来 → 研究真实产品 → 完成并交付」的任务路径组织工具。真实预览和「何时用、替代什么、注意什么」在同一个探索场景中更新；索引搜索、详情访问与可分享随机路径保留。
+Wayseeker does not stack tool cards by popularity or tag. It follows one route — find direction → establish a visual language → set the interface in motion → study real products → finish and ship — and updates the real preview and the "when to use it, what it replaces, what to watch for" note inside the same scene. Index search, detail pages and a shareable random path are kept.
 
 <p align="center">
-  <img src="docs/images/home.png" width="880" alt="Wayseeker 工作流探索界面：任务路径、真实工具预览与策展判断">
+  <img src="docs/images/home.png" width="880" alt="Wayseeker workflow explorer: task route, real tool previews, and curator judgement">
 </p>
 
-生产站为 `wayseeker.vercel.app`；canonical origin 在 `src/lib/site.ts` 中配置，部署前须与实际部署地址一致。
+Production runs at [wayseeker.vercel.app](https://wayseeker.vercel.app). The canonical origin is configured in `src/lib/site.ts` and must match where the site is actually deployed.
 
-## 常用命令
+**English** · [中文说明](README.zh.md)
 
-| 命令 | 作用 |
+## Commands
+
+| Command | Purpose |
 | --- | --- |
-| `pnpm dev` | 开发服务器（端口 4000） |
-| `pnpm build` | 生产构建 |
-| `pnpm start` | 生产服务器（固定 3000 端口） |
-| `pnpm check` | 完整门禁：biome → tsc → build → node:test，与 CI 相同 |
-| `pnpm lint:fix` | biome 自动修复 |
+| `pnpm dev` | Dev server on port 4000 |
+| `pnpm build` | Production build |
+| `pnpm start` | Production server on port 3000 |
+| `pnpm check` | Full gate: biome → tsc → build → node:test, identical to CI |
+| `pnpm lint:fix` | Biome autofix |
 | `pnpm typecheck` | `tsc --noEmit` |
 
-测试用 Node 内置 runner（`node --experimental-strip-types --test`），测试文件与被测代码同目录。工作流契约测试保证每个工具恰好属于一条任务路径。
+Tests use Node's built-in runner (`node --experimental-strip-types --test`), colocated with the code they cover. A workflow contract test asserts every tool belongs to exactly one route.
 
-## 样式分层
+## Style layers
 
-四层，按顺序在 `src/app/layout.tsx` 引入：
+Four stylesheets, imported in this order by `src/app/layout.tsx`:
 
-| 文件 | 负责 |
+| File | Responsibility |
 | --- | --- |
-| `src/app/globals.css` | Tailwind 基础、颜色 token、字型、详情页档案样式 |
-| `src/wayseeker.css` | 工作台布局与毛毡材质（`--way-felt-*`） |
-| `src/wayseeker-themes.css` | 浅/深两套完整配色 token |
-| `src/wayseeker-chrome.css` | 页头页脚的排版与线宽 |
+| `src/app/globals.css` | Tailwind base, colour tokens, type scale, detail-page archive look |
+| `src/wayseeker.css` | Workbench layout and the felt material (`--way-felt-*`) |
+| `src/wayseeker-themes.css` | Complete light and dark colour token sets |
+| `src/wayseeker-chrome.css` | Header and footer typography and hairlines |
 
-毛毡材质是双层可平铺噪点：深色纤维 `multiply`、亮色纤维 `screen`，各约 9% 峰值 alpha，垫在 1600px 柔和渐洗上（配方来自 kaze.build）。工具预览与卡片不铺毛毡，截图颜色不被污染。
+The felt surface, the type system and the single accent are documented in [DESIGN.md](DESIGN.md) — that file is the source of truth for the visual system.
 
-## 预览图管线
+## Preview pipeline
 
-收录预览图存于 `public/previews/{id}.png`：
+Tool previews live in `public/previews/{id}.png`:
 
-- `pnpm download-previews`：抓取各工具站点截图，完成后接续优化。
-- `pnpm optimize-previews`：sharp 原地重编码（长边 1600px + palette PNG）。它会重编**所有**预览图，只想提交单张新图时先还原其余文件。
+- `pnpm download-previews` — screenshot each tool's site, then hand off to optimisation.
+- `pnpm optimize-previews` — sharp re-encode in place (1600px long edge + palette PNG). It re-encodes **every** preview, so restore the others first when committing only one new image.
 
-## 新增收录
+## Adding a tool
 
-1. 在 `src/data/tools.ts` 加一条记录（en/zh 描述有最小长度约束，测试强制）。
-2. 在 `src/data/workflow.ts` 将它放入唯一一条任务路径。
-3. 预览图放 `public/previews/{id}.png`。
-4. `pnpm check` 全绿后提交。
+1. Add a record to `src/data/tools.ts` (minimum lengths for the en/zh description are enforced by tests).
+2. Place it on exactly one route in `src/data/workflow.ts`.
+3. Drop the preview at `public/previews/{id}.png`.
+4. Commit once `pnpm check` is green.
 
-## 环境版本
+## Environment
 
-- Node：`.nvmrc` 固定 `24`，CI 使用同版本。
-- 包管理器：版本由 `package.json` 的 `packageManager` 字段钉住。本机 pnpm 与钉版不一致时会自切换；断网或全隧道代理环境下自切换的签名校验可能失败——此时直接执行 `node_modules/.bin/` 下的 `biome` / `tsc` / `next`，测试改用 nvm 绝对路径的 node 跑。
+- Node: pinned to `24` by `.nvmrc`; CI uses the same version.
+- Package manager: pinned by the `packageManager` field in `package.json`. A local pnpm that differs will self-switch; in a fully tunneled or offline environment that signature check can fail — run `biome` / `tsc` / `next` straight from `node_modules/.bin/` and call node by its nvm absolute path for tests.
 
-## 许可
+## License
 
-MIT，见 [LICENSE](LICENSE)。
+MIT, see [LICENSE](LICENSE).
