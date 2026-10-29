@@ -1,14 +1,14 @@
-# Wayfinder
+# Wayseeker
 
 按工作流探索设计、开发与创意工具的双语（EN/中文）指南。Next.js 16 App Router + React 19 + Tailwind v4，收录事实与策展评论全部在 `src/data/tools.ts`，任务路径在 `src/data/workflow.ts`。
 
-Wayfinder 不按热度或标签堆砌工具卡，而是沿「寻找方向 → 建立视觉语言 → 让界面动起来 → 研究真实产品 → 完成并交付」的任务路径组织工具。真实预览和「何时用、替代什么、注意什么」在同一个探索场景中更新；索引搜索、详情访问与可分享随机路径保留。
+Wayseeker 不按热度或标签堆砌工具卡，而是沿「寻找方向 → 建立视觉语言 → 让界面动起来 → 研究真实产品 → 完成并交付」的任务路径组织工具。真实预览和「何时用、替代什么、注意什么」在同一个探索场景中更新；索引搜索、详情访问与可分享随机路径保留。
 
 <p align="center">
-  <img src="docs/images/home.png" width="880" alt="Wayfinder 工作流探索界面：任务路径、真实工具预览与策展判断">
+  <img src="docs/images/home.png" width="880" alt="Wayseeker 工作流探索界面：任务路径、真实工具预览与策展判断">
 </p>
 
-线上部署在 [app-universe.vercel.app](https://app-universe.vercel.app)。Vercel 项目仍沿用仓库旧名，域名不可更改前不要把 canonical 写成 `wayfinder.vercel.app`——那属于另一个无关部署。canonical origin 在 `src/lib/site.ts` 中配置。`/puzzles` 是不上架的静态彩蛋页（noindex）。
+生产站为 `wayseeker.vercel.app`；canonical origin 在 `src/lib/site.ts` 中配置，部署前须与实际部署地址一致。
 
 ## 常用命令
 
@@ -22,6 +22,19 @@ Wayfinder 不按热度或标签堆砌工具卡，而是沿「寻找方向 → �
 | `pnpm typecheck` | `tsc --noEmit` |
 
 测试用 Node 内置 runner（`node --experimental-strip-types --test`），测试文件与被测代码同目录。工作流契约测试保证每个工具恰好属于一条任务路径。
+
+## 样式分层
+
+四层，按顺序在 `src/app/layout.tsx` 引入：
+
+| 文件 | 负责 |
+| --- | --- |
+| `src/app/globals.css` | Tailwind 基础、颜色 token、字型、详情页档案样式 |
+| `src/wayseeker.css` | 工作台布局与毛毡材质（`--way-felt-*`） |
+| `src/wayseeker-themes.css` | 浅/深两套完整配色 token |
+| `src/wayseeker-chrome.css` | 页头页脚的排版与线宽 |
+
+毛毡材质是双层可平铺噪点：深色纤维 `multiply`、亮色纤维 `screen`，各约 9% 峰值 alpha，垫在 1600px 柔和渐洗上（配方来自 kaze.build）。工具预览与卡片不铺毛毡，截图颜色不被污染。
 
 ## 预览图管线
 

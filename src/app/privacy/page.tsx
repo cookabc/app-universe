@@ -26,7 +26,7 @@ export default function PrivacyPage() {
                 <ul className="list-disc pl-5 space-y-2">
                     <li>
                         <strong className="text-foreground">localStorage</strong> for theme preference (
-                        <code className="text-xs">wayfinder-theme</code>)
+                        <code className="text-xs">wayseeker-theme</code>)
                     </li>
                     <li>
                         <strong className="text-foreground">cookie / localStorage</strong> for language preference (
