@@ -1,6 +1,6 @@
 {
   "brand": {
-    "name": "App Universe"
+    "name": "Wayfinder"
   },
   "nav": {
     "skipToContent": "Skip to content",
@@ -103,5 +103,27 @@
     "caveat": "Caveat",
     "flip": "See what it replaces",
     "back": "Turn back"
+  },
+  "wayfinder": {
+    "question": "What are you making?",
+    "intro": "A field guide for the next thing you need to make.",
+    "index": "Index",
+    "next": "Next stop",
+    "previous": "Previous stop",
+    "shuffle": "Surprise me",
+    "copy": "Copy this path",
+    "clear": "Back to the curated route",
+    "results": "Matching tools",
+    "mapLabel": "Workflow explorer",
+    "routeLabel": "Choose a workflow",
+    "related": "Related tools",
+    "judgment": "Curator judgment",
+    "exploreActions": "Explore actions",
+    "more": "More about the guide",
+    "explainTitle": "A guide, not a leaderboard.",
+    "explainBody": "Every tool is here for a reason. Follow a workflow to see how tools relate, or search the index when you already know what you need.",
+    "explainNote": "Notes from real use",
+    "explainNoteBody": "When to reach for a tool, what it can replace, and the thing worth knowing before you commit.",
+    "allTools": "Every tool, in context."
   }
 }

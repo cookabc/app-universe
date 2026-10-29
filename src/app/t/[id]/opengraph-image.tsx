@@ -5,7 +5,7 @@ import { ImageResponse } from 'next/og'
 import TOOLS, { formatToolNumber, getToolById, getToolNumber } from '@/data/tools'
 import { getDomain } from '@/lib/filter-tools'
 
-export const alt = 'App Universe — archive record'
+export const alt = 'Wayfinder — archive record'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -99,7 +99,7 @@ export default async function ToolOpenGraphImage({ params }: { params: Promise<{
                             <div style={{ width: 14, height: 14, borderRadius: 2, background: INK }} />
                         </div>
                         <div style={{ display: 'flex', marginLeft: 12, fontSize: 22, fontWeight: 700, color: INK }}>
-                            App Universe
+                            Wayfinder
                         </div>
                         <div
                             style={{

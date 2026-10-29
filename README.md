@@ -1,12 +1,14 @@
-# App Universe
+# Wayfinder
 
-人工精选的双语（EN/中文）工具目录站，线上在 [app-universe.vercel.app](https://app-universe.vercel.app)。Next.js 16 App Router + React 19 + Tailwind v4，部署在 Vercel；收录数据全部在 `src/data/tools.ts`。`/puzzles` 是不上架的静态彩蛋页（noindex）。
+按工作流探索设计、开发与创意工具的双语（EN/中文）指南。Next.js 16 App Router + React 19 + Tailwind v4，收录事实与策展评论全部在 `src/data/tools.ts`，任务路径在 `src/data/workflow.ts`。
+
+Wayfinder 不按热度或标签堆砌工具卡，而是沿「寻找方向 → 建立视觉语言 → 让界面动起来 → 研究真实产品 → 完成并交付」的任务路径组织工具。真实预览和「何时用、替代什么、注意什么」在同一个探索场景中更新；索引搜索、详情访问与可分享随机路径保留。
 
 <p align="center">
-  <img src="docs/images/home.png" width="880" alt="App Universe 首页：左侧中文导语与探索按钮，右侧本期精选 Open Design 卡片与两张次选预览">
+  <img src="docs/images/home.png" width="880" alt="Wayfinder 工作流探索界面：任务路径、真实工具预览与策展判断">
 </p>
 
-首页左栏是当期导语与筛选入口，右栏把本期精选放大成一张可点卡片，下排露出两张次选；右下角 `01 / 31` 与底部 `31 个工具 · 5 个标签 · 中英双语` 都是从收录数据实时算出的计数。右上角可在中英文之间切换，两种语言各有独立 URL。
+本地目录与远端仓库均使用 `wayfinder`。生产 canonical origin 在 `src/lib/site.ts` 中配置，部署前须与实际部署地址一致。`/puzzles` 是不上架的静态彩蛋页（noindex）。
 
 ## 常用命令
 
@@ -14,26 +16,26 @@
 | --- | --- |
 | `pnpm dev` | 开发服务器（端口 4000） |
 | `pnpm build` | 生产构建 |
-| `pnpm start` | 生产服务器（固定 3000 端口，不继承 dev 的 `-p 4000`） |
+| `pnpm start` | 生产服务器（固定 3000 端口） |
 | `pnpm check` | 完整门禁：biome → tsc → build → node:test，与 CI 相同 |
-| `pnpm lint:fix` | biome 自动修复（import 排序等格式问题） |
+| `pnpm lint:fix` | biome 自动修复 |
 | `pnpm typecheck` | `tsc --noEmit` |
 
-测试用 Node 内置 runner（`node --experimental-strip-types --test`），测试文件与被测代码同目录。
+测试用 Node 内置 runner（`node --experimental-strip-types --test`），测试文件与被测代码同目录。工作流契约测试保证每个工具恰好属于一条任务路径。
 
 ## 预览图管线
 
 收录预览图存于 `public/previews/{id}.png`：
 
 - `pnpm download-previews`：抓取各工具站点截图，完成后接续优化。
-- `pnpm optimize-previews`：sharp 原地重编码（长边 1600px + palette PNG）。它会重编**所有**预览图——只想提交单张新图时，先 `git checkout -- public/previews/` 还原其余文件，再单独提交新图。
-- JS 渲染的站点抓取服务拿不到有效内容，需要手动截图（1600×1000）放入 `public/previews/`。
+- `pnpm optimize-previews`：sharp 原地重编码（长边 1600px + palette PNG）。它会重编**所有**预览图，只想提交单张新图时先还原其余文件。
 
 ## 新增收录
 
 1. 在 `src/data/tools.ts` 加一条记录（en/zh 描述有最小长度约束，测试强制）。
-2. 预览图放 `public/previews/{id}.png`。
-3. `pnpm check` 全绿后提交。
+2. 在 `src/data/workflow.ts` 将它放入唯一一条任务路径。
+3. 预览图放 `public/previews/{id}.png`。
+4. `pnpm check` 全绿后提交。
 
 ## 环境版本
 
