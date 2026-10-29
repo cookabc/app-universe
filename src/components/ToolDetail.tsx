@@ -86,7 +86,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
     }
 
     return (
-        <article className="atlas-detail mx-auto max-w-7xl px-4 py-12 sm:py-16 lg:py-20">
+        <article className="atlas-detail-page mx-auto max-w-7xl px-4 py-12 sm:py-16 lg:py-20">
             <Link
                 href="/#tools"
                 className="index-label index-label--foreground mb-10 inline-flex min-h-11 items-center gap-2 border-b border-foreground hover:border-primary hover:text-primary transition-colors"
