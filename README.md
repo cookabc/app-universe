@@ -42,6 +42,15 @@ Five stylesheets, imported in this order by `src/app/layout.tsx`:
 
 The felt surface, the type system and the single accent are documented in [DESIGN.md](DESIGN.md) — that file is the source of truth for the visual system.
 
+## Docs
+
+Every document exists in English first, with a Chinese edition beside it.
+
+| English | 中文 | What it covers |
+| --- | --- | --- |
+| [DESIGN.md](DESIGN.md) | [DESIGN.zh-CN.md](DESIGN.zh-CN.md) | Visual system: colour, type, layout, components |
+| [PRODUCT.md](PRODUCT.md) | [PRODUCT.zh-CN.md](PRODUCT.zh-CN.md) | Users, positioning, principles, accessibility |
+
 ## Preview pipeline
 
 Tool previews live in `public/previews/{id}.png`:

@@ -63,86 +63,90 @@ components:
 
 **Creative North Star: "A navigable workflow atlas"**
 
-Wayseeker 是帮助用户完成当前任务的工作流地图，不是按热度排列的工具目录。工作流、真实预览和策展判断在同一个可旋转的工具场景中变化。浅色工作台以纸面层级承载工具，深色工作台以真实预览为主要光源；两者都强调路径、位置与选择，而不是再套一层杂志封面或卡片墙。
+Wayseeker is a workflow map that helps you finish the task in front of you. It is not a tool directory sorted by popularity. The workflow, the real preview and the curation note change together inside one rotatable tool scene. The light workbench carries tools on paper-like layers; the dark workbench uses the real preview as its main light source. Both emphasise route, position and choice rather than wrapping another magazine cover or card wall around the catalog.
 
-工作台表面铺医用毛毡质感：双层可平铺噪点（深色纤维 `multiply`、亮色纤维 `screen`，各约 9% 峰值 alpha）垫在 1600px 柔和渐洗上。配方来自 kaze.build，只在工作台与页头页脚生效，工具预览和卡片保持干净。
+The workbench surface is covered in medical wool felt: two layers of tileable noise (dark fibres in `multiply`, bright fibres in `screen`, each peaking at roughly 9% alpha) over a 1600px soft gradient wash. The recipe comes from kaze.build and applies only to the workbench and the header/footer; tool previews and cards stay clean.
 
 **Key Characteristics:**
-- 任务链组织，不以 AI、UI 等商品标签为主轴。
-- 大幅真实预览，旁边是可阅读的策展证据。
-- 细线、节点和克制的赭金表达当前位置。
-- 手机保留探索逻辑：路径横滑、预览、判断。
+- Organised by task chain, not by commercial labels such as AI or UI.
+- Large real previews with readable curatorial evidence beside them.
+- Hairlines, nodes and a restrained ochre mark the current position.
+- Mobile keeps the same exploration logic: swipe the route, read the preview, read the judgement.
 
 ## Colors
 
-强调色全站只有一种赭金，与 favicon 同源；危险语义单独保留 red-11。此前番茄红、柠檬绿、鼠尾草绿与赭黄四套色并存，是页面显乱的主因。
+The site has exactly one accent colour, ochre gold, sourced from the favicon; the danger meaning keeps red-11 to itself. Tomato red, lemon green, sage green and ochre previously coexisted as four accent systems, and that is what made the page look messy.
 
 ### Primary
-- **Workbench Blue-black** `#111927`：深色页面与页头页脚的共同背景。
-- **Paper Workbench** `#f4f4f2`：浅色页面的纸面底色。
-- **Ink**：深色主题暖白 `#eeeeec`，浅色主题近黑 `#21201c`。
+- **Workbench Blue-black** `#111927`: the shared background for the dark page and for the header/footer.
+- **Paper Workbench** `#f4f4f2`: the paper surface of the light page.
+- **Ink**: warm white `#eeeeec` in the dark theme, near-black `#21201c` in the light theme.
 
 ### Secondary
-- **Current Gold** `#eac561`：深色主题的当前节点、焦点与关键说明。
-- **Current Ochre** `#ab6400`：浅色主题同一角色，白字 4.69:1。
-- **Panel Navy / Paper**：图片加载前的表面和控件底。
+- **Current Gold** `#eac561`: the current node, focus and key annotation in the dark theme.
+- **Current Ochre** `#ab6400`: the same role in the light theme, 4.69:1 against white text.
+- **Panel Navy / Paper**: the surface behind loading images and the control beds.
 
 ### Neutral
-- **Muted Sand / Slate**：次要说明。
-- **Quiet Line**：连线、分隔、焦点框，恒为 0.5px。
+- **Muted Sand / Slate**: secondary explanation.
+- **Quiet Line**: links, dividers and focus rings, always 0.5px.
 
 ## Typography
 
-只有两种声音，没有第三种：
+Two voices, never a third:
 
-**Display Font:** Georgia / 宋体系统衬线（`--font-display`），用于页面标题、场景标题、工具名与策展引用。字重 500，靠字号与负字距分层，不靠加黑。
-**Body Font:** IBM Plex Sans，中文回退系统黑体。控件、正文、按钮均用它。
-**Label/Mono Font:** IBM Plex Mono，只用于进度、seed 与数值记录。
+**Display Font:** Georgia / system Songti serif (`--font-display`), used for the page title, scene titles, tool names and curatorial quotes. Weight 500; hierarchy comes from size and negative tracking, not from heavier weights.
+**Body Font:** IBM Plex Sans, falling back to the system sans for Chinese. Controls, prose and buttons all use it.
+**Label/Mono Font:** IBM Plex Mono, used only for progress, seed and numeric records.
 
-此前声明过 Manrope 自托管字体与 Plus Jakarta 两个 display 面，但实际都被 fallback 绕过（浏览器计算样式一律解析到 IBM Plex Sans），已全部移除。
+A self-hosted Manrope family and a second Plus Jakarta display face were previously declared, but both were bypassed by fallbacks in practice (every computed style resolved to IBM Plex Sans). Both have been removed.
 
-大标题只负责提出任务，不覆盖工具内容。工作流与工具名采用自然句式和明确字重，避免全大写装饰标签。
+Headlines only pose the task; they never cover the tool content. Workflow stops and tool names use natural sentence case with explicit weights, avoiding decorated all-caps labels.
 
 ## Layout
 
-桌面首屏由一句任务提问、五段工作流和大幅真实预览组成。当前工具的策展判断位于预览旁；关联工具位于预览下缘但不覆盖截图内容。
+The desktop first screen is one task question, five workflow stops and a large real preview. The curation note for the current tool sits beside the preview; related tools sit at the lower edge of the preview without covering the screenshot content.
 
-移动端不缩小整个地图，而按「任务横滑 → 完整预览 → 工具名 → 策展判断」排列。
+Mobile does not shrink the whole map. It reorders to: swipe the task route → full preview → tool name → curation note.
 
 ## Elevation & Depth
 
-工作台保持平面，预览使用柔和的偏移阴影形成空间。不要同时给所有区域加粗边框和阴影。关联工具在工作台实底上，不使用玻璃模糊层遮住真实截图。
+The workbench stays flat; previews use a soft offset shadow to create space. Do not add heavy borders and shadows to every region at once. Related tools sit on solid workbench colour, never behind a frosted glass layer that hides the real screenshot.
 
 ## Shapes
 
-预览为 8px 圆角，缩略图 4px，相邻工具 5px；步进与访问按钮为 44px 圆形触控区，工作流节点为小圆点。不使用统一圆角卡片、左侧彩色竖条或装饰性轨道。
+Previews use 8px corner radius, thumbnails 4px, neighbouring tools 5px; step and visit buttons are 44px circular touch targets, and workflow nodes are small dots. Do not use uniform rounded cards, coloured left rails or decorative tracks.
 
 ## Components
 
 ### Workflow Rail
-五个任务节点以细线连接，当前节点有赭金实心点、文字和 `aria-pressed`，并在下缘画 2px 当前线。小屏横向滚动。
+Five task nodes joined by hairlines. The current node has a solid ochre dot, its label and `aria-pressed`, and draws a 2px current line along its lower edge. It scrolls horizontally on small screens.
 
 ### Atlas
-中心工具以真实预览占据主场景，前后工具以轨道式缩略图提供可点击的空间路径。翻面在同一对象上呈现策展判断。桌面保留空间透视；手机只保留必要的前后关系，背面按内容增高。
+The central tool fills the main scene with its real preview; the tools before and after it are offered as orbital thumbnails, giving a clickable spatial route. Flipping shows the curation note on the same object. Desktop keeps the spatial perspective; mobile keeps only the essential previous/next relationship, and the back face grows with its content.
 
 ### Explorer Navigation
-左右方向键切换工具，上下方向键切换工作流，Home / End 到首尾。主题切换覆盖首页、页头页脚、缩略图、策展判断和控件。
+Left and right arrows move between tools, up and down move between workflow stops, Home / End go to the ends. The theme switch covers the home page, header/footer, thumbnails, curation note and controls.
 
 ### Curator Judgment
-始终保留 when、replaces、caveat 三段，标签与原文分离。中文和英文长文本自然展开。
+Always keeps the three parts — when, replaces, caveat — with the label separated from the text. Long Chinese and English copy expands naturally.
 
 ### Index and Shuffle
-索引可从任意工具回到正确工作流；随机 seed 同时还原工具和任务路径，允许复制链接与回到策展路径。
+The index can return to the correct workflow from any tool; a random seed restores both the tool and the task route, and allows copying the link and returning to the curated route.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** 从任务而非工具数量组织新页面。
-- **Do** 让真实预览、策展评论和当前工具保持同步。
-- **Do** 在桌面、手机、双语和低动态环境验证探索与访问。
+- **Do** organise new pages by task, not by tool count.
+- **Do** keep the real preview, the curation note and the current tool in sync.
+- **Do** verify exploration and visiting on desktop, mobile, both languages and with reduced motion.
 
 ### Don't:
-- **Don't** 把 Wayseeker 退回大标题加工具卡片列表。
-- **Don't** 引入第二种强调色；赭金已经是唯一信号色。
-- **Don't** 在工具预览上铺毛毡或噪点，会弄脏真实截图。
-- **Don't** 复制参考网站的配色、发光边框或商品营销 hero。
+- **Don't** revert Wayseeker to a big headline plus a grid of tool cards.
+- **Don't** introduce a second accent colour; ochre gold is already the only signal colour.
+- **Don't** lay felt or noise over tool previews — it dirties the real screenshot.
+- **Don't** copy reference sites' palettes, glowing borders or marketing hero sections.
+
+---
+
+中文版见 [DESIGN.zh-CN.md](DESIGN.zh-CN.md)。

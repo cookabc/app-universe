@@ -39,7 +39,16 @@ Wayseeker 不按热度或标签堆砌工具卡，而是沿「寻找方向 → �
 | `src/wayseeker-chrome.css` | 页头页脚的排版与线宽 |
 | `src/atlas.css` | 工具场景：轨道布局、翻面、相邻缩略图 |
 
-毛毡材质、字型体系与单一强调色以 [DESIGN.md](DESIGN.md) 为准，该文件是视觉体系的唯一出处。
+毛毡材质、字型体系与单一强调色以 [DESIGN.zh-CN.md](DESIGN.zh-CN.md)（英文版 [DESIGN.md](DESIGN.md)）为准，该文件是视觉体系的唯一出处。
+
+## 文档
+
+每份文档以英文为主，中文版并列放在旁边。
+
+| 英文 | 中文 | 内容 |
+| --- | --- | --- |
+| [DESIGN.md](DESIGN.md) | [DESIGN.zh-CN.md](DESIGN.zh-CN.md) | 视觉体系：配色、字型、布局、组件 |
+| [PRODUCT.md](PRODUCT.md) | [PRODUCT.zh-CN.md](PRODUCT.zh-CN.md) | 用户、定位、原则、无障碍 |
 
 ## 预览图管线
 
