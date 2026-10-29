@@ -150,7 +150,10 @@ export default function WorkflowMap() {
                 onKeyDown={onExplorerKeyDown}
             >
                 <div className="wayseeker-route-wrap container max-w-7xl mx-auto px-4">
-                    <nav className="wayseeker-route" aria-label={isReady ? t('wayseeker.routeLabel') : 'Choose a workflow'}>
+                    <nav
+                        className="wayseeker-route"
+                        aria-label={isReady ? t('wayseeker.routeLabel') : 'Choose a workflow'}
+                    >
                         {WORKFLOWS.map((item, index) => (
                             <button
                                 type="button"

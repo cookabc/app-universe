@@ -13,12 +13,16 @@
 .wayseeker-shell,
 .wayseeker-header,
 .wayseeker-footer {
-    background-image: var(--way-felt-dark), var(--way-felt-light),
+    background-image:
+        var(--way-felt-dark), var(--way-felt-light),
         linear-gradient(
             color-mix(in srgb, var(--way-ink) 4%, transparent),
             color-mix(in srgb, var(--way-ink) 0%, transparent) 1600px
         );
-    background-size: 180px 180px, 180px 180px, auto;
+    background-size:
+        180px 180px,
+        180px 180px,
+        auto;
     background-repeat: repeat, repeat, no-repeat;
     background-blend-mode: multiply, screen, normal;
 }

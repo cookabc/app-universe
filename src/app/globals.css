@@ -232,7 +232,10 @@
                 color-mix(in srgb, var(--foreground) 3%, transparent),
                 color-mix(in srgb, var(--foreground) 0%, transparent) 1600px
             );
-        background-size: 180px 180px, 180px 180px, auto;
+        background-size:
+            180px 180px,
+            180px 180px,
+            auto;
         background-repeat: repeat, repeat, no-repeat;
         background-blend-mode: multiply, screen, normal;
     }

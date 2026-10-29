@@ -1,4 +1,7 @@
 /* Two complete workbench themes, not a white inversion of the dark scene. */
+/* biome-ignore-all lint/style/noDescendingSpecificity: This sheet states each
+   surface's full look in one place, so grouped declarations repeat a few
+   selectors across sections; no selector here overrides another. */
 :root,
 .light {
     --way-bg: #f4f4f2;
@@ -167,7 +170,10 @@
     background: var(--way-preview-bg);
     box-shadow: var(--way-scene-shadow);
 }
-.wayseeker-preview > a img {
+/* Preview and thumbnail images are cropped from the top so the tool's own
+   header stays visible; one rule covers both. */
+.wayseeker-preview > a img,
+.wayseeker-thumbnail-image img {
     object-fit: cover;
     object-position: top;
 }
@@ -290,10 +296,6 @@
         border-color 250ms var(--ease-out),
         transform 250ms var(--ease-out),
         box-shadow 250ms var(--ease-out);
-}
-.wayseeker-thumbnail-image img {
-    object-fit: cover;
-    object-position: top;
 }
 .wayseeker-thumbnail:hover {
     color: var(--way-ink);
