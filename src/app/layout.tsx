@@ -9,6 +9,7 @@ import './globals.css'
 import '../wayfinder.css'
 import '../wayfinder-chrome.css'
 import '../wayfinder-themes.css'
+import '../atlas.css'
 
 const plexSans = IBM_Plex_Sans({
     subsets: ['latin'],

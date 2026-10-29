@@ -125,5 +125,12 @@
     "explainNote": "Notes from real use",
     "explainNoteBody": "When to reach for a tool, what it can replace, and the thing worth knowing before you commit.",
     "allTools": "Every tool, in context."
+  },
+  "atlas": {
+    "current": "Current discovery",
+    "explore": "Explore",
+    "curator": "Curator’s note",
+    "front": "Back to preview",
+    "back": "Why this tool?"
   }
 }

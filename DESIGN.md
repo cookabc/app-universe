@@ -8,6 +8,8 @@ colors:
   muted: "#b5b3ad"
   line: "#363a3f"
   current: "#eac561"
+  shadow-neighbor: "rgb(0 0 0 / 9%)"
+  shadow-neighbor-hover: "rgb(0 0 0 / 14%)"
   light-workbench: "#f4f4f2"
   light-panel: "#fdfdfc"
   light-ink: "#21201c"
@@ -29,6 +31,18 @@ typography:
     fontFamily: "IBM Plex Sans, PingFang SC, sans-serif"
     fontSize: "0.875rem"
     lineHeight: 1.65
+  scene-title:
+    fontFamily: "Manrope, IBM Plex Sans, PingFang SC, sans-serif"
+    fontSize: "clamp(1.5rem, 2.5vw, 2.5rem)"
+    lineHeight: 1.15
+  curator-title:
+    fontFamily: "Manrope, IBM Plex Sans, PingFang SC, sans-serif"
+    fontSize: "clamp(1.5rem, 2.4vw, 2.25rem)"
+    lineHeight: 1.15
+  mobile-tool-title:
+    fontFamily: "Manrope, IBM Plex Sans, PingFang SC, sans-serif"
+    fontSize: "1.75rem"
+    lineHeight: 1.15
   mobile-display:
     fontFamily: "Manrope, IBM Plex Sans, PingFang SC, sans-serif"
     fontSize: "2.75rem"
@@ -38,8 +52,9 @@ typography:
     fontSize: "0.75rem"
     lineHeight: 1.5
 rounded:
-  preview: "6px"
+  preview: "8px"
   thumbnail: "4px"
+  neighbor: "5px"
   control: "50%"
 spacing:
   scene: "32px"
@@ -65,9 +80,9 @@ components:
 
 ## Overview
 
-**Creative North Star: "A navigable workflow"**
+**Creative North Star: "A navigable workflow atlas"**
 
-Wayfinder 是帮助用户完成当前任务的工作流地图，不是按热度排列的工具目录。工作流、真实预览和策展判断在同一个场景中变化。浅色工作台以纸面层级承载工具，深色工作台以真实预览为主要光源；两者都强调路径、位置与选择，而不是再套一层杂志封面或卡片墙。
+Wayfinder 是帮助用户完成当前任务的工作流地图，不是按热度排列的工具目录。工作流、真实预览和策展判断在同一个可旋转的工具场景中变化。浅色工作台以纸面层级承载工具，深色工作台以真实预览为主要光源；两者都强调路径、位置与选择，而不是再套一层杂志封面或卡片墙。
 
 **Key Characteristics:**
 - 任务链组织，不以 AI、UI 等商品标签为主轴。
@@ -120,6 +135,9 @@ Wayfinder 是帮助用户完成当前任务的工作流地图，不是按热度�
 
 ### Tool Scene
 真实预览随工具切换，保持清晰。预览链接进入详情，相关工具横向可扫，当前策展判断与预览同场更新。工具链使用真实缩略图与当前工具高亮，不再只显示一排小文字。
+
+### Atlas
+中心工具以真实预览占据主场景，前后工具以轨道式缩略图提供可点击的空间路径。翻面在同一对象上呈现策展判断，避免同时展示过多并列说明。桌面保留空间透视；手机只保留必要的前后关系，背面按内容增高，不让长评论被预览比例裁切。
 
 ### Explorer Navigation
 在探索区内，左右方向键切换工具，上下方向键切换工作流，Home / End 到首尾。主题切换覆盖首页、页头页脚、缩略图、策展判断和控件，不停留在元数据或单色替换。

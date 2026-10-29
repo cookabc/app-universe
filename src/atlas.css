@@ -1,0 +1,364 @@
+/* Wayfinder Atlas: tools occupy a space, not a result grid. */
+.atlas-scene {
+    position: relative;
+    isolation: isolate;
+    padding: 1rem 0 1.5rem;
+}
+.atlas-scene-topline {
+    position: relative;
+    z-index: 6;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: -0.25rem;
+}
+.atlas-current-kicker {
+    color: var(--way-current);
+    font-size: 0.75rem;
+}
+.atlas-scene-topline h2 {
+    margin-top: 0.3rem;
+    font-family: var(--way-serif);
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+}
+.atlas-scene-index {
+    color: var(--way-muted);
+    font-family: var(--font-jetbrains-mono), monospace;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+}
+.atlas-orbit-stage {
+    position: relative;
+    min-height: clamp(360px, 38vw, 500px);
+    perspective: 1600px;
+}
+.atlas-orbit-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+    width: min(88%, 940px);
+    aspect-ratio: 2.15;
+    border: 0.5px solid var(--way-line);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%) rotate(-10deg);
+}
+.atlas-orbit-line--two {
+    width: min(65%, 690px);
+    border-color: color-mix(in srgb, var(--way-current) 22%, transparent);
+    transform: translate(-50%, -50%) rotate(13deg);
+}
+.atlas-focus {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+    width: min(62%, 680px);
+    aspect-ratio: 16 / 10;
+    transform: translate(-50%, -50%) rotateX(4deg) rotateZ(-4deg);
+    transform-style: preserve-3d;
+    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.atlas-orbit-stage.is-flipped .atlas-focus {
+    transform: translate(-50%, -50%) rotateX(4deg) rotateY(180deg) rotateZ(-4deg);
+}
+.atlas-focus-face {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border: 0.5px solid var(--way-image-border);
+    border-radius: 8px;
+    background: var(--way-panel);
+    box-shadow: var(--way-scene-shadow);
+    backface-visibility: hidden;
+}
+.atlas-focus-front > a {
+    position: absolute;
+    inset: 0;
+    display: block;
+}
+.atlas-focus-front img {
+    object-fit: cover;
+    object-position: top;
+}
+.atlas-focus-caption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-top: 0.5px solid var(--way-image-border);
+    background: var(--way-panel);
+    color: var(--way-muted);
+    font-size: 0.75rem;
+}
+.atlas-focus-caption > span:last-child {
+    max-width: 48ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.atlas-focus-back {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: clamp(1.25rem, 3vw, 2.75rem);
+    transform: rotateY(180deg);
+    pointer-events: none;
+}
+.atlas-orbit-stage.is-flipped .atlas-focus-back {
+    pointer-events: auto;
+}
+.atlas-back-heading > span {
+    color: var(--way-current);
+    font-size: 0.75rem;
+}
+.atlas-back-heading h3 {
+    margin-top: 0.5rem;
+    font-family: var(--way-serif);
+    font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+    font-weight: 500;
+}
+.atlas-focus-back dl {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    border-top: 0.5px solid var(--way-line);
+    padding-top: 1rem;
+}
+.atlas-focus-back dt {
+    color: var(--way-current);
+    font-size: 0.75rem;
+}
+.atlas-focus-back dd {
+    margin-top: 0.5rem;
+    color: var(--way-ink);
+    font-size: 0.875rem;
+    line-height: 1.65;
+}
+.atlas-neighbor {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    width: 160px;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--way-muted);
+    font-size: 0.75rem;
+    text-align: left;
+    cursor: pointer;
+    transition:
+        color 250ms var(--ease-out),
+        transform 350ms var(--ease-out);
+}
+.atlas-neighbor-image {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    border: 0.5px solid var(--way-image-border);
+    border-radius: 5px;
+    background: var(--way-panel);
+    box-shadow: 0 12px 25px rgb(0 0 0 / 9%);
+    transition:
+        border-color 250ms var(--ease-out),
+        box-shadow 250ms var(--ease-out);
+}
+.atlas-neighbor-image img {
+    object-fit: cover;
+    object-position: top;
+}
+.atlas-neighbor:hover {
+    z-index: 5;
+    color: var(--way-ink);
+}
+.atlas-neighbor:hover .atlas-neighbor-image {
+    border-color: var(--way-current);
+    box-shadow: 0 14px 32px rgb(0 0 0 / 14%);
+}
+.atlas-neighbor--before.atlas-neighbor--1 {
+    top: 16%;
+    left: 2%;
+    transform: rotate(-10deg) scale(0.92);
+}
+.atlas-neighbor--before.atlas-neighbor--2 {
+    bottom: 8%;
+    left: 8%;
+    transform: rotate(9deg) scale(0.78);
+}
+.atlas-neighbor--after.atlas-neighbor--1 {
+    top: 10%;
+    right: 1%;
+    transform: rotate(9deg) scale(0.9);
+}
+.atlas-neighbor--after.atlas-neighbor--2 {
+    right: 7%;
+    bottom: 7%;
+    transform: rotate(-8deg) scale(0.76);
+}
+.atlas-neighbor--before.atlas-neighbor--1:hover,
+.atlas-neighbor--before.atlas-neighbor--2:hover,
+.atlas-neighbor--after.atlas-neighbor--1:hover,
+.atlas-neighbor--after.atlas-neighbor--2:hover {
+    transform: rotate(0) scale(1);
+}
+.atlas-scene-actions {
+    position: relative;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: -0.75rem;
+}
+.atlas-flip,
+.atlas-visit,
+.atlas-detail {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 0;
+    border: 0;
+    background: transparent;
+    color: var(--way-ink);
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+.atlas-flip {
+    border-bottom: 0.5px solid var(--way-current);
+}
+.atlas-flip svg,
+.atlas-visit svg {
+    width: 16px;
+    height: 16px;
+}
+.atlas-visit {
+    color: var(--way-current);
+}
+.atlas-detail {
+    color: var(--way-muted);
+}
+.atlas-flip:hover,
+.atlas-visit:hover,
+.atlas-detail:hover {
+    color: var(--way-current);
+}
+@media (max-width: 1000px) {
+    .atlas-focus {
+        width: 68%;
+    }
+    .atlas-neighbor {
+        width: 125px;
+    }
+}
+@media (max-width: 720px) {
+    .atlas-orbit-stage {
+        min-height: 0;
+        padding-top: 0.75rem;
+        perspective: none;
+    }
+    .atlas-orbit-line {
+        display: none;
+    }
+    .atlas-focus {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        transform: none;
+    }
+    .atlas-orbit-stage.is-flipped .atlas-focus {
+        min-height: 420px;
+        aspect-ratio: auto;
+        transform: rotateY(180deg);
+    }
+    .atlas-focus-front > a {
+        position: absolute;
+        inset: 0;
+    }
+    .atlas-focus-front img {
+        object-fit: contain;
+        object-position: top left;
+    }
+    .atlas-focus-caption > span:last-child {
+        display: none;
+    }
+    .atlas-focus-back {
+        gap: 0.75rem;
+        padding: 1.25rem;
+    }
+    .atlas-focus-back dl {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    .atlas-focus-back dd {
+        margin-top: 0.25rem;
+    }
+    .atlas-neighbor {
+        position: absolute;
+        z-index: 5;
+        width: 92px;
+    }
+    .atlas-neighbor > span:last-child {
+        display: none;
+    }
+    .atlas-neighbor--before.atlas-neighbor--1 {
+        top: 0;
+        left: -0.25rem;
+    }
+    .atlas-neighbor--before.atlas-neighbor--2 {
+        bottom: 1rem;
+        left: -0.5rem;
+    }
+    .atlas-neighbor--after.atlas-neighbor--1 {
+        top: 0;
+        right: -0.25rem;
+    }
+    .atlas-neighbor--after.atlas-neighbor--2 {
+        right: -0.5rem;
+        bottom: 1rem;
+    }
+    .atlas-neighbor-image {
+        border-radius: 4px;
+    }
+    .atlas-scene-actions {
+        flex-wrap: wrap;
+        gap: 0.5rem 1.25rem;
+        margin-top: 1rem;
+    }
+}
+@media (max-width: 480px) {
+    .atlas-scene-topline h2 {
+        font-size: 1.75rem;
+    }
+    .atlas-neighbor {
+        width: 66px;
+    }
+    .atlas-neighbor--before.atlas-neighbor--2,
+    .atlas-neighbor--after.atlas-neighbor--2 {
+        display: none;
+    }
+    .atlas-focus-back dd {
+        font-size: 0.75rem;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .atlas-focus,
+    .atlas-neighbor,
+    .atlas-neighbor-image {
+        transition: none;
+    }
+}

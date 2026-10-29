@@ -125,5 +125,12 @@
     "explainNote": "来自真实使用的备注",
     "explainNoteBody": "什么时候值得用，能替代什么，以及决定采用之前必须知道的事。",
     "allTools": "每件工具，都在工作流里。"
+  },
+  "atlas": {
+    "current": "当前发现",
+    "explore": "探索",
+    "curator": "策展备注",
+    "front": "返回预览",
+    "back": "为什么用它？"
   }
 }

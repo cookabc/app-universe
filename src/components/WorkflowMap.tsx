@@ -11,6 +11,7 @@ import {
 } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import AtlasScene from '@/components/AtlasScene'
 import { normalizeLanguage } from '@/components/I18nProvider'
 import { ToolPreviewImage } from '@/components/ToolPreviewImage'
 import TOOLS, { getToolPath, type Tool } from '@/data/tools'
@@ -192,90 +193,13 @@ export default function WorkflowMap() {
                         <span>{selected.name[lang] || selected.name.en}</span>
                     </div>
 
-                    <div className="wayfinder-scene">
-                        <div className="wayfinder-preview" key={selected.id} data-transition={transitionKey}>
-                            <Link
-                                href={getToolPath(selected.id)}
-                                aria-label={`${text.detail}: ${selected.name[lang] || selected.name.en}`}
-                            >
-                                <ToolPreviewImage tool={selected} sizes="(min-width: 900px) 66vw, 100vw" eager />
-                            </Link>
-                            <span className="wayfinder-preview-marker" aria-hidden="true">
-                                {String(selectedIndex + 1).padStart(2, '0')}
-                            </span>
-                        </div>
-
-                        <aside
-                            className="wayfinder-notes"
-                            aria-label={isReady ? t('wayfinder.judgment') : 'Curator judgment'}
-                        >
-                            <div className="wayfinder-tool-heading">
-                                <div>
-                                    <h2>{selected.name[lang] || selected.name.en}</h2>
-                                    <p>{getDomain(selected.url)}</p>
-                                </div>
-                                <a
-                                    href={selected.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label={`${text.open}: ${selected.name[lang] || selected.name.en}`}
-                                >
-                                    <ArrowSquareOutIcon weight="bold" />
-                                </a>
-                            </div>
-                            <p className="wayfinder-description">
-                                {selected.description[lang] || selected.description.en}
-                            </p>
-                            {note && (
-                                <dl className="wayfinder-verdict">
-                                    <div>
-                                        <dt>{isReady ? t('verdict.when') : 'When to use it'}</dt>
-                                        <dd>{noteMove(note, lang, 'when')}</dd>
-                                    </div>
-                                    <div>
-                                        <dt>{isReady ? t('verdict.replaces') : 'What it replaces'}</dt>
-                                        <dd>{noteMove(note, lang, 'replaces')}</dd>
-                                    </div>
-                                    <div>
-                                        <dt>{isReady ? t('verdict.caveat') : 'Worth knowing'}</dt>
-                                        <dd>{noteMove(note, lang, 'caveat')}</dd>
-                                    </div>
-                                </dl>
-                            )}
-                            <Link href={getToolPath(selected.id)} className="wayfinder-detail-link">
-                                {text.detail} <ArrowSquareOutIcon weight="regular" />
-                            </Link>
-                        </aside>
-                    </div>
-
-                    <div
-                        className="wayfinder-related"
-                        role="group"
-                        aria-label={isReady ? t('wayfinder.related') : 'Related tools'}
-                    >
-                        <span className="wayfinder-related-label" aria-hidden="true">
-                            {isReady ? t('wayfinder.related') : 'Related tools'}
-                        </span>
-                        <div className="wayfinder-related-track">
-                            {flowTools.map((tool) => (
-                                <button
-                                    type="button"
-                                    key={tool.id}
-                                    className={`wayfinder-thumbnail${tool.id === selected.id ? ' is-current' : ''}`}
-                                    onClick={() => selectTool(tool)}
-                                    aria-pressed={tool.id === selected.id}
-                                    aria-label={`${text.next}: ${tool.name[lang] || tool.name.en}`}
-                                >
-                                    <span className="wayfinder-thumbnail-image">
-                                        <ToolPreviewImage tool={tool} sizes="112px" />
-                                    </span>
-                                    <span className="wayfinder-thumbnail-caption">
-                                        {tool.name[lang] || tool.name.en}
-                                    </span>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
+                    <AtlasScene
+                        key={selected.id}
+                        tool={selected}
+                        tools={flowTools}
+                        index={selectedIndex}
+                        onSelect={selectTool}
+                    />
 
                     <div className="wayfinder-scene-footer">
                         <p>{flow.description[lang]}</p>
