@@ -8,7 +8,7 @@ Wayfinder 不按热度或标签堆砌工具卡，而是沿「寻找方向 → �
   <img src="docs/images/home.png" width="880" alt="Wayfinder 工作流探索界面：任务路径、真实工具预览与策展判断">
 </p>
 
-本地目录与远端仓库均使用 `wayfinder`。生产 canonical origin 在 `src/lib/site.ts` 中配置，部署前须与实际部署地址一致。`/puzzles` 是不上架的静态彩蛋页（noindex）。
+线上部署在 [app-universe.vercel.app](https://app-universe.vercel.app)。Vercel 项目仍沿用仓库旧名，域名不可更改前不要把 canonical 写成 `wayfinder.vercel.app`——那属于另一个无关部署。canonical origin 在 `src/lib/site.ts` 中配置。`/puzzles` 是不上架的静态彩蛋页（noindex）。
 
 ## 常用命令
 
