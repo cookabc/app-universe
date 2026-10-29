@@ -5,15 +5,15 @@ import { ImageResponse } from 'next/og'
 import TOOLS, { formatToolNumber, getToolById, getToolNumber } from '@/data/tools'
 import { getDomain } from '@/lib/filter-tools'
 
-export const alt = 'Wayfinder — archive record'
+export const alt = 'Wayseeker — archive record'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
 const BG = '#F9F9F8'
 const INK = '#21201C'
 const MUTED = '#63635E'
-const ACCENT = '#E2F0BD'
-const SIGNAL = '#E54D2E'
+const ACCENT = '#F3E3BD'
+const SIGNAL = '#8A5200'
 
 export function generateStaticParams() {
     return TOOLS.map((tool) => ({ id: tool.id }))
@@ -99,7 +99,7 @@ export default async function ToolOpenGraphImage({ params }: { params: Promise<{
                             <div style={{ width: 14, height: 14, borderRadius: 2, background: INK }} />
                         </div>
                         <div style={{ display: 'flex', marginLeft: 12, fontSize: 22, fontWeight: 700, color: INK }}>
-                            Wayfinder
+                            Wayseeker
                         </div>
                         <div
                             style={{

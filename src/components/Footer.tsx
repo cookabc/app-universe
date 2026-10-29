@@ -13,20 +13,20 @@ export const Footer = () => {
     const meta = isReady ? t('toolsWall.curatedMeta', { count: tools.length }) : `${tools.length} tools, human-curated`
 
     return (
-        <footer className="wayfinder-footer mt-auto w-full">
+        <footer className="wayseeker-footer mt-auto w-full">
             <div className="container max-w-7xl mx-auto px-4 py-10 sm:py-12">
-                <div className="wayfinder-footer-main">
+                <div className="wayseeker-footer-main">
                     <div>
-                        <p className="wayfinder-brand-name">{brand}</p>
-                        <p className="wayfinder-footer-meta">{meta}</p>
+                        <p className="wayseeker-brand-name">{brand}</p>
+                        <p className="wayseeker-footer-meta">{meta}</p>
                     </div>
-                    <nav aria-label="Site" className="wayfinder-footer-links">
+                    <nav aria-label="Site" className="wayseeker-footer-links">
                         <Link href="/">{home}</Link>
                         <Link href="/privacy">{privacy}</Link>
                         <Link href="/terms">{terms}</Link>
                     </nav>
                 </div>
-                <p className="wayfinder-footer-meta wayfinder-footer-bottom">
+                <p className="wayseeker-footer-meta wayseeker-footer-bottom">
                     © {new Date().getFullYear()} {brand}
                 </p>
             </div>

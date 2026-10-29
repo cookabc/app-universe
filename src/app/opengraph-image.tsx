@@ -3,7 +3,7 @@ import { join } from 'node:path'
 import { ImageResponse } from 'next/og'
 import TOOLS from '@/data/tools'
 
-export const alt = 'Wayfinder — Find your next tool'
+export const alt = 'Wayseeker — Find your next tool'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -29,10 +29,16 @@ export default async function OpenGraphImage() {
             }}
         >
             <div
-                style={{ display: 'flex', alignItems: 'center', padding: '42px 56px 0', fontSize: 28, fontWeight: 650 }}
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '42px 56px 0',
+                    fontSize: 28,
+                    fontWeight: 650,
+                }}
             >
                 <div style={{ display: 'flex', color: '#eac561', marginRight: 18, fontSize: 38 }}>⌃</div>
-                Wayfinder
+                Wayseeker
                 <div style={{ display: 'flex', marginLeft: 'auto', color: '#b5b3ad', fontSize: 17 }}>
                     A FIELD GUIDE FOR WHAT COMES NEXT
                 </div>

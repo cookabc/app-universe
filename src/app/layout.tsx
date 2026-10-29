@@ -1,25 +1,20 @@
 import type { Metadata, Viewport } from 'next'
-import { IBM_Plex_Mono, IBM_Plex_Sans, Plus_Jakarta_Sans } from 'next/font/google'
+import { IBM_Plex_Mono, IBM_Plex_Sans } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { AppChrome } from '@/components/AppChrome'
 import { I18nProvider } from '@/components/I18nProvider'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site'
 import './globals.css'
-import '../wayfinder.css'
-import '../wayfinder-chrome.css'
-import '../wayfinder-themes.css'
+import '../wayseeker.css'
+import '../wayseeker-chrome.css'
+import '../wayseeker-themes.css'
 import '../atlas.css'
 
 const plexSans = IBM_Plex_Sans({
     subsets: ['latin'],
     weight: ['400', '500', '600'],
     variable: '--font-sans',
-})
-const plusJakarta = Plus_Jakarta_Sans({
-    subsets: ['latin'],
-    weight: ['600', '700', '800'],
-    variable: '--font-display',
 })
 const plexMono = IBM_Plex_Mono({
     subsets: ['latin'],
@@ -69,13 +64,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
-            <body
-                className={`${plexSans.variable} ${plusJakarta.variable} ${plexMono.variable} antialiased min-w-[320px]`}
-            >
-                <a href="#main-content" className="skip-link">
-                    Skip to content
-                </a>
-                <div className="grain" aria-hidden="true" />
+            <body className={`${plexSans.variable} ${plexMono.variable} antialiased min-w-[320px]`}>
                 <I18nProvider>
                     <ThemeProvider
                         attribute="class"
@@ -83,10 +72,12 @@ export default function RootLayout({
                         enableSystem
                         disableTransitionOnChange
                         enableColorScheme
-                        storageKey="wayfinder-theme"
+                        storageKey="wayseeker-theme"
                     >
                         <TooltipProvider delayDuration={300}>
-                            <div className="flex flex-col min-h-screen bg-background">
+                            {/* No bg here: the body's felt must show through on
+                                detail and legal pages, which have no shell. */}
+                            <div className="flex flex-col min-h-screen">
                                 <AppChrome>{children}</AppChrome>
                             </div>
                         </TooltipProvider>

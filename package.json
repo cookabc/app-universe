@@ -1,13 +1,13 @@
 {
-    "name": "wayfinder",
+    "name": "wayseeker",
     "version": "0.1.0",
-    "description": "Wayfinder：按工作流探索设计、开发与创意工具的双语指南",
+    "description": "Wayseeker：按工作流探索设计、开发与创意工具的双语指南",
     "license": "MIT",
     "private": true,
     "type": "module",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/cookabc/wayfinder.git"
+        "url": "git+https://github.com/cookabc/wayseeker.git"
     },
     "keywords": [
         "nextjs",
