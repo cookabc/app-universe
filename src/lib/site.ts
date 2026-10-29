@@ -1,5 +1,7 @@
-/** Canonical production origin for metadata, sitemap, and robots. */
-export const SITE_URL = 'https://wayfinder.vercel.app'
+/** Canonical production origin for metadata, sitemap, and robots.
+ *  The Vercel project still carries its original name; wayfinder.vercel.app
+ *  belongs to an unrelated deployment and must not be used here. */
+export const SITE_URL = 'https://app-universe.vercel.app'
 
 export const SITE_NAME = 'Wayfinder'
 export const SITE_DESCRIPTION =
