@@ -402,6 +402,21 @@
         transform: translateY(1px) scale(0.98);
     }
 
+    /* 实底动作按钮：底色是墨色，字必须反过来取页面底色。
+       `.index-label` 会把字染成 --muted-foreground，在浅底墨色块上只有
+       1.79:1，所以这里显式重设两端的颜色，不靠 Tailwind 的反色工具类。 */
+    .filled-action {
+        border: 0.5px solid var(--foreground);
+        background: var(--foreground);
+        color: var(--background);
+    }
+
+    .filled-action:hover {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: var(--primary-foreground);
+    }
+
     .tool-card-lift {
         border-radius: var(--radius);
         transition: background 250ms var(--ease-out);

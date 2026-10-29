@@ -142,7 +142,7 @@ export function ToolDetail({ tool, related }: ToolDetailProps) {
                                             type="button"
                                             onClick={handleCopyImage}
                                             disabled={imageState === 'rendering'}
-                                            className="index-label inline-flex min-h-11 items-center gap-1.5 border border-foreground bg-foreground px-3 text-background hover:bg-primary hover:border-primary disabled:opacity-60 transition-colors"
+                                            className="index-label filled-action inline-flex min-h-11 items-center gap-1.5 px-3 disabled:opacity-60 transition-colors"
                                             aria-live="polite"
                                         >
                                             {imageState === 'done' ? (
