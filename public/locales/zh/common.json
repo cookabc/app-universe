@@ -1,6 +1,6 @@
 {
   "brand": {
-    "name": "Wayfinder"
+    "name": "Wayseeker"
   },
   "nav": {
     "skipToContent": "跳到主要内容",
@@ -104,7 +104,7 @@
     "flip": "看它替代了什么",
     "back": "翻回正面"
   },
-  "wayfinder": {
+  "wayseeker": {
     "question": "你正在做什么？",
     "intro": "从当前任务出发，找到下一件顺手的工具。",
     "index": "索引",

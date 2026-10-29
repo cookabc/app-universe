@@ -1,6 +1,6 @@
 {
   "brand": {
-    "name": "Wayfinder"
+    "name": "Wayseeker"
   },
   "nav": {
     "skipToContent": "Skip to content",
@@ -104,7 +104,7 @@
     "flip": "See what it replaces",
     "back": "Turn back"
   },
-  "wayfinder": {
+  "wayseeker": {
     "question": "What are you making?",
     "intro": "A field guide for the next thing you need to make.",
     "index": "Index",

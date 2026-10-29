@@ -1,1 +1,71 @@
-PLACEHOLDER
+/* Site chrome: layout and brand type only. Colour and felt come from
+   wayseeker.css / wayseeker-themes.css. */
+.wayseeker-header {
+    border-bottom: 0.5px solid var(--way-line);
+    background-color: var(--way-bg);
+}
+.wayseeker-wordmark > svg {
+    color: var(--way-current);
+}
+.wayseeker-brand-name {
+    font-family: var(--font-sans), "PingFang SC", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1;
+}
+.wayseeker-header button {
+    border-color: var(--way-line);
+    background: var(--way-panel);
+    color: var(--way-ink);
+}
+.wayseeker-header button:hover {
+    border-color: var(--way-current);
+    background: var(--way-surface);
+    color: var(--way-current);
+}
+.wayseeker-footer {
+    border-top: 0.5px solid var(--way-line);
+    background-color: var(--way-bg);
+}
+.wayseeker-footer .wayseeker-brand-name {
+    font-size: 1.125rem;
+}
+.wayseeker-footer-main {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+}
+.wayseeker-footer-links {
+    display: flex;
+    gap: 1.5rem;
+}
+.wayseeker-footer-links a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    color: var(--way-muted);
+    font-size: 0.875rem;
+}
+.wayseeker-footer-links a:hover {
+    color: var(--way-current);
+}
+.wayseeker-footer-meta {
+    margin-top: 0.5rem;
+    color: var(--way-muted);
+    font-size: 0.75rem;
+}
+.wayseeker-footer-bottom {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--way-line);
+}
+@media (max-width: 600px) {
+    .wayseeker-footer-main {
+        display: block;
+    }
+    .wayseeker-footer-links {
+        margin-top: 1rem;
+    }
+}
