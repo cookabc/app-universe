@@ -8,6 +8,8 @@ Wayseeker 不按热度或标签堆砌工具卡，而是沿「寻找方向 → �
   <img src="docs/images/home.png" width="880" alt="Wayseeker 工作流探索界面：任务路径、真实工具预览与策展判断">
 </p>
 
+站点默认英文，页头可切到中文，选择按访客持久化。文案在 `public/locales/{en,zh}/common.json`。
+
 生产站为 [wayseeker.vercel.app](https://wayseeker.vercel.app)；canonical origin 在 `src/lib/site.ts` 中配置，部署前须与实际部署地址一致。
 
 **中文** · [English](README.md)
@@ -18,7 +20,7 @@ Wayseeker 不按热度或标签堆砌工具卡，而是沿「寻找方向 → �
 | --- | --- |
 | `pnpm dev` | 开发服务器（端口 4000） |
 | `pnpm build` | 生产构建 |
-| `pnpm start` | 生产服务器（固定 3000 端口） |
+| `pnpm start` | 生产服务器（`next start`，默认 3000 端口） |
 | `pnpm check` | 完整门禁：biome → tsc → build → node:test，与 CI 相同 |
 | `pnpm lint:fix` | biome 自动修复 |
 | `pnpm typecheck` | `tsc --noEmit` |
@@ -27,7 +29,7 @@ Wayseeker 不按热度或标签堆砌工具卡，而是沿「寻找方向 → �
 
 ## 样式分层
 
-四层，按顺序在 `src/app/layout.tsx` 引入：
+五层，按顺序在 `src/app/layout.tsx` 引入：
 
 | 文件 | 负责 |
 | --- | --- |
@@ -35,6 +37,7 @@ Wayseeker 不按热度或标签堆砌工具卡，而是沿「寻找方向 → �
 | `src/wayseeker.css` | 工作台布局与毛毡材质（`--way-felt-*`） |
 | `src/wayseeker-themes.css` | 浅/深两套完整配色 token |
 | `src/wayseeker-chrome.css` | 页头页脚的排版与线宽 |
+| `src/atlas.css` | 工具场景：轨道布局、翻面、相邻缩略图 |
 
 毛毡材质、字型体系与单一强调色以 [DESIGN.md](DESIGN.md) 为准，该文件是视觉体系的唯一出处。
 

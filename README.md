@@ -8,6 +8,9 @@ Wayseeker does not stack tool cards by popularity or tag. It follows one route �
   <img src="docs/images/home.png" width="880" alt="Wayseeker workflow explorer: task route, real tool previews, and curator judgement">
 </p>
 
+The site opens in English with a header switch to Chinese; the choice persists per
+visitor. Strings live in `public/locales/{en,zh}/common.json`.
+
 Production runs at [wayseeker.vercel.app](https://wayseeker.vercel.app). The canonical origin is configured in `src/lib/site.ts` and must match where the site is actually deployed.
 
 **English** · [中文说明](README.zh-CN.md)
@@ -18,7 +21,7 @@ Production runs at [wayseeker.vercel.app](https://wayseeker.vercel.app). The can
 | --- | --- |
 | `pnpm dev` | Dev server on port 4000 |
 | `pnpm build` | Production build |
-| `pnpm start` | Production server on port 3000 |
+| `pnpm start` | Production server (`next start`, default port 3000) |
 | `pnpm check` | Full gate: biome → tsc → build → node:test, identical to CI |
 | `pnpm lint:fix` | Biome autofix |
 | `pnpm typecheck` | `tsc --noEmit` |
@@ -27,7 +30,7 @@ Tests use Node's built-in runner (`node --experimental-strip-types --test`), col
 
 ## Style layers
 
-Four stylesheets, imported in this order by `src/app/layout.tsx`:
+Five stylesheets, imported in this order by `src/app/layout.tsx`:
 
 | File | Responsibility |
 | --- | --- |
@@ -35,6 +38,7 @@ Four stylesheets, imported in this order by `src/app/layout.tsx`:
 | `src/wayseeker.css` | Workbench layout and the felt material (`--way-felt-*`) |
 | `src/wayseeker-themes.css` | Complete light and dark colour token sets |
 | `src/wayseeker-chrome.css` | Header and footer typography and hairlines |
+| `src/atlas.css` | The tool scene: orbit layout, flip faces, neighbour thumbnails |
 
 The felt surface, the type system and the single accent are documented in [DESIGN.md](DESIGN.md) — that file is the source of truth for the visual system.
 
