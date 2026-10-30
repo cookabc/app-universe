@@ -14,8 +14,9 @@ import { normalizeLanguage } from '@/components/I18nProvider'
 import TOOLS, { type Tool } from '@/data/tools'
 import { toolWorkflowIndex, WORKFLOWS } from '@/data/workflow'
 import { useI18nReady } from '@/hooks/useI18nReady'
+import { readExplorerRoute, writeExplorerRoute } from '@/lib/explorer-route'
 import { filterTools, getDomain } from '@/lib/filter-tools'
-import { parseSeed, randomSeed, seededShuffle, seedToNumber } from '@/lib/shuffle'
+import { randomSeed, seededShuffle, seedToNumber } from '@/lib/shuffle'
 
 export default function WorkflowMap() {
     const { i18n, t, isReady } = useI18nReady()
@@ -27,16 +28,35 @@ export default function WorkflowMap() {
     const [seed, setSeed] = useState<string | null>(null)
     const [copied, setCopied] = useState(false)
     const searchRef = useRef<HTMLInputElement>(null)
+    const indexRef = useRef<HTMLButtonElement>(null)
+    const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const [copyFailed, setCopyFailed] = useState(false)
 
     useEffect(() => {
-        const value = new URLSearchParams(window.location.search).get('seed')
-        if (parseSeed(value) === null || !value) return
-        const shuffled = seededShuffle(TOOLS, seedToNumber(value))
-        if (!shuffled[0]) return
-        setSeed(value)
-        setSelectedId(shuffled[0].id)
-        setActiveFlow(toolWorkflowIndex(shuffled[0].id))
+        const restore = () => {
+            const route = readExplorerRoute(
+                window.location.search,
+                TOOLS.map((tool) => tool.id),
+            )
+            const first = route.tool ?? (route.seed ? seededShuffle(TOOLS, seedToNumber(route.seed))[0]?.id : null)
+            setSeed(route.seed)
+            if (first) {
+                setSelectedId(first)
+                setActiveFlow(toolWorkflowIndex(first))
+            }
+        }
+        restore()
+        window.addEventListener('popstate', restore)
+        return () => {
+            window.removeEventListener('popstate', restore)
+            if (copyTimer.current) clearTimeout(copyTimer.current)
+        }
     }, [])
+
+    useEffect(() => {
+        setCopied(false)
+        setCopyFailed(false)
+    }, [selectedId, seed])
 
     useEffect(() => {
         if (searchOpen) searchRef.current?.focus()
@@ -52,6 +72,15 @@ export default function WorkflowMap() {
     const searchResults = useMemo(() => filterTools(TOOLS, 'all', query).slice(0, 6), [query])
 
     const onExplorerKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+        const target = event.target as HTMLElement
+        if (
+            event.altKey ||
+            event.ctrlKey ||
+            event.metaKey ||
+            target.isContentEditable ||
+            target.closest('input,textarea,select')
+        )
+            return
         if (event.key === 'ArrowRight') {
             event.preventDefault()
             moveTool(1)
@@ -95,7 +124,10 @@ export default function WorkflowMap() {
         setActiveFlow(toolWorkflowIndex(tool.id))
         setSearchOpen(false)
         setQuery('')
-        document.querySelector('.wayseeker')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        document.querySelector('.wayseeker')?.scrollIntoView({
+            behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+            block: 'start',
+        })
     }
 
     const shuffle = () => {
@@ -106,19 +138,20 @@ export default function WorkflowMap() {
         setSelectedId(shuffled[0].id)
         setActiveFlow(toolWorkflowIndex(shuffled[0].id))
         setCopied(false)
-        const url = new URL(window.location.href)
-        url.searchParams.set('seed', value)
+        const url = writeExplorerRoute(window.location.href, { seed: value, tool: shuffled[0].id })
         window.history.replaceState(null, '', url)
     }
 
     const copyPath = async () => {
-        if (!seed) return
+        const href = writeExplorerRoute(window.location.href, { seed, tool: selected?.id ?? null }).href
+        window.history.replaceState(window.history.state, '', href)
         try {
-            await navigator.clipboard.writeText(window.location.href)
+            await navigator.clipboard.writeText(href)
             setCopied(true)
-            setTimeout(() => setCopied(false), 2000)
+            if (copyTimer.current) clearTimeout(copyTimer.current)
+            copyTimer.current = setTimeout(() => setCopied(false), 2000)
         } catch {
-            // The seed stays in the URL for browsers without clipboard access.
+            setCopyFailed(true)
         }
     }
 
@@ -207,7 +240,13 @@ export default function WorkflowMap() {
                 <button type="button" className="wayseeker-shuffle" onClick={shuffle}>
                     <ShuffleIcon weight="bold" /> {text.shuffle}
                 </button>
-                <button type="button" onClick={() => setSearchOpen((value) => !value)} aria-expanded={searchOpen}>
+                <button
+                    ref={indexRef}
+                    type="button"
+                    onClick={() => setSearchOpen((value) => !value)}
+                    aria-expanded={searchOpen}
+                    aria-controls="tool-search"
+                >
                     <MagnifyingGlassIcon weight="regular" /> {text.index}
                 </button>
                 {seed && (
@@ -221,6 +260,7 @@ export default function WorkflowMap() {
                                 setSeed(null)
                                 const url = new URL(window.location.href)
                                 url.searchParams.delete('seed')
+                                url.searchParams.delete('tool')
                                 window.history.replaceState(null, '', url)
                             }}
                             aria-label={text.clear}
@@ -228,6 +268,9 @@ export default function WorkflowMap() {
                             <XIcon weight="bold" />
                         </button>
                     </>
+                )}
+                {copyFailed && (
+                    <p role="status">{isReady ? t('wayseeker.copyFailed') : 'Copy the path from your address bar.'}</p>
                 )}
                 <a
                     href="#workflow-notes"
@@ -239,7 +282,18 @@ export default function WorkflowMap() {
             </section>
 
             {searchOpen && (
-                <section className="wayseeker-search container max-w-7xl mx-auto px-4" aria-label={text.search}>
+                <section
+                    id="tool-search"
+                    className="wayseeker-search container max-w-7xl mx-auto px-4"
+                    aria-label={text.search}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Escape') {
+                            event.preventDefault()
+                            setSearchOpen(false)
+                            indexRef.current?.focus()
+                        }
+                    }}
+                >
                     <div className="wayseeker-search-field">
                         <MagnifyingGlassIcon weight="regular" />
                         <input
@@ -255,6 +309,7 @@ export default function WorkflowMap() {
                             onClick={() => {
                                 setQuery('')
                                 setSearchOpen(false)
+                                indexRef.current?.focus()
                             }}
                             aria-label={isReady ? t('toolsWall.clearSearch') : 'Clear search'}
                         >

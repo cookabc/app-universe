@@ -14,7 +14,7 @@
     margin-bottom: 0.5rem;
 }
 .atlas-current-kicker {
-    color: var(--way-current);
+    color: var(--way-ink);
     font-size: 0.75rem;
 }
 .atlas-scene-topline h2 {

@@ -33,9 +33,14 @@ export default function AtlasScene({
     const [flipped, setFlipped] = useState(false)
     const note = tool.note?.[lang] || tool.note?.en
     const name = tool.name[lang] || tool.name.en
+    const seen = new Set([tool.id])
     const neighbors = [-2, -1, 1, 2]
         .map((offset) => ({ offset, tool: tools[(index + offset + tools.length) % tools.length] }))
-        .filter((item) => item.tool)
+        .filter((item) => {
+            if (!item.tool || seen.has(item.tool.id)) return false
+            seen.add(item.tool.id)
+            return true
+        })
 
     return (
         <div className="atlas-scene">
@@ -68,7 +73,7 @@ export default function AtlasScene({
                 ))}
 
                 <div className="atlas-focus">
-                    <div className="atlas-focus-face atlas-focus-front">
+                    <div className="atlas-focus-face atlas-focus-front" aria-hidden={flipped} inert={flipped}>
                         <Link
                             href={getToolPath(tool.id)}
                             aria-label={`${isReady ? t('toolsWall.details') : 'Details'}: ${name}`}
@@ -80,7 +85,7 @@ export default function AtlasScene({
                             <span>{tool.description[lang] || tool.description.en}</span>
                         </div>
                     </div>
-                    <div className="atlas-focus-face atlas-focus-back" aria-hidden={!flipped}>
+                    <div className="atlas-focus-face atlas-focus-back" aria-hidden={!flipped} inert={!flipped}>
                         <div className="atlas-back-heading">
                             <span>{isReady ? t('atlas.curator') : 'Curator’s note'}</span>
                             <h3>{name}</h3>

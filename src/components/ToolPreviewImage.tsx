@@ -32,9 +32,9 @@ export function ToolPreviewImage({
     className,
     iconClassName = 'h-12 w-12',
 }: ToolPreviewImageProps) {
-    const [imgError, setImgError] = useState(false)
+    const [failedId, setFailedId] = useState<string | null>(null)
 
-    if (imgError) {
+    if (failedId === tool.id) {
         const Icon = getIcon(tool.icon)
         return (
             <div
@@ -54,7 +54,7 @@ export function ToolPreviewImage({
             sizes={sizes}
             loading={eager ? 'eager' : 'lazy'}
             className={`object-cover object-top ${className ?? ''}`}
-            onError={() => setImgError(true)}
+            onError={() => setFailedId(tool.id)}
         />
     )
 }

@@ -124,7 +124,8 @@
     "explainBody": "Every tool is here for a reason. Follow a workflow to see how tools relate, or search the index when you already know what you need.",
     "explainNote": "Notes from real use",
     "explainNoteBody": "When to reach for a tool, what it can replace, and the thing worth knowing before you commit.",
-    "allTools": "Every tool, in context."
+    "allTools": "Every tool, in context.",
+    "copyFailed": "Clipboard access is unavailable. Copy the path from your address bar."
   },
   "atlas": {
     "current": "Current discovery",
