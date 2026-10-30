@@ -44,6 +44,30 @@
     min-height: clamp(360px, 38vw, 500px);
     perspective: 1600px;
 }
+
+/* The scene re-mounts on every tool change (WorkflowMap keys AtlasScene by
+   tool id), so one entrance per swap is the whole animation budget. Only the
+   screenshot-bearing surfaces rise; captions, orbit lines and controls are
+   already in place. `translate` is animated instead of `transform` because the
+   neighbours and the back face carry their own rotate/scale matrices — a
+   transform animation would overwrite the orbit geometry rather than add to
+   it. The delays fan out from the centre so the eye lands on the focus card
+   first; each neighbour sets its own delay through `--atlas-rise-delay`, which
+   keeps the animation itself on one low-specificity rule. */
+.atlas-focus-face,
+.atlas-neighbor-image {
+    animation: atlas-card-rise 250ms cubic-bezier(0.16, 1, 0.3, 1) var(--atlas-rise-delay, 0ms) backwards;
+}
+@keyframes atlas-card-rise {
+    from {
+        opacity: 0;
+        translate: 0 14px;
+    }
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
 .atlas-orbit-line {
     position: absolute;
     top: 50%;
@@ -200,21 +224,25 @@
     top: 16%;
     left: 2%;
     transform: rotate(-10deg) scale(0.92);
+    --atlas-rise-delay: 80ms;
 }
 .atlas-neighbor--before.atlas-neighbor--2 {
     bottom: 8%;
     left: 8%;
     transform: rotate(9deg) scale(0.78);
+    --atlas-rise-delay: 40ms;
 }
 .atlas-neighbor--after.atlas-neighbor--1 {
     top: 10%;
     right: 1%;
     transform: rotate(9deg) scale(0.9);
+    --atlas-rise-delay: 40ms;
 }
 .atlas-neighbor--after.atlas-neighbor--2 {
     right: 7%;
     bottom: 7%;
     transform: rotate(-8deg) scale(0.76);
+    --atlas-rise-delay: 80ms;
 }
 .atlas-neighbor--before.atlas-neighbor--1:hover,
 .atlas-neighbor--before.atlas-neighbor--2:hover,
@@ -335,9 +363,12 @@ a.atlas-detail:hover {
         position: static;
         width: auto;
         flex: 0 0 88px;
-        transform: none;
         gap: 0.35rem;
     }
+    /* The orbit's rotate/scale lives on the higher-specificity position rules
+       below, so `transform: none` has to sit here with them. Declared on
+       `.atlas-neighbor` alone it lost the cascade and every card stayed tilted
+       in the mobile strip. */
     .atlas-neighbor--before.atlas-neighbor--1,
     .atlas-neighbor--before.atlas-neighbor--2,
     .atlas-neighbor--after.atlas-neighbor--1,
@@ -346,6 +377,7 @@ a.atlas-detail:hover {
         right: auto;
         bottom: auto;
         left: auto;
+        transform: none;
     }
     .atlas-neighbor--before.atlas-neighbor--1:hover,
     .atlas-neighbor--before.atlas-neighbor--2:hover,
@@ -385,5 +417,11 @@ a.atlas-detail:hover {
     .atlas-neighbor,
     .atlas-neighbor-image {
         transition: none;
+    }
+    /* The entrance is decoration; without motion the scene should simply be
+       there, so drop the animation outright rather than shorten it. */
+    .atlas-focus-face,
+    .atlas-neighbor-image {
+        animation: none;
     }
 }
