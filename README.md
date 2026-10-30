@@ -28,6 +28,12 @@ Production runs at [wayseeker.vercel.app](https://wayseeker.vercel.app). The can
 
 Tests use Node's built-in runner (`node --experimental-strip-types --test`), colocated with the code they cover. A workflow contract test asserts every tool belongs to exactly one route.
 
+## Explorer state and browser regression
+
+Shared links carry both `seed` and `tool`, restoring the random route and selected tool; unknown tool IDs are ignored. Flipping to the notes removes the hidden preview from keyboard navigation. Closing search restores focus to its opener, and typing does not trigger explorer shortcuts. Clipboard failures have localized feedback.
+
+Install Chromium once with `pnpm exec playwright install chromium`, then run `pnpm test:e2e`. It builds the production site and checks shared paths, flipped faces, keyboard focus and bilingual detail navigation in desktop and mobile viewports. CI runs this separately and retains failure traces.
+
 ## Style layers
 
 Five stylesheets, imported in this order by `src/app/layout.tsx`:

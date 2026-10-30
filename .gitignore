@@ -47,3 +47,5 @@ next-env.d.ts
 .zcode/
 .workbuddy-ai/
 
+test-results/
+playwright-report/

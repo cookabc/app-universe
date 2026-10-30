@@ -31,7 +31,9 @@
         "typecheck": "tsc --noEmit",
         "check": "pnpm run lint && pnpm run typecheck && pnpm run build && pnpm run test",
         "download-previews": "node scripts/download-previews.js",
-        "optimize-previews": "node scripts/optimize-previews.js"
+        "optimize-previews": "node scripts/optimize-previews.js",
+        "test:e2e": "pnpm build && playwright test",
+        "test:e2e:built": "playwright test"
     },
     "dependencies": {
         "@phosphor-icons/react": "^2.1.10",
@@ -48,6 +50,7 @@
     },
     "devDependencies": {
         "@biomejs/biome": "^2.6.4",
+        "@playwright/test": "1.64.1",
         "@tailwindcss/postcss": "^4.3.3",
         "@testing-library/dom": "^10.4.2",
         "@testing-library/react": "^16.3.3",
