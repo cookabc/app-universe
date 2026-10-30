@@ -13,8 +13,11 @@
 
     --default-transition-duration: 250ms;
 
-    /* 缓动全站一条：ease-out。同一次点击里的两段动画速度曲线必须一致。 */
-    --ease-out: var(--ease-out);
+    /* 缓动全站一条：ease-out。同一次点击里的两段动画速度曲线必须一致。
+       用 Tailwind 自带的 --ease-out（cubic-bezier(0, 0, 0.2, 1)），不要在这里
+       再声明一遍：写成 `--ease-out: var(--ease-out)` 会构成自引用循环，该变量
+       变成无效值，引用它的 transition/animation 整条声明被丢弃 —— 元素退化成
+       `transition: all 0s ease`，等于没有过渡。 */
 }
 
 /* 全站画出来的边都是 0.5px 细线。
