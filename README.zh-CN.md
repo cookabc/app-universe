@@ -1,3 +1,5 @@
+[English](README.md) · **简体中文**
+
 # Wayseeker
 
 按工作流探索设计、开发与创意工具的双语（EN/中文）指南。Next.js 16 App Router + React 19 + Tailwind v4，收录事实与策展评论全部在 `src/data/tools.ts`，任务路径在 `src/data/workflow.ts`。
@@ -11,8 +13,6 @@ Wayseeker 不按热度或标签堆砌工具卡，而是沿「寻找方向 → �
 站点默认英文，页头可切到中文，选择按访客持久化。文案在 `public/locales/{en,zh}/common.json`。
 
 生产站为 [wayseeker.vercel.app](https://wayseeker.vercel.app)；canonical origin 在 `src/lib/site.ts` 中配置，部署前须与实际部署地址一致。
-
-**中文** · [English](README.md)
 
 ## 常用命令
 

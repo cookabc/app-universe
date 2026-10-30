@@ -1,3 +1,5 @@
+**English** · [简体中文](PRODUCT.zh-CN.md)
+
 # Product
 
 <!-- impeccable:product-schema 1 -->
@@ -41,7 +43,3 @@ Task before category. Scene before promotion. Real previews before decoration. N
 ## Accessibility & Inclusion
 
 Full keyboard and screen-reader operation, with the current tool and task explicit; non-current scenes leave the keyboard and screen-reader flow; reduced motion, long bilingual copy and mobile route switching are supported.
-
----
-
-中文版见 [PRODUCT.zh-CN.md](PRODUCT.zh-CN.md)。

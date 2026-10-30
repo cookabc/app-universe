@@ -57,6 +57,8 @@ components:
     size: "44px"
 ---
 
+[English](DESIGN.md) · **简体中文**
+
 # Design System: Wayseeker
 
 ## Overview

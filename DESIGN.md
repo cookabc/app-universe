@@ -57,6 +57,8 @@ components:
     size: "44px"
 ---
 
+**English** · [简体中文](DESIGN.zh-CN.md)
+
 # Design System: Wayseeker
 
 ## Overview
@@ -146,7 +148,3 @@ The index can return to the correct workflow from any tool; a random seed restor
 - **Don't** introduce a second accent colour; ochre gold is already the only signal colour.
 - **Don't** lay felt or noise over tool previews — it dirties the real screenshot.
 - **Don't** copy reference sites' palettes, glowing borders or marketing hero sections.
-
----
-
-中文版见 [DESIGN.zh-CN.md](DESIGN.zh-CN.md)。

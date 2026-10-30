@@ -1,3 +1,5 @@
+**English** · [简体中文](README.zh-CN.md)
+
 # Wayseeker
 
 A bilingual (English / 中文) field guide to design, code and creative tools, organised by the work you are actually doing. Next.js 16 App Router + React 19 + Tailwind v4. All tool facts and curator notes live in `src/data/tools.ts`; the task paths live in `src/data/workflow.ts`.
@@ -12,8 +14,6 @@ The site opens in English with a header switch to Chinese; the choice persists p
 visitor. Strings live in `public/locales/{en,zh}/common.json`.
 
 Production runs at [wayseeker.vercel.app](https://wayseeker.vercel.app). The canonical origin is configured in `src/lib/site.ts` and must match where the site is actually deployed.
-
-**English** · [中文说明](README.zh-CN.md)
 
 ## Commands
 
