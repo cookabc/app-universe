@@ -35,7 +35,7 @@ export const WORKFLOWS: Array<{
             en: 'Study a great transition, understand its timing, then implement only what serves the idea.',
             zh: '研究优秀的过渡、理解时机，只实现真正服务创意的部分。',
         },
-        toolIds: ['60fps', 'feralui', 'libraries-dev', 'timing', 'paper-shaders', 'awesome-ai-motion', 'motionsites'],
+        toolIds: ['60fps', 'feralui', 'libraries-dev', 'timing', 'paper-shaders', 'awesome-ai-motion'],
     },
     {
         id: 'reference',
@@ -63,7 +63,7 @@ export const WORKFLOWS: Array<{
             en: 'Shape the presentation, build the experience, or find the missing piece for your next launch.',
             zh: '完善演示、搭建体验，或补齐下一次发布需要的那一块。',
         },
-        toolIds: ['magic-slide', 'whatships', 'bestdesignsonx', 'astrocade', 'kenney', 'kurtips'],
+        toolIds: ['magic-slide', 'whatships', 'astrocade', 'kenney', 'kurtips'],
     },
 ]
 

@@ -100,24 +100,6 @@ const TOOLS: Tool[] = [
         },
     },
     {
-        id: 'motionsites',
-        type: 'link',
-        category: 'design',
-        name: { en: 'MotionSites', zh: 'MotionSites' },
-        description: {
-            en: 'Ready-to-use AI prompt library for beautiful landing pages',
-            zh: 'AI 驱动的落地页提示词库，复制即用的精美网站模板',
-        },
-        tags: ['ai'],
-        url: 'https://motionsites.ai/',
-        icon: 'Rocket',
-        color: '#6e56cf',
-        note: {
-            en: 'When a landing page needs structure fast, I steal a skeleton here then rewrite the copy. Replaces starting from a blank hero. Caveat: do not ship the template prose — clients smell it.',
-            zh: '落地页要快速搭结构时，我先借骨架再改文案。能替代从空白 hero 硬开。注意：模板腔文案不要原样上线，客户闻得出来。',
-        },
-    },
-    {
         id: 'impeccable',
         type: 'link',
         category: 'design',
@@ -465,24 +447,6 @@ const TOOLS: Tool[] = [
         note: {
             en: 'When I’d otherwise write “that little grey control,” I look up the real name first. Replaces fuzzy agent prompts. Caveat: names vary slightly by system — still better than “thing.”',
             zh: '否则我会写出「那个灰色小控件」时，我先查标准名字。能替代含糊的 Agent 提示。注意：各系统叫法略有差别，但总比「那个玩意儿」强。',
-        },
-    },
-    {
-        id: 'bestdesignsonx',
-        type: 'link',
-        category: 'other',
-        name: { en: 'BestDesignson X', zh: 'BestDesignson X' },
-        description: {
-            en: 'Hourly updated directory of creatives to discover and follow on X',
-            zh: '按小时更新的 X 平台创意人发现与关注目录',
-        },
-        tags: ['design'],
-        url: 'https://bestdesignsonx.com/',
-        icon: 'Star',
-        color: '#646464',
-        note: {
-            en: 'When I need fresh designer references without chasing algorithm feeds, I browse this hourly digest. Replaces scrolling X hoping to stumble on good work. Caveat: profiles come and go — use it as discovery, not a permanent bookmark list.',
-            zh: '当我需要新鲜的设计师参考、又不想追算法时间线时，我会翻这个小时级合集。能替代在 X 上随缘刷到好作品。注意：主页会变，把它当发现入口，不要当永久书签用。',
         },
     },
     {
