@@ -5,30 +5,23 @@ import tools from '@/data/tools'
 import { useI18nReady } from '@/hooks/useI18nReady'
 
 export const Footer = () => {
-    const { t, isReady } = useI18nReady()
-    const brand = isReady ? t('brand.name') : 'Wayseeker'
-    const privacy = isReady ? t('nav.privacy') : 'Privacy'
-    const terms = isReady ? t('nav.terms') : 'Terms'
-    const home = isReady ? t('nav.home') : 'Home'
-    const meta = isReady ? t('toolsWall.curatedMeta', { count: tools.length }) : `${tools.length} tools, human-curated`
+    const { t } = useI18nReady()
 
     return (
-        <footer className="wayseeker-footer mt-auto w-full">
-            <div className="container max-w-7xl mx-auto px-4 py-10 sm:py-12">
-                <div className="wayseeker-footer-main">
-                    <div>
-                        <p className="wayseeker-brand-name">{brand}</p>
-                        <p className="wayseeker-footer-meta">{meta}</p>
-                    </div>
-                    <nav aria-label="Site" className="wayseeker-footer-links">
-                        <Link href="/">{home}</Link>
-                        <Link href="/privacy">{privacy}</Link>
-                        <Link href="/terms">{terms}</Link>
-                    </nav>
+        <footer className="site-footer">
+            <div className="wrap site-footer-inner">
+                <div>
+                    <p className="wordmark-name">{t('brand.name')}</p>
+                    <p className="mt-2">{t('footer.meta', { count: tools.length })}</p>
+                    <p className="code mt-4">© {new Date().getFullYear()} Wayseeker</p>
                 </div>
-                <p className="wayseeker-footer-meta wayseeker-footer-bottom">
-                    © {new Date().getFullYear()} {brand}
-                </p>
+                <nav aria-label="Site">
+                    <Link href="/">{t('nav.home')}</Link>
+                    <a href="/llms.txt">llms.txt</a>
+                    <a href="/tools.json">tools.json</a>
+                    <Link href="/privacy">{t('nav.privacy')}</Link>
+                    <Link href="/terms">{t('nav.terms')}</Link>
+                </nav>
             </div>
         </footer>
     )

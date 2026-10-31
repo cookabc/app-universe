@@ -1,77 +1,91 @@
 {
   "brand": {
-    "name": "Wayseeker"
+    "name": "Wayseeker",
+    "tagline": "A cabinet of tools for creative work"
   },
   "nav": {
     "skipToContent": "Skip to content",
     "privacy": "Privacy",
     "terms": "Terms",
-    "home": "Home"
+    "home": "Home",
+    "primary": "Sections",
+    "cabinet": "Cabinet",
+    "prescription": "Prescription"
   },
   "hero": {
-    "eyebrow": "Human-curated field guide",
-    "title": "Discover tools that",
-    "titleAccent": "earn their place.",
-    "subtitle": "A hand-curated field guide for design, code, and creative work—with honest notes on when to use each tool.",
-    "cta": "Explore the archive",
-    "indexTitle": "Archive index",
-    "statsTools": "{{count}} tools",
-    "statsTags": "{{count}} tags",
-    "statsLanguage": "Bilingual",
-    "statsUpdated": "Independent archive",
-    "entriesLabel": "Entries",
-    "categoriesLabel": "Categories",
-    "languageLabel": "Language",
-    "statusLabel": "Status"
+    "title": "What are you settling for?",
+    "lede": "{{count}} habits that creative work settles for. Each one is filed beside the tool that replaces it, with an honest caution on the label.",
+    "stagesLabel": "Show habits by stage",
+    "fieldLabel": "Habits, by drawer",
+    "keys": "next drawer",
+    "keysColumn": "next column"
   },
-  "toolsWall": {
-    "searchPlaceholder": "Search by name, tag, note, or domain...",
-    "searchAriaLabel": "Search tools",
-    "clearSearch": "Clear search",
-    "noResults": "No tools found",
-    "noResultsHint": "Try a different keyword or tag",
-    "clearFilters": "Clear filters",
-    "curatorNote": "Note",
-    "visit": "Visit",
-    "githubRepo": "GitHub repository",
-    "previewAlt": "{{name}} preview",
+  "counter": {
+    "label": "Dispensed label",
+    "drawer": "Drawer {{code}}",
+    "of": "{{at}} of {{total}}",
+    "previous": "Previous drawer",
+    "next": "Next drawer",
+    "visit": "Visit site",
     "opensInNewTab": "opens in a new tab",
-    "allTags": "All",
-    "tagFilterLabel": "Filter by tag",
-    "resultCount": "Showing {{shown}} of {{total}}",
-    "sortLabel": "Sort tools",
-    "sortCurated": "Curated",
-    "sortShuffle": "Shuffle",
-    "featuredTitle": "Featured selections",
-    "featuredSubtitle": "Tools that consistently earn a place in the workflow",
-    "featuredBadge": "Featured",
-    "allToolsTitle": "All tools",
-    "curatedMeta": "{{count}} tools, human-curated",
-    "details": "Details",
-    "entryCount": "{{count}} entries",
-    "discoveryLabel": "Discovery controls",
-    "featuredEyebrow": "Curator signal",
-    "allToolsEyebrow": "Complete index",
-    "signalMap": "Signal map",
-    "signalMapHint": "This order is reproducible — share the link",
-    "copyLink": "Copy link",
-    "linkCopied": "Copied"
+    "fullLabel": "Full label",
+    "previewAlt": "{{name}}, homepage screenshot",
+    "for": "For",
+    "replaces": "Replaces",
+    "caution": "Caution"
   },
-  "toolDetail": {
-    "back": "Back to tools",
-    "whyIUseIt": "Why I use it",
-    "related": "Related tools",
-    "openSite": "Open site",
-    "recordLabel": "Archive record, {{id}}",
-    "relatedEyebrow": "Keep exploring",
-    "copyNote": "Copy note",
+  "cabinet": {
+    "title": "The cabinet",
+    "lede": "Five columns, one for each stage of the work. {{count}} labelled drawers; pull any one to read its label.",
+    "search": "Find a drawer",
+    "searchPlaceholder": "Name, habit, note or domain",
+    "clearSearch": "Clear search",
+    "matches_one": "{{count}} drawer matches",
+    "matches_other": "{{count}} drawers match",
+    "noMatches": "No drawer matches. Try a habit, like “prompt” or “motion”.",
+    "empty": "Empty drawer"
+  },
+  "plan": {
+    "title": "Write a prescription",
+    "lede": "One drawer from each column, chosen to share a direction. Swap any line that doesn't fit and the rest stays put. Copy it as Markdown and hand it to your agent.",
+    "write": "Write my prescription",
+    "rewrite": "Write a new one",
+    "swap": "Swap",
+    "swapLabel": "Swap the {{stage}} line",
+    "detail": "Label",
+    "copy": "Copy as Markdown",
+    "copied": "Prescription copied",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "copyFailed": "The clipboard is unavailable. The prescription link is in your address bar.",
+    "anchor": "Anchor",
+    "number": "No.",
+    "instead": "instead of",
+    "pinned": "chosen",
+    "blank": "Five lines, one per column, waiting to be written.",
+    "label": "Prescription",
+    "titles": {
+      "design": "A visual plan starting from {{name}}",
+      "games": "A game plan starting from {{name}}",
+      "ai": "Taste for your agent, starting from {{name}}",
+      "ui": "An interface plan starting from {{name}}",
+      "motion": "A motion plan starting from {{name}}"
+    }
+  },
+  "detail": {
+    "back": "Back to the cabinet",
+    "column": "Column {{letter}}",
+    "sameColumn": "Also in this column",
+    "copyNote": "Copy label text",
     "noteCopied": "Copied",
-    "curatorAttribution": "Curator's note, {{domain}}",
-    "copyImage": "Copy as image",
-    "imageDone": "Image ready"
+    "copyImage": "Copy label as image",
+    "imageDone": "Image ready",
+    "github": "Source on GitHub",
+    "whyIUseIt": "Why I use it",
+    "curatorAttribution": "Curator's note, {{domain}}"
   },
   "footer": {
-    "colophon": "Archive colophon"
+    "meta": "{{count}} tools, filed by hand, in English and Chinese."
   },
   "theme": {
     "system": "System",
@@ -85,76 +99,9 @@
   },
   "notFound": {
     "code": "404",
-    "title": "Page not found",
+    "title": "This drawer is empty",
     "body": "The page you are looking for does not exist or has been moved.",
-    "cta": "Go back home",
+    "cta": "Back to the cabinet",
     "resources": "Site resources"
-  },
-  "tags": {
-    "ai": "AI",
-    "design": "Design",
-    "games": "Games",
-    "motion": "Motion",
-    "ui": "UI"
-  },
-  "verdict": {
-    "when": "When",
-    "replaces": "Replaces",
-    "caveat": "Caveat",
-    "flip": "See what it replaces",
-    "back": "Turn back"
-  },
-  "wayseeker": {
-    "question": "What are you making?",
-    "intro": "A field guide for the next thing you need to make.",
-    "index": "Index",
-    "next": "Next stop",
-    "previous": "Previous stop",
-    "shuffle": "Surprise me",
-    "copy": "Copy this path",
-    "clear": "Back to the curated route",
-    "results": "Matching tools",
-    "mapLabel": "Workflow explorer",
-    "routeLabel": "Choose a workflow",
-    "related": "Related tools",
-    "judgment": "Curator judgment",
-    "exploreActions": "Explore actions",
-    "more": "More about the guide",
-    "explainTitle": "A guide, not a leaderboard.",
-    "explainBody": "Every tool is here for a reason. Follow a workflow to see how tools relate, or search the index when you already know what you need.",
-    "explainNote": "Notes from real use",
-    "explainNoteBody": "When to reach for a tool, what it can replace, and the thing worth knowing before you commit.",
-    "allTools": "Every tool, in context.",
-    "copyFailed": "Clipboard access is unavailable. Copy the path from your address bar."
-  },
-  "atlas": {
-    "current": "Current discovery",
-    "explore": "Explore",
-    "curator": "Curator’s note",
-    "front": "Back to preview",
-    "back": "Why this tool?"
-  },
-  "plan": {
-    "open": "Make a plan",
-    "label": "Generated plan",
-    "eyebrow": "Anchored on {{name}}",
-    "intro": "One tool per stage, picked to share a direction. Swap any step that isn't right — the plan keeps its theme.",
-    "swap": "Swap",
-    "pinned": "picked",
-    "detail": "Detail",
-    "regenerate": "Reroll the whole plan",
-    "copy": "Copy as Markdown",
-    "copied": "Plan copied",
-    "copyLink": "Copy link",
-    "linkCopied": "Link copied",
-    "close": "Close plan",
-    "copyFailed": "Clipboard is unavailable — the plan link is in your address bar.",
-    "titles": {
-      "design": "A visual plan starting from {{name}}",
-      "games": "A game plan starting from {{name}}",
-      "ai": "Taste for your agent, starting from {{name}}",
-      "ui": "An interface plan starting from {{name}}",
-      "motion": "A motion plan starting from {{name}}"
-    }
   }
 }

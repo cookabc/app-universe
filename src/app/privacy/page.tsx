@@ -9,15 +9,13 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
     return (
-        <section className="mx-auto max-w-2xl px-4 py-16 sm:py-20">
-            <Link href="/" className="index-label hover:text-foreground transition-colors">
+        <section className="plain-page">
+            <Link href="/" className="back-link caps">
                 ← Back home
             </Link>
-            <h1 className="display-heading text-4xl sm:text-5xl tracking-[-0.04em] text-foreground mt-6 mb-3">
-                Privacy Policy
-            </h1>
-            <p className="index-label mb-10">Last updated — July 17, 2026</p>
-            <div className="measure text-muted-foreground space-y-5 leading-relaxed">
+            <h1>Privacy Policy</h1>
+            <p className="code">Last updated — July 17, 2026</p>
+            <div className="prose mt-8">
                 <p>
                     {SITE_NAME} does not collect personal data, run analytics, or serve advertising cookies. The site
                     only stores preferences on your device so the experience stays familiar between visits.

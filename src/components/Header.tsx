@@ -5,44 +5,41 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { useI18nReady } from '@/hooks/useI18nReady'
 import { LanguageSwitcher } from './LanguageSwitcher'
 
+/** Two-by-two drawer front, one drawer marked: the cabinet at favicon size. */
+export function CabinetMark({ size = 24 }: { size?: number }) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="1" y="1" width="22" height="22" rx="3" fill="var(--lacquer)" />
+            <rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1" fill="var(--paper-hi)" />
+            <rect x="13" y="3.5" width="7.5" height="7.5" rx="1" fill="var(--paper-hi)" />
+            <rect x="3.5" y="13" width="7.5" height="7.5" rx="1" fill="var(--paper-hi)" />
+            <rect x="13" y="13" width="7.5" height="7.5" rx="1" fill="var(--seal)" />
+        </svg>
+    )
+}
+
 export const Header = () => {
-    const { t, isReady } = useI18nReady()
-    const brand = isReady ? t('brand.name') : 'Wayseeker'
+    const { t } = useI18nReady()
+    const brand = t('brand.name')
 
     return (
-        <header className="wayseeker-header sticky top-0 z-[var(--z-header)] w-full">
-            <div className="container max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-                <Link
-                    href="/"
-                    className="wayseeker-wordmark group flex min-h-11 items-center gap-2.5"
-                    aria-label={brand}
-                >
-                    {/* Same three-stroke mark as icon.svg: outer peak, inner
-                        peak, and the point where the seeker stands. */}
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path
-                            d="M4 19 12 5.5 20 19"
-                            stroke="currentColor"
-                            strokeWidth="1.6"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                        <path
-                            d="m8.5 15.5 3.5-6 3.5 6"
-                            stroke="currentColor"
-                            strokeWidth="1.4"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            opacity="0.55"
-                        />
-                    </svg>
-                    <span className="wayseeker-brand-name">{brand}</span>
+        <header className="site-header">
+            <div className="wrap site-header-inner">
+                <Link href="/" className="wordmark" aria-label={brand}>
+                    <CabinetMark />
+                    <span className="wordmark-name">{brand}</span>
                 </Link>
 
-                <div className="flex items-center gap-2">
+                <nav className="site-nav" aria-label={t('nav.primary')}>
+                    <Link href="/#cabinet" className="site-nav-link caps">
+                        {t('nav.cabinet')}
+                    </Link>
+                    <Link href="/#prescription" className="site-nav-link caps">
+                        {t('nav.prescription')}
+                    </Link>
                     <LanguageSwitcher />
                     <ThemeSwitch />
-                </div>
+                </nav>
             </div>
         </header>
     )

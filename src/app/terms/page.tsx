@@ -9,15 +9,13 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
     return (
-        <section className="mx-auto max-w-2xl px-4 py-16 sm:py-20">
-            <Link href="/" className="index-label hover:text-foreground transition-colors">
+        <section className="plain-page">
+            <Link href="/" className="back-link caps">
                 ← Back home
             </Link>
-            <h1 className="display-heading text-4xl sm:text-5xl tracking-[-0.04em] text-foreground mt-6 mb-3">
-                Terms of Service
-            </h1>
-            <p className="index-label mb-10">Last updated — July 17, 2026</p>
-            <div className="measure text-muted-foreground space-y-5 leading-relaxed">
+            <h1>Terms of Service</h1>
+            <p className="code">Last updated — July 17, 2026</p>
+            <div className="prose mt-8">
                 <p>
                     {SITE_NAME} is a curated directory of third-party tools and resources. Links are provided for
                     convenience and informational purposes only.

@@ -2,12 +2,8 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 /**
- * Exposes the i18next instance plus an `isReady` flag.
- *
- * `isReady` is seeded from `i18n.isInitialized` via a lazy initializer so the
- * first client render already reflects the real state, avoiding a spurious
- * `false → true` flip that would flash hardcoded fallback strings. The effect
- * only fires if initialization completes *after* mount.
+ * Exposes the i18next instance plus an `isReady` flag. Resources are bundled
+ * and initialised synchronously, so `t` is safe to call on the first render.
  */
 export function useI18nReady() {
     const { t, i18n } = useTranslation()

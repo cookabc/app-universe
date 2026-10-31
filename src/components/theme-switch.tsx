@@ -4,7 +4,6 @@ import { MonitorIcon, MoonIcon, type Icon as PhosphorIcon, SunIcon } from '@phos
 import { useTheme } from 'next-themes'
 import * as React from 'react'
 import { flushSync } from 'react-dom'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { useI18nReady } from '@/hooks/useI18nReady'
 import { cn } from '@/lib/utils'
 
@@ -92,31 +91,17 @@ const ThemeSwitch = React.forwardRef<HTMLButtonElement, ThemeSwitchProps>(({ cla
         : `Theme: ${themeLabels[current]}. Click to switch to ${themeLabels[next]}.`
 
     return (
-        <Tooltip>
-            <TooltipTrigger asChild>
-                <button
-                    ref={ref}
-                    type="button"
-                    onClick={(event) => startThemeTransition(next, setTheme, event)}
-                    aria-label={label}
-                    className={cn(
-                        'inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-inner)]',
-                        'border border-border bg-card text-foreground',
-                        'transition-all duration-200',
-                        'hover:border-foreground hover:bg-accent',
-                        'active:translate-y-px active:scale-[0.98]',
-                        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-                        className,
-                    )}
-                    {...props}
-                >
-                    <Icon className="h-4 w-4" weight="bold" />
-                </button>
-            </TooltipTrigger>
-            <TooltipContent>
-                <p>{label}</p>
-            </TooltipContent>
-        </Tooltip>
+        <button
+            ref={ref}
+            type="button"
+            onClick={(event) => startThemeTransition(next, setTheme, event)}
+            aria-label={label}
+            title={label}
+            className={cn('chrome-btn', className)}
+            {...props}
+        >
+            <Icon weight="regular" />
+        </button>
     )
 })
 ThemeSwitch.displayName = 'ThemeSwitch'

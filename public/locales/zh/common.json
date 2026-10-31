@@ -1,77 +1,91 @@
 {
   "brand": {
-    "name": "Wayseeker"
+    "name": "Wayseeker",
+    "tagline": "一只装满创作工具的百子柜"
   },
   "nav": {
     "skipToContent": "跳到主要内容",
     "privacy": "隐私",
     "terms": "条款",
-    "home": "首页"
+    "home": "首页",
+    "primary": "页面分区",
+    "cabinet": "百子柜",
+    "prescription": "开方"
   },
   "hero": {
-    "eyebrow": "人工策展工具指南",
-    "title": "发现值得留下的",
-    "titleAccent": "好用工具。",
-    "subtitle": "面向设计、开发与创意工作的人工策展指南，并诚实说明每个工具何时值得使用。",
-    "cta": "探索工具档案",
-    "indexTitle": "档案索引",
-    "statsTools": "{{count}} 个工具",
-    "statsTags": "{{count}} 个标签",
-    "statsLanguage": "中英双语",
-    "statsUpdated": "独立策展",
-    "entriesLabel": "条目",
-    "categoriesLabel": "分类",
-    "languageLabel": "语言",
-    "statusLabel": "状态"
+    "title": "你在将就什么？",
+    "lede": "做设计、写代码、搞创作时常见的 {{count}} 种将就。每一种旁边都放着能替代它的工具，标签上写明何时用，也写明要注意什么。",
+    "stagesLabel": "按阶段查看将就",
+    "fieldLabel": "将就清单，按抽屉编号",
+    "keys": "换一格",
+    "keysColumn": "换一列"
   },
-  "toolsWall": {
-    "searchPlaceholder": "按名称、标签、备注或域名搜索...",
-    "searchAriaLabel": "搜索工具",
-    "clearSearch": "清除搜索",
-    "noResults": "未找到工具",
-    "noResultsHint": "试试其他关键词或标签",
-    "clearFilters": "清除筛选",
-    "curatorNote": "备注",
-    "visit": "访问",
-    "githubRepo": "GitHub 仓库",
-    "previewAlt": "{{name}} 预览",
+  "counter": {
+    "label": "取出的标签",
+    "drawer": "{{code}} 号抽屉",
+    "of": "第 {{at}} / {{total}} 格",
+    "previous": "上一格",
+    "next": "下一格",
+    "visit": "打开网站",
     "opensInNewTab": "在新标签页打开",
-    "allTags": "全部",
-    "tagFilterLabel": "按标签筛选",
-    "resultCount": "显示 {{shown}} / {{total}}",
-    "sortLabel": "排序",
-    "sortCurated": "策展顺序",
-    "sortShuffle": "随机",
-    "featuredTitle": "精选工具",
-    "featuredSubtitle": "在真实工作流中持续值得使用的工具",
-    "featuredBadge": "精选",
-    "allToolsTitle": "全部工具",
-    "curatedMeta": "{{count}} 个工具，人工策展",
-    "details": "详情",
-    "entryCount": "{{count}} 个条目",
-    "discoveryLabel": "工具发现与筛选",
-    "featuredEyebrow": "策展信号",
-    "allToolsEyebrow": "完整索引",
-    "signalMap": "信号地图",
-    "signalMapHint": "此排序可复现，分享链接即可还原",
-    "copyLink": "复制链接",
-    "linkCopied": "已复制"
+    "fullLabel": "完整标签",
+    "previewAlt": "{{name}} 首页截图",
+    "for": "何时用",
+    "replaces": "替代",
+    "caution": "注意"
   },
-  "toolDetail": {
-    "back": "返回工具墙",
-    "whyIUseIt": "我为什么用它",
-    "related": "相关工具",
-    "openSite": "打开网站",
-    "recordLabel": "档案记录 {{id}}",
-    "relatedEyebrow": "继续探索",
-    "copyNote": "复制备注",
+  "cabinet": {
+    "title": "百子柜",
+    "lede": "五列，对应做事的五个阶段。{{count}} 格抽屉都贴了标签，拉开任意一格就能读。",
+    "search": "找一格抽屉",
+    "searchPlaceholder": "名称、将就、备注或域名",
+    "clearSearch": "清除搜索",
+    "matches_one": "{{count}} 格抽屉匹配",
+    "matches_other": "{{count}} 格抽屉匹配",
+    "noMatches": "没有匹配的抽屉。试试一种将就，比如「提示」或「动效」。",
+    "empty": "空抽屉"
+  },
+  "plan": {
+    "title": "开一张方子",
+    "lede": "每列取一格，按同一种气质配齐。哪一行不合适就单独换，其余几行不动。可以复制成 Markdown，直接交给你的 Agent。",
+    "write": "给我开方",
+    "rewrite": "重开一张",
+    "swap": "换一味",
+    "swapLabel": "换掉「{{stage}}」这一行",
+    "detail": "标签",
+    "copy": "复制为 Markdown",
+    "copied": "方子已复制",
+    "copyLink": "复制链接",
+    "linkCopied": "链接已复制",
+    "copyFailed": "暂时无法使用剪贴板，方子的链接就在地址栏里。",
+    "anchor": "药引",
+    "number": "编号",
+    "instead": "不再",
+    "pinned": "已选定",
+    "blank": "五行空着，每列一行，等你开方。",
+    "label": "方子",
+    "titles": {
+      "design": "从 {{name}} 起步的视觉方案",
+      "games": "从 {{name}} 起步的游戏方案",
+      "ai": "给 Agent 打审美底子，从 {{name}} 起步",
+      "ui": "从 {{name}} 起步的界面方案",
+      "motion": "从 {{name}} 起步的动效方案"
+    }
+  },
+  "detail": {
+    "back": "回到百子柜",
+    "column": "第 {{letter}} 列",
+    "sameColumn": "同一列的抽屉",
+    "copyNote": "复制标签文字",
     "noteCopied": "已复制",
-    "curatorAttribution": "策展备注，{{domain}}",
-    "copyImage": "复制为图片",
-    "imageDone": "图片已就绪"
+    "copyImage": "把标签复制为图片",
+    "imageDone": "图片已就绪",
+    "github": "GitHub 源码",
+    "whyIUseIt": "我为什么用它",
+    "curatorAttribution": "策展备注，{{domain}}"
   },
   "footer": {
-    "colophon": "档案说明"
+    "meta": "{{count}} 件工具，人工归档，中英双语。"
   },
   "theme": {
     "system": "跟随系统",
@@ -85,76 +99,9 @@
   },
   "notFound": {
     "code": "404",
-    "title": "页面未找到",
+    "title": "这一格是空的",
     "body": "你访问的页面不存在或已被移动。",
-    "cta": "返回首页",
+    "cta": "回到百子柜",
     "resources": "站点资源"
-  },
-  "tags": {
-    "ai": "AI",
-    "design": "设计",
-    "games": "游戏",
-    "motion": "动效",
-    "ui": "UI"
-  },
-  "verdict": {
-    "when": "何时用",
-    "replaces": "替代什么",
-    "caveat": "注意",
-    "flip": "看它替代了什么",
-    "back": "翻回正面"
-  },
-  "wayseeker": {
-    "question": "你正在做什么？",
-    "intro": "从当前任务出发，找到下一件顺手的工具。",
-    "index": "索引",
-    "next": "下一件工具",
-    "previous": "上一件工具",
-    "shuffle": "换一条路径",
-    "copy": "复制这条路径",
-    "clear": "回到策展路径",
-    "results": "匹配的工具",
-    "mapLabel": "工作流探索",
-    "routeLabel": "选择工作流",
-    "related": "相关工具",
-    "judgment": "策展判断",
-    "exploreActions": "探索操作",
-    "more": "了解更多",
-    "explainTitle": "一份指南，不是排行榜。",
-    "explainBody": "每件工具都有入选理由。沿工作流理解工具之间的关系，或在目标明确时直接搜索索引。",
-    "explainNote": "来自真实使用的备注",
-    "explainNoteBody": "什么时候值得用，能替代什么，以及决定采用之前必须知道的事。",
-    "allTools": "每件工具，都在工作流里。",
-    "copyFailed": "暂时无法访问剪贴板，请复制地址栏中的探索链接。"
-  },
-  "atlas": {
-    "current": "当前发现",
-    "explore": "探索",
-    "curator": "策展备注",
-    "front": "返回预览",
-    "back": "为什么用它？"
-  },
-  "plan": {
-    "open": "生成一套方案",
-    "label": "生成的方案",
-    "eyebrow": "锚定 {{name}}",
-    "intro": "每个阶段选定一件工具，按共同气质收敛成一条线。不合意的步骤可单独换，主题不散。",
-    "swap": "换一件",
-    "pinned": "已选定",
-    "detail": "详情",
-    "regenerate": "整条重摇",
-    "copy": "复制为 Markdown",
-    "copied": "方案已复制",
-    "copyLink": "复制链接",
-    "linkCopied": "链接已复制",
-    "close": "收起方案",
-    "copyFailed": "剪贴板不可用——方案链接在地址栏里。",
-    "titles": {
-      "design": "从 {{name}} 起步的视觉方案",
-      "games": "从 {{name}} 起步的游戏方案",
-      "ai": "给 Agent 打审美底子，从 {{name}} 起步",
-      "ui": "从 {{name}} 起步的界面方案",
-      "motion": "从 {{name}} 起步的动效方案"
-    }
   }
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ToolDetail } from '@/components/ToolDetail'
-import tools, { getRelatedTools, getToolById } from '@/data/tools'
+import tools, { getToolById } from '@/data/tools'
 import { SITE_NAME, SITE_URL } from '@/lib/site'
 
 interface PageProps {
@@ -54,7 +54,6 @@ export default async function ToolPage({ params }: PageProps) {
     const tool = getToolById(id)
     if (!tool) notFound()
 
-    const related = getRelatedTools(tool, 3)
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'WebPage',
@@ -86,7 +85,7 @@ export default async function ToolPage({ params }: PageProps) {
                 // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD from typed static data
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-            <ToolDetail tool={tool} related={related} />
+            <ToolDetail tool={tool} />
         </>
     )
 }
