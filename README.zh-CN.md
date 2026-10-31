@@ -4,10 +4,10 @@
 
 按工作流探索设计、开发与创意工具的双语（EN/中文）指南。Next.js 16 App Router + React 19 + Tailwind v4，收录事实与策展评论全部在 `src/data/tools.ts`，任务路径在 `src/data/workflow.ts`。
 
-Wayseeker 不按热度或标签堆砌工具卡，而是沿「寻找方向 → 建立视觉语言 → 让界面动起来 → 研究真实产品 → 完成并交付」的任务路径组织工具。真实预览和「何时用、替代什么、注意什么」在同一个探索场景中更新；索引搜索、详情访问与可分享随机路径保留。
+Wayseeker 是一只给创作用的百子柜：首页先列出 29 种常见的将就，每种对应一格贴了标签的抽屉，标签写明何时用、替代什么、注意什么。五列对应「寻找方向 → 建立视觉语言 → 让界面动起来 → 研究真实产品 → 完成并交付」，最后可以开一张五行的方子，复制成 Markdown 交给 Agent。
 
 <p align="center">
-  <img src="docs/images/home.png" width="880" alt="Wayseeker 工作流探索界面：任务路径、真实工具预览与策展判断">
+  <img src="docs/images/home.png" width="880" alt="Wayseeker：将就清单与取出的抽屉标签">
 </p>
 
 站点默认英文，页头可切到中文，选择按访客持久化。文案在 `public/locales/{en,zh}/common.json`。
@@ -33,19 +33,9 @@ Wayseeker 不按热度或标签堆砌工具卡，而是沿「寻找方向 → �
 
 首次运行 `pnpm exec playwright install chromium`，再执行 `pnpm test:e2e`。测试先构建生产站，再检查桌面和手机视口下的分享、翻面、键盘焦点与中英文详情往返；CI 独立运行该流程，失败时保存跟踪。
 
-## 样式分层
+## 样式
 
-五层，按顺序在 `src/app/layout.tsx` 引入：
-
-| 文件 | 负责 |
-| --- | --- |
-| `src/app/globals.css` | Tailwind 基础、颜色 token、字型、详情页档案样式 |
-| `src/wayseeker.css` | 工作台布局与毛毡材质（`--way-felt-*`） |
-| `src/wayseeker-themes.css` | 浅/深两套完整配色 token |
-| `src/wayseeker-chrome.css` | 页头页脚的排版与线宽 |
-| `src/atlas.css` | 工具场景：轨道布局、翻面、相邻缩略图 |
-
-毛毡材质、字型体系与单一强调色以 [DESIGN.zh-CN.md](DESIGN.zh-CN.md)（英文版 [DESIGN.md](DESIGN.md)）为准，该文件是视觉体系的唯一出处。
+全部样式在 `src/app/globals.css` 一个文件里：宣纸、墨绿漆、黄铜、印泥红四种材质的 token，以及各组件样式。视觉体系以 [DESIGN.zh-CN.md](DESIGN.zh-CN.md)（英文版 [DESIGN.md](DESIGN.md)）为准。
 
 ## 文档
 

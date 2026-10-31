@@ -1,150 +1,98 @@
 ---
 name: Wayseeker
-description: A navigable workflow guide for choosing the next useful tool.
+description: A dispensary for creative work — every tool filed in a labelled drawer against the habit it replaces.
 colors:
-  workbench: "#111927"
-  panel: "#1c2534"
-  ink: "#eeeeec"
-  muted: "#b5b3ad"
-  line: "#363a3f"
-  current: "#eac561"
-  light-workbench: "#f4f4f2"
-  light-panel: "#fdfdfc"
-  light-ink: "#21201c"
-  light-muted: "#63635e"
-  light-line: "#dad9d6"
-  light-current: "#ab6400"
-  felt-dark: "rgba(0,0,0,0.09 peak)"
-  felt-light: "rgba(255,255,255,0.085 peak)"
+  paper: "#e8ebe3"
+  paper-hi: "#f5f5ef"
+  ink: "#16201b"
+  ink-2: "#4a564f"
+  seal: "#b8321d"
+  lacquer: "#1b3a31"
+  lacquer-deep: "#142d26"
+  lacquer-ink: "#e9eadf"
+  lacquer-ink-2: "#a9b9ae"
+  brass: "#c9a35a"
+  dark-paper: "#0d1714"
+  dark-paper-hi: "#16201b"
+  dark-ink: "#e4e6dc"
+  dark-ink-2: "#a3ada5"
+  dark-seal: "#e66a4e"
+  dark-lacquer: "#163027"
 typography:
   display:
-    fontFamily: "Georgia, Songti SC, STSong, serif"
-    fontSize: "clamp(2.5rem, 5vw, 5rem)"
-    fontWeight: 500
-    lineHeight: 1.08
-    letterSpacing: "-0.04em"
+    fontFamily: "Archivo (wdth 68), Noto Serif SC, Songti SC, serif"
+    fontWeight: 800
+    lineHeight: 0.95
+    textTransform: uppercase
   body:
-    fontFamily: "IBM Plex Sans, PingFang SC, sans-serif"
+    fontFamily: "Archivo, PingFang SC, sans-serif"
     fontSize: "1rem"
-    lineHeight: 1.65
-  scene-title:
-    fontFamily: "Georgia, Songti SC, STSong, serif"
-    fontSize: "clamp(1.75rem, 2.6vw, 2.5rem)"
-    fontWeight: 500
-    lineHeight: 1.12
-    letterSpacing: "-0.035em"
-  label:
-    fontFamily: "IBM Plex Mono, monospace"
+    lineHeight: 1.6
+  caps:
+    fontFamily: "Archivo (wdth 85)"
     fontSize: "0.75rem"
-    lineHeight: 1.5
+    fontWeight: 600
+    letterSpacing: "0.08em"
+  code:
+    fontFamily: "Fragment Mono"
+    fontSize: "0.75rem"
 rounded:
-  preview: "8px"
-  thumbnail: "4px"
-  neighbor: "5px"
-  control: "50%"
-components:
-  workflow-stop:
-    backgroundColor: "transparent"
-    textColor: "{colors.muted}"
-  tool-preview:
-    backgroundColor: "{colors.panel}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.preview}"
-  scene-control:
-    backgroundColor: "transparent"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.control}"
-    size: "44px"
+  slip: "2px"
+  control: "3px"
+  cabinet: "4px"
+  pill: "999px"
 ---
 
 **English** · [简体中文](DESIGN.zh-CN.md)
 
 # Design System: Wayseeker
 
-## Overview
+## North star: "The dispensary"
 
-**Creative North Star: "A navigable workflow atlas"**
+Wayseeker is an apothecary cabinet (百子柜) for creative work. Every tool is a drawer, coded by column and row; every drawer carries a paper label that says when to use it, the habit it replaces, and the caution. The site opens on the habits, not the tools: a visitor recognises what they are settling for, sees it struck out in seal red, and reads the label that answers it.
 
-Wayseeker is a workflow map that helps you finish the task in front of you. It is not a tool directory sorted by popularity. The workflow, the real preview and the curation note change together inside one rotatable tool scene. The light workbench carries tools on paper-like layers; the dark workbench uses the real preview as its main light source. Both emphasise route, position and choice rather than wrapping another magazine cover or card wall around the catalog.
+Content drives every structure:
 
-The workbench surface is covered in medical wool felt: two layers of tileable noise (dark fibres in `multiply`, bright fibres in `screen`, each peaking at roughly 9% alpha) over a 1600px soft gradient wash. The recipe comes from kaze.build and applies only to the workbench and the header/footer; tool previews and cards stay clean.
+- **Columns = workflow stages.** A–E are the five stages in `workflow.ts`. A drawer code like `C4` means stage C, fourth on that route. Codes are derived in `src/lib/drawers.ts`, never hand-written.
+- **Labels = curator notes.** The three moves parsed by `curator-note.ts` become three ruled rows: For / Replaces / Caution.
+- **Habits = the "Replaces" move.** `habitOf()` turns it into a running phrase for the first viewport.
+- **Prescription = the plan generator.** One drawer per column, a seal pressed when written, exportable as Markdown.
 
-**Key Characteristics:**
-- Organised by task chain, not by commercial labels such as AI or UI.
-- Large real previews with readable curatorial evidence beside them.
-- Hairlines, nodes and a restrained ochre mark the current position.
-- Mobile keeps the same exploration logic: swipe the route, read the preview, read the judgement.
+## Colour
 
-## Colors
+Two materials, one signal.
 
-The site has exactly one accent colour, ochre gold, sourced from the favicon; the danger meaning keeps red-11 to itself. Tomato red, lemon green, sage green and ochre previously coexisted as four accent systems, and that is what made the page look messy.
+- **Rice paper** (`paper`, `paper-hi`) carries reading: the habit field, the dispensed slip, the prescription, label pages.
+- **Green lacquer** (`lacquer`, `lacquer-deep`) carries the cabinet: the counter tray, the cabinet section, shelves, footer. Lacquer regions own whole bands of the page; they are never a small accent.
+- **Brass** (`brass`) is hardware only: label frames, drawer pulls, column letters, the visit button on lacquer.
+- **Seal red** (`seal`) has exactly two jobs: striking a habit out, and the stamp/anchor on the prescription (plus the caution label and focus ring). Never decorative fills.
 
-### Primary
-- **Workbench Blue-black** `#111927`: the shared background for the dark page and for the header/footer.
-- **Paper Workbench** `#f4f4f2`: the paper surface of the light page.
-- **Ink**: warm white `#eeeeec` in the dark theme, near-black `#21201c` in the light theme.
-
-### Secondary
-- **Current Gold** `#eac561`: the current node, focus and key annotation in the dark theme.
-- **Current Ochre** `#ab6400`: the same role in the light theme, 4.69:1 against white text.
-- **Panel Navy / Paper**: the surface behind loading images and the control beds.
-
-### Neutral
-- **Muted Sand / Slate**: secondary explanation.
-- **Quiet Line**: links, dividers and focus rings, always 0.5px.
+Dark mode keeps the same materials at night: paper becomes deep green-black, the seal brightens to `#e66a4e` for contrast. All text pairs meet WCAG AA (body ≥ 4.5:1; measured in the build).
 
 ## Typography
 
-Two voices, never a third:
-
-**Display Font:** Georgia / system Songti serif (`--font-display`), used for the page title, scene titles, tool names and curatorial quotes. Weight 500; hierarchy comes from size and negative tracking, not from heavier weights.
-**Body Font:** IBM Plex Sans, falling back to the system sans for Chinese. Controls, prose and buttons all use it.
-**Label/Mono Font:** IBM Plex Mono, used only for progress, seed and numeric records.
-
-A self-hosted Manrope family and a second Plus Jakarta display face were previously declared, but both were bypassed by fallbacks in practice (every computed style resolved to IBM Plex Sans). Both have been removed.
-
-Headlines only pose the task; they never cover the tool content. Workflow stops and tool names use natural sentence case with explicit weights, avoiding decorated all-caps labels.
-
-## Layout
-
-The desktop first screen is one task question, five workflow stops and a large real preview. The curation note for the current tool sits beside the preview; related tools sit at the lower edge of the preview without covering the screenshot content.
-
-Mobile does not shrink the whole map. It reorders to: swipe the task route → full preview → tool name → curation note.
-
-## Elevation & Depth
-
-The workbench stays flat; previews use a soft offset shadow to create space. Do not add heavy borders and shadows to every region at once. Related tools sit on solid workbench colour, never behind a frosted glass layer that hides the real screenshot.
-
-## Shapes
-
-Previews use 8px corner radius, thumbnails 4px, neighbouring tools 5px; step and visit buttons are 44px circular touch targets, and workflow nodes are small dots. Do not use uniform rounded cards, coloured left rails or decorative tracks.
+- **Display:** Archivo at width 68, weight 800, uppercase — the voice of stencilled drawer labels. Chinese display falls to Noto Serif SC / Songti at 700, sentence case.
+- **Body and controls:** Archivo at normal width.
+- **Caps:** Archivo width 85, 600, tracked 0.08em — label row names, stage tabs, buttons.
+- **Code:** Fragment Mono — drawer codes, prescription numbers, domains. Data only, never decoration.
 
 ## Components
 
-### Workflow Rail
-Five task nodes joined by hairlines. The current node has a solid ochre dot, its label and `aria-pressed`, and draws a 2px current line along its lower edge. It scrolls horizontally on small screens.
+- **Habit field** (`Dispensary`): every habit as a button, separated by slashes inside the button so no line starts with one. The current habit gets a seal strike drawn left to right (background-size transition) and its drawer code in seal red. Stage tabs dim habits from other columns.
+- **Counter**: a lacquer tray, sticky on desktop. The slip slides up out of the slot on every change (`slip-out`, 620ms expo-out). Keys: ←/→ within a column, ↑/↓ across columns, Home/End.
+- **Drawer front** (`DrawerFront`): lacquer face, mono code, paper label framed by a 2px brass ring, brass pull. Current drawer lifts and gains a seal ring. Empty slots keep the cabinet rectangular on desktop and are hidden on phones.
+- **Label rows** (`LabelRows`): 1px ink rule on top, hairline rules between rows, Replaces struck through, Caution in seal.
+- **Prescription slip**: perforated top edge (CSS mask), Rx mark, plan number = seed, five lettered lines with "instead of ~~habit~~", a two-character seal 寻路 pressed on write.
+- **Label page** (`/t/[id]`): the big label (brass inset frame), the screenshot on a lacquer tray, and two shelves: same column, shares a tag.
 
-### Atlas
-The central tool fills the main scene with its real preview; the tools before and after it are offered as orbital thumbnails, giving a clickable spatial route. Flipping shows the curation note on the same object. Desktop keeps the spatial perspective; mobile keeps only the essential previous/next relationship, and the back face grows with its content.
+## Motion
 
-### Explorer Navigation
-Left and right arrows move between tools, up and down move between workflow stops, Home / End go to the ends. The theme switch covers the home page, header/footer, thumbnails, curation note and controls.
+One grammar: exponential ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`). Slip out of the slot, strike drawn across a habit, drawer lift, ink-in on swapped prescription lines, seal press. Everything is visible by default; reduced motion collapses all of it.
 
-### Curator Judgment
-Always keeps the three parts — when, replaces, caveat — with the label separated from the text. Long Chinese and English copy expands naturally.
+## Don'ts
 
-### Index and Shuffle
-The index can return to the correct workflow from any tool; a random seed restores both the tool and the task route, and allows copying the link and returning to the curated route.
-
-## Do's and Don'ts
-
-### Do:
-- **Do** organise new pages by task, not by tool count.
-- **Do** keep the real preview, the curation note and the current tool in sync.
-- **Do** verify exploration and visiting on desktop, mobile, both languages and with reduced motion.
-
-### Don't:
-- **Don't** revert Wayseeker to a big headline plus a grid of tool cards.
-- **Don't** introduce a second accent colour; ochre gold is already the only signal colour.
-- **Don't** lay felt or noise over tool previews — it dirties the real screenshot.
-- **Don't** copy reference sites' palettes, glowing borders or marketing hero sections.
+- Don't put tools in a card grid; every listing of tools is drawers or label rows.
+- Don't use seal red for anything but strikes, stamps, caution and focus.
+- Don't lay texture or tint over tool screenshots.
+- Don't hand-number drawers; codes come from workflow order.
+- Don't add eyebrow labels above headings.

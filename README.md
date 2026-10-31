@@ -4,10 +4,10 @@
 
 A bilingual (English / 中文) field guide to design, code and creative tools, organised by the work you are actually doing. Next.js 16 App Router + React 19 + Tailwind v4. All tool facts and curator notes live in `src/data/tools.ts`; the task paths live in `src/data/workflow.ts`.
 
-Wayseeker does not stack tool cards by popularity or tag. It follows one route — find direction → establish a visual language → set the interface in motion → study real products → finish and ship — and updates the real preview and the "when to use it, what it replaces, what to watch for" note inside the same scene. Index search, detail pages and a shareable random path are kept.
+Wayseeker is an apothecary cabinet for creative work. The home page opens on 29 habits makers settle for; each one is filed beside a labelled drawer whose label says when to use the tool, what it replaces and what to watch for. Five columns follow the work — find a direction → build a visual language → make it move → study the real thing → finish and share — and the page ends by writing a five-line prescription you can copy as Markdown for your agent.
 
 <p align="center">
-  <img src="docs/images/home.png" width="880" alt="Wayseeker workflow explorer: task route, real tool previews, and curator judgement">
+  <img src="docs/images/home.png" width="880" alt="Wayseeker: the habit field beside the dispensed drawer label">
 </p>
 
 The site opens in English with a header switch to Chinese; the choice persists per
@@ -34,19 +34,9 @@ Shared links carry both `seed` and `tool`, restoring the random route and select
 
 Install Chromium once with `pnpm exec playwright install chromium`, then run `pnpm test:e2e`. It builds the production site and checks shared paths, flipped faces, keyboard focus and bilingual detail navigation in desktop and mobile viewports. CI runs this separately and retains failure traces.
 
-## Style layers
+## Styles
 
-Five stylesheets, imported in this order by `src/app/layout.tsx`:
-
-| File | Responsibility |
-| --- | --- |
-| `src/app/globals.css` | Tailwind base, colour tokens, type scale, detail-page archive look |
-| `src/wayseeker.css` | Workbench layout and the felt material (`--way-felt-*`) |
-| `src/wayseeker-themes.css` | Complete light and dark colour token sets |
-| `src/wayseeker-chrome.css` | Header and footer typography and hairlines |
-| `src/atlas.css` | The tool scene: orbit layout, flip faces, neighbour thumbnails |
-
-The felt surface, the type system and the single accent are documented in [DESIGN.md](DESIGN.md) — that file is the source of truth for the visual system.
+All styles live in `src/app/globals.css`: tokens for the four materials (rice paper, green lacquer, brass, seal red) plus every component. [DESIGN.md](DESIGN.md) is the single source for the visual system.
 
 ## Docs
 
