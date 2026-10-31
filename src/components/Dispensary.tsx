@@ -10,7 +10,7 @@ import {
     XIcon,
 } from '@phosphor-icons/react'
 import Link from 'next/link'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { DrawerFront, EmptyDrawer } from '@/components/DrawerFront'
 import { HabitPeek } from '@/components/HabitPeek'
 import { normalizeLanguage } from '@/components/I18nProvider'
@@ -55,6 +55,29 @@ export default function Dispensary() {
     const counterRef = useRef<HTMLElement>(null)
     const [peek, setPeek] = useState<{ tool: (typeof TOOLS)[number]; x: number; y: number } | null>(null)
 
+    // Sections settle into place once as they enter the viewport.
+    useEffect(() => {
+        const nodes = document.querySelectorAll<HTMLElement>('[data-reveal]')
+        if (!('IntersectionObserver' in window)) return
+        const io = new IntersectionObserver(
+            (entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-in')
+                        io.unobserve(entry.target)
+                    }
+                }
+            },
+            { rootMargin: '0px 0px -12% 0px' },
+        )
+        for (const node of nodes) {
+            if (node.getBoundingClientRect().top > window.innerHeight) {
+                node.classList.add('will-reveal')
+                io.observe(node)
+            }
+        }
+        return () => io.disconnect()
+    }, [])
     const rxRef = useRef<HTMLElement>(null)
 
     // Restore shared state (?tool, ?plan, ?p; legacy ?seed is ignored) on load and history moves.
@@ -212,8 +235,19 @@ export default function Dispensary() {
             <section className="hero" aria-labelledby="hero-title">
                 <div className="wrap hero-grid">
                     <div>
-                        <h1 id="hero-title" className="display hero-title">
-                            {t('hero.title')}
+                        <h1 id="hero-title" className="display hero-title" aria-label={t('hero.title')}>
+                            {(lang === 'zh' ? [...t('hero.title')] : t('hero.title').split(' ')).map((word, index) => (
+                                <Fragment key={`${word}-${index}`}>
+                                    {index > 0 && lang !== 'zh' ? ' ' : null}
+                                    <span
+                                        className="rise"
+                                        aria-hidden="true"
+                                        style={{ '--i': index } as React.CSSProperties}
+                                    >
+                                        {word}
+                                    </span>
+                                </Fragment>
+                            ))}
                         </h1>
                         <p className="hero-lede">{t('hero.lede', { count: TOOLS.length })}</p>
 
@@ -346,7 +380,7 @@ export default function Dispensary() {
                 <div className="wrap">
                     <div className="cabinet-head">
                         <div>
-                            <h2 id="cabinet-title" className="display cabinet-title">
+                            <h2 id="cabinet-title" className="display cabinet-title" data-reveal>
                                 {t('cabinet.title')}
                             </h2>
                             <p className="cabinet-lede">{t('cabinet.lede', { count: TOOLS.length })}</p>
@@ -390,6 +424,7 @@ export default function Dispensary() {
 
                     <div
                         className="cabinet-frame"
+                        data-reveal
                         onPointerMove={(event) => trackPointer(event, '.drawer', 9)}
                         onPointerLeave={releasePointer}
                     >
@@ -449,7 +484,7 @@ export default function Dispensary() {
                         </div>
                     </div>
 
-                    <section className="rx-slip" aria-label={t('plan.label')}>
+                    <section className="rx-slip" data-reveal aria-label={t('plan.label')}>
                         <div className="rx-head">
                             <span className="rx-mark" aria-hidden="true">
                                 Rx

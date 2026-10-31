@@ -727,6 +727,10 @@
     background: var(--paper);
 }
 
+.slip-shot img {
+    animation: develop 900ms var(--ease) both;
+}
+
 .slip-body {
     padding: 1.1rem 1.15rem 1.2rem;
 }
@@ -1706,6 +1710,31 @@
    effects are off on touch.
    ─────────────────────────────────────────────────────────────── */
 
+/* Title words rise out of the paper once, staggered. */
+.rise {
+    display: inline-block;
+    animation: rise 900ms var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 70ms + 80ms);
+}
+
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(0.45em) rotate(1.5deg);
+        filter: blur(6px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+        filter: blur(0);
+    }
+}
+
+/* Habit field: the list surfaces just after the title. */
+.habit-field li {
+    animation: row-in 800ms var(--ease) 420ms both;
+}
+
 /* Lacquer sheen: a soft specular highlight follows the pointer across
    the tray and the cabinet face. It lights the lacquer, never the shots. */
 .counter,
@@ -1788,12 +1817,92 @@
     transform: translateY(1px) scaleX(1.06);
 }
 
-/* Dispensed slip: it tilts gently with the pointer. */
+/* The current drawer's seal ring breathes once when it is chosen. */
+.drawer[aria-current="true"] .drawer-label {
+    animation: ring 900ms var(--ease) both;
+}
+
+@keyframes ring {
+    0% {
+        box-shadow:
+            0 0 0 2px var(--brass),
+            0 0 0 2px var(--seal);
+    }
+    40% {
+        box-shadow:
+            0 0 0 2px var(--brass),
+            0 0 0 9px rgb(184 50 29 / 0.25);
+    }
+    100% {
+        box-shadow:
+            0 0 0 2px var(--brass),
+            0 0 0 4px var(--seal);
+    }
+}
+
+/* Dispensed slip: it tilts with the pointer and its screenshot is
+   developed in from a soft blur as the slip leaves the slot. */
 .counter .slip {
     --rx: 0deg;
     --ry: 0deg;
     transform: perspective(1200px) rotateX(var(--rx)) rotateY(var(--ry));
     transition: transform 400ms var(--ease);
+}
+
+@keyframes develop {
+    from {
+        filter: blur(10px) saturate(0.4);
+        transform: scale(1.06);
+    }
+    to {
+        filter: none;
+        transform: none;
+    }
+}
+
+.slip .label-row {
+    animation: row-in 600ms var(--ease) both;
+}
+
+.slip .label-row:nth-child(1) {
+    animation-delay: 160ms;
+}
+
+.slip .label-row:nth-child(2) {
+    animation-delay: 240ms;
+}
+
+.slip .label-row:nth-child(3) {
+    animation-delay: 320ms;
+}
+
+@keyframes row-in {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* The struck habit on the slip is struck again, live. */
+.slip .strike {
+    text-decoration: none;
+    background-image: linear-gradient(var(--seal), var(--seal));
+    background-repeat: no-repeat;
+    background-position: 0 58%;
+    background-size: 0% 0.09em;
+    animation: strike 700ms var(--ease) 420ms forwards;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+@keyframes strike {
+    to {
+        background-size: 100% 0.09em;
+    }
 }
 
 /* Habit peek: the remedy floats beside the cursor before you choose it. */
@@ -1839,7 +1948,172 @@
     }
 }
 
+/* Sections below the fold settle in once. */
+.will-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(4px);
+    transition:
+        opacity 900ms var(--ease),
+        transform 900ms var(--ease),
+        filter 900ms var(--ease);
+}
+
+.will-reveal.is-in {
+    opacity: 1;
+    transform: none;
+    filter: none;
+}
+
+/* Cabinet drawers open in a wave, column by column, as the frame arrives. */
+.cabinet-frame.will-reveal .drawers li {
+    opacity: 0;
+    transform: translateY(14px);
+}
+
+.cabinet-frame.is-in .drawers li {
+    animation: drawer-in 700ms var(--ease) both;
+}
+
+.cabinet-col:nth-child(1) .drawers li {
+    --c: 0;
+}
+.cabinet-col:nth-child(2) .drawers li {
+    --c: 1;
+}
+.cabinet-col:nth-child(3) .drawers li {
+    --c: 2;
+}
+.cabinet-col:nth-child(4) .drawers li {
+    --c: 3;
+}
+.cabinet-col:nth-child(5) .drawers li {
+    --c: 4;
+}
+.drawers li:nth-child(1) {
+    --r: 0;
+}
+.drawers li:nth-child(2) {
+    --r: 1;
+}
+.drawers li:nth-child(3) {
+    --r: 2;
+}
+.drawers li:nth-child(4) {
+    --r: 3;
+}
+.drawers li:nth-child(5) {
+    --r: 4;
+}
+.drawers li:nth-child(6) {
+    --r: 5;
+}
+.drawers li:nth-child(7) {
+    --r: 6;
+}
+
+.cabinet-frame.is-in .drawers li {
+    animation-delay: calc((var(--c, 0) + var(--r, 0)) * 55ms);
+}
+
+@keyframes drawer-in {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Prescription lines are written one after another when a slip is new. */
+.rx-line {
+    animation: row-in 600ms var(--ease) both;
+}
+
+.rx-line:nth-child(2) {
+    animation-delay: 80ms;
+}
+.rx-line:nth-child(3) {
+    animation-delay: 160ms;
+}
+.rx-line:nth-child(4) {
+    animation-delay: 240ms;
+}
+.rx-line:nth-child(5) {
+    animation-delay: 320ms;
+}
+
+/* The seal leaves a faint ink bloom where it lands. */
+.seal::after {
+    content: "";
+    position: absolute;
+    inset: -14px;
+    border-radius: 12px;
+    background: radial-gradient(closest-side, rgb(184 50 29 / 0.18), transparent);
+    animation: bloom 1100ms var(--ease) 380ms both;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes bloom {
+    from {
+        opacity: 0.9;
+        transform: scale(0.6);
+    }
+    to {
+        opacity: 0;
+        transform: scale(1.6);
+    }
+}
+
+/* Buttons: brass and ink buttons carry a sweep of light on hover. */
+.btn--brass,
+.btn--ink {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.btn--brass::after,
+.btn--ink::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 0.35) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 700ms var(--ease);
+}
+
+.btn--brass:hover::after,
+.btn--ink:hover::after {
+    transform: translateX(120%);
+}
+
 @media (prefers-reduced-motion: reduce) {
+    .rise,
+    .habit-field li,
+    .slip-shot img,
+    .slip .label-row,
+    .rx-line,
+    .cabinet-frame.is-in .drawers li {
+        animation: none;
+    }
+
+    .slip .strike {
+        animation: none;
+        background-size: 100% 0.09em;
+    }
+
+    .will-reveal,
+    .cabinet-frame.will-reveal .drawers li {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+
     .drawer,
     .drawer:hover,
     .counter .slip {

@@ -85,9 +85,17 @@ Dark mode keeps the same materials at night: paper becomes deep green-black, the
 - **Prescription slip**: perforated top edge (CSS mask), Rx mark, plan number = seed, five lettered lines with "instead of ~~habit~~", a two-character seal 寻路 pressed on write.
 - **Label page** (`/t/[id]`): the big label (brass inset frame), the screenshot on a lacquer tray, and two shelves: same column, shares a tag.
 
-## Motion
+## Motion and material effects
 
-One grammar: exponential ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`). Pointer effects are material: a lacquer sheen follows the pointer across the counter and cabinet (`pointer-fx.ts` writes `--mx/--my`, no React renders), drawers tilt like hinged fronts with a glint across the glass and a brass pull that catches light, and hovering a habit floats the remedy's screenshot beside the cursor. They are off on touch and under reduced motion. Slip out of the slot, strike drawn across a habit, drawer lift, ink-in on swapped prescription lines, seal press. Everything is visible by default; reduced motion collapses all of it.
+One grammar: exponential ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`). Every effect is a property of a cabinet material, not decoration:
+
+- **Paper:** title words rise out of the page (staggered, blurred in); the slip slides out of the slot, its screenshot develops in from a blur, its rows land in sequence and the habit is struck through live.
+- **Lacquer:** a soft specular sheen follows the pointer across the counter tray and cabinet face (`pointer-fx.ts` writes `--mx/--my`; no React renders).
+- **Glass and brass:** drawers tilt toward the pointer like hinged fronts, a glint band crosses the window, the brass pull catches light; the chosen drawer's seal ring pulses once.
+- **Peek:** hovering a habit floats the remedy's screenshot beside the cursor (eased rAF trail, placed above the phrase so it stays readable).
+- **Ink:** below-fold sections settle in once; cabinet drawers open in a diagonal wave; prescription lines are written in order; the seal leaves an ink bloom; ink and brass buttons carry a sweep of light.
+
+Content is visible by default. Pointer effects are off on touch; `prefers-reduced-motion` turns all of it off.
 
 ## Don'ts
 
