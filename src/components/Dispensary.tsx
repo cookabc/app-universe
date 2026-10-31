@@ -12,6 +12,7 @@ import {
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { DrawerFront, EmptyDrawer } from '@/components/DrawerFront'
+import { HabitPeek } from '@/components/HabitPeek'
 import { normalizeLanguage } from '@/components/I18nProvider'
 import { LabelRows } from '@/components/LabelRows'
 import { ToolPreviewImage } from '@/components/ToolPreviewImage'
@@ -30,6 +31,7 @@ import {
     planToMarkdown,
     rerollStep,
 } from '@/lib/plan'
+import { pointerEffectsEnabled, releasePointer, trackPointer } from '@/lib/pointer-fx'
 import { randomSeed } from '@/lib/shuffle'
 
 const DEFAULT_TOOL = 'timing'
@@ -51,6 +53,8 @@ export default function Dispensary() {
     const [failed, setFailed] = useState(false)
     const flashTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
     const counterRef = useRef<HTMLElement>(null)
+    const [peek, setPeek] = useState<{ tool: (typeof TOOLS)[number]; x: number; y: number } | null>(null)
+
     const rxRef = useRef<HTMLElement>(null)
 
     // Restore shared state (?tool, ?plan, ?p; legacy ?seed is ignored) on load and history moves.
@@ -117,6 +121,7 @@ export default function Dispensary() {
 
     const select = (drawer: Drawer, options: { reveal?: boolean } = {}) => {
         setSelectedId(drawer.tool.id)
+        setPeek(null)
         setFlash(null)
         writeUrl({ tool: drawer.tool.id })
         if (options.reveal && counterRef.current) {
@@ -202,6 +207,7 @@ export default function Dispensary() {
 
     return (
         <div onKeyDown={onKeyDown}>
+            <HabitPeek tool={peek?.tool ?? null} origin={peek ? { x: peek.x, y: peek.y } : null} />
             {/* ── First viewport: the habits, and the label that answers one ── */}
             <section className="hero" aria-labelledby="hero-title">
                 <div className="wrap hero-grid">
@@ -237,6 +243,11 @@ export default function Dispensary() {
                                             className={`habit${dim ? ' is-dim' : ''}`}
                                             aria-pressed={current}
                                             onClick={() => select(drawer, { reveal: true })}
+                                            onPointerEnter={(event) => {
+                                                if (pointerEffectsEnabled() && !current)
+                                                    setPeek({ tool: drawer.tool, x: event.clientX, y: event.clientY })
+                                            }}
+                                            onPointerLeave={() => setPeek(null)}
                                         >
                                             <span className="habit-text">{habitOf(drawer.tool, lang)}</span>
                                             <span className="habit-code">{drawer.code}</span>
@@ -266,6 +277,8 @@ export default function Dispensary() {
                     <aside
                         ref={counterRef}
                         className="counter"
+                        onPointerMove={(event) => trackPointer(event, '.slip', 3)}
+                        onPointerLeave={releasePointer}
                         aria-label={t('counter.label')}
                         aria-live="polite"
                         aria-atomic="false"
@@ -375,7 +388,11 @@ export default function Dispensary() {
                         </div>
                     </div>
 
-                    <div className="cabinet-frame">
+                    <div
+                        className="cabinet-frame"
+                        onPointerMove={(event) => trackPointer(event, '.drawer', 9)}
+                        onPointerLeave={releasePointer}
+                    >
                         {WORKFLOWS.map((flow, stage) => {
                             const column = drawersInStage(stage)
                             return (

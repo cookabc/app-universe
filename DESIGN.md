@@ -87,7 +87,7 @@ Dark mode keeps the same materials at night: paper becomes deep green-black, the
 
 ## Motion
 
-One grammar: exponential ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`). Slip out of the slot, strike drawn across a habit, drawer lift, ink-in on swapped prescription lines, seal press. Everything is visible by default; reduced motion collapses all of it.
+One grammar: exponential ease-out (`cubic-bezier(0.16, 1, 0.3, 1)`). Pointer effects are material: a lacquer sheen follows the pointer across the counter and cabinet (`pointer-fx.ts` writes `--mx/--my`, no React renders), drawers tilt like hinged fronts with a glint across the glass and a brass pull that catches light, and hovering a habit floats the remedy's screenshot beside the cursor. They are off on touch and under reduced motion. Slip out of the slot, strike drawn across a habit, drawer lift, ink-in on swapped prescription lines, seal press. Everything is visible by default; reduced motion collapses all of it.
 
 ## Don'ts
 

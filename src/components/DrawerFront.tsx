@@ -26,6 +26,7 @@ export function DrawerFront({ drawer, lang, current = false, dim = false, onSele
             {/* Glass-fronted drawer: the contents show through the window. */}
             <span className="drawer-window" aria-hidden="true">
                 <ToolPreviewImage tool={drawer.tool} sizes="(min-width: 900px) 240px, 45vw" />
+                <span className="drawer-glint" />
             </span>
             <span className="drawer-label">{name}</span>
             <span className="drawer-pull" aria-hidden="true" />
