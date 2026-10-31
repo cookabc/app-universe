@@ -594,6 +594,24 @@ const TOOLS: Tool[] = [
             zh: '要跟美术对齐游戏风格、却说不清「厚涂 3D 到底长什么样」时，我在这里挑一张参考图当锚点。能替代在图库网站盲搜风格关键词。注意：风格名是策展人自己下的描述性标签，不是行业标准；截图能看见也不等于可复用。',
         },
     },
+    {
+        id: 'kurtips',
+        type: 'link',
+        category: 'design',
+        name: { en: 'KurTips', zh: 'KurTips' },
+        description: {
+            en: "3D artist Kurt Wei's free Blender series — Little Fox Forest took a million beginners into 3D",
+            zh: 'Kurt 韦的免费 Blender 入门课，超过百万人从这里开始 3D',
+        },
+        tags: ['design'],
+        url: 'https://kurtwei.com/',
+        icon: 'BookOpen',
+        color: '#e0621f',
+        note: {
+            en: "When a launch needs custom 3D art that no asset pack covers, I send people to Kurt's free series — Little Fox Forest is the gentlest on-ramp to Blender. Replaces piecing together scattered YouTube tutorials. Caveat: the series teaches stylized illustration, not hard-surface or product modelling.",
+            zh: '当发布需要定制 3D 美术、素材包又覆盖不到时，我把人送到 Kurt 的免费系列——《小狐狸森林》是最温和的 Blender 入门。能替代在视频站上东拼西凑的零散教程。注意：偏风格化插画路线，硬表面与产品建模不在射程内。',
+        },
+    },
 ]
 
 export function getAllTags(tools: Tool[]): string[] {
