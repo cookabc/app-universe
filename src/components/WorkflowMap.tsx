@@ -13,6 +13,7 @@ import {
 import { useEffect, useMemo, useRef, useState } from 'react'
 import AtlasScene from '@/components/AtlasScene'
 import { normalizeLanguage } from '@/components/I18nProvider'
+import { ToolPreviewImage } from '@/components/ToolPreviewImage'
 import TOOLS, { type Tool } from '@/data/tools'
 import { toolWorkflowIndex, WORKFLOWS } from '@/data/workflow'
 import { useI18nReady } from '@/hooks/useI18nReady'
@@ -278,8 +279,8 @@ export default function WorkflowMap() {
 
     const shareHref = () =>
         writeExplorerRoute(window.location.href, {
-            seed,
-            tool: selected?.id ?? null,
+            seed: null,
+            tool: null,
             plan: planSeed,
             picks: planSeed && hasPicks(picks) ? encodePlanPicks(picks) : null,
         }).href
@@ -508,23 +509,33 @@ export default function WorkflowMap() {
                             const flowName =
                                 WORKFLOWS.find((entry) => entry.id === step.workflowId)?.name[lang] ?? step.workflowId
                             return (
-                                <li key={step.workflowId}>
+                                <li
+                                    key={step.workflowId}
+                                    className={step.tool.id === plan.anchor.id ? 'is-anchor' : undefined}
+                                >
                                     <div className="wayseeker-plan-lead">
                                         <span className="wayseeker-plan-num">{String(index + 1).padStart(2, '0')}</span>
                                         <span className="wayseeker-plan-stage">{flowName}</span>
                                     </div>
-                                    <div className="wayseeker-plan-tool">
-                                        <button
-                                            type="button"
-                                            className="wayseeker-plan-name"
-                                            onClick={() => selectTool(step.tool)}
-                                        >
-                                            {step.tool.name[lang] || step.tool.name.en}
-                                        </button>
-                                        <span>{getDomain(step.tool.url)}</span>
-                                        {step.pinned && <em>{text.plan.pinned}</em>}
+                                    <div key={step.tool.id} className="wayseeker-plan-swap-in">
+                                        <div className="wayseeker-plan-thumb" aria-hidden="true">
+                                            <ToolPreviewImage tool={step.tool} sizes="96px" />
+                                        </div>
+                                        <div className="wayseeker-plan-text">
+                                            <div className="wayseeker-plan-tool">
+                                                <button
+                                                    type="button"
+                                                    className="wayseeker-plan-name"
+                                                    onClick={() => selectTool(step.tool)}
+                                                >
+                                                    {step.tool.name[lang] || step.tool.name.en}
+                                                </button>
+                                                <span>{getDomain(step.tool.url)}</span>
+                                                {step.pinned && <em>{text.plan.pinned}</em>}
+                                            </div>
+                                            <p className="wayseeker-plan-desc">{step.tool.description[lang]}</p>
+                                        </div>
                                     </div>
-                                    <p className="wayseeker-plan-desc">{step.tool.description[lang]}</p>
                                     <div className="wayseeker-plan-step-actions">
                                         <button type="button" onClick={() => swapStep(index)}>
                                             <ArrowsClockwiseIcon weight="regular" /> {text.plan.swap}
@@ -539,7 +550,7 @@ export default function WorkflowMap() {
                         <button type="button" onClick={newPlan}>
                             <ShuffleIcon weight="regular" /> {text.plan.regenerate}
                         </button>
-                        <button type="button" onClick={copyPlanMarkdown}>
+                        <button type="button" className="wayseeker-plan-copy" onClick={copyPlanMarkdown}>
                             {planCopied ? text.plan.copied : text.plan.copy}
                         </button>
                         <button type="button" onClick={copyPlanLink}>
