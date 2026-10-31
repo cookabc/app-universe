@@ -34,7 +34,7 @@ Wayseeker 以工作流地图、真实工具场景和人工策展为身份，不�
 
 ## Evidence on Hand
 
-src/data/tools.ts 中的 31 款工具双语事实和策展评论；public/previews/ 中的真实工具预览；已查阅的 Component Gallery、FeralUI、Libraries.dev、Impeccable、One Page Love、designmd.sh 等收录参考。
+src/data/tools.ts 中的 29 款工具双语事实和策展评论；public/previews/ 中的真实工具预览；已查阅的 Component Gallery、FeralUI、Libraries.dev、Impeccable、One Page Love、designmd.sh 等收录参考。
 
 ## Product Principles
 

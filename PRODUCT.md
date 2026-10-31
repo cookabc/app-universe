@@ -34,7 +34,7 @@ Wayseeker's identity is the workflow map, the real tool scenes and human curatio
 
 ## Evidence on Hand
 
-Bilingual facts and curation notes for 31 tools in `src/data/tools.ts`; real tool previews in `public/previews/`; reference roundups reviewed: Component Gallery, FeralUI, Libraries.dev, Impeccable, One Page Love, designmd.sh.
+Bilingual facts and curation notes for 29 tools in `src/data/tools.ts`; real tool previews in `public/previews/`; reference roundups reviewed: Component Gallery, FeralUI, Libraries.dev, Impeccable, One Page Love, designmd.sh.
 
 ## Product Principles
 
