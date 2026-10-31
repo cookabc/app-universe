@@ -80,7 +80,7 @@ Dark mode keeps the same materials at night: paper becomes deep green-black, the
 
 - **Habit field** (`Dispensary`): every habit as a button, separated by slashes inside the button so no line starts with one. The current habit gets a seal strike drawn left to right (background-size transition) and its drawer code in seal red. Stage tabs dim habits from other columns.
 - **Counter**: a lacquer tray, sticky on desktop. The slip slides up out of the slot on every change (`slip-out`, 620ms expo-out). Keys: ←/→ within a column, ↑/↓ across columns, Home/End.
-- **Drawer front** (`DrawerFront`): lacquer face, mono code, paper label framed by a 2px brass ring, brass pull. Current drawer lifts and gains a seal ring. Empty slots keep the cabinet rectangular on desktop and are hidden on phones.
+- **Drawer front** (`DrawerFront`): lacquer face, mono code, a glazed window showing the real tool screenshot (no tint), paper label framed by a 2px brass ring, brass pull. Current drawer lifts and gains a seal ring. Empty slots keep the cabinet rectangular on desktop and are hidden on phones.
 - **Label rows** (`LabelRows`): 1px ink rule on top, hairline rules between rows, Replaces struck through, Caution in seal.
 - **Prescription slip**: perforated top edge (CSS mask), Rx mark, plan number = seed, five lettered lines with "instead of ~~habit~~", a two-character seal 寻路 pressed on write.
 - **Label page** (`/t/[id]`): the big label (brass inset frame), the screenshot on a lacquer tray, and two shelves: same column, shares a tag.

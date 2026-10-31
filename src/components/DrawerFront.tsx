@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { ToolPreviewImage } from '@/components/ToolPreviewImage'
 import type { Language } from '@/lib/curator-note'
 import type { Drawer } from '@/lib/drawers'
 
@@ -22,6 +23,10 @@ export function DrawerFront({ drawer, lang, current = false, dim = false, onSele
     const inner = (
         <>
             <span className="drawer-code">{drawer.code}</span>
+            {/* Glass-fronted drawer: the contents show through the window. */}
+            <span className="drawer-window" aria-hidden="true">
+                <ToolPreviewImage tool={drawer.tool} sizes="(min-width: 900px) 240px, 45vw" />
+            </span>
             <span className="drawer-label">{name}</span>
             <span className="drawer-pull" aria-hidden="true" />
         </>
@@ -50,6 +55,7 @@ export function EmptyDrawer({ label }: { label: string }) {
     return (
         <div className="drawer is-empty" aria-hidden="true" title={label}>
             <span className="drawer-code">&nbsp;</span>
+            <span className="drawer-window" />
             <span className="drawer-label" />
             <span className="drawer-pull" />
         </div>
