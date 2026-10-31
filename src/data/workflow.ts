@@ -63,7 +63,7 @@ export const WORKFLOWS: Array<{
             en: 'Shape the presentation, build the experience, or find the missing piece for your next launch.',
             zh: '完善演示、搭建体验，或补齐下一次发布需要的那一块。',
         },
-        toolIds: ['magic-slide', 'whatships', 'astrocade', 'kenney', 'kurtips'],
+        toolIds: ['magic-slide', 'whatships', 'kenney', 'kurtips'],
     },
 ]
 

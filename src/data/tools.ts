@@ -231,24 +231,6 @@ const TOOLS: Tool[] = [
         },
     },
     {
-        id: 'astrocade',
-        type: 'link',
-        category: 'games',
-        name: { en: 'Astrocade', zh: 'Astrocade' },
-        description: {
-            en: 'Play casual and arcade-style games online',
-            zh: '在线游玩休闲与街机风格游戏的平台',
-        },
-        tags: ['games'],
-        url: 'https://www.astrocade.com/',
-        icon: 'Gamepad',
-        color: '#f76b15',
-        note: {
-            en: 'When I study short-session game loops for casual products, I play here. Replaces abstract GDD notes with muscle memory. Caveat: browser games optimize for re-entry — mobile constraints still differ.',
-            zh: '研究短局休闲循环时，我来这里玩。能替代只有抽象 GDD 没有体感。注意：网页游戏偏重回访，移动端约束仍不同。',
-        },
-    },
-    {
         id: 'kenney',
         type: 'link',
         category: 'games',
