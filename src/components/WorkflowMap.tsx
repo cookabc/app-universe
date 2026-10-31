@@ -4,6 +4,8 @@ import {
     ArrowDownIcon,
     ArrowLeftIcon,
     ArrowRightIcon,
+    ArrowsClockwiseIcon,
+    CompassIcon,
     MagnifyingGlassIcon,
     ShuffleIcon,
     XIcon,
@@ -16,6 +18,15 @@ import { toolWorkflowIndex, WORKFLOWS } from '@/data/workflow'
 import { useI18nReady } from '@/hooks/useI18nReady'
 import { readExplorerRoute, writeExplorerRoute } from '@/lib/explorer-route'
 import { filterTools, getDomain } from '@/lib/filter-tools'
+import {
+    encodePlanPicks,
+    generatePlan,
+    hasPicks,
+    parsePlanPicks,
+    planTitleKey,
+    planToMarkdown,
+    rerollStep,
+} from '@/lib/plan'
 import { randomSeed, seededShuffle, seedToNumber } from '@/lib/shuffle'
 
 export default function WorkflowMap() {
@@ -26,11 +37,19 @@ export default function WorkflowMap() {
     const [query, setQuery] = useState('')
     const [searchOpen, setSearchOpen] = useState(false)
     const [seed, setSeed] = useState<string | null>(null)
+    const [planOpen, setPlanOpen] = useState(false)
+    const [planSeed, setPlanSeed] = useState<string | null>(null)
+    const [picks, setPicks] = useState<Array<string | null>>([])
     const [copied, setCopied] = useState(false)
     const searchRef = useRef<HTMLInputElement>(null)
     const indexRef = useRef<HTMLButtonElement>(null)
+    const planButtonRef = useRef<HTMLButtonElement>(null)
     const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const planTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
     const [copyFailed, setCopyFailed] = useState(false)
+    const [planCopied, setPlanCopied] = useState(false)
+    const [planLinkCopied, setPlanLinkCopied] = useState(false)
+    const [planCopyFailed, setPlanCopyFailed] = useState(false)
 
     useEffect(() => {
         const restore = () => {
@@ -44,12 +63,18 @@ export default function WorkflowMap() {
                 setSelectedId(first)
                 setActiveFlow(toolWorkflowIndex(first))
             }
+            if (route.plan) {
+                setPlanSeed(route.plan)
+                setPicks(route.picks ? [...parsePlanPicks(route.picks)] : [])
+                setPlanOpen(true)
+            }
         }
         restore()
         window.addEventListener('popstate', restore)
         return () => {
             window.removeEventListener('popstate', restore)
             if (copyTimer.current) clearTimeout(copyTimer.current)
+            if (planTimer.current) clearTimeout(planTimer.current)
         }
     }, [])
 
@@ -57,6 +82,12 @@ export default function WorkflowMap() {
         setCopied(false)
         setCopyFailed(false)
     }, [selectedId, seed])
+
+    useEffect(() => {
+        setPlanCopied(false)
+        setPlanLinkCopied(false)
+        setPlanCopyFailed(false)
+    }, [planSeed, picks])
 
     useEffect(() => {
         if (searchOpen) searchRef.current?.focus()
@@ -130,6 +161,14 @@ export default function WorkflowMap() {
         })
     }
 
+    /** Explorer URL state, preserving any generated plan unless overridden. */
+    const explorerRoute = (overrides?: { seed?: string | null; tool?: string | null }) => ({
+        seed: overrides?.seed !== undefined ? overrides.seed : seed,
+        tool: overrides?.tool !== undefined ? overrides.tool : (selected?.id ?? null),
+        plan: planSeed,
+        picks: planSeed && hasPicks(picks) ? encodePlanPicks(picks) : null,
+    })
+
     const shuffle = () => {
         const value = randomSeed()
         const shuffled = seededShuffle(TOOLS, seedToNumber(value))
@@ -138,12 +177,12 @@ export default function WorkflowMap() {
         setSelectedId(shuffled[0].id)
         setActiveFlow(toolWorkflowIndex(shuffled[0].id))
         setCopied(false)
-        const url = writeExplorerRoute(window.location.href, { seed: value, tool: shuffled[0].id })
+        const url = writeExplorerRoute(window.location.href, explorerRoute({ seed: value, tool: shuffled[0].id }))
         window.history.replaceState(null, '', url)
     }
 
     const copyPath = async () => {
-        const href = writeExplorerRoute(window.location.href, { seed, tool: selected?.id ?? null }).href
+        const href = writeExplorerRoute(window.location.href, explorerRoute()).href
         window.history.replaceState(window.history.state, '', href)
         try {
             await navigator.clipboard.writeText(href)
@@ -152,6 +191,112 @@ export default function WorkflowMap() {
             copyTimer.current = setTimeout(() => setCopied(false), 2000)
         } catch {
             setCopyFailed(true)
+        }
+    }
+
+    const plan = useMemo(() => (planSeed ? generatePlan(planSeed, picks) : null), [planSeed, picks])
+
+    const planTitleFor = (anchor: Tool) =>
+        isReady
+            ? t(`plan.titles.${planTitleKey(anchor)}`, { name: anchor.name[lang] || anchor.name.en })
+            : `A plan starting from ${anchor.name.en}`
+
+    const openPlan = () => {
+        if (!planSeed) {
+            const value = randomSeed()
+            setPlanSeed(value)
+            setPicks([])
+            window.history.replaceState(
+                window.history.state,
+                '',
+                writeExplorerRoute(window.location.href, {
+                    seed,
+                    tool: selected?.id ?? null,
+                    plan: value,
+                    picks: null,
+                }),
+            )
+        }
+        setPlanOpen(true)
+    }
+
+    const closePlan = () => {
+        setPlanOpen(false)
+        window.history.replaceState(
+            window.history.state,
+            '',
+            writeExplorerRoute(window.location.href, { seed, tool: selected?.id ?? null, plan: null, picks: null }),
+        )
+        planButtonRef.current?.focus()
+    }
+
+    const newPlan = () => {
+        const value = randomSeed()
+        setPlanSeed(value)
+        setPicks([])
+        setPlanCopied(false)
+        setPlanLinkCopied(false)
+        window.history.replaceState(
+            window.history.state,
+            '',
+            writeExplorerRoute(window.location.href, {
+                seed,
+                tool: selected?.id ?? null,
+                plan: value,
+                picks: null,
+            }),
+        )
+    }
+
+    const swapStep = (index: number) => {
+        if (!plan || !planSeed) return
+        const step = plan.steps[index]
+        if (!step) return
+        const nextId = rerollStep(planSeed, index, step.tool.id)
+        const next = WORKFLOWS.map((_, at) => (at === index ? nextId : (picks[at] ?? null)))
+        setPicks(next)
+        window.history.replaceState(
+            window.history.state,
+            '',
+            writeExplorerRoute(window.location.href, {
+                seed,
+                tool: selected?.id ?? null,
+                plan: planSeed,
+                picks: encodePlanPicks(next),
+            }),
+        )
+    }
+
+    const shareHref = () =>
+        writeExplorerRoute(window.location.href, {
+            seed,
+            tool: selected?.id ?? null,
+            plan: planSeed,
+            picks: planSeed && hasPicks(picks) ? encodePlanPicks(picks) : null,
+        }).href
+
+    const copyPlanMarkdown = async () => {
+        if (!plan) return
+        try {
+            await navigator.clipboard.writeText(
+                planToMarkdown(plan, { lang, title: planTitleFor(plan.anchor), shareHref: shareHref() }),
+            )
+            setPlanCopied(true)
+            if (planTimer.current) clearTimeout(planTimer.current)
+            planTimer.current = setTimeout(() => setPlanCopied(false), 2000)
+        } catch {
+            setPlanCopyFailed(true)
+        }
+    }
+
+    const copyPlanLink = async () => {
+        try {
+            await navigator.clipboard.writeText(shareHref())
+            setPlanLinkCopied(true)
+            if (planTimer.current) clearTimeout(planTimer.current)
+            planTimer.current = setTimeout(() => setPlanLinkCopied(false), 2000)
+        } catch {
+            setPlanCopyFailed(true)
         }
     }
 
@@ -168,6 +313,37 @@ export default function WorkflowMap() {
         copy: isReady ? t('wayseeker.copy') : 'Copy this path',
         clear: isReady ? t('wayseeker.clear') : 'Back to the curated route',
         results: isReady ? t('wayseeker.results') : 'Matching tools',
+        plan: isReady
+            ? {
+                  open: t('plan.open'),
+                  label: t('plan.label'),
+                  intro: t('plan.intro'),
+                  swap: t('plan.swap'),
+                  pinned: t('plan.pinned'),
+                  detail: t('plan.detail'),
+                  regenerate: t('plan.regenerate'),
+                  copy: t('plan.copy'),
+                  copied: t('plan.copied'),
+                  copyLink: t('plan.copyLink'),
+                  linkCopied: t('plan.linkCopied'),
+                  close: t('plan.close'),
+                  copyFailed: t('plan.copyFailed'),
+              }
+            : {
+                  open: 'Make a plan',
+                  label: 'Generated plan',
+                  intro: 'One tool per stage, picked to share a direction.',
+                  swap: 'Swap',
+                  pinned: 'picked',
+                  detail: 'Detail',
+                  regenerate: 'Reroll the whole plan',
+                  copy: 'Copy as Markdown',
+                  copied: 'Plan copied',
+                  copyLink: 'Copy link',
+                  linkCopied: 'Link copied',
+                  close: 'Close plan',
+                  copyFailed: 'Clipboard is unavailable — the plan link is in your address bar.',
+              },
     }
 
     return (
@@ -241,6 +417,15 @@ export default function WorkflowMap() {
                     <ShuffleIcon weight="bold" /> {text.shuffle}
                 </button>
                 <button
+                    ref={planButtonRef}
+                    type="button"
+                    onClick={() => (planOpen ? closePlan() : openPlan())}
+                    aria-expanded={planOpen}
+                    aria-controls="tool-plan"
+                >
+                    <CompassIcon weight="regular" /> {text.plan.open}
+                </button>
+                <button
                     ref={indexRef}
                     type="button"
                     onClick={() => setSearchOpen((value) => !value)}
@@ -280,6 +465,70 @@ export default function WorkflowMap() {
                     <ArrowDownIcon weight="regular" />
                 </a>
             </section>
+
+            {planOpen && plan && (
+                <section
+                    id="tool-plan"
+                    className="wayseeker-plan container max-w-7xl mx-auto px-4"
+                    aria-label={text.plan.label}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Escape') {
+                            event.preventDefault()
+                            closePlan()
+                        }
+                    }}
+                >
+                    <div className="wayseeker-plan-head">
+                        <div>
+                            <p className="wayseeker-plan-eyebrow">
+                                {isReady
+                                    ? t('plan.eyebrow', { name: plan.anchor.name[lang] || plan.anchor.name.en })
+                                    : `Anchored on ${plan.anchor.name.en}`}
+                            </p>
+                            <h2>{planTitleFor(plan.anchor)}</h2>
+                        </div>
+                        <button type="button" onClick={closePlan} aria-label={text.plan.close}>
+                            <XIcon weight="regular" />
+                        </button>
+                    </div>
+                    <p className="wayseeker-plan-intro">{text.plan.intro}</p>
+                    <ol className="wayseeker-plan-steps">
+                        {plan.steps.map((step, index) => {
+                            const flowName =
+                                WORKFLOWS.find((entry) => entry.id === step.workflowId)?.name[lang] ?? step.workflowId
+                            return (
+                                <li key={step.workflowId}>
+                                    <span className="wayseeker-plan-stage">{flowName}</span>
+                                    <div className="wayseeker-plan-tool">
+                                        <strong>{step.tool.name[lang] || step.tool.name.en}</strong>
+                                        <span>{getDomain(step.tool.url)}</span>
+                                        {step.pinned && <em>{text.plan.pinned}</em>}
+                                    </div>
+                                    <p className="wayseeker-plan-desc">{step.tool.description[lang]}</p>
+                                    <div className="wayseeker-plan-step-actions">
+                                        <button type="button" onClick={() => swapStep(index)}>
+                                            <ArrowsClockwiseIcon weight="regular" /> {text.plan.swap}
+                                        </button>
+                                        <a href={`/t/${step.tool.id}`}>{text.plan.detail}</a>
+                                    </div>
+                                </li>
+                            )
+                        })}
+                    </ol>
+                    <div className="wayseeker-plan-foot">
+                        <button type="button" onClick={newPlan}>
+                            <ShuffleIcon weight="regular" /> {text.plan.regenerate}
+                        </button>
+                        <button type="button" onClick={copyPlanMarkdown}>
+                            {planCopied ? text.plan.copied : text.plan.copy}
+                        </button>
+                        <button type="button" onClick={copyPlanLink}>
+                            {planLinkCopied ? text.plan.linkCopied : text.plan.copyLink}
+                        </button>
+                        {planCopyFailed && <p role="status">{text.plan.copyFailed}</p>}
+                    </div>
+                </section>
+            )}
 
             {searchOpen && (
                 <section

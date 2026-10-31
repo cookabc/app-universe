@@ -133,5 +133,28 @@
     "curator": "策展备注",
     "front": "返回预览",
     "back": "为什么用它？"
+  },
+  "plan": {
+    "open": "生成一套方案",
+    "label": "生成的方案",
+    "eyebrow": "锚定 {{name}}",
+    "intro": "每个阶段选定一件工具，按共同气质收敛成一条线。不合意的步骤可单独换，主题不散。",
+    "swap": "换一件",
+    "pinned": "已选定",
+    "detail": "详情",
+    "regenerate": "整条重摇",
+    "copy": "复制为 Markdown",
+    "copied": "方案已复制",
+    "copyLink": "复制链接",
+    "linkCopied": "链接已复制",
+    "close": "收起方案",
+    "copyFailed": "剪贴板不可用——方案链接在地址栏里。",
+    "titles": {
+      "design": "从 {{name}} 起步的视觉方案",
+      "games": "从 {{name}} 起步的游戏方案",
+      "ai": "给 Agent 打审美底子，从 {{name}} 起步",
+      "ui": "从 {{name}} 起步的界面方案",
+      "motion": "从 {{name}} 起步的动效方案"
+    }
   }
 }

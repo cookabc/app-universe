@@ -133,5 +133,28 @@
     "curator": "Curator’s note",
     "front": "Back to preview",
     "back": "Why this tool?"
+  },
+  "plan": {
+    "open": "Make a plan",
+    "label": "Generated plan",
+    "eyebrow": "Anchored on {{name}}",
+    "intro": "One tool per stage, picked to share a direction. Swap any step that isn't right — the plan keeps its theme.",
+    "swap": "Swap",
+    "pinned": "picked",
+    "detail": "Detail",
+    "regenerate": "Reroll the whole plan",
+    "copy": "Copy as Markdown",
+    "copied": "Plan copied",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "close": "Close plan",
+    "copyFailed": "Clipboard is unavailable — the plan link is in your address bar.",
+    "titles": {
+      "design": "A visual plan starting from {{name}}",
+      "games": "A game plan starting from {{name}}",
+      "ai": "Taste for your agent, starting from {{name}}",
+      "ui": "An interface plan starting from {{name}}",
+      "motion": "A motion plan starting from {{name}}"
+    }
   }
 }
