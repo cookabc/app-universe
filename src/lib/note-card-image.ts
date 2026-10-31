@@ -1,5 +1,5 @@
 /**
- * Renders a curator note as a Signal Atlas share card (PNG) on a canvas.
+ * Renders a curator note as a dispensary label (PNG) on a canvas.
  *
  * Light-mode palette is baked in on purpose: the card is meant to be pasted
  * into chats, docs, and social posts where a consistent light surface reads
@@ -17,8 +17,10 @@ export interface NoteCardData {
     label: string
     /** Localized attribution prefix, e.g. "Curator's note". */
     attributionLabel: string
-    /** Accent color associated with the tool (fallback when preview missing). */
-    color: string
+    /** Accent color associated with the tool (kept for callers; unused). */
+    color?: string
+    /** Drawer code, e.g. "C4". */
+    code?: string
     /** Localized site brand line rendered at the bottom. */
     brand: string
 }
@@ -70,68 +72,42 @@ function hasCjk(text: string): boolean {
     return CJK_RE.test(text)
 }
 
-/** Body font stack mirrors the site's sans fallbacks for CJK rendering. */
-function bodyFont(size: number, weight: number, cjk: boolean): string {
-    const stack = cjk
-        ? '"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif'
-        : '"IBM Plex Sans", "Helvetica Neue", Arial, sans-serif'
-    return `${weight} ${size}px ${stack}`
-}
+const SANS = '"Archivo", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif'
+const MONO = '"Fragment Mono", ui-monospace, Menlo, monospace'
 
-function monoFont(size: number): string {
-    return `${size}px "IBM Plex Mono", "JetBrains Mono", Menlo, monospace`
-}
-
-function displayFont(size: number, cjk: boolean): string {
-    const stack = cjk
-        ? '"PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif'
-        : '"Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif'
-    return `800 ${size}px ${stack}`
-}
-
-// Palette from DESIGN.md (light mode).
-const BG = '#F9F9F8'
-const SURFACE = '#FDFDFC'
-const INK = '#21201C'
-const MUTED = '#63635E'
-const HAIRLINE = '#E2E1DE'
-const SIGNAL = '#E54D2E'
+// Light dispensary palette, baked in so pasted cards read the same everywhere.
+const LACQUER = '#1B3A31'
+const PAPER = '#F5F5EF'
+const INK = '#16201B'
+const MUTED = '#4A564F'
+const RULE = 'rgba(22, 32, 27, 0.18)'
+const BRASS = '#C9A35A'
+const SEAL = '#B8321D'
 
 export async function renderNoteCard(data: NoteCardData): Promise<HTMLCanvasElement> {
-    const scale = 2 // retina output
+    const scale = 2
     const width = 1200
-    const margin = 56
-    const padX = 72
-    // Text must clear the card frame: margin + padding, minus a safety inset.
-    const contentWidth = width - margin * 2 - padX * 2 - 8
+    const margin = 64
+    const pad = 72
+    const contentWidth = width - margin * 2 - pad * 2
 
-    // Measure pass on a scratch context to compute height.
     const scratch = document.createElement('canvas').getContext('2d')
     if (!scratch) throw new Error('Canvas 2D context unavailable')
 
     const cjk = hasCjk(`${data.name} ${data.note}`)
-    const nameFont = displayFont(44, cjk)
-    const noteFont = bodyFont(34, 400, cjk)
-    const labelFont = monoFont(20)
-    const brandFont = monoFont(18)
+    const nameFont = `800 ${cjk ? 60 : 72}px ${SANS}`
+    const noteFont = `400 ${cjk ? 32 : 31}px ${SANS}`
+    const labelFont = `500 18px ${MONO}`
 
     scratch.font = nameFont
-    const nameLines = wrapText(data.name, contentWidth, (s) => scratch.measureText(s).width)
+    const nameText = cjk ? data.name : data.name.toUpperCase()
+    const nameLines = wrapText(nameText, contentWidth, (s) => scratch.measureText(s).width)
     scratch.font = noteFont
     const noteLines = wrapText(data.note, contentWidth, (s) => scratch.measureText(s).width)
 
-    const quoteMarkH = 54
-    const labelH = 26
-    const nameH = nameLines.length * 52
-    const noteH = noteLines.length * 50
-    const footerH = 24
-    const cardPadTop = 64
-    const cardPadBottom = 56
-    const gapAfterName = 28
-    const gapAfterNote = 40
-
-    const cardH =
-        cardPadTop + quoteMarkH + labelH + 18 + nameH + gapAfterName + noteH + gapAfterNote + footerH + cardPadBottom
+    const nameLh = cjk ? 72 : 74
+    const noteLh = 48
+    const cardH = 56 + 30 + 28 + nameLines.length * nameLh + 34 + noteLines.length * noteLh + 46 + 30 + 56
     const height = cardH + margin * 2
 
     const canvas = document.createElement('canvas')
@@ -141,101 +117,56 @@ export async function renderNoteCard(data: NoteCardData): Promise<HTMLCanvasElem
     if (!ctx) throw new Error('Canvas 2D context unavailable')
     ctx.scale(scale, scale)
 
-    // Backdrop: cloud paper with faint signal grid.
-    ctx.fillStyle = BG
+    ctx.fillStyle = LACQUER
     ctx.fillRect(0, 0, width, height)
-    ctx.strokeStyle = 'rgba(16, 17, 20, 0.05)'
-    ctx.lineWidth = 1
-    for (let x = 0; x <= width; x += 48) {
-        ctx.beginPath()
-        ctx.moveTo(x + 0.5, 0)
-        ctx.lineTo(x + 0.5, height)
-        ctx.stroke()
-    }
-    for (let y = 0; y <= height; y += 48) {
-        ctx.beginPath()
-        ctx.moveTo(0, y + 0.5)
-        ctx.lineTo(width, y + 0.5)
-        ctx.stroke()
-    }
 
-    // Card: white surface, ink border, crisp offset shadow (Signal Atlas elevation).
-    const cardX = margin
-    const cardY = margin
-    const cardW = width - margin * 2
-    ctx.fillStyle = INK
-    ctx.fillRect(cardX + 6, cardY + 6, cardW, cardH)
-    ctx.fillStyle = SURFACE
-    ctx.fillRect(cardX, cardY, cardW, cardH)
-    ctx.strokeStyle = INK
+    const x = margin
+    const y0 = margin
+    const w = width - margin * 2
+    ctx.fillStyle = PAPER
+    ctx.fillRect(x, y0, w, cardH)
+    ctx.strokeStyle = BRASS
     ctx.lineWidth = 3
-    ctx.strokeRect(cardX + 1.5, cardY + 1.5, cardW - 3, cardH - 3)
+    ctx.strokeRect(x + 14, y0 + 14, w - 28, cardH - 28)
 
-    let y = cardY + cardPadTop
-
-    // Coral quote mark tab, overlapping the card's top edge.
-    const tabW = 64
-    const tabH = 40
-    const tabX = cardX + padX - 16
-    ctx.fillStyle = SIGNAL
-    ctx.fillRect(tabX, cardY - tabH / 2, tabW, tabH)
-    ctx.fillStyle = SURFACE
-    ctx.font = displayFont(40, false)
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillText('”', tabX + tabW / 2, cardY + 2)
-    ctx.textAlign = 'left'
-    ctx.textBaseline = 'alphabetic'
-
-    // Label (mono, uppercase, signal coral).
+    let y = y0 + 56 + 18
     ctx.font = labelFont
-    ctx.fillStyle = SIGNAL
-    const labelText = data.label.toUpperCase()
-    ctx.fillText(labelText, cardX + padX, y + quoteMarkH)
-    y += quoteMarkH + labelH + 18
+    ctx.fillStyle = SEAL
+    ctx.fillText(data.code ? `${data.code}` : '', x + pad, y)
+    ctx.fillStyle = MUTED
+    ctx.textAlign = 'right'
+    ctx.fillText(data.label.toUpperCase(), x + w - pad, y)
+    ctx.textAlign = 'left'
+    y += 30 + 28
 
-    // Tool name (display, ink).
     ctx.font = nameFont
     ctx.fillStyle = INK
     for (const line of nameLines) {
-        ctx.fillText(line, cardX + padX, y + 40)
-        y += 52
+        y += nameLh
+        ctx.fillText(line, x + pad, y - 14)
     }
-    y += gapAfterName
+    y += 6
+    ctx.fillStyle = INK
+    ctx.fillRect(x + pad, y, contentWidth, 2)
+    y += 28
 
-    // Note body.
     ctx.font = noteFont
     ctx.fillStyle = INK
     for (const line of noteLines) {
-        ctx.fillText(line, cardX + padX, y + 26)
-        y += 50
+        y += noteLh
+        ctx.fillText(line, x + pad, y - 14)
     }
-    y += gapAfterNote
+    y += 22
+    ctx.fillStyle = RULE
+    ctx.fillRect(x + pad, y, contentWidth, 1)
+    y += 36
 
-    // Footer: hairline, attribution + accent swatch, brand.
-    ctx.strokeStyle = HAIRLINE
-    ctx.lineWidth = 1
-    ctx.beginPath()
-    ctx.moveTo(cardX + padX, y + 0.5)
-    ctx.lineTo(cardX + cardW - padX, y + 0.5)
-    ctx.stroke()
-    y += 34
-
-    ctx.font = brandFont
+    ctx.font = labelFont
     ctx.fillStyle = MUTED
-    const attribution = `${data.attributionLabel}, ${data.domain}`.toUpperCase()
-    ctx.fillText(attribution, cardX + padX, y)
-
-    ctx.fillStyle = data.color
-    ctx.fillRect(cardX + cardW - padX - 20, y - 16, 20, 20)
-    ctx.strokeStyle = INK
-    ctx.lineWidth = 2
-    ctx.strokeRect(cardX + cardW - padX - 19, y - 15, 18, 18)
-
-    ctx.font = brandFont
-    ctx.fillStyle = MUTED
-    ctx.textAlign = 'center'
-    ctx.fillText(data.brand.toUpperCase(), width / 2, cardY + cardH + 34)
+    ctx.fillText(`${data.attributionLabel}, ${data.domain}`.toUpperCase(), x + pad, y)
+    ctx.textAlign = 'right'
+    ctx.fillStyle = INK
+    ctx.fillText(data.brand.toUpperCase(), x + w - pad, y)
     ctx.textAlign = 'left'
 
     return canvas

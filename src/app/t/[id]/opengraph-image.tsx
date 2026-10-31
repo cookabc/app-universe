@@ -9,11 +9,11 @@ export const alt = 'Wayseeker — archive record'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-const BG = '#F9F9F8'
-const INK = '#21201C'
-const MUTED = '#63635E'
-const ACCENT = '#F3E3BD'
-const SIGNAL = '#8A5200'
+const BG = '#E8EBE3'
+const INK = '#16201B'
+const MUTED = '#4A564F'
+const ACCENT = '#C9A35A'
+const SIGNAL = '#B8321D'
 
 export function generateStaticParams() {
     return TOOLS.map((tool) => ({ id: tool.id }))
@@ -53,7 +53,7 @@ export default async function ToolOpenGraphImage({ params }: { params: Promise<{
                     width: 1096,
                     height: 526,
                     display: 'flex',
-                    background: '#FDFDFC',
+                    background: '#F5F5EF',
                     border: `3px solid ${INK}`,
                     padding: 44,
                     gap: 40,

@@ -23,8 +23,8 @@ export default async function OpenGraphImage() {
                 width: '100%',
                 height: '100%',
                 flexDirection: 'column',
-                background: '#111927',
-                color: '#eeeeec',
+                background: '#1b3a31',
+                color: '#e9eadf',
                 fontFamily: 'system-ui, sans-serif',
             }}
         >
@@ -37,21 +37,26 @@ export default async function OpenGraphImage() {
                     fontWeight: 650,
                 }}
             >
-                <div style={{ display: 'flex', color: '#eac561', marginRight: 18, fontSize: 38 }}>⌃</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', width: 30, height: 30, marginRight: 16, gap: 3 }}>
+                    <div style={{ width: 13, height: 13, background: '#f5f5ef' }} />
+                    <div style={{ width: 13, height: 13, background: '#f5f5ef' }} />
+                    <div style={{ width: 13, height: 13, background: '#f5f5ef' }} />
+                    <div style={{ width: 13, height: 13, background: '#b8321d' }} />
+                </div>
                 Wayseeker
-                <div style={{ display: 'flex', marginLeft: 'auto', color: '#b5b3ad', fontSize: 17 }}>
-                    A FIELD GUIDE FOR WHAT COMES NEXT
+                <div style={{ display: 'flex', marginLeft: 'auto', color: '#a9b9ae', fontSize: 17 }}>
+                    A CABINET OF TOOLS
                 </div>
             </div>
             <div
                 style={{ display: 'flex', padding: '34px 56px 0', fontSize: 58, fontWeight: 500, letterSpacing: -2.4 }}
             >
-                Find your next tool.
+                What are you settling for?
             </div>
-            <div style={{ display: 'flex', padding: '20px 56px 0', color: '#b5b3ad', fontSize: 21 }}>
-                Follow the work, not the leaderboard.
+            <div style={{ display: 'flex', padding: '20px 56px 0', color: '#a9b9ae', fontSize: 21 }}>
+                Every tool filed against the habit it replaces.
             </div>
-            <div style={{ display: 'flex', margin: '36px 56px 0', height: 302, border: '1px solid #363a3f' }}>
+            <div style={{ display: 'flex', margin: '36px 56px 0', height: 302, border: '1px solid #2c4d42' }}>
                 {previews.map((src, index) => (
                     <img
                         key={featured[index].id}
@@ -62,17 +67,17 @@ export default async function OpenGraphImage() {
                         style={{
                             objectFit: 'cover',
                             objectPosition: 'top',
-                            borderRight: index === previews.length - 1 ? 'none' : '1px solid #363a3f',
+                            borderRight: index === previews.length - 1 ? 'none' : '1px solid #2c4d42',
                         }}
                     />
                 ))}
             </div>
             <div
-                style={{ display: 'flex', margin: '26px 56px 0', alignItems: 'center', color: '#eac561', fontSize: 18 }}
+                style={{ display: 'flex', margin: '26px 56px 0', alignItems: 'center', color: '#c9a35a', fontSize: 18 }}
             >
                 Direction → System → Motion → Reference → Delivery
-                <div style={{ display: 'flex', marginLeft: 'auto', color: '#b5b3ad', fontSize: 16 }}>
-                    31 TOOLS / ZH + EN
+                <div style={{ display: 'flex', marginLeft: 'auto', color: '#a9b9ae', fontSize: 16 }}>
+                    {TOOLS.length} TOOLS / ZH + EN
                 </div>
             </div>
         </div>,
