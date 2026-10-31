@@ -359,6 +359,17 @@
 .wayseeker-actions .wayseeker-shuffle {
     color: var(--way-ink);
 }
+.wayseeker-actions .wayseeker-plan-toggle {
+    padding: 0.65rem 1.25rem;
+    border: 0.5px solid var(--way-line);
+    border-radius: 999px;
+    color: var(--way-ink);
+}
+.wayseeker-actions .wayseeker-plan-toggle:hover,
+.wayseeker-actions .wayseeker-plan-toggle[aria-expanded="true"] {
+    border-color: var(--way-current);
+    color: var(--way-current);
+}
 .wayseeker-actions svg {
     width: 16px;
     height: 16px;
@@ -437,8 +448,19 @@
 .wayseeker-search-results > button:hover {
     color: var(--way-current);
 }
+@keyframes wayseeker-plan-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 .wayseeker-plan {
     padding-bottom: 2.5rem;
+    animation: wayseeker-plan-in 250ms var(--ease-out) both;
 }
 .wayseeker-plan-head {
     display: flex;
@@ -494,33 +516,59 @@
     display: grid;
     grid-template-columns: 9rem minmax(0, 1fr) auto;
     grid-template-areas:
-        "stage tool actions"
-        "stage desc actions";
+        "lead tool actions"
+        "lead desc actions";
     align-items: baseline;
     gap: 0.375rem 1.5rem;
     padding: 1.25rem 0;
     border-bottom: 0.5px solid var(--way-line);
 }
+.wayseeker-plan-lead {
+    grid-area: lead;
+    display: grid;
+    gap: 0.375rem;
+    align-content: start;
+}
+.wayseeker-plan-num {
+    color: var(--way-ink);
+    font-family: var(--font-jetbrains-mono), monospace;
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+}
 .wayseeker-plan-stage {
-    grid-area: stage;
     color: var(--way-muted);
     font-family: var(--font-jetbrains-mono), monospace;
     font-size: 0.75rem;
     letter-spacing: 0.06em;
+    line-height: 1.5;
     text-transform: uppercase;
 }
 .wayseeker-plan-tool {
     grid-area: tool;
     display: flex;
     align-items: baseline;
-    gap: 0.625rem;
+    flex-wrap: wrap;
+    gap: 0.375rem 0.625rem;
     min-width: 0;
 }
-.wayseeker-plan-tool strong {
+.wayseeker-plan-name {
+    border: 0;
+    padding: 0;
+    background: transparent;
     color: var(--way-ink);
+    font-family: var(--way-serif);
+    font-size: 1.25rem;
     font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    text-align: left;
+    cursor: pointer;
+    transition: color 250ms var(--ease-out);
 }
-.wayseeker-plan-tool span {
+.wayseeker-plan-name:hover {
+    color: var(--way-current);
+}
+.wayseeker-plan-tool > span {
     color: var(--way-muted);
     font-size: 0.75rem;
 }
@@ -528,7 +576,7 @@
     flex: none;
     color: var(--way-current);
     font-family: var(--font-jetbrains-mono), monospace;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-style: normal;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -572,6 +620,10 @@
 .wayseeker-plan-foot svg {
     width: 16px;
     height: 16px;
+    transition: transform 250ms var(--ease-out);
+}
+.wayseeker-plan-step-actions button:hover svg {
+    transform: rotate(180deg);
 }
 .wayseeker-plan-foot {
     display: flex;
@@ -589,10 +641,15 @@
     .wayseeker-plan-steps li {
         grid-template-columns: minmax(0, 1fr);
         grid-template-areas:
-            "stage"
+            "lead"
             "tool"
             "desc"
             "actions";
+    }
+    .wayseeker-plan-lead {
+        display: flex;
+        align-items: baseline;
+        gap: 0.75rem;
     }
     .wayseeker-plan-step-actions {
         justify-content: flex-start;
@@ -826,6 +883,12 @@
 @media (prefers-reduced-motion: reduce) {
     .wayseeker-preview {
         animation: none;
+    }
+    .wayseeker-plan {
+        animation: none;
+    }
+    .wayseeker-plan-step-actions svg {
+        transition: none;
     }
     .wayseeker-preview > a img {
         transition: none;

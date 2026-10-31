@@ -3,8 +3,10 @@ import { test } from 'node:test'
 import TOOLS, { type Tool } from '../data/tools.ts'
 import { WORKFLOWS } from '../data/workflow.ts'
 import {
+    encodePlanPicks,
     generatePlan,
     hasPicks,
+    parsePlanPicks,
     planAnchor,
     planPicks,
     planTitleKey,
@@ -138,4 +140,12 @@ test('markdown localizes stage and tool names', () => {
     const first = plan.steps[0]
     assert.ok(first)
     assert.ok(zh.includes(first.tool.name.zh))
+})
+
+test('picks serialization trims trailing defaults and parses back', () => {
+    assert.equal(encodePlanPicks(['a', null, null, null, null]), 'a')
+    assert.equal(encodePlanPicks([null, 'b']), '.b')
+    assert.equal(encodePlanPicks([null, null, null, null, null]), '')
+    assert.deepEqual([...parsePlanPicks('.b')], [null, 'b'])
+    assert.deepEqual([...parsePlanPicks('a.b.')], ['a', 'b', null])
 })

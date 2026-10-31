@@ -93,6 +93,15 @@ export default function WorkflowMap() {
         if (searchOpen) searchRef.current?.focus()
     }, [searchOpen])
 
+    const planSectionRef = useRef<HTMLElement>(null)
+    useEffect(() => {
+        if (!planOpen) return
+        planSectionRef.current?.scrollIntoView({
+            behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+            block: 'start',
+        })
+    }, [planOpen])
+
     const flow = WORKFLOWS[activeFlow] ?? WORKFLOWS[0]
     const flowTools = useMemo(() => {
         const ids = seed ? seededShuffle(flow.toolIds, seedToNumber(seed)) : flow.toolIds
@@ -419,6 +428,7 @@ export default function WorkflowMap() {
                 <button
                     ref={planButtonRef}
                     type="button"
+                    className="wayseeker-plan-toggle"
                     onClick={() => (planOpen ? closePlan() : openPlan())}
                     aria-expanded={planOpen}
                     aria-controls="tool-plan"
@@ -468,6 +478,7 @@ export default function WorkflowMap() {
 
             {planOpen && plan && (
                 <section
+                    ref={planSectionRef}
                     id="tool-plan"
                     className="wayseeker-plan container max-w-7xl mx-auto px-4"
                     aria-label={text.plan.label}
@@ -498,9 +509,18 @@ export default function WorkflowMap() {
                                 WORKFLOWS.find((entry) => entry.id === step.workflowId)?.name[lang] ?? step.workflowId
                             return (
                                 <li key={step.workflowId}>
-                                    <span className="wayseeker-plan-stage">{flowName}</span>
+                                    <div className="wayseeker-plan-lead">
+                                        <span className="wayseeker-plan-num">{String(index + 1).padStart(2, '0')}</span>
+                                        <span className="wayseeker-plan-stage">{flowName}</span>
+                                    </div>
                                     <div className="wayseeker-plan-tool">
-                                        <strong>{step.tool.name[lang] || step.tool.name.en}</strong>
+                                        <button
+                                            type="button"
+                                            className="wayseeker-plan-name"
+                                            onClick={() => selectTool(step.tool)}
+                                        >
+                                            {step.tool.name[lang] || step.tool.name.en}
+                                        </button>
                                         <span>{getDomain(step.tool.url)}</span>
                                         {step.pinned && <em>{text.plan.pinned}</em>}
                                     </div>

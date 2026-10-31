@@ -110,7 +110,12 @@ export function planTitleKey(anchor: Tool): string {
 
 /** Serialize picks for the URL: ids joined by dots, unpinned stages empty. */
 export function encodePlanPicks(picks: PlanPicks): string {
-    return picks.map((pick) => pick ?? '').join('.')
+    // Trailing defaults carry no information — generatePlan falls back for
+    // missing segments — so they are trimmed to keep shared URLs short.
+    return picks
+        .map((pick) => pick ?? '')
+        .join('.')
+        .replace(/\.+$/, '')
 }
 
 /** Parse the URL picks string; empty segments become null. */
